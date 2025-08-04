@@ -1,0 +1,45 @@
+{
+  "programs": [
+    {
+      "icon": "Cpu",
+      "title": "Computer Science & Engineering",
+      "duration": "4 Years",
+      "intake": "120",
+      "description": "Advanced computing, AI, Machine Learning, Software Development"
+    },
+    {
+      "icon": "Zap",
+      "title": "Electronics & Communications",
+      "duration": "4 Years", 
+      "intake": "60",
+      "description": "VLSI, Embedded Systems, Signal Processing, Communications"
+    },
+    {
+      "icon": "Cog",
+      "title": "Mechanical Engineering",
+      "duration": "4 Years",
+      "intake": "60",
+      "description": "Thermal Engineering, Manufacturing, Robotics, Automation"
+    },
+    {
+      "icon": "Building2",
+      "title": "Civil Engineering",
+      "duration": "4 Years",
+      "intake": "60",
+      "description": "Structural Engineering, Environmental, Transportation, Construction"
+    },
+    {
+      "icon": "Zap",
+      "title": "Electrical & Electronics",
+      "duration": "4 Years",
+      "intake": "60",
+      "description": "Power Systems, Control Systems, Renewable Energy, Electronics"
+    }
+  ],
+  "features": [
+    { "icon": "BookOpen", "title": "Modern Curriculum", "desc": "Industry-aligned syllabus updated regularly" },
+    { "icon": "Users", "title": "Expert Faculty", "desc": "Experienced professors with industry expertise" },
+    { "icon": "Award", "title": "Research Focus", "desc": "Strong emphasis on research and innovation" },
+    { "icon": "Clock", "title": "Flexible Learning", "desc": "Multiple learning modes and schedules" }
+  ]
+}

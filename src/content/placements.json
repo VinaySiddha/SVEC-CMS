@@ -1,0 +1,79 @@
+{
+  "placementStats": [
+    { "icon": "TrendingUp", "label": "Placement Rate", "value": "92%" },
+    { "icon": "Users", "label": "Students Placed", "value": "850+" },
+    { "icon": "Building", "label": "Recruiting Companies", "value": "120+" },
+    { "icon": "Award", "label": "Highest Package", "value": "₹25 LPA" }
+  ],
+  "topRecruiters": [
+    { "name": "Infosys", "logo": "🔷", "packages": "₹4-8 LPA", "hired": "45+" },
+    { "name": "TCS", "logo": "🔶", "packages": "₹3.5-7 LPA", "hired": "65+" },
+    { "name": "Wipro", "logo": "🔸", "packages": "₹4-9 LPA", "hired": "35+" },
+    { "name": "Cognizant", "logo": "🔹", "packages": "₹4.5-8 LPA", "hired": "40+" },
+    { "name": "Accenture", "logo": "⭐", "packages": "₹5-10 LPA", "hired": "30+" },
+    { "name": "Microsoft", "logo": "🔷", "packages": "₹15-25 LPA", "hired": "8+" },
+    { "name": "Amazon", "logo": "🟠", "packages": "₹12-20 LPA", "hired": "12+" },
+    { "name": "Google", "logo": "🔴", "packages": "₹18-25 LPA", "hired": "5+" }
+  ],
+  "placementProcess": [
+    {
+      "step": "1",
+      "title": "Pre-Placement Training",
+      "description": "Comprehensive training on aptitude, technical skills, communication, and interview preparation",
+      "duration": "6 months"
+    },
+    {
+      "step": "2",
+      "title": "Company Registration",
+      "description": "Companies register through our placement portal and schedule recruitment drives",
+      "duration": "Ongoing"
+    },
+    {
+      "step": "3",
+      "title": "Student Application",
+      "description": "Students apply to companies based on eligibility criteria and career interests",
+      "duration": "2 weeks"
+    },
+    {
+      "step": "4",
+      "title": "Selection Process",
+      "description": "Multi-round selection including aptitude test, technical interview, and HR round",
+      "duration": "1 week"
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Rajesh Kumar",
+      "company": "Microsoft",
+      "package": "₹22 LPA",
+      "branch": "Computer Science",
+      "year": "2024",
+      "quote": "The placement cell at Sri Vasavi provided excellent guidance and training that helped me secure my dream job at Microsoft.",
+      "image": "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=300"
+    },
+    {
+      "name": "Priya Sharma",
+      "company": "Amazon",
+      "package": "₹18 LPA",
+      "branch": "Electronics & Communication",
+      "year": "2024",
+      "quote": "The technical training and mock interviews prepared me well for the competitive selection process at Amazon.",
+      "image": "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg?auto=compress&cs=tinysrgb&w=300"
+    },
+    {
+      "name": "Vikram Reddy",
+      "company": "Infosys",
+      "package": "₹7 LPA",
+      "branch": "Mechanical Engineering",
+      "year": "2024",
+      "quote": "Thanks to the placement cell, I was able to transition from mechanical to IT and start my career in software development.",
+      "image": "https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=300"
+    }
+  ],
+  "services": [
+    { "icon": "Target", "title": "Career Counseling", "desc": "Personalized guidance for career planning and goal setting" },
+    { "icon": "Briefcase", "title": "Resume Building", "desc": "Professional resume writing and portfolio development" },
+    { "icon": "Star", "title": "Skill Development", "desc": "Technical and soft skills training programs" },
+    { "icon": "CheckCircle", "title": "Interview Preparation", "desc": "Mock interviews and group discussion sessions" }
+  ]
+}

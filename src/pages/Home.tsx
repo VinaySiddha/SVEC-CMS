@@ -8,6 +8,7 @@ import {
   TrendingUp,
   ChevronRight
 } from 'lucide-react';
+import type * as LucideIcons from 'lucide-react';
 import '../components/Carousel.css';
 import { AnimatedStat } from '../components/AnimatedStat';
 import heroVideo from '../assets/enng-bg.mp4';
@@ -101,7 +102,7 @@ const Home: React.FC = () => {
             {content.stats.map((stat, index) => (
               <AnimatedStat
                 key={index}
-                iconName={stat.icon}
+                iconName={stat.icon as keyof typeof LucideIcons}
                 label={stat.label}
                 value={stat.value}
                 index={index}

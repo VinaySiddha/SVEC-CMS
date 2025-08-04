@@ -1,51 +1,19 @@
 import React from 'react';
-import { BookOpen, Users, Award, Clock, Calculator, Cpu, Cog, Building2, Zap } from 'lucide-react';
+import { BookOpen, Users, Award, Clock, Cpu, Cog, Building2, Zap } from 'lucide-react';
+import content from '../content/academics.json';
 
 const Academics: React.FC = () => {
-  const programs = [
-    {
-      icon: Cpu,
-      title: 'Computer Science & Engineering',
-      duration: '4 Years',
-      intake: '120',
-      description: 'Advanced computing, AI, Machine Learning, Software Development'
-    },
-    {
-      icon: Zap,
-      title: 'Electronics & Communications',
-      duration: '4 Years', 
-      intake: '60',
-      description: 'VLSI, Embedded Systems, Signal Processing, Communications'
-    },
-    {
-      icon: Cog,
-      title: 'Mechanical Engineering',
-      duration: '4 Years',
-      intake: '60',
-      description: 'Thermal Engineering, Manufacturing, Robotics, Automation'
-    },
-    {
-      icon: Building2,
-      title: 'Civil Engineering',
-      duration: '4 Years',
-      intake: '60',
-      description: 'Structural Engineering, Environmental, Transportation, Construction'
-    },
-    {
-      icon: Zap,
-      title: 'Electrical & Electronics',
-      duration: '4 Years',
-      intake: '60',
-      description: 'Power Systems, Control Systems, Renewable Energy, Electronics'
-    }
-  ];
 
-  const features = [
-    { icon: BookOpen, title: 'Modern Curriculum', desc: 'Industry-aligned syllabus updated regularly' },
-    { icon: Users, title: 'Expert Faculty', desc: 'Experienced professors with industry expertise' },
-    { icon: Award, title: 'Research Focus', desc: 'Strong emphasis on research and innovation' },
-    { icon: Clock, title: 'Flexible Learning', desc: 'Multiple learning modes and schedules' }
-  ];
+  const iconMap: { [key: string]: React.ElementType } = {
+    Cpu,
+    Zap,
+    Cog,
+    Building2,
+    BookOpen,
+    Users,
+    Award,
+    Clock,
+  };
 
   return (
     <div className="pt-44 bg-[#FFF8F0] text-[#222222]">
@@ -63,13 +31,15 @@ const Academics: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
+            {content.features.map((feature, index) => {
+              const Icon = iconMap[feature.icon];
+              return (
               <div key={index} className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all">
-                <feature.icon className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
+                <Icon className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-[#222222] mb-2">{feature.title}</h3>
                 <p className="text-gray-600">{feature.desc}</p>
               </div>
-            ))}
+            )})}
           </div>
         </div>
       </section>
@@ -84,9 +54,11 @@ const Academics: React.FC = () => {
             <p className="text-xl text-gray-600">Choose from our comprehensive engineering disciplines</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {programs.map((program, index) => (
+            {content.programs.map((program, index) => {
+              const Icon = iconMap[program.icon];
+              return (
               <div key={index} className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
-                <program.icon className="w-16 h-16 text-[#B22222] mb-6" />
+                <Icon className="w-16 h-16 text-[#B22222] mb-6" />
                 <h3 className="text-xl font-bold text-[#222222] mb-4">{program.title}</h3>
                 <div className="flex justify-between mb-4 text-sm">
                   <span className="bg-[#B22222] text-white px-3 py-1 rounded-full">
@@ -101,7 +73,7 @@ const Academics: React.FC = () => {
                   Learn More
                 </button>
               </div>
-            ))}
+            )})}
           </div>
         </div>
       </section>

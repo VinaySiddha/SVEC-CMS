@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Award, Users, BookOpen, Globe, Target, Eye, Heart, ArrowRight, Menu, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import content from '../content/about.json';
 
 const About: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,29 +16,12 @@ const About: React.FC = () => {
     'Contact Us'
   ];
 
-  const achievements = [
-    { icon: Award, title: 'NAAC Accredited', desc: 'Grade A+ accreditation by NAAC' },
-    { icon: Users, title: '25+ Years', desc: 'Of academic excellence' },
-    { icon: BookOpen, title: '8 Departments', desc: 'Diverse engineering programs' },
-    { icon: Globe, title: 'Industry Connect', desc: 'Strong industry partnerships' },
-  ];
-
-  const leadership = [
-    {
-      name: 'Dr. K. Rama Krishna',
-      position: 'Principal',
-      image: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=300',
-      education: 'Ph.D in Computer Science, M.Tech, B.Tech',
-      experience: '25+ years in academia and research'
-    },
-    {
-      name: 'Dr. M. Lakshmi Prasanna',
-      position: 'Vice Principal',
-      image: 'https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg?auto=compress&cs=tinysrgb&w=300',
-      education: 'Ph.D in Electronics, M.Tech, B.Tech',
-      experience: '20+ years in engineering education'
-    }
-  ];
+  const iconMap: { [key: string]: React.ElementType } = {
+    Award,
+    Users,
+    BookOpen,
+    Globe,
+  };
 
   return (
     <div className="pt-32 bg-[#FFF8F0] text-[#222222]">
@@ -184,13 +168,16 @@ const About: React.FC = () => {
           <section className="py-16 bg-white">
             <div className="container mx-auto px-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {achievements.map((achievement, index) => (
-                  <div key={index} className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all">
-                    <achievement.icon className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
-                    <h3 className="text-xl font-bold text-[#222222] mb-2">{achievement.title}</h3>
-                    <p className="text-gray-600">{achievement.desc}</p>
-                  </div>
-                ))}
+                {content.achievements.map((achievement, index) => {
+                  const Icon = iconMap[achievement.icon];
+                  return (
+                    <div key={index} className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all">
+                      <Icon className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
+                      <h3 className="text-xl font-bold text-[#222222] mb-2">{achievement.title}</h3>
+                      <p className="text-gray-600">{achievement.desc}</p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </section>
@@ -284,7 +271,7 @@ const About: React.FC = () => {
                 </Link>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                {leadership.map((leader, index) => (
+                {content.leadership.map((leader, index) => (
                   <div key={index} className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
                     <div className="text-center mb-6">
                       <img 

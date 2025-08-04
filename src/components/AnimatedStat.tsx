@@ -4,7 +4,7 @@ import { useCountUp } from '../hooks/useCountUp';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface AnimatedStatProps {
-  iconName: string;
+  iconName: keyof typeof Icons;
   label: string;
   value: string;
   index: number;
@@ -17,15 +17,15 @@ export const AnimatedStat: React.FC<AnimatedStatProps> = ({ iconName, label, val
   const numericValue = parseInt(value.replace(/[^0-9]/g, ''));
   const suffix = value.replace(/[0-9]/g, '');
   
-  const { count, setIsVisible } = useCountUp(numericValue, 2500);
+  const { count, setIsVisible: setCountUpIsVisible } = useCountUp(numericValue, 2500);
 
   useEffect(() => {
     if (isVisible) {
-      setIsVisible(true);
+      setCountUpIsVisible(true);
     }
-  }, [isVisible, setIsVisible]);
+  }, [isVisible, setCountUpIsVisible]);
 
-  const Icon = useMemo(() => (Icons as any)[iconName] || Icons.HelpCircle, [iconName]);
+  const Icon = useMemo(() => Icons[iconName] || Icons.HelpCircle, [iconName]);
 
   return (
     <div 

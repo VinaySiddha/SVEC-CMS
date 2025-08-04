@@ -1,0 +1,24 @@
+{
+  "achievements": [
+    { "icon": "Award", "title": "NAAC Accredited", "desc": "Grade A+ accreditation by NAAC" },
+    { "icon": "Users", "title": "25+ Years", "desc": "Of academic excellence" },
+    { "icon": "BookOpen", "title": "8 Departments", "desc": "Diverse engineering programs" },
+    { "icon": "Globe", "title": "Industry Connect", "desc": "Strong industry partnerships" }
+  ],
+  "leadership": [
+    {
+      "name": "Dr. K. Rama Krishna",
+      "position": "Principal",
+      "image": "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=300",
+      "education": "Ph.D in Computer Science, M.Tech, B.Tech",
+      "experience": "25+ years in academia and research"
+    },
+    {
+      "name": "Dr. M. Lakshmi Prasanna",
+      "position": "Vice Principal",
+      "image": "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg?auto=compress&cs=tinysrgb&w=300",
+      "education": "Ph.D in Electronics, M.Tech, B.Tech",
+      "experience": "20+ years in engineering education"
+    }
+  ]
+}
