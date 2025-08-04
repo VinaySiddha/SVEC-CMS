@@ -10,7 +10,8 @@ const AdminLoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true); // Start with loading true
+  const [loading, setLoading] = useState(false);
+  const [authReady, setAuthReady] = useState(false);
   const router = useRouter();
   const auth = getAuth(app);
 
@@ -19,7 +20,7 @@ const AdminLoginPage: React.FC = () => {
       if (user) {
         router.push('/admin/dashboard');
       } else {
-        setLoading(false); // Stop loading if no user is found
+        setAuthReady(true);
       }
     });
 
@@ -40,17 +41,19 @@ const AdminLoginPage: React.FC = () => {
         switch (err.code) {
           case 'auth/user-not-found':
           case 'auth/invalid-credential':
-            errorMessage = 'Invalid email or password. Please try again.';
-            break;
           case 'auth/wrong-password':
-            errorMessage = 'Incorrect password. Please try again.';
+            errorMessage = 'Invalid email or password. Please try again.';
             break;
           case 'auth/invalid-email':
             errorMessage = 'The email address is not valid.';
             break;
           case 'auth/operation-not-allowed':
-            errorMessage =
+             errorMessage =
               'Email/Password sign-in is not enabled. Please enable it in the Firebase console: Authentication > Sign-in method > Email/Password.';
+            break;
+          case 'auth/configuration-not-found':
+             errorMessage =
+              'Firebase configuration error. Please ensure your app\'s domain is listed as an "Authorized domain" in the Firebase console: Authentication > Settings > Authorized domains.';
             break;
           default:
             errorMessage = `Failed to login: ${err.message}`;
@@ -58,16 +61,17 @@ const AdminLoginPage: React.FC = () => {
         }
       }
       setError(errorMessage);
+    } finally {
       setLoading(false);
     }
   };
   
-  if (loading) {
+  if (!authReady) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-primary"></div>
-          <p className="mt-4 text-muted-foreground">Loading Admin Portal...</p>
+          <p className="mt-4 text-muted-foreground">Initializing Admin Portal...</p>
         </div>
       </div>
     );
@@ -122,8 +126,8 @@ const AdminLoginPage: React.FC = () => {
           </div>
 
           {error && (
-            <div className="flex items-center p-3 text-sm text-red-700 bg-red-100 rounded-md">
-              <AlertTriangle className="w-5 h-5 mr-2 flex-shrink-0" />
+            <div className="flex items-start p-3 text-sm text-red-700 bg-red-100 rounded-md">
+              <AlertTriangle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
