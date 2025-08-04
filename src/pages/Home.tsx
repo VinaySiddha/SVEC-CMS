@@ -15,18 +15,12 @@ import content from '../content/home.json';
 
 const Home: React.FC = () => {
 
-  const quickLinksIcons = {
+  const quickLinksIcons: {[key: string]: React.ElementType} = {
     BookOpen: BookOpen,
     Users: Users,
     TrendingUp: TrendingUp,
     Award: Award
   };
-
-  const statsIcons = {
-    Users: Users,
-    Award: Award,
-    Building: Building
-  }
 
   return (
     <div className="bg-[#FFF8F0] text-[#222222]">
@@ -107,7 +101,7 @@ const Home: React.FC = () => {
             {content.stats.map((stat, index) => (
               <AnimatedStat
                 key={index}
-                icon={statsIcons[stat.icon as keyof typeof statsIcons]}
+                iconName={stat.icon}
                 label={stat.label}
                 value={stat.value}
                 index={index}

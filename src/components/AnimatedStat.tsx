@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
-import { LucideIcon } from 'lucide-react';
+import React, { useEffect, useMemo } from 'react';
+import * as Icons from 'lucide-react';
 import { useCountUp } from '../hooks/useCountUp';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface AnimatedStatProps {
-  icon: LucideIcon;
+  iconName: string;
   label: string;
   value: string;
   index: number;
 }
 
-export const AnimatedStat: React.FC<AnimatedStatProps> = ({ icon: Icon, label, value, index }) => {
+export const AnimatedStat: React.FC<AnimatedStatProps> = ({ iconName, label, value, index }) => {
   const { ref, isVisible } = useIntersectionObserver(0.3);
   
   // Extract number from value string (e.g., "3000+" -> 3000)
@@ -24,6 +24,8 @@ export const AnimatedStat: React.FC<AnimatedStatProps> = ({ icon: Icon, label, v
       setIsVisible(true);
     }
   }, [isVisible, setIsVisible]);
+
+  const Icon = useMemo(() => (Icons as any)[iconName] || Icons.HelpCircle, [iconName]);
 
   return (
     <div 
