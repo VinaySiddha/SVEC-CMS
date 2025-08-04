@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { BookOpen, Users, Award, Clock, Cpu, Cog, Building2, Zap } from 'lucide-react';
-import content from '@/content/academics.json';
+import content from '../../content/academics.json';
 
 const Academics: React.FC = () => {
 
