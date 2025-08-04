@@ -1,6 +1,6 @@
 
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Users,
@@ -12,9 +12,39 @@ import {
 } from 'lucide-react';
 import type * as LucideIcons from 'lucide-react';
 import { AnimatedStat } from '@/components/AnimatedStat';
-import content from '@/content/home.json';
+import { getHomePageContent } from '@/services/contentService';
+import content from '@/content/home.json'; // Keep for now as fallback
+
+type QuickLink = {
+  title: string;
+  desc: string;
+  link: string;
+  icon: string;
+};
+
+type Stat = {
+  icon: keyof typeof LucideIcons;
+  label: string;
+  value: string;
+};
+
+type HomePageContent = {
+  stats: Stat[];
+  quickLinks: QuickLink[];
+};
+
 
 const Home: React.FC = () => {
+
+  const [homeContent, setHomeContent] = useState<HomePageContent>({ stats: [], quickLinks: []});
+
+  useEffect(() => {
+    async function loadContent() {
+      const content = await getHomePageContent();
+      setHomeContent(content);
+    }
+    loadContent();
+  }, []);
 
   const quickLinksIcons: {[key: string]: React.ElementType} = {
     BookOpen: BookOpen,
@@ -80,10 +110,10 @@ const Home: React.FC = () => {
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {content.stats.map((stat, index) => (
+            {homeContent.stats.map((stat, index) => (
               <AnimatedStat
                 key={index}
-                iconName={stat.icon as keyof typeof LucideIcons}
+                iconName={stat.icon}
                 label={stat.label}
                 value={stat.value}
                 index={index}
@@ -103,7 +133,7 @@ const Home: React.FC = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {content.quickLinks.map((link, index) => {
+            {homeContent.quickLinks.map((link, index) => {
               const Icon = quickLinksIcons[link.icon as keyof typeof quickLinksIcons];
               return (
               <Link
