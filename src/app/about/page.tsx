@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, 'useState' from 'react';
 import { Award, Users, BookOpen, Globe, Target, Eye, Heart, ArrowRight, Menu, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import content from '../../content/about.json';
@@ -66,7 +66,7 @@ const About: React.FC = () => {
                   onClick={() => setSidebarOpen(false)}
                   className="p-2 hover:bg-white/10 rounded-lg transition-colors duration-200 flex-shrink-0"
                 >
-                  <ChevronRight className="w-4 h-4 rotate-180" />
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
               
