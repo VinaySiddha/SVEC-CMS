@@ -5,12 +5,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration will be populated by the tool
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  "projectId": "contentpilot-vwmhh",
+  "appId": "1:692283352347:web:f24b6dbf83c6d3523c5fbe",
+  "storageBucket": "contentpilot-vwmhh.firebasestorage.app",
+  "apiKey": "AIzaSyABuhLJHbccL-zpnR9wx71xdn5nDkjJD1I",
+  "authDomain": "contentpilot-vwmhh.firebaseapp.com",
+  "measurementId": "",
+  "messagingSenderId": "692283352347"
 };
 
 // Initialize Firebase
