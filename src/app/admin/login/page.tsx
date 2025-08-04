@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState, useEffect } from 'react';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
@@ -9,7 +10,7 @@ const AdminLoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Start with loading true
   const router = useRouter();
   const auth = getAuth(app);
 
@@ -17,6 +18,8 @@ const AdminLoginPage: React.FC = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         router.push('/admin/dashboard');
+      } else {
+        setLoading(false); // Stop loading if no user is found
       }
     });
 
@@ -36,7 +39,8 @@ const AdminLoginPage: React.FC = () => {
       if (err.code) {
         switch (err.code) {
           case 'auth/user-not-found':
-            errorMessage = 'No user found with this email.';
+          case 'auth/invalid-credential':
+            errorMessage = 'Invalid email or password. Please try again.';
             break;
           case 'auth/wrong-password':
             errorMessage = 'Incorrect password. Please try again.';
@@ -44,16 +48,30 @@ const AdminLoginPage: React.FC = () => {
           case 'auth/invalid-email':
             errorMessage = 'The email address is not valid.';
             break;
+          case 'auth/operation-not-allowed':
+            errorMessage =
+              'Email/Password sign-in is not enabled. Please enable it in the Firebase console: Authentication > Sign-in method > Email/Password.';
+            break;
           default:
-            errorMessage = 'Failed to login. Please check your credentials.';
+            errorMessage = `Failed to login: ${err.message}`;
             break;
         }
       }
       setError(errorMessage);
-    } finally {
       setLoading(false);
     }
   };
+  
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-primary"></div>
+          <p className="mt-4 text-muted-foreground">Loading Admin Portal...</p>
+        </div>
+      </div>
+    );
+  }
 
 
   return (
@@ -105,7 +123,7 @@ const AdminLoginPage: React.FC = () => {
 
           {error && (
             <div className="flex items-center p-3 text-sm text-red-700 bg-red-100 rounded-md">
-              <AlertTriangle className="w-5 h-5 mr-2" />
+              <AlertTriangle className="w-5 h-5 mr-2 flex-shrink-0" />
               <span>{error}</span>
             </div>
           )}
