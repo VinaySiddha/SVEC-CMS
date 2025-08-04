@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import { app } from '@/lib/firebase'; // Ensure firebase is initialized here
+import { app } from '@/lib/firebase';
 import { AlertTriangle, LogIn } from 'lucide-react';
 
 const AdminLoginPage: React.FC = () => {
@@ -11,7 +11,6 @@ const AdminLoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [authReady, setAuthReady] = useState(false);
   const router = useRouter();
   const auth = getAuth(app);
 
@@ -19,11 +18,8 @@ const AdminLoginPage: React.FC = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         router.push('/admin/dashboard');
-      } else {
-        setAuthReady(true);
       }
     });
-
     return () => unsubscribe();
   }, [auth, router]);
 
@@ -34,7 +30,7 @@ const AdminLoginPage: React.FC = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // The onAuthStateChanged listener will handle the redirect
+      // onAuthStateChanged will handle the redirect
     } catch (err: any) {
       let errorMessage = 'An unknown error occurred.';
       if (err.code) {
@@ -65,18 +61,6 @@ const AdminLoginPage: React.FC = () => {
       setLoading(false);
     }
   };
-  
-  if (!authReady) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-primary"></div>
-          <p className="mt-4 text-muted-foreground">Initializing Admin Portal...</p>
-        </div>
-      </div>
-    );
-  }
-
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

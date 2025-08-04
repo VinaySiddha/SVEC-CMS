@@ -25,37 +25,26 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        // Fetch user profile from Firestore
         const userDocRef = doc(db, 'users', currentUser.uid);
         const userDoc = await getDoc(userDocRef);
         if (userDoc.exists()) {
           setUserProfile(userDoc.data() as UserProfile);
         } else {
-          // Handle case where user exists in Auth but not in Firestore
           setUserProfile(null); 
-          // You might want to log them out or assign a default role
           await signOut(auth);
         }
       } else {
         setUser(null);
         setUserProfile(null);
+        if (pathname !== '/admin/login') {
+          router.push('/admin/login');
+        }
       }
       setLoading(false);
     });
 
     return () => unsubscribe();
-  }, [auth]);
-
-  useEffect(() => {
-    if (!loading && !user && pathname !== '/admin/login') {
-      router.push('/admin/login');
-    }
-  }, [user, loading, pathname, router]);
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    router.push('/admin/login');
-  };
+  }, [auth, router, pathname]);
   
   if (pathname === '/admin/login') {
     return <>{children}</>
@@ -73,7 +62,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!user) {
-     return null; 
+     return null;
   }
   
   return (
@@ -111,7 +100,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             <p className="text-xs text-gray-400 capitalize">{userProfile?.role?.replace('_', ' ')}</p>
           </div>
           <button
-            onClick={handleLogout}
+            onClick={async () => {
+              await signOut(auth);
+              router.push('/admin/login');
+            }}
             className="w-full flex items-center px-4 py-2.5 text-sm rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition-colors"
           >
             <LogOut className="w-5 h-5 mr-3" />
