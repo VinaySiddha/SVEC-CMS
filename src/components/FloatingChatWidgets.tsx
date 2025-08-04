@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from 'react';
 import WhatsAppChatButton from './WhatsAppChatButton';
 import ChatbotWidget from './ChatbotWidget';

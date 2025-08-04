@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -18,7 +19,7 @@ const Header: React.FC = () => {
     otherLinks: false
   });
   const morePanelRef = useRef<HTMLDivElement>(null);
-  const location = usePathname();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!isMoreOpen) {
@@ -140,11 +141,11 @@ const Header: React.FC = () => {
 
       {/* Desktop navigation - Right End */}
       <div className="hidden lg:flex items-center space-x-6 text-[#222222]">
-        <Link href="/" className={`nav-link ${location === '/' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/" className={`nav-link ${pathname === '/' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           Home
         </Link>
         
-        <Link href="/about" className={`nav-link ${location === '/about' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/about" className={`nav-link ${pathname === '/about' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           About Us
         </Link>
         
@@ -172,7 +173,7 @@ const Header: React.FC = () => {
           )}
         </div>
 
-        <Link href="/admissions" className={`nav-link ${location === '/admissions' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/admissions" className={`nav-link ${pathname === '/admissions' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           Admissions
         </Link>
 
@@ -200,13 +201,13 @@ const Header: React.FC = () => {
           )}
         </div>
 
-        <Link href="/academics" className={`nav-link ${location === '/academics' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/academics" className={`nav-link ${pathname === '/academics' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           Academics
         </Link>
-        <Link href="/placements" className={`nav-link ${location === '/placements' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/placements" className={`nav-link ${pathname === '/placements' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           Placements
         </Link>
-        <Link href="/contact" className={`nav-link ${location === '/contact' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/contact" className={`nav-link ${pathname === '/contact' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           Contact
         </Link>
 
