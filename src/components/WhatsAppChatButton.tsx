@@ -24,6 +24,7 @@ const WhatsAppChatButton: React.FC = () => {
         {/* WhatsApp Button */}
         <button
           onClick={handleWhatsAppClick}
+          type="button"
           role="button"
           aria-label="Chat on WhatsApp"
           className="w-12 h-12 sm:w-12 sm:h-12 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 flex items-center justify-center animate-bounce-in active:scale-95"

@@ -1,5 +1,5 @@
 "use client";
-import React, 'useState' from 'react';
+import React, { useState } from 'react';
 import { Award, Users, BookOpen, Globe, Target, Eye, Heart, ArrowRight, Menu, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import content from '../../content/about.json';
