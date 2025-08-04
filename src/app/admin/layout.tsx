@@ -33,7 +33,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-primary"></div>
-          <p className="mt-4 text-muted-foreground">Loading Admin Portal...</p>
+          <p className="mt-4 text-muted-foreground">Verifying Admin Access...</p>
         </div>
       </div>
     );
