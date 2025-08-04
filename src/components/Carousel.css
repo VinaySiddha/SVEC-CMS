@@ -1,0 +1,209 @@
+/* Custom carousel animations */
+.carousel-image {
+  animation: subtle-zoom 15s ease-in-out infinite;
+}
+
+@keyframes subtle-zoom {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.carousel-fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Custom blur effect for better performance */
+.carousel-blur {
+  backdrop-filter: blur(1px);
+  filter: blur(0.5px);
+}
+
+/* Stats Counter Animation */
+.stat-counter {
+  transition: all 0.3s ease-in-out;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideInUp 0.6s ease-out;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(178, 34, 34, 0.15);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dynamic text animations */
+.text-animate {
+  animation: textReveal 1s ease-out forwards;
+  animation-fill-mode: both;
+}
+
+@keyframes textReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button hover effects */
+.btn-dynamic {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-dynamic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-dynamic:hover::before {
+  left: 100%;
+}
+
+.btn-dynamic:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* News items animation */
+.news-item {
+  transition: all 0.3s ease;
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.news-item:hover {
+  transform: translateX(10px);
+  background: linear-gradient(90deg, #FFF8F0, #fff);
+  border-left-width: 6px;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Quick links animation */
+.quick-link {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: scaleIn 0.7s ease-out;
+}
+
+.quick-link:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 25px 50px rgba(178, 34, 34, 0.2);
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Icon animations */
+.icon-bounce {
+  transition: transform 0.3s ease;
+}
+
+.icon-bounce:hover {
+  transform: scale(1.2) rotate(10deg);
+}
+
+/* Pulse animation for important elements */
+.pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(178, 34, 34, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(178, 34, 34, 0.6);
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .stat-card:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
+  
+  .quick-link:hover {
+    transform: translateY(-5px) scale(1.02);
+  }
+  
+  .carousel-image {
+    animation-duration: 12s; /* Faster on mobile */
+  }
+  
+  .btn-dynamic:hover {
+    transform: scale(1.02);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .carousel-image,
+  .text-animate,
+  .stat-card,
+  .quick-link,
+  .news-item,
+  .pulse-glow {
+    animation: none;
+  }
+  
+  .btn-dynamic::before {
+    display: none;
+  }
+  
+  * {
+    transition-duration: 0.1s !important;
+  }
+}

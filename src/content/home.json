@@ -1,0 +1,36 @@
+{
+  "stats": [
+    { "icon": "Users", "label": "Students", "value": "3000+" },
+    { "icon": "Users", "label": "Faculty", "value": "150+" },
+    { "icon": "Award", "label": "Years of Excellence", "value": "25+" },
+    { "icon": "Building", "label": "Departments", "value": "8" }
+  ],
+  "news": [
+    {
+      "date": "2025-01-15",
+      "title": "New AI Lab Inaugurated with State-of-the-Art Equipment",
+      "category": "Infrastructure"
+    },
+    {
+      "date": "2025-01-12",
+      "title": "Students Win National Level Technical Symposium",
+      "category": "Achievement"
+    },
+    {
+      "date": "2025-01-10",
+      "title": "Industry Partnership with Leading Tech Companies",
+      "category": "Placements"
+    },
+    {
+      "date": "2025-01-08",
+      "title": "Research Paper Published in International Journal",
+      "category": "Research"
+    }
+  ],
+  "quickLinks": [
+    { "title": "Academics", "desc": "Explore our comprehensive academic programs", "link": "/academics", "icon": "BookOpen" },
+    { "title": "Admissions", "desc": "Join our community of future engineers", "link": "/admissions", "icon": "Users" },
+    { "title": "Placements", "desc": "Excellent career opportunities await", "link": "/placements", "icon": "TrendingUp" },
+    { "title": "Research", "desc": "Cutting-edge research and innovation", "link": "/rd-innovation", "icon": "Award" }
+  ]
+}
