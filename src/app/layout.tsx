@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingChatWidgets from "@/components/FloatingChatWidgets";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Sri Vasavi Engineering College",
@@ -19,9 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={poppins.className} suppressHydrationWarning>
         <Header />
-        <main className="flex-grow bg-[#FFF8F0]">
+        <main className="flex-grow bg-secondary/50">
           {children}
         </main>
         <Footer />
