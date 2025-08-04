@@ -9,7 +9,6 @@ const FloatingChatWidgets: React.FC = () => {
   useEffect(() => {
     // This will only run on the client, after the initial render.
     setIsClient(true);
-    console.log('FloatingChatWidgets component rendered on client');
   }, []);
 
   // Only render the widgets on the client-side to avoid hydration mismatch
