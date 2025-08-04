@@ -13,7 +13,7 @@ const Deans: React.FC = () => {
       experience: "20+ Years",
       email: "dean.student@srivasaviengg.ac.in",
       phone: "+91-866-2461558",
-      image: "../src/assets/rambabu.jpeg",
+      image: "/src/assets/rambabu.jpeg",
       specialization: "VLSI Design, Embedded Systems",
       responsibilities: [
         "Student welfare and development programs",
@@ -30,7 +30,7 @@ const Deans: React.FC = () => {
       experience: "20+ Years",
       email: "deanrnd@srivasaviengg.ac.in",
       phone: "+91-9491556014",
-      image: "../src/assets/naresh.jpeg",
+      image: "/src/assets/naresh.jpeg",
       specialization: "Cyber Security",
       responsibilities: [
         "Research project coordination and management",
@@ -128,7 +128,6 @@ const Deans: React.FC = () => {
                       src={dean.image}
                       alt={dean.name}
                       className="w-80 h-96 object-cover rounded-xl shadow-lg mx-auto stat-card"
-                      style={{ animationDelay: `${index * 0.3}s` }}
                     />
                     <div className="absolute -bottom-6 -right-6 bg-[#B22222] text-white p-4 rounded-xl shadow-lg">
                       <p className="font-bold text-lg">{dean.experience}</p>

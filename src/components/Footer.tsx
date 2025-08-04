@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import {
   MapPin,
   Phone,
@@ -43,12 +43,12 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4 text-[#FFD700]">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link to="/about" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">About Us</Link></li>
-              <li><Link to="/academics" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Academics</Link></li>
-              <li><Link to="/admissions" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Admissions</Link></li>
-              <li><Link to="/placements" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Placements</Link></li>
-              <li><Link to="/rd-innovation" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">R&D</Link></li>
-              <li><Link to="/library" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Library</Link></li>
+              <li><Link href="/about" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">About Us</Link></li>
+              <li><Link href="/academics" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Academics</Link></li>
+              <li><Link href="/admissions" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Admissions</Link></li>
+              <li><Link href="/placements" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Placements</Link></li>
+              <li><Link href="/rd-innovation" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">R&D</Link></li>
+              <li><Link href="/library" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Library</Link></li>
             </ul>
           </div>
 
@@ -56,11 +56,11 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4 text-[#FFD700]">Departments</h4>
             <ul className="space-y-2">
-              <li><Link to="/departments/cse" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Computer Science</Link></li>
-              <li><Link to="/departments/ece" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Electronics & Comm.</Link></li>
-              <li><Link to="/departments/mech" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Mechanical</Link></li>
-              <li><Link to="/departments/civil" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Civil Engineering</Link></li>
-              <li><Link to="/departments/eee" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Electrical</Link></li>
+              <li><Link href="/departments/cse" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Computer Science</Link></li>
+              <li><Link href="/departments/ece" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Electronics & Comm.</Link></li>
+              <li><Link href="/departments/mech" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Mechanical</Link></li>
+              <li><Link href="/departments/civil" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Civil Engineering</Link></li>
+              <li><Link href="/departments/eee" className="text-[#FFF8F0] hover:text-white transition-colors text-sm">Electrical</Link></li>
             </ul>
           </div>
 
@@ -94,8 +94,8 @@ const Footer: React.FC = () => {
             © 2025 Sri Vasavi Engineering College. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link to="/privacy" className="text-[#FFF8F0] hover:text-white text-sm transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="text-[#FFF8F0] hover:text-white text-sm transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="text-[#FFF8F0] hover:text-white text-sm transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="text-[#FFF8F0] hover:text-white text-sm transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

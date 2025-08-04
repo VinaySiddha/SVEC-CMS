@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
-import vasaviLogo from '../assets/vasavi_logo.png';
 import { useRef } from 'react';
 
 const Header: React.FC = () => {
@@ -18,7 +18,7 @@ const Header: React.FC = () => {
     otherLinks: false
   });
   const morePanelRef = useRef<HTMLDivElement>(null);
-  const location = useLocation();
+  const location = usePathname();
 
   useEffect(() => {
     if (!isMoreOpen) {
@@ -126,9 +126,9 @@ const Header: React.FC = () => {
   <nav className="container mx-auto px-4 py-4">
     <div className="flex items-center justify-between">
       {/* Logo - Left End */}
-      <Link to="/" className="flex items-center space-x-6">
+      <Link href="/" className="flex items-center space-x-6">
         <img 
-          src={vasaviLogo} 
+          src="/vasavi_logo.png"
           alt="Sri Vasavi Engineering College Logo" 
           className="w-20 h-20 object-contain"
         />
@@ -140,11 +140,11 @@ const Header: React.FC = () => {
 
       {/* Desktop navigation - Right End */}
       <div className="hidden lg:flex items-center space-x-6 text-[#222222]">
-        <Link to="/" className={`nav-link ${location.pathname === '/' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/" className={`nav-link ${location === '/' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           Home
         </Link>
         
-        <Link to="/about" className={`nav-link ${location.pathname === '/about' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/about" className={`nav-link ${location === '/about' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           About Us
         </Link>
         
@@ -162,7 +162,7 @@ const Header: React.FC = () => {
               {administrationItems.map((item) => (
                 <Link
                   key={item.path}
-                  to={item.path}
+                  href={item.path}
                   className="block px-4 py-2 text-sm text-[#222222] hover:bg-[#FFF8F0] hover:text-[#B22222]"
                 >
                   {item.name}
@@ -172,7 +172,7 @@ const Header: React.FC = () => {
           )}
         </div>
 
-        <Link to="/admissions" className={`nav-link ${location.pathname === '/admissions' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/admissions" className={`nav-link ${location === '/admissions' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           Admissions
         </Link>
 
@@ -190,7 +190,7 @@ const Header: React.FC = () => {
               {departments.map((dept) => (
                 <Link
                   key={dept.path}
-                  to={dept.path}
+                  href={dept.path}
                   className="block px-4 py-2 text-sm text-[#222222] hover:bg-[#FFF8F0] hover:text-[#B22222]"
                 >
                   {dept.name}
@@ -200,13 +200,13 @@ const Header: React.FC = () => {
           )}
         </div>
 
-        <Link to="/academics" className={`nav-link ${location.pathname === '/academics' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/academics" className={`nav-link ${location === '/academics' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           Academics
         </Link>
-        <Link to="/placements" className={`nav-link ${location.pathname === '/placements' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/placements" className={`nav-link ${location === '/placements' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           Placements
         </Link>
-        <Link to="/contact" className={`nav-link ${location.pathname === '/contact' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
+        <Link href="/contact" className={`nav-link ${location === '/contact' ? 'text-[#DC143C] font-semibold' : 'hover:text-[#B22222]'}`}>
           Contact
         </Link>
 
@@ -365,8 +365,8 @@ const Header: React.FC = () => {
     {isMenuOpen && (
       <div className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg border-t border-[#DDD6CE] max-h-[80vh] overflow-y-auto">
         <div className="py-4 px-4 space-y-3 text-[#222222]">
-          <Link to="/" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>Home</Link>
-          <Link to="/about" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>About Us</Link>
+          <Link href="/" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>Home</Link>
+          <Link href="/about" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>About Us</Link>
           
           {/* Administration Dropdown */}
           <div className="border-l-2 border-[#DC143C] pl-4">
@@ -382,7 +382,7 @@ const Header: React.FC = () => {
                 {administrationItems.map((item) => (
                   <Link
                     key={item.path}
-                    to={item.path}
+                    href={item.path}
                     className="block py-2 text-sm text-[#666] hover:text-[#B22222] transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -393,7 +393,7 @@ const Header: React.FC = () => {
             )}
           </div>
 
-          <Link to="/admissions" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>Admissions</Link>
+          <Link href="/admissions" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>Admissions</Link>
 
           {/* Departments Dropdown */}
           <div className="border-l-2 border-[#DC143C] pl-4">
@@ -409,7 +409,7 @@ const Header: React.FC = () => {
                 {departments.map((dept) => (
                   <Link
                     key={dept.path}
-                    to={dept.path}
+                    href={dept.path}
                     className="block py-2 text-sm text-[#666] hover:text-[#B22222] transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -420,9 +420,9 @@ const Header: React.FC = () => {
             )}
           </div>
 
-          <Link to="/academics" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>Academics</Link>
-          <Link to="/placements" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>Placements</Link>
-          <Link to="/contact" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+          <Link href="/academics" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>Academics</Link>
+          <Link href="/placements" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>Placements</Link>
+          <Link href="/contact" className="block py-2 hover:text-[#B22222] transition-colors" onClick={() => setIsMenuOpen(false)}>Contact</Link>
 
           <a 
             href="https://sves.org.in/ecap/" 

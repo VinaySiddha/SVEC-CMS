@@ -12,7 +12,7 @@ const HeadOfDepartments: React.FC = () => {
       experience: "15+ Years",
       email: "hod.cse@srivasaviengg.ac.in",
       office: "CSE Department, Block B",
-      image: "../src/assets/cse_hod1.jpeg",
+      image: "/src/assets/cse_hod1.jpeg",
       specialization: "Data Structures, Algorithms, Software Engineering",
       achievements: ["50+ Publications", "Industry Projects", "Patent Filed"],
       departmentStats: {
@@ -208,7 +208,6 @@ const HeadOfDepartments: React.FC = () => {
                         src={hod.image}
                         alt={hod.name}
                         className="w-64 h-80 object-cover rounded-xl shadow-lg mx-auto stat-card"
-                        style={{ animationDelay: `${index * 0.3}s` }}
                       />
                       <div className="absolute -bottom-4 -right-4 bg-[#B22222] text-white p-3 rounded-lg shadow-lg">
                         <p className="font-bold text-sm">{hod.experience}</p>

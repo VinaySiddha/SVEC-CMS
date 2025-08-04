@@ -11,7 +11,7 @@ const Principal: React.FC = () => {
     email: "principal@srivasaviengg.ac.in",
     phone: "+91-866-2461556",
     office: "Principal's Office, Administrative Block",
-    image: "../src/assets/principal.jpg"
+    image: "/src/assets/principal.jpg"
   };
 
   const initiatives = [

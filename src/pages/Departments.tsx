@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Cpu, Zap, Cog, Building2, ArrowRight, Users, BookOpen, Award } from 'lucide-react';
 
 const Departments: React.FC = () => {
@@ -127,7 +127,7 @@ const Departments: React.FC = () => {
                   </div>
                   
                   <Link 
-                    to={`/departments/${dept.id}`}
+                    href={`/departments/${dept.id}`}
                     className="inline-flex items-center bg-[#003366] text-white px-6 py-3 rounded-lg hover:bg-[#004080] transition-all transform hover:scale-105"
                   >
                     Learn More <ArrowRight className="w-5 h-5 ml-2" />
@@ -183,13 +183,13 @@ const Departments: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
-              to="/admissions" 
+              href="/admissions" 
               className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all"
             >
               Apply Now
             </Link>
             <Link 
-              to="/contact" 
+              href="/contact" 
               className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#B22222] transition-all"
             >
               Get Guidance

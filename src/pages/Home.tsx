@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import {
   Users,
   Award,
@@ -11,7 +11,6 @@ import {
 import type * as LucideIcons from 'lucide-react';
 import '../components/Carousel.css';
 import { AnimatedStat } from '../components/AnimatedStat';
-import heroVideo from '../assets/enng-bg.mp4';
 import content from '../content/home.json';
 
 const Home: React.FC = () => {
@@ -43,7 +42,7 @@ const Home: React.FC = () => {
               height: 'auto'
             }}
           >
-            <source src={heroVideo} type="video/mp4" />
+            <source src="/enng-bg.mp4" type="video/mp4" />
             {/* Fallback image if video doesn't load */}
             <img
               src="https://images.unsplash.com/photo-1562774053-701939374585?w=1920&h=1080&fit=crop&crop=center"
@@ -69,14 +68,14 @@ const Home: React.FC = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-4 animate-slide-in-up" style={{ opacity: 1, animationDelay: '0.6s' }}>
                 <Link
-                  to="/admissions"
+                  href="/admissions"
                   className="bg-white text-[#B22222] px-6 md:px-8 py-2.5 md:py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-[#f9e8e8] transition-all transform hover:scale-105 shadow-lg text-center animate-bounce-in"
                   style={{ opacity: 1, animationDelay: '0.8s' }}
                 >
                   Apply Now
                 </Link>
                 <Link
-                  to="/about"
+                  href="/about"
                   className="border-2 border-white text-white px-6 md:px-8 py-2.5 md:py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-white hover:text-[#B22222] transition-all transform hover:scale-105 shadow-lg text-center animate-bounce-in"
                   style={{ opacity: 1, animationDelay: '1s' }}
                 >
@@ -127,7 +126,7 @@ const Home: React.FC = () => {
               return (
               <Link
                 key={index}
-                to={link.link}
+                href={link.link}
                 className="quick-link bg-white p-6 rounded-xl shadow hover:shadow-lg transition-all group"
                 style={{ animationDelay: `${index * 0.15}s` }}
               >
@@ -150,7 +149,7 @@ const Home: React.FC = () => {
           <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-3xl font-bold text-[#B22222]">Latest News</h2>
-              <Link to="/news" className="text-sm text-[#B22222] hover:underline">View All</Link>
+              <Link href="/news" className="text-sm text-[#B22222] hover:underline">View All</Link>
             </div>
             <div className="space-y-6">
               {content.news.map((item, index) => (
@@ -176,7 +175,7 @@ const Home: React.FC = () => {
           <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-3xl font-bold text-[#B22222]">Upcoming Events</h2>
-              <Link to="/events" className="text-sm text-[#B22222] hover:underline">View All</Link>
+              <Link href="/events" className="text-sm text-[#B22222] hover:underline">View All</Link>
             </div>
             <div className="space-y-4 bg-[#FFF8F0] p-6 rounded-xl shadow-sm">
               <div className="flex items-start gap-4">
@@ -213,13 +212,13 @@ const Home: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
-              to="/admissions" 
+              href="/admissions" 
               className="btn-dynamic bg-white text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#f9e8e8] transition-all transform hover:scale-105 shadow-lg"
             >
               Apply Now
             </Link>
             <Link 
-              to="/contact" 
+              href="/contact" 
               className="btn-dynamic border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#B22222] transition-all transform hover:scale-105 shadow-lg"
             >
               Contact Us

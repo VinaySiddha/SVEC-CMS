@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Award, Users, BookOpen, Globe, Target, Eye, Heart, ArrowRight, Menu, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import content from '../content/about.json';
 
 const About: React.FC = () => {
@@ -263,7 +263,7 @@ const About: React.FC = () => {
                 <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Leadership</h2>
                 <p className="text-xl text-gray-600 mb-6">Meet our experienced leadership team</p>
                 <Link 
-                  to="/administration" 
+                  href="/administration/deans" 
                   className="inline-flex items-center gap-2 bg-[#B22222] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all"
                 >
                   View Full Administration Team
