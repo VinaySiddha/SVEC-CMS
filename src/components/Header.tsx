@@ -11,12 +11,14 @@ const Header: React.FC = () => {
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const pathname = usePathname();
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check scroll position on initial load
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
@@ -63,11 +65,17 @@ const Header: React.FC = () => {
     { name: 'Placements', path: '/placements' },
     { name: 'Contact', path: '/contact' },
   ];
+  
+  const headerClass = isScrolled || !isHomePage 
+    ? 'bg-background/95 shadow-md backdrop-blur-sm' 
+    : 'bg-transparent';
+    
+  const textColorClass = isScrolled || !isHomePage 
+    ? 'text-foreground' 
+    : 'text-white';
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-background/95 shadow-md backdrop-blur-sm' : 'bg-transparent'
-    }`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerClass}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex items-center space-x-2">
@@ -76,21 +84,21 @@ const Header: React.FC = () => {
               alt="SVEC Logo" 
               className="w-14 h-14 object-contain"
             />
-            <div>
-              <h1 className="text-xl font-bold text-foreground leading-tight">Sri Vasavi</h1>
-              <p className="text-xs text-muted-foreground leading-tight">Engineering College</p>
+            <div className={textColorClass}>
+              <h1 className="text-xl font-bold leading-tight">Sri Vasavi</h1>
+              <p className="text-xs leading-tight">Engineering College</p>
             </div>
           </Link>
 
           <nav className="hidden lg:flex items-center space-x-6 text-sm font-medium">
             {mainNavLinks.map(link => (
-              <Link key={link.path} href={link.path} className={`text-foreground/80 hover:text-primary transition-colors ${pathname === link.path ? 'text-primary font-semibold' : ''}`}>
+              <Link key={link.path} href={link.path} className={`${textColorClass} hover:text-primary transition-colors ${pathname === link.path ? 'text-primary font-semibold' : ''}`}>
                 {link.name}
               </Link>
             ))}
             
             <div onMouseEnter={() => handleMouseEnter('admin')} onMouseLeave={handleMouseLeave} className="relative">
-              <button className="flex items-center text-foreground/80 hover:text-primary transition-colors">
+              <button className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}>
                 Administration <ChevronDown className="w-4 h-4 ml-1" />
               </button>
               {activeDropdown === 'admin' && (
@@ -105,7 +113,7 @@ const Header: React.FC = () => {
             </div>
 
             <div onMouseEnter={() => handleMouseEnter('depts')} onMouseLeave={handleMouseLeave} className="relative">
-              <button className="flex items-center text-foreground/80 hover:text-primary transition-colors">
+              <button className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}>
                 Departments <ChevronDown className="w-4 h-4 ml-1" />
               </button>
               {activeDropdown === 'depts' && (
@@ -130,7 +138,7 @@ const Header: React.FC = () => {
               E-CAP
             </a>
             <button
-              className="lg:hidden text-foreground"
+              className={`lg:hidden ${textColorClass}`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -181,5 +189,4 @@ const Header: React.FC = () => {
     </header>
   );
 };
-
 export default Header;
