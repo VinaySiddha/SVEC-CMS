@@ -10,7 +10,6 @@ const AdminLoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
   const router = useRouter();
   const auth = getAuth(app);
 
@@ -18,8 +17,6 @@ const AdminLoginPage: React.FC = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         router.push('/admin/dashboard');
-      } else {
-        setAuthLoading(false);
       }
     });
 
@@ -35,22 +32,29 @@ const AdminLoginPage: React.FC = () => {
       await signInWithEmailAndPassword(auth, email, password);
       // The onAuthStateChanged listener will handle the redirect
     } catch (err: any) {
-      setError(err.message);
+      let errorMessage = 'An unknown error occurred.';
+      if (err.code) {
+        switch (err.code) {
+          case 'auth/user-not-found':
+            errorMessage = 'No user found with this email.';
+            break;
+          case 'auth/wrong-password':
+            errorMessage = 'Incorrect password. Please try again.';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'The email address is not valid.';
+            break;
+          default:
+            errorMessage = 'Failed to login. Please check your credentials.';
+            break;
+        }
+      }
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  if (authLoading) {
-     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-primary"></div>
-          <p className="mt-4 text-muted-foreground">Initializing Admin Portal...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

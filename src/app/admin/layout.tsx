@@ -1,27 +1,33 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import { usePathname, useRouter } from 'next/navigation';
+import { getAuth, onAuthStateChanged, signOut, User } from 'firebase/auth';
 import { app } from '@/lib/firebase';
 import { LayoutDashboard, Newspaper, Users, Settings, LogOut } from 'lucide-react';
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const pathname = usePathname();
   const auth = getAuth(app);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push('/admin/login');
-      } else {
-        setLoading(false);
-      }
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
     });
 
     return () => unsubscribe();
-  }, [auth, router]);
+  }, [auth]);
+
+  useEffect(() => {
+    if (!loading && !user && pathname !== '/admin/login') {
+      router.push('/admin/login');
+    }
+  }, [user, loading, pathname, router]);
+
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -33,10 +39,23 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-primary"></div>
-          <p className="mt-4 text-muted-foreground">Verifying Admin Access...</p>
+          <p className="mt-4 text-muted-foreground">Initializing Admin Portal...</p>
         </div>
       </div>
     );
+  }
+
+  if (!user && pathname !== '/admin/login') {
+     return null; // Don't render layout if not logged in and not on login page
+  }
+
+  if (user && pathname === '/admin/login') {
+    router.push('/admin/dashboard');
+    return null; // Avoid rendering login page if user is already logged in
+  }
+  
+  if(pathname === '/admin/login') {
+    return <>{children}</>
   }
 
   return (
