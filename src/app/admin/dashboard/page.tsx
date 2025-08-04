@@ -1,3 +1,4 @@
+
 "use client";
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +8,7 @@ const AdminDashboardPage = () => {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
+        <h1 className="text-3xl font-bold">Dashboard</h1>
         <p className="text-muted-foreground">Welcome to the SVEC Admin Panel. Manage your website content here.</p>
       </div>
       

@@ -30,7 +30,9 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         if (userDoc.exists()) {
           setUserProfile(userDoc.data() as UserProfile);
         } else {
-          setUserProfile(null); 
+          // If no profile found, treat as unauthorized
+          setUserProfile(null);
+          // Optional: sign out if user record exists in Auth but not in Firestore
           await signOut(auth);
         }
       } else {
@@ -62,7 +64,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!user) {
-     return null;
+     return null; // or a redirect component
   }
   
   return (
