@@ -359,7 +359,7 @@ const CSEDSDepartment: React.FC = () => {
   }
 
   return (
-    <div className="pt-32">
+    <div className="pt-44">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
         <div className="container mx-auto px-4">
@@ -557,4 +557,3 @@ const CSEDSDepartment: React.FC = () => {
 };
 
 export default CSEDSDepartment;
-
