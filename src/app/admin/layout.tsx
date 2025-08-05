@@ -65,7 +65,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     });
 
     return () => unsubscribe();
-  }, [auth, router, pathname]);
+  }, [router, pathname]);
   
   if (pathname === '/admin/login') {
     return <>{children}</>;
