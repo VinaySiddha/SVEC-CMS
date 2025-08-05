@@ -77,9 +77,9 @@ const AIMLDepartment: React.FC = () => {
     switch (activeContent) {
       case 'Department Profile':
         return (
-          <div id="department-profile">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Department Profile</h2>
-             <div className="bg-white p-8 rounded-2xl shadow-lg">
+          <div id="department-profile" className="space-y-8">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                     <div className="relative">
                         <img 
@@ -89,15 +89,15 @@ const AIMLDepartment: React.FC = () => {
                         />
                     </div>
                     <div className="lg:col-span-2 space-y-4">
-                        <div className="mb-6">
+                        <div className="mb-4">
                           <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
                           <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of the Department</p>
-                          <p>Phone No: 08818-284355(O)-(Ext.-377)</p>
-                          <p>Fax No: 08818-284322</p>
-                          <p>Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-primary hover:underline">hod_aim@srivasaviengg.ac.in</a></p>
+                          <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
+                          <p className="text-gray-600">Fax No: 08818-284322</p>
+                          <p className="text-gray-600">Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-primary hover:underline">hod_aim@srivasaviengg.ac.in</a></p>
                         </div>
-                        <p className="text-gray-600 leading-relaxed">
-                          Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats.
+                        <p className="text-gray-700 leading-relaxed">
+                          The Department of Computer Science and Artificial Intelligence was established in 2021 with an initial intake of 60 students in the B.Tech program. The intake was increased to 120 seats in 2022.
                         </p>
                     </div>
                 </div>
@@ -106,132 +106,144 @@ const AIMLDepartment: React.FC = () => {
         );
       case 'Faculty Profiles':
         return (
-          <div id="faculty-profiles">
-             <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Profiles</h2>
-             <div className="overflow-x-auto bg-white p-4 rounded-lg shadow-lg mb-8">
-                 <table className="w-full text-sm text-left text-gray-500">
-                     <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                         <tr>
-                             <th scope="col" className="px-6 py-3">S.No.</th>
-                             <th scope="col" className="px-6 py-3">Name of the Faculty</th>
-                             <th scope="col" className="px-6 py-3">Qualification</th>
-                             <th scope="col" className="px-6 py-3">Designation</th>
-                             <th scope="col" className="px-6 py-3">Profile</th>
-                         </tr>
-                     </thead>
-                     <tbody>
-                         {faculty.map((member, index) => (
-                             <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                                 <td className="px-6 py-4">{index + 1}</td>
-                                 <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                                 <td className="px-6 py-4">{member.qualification}</td>
-                                 <td className="px-6 py-4">{member.designation}</td>
-                                 <td className="px-6 py-4">
-                                     <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View Profile</a>
-                                 </td>
-                             </tr>
-                         ))}
-                     </tbody>
-                 </table>
-             </div>
-             <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Non-Teaching Profiles</h2>
-             <div className="overflow-x-auto bg-white p-4 rounded-lg shadow-lg">
-                 <table className="w-full text-sm text-left text-gray-500">
-                     <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                         <tr>
-                             <th scope="col" className="px-6 py-3">S.No.</th>
-                             <th scope="col" className="px-6 py-3">Name</th>
-                             <th scope="col" className="px-6 py-3">Designation</th>
-                         </tr>
-                     </thead>
-                     <tbody>
-                         {nonTeachingFaculty.map((member, index) => (
-                             <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                                 <td className="px-6 py-4">{index + 1}</td>
-                                 <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                                 <td className="px-6 py-4">{member.designation}</td>
-                             </tr>
-                         ))}
-                     </tbody>
-                 </table>
-             </div>
+          <div id="faculty-profiles" className="space-y-8">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left text-gray-500">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">S.No.</th>
+                                <th scope="col" className="px-6 py-3">Name</th>
+                                <th scope="col" className="px-6 py-3">Qualification</th>
+                                <th scope="col" className="px-6 py-3">Designation</th>
+                                <th scope="col" className="px-6 py-3">Profile</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {faculty.map((member, index) => (
+                                <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                                    <td className="px-6 py-4">{index + 1}</td>
+                                    <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                                    <td className="px-6 py-4">{member.qualification}</td>
+                                    <td className="px-6 py-4">{member.designation}</td>
+                                    <td className="px-6 py-4">
+                                        <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View Profile</a>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Profiles</h2>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left text-gray-500">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">S.No.</th>
+                                <th scope="col" className="px-6 py-3">Name</th>
+                                <th scope="col" className="px-6 py-3">Designation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {nonTeachingFaculty.map((member, index) => (
+                                <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                                    <td className="px-6 py-4">{index + 1}</td>
+                                    <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                                    <td className="px-6 py-4">{member.designation}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
           </div>
         );
       case 'Board of Studies':
         return (
-          <div id="board-of-studies">
-             <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Board of Studies</h2>
-             <div className="overflow-x-auto bg-white p-4 rounded-lg shadow-lg">
-                 <table className="w-full text-sm text-left text-gray-500">
-                     <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                         <tr>
-                             <th scope="col" className="px-6 py-3">S.No</th>
-                             <th scope="col" className="px-6 py-3">Name of the BOS Member</th>
-                             <th scope="col" className="px-6 py-3">Designation</th>
-                             <th scope="col" className="px-6 py-3">Organization</th>
-                             <th scope="col" className="px-6 py-3">Position in JOB</th>
-                         </tr>
-                     </thead>
-                     <tbody>
-                         {boardOfStudies.map((member, index) => (
-                             <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                                 <td className="px-6 py-4">{index + 1}</td>
-                                 <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                                 <td className="px-6 py-4">{member.designation}</td>
-                                 <td className="px-6 py-4">{member.organization}</td>
-                                 <td className="px-6 py-4">{member.position}</td>
-                             </tr>
-                         ))}
-                     </tbody>
-                 </table>
-             </div>
-             <div className="bg-white p-4 rounded-lg shadow-lg mt-6">
-                <h4 className="font-bold text-[#B22222] mb-3 text-center">Board of Studies Meeting Minutes:</h4>
-                <ul className="list-disc list-inside space-y-2">
-                    <li>Minutes of 3rd meeting of the Board of Studies, dated 26.07.2023 <a href="http://srivasaviengg.ac.in/uploads/cai/Minutes%20of%203rd%20BOS_B.Tech%20in%20CAI%20and%20AI&ML.pdf" className="text-primary hover:underline">- View</a></li>
-                    <li>Minutes of 2nd meeting of the Board of Studies, dated 25.07.2022 <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%20Second%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2025.07.2022%20AI%20&%20ML.pdf" className="text-primary hover:underline">- View</a></li>
-                    <li>Minutes of 1st meeting of the Board of Studies, dated 31.12.2021 <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%20First%20BOS%20-%20CSE(AI)%20and%20AI%20&%20ML.pdf" className="text-primary hover:underline">- View</a></li>
+          <div id="board-of-studies" className="space-y-8">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left text-gray-500">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">S.No</th>
+                                <th scope="col" className="px-6 py-3">Name</th>
+                                <th scope="col" className="px-6 py-3">Designation</th>
+                                <th scope="col" className="px-6 py-3">Organization</th>
+                                <th scope="col" className="px-6 py-3">Position</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {boardOfStudies.map((member, index) => (
+                                <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                                    <td className="px-6 py-4">{index + 1}</td>
+                                    <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                                    <td className="px-6 py-4">{member.designation}</td>
+                                    <td className="px-6 py-4">{member.organization}</td>
+                                    <td className="px-6 py-4">{member.position}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                <h4 className="text-2xl font-bold text-[#B22222] mb-4 text-center">Board of Studies Meeting Minutes</h4>
+                <ul className="list-disc list-inside space-y-2 text-center">
+                    <li>Minutes of 3rd meeting of the Board of Studies, dated 26.07.2023 <a href="http://srivasaviengg.ac.in/uploads/cai/Minutes%20of%203rd%20BOS_B.Tech%20in%20CAI%20and%20AI&ML.pdf" className="text-primary hover:underline ml-2">View</a></li>
+                    <li>Minutes of 2nd meeting of the Board of Studies, dated 25.07.2022 <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%20Second%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2025.07.2022%20AI%20&%20ML.pdf" className="text-primary hover:underline ml-2">View</a></li>
+                    <li>Minutes of 1st meeting of the Board of Studies, dated 31.12.2021 <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%20First%20BOS%20-%20CSE(AI)%20and%20AI%20&%20ML.pdf" className="text-primary hover:underline ml-2">View</a></li>
                 </ul>
-             </div>
+            </div>
           </div>
         );
       case 'Physical Facilities':
         return (
-          <div id="physical-facilities">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Physical Facilities</h2>
-               <div className="bg-white p-6 rounded-xl shadow-lg">
-                    <h3 className="text-xl font-bold text-gray-800 mb-4">Class Rooms & Seminar Halls</h3>
-                    <ul className="list-disc list-inside space-y-2 mb-6">
-                        <li>Class Rooms with ICT Enabled Facilities - <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Classrooms.pdf" className="text-primary hover:underline">View</a></li>
-                        <li>Seminar halls with ICT Enabled Facilities - <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Seminar%20Halls.pdf" className="text-primary hover:underline">View</a></li>
-                    </ul>
-                    <h3 className="text-xl font-bold text-gray-800 mb-4">Laboratories</h3>
-                    <p className="text-gray-600 mb-4">The Department has 9 well-equipped labs for UG, PG, and research, with 674 systems. We have various servers and high-speed internet (200Mbps BSNL, 400Mbps Jio, 40Mbps Broadband).</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {labs.map((lab, index) => (
-                            <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                                <img src={lab.image} alt={lab.name} className="w-full h-48 object-cover rounded-md mb-4" />
-                                <h4 className="font-bold text-lg text-gray-800">{lab.name}</h4>
-                            </div>
-                        ))}
+          <div id="physical-facilities" className="space-y-8">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
+                <div className="space-y-4">
+                    <div>
+                        <h3 className="text-xl font-bold text-gray-800 mb-2">Class Rooms & Seminar Halls</h3>
+                        <ul className="list-disc list-inside space-y-1">
+                            <li>Class Rooms with ICT Enabled Facilities - <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Classrooms.pdf" className="text-primary hover:underline">View</a></li>
+                            <li>Seminar halls with ICT Enabled Facilities - <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Seminar%20Halls.pdf" className="text-primary hover:underline">View</a></li>
+                        </ul>
                     </div>
-               </div>
+                    <div>
+                        <h3 className="text-xl font-bold text-gray-800 mt-6 mb-2">Laboratories</h3>
+                        <p className="text-gray-700 mb-4">The Department has 9 well-equipped labs for UG, PG, and research, with 674 systems. We have various servers and high-speed internet (200Mbps BSNL, 400Mbps Jio, 40Mbps Broadband).</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {labs.map((lab, index) => (
+                                <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow text-center">
+                                    <img src={lab.image} alt={lab.name} className="w-full h-48 object-cover rounded-md mb-4" />
+                                    <h4 className="font-bold text-lg text-gray-800">{lab.name}</h4>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
           </div>
         );
       case 'Syllabus':
         return (
-            <div id="syllabus">
-                <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Syllabus</h2>
-                <div className="bg-white p-6 rounded-xl shadow-lg">
-                    <ul className="list-disc list-inside space-y-2">
-                        <li>B.Tech - V20 Syllabus - <a href="http://srivasaviengg.ac.in/uploads/syllabus/V20%20AI%20and%20AI&ML%20CS%20&%20Syllabus_%20I%20&%20II%20SEM.pdf" className="text-primary hover:underline">View</a></li>
-                        <li>SOC Syllabus during the Academic Year 2022-23 - <a href="http://srivasaviengg.ac.in/uploads/aiml/SOC_AIM_2022-23.pdf" className="text-primary hover:underline">View</a></li>
+            <div id="syllabus" className="space-y-8">
+                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                    <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
+                    <ul className="list-disc list-inside space-y-2 text-center">
+                        <li>B.Tech - V20 Syllabus - <a href="http://srivasaviengg.ac.in/uploads/syllabus/V20%20AI%20and%20AI&ML%20CS%20&%20Syllabus_%20I%20&%20II%20SEM.pdf" className="text-primary hover:underline ml-2">View</a></li>
+                        <li>SOC Syllabus during the Academic Year 2022-23 - <a href="http://srivasaviengg.ac.in/uploads/aiml/SOC_AIM_2022-23.pdf" className="text-primary hover:underline ml-2">View</a></li>
                     </ul>
                 </div>
             </div>
         );
       default:
-        return <p>Content for {activeContent} will be updated soon.</p>;
+        return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} will be updated soon.</h3></div>;
     }
   };
 
@@ -242,18 +254,18 @@ const AIMLDepartment: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="flex items-center mb-6">
-                <Brain className="w-16 h-16 text-[#FFF8F0] mr-4" />
+                <Brain className="w-16 h-16 text-white mr-4" />
                 <div>
                   <h1 className="text-4xl md:text-5xl font-bold">Artificial Intelligence</h1>
                   <p className="text-xl text-gray-200">& Machine Learning</p>
                 </div>
               </div>
-              <p className="text-xl leading-relaxed mb-8">
+              <p className="text-xl leading-relaxed">
                 Pioneering the future of intelligence with advanced AI research, machine learning innovation, 
                 and intelligent system development.
               </p>
             </div>
-            <div>
+            <div className="hidden lg:block">
               <img 
                 src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600" 
                 alt="AIML Department"
@@ -265,52 +277,33 @@ const AIMLDepartment: React.FC = () => {
         </div>
       </section>
 
-      <div className="flex">
-        <aside className={`fixed top-0 left-0 z-40 w-72 h-screen pt-44 transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:sticky lg:top-44`}>
-           <div className="h-full px-3 pb-4 overflow-y-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-                <div className="flex items-center justify-between mb-6 flex-shrink-0 p-3">
-                    <h3 className="text-xl font-bold text-center flex-1 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Department Details</h3>
-                    <button
-                        onClick={() => setSidebarOpen(false)}
-                        className="p-2 hover:bg-white/10 rounded-lg transition-colors duration-200 flex-shrink-0 lg:hidden"
-                    >
-                        <ChevronRight className="w-4 h-4 rotate-180" />
-                    </button>
-                </div>
-                <ul className="space-y-2 font-medium">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <aside className="w-full lg:w-72 lg:flex-shrink-0">
+             <div className="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-2xl p-6 sticky top-44">
+                <h3 className="text-xl font-bold mb-4 text-center">Department Menu</h3>
+                <ul className="space-y-2">
                     {sidebarItems.map((item) => (
                     <li key={item}>
                         <button
-                        className={`w-full text-left flex items-center p-2 rounded-lg hover:bg-white/10 group transition-all duration-300 ${activeContent === item ? 'bg-gradient-to-r from-[#B22222]/80 to-[#0097A7]/80' : 'bg-white/5'}`}
-                        onClick={() => {
-                            setActiveContent(item);
-                            setSidebarOpen(false);
-                        }}
+                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 ${activeContent === item ? 'bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white font-semibold' : 'hover:bg-white/10'}`}
+                        onClick={() => setActiveContent(item)}
                         >
-                        <span className="ms-3">{item}</span>
+                        <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
+                        <span>{item}</span>
                         </button>
                     </li>
                     ))}
                 </ul>
-           </div>
-        </aside>
+             </div>
+          </aside>
 
-        <main className="flex-1 lg:ml-72">
-            <div className="container mx-auto px-4 py-8">
-                <button 
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
-                    aria-controls="sidebar"
-                    type="button" 
-                    className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                >
-                    <span className="sr-only">Open sidebar</span>
-                    <Menu className="w-6 h-6" />
-                </button>
-                <div className="p-4">
-                  {renderContent()}
-                </div>
-            </div>
-        </main>
+          <main className="flex-1">
+              <div className="p-1 md:p-4">
+                {renderContent()}
+              </div>
+          </main>
+        </div>
       </div>
     </div>
   );
