@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Database, BookOpen, Award, ExternalLink, Menu, ChevronRight } from 'lucide-react';
 
 const CSEDSDepartment: React.FC = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
 
   const navItems = [
@@ -73,67 +74,60 @@ const CSEDSDepartment: React.FC = () => {
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center animate-fade-in"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }
-  }
+  };
 
   return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="flex items-center mb-6">
-                <Database className="w-16 h-16 text-white mr-4" />
-                <div>
-                  <h1 className="text-4xl md:text-5xl font-bold">Computer Science</h1>
-                  <p className="text-xl text-gray-200">& Engineering (DS)</p>
-                </div>
-              </div>
-              <p className="text-xl leading-relaxed">
-                Transforming data into insights with advanced analytics, machine learning, and big data technologies.
-              </p>
+    <div className="pt-32 lg:pt-44 bg-gray-100">
+      <div className="container mx-auto">
+        {/* Mobile Header */}
+        <div className="lg:hidden fixed top-20 left-0 right-0 bg-white shadow-md z-40">
+          <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div className="flex items-center space-x-2">
+              <Database className="w-6 h-6 text-primary" />
+              <span className="font-bold text-lg text-primary">CSE (DS) Department</span>
             </div>
-            <div className="hidden lg:block">
-              <img 
-                src="https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=600" 
-                alt="CSE DS Department"
-                className="rounded-2xl shadow-2xl"
-                data-ai-hint="data charts"
-              />
-            </div>
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-gray-600">
+              <Menu className="w-6 h-6" />
+            </button>
           </div>
         </div>
-      </section>
 
-      <nav className="bg-white shadow-md sticky top-20 z-40">
-        <div className="container mx-auto">
-          <div className="hidden lg:flex justify-center">
-            {navItems.map((item) => (
-              <button
-                key={item}
-                onClick={() => setActiveContent(item)}
-                className={`px-6 py-4 text-sm font-medium transition-all duration-300 ${activeContent === item ? 'text-primary border-b-2 border-primary' : 'text-gray-600 hover:text-primary'}`}
-              >
-                {item}
+        {/* Sidebar Overlay for Mobile */}
+        {sidebarOpen && (
+          <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setSidebarOpen(false)}></div>
+        )}
+
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar */}
+          <aside className={`fixed top-0 left-0 h-full w-72 bg-gray-800 text-white p-6 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-50 lg:relative lg:translate-x-0 lg:h-auto lg:rounded-2xl lg:shadow-lg lg:sticky lg:top-28`}>
+            <div className="flex justify-between items-center lg:justify-center mb-6">
+              <h3 className="text-xl font-bold text-center text-white">Department Menu</h3>
+              <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-white">
+                <Menu className="w-6 h-6" />
               </button>
-            ))}
-          </div>
-          <div className="lg:hidden px-4 py-2">
-            <select
-              value={activeContent}
-              onChange={(e) => setActiveContent(e.target.value)}
-              className="w-full p-2 border rounded-md"
-            >
+            </div>
+            <ul className="space-y-1">
               {navItems.map((item) => (
-                <option key={item} value={item}>{item}</option>
+                <li key={item}>
+                  <button
+                    className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm font-medium ${activeContent === item ? 'bg-primary text-white shadow-md' : 'hover:bg-gray-700'}`}
+                    onClick={() => {
+                      setActiveContent(item);
+                      if (window.innerWidth < 1024) setSidebarOpen(false);
+                    }}
+                  >
+                    <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
+                    <span>{item}</span>
+                  </button>
+                </li>
               ))}
-            </select>
-          </div>
-        </div>
-      </nav>
+            </ul>
+          </aside>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white p-1 md:p-4 rounded-2xl shadow-lg">
-          {renderContent()}
+          {/* Main Content */}
+          <main className="flex-1 min-w-0 lg:pt-0">
+            {renderContent()}
+          </main>
         </div>
       </div>
     </div>
