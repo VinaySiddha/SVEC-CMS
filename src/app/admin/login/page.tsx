@@ -17,7 +17,6 @@ const AdminLoginPageContent: React.FC = () => {
   const auth = getAuth(app);
 
   useEffect(() => {
-    // Display error from URL if present (e.g., from layout redirect)
     const urlError = searchParams.get('error');
     if (urlError) {
       setError(decodeURIComponent(urlError));
@@ -42,7 +41,6 @@ const AdminLoginPageContent: React.FC = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // onAuthStateChanged will handle the redirect
     } catch (err: any) {
       let errorMessage = 'An unknown error occurred.';
       if (err.code) {
@@ -56,18 +54,16 @@ const AdminLoginPageContent: React.FC = () => {
             errorMessage = 'The email address is not valid.';
             break;
           case 'auth/operation-not-allowed':
-             errorMessage =
-              'Email/Password sign-in is not enabled. Please enable it in the Firebase console: Authentication > Sign-in method > Email/Password.';
+             errorMessage = 'Email/Password sign-in is not enabled. Please enable it in the Firebase console: Authentication > Sign-in method > Email/Password.';
             break;
           case 'auth/configuration-not-found':
-             errorMessage =
-              'Firebase configuration error. Please ensure your app\'s domain is listed as an "Authorized domain" in the Firebase console: Authentication > Settings > Authorized domains.';
+             errorMessage = 'Firebase configuration error. Please ensure your app\'s domain is listed as an "Authorized domain" in the Firebase console: Authentication > Settings > Authorized domains.';
             break;
           default:
             errorMessage = `Failed to login: ${err.message}`;
             break;
         }
-      } else if (err.message && err.message.includes('Fetch failed')) {
+      } else if (err.message && (err.message.includes('Fetch failed') || err.message.includes('net::ERR_ABORTED'))) {
           errorMessage = 'Network error: Could not connect to Firebase services. Please check your internet connection and ensure that the Firestore API is enabled in your Google Cloud project and that your API key has the necessary permissions.';
       }
       setError(errorMessage);

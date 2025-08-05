@@ -31,31 +31,27 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
           
           if (userDoc.exists()) {
             const profile = userDoc.data() as UserProfile;
-            // Basic validation for the role
             if (profile.role === 'superadmin' || profile.role === 'department_admin') {
               setUserProfile(profile);
             } else {
-              // Invalid role, treat as an error
               throw new Error('Invalid user role.');
             }
           } else {
-            // No user profile found in Firestore
             throw new Error('User profile not found.');
           }
         } else {
           setUser(null);
           setUserProfile(null);
-          // Only redirect if not already on the login page
           if (pathname !== '/admin/login') {
             router.push('/admin/login');
           }
         }
       } catch (error) {
         console.error("Error during authentication check:", error);
-        await signOut(auth); // Ensure user is logged out on error
+        await signOut(auth);
         setUser(null);
         setUserProfile(null);
-        const errorMessage = (error as Error).message || "An error occurred during login.";
+        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred during login.";
         router.push(`/admin/login?error=${encodeURIComponent(errorMessage)}`);
       } finally {
         setLoading(false);
@@ -65,12 +61,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     return () => unsubscribe();
   }, [auth, router, pathname]);
   
-  // If we are on the login page, just render the children
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
 
-  // Show a loading screen while we verify the user
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -82,8 +76,6 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  // If after loading there is no user, they should have been redirected.
-  // This prevents rendering the layout for a moment before the redirect happens.
   if (!user) {
      return null;
   }
@@ -125,7 +117,6 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
           <button
             onClick={async () => {
               await signOut(auth);
-              // The onAuthStateChanged listener will handle the redirect
             }}
             className="w-full flex items-center px-4 py-2.5 text-sm rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition-colors"
           >
