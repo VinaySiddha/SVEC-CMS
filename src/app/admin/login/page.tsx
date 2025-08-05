@@ -1,19 +1,28 @@
 
 "use client";
-import React, { useState, useEffect } from 'react';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, User } from 'firebase/auth';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, Suspense } from 'react';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { app } from '@/lib/firebase';
 import { AlertTriangle, LogIn } from 'lucide-react';
 
-const AdminLoginPage: React.FC = () => {
+const AdminLoginPageContent: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const auth = getAuth(app);
+
+  useEffect(() => {
+    // Display error from URL if present (e.g., from layout redirect)
+    const urlError = searchParams.get('error');
+    if (urlError) {
+      setError(decodeURIComponent(urlError));
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -152,5 +161,11 @@ const AdminLoginPage: React.FC = () => {
     </div>
   );
 };
+
+const AdminLoginPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <AdminLoginPageContent />
+  </Suspense>
+);
 
 export default AdminLoginPage;
