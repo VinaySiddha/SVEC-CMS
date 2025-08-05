@@ -3,10 +3,9 @@ import React, { useState } from 'react';
 import { Database, BookOpen, Award, ExternalLink, Menu, ChevronRight } from 'lucide-react';
 
 const CSEDSDepartment: React.FC = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
 
-  const sidebarItems = [
+  const navItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Placements', 'Student Achievements'
   ];
 
@@ -21,7 +20,7 @@ const CSEDSDepartment: React.FC = () => {
     switch (activeContent) {
       case 'Department Profile':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
               <div className="relative">
@@ -48,7 +47,7 @@ const CSEDSDepartment: React.FC = () => {
 
       case 'Faculty Profiles':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Our Faculty</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {faculty.map((member, index) => (
@@ -72,12 +71,12 @@ const CSEDSDepartment: React.FC = () => {
           </div>
         );
       default:
-        return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
+        return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center animate-fade-in"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }
   }
 
   return (
-    <div className="pt-44 bg-gray-50">
+    <div className="pt-24 bg-gray-100">
       <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -105,32 +104,36 @@ const CSEDSDepartment: React.FC = () => {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          <aside className="w-full lg:w-72 lg:flex-shrink-0">
-              <div className="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-2xl p-6 sticky top-44">
-                  <h3 className="text-xl font-bold mb-4 text-center">Department Menu</h3>
-                  <ul className="space-y-2">
-                      {sidebarItems.map((item) => (
-                      <li key={item}>
-                          <button
-                          className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 ${activeContent === item ? 'bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white font-semibold' : 'hover:bg-white/10'}`}
-                          onClick={() => setActiveContent(item)}
-                          >
-                          <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
-                          <span>{item}</span>
-                          </button>
-                      </li>
-                      ))}
-                  </ul>
-              </div>
-          </aside>
+      <nav className="bg-white shadow-md sticky top-20 z-40">
+        <div className="container mx-auto">
+          <div className="hidden lg:flex justify-center">
+            {navItems.map((item) => (
+              <button
+                key={item}
+                onClick={() => setActiveContent(item)}
+                className={`px-6 py-4 text-sm font-medium transition-all duration-300 ${activeContent === item ? 'text-primary border-b-2 border-primary' : 'text-gray-600 hover:text-primary'}`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          <div className="lg:hidden px-4 py-2">
+            <select
+              value={activeContent}
+              onChange={(e) => setActiveContent(e.target.value)}
+              className="w-full p-2 border rounded-md"
+            >
+              {navItems.map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </nav>
 
-          <main className="flex-1">
-              <div className="p-1 md:p-4">
-                {renderContent()}
-              </div>
-          </main>
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white p-1 md:p-4 rounded-2xl shadow-lg">
+          {renderContent()}
         </div>
       </div>
     </div>
