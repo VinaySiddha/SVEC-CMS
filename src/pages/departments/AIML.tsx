@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Brain, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText } from 'lucide-react';
+import { Brain, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Building, Library, Link as LinkIcon, Activity, Trophy, Newspaper, Handshake, Calendar, GraduationCap, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Scroll } from 'lucide-react';
 
 const AIMLDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -11,10 +11,19 @@ const AIMLDepartment: React.FC = () => {
     'Faculty Profiles',
     'Board of Studies',
     'Physical Facilities',
+    'MoUs',
+    'Faculty Development Programs',
+    'Faculty Achievements',
+    'Workshops',
     'Placements',
     'Student Achievements',
+    'Academic Toppers',
     'Technical Association',
+    'Extra-Curricular Activities',
+    'Hackathons',
     'Syllabus',
+    'Handbooks',
+    'Contact',
   ];
   
   const faculty = [
@@ -248,57 +257,44 @@ const AIMLDepartment: React.FC = () => {
   };
 
  return (
-    <div className="pt-32 lg:pt-44 bg-gray-100">
+    <div className="pt-24 bg-gray-100">
       <div className="container mx-auto">
-        {/* Mobile Header */}
-        <div className="lg:hidden fixed top-20 left-0 right-0 bg-white shadow-md z-40">
-          <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div className="flex items-center space-x-2">
-              <Brain className="w-6 h-6 text-primary" />
-              <span className="font-bold text-lg text-primary">AIML Department</span>
-            </div>
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-gray-600">
-              <Menu className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
-
-        {/* Sidebar Overlay for Mobile */}
-        {sidebarOpen && (
-          <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setSidebarOpen(false)}></div>
-        )}
-
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar */}
-          <aside className={`fixed top-0 left-0 h-full w-72 bg-gray-800 text-white p-6 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-50 lg:relative lg:translate-x-0 lg:h-auto lg:rounded-2xl lg:shadow-lg lg:sticky lg:top-28`}>
-            <div className="flex justify-between items-center lg:justify-center mb-6">
-              <h3 className="text-xl font-bold text-center text-white">Department Menu</h3>
-              <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-white">
+        <div className="lg:hidden p-4">
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="bg-primary text-white p-2 rounded-md">
                 <Menu className="w-6 h-6" />
+            </button>
+        </div>
+        <div className="flex flex-col lg:flex-row gap-8 p-4">
+            <aside className={`fixed lg:relative lg:translate-x-0 top-0 left-0 h-full lg:h-auto w-72 bg-white text-gray-800 p-6 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-50 lg:z-auto lg:rounded-2xl lg:shadow-lg lg:sticky lg:top-28`}>
+            <div className="flex justify-between items-center lg:justify-center">
+              <h3 className="text-xl font-bold text-center text-primary">Department Menu</h3>
+              <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-gray-600">
+                  <Menu className="w-6 h-6" />
               </button>
             </div>
-            <ul className="space-y-2">
-              {navItems.map((item) => (
+            <ul className="space-y-2 mt-6">
+                {navItems.map((item) => (
                 <li key={item}>
-                  <button
-                    className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm font-medium ${activeContent === item ? 'bg-primary text-white shadow-md' : 'hover:bg-gray-700'}`}
+                    <button
+                    className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm font-medium ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
                     onClick={() => {
-                      setActiveContent(item);
-                      if (window.innerWidth < 1024) setSidebarOpen(false);
+                        setActiveContent(item);
+                        if(sidebarOpen) setSidebarOpen(false);
                     }}
-                  >
+                    >
                     <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
                     <span>{item}</span>
-                  </button>
+                    </button>
                 </li>
-              ))}
+                ))}
             </ul>
-          </aside>
+            </aside>
 
-          {/* Main Content */}
-          <main className="flex-1 min-w-0 lg:pt-0">
-            {renderContent()}
-          </main>
+            <main className="flex-1 min-w-0">
+                <div className="bg-transparent p-1 md:p-4 rounded-2xl">
+                  {renderContent()}
+                </div>
+            </main>
         </div>
       </div>
     </div>
@@ -306,3 +302,5 @@ const AIMLDepartment: React.FC = () => {
 };
 
 export default AIMLDepartment;
+
+    
