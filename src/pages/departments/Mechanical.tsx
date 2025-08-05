@@ -9,7 +9,7 @@ const MechanicalDepartment: React.FC = () => {
   const sidebarItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Laboratories', 'Department Library', 'MoUs', 'Faculty T&L methods', 'Faculty Achievements', 'Student Achievements', 'Placements', 'Workshops', 'Technical Association', 'Project Research', 'Newsletters', 'Magazines', 'Extra-Curricular Activities', 'Green Initiative', 'Product Development', 'Syllabus', 'Handbooks', 'Contact'
   ];
-  
+
   const faculty = [
     { name: "Dr.G.V.N.S.R.Ratnakara Rao", qualification: "M.E.,Ph.D", designation: "Professor & Principal", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Dr.%20G.V.N.S.R.%20Ratnakara%20RaoDr.Ratnakar_Ph.D%20profile.pdf" },
     { name: "Dr.M.V.Ramesh", qualification: "M.Tech.,Ph.D", designation: "Professor & HOD", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Mr.Dr.M.V.RameshResume%20OCT%202017.pdf" },
@@ -58,8 +58,8 @@ const MechanicalDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
               <div className="relative">
-                <img 
-                  src="/images/departments/me/mechhod.jpg" 
+                <img
+                  src="/images/departments/me/mechhod.jpg"
                   alt="Dr. M. V. Ramesh"
                   className="w-full h-80 object-cover rounded-lg shadow-md"
                   data-ai-hint="male professor"
@@ -140,34 +140,16 @@ const MechanicalDepartment: React.FC = () => {
 
   return (
     <div className="pt-24 bg-gray-100">
-      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
+      <section className="bg-[#8B1919] text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="flex items-center mb-6">
-                <Cog className="w-16 h-16 text-white mr-4" />
-                <div>
-                  <h1 className="text-4xl md:text-5xl font-bold">Mechanical Engineering</h1>
-                </div>
-              </div>
-              <p className="text-xl leading-relaxed">
-                Engineering the future with innovative mechanical systems, advanced manufacturing, and sustainable design solutions.
-              </p>
-            </div>
-            <div className="hidden lg:block">
-              <img 
-                src="https://images.pexels.com/photos/159298/gears-cogs-machine-machinery-159298.jpeg?auto=compress&cs=tinysrgb&w=600" 
-                alt="Mechanical Department"
-                className="rounded-2xl shadow-2xl"
-                data-ai-hint="gears machine"
-              />
-            </div>
+          <div className="text-center">
+            <h1 className="text-3xl md:text-4xl font-bold">Mechanical Engineering</h1>
           </div>
         </div>
       </section>
-      
+
       <div className="flex flex-col lg:flex-row gap-8 container mx-auto p-4">
-        <aside className="w-full lg:w-80 flex-shrink-0">
+        <aside className="w-full lg:w-80 lg:flex-shrink-0">
           <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
             <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
               <span className="font-bold">Department Menu</span>
@@ -175,7 +157,7 @@ const MechanicalDepartment: React.FC = () => {
             </button>
             <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
               <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
-              <ul className="space-y-1">
+              <ul className="space-y-2">
                 {sidebarItems.map((item) => (
                   <li key={item}>
                     <button

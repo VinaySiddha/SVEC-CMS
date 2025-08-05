@@ -54,7 +54,7 @@ const EEEDepartment: React.FC = () => {
     { name: "Mr. J.Venkateswara Rao", designation: "Attender" },
     { name: "Mrs. M.Satya Devi", designation: "Attender" },
   ];
-  
+
   const renderContent = () => {
     switch (activeContent) {
       case 'Department Profile':
@@ -63,8 +63,8 @@ const EEEDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
               <div className="relative">
-                <img 
-                  src="/images/departments/eee/eeehod.jpg" 
+                <img
+                  src="/images/departments/eee/eeehod.jpg"
                   alt="Dr. D. Sudha Rani"
                   className="w-full h-80 object-cover rounded-lg shadow-md"
                   data-ai-hint="female professor"
@@ -89,56 +89,56 @@ const EEEDepartment: React.FC = () => {
         return (
           <div className="space-y-8">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Teaching Faculty</h2>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left text-gray-500">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th scope="col" className="px-6 py-3">S.No.</th>
-                                <th scope="col" className="px-6 py-3">Name</th>
-                                <th scope="col" className="px-6 py-3">Qualification</th>
-                                <th scope="col" className="px-6 py-3">Designation</th>
-                                <th scope="col" className="px-6 py-3">Profile</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {faculty.map((member, index) => (
-                                <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                                    <td className="px-6 py-4">{index + 1}</td>
-                                    <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                                    <td className="px-6 py-4">{member.qualification}</td>
-                                    <td className="px-6 py-4">{member.designation}</td>
-                                    <td className="px-6 py-4">
-                                        <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View</a>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Teaching Faculty</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-gray-500">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">S.No.</th>
+                      <th scope="col" className="px-6 py-3">Name</th>
+                      <th scope="col" className="px-6 py-3">Qualification</th>
+                      <th scope="col" className="px-6 py-3">Designation</th>
+                      <th scope="col" className="px-6 py-3">Profile</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {faculty.map((member, index) => (
+                      <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                        <td className="px-6 py-4">{index + 1}</td>
+                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                        <td className="px-6 py-4">{member.qualification}</td>
+                        <td className="px-6 py-4">{member.designation}</td>
+                        <td className="px-6 py-4">
+                          <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View</a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Staff</h2>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left text-gray-500">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th scope="col" className="px-6 py-3">S.No.</th>
-                                <th scope="col" className="px-6 py-3">Name</th>
-                                <th scope="col" className="px-6 py-3">Designation</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {nonTeachingFaculty.map((member, index) => (
-                                <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                                    <td className="px-6 py-4">{index + 1}</td>
-                                    <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                                    <td className="px-6 py-4">{member.designation}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Staff</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-gray-500">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">S.No.</th>
+                      <th scope="col" className="px-6 py-3">Name</th>
+                      <th scope="col" className="px-6 py-3">Designation</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {nonTeachingFaculty.map((member, index) => (
+                      <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                        <td className="px-6 py-4">{index + 1}</td>
+                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                        <td className="px-6 py-4">{member.designation}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         );
@@ -150,63 +150,46 @@ const EEEDepartment: React.FC = () => {
 
   return (
     <div className="pt-24 bg-gray-100">
-      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
+      <section className="bg-[#8B1919] text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="flex items-center mb-6">
-                <Zap className="w-16 h-16 text-white mr-4" />
-                <div>
-                  <h1 className="text-4xl md:text-5xl font-bold">Electrical &</h1>
-                  <p className="text-xl text-gray-200">Electronics Engineering</p>
-                </div>
-              </div>
-              <p className="text-xl leading-relaxed">
-                Powering the future with innovative electrical systems, renewable energy solutions, and cutting-edge electronics.
-              </p>
-            </div>
-            <div className="hidden lg:block">
-              <img 
-                src="https://images.pexels.com/photos/163726/belgium-antwerp-port-shipping-163726.jpeg?auto=compress&cs=tinysrgb&w=600" 
-                alt="EEE Department"
-                className="rounded-2xl shadow-2xl"
-                data-ai-hint="power lines"
-              />
-            </div>
+          <div className="text-center">
+            <h1 className="text-3xl md:text-4xl font-bold">Electrical & Electronics Engineering</h1>
           </div>
         </div>
       </section>
-      <div className="flex flex-col lg:flex-row gap-8 container mx-auto p-4">
-          <aside className="w-full lg:w-80 flex-shrink-0">
-              <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
-                  <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
-                      <span className="font-bold">Department Menu</span>
-                      <Menu className="w-6 h-6" />
-                  </button>
-                  <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
-                      <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
-                      <ul className="space-y-1">
-                          {sidebarItems.map((item) => (
-                              <li key={item}>
-                                  <button
-                                      className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
-                                      onClick={() => {
-                                          setActiveContent(item);
-                                          setSidebarOpen(false);
-                                      }}
-                                  >
-                                      <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
-                                      <span>{item}</span>
-                                  </button>
-                              </li>
-                          ))}
-                      </ul>
-                  </nav>
-              </div>
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <aside className="w-full lg:w-80 lg:flex-shrink-0">
+            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
+              <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
+                <span className="font-bold">Department Menu</span>
+                <Menu className="w-6 h-6" />
+              </button>
+              <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
+                <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
+                <ul className="space-y-2">
+                  {sidebarItems.map((item) => (
+                    <li key={item}>
+                      <button
+                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
+                        onClick={() => {
+                          setActiveContent(item);
+                          setSidebarOpen(false);
+                        }}
+                      >
+                        <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
+                        <span>{item}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
           </aside>
           <main className="flex-1 min-w-0">
-              {renderContent()}
+            {renderContent()}
           </main>
+        </div>
       </div>
     </div>
   );

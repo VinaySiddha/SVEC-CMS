@@ -4,6 +4,7 @@ import { Database, BookOpen, Award, ExternalLink, Menu, ChevronRight } from 'luc
 
 const CSEDSDepartment: React.FC = () => {
   const [activeContent, setActiveContent] = useState('Department Profile');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Placements', 'Student Achievements'
@@ -24,8 +25,8 @@ const CSEDSDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
               <div className="relative">
-                <img 
-                  src="https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=300" 
+                <img
+                  src="https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=300"
                   alt="Dr. Rahul Sharma"
                   className="w-full h-80 object-cover rounded-lg shadow-md"
                   data-ai-hint="male professor"
@@ -53,8 +54,8 @@ const CSEDSDepartment: React.FC = () => {
               {faculty.map((member, index) => (
                 <div key={index} className="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-lg transition-all group">
                   <div className="flex flex-col sm:flex-row items-center gap-6">
-                    <img 
-                      src={member.image} 
+                    <img
+                      src={member.image}
                       alt={member.name}
                       className="w-32 h-32 rounded-full object-cover border-4 border-[#B22222]"
                       data-ai-hint="professional portrait"
@@ -77,63 +78,46 @@ const CSEDSDepartment: React.FC = () => {
 
   return (
     <div className="pt-24 bg-gray-100">
-      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
+      <section className="bg-[#8B1919] text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="flex items-center mb-6">
-                <Database className="w-16 h-16 text-white mr-4" />
-                <div>
-                  <h1 className="text-4xl md:text-5xl font-bold">Computer Science</h1>
-                  <p className="text-xl text-gray-200">& Engineering (DS)</p>
-                </div>
-              </div>
-              <p className="text-xl leading-relaxed">
-                Transforming data into insights with advanced analytics, machine learning, and big data technologies.
-              </p>
-            </div>
-            <div className="hidden lg:block">
-              <img 
-                src="https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=600" 
-                alt="CSE DS Department"
-                className="rounded-2xl shadow-2xl"
-                data-ai-hint="data charts"
-              />
-            </div>
+          <div className="text-center">
+            <h1 className="text-3xl md:text-4xl font-bold">CSE - Data Science</h1>
           </div>
         </div>
       </section>
 
-      <nav className="bg-white shadow-md sticky top-20 z-40">
-        <div className="container mx-auto">
-          <div className="hidden lg:flex justify-center">
-            {navItems.map((item) => (
-              <button
-                key={item}
-                onClick={() => setActiveContent(item)}
-                className={`px-6 py-4 text-sm font-medium transition-all duration-300 ${activeContent === item ? 'text-primary border-b-2 border-primary' : 'text-gray-600 hover:text-primary'}`}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-          <div className="lg:hidden px-4 py-2">
-            <select
-              value={activeContent}
-              onChange={(e) => setActiveContent(e.target.value)}
-              className="w-full p-2 border rounded-md"
-            >
-              {navItems.map((item) => (
-                <option key={item} value={item}>{item}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </nav>
-
       <div className="container mx-auto px-4 py-8">
-        <div className="bg-white p-1 md:p-4 rounded-2xl shadow-lg">
-          {renderContent()}
+        <div className="flex flex-col lg:flex-row gap-8">
+          <aside className="w-full lg:w-80 lg:flex-shrink-0">
+            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
+              <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
+                <span className="font-bold">Department Menu</span>
+                <Menu className="w-6 h-6" />
+              </button>
+              <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
+                <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
+                <ul className="space-y-2">
+                  {navItems.map((item) => (
+                    <li key={item}>
+                      <button
+                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
+                        onClick={() => {
+                          setActiveContent(item);
+                          setSidebarOpen(false);
+                        }}
+                      >
+                        <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
+                        <span>{item}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
+          </aside>
+          <main className="flex-1 min-w-0">
+            {renderContent()}
+          </main>
         </div>
       </div>
     </div>

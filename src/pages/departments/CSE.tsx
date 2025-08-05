@@ -9,7 +9,7 @@ const CSEDepartment: React.FC = () => {
   const sidebarItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Physical Facilities', 'Department Library', 'MoUs', 'Faculty Development Programs', 'Faculty Achievements', 'Workshops', 'Student Achievements', 'Placements', 'Merit Scholarship/Academic Toppers', 'Technical Association', 'Training Activities', 'Newsletters', 'Extra-Curricular Activities', 'Hackathons', 'e-Resources', 'Handbooks', 'Contact'
   ];
-  
+
   const faculty = [
     { name: "Dr. D.Jaya Kumari", qualification: "M.Tech.,Ph.D", designation: "Professor & HOD", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Dr%20D.Jaya%20Kumari-Web%20Profile.pdf" },
     { name: "Dr. V.Venkateswara Rao", qualification: "M.Tech.,Ph.D", designation: "Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Dr.%20Venkateswara%20Rao%20Web%20Profile.pdf" },
@@ -97,6 +97,113 @@ const CSEDepartment: React.FC = () => {
   ];
 
 
+  const renderDeptTabContent = () => {
+    switch (activeDeptTab) {
+      case 'Department':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              The Department of Computer Science & Engineering was established in 2001. The department offers undergraduate program in Computer Science & Engineering with an intake of 180 students and has grown into one of the most sought-after destinations for quality education in this region. The department has state-of-the-art infrastructure and computing equipment supported by high-speed internet facility.
+            </p>
+          </div>
+        );
+      case 'Vision':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
+            <p className="text-gray-700 leading-relaxed">
+              To evolve into a center of excellence in Computer Science & Engineering education and research, producing professionally competent and socially responsible engineers.
+            </p>
+          </div>
+        );
+      case 'Mission':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>To impart quality education through effective teaching-learning processes.</li>
+              <li>To provide excellent infrastructure and environment conducive for research.</li>
+              <li>To enhance industry-institute interaction to make students industry-ready.</li>
+              <li>To develop entrepreneurship skills and ethical values among students.</li>
+            </ul>
+          </div>
+        );
+      case 'PEOs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Educational Objectives (PEOs)</h3>
+            <p className="text-gray-700 mb-4">The graduates will:</p>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Excel in professional career and/or higher education by acquiring knowledge in mathematics, science and computer science & engineering principles.</li>
+              <li>Analyze real-life problems and design socially responsible and environmentally sustainable computer-based solutions.</li>
+              <li>Adapt to evolving technologies through continuous learning.</li>
+              <li>Lead a successful career as a team member or as a team leader with strong professional ethics and communication skills.</li>
+            </ul>
+          </div>
+        );
+      case 'POs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Outcomes (POs)</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li><strong>Engineering Knowledge:</strong> Apply knowledge of mathematics, science, engineering fundamentals, and computer science & engineering principles to solve complex engineering problems.</li>
+              <li><strong>Problem Analysis:</strong> Identify, formulate, research literature, and analyze complex engineering problems to arrive at substantiated conclusions using principles of mathematics, natural sciences, and engineering sciences.</li>
+              <li><strong>Design/Development of Solutions:</strong> Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for public health and safety, and cultural, societal, and environmental considerations.</li>
+              <li><strong>Modern Tool Usage:</strong> Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools for complex engineering activities with an understanding of the limitations.</li>
+            </ul>
+          </div>
+        );
+      case 'PSOs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Specific Outcomes (PSOs)</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Apply standard practices and strategies in software development using open-ended programming environments to deliver quality software solutions.</li>
+              <li>Apply the fundamentals of computer science & engineering to solve engineering problems in interdisciplinary domains.</li>
+              <li>Develop applications using emerging technologies to provide innovative solutions for real-world problems.</li>
+            </ul>
+          </div>
+        );
+      case 'COs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Course Outcomes (COs)</h3>
+            <p className="text-gray-700 leading-relaxed">
+              The course outcomes are defined for each course and are aligned with the Program Outcomes and Program Specific Outcomes. The course outcomes are assessed through direct and indirect assessment tools.
+            </p>
+            <p className="mt-4 text-gray-700">
+              <a href="#" className="text-[#B22222] hover:underline">Download Course Outcomes Document</a>
+            </p>
+          </div>
+        );
+      case 'SalientFeatures':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Salient Features</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Experienced and dedicated faculty members with specializations in various domains</li>
+              <li>State-of-the-art computing facilities with high-speed internet connectivity</li>
+              <li>Strong industry-institute interaction through internships, projects, and expert lectures</li>
+              <li>Research culture fostering innovation and intellectual growth</li>
+              <li>Active student chapters and technical clubs</li>
+              <li>Regular workshops, seminars, and training programs on emerging technologies</li>
+              <li>Excellent placement record in reputed companies</li>
+            </ul>
+          </div>
+        );
+      default:
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
+            <p className="text-gray-700 leading-relaxed">
+              The Department of Computer Science & Engineering was established in 2001. The department offers undergraduate program in Computer Science & Engineering with an intake of 180 students.
+            </p>
+          </div>
+        );
+    }
+  };
+
   const renderContent = () => {
     switch (activeContent) {
       case 'Department Profile':
@@ -105,7 +212,7 @@ const CSEDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
               <div className="relative">
-                <img 
+                <img
                   src="/images/departments/cse/cse_hod1.jpeg"
                   alt="Dr. D. Jaya Kumari"
                   className="w-full h-80 object-cover rounded-lg shadow-md"
@@ -186,45 +293,116 @@ const CSEDepartment: React.FC = () => {
     }
   }
 
+  const [activeDeptTab, setActiveDeptTab] = useState('Department');
+
   return (
     <div className="pt-24 bg-gray-100">
-      <div className="container mx-auto">
-        <div className="lg:hidden p-4">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="bg-primary text-white p-2 rounded-md">
-                <Menu className="w-6 h-6" />
-            </button>
+      <section className="bg-[#8B1919] text-white py-12">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <h1 className="text-3xl md:text-4xl font-bold">Computer Science & Engineering</h1>
+          </div>
         </div>
-        <div className="flex flex-col lg:flex-row gap-8 p-4">
-            <aside className={`fixed lg:relative lg:translate-x-0 top-0 left-0 h-full lg:h-auto w-72 bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-50 lg:z-auto lg:rounded-2xl lg:sticky lg:top-28`}>
-            <div className="flex justify-between items-center lg:justify-center">
-              <h3 className="text-xl font-bold text-center">Department Menu</h3>
-              <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-white">
-                  <Menu className="w-6 h-6" />
+      </section>
+      <div className="bg-white border-b shadow">
+        <div className="container mx-auto px-4">
+          <div className="overflow-x-auto">
+            <nav className="flex flex-nowrap whitespace-nowrap py-2">
+              <button
+                onClick={() => setActiveDeptTab('Department')}
+                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                  ${activeDeptTab === 'Department' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+              >
+                Department
               </button>
+              <button
+                onClick={() => setActiveDeptTab('Vision')}
+                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                  ${activeDeptTab === 'Vision' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+              >
+                Vision
+              </button>
+              <button
+                onClick={() => setActiveDeptTab('Mission')}
+                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                  ${activeDeptTab === 'Mission' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+              >
+                Mission
+              </button>
+              <button
+                onClick={() => setActiveDeptTab('PEOs')}
+                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                  ${activeDeptTab === 'PEOs' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+              >
+                PEOs
+              </button>
+              <button
+                onClick={() => setActiveDeptTab('POs')}
+                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                  ${activeDeptTab === 'POs' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+              >
+                POs
+              </button>
+              <button
+                onClick={() => setActiveDeptTab('PSOs')}
+                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                  ${activeDeptTab === 'PSOs' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+              >
+                PSOs
+              </button>
+              <button
+                onClick={() => setActiveDeptTab('COs')}
+                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                  ${activeDeptTab === 'COs' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+              >
+                COs
+              </button>
+              <button
+                onClick={() => setActiveDeptTab('SalientFeatures')}
+                className={`px-4 py-2 font-medium text-sm transition-colors duration-200
+                  ${activeDeptTab === 'SalientFeatures' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+              >
+                Salient Features
+              </button>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white rounded-xl shadow mb-8">
+          {renderDeptTabContent()}
+        </div>
+        <div className="flex flex-col lg:flex-row gap-8">
+          <aside className="w-full lg:w-80 lg:flex-shrink-0">
+            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
+              <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
+                <span className="font-bold">Department Menu</span>
+                <Menu className="w-6 h-6" />
+              </button>
+              <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
+                <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
+                <ul className="space-y-2">
+                  {sidebarItems.map((item) => (
+                    <li key={item}>
+                      <button
+                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
+                        onClick={() => {
+                          setActiveContent(item);
+                          setSidebarOpen(false);
+                        }}
+                      >
+                        <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
+                        <span>{item}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             </div>
-            <ul className="space-y-2 mt-6">
-                {sidebarItems.map((item) => (
-                <li key={item}>
-                    <button
-                    className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 ${activeContent === item ? 'bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white font-semibold' : 'hover:bg-white/10'}`}
-                    onClick={() => {
-                        setActiveContent(item);
-                        if(sidebarOpen) setSidebarOpen(false);
-                    }}
-                    >
-                    <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
-                    <span>{item}</span>
-                    </button>
-                </li>
-                ))}
-            </ul>
-            </aside>
-
-            <main className="flex-1 min-w-0">
-                <div className="bg-white p-1 md:p-4 rounded-2xl shadow-lg">
-                  {renderContent()}
-                </div>
-            </main>
+          </aside>
+          <main className="flex-1 min-w-0">
+            {renderContent()}
+          </main>
         </div>
       </div>
     </div>

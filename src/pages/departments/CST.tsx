@@ -9,7 +9,7 @@ const CSTDepartment: React.FC = () => {
   const sidebarItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Physical Facilities', 'Department Library', 'MoUs', 'Faculty Development Programs', 'Faculty Achievements', 'Workshops', 'Student Achievements', 'Placements', 'Merit Scholarship/Academic Toppers', 'Technical Association', 'Training Activities', 'Newsletters', 'Extra-Curricular Activities', 'Hackathons', 'e-Resources', 'Handbooks', 'Contact'
   ];
-  
+
   const faculty = [
     { name: "Mr. T. Sai Mahesh", qualification: "M.Tech", designation: "Asst.Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/CST_Sai%20Mahesh.pdf" },
     { name: "Mr. D. Yatesh Ramkumar", qualification: "M.Tech", designation: "Asst.Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/CST_Yatish%20Ramkumar.pdf" },
@@ -53,8 +53,8 @@ const CSTDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
               <div className="relative">
-                <img 
-                  src="/images/departments/cse/cse_hod1.jpeg" 
+                <img
+                  src="/images/departments/cse/cse_hod1.jpeg"
                   alt="Dr. D. Jaya Kumari"
                   className="w-full h-80 object-cover rounded-lg shadow-md"
                   data-ai-hint="female professor"
@@ -135,64 +135,47 @@ const CSTDepartment: React.FC = () => {
 
   return (
     <div className="pt-24 bg-gray-100">
-      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
+      <section className="bg-[#8B1919] text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="flex items-center mb-6">
-                <Cpu className="w-16 h-16 text-white mr-4" />
-                <div>
-                  <h1 className="text-4xl md:text-5xl font-bold">Computer Science</h1>
-                  <p className="text-xl text-gray-200">& Technology</p>
-                </div>
-              </div>
-              <p className="text-xl leading-relaxed">
-                Empowering the next generation of technology professionals through comprehensive computer science education and innovation.
-              </p>
-            </div>
-            <div className="hidden lg:block">
-              <img 
-                src="https://images.pexels.com/photos/574077/pexels-photo-574077.jpeg?auto=compress&cs=tinysrgb&w=600" 
-                alt="CST Department"
-                className="rounded-2xl shadow-2xl"
-                data-ai-hint="software development"
-              />
-            </div>
+          <div className="text-center">
+            <h1 className="text-3xl md:text-4xl font-bold">Computer Science & Technology</h1>
           </div>
         </div>
       </section>
-      
-      <div className="flex flex-col lg:flex-row gap-8 container mx-auto p-4">
-          <aside className="w-full lg:w-80">
-              <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
-                  <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
-                      <span className="font-bold">Department Menu</span>
-                      <Menu className="w-6 h-6" />
-                  </button>
-                  <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
-                      <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
-                      <ul className="space-y-2">
-                          {sidebarItems.map((item) => (
-                              <li key={item}>
-                                  <button
-                                      className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
-                                      onClick={() => {
-                                          setActiveContent(item);
-                                          setSidebarOpen(false);
-                                      }}
-                                  >
-                                      <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
-                                      <span>{item}</span>
-                                  </button>
-                              </li>
-                          ))}
-                      </ul>
-                  </nav>
-              </div>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <aside className="w-full lg:w-80 lg:flex-shrink-0">
+            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
+              <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
+                <span className="font-bold">Department Menu</span>
+                <Menu className="w-6 h-6" />
+              </button>
+              <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
+                <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
+                <ul className="space-y-2">
+                  {sidebarItems.map((item) => (
+                    <li key={item}>
+                      <button
+                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
+                        onClick={() => {
+                          setActiveContent(item);
+                          setSidebarOpen(false);
+                        }}
+                      >
+                        <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
+                        <span>{item}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
           </aside>
           <main className="flex-1 min-w-0">
-              {renderContent()}
+            {renderContent()}
           </main>
+        </div>
       </div>
     </div>
   );
@@ -200,4 +183,3 @@ const CSTDepartment: React.FC = () => {
 
 export default CSTDepartment;
 
-    
