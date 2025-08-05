@@ -13,7 +13,7 @@ import {
 import type * as LucideIcons from 'lucide-react';
 import { AnimatedStat } from '@/components/AnimatedStat';
 import { getHomePageContent } from '@/services/contentService';
-import content from '@/content/home.json'; // Keep for now as fallback
+import content from '@/content/home.json'; 
 
 type QuickLink = {
   title: string;
@@ -36,12 +36,19 @@ type HomePageContent = {
 
 const Home: React.FC = () => {
 
-  const [homeContent, setHomeContent] = useState<HomePageContent>({ stats: [], quickLinks: []});
+  const [homeContent, setHomeContent] = useState<HomePageContent>(content as HomePageContent);
 
   useEffect(() => {
     async function loadContent() {
-      const content = await getHomePageContent();
-      setHomeContent(content);
+      try {
+        const dbContent = await getHomePageContent();
+        // Ensure that if dbContent is fetched but its arrays are empty, we still have fallbacks.
+        if (dbContent && dbContent.stats.length > 0) {
+          setHomeContent(dbContent);
+        }
+      } catch (error) {
+        console.error("Could not fetch from database, using local content.", error);
+      }
     }
     loadContent();
   }, []);
@@ -134,7 +141,7 @@ const Home: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {homeContent.quickLinks.map((link, index) => {
-              const Icon = quickLinksIcons[link.icon as keyof typeof quickLinksIcons];
+              const Icon = quickLinksIcons[link.icon as keyof typeof quickLinksIcons] || BookOpen;
               return (
               <Link
                 key={index}
