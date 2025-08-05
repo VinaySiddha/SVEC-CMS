@@ -58,6 +58,8 @@ const AdminLoginPage: React.FC = () => {
             errorMessage = `Failed to login: ${err.message}`;
             break;
         }
+      } else if (err.message && err.message.includes('Fetch failed')) {
+          errorMessage = 'Network error: Could not connect to Firebase services. Please check your internet connection and ensure that the Firestore API is enabled in your Google Cloud project and that your API key has the necessary permissions.';
       }
       setError(errorMessage);
     } finally {
