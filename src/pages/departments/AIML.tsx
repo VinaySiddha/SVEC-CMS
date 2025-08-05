@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Brain, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText } from 'lucide-react';
 
 const AIMLDepartment: React.FC = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
 
   const navItems = [
@@ -246,7 +247,7 @@ const AIMLDepartment: React.FC = () => {
     }
   };
 
-  return (
+ return (
     <div className="pt-24 bg-gray-100">
       <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
         <div className="container mx-auto px-4">
@@ -275,41 +276,43 @@ const AIMLDepartment: React.FC = () => {
           </div>
         </div>
       </section>
-
-      <nav className="bg-white shadow-md sticky top-20 z-40">
-        <div className="container mx-auto">
-          <div className="hidden lg:flex justify-center">
-            {navItems.map((item) => (
-              <button
-                key={item}
-                onClick={() => setActiveContent(item)}
-                className={`px-6 py-4 text-sm font-medium transition-all duration-300 ${activeContent === item ? 'text-primary border-b-2 border-primary' : 'text-gray-600 hover:text-primary'}`}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-          <div className="lg:hidden px-4 py-2">
-            <select
-              value={activeContent}
-              onChange={(e) => setActiveContent(e.target.value)}
-              className="w-full p-2 border rounded-md"
-            >
-              {navItems.map((item) => (
-                <option key={item} value={item}>{item}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </nav>
-
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white p-1 md:p-4 rounded-2xl shadow-lg">
-          {renderContent()}
-        </div>
+      
+      <div className="flex flex-col lg:flex-row gap-8 container mx-auto p-4">
+          <aside className="w-full lg:w-80 flex-shrink-0">
+              <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
+                  <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
+                      <span className="font-bold">Department Menu</span>
+                      <Menu className="w-6 h-6" />
+                  </button>
+                  <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
+                      <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
+                      <ul className="space-y-1">
+                          {navItems.map((item) => (
+                              <li key={item}>
+                                  <button
+                                      className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
+                                      onClick={() => {
+                                          setActiveContent(item);
+                                          setSidebarOpen(false);
+                                      }}
+                                  >
+                                      <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
+                                      <span>{item}</span>
+                                  </button>
+                              </li>
+                          ))}
+                      </ul>
+                  </nav>
+              </div>
+          </aside>
+          <main className="flex-1 min-w-0">
+              {renderContent()}
+          </main>
       </div>
     </div>
   );
 };
 
 export default AIMLDepartment;
+
+    
