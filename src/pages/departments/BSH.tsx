@@ -180,44 +180,66 @@ const BSHDepartment: React.FC = () => {
 
   return (
     <div className="pt-24 bg-gray-100">
-      <div className="container mx-auto">
-        <div className="lg:hidden p-4">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="bg-primary text-white p-2 rounded-md">
-                <Menu className="w-6 h-6" />
-            </button>
-        </div>
-        <div className="flex flex-col lg:flex-row gap-8 p-4">
-            <aside className={`fixed lg:relative lg:translate-x-0 top-0 left-0 h-full lg:h-auto w-72 bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-50 lg:z-auto lg:rounded-2xl lg:sticky lg:top-28`}>
-            <div className="flex justify-between items-center lg:justify-center">
-              <h3 className="text-xl font-bold text-center">Department Menu</h3>
-              <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-white">
-                  <Menu className="w-6 h-6" />
-              </button>
-            </div>
-            <ul className="space-y-2 mt-6">
-                {sidebarItems.map((item) => (
-                <li key={item}>
-                    <button
-                    className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 ${activeContent === item ? 'bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white font-semibold' : 'hover:bg-white/10'}`}
-                    onClick={() => {
-                        setActiveContent(item);
-                        if(sidebarOpen) setSidebarOpen(false);
-                    }}
-                    >
-                    <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
-                    <span>{item}</span>
-                    </button>
-                </li>
-                ))}
-            </ul>
-            </aside>
-
-            <main className="flex-1 min-w-0">
-                <div className="bg-white p-1 md:p-4 rounded-2xl shadow-lg">
-                  {renderContent()}
+      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="flex items-center mb-6">
+                <Book className="w-16 h-16 text-white mr-4" />
+                <div>
+                  <h1 className="text-4xl md:text-5xl font-bold">Basic Sciences &</h1>
+                  <p className="text-xl text-gray-200">Humanities</p>
                 </div>
-            </main>
+              </div>
+              <p className="text-xl leading-relaxed">
+                Fostering a strong foundation in fundamental sciences and nurturing well-rounded individuals with a deep appreciation for humanities.
+              </p>
+            </div>
+            <div className="hidden lg:block">
+              <img 
+                src="https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="BSH Department"
+                className="rounded-2xl shadow-2xl"
+                data-ai-hint="library books"
+              />
+            </div>
+          </div>
         </div>
+      </section>
+      
+      <div className="flex flex-col lg:flex-row gap-8 container mx-auto p-4">
+          <aside className="w-full lg:w-80 flex-shrink-0">
+              <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
+                  <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
+                      <span className="font-bold">Department Menu</span>
+                      <Menu className="w-6 h-6" />
+                  </button>
+                  <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
+                      <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
+                      <ul className="space-y-1">
+                          {sidebarItems.map((item) => (
+                              <li key={item}>
+                                  <button
+                                      className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
+                                      onClick={() => {
+                                          setActiveContent(item);
+                                          if (window.innerWidth < 1024) setSidebarOpen(false);
+                                      }}
+                                  >
+                                      <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
+                                      <span>{item}</span>
+                                  </button>
+                              </li>
+                          ))}
+                      </ul>
+                  </nav>
+              </div>
+          </aside>
+          <main className="flex-1 min-w-0">
+              <div className="bg-white p-1 md:p-4 rounded-2xl shadow-lg">
+                {renderContent()}
+              </div>
+          </main>
       </div>
     </div>
   );
