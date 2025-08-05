@@ -30,26 +30,26 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         if (userDoc.exists()) {
           setUserProfile(userDoc.data() as UserProfile);
         } else {
-          // If no profile found, treat as unauthorized
           setUserProfile(null);
-          // Optional: sign out if user record exists in Auth but not in Firestore
           await signOut(auth);
         }
+        setLoading(false);
       } else {
         setUser(null);
         setUserProfile(null);
         if (pathname !== '/admin/login') {
           router.push('/admin/login');
+        } else {
+            setLoading(false);
         }
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();
   }, [auth, router, pathname]);
   
   if (pathname === '/admin/login') {
-    return <>{children}</>
+    return <>{children}</>;
   }
 
   if (loading) {
@@ -64,7 +64,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!user) {
-     return null; // or a redirect component
+     return null; // Should be redirected by the effect
   }
   
   return (
@@ -104,7 +104,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
           <button
             onClick={async () => {
               await signOut(auth);
-              router.push('/admin/login');
+              // The onAuthStateChanged listener will handle the redirect
             }}
             className="w-full flex items-center px-4 py-2.5 text-sm rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition-colors"
           >
