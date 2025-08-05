@@ -1,18 +1,7 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-
-// Your web app's Firebase configuration will be populated by the tool
-// const firebaseConfig = {
-//   "projectId": "contentpilot-vwmhh",
-//   "appId": "1:692283352347:web:f24b6dbf83c6d3523c5fbe",
-//   "storageBucket": "contentpilot-vwmhh.firebasestorage.app",
-//   "apiKey": "AIzaSyABuhLJHbccL-zpnR9wx71xdn5nDkjJD1I",
-//   "authDomain": "contentpilot-vwmhh.firebaseapp.com",
-//   "measurementId": "",
-//   "messagingSenderId": "692283352347"
-// };
+import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
+import { getAuth, Auth } from "firebase/auth";
+import { getFirestore, Firestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -24,9 +13,18 @@ const firebaseConfig = {
   appId: "1:468142706783:web:a6730718ab30ce22a94bea"
 };
 
-// Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const auth = getAuth(app);
-const db = getFirestore(app);
+// Initialize Firebase for Singleton Pattern
+let app: FirebaseApp;
+let auth: Auth;
+let db: Firestore;
+
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApp();
+}
+
+auth = getAuth(app);
+db = getFirestore(app);
 
 export { app, auth, db };

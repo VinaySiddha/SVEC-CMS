@@ -23,8 +23,14 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setLoading(true);
       try {
         if (currentUser) {
+          if (user && user.uid === currentUser.uid && userProfile) {
+             setLoading(false);
+             return;
+          }
+          
           setUser(currentUser);
           const userDocRef = doc(db, 'users', currentUser.uid);
           const userDoc = await getDoc(userDocRef);
