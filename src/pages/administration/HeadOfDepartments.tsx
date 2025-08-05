@@ -12,7 +12,7 @@ const HeadOfDepartments: React.FC = () => {
       experience: "15+ Years",
       email: "hod.cse@srivasaviengg.ac.in",
       office: "CSE Department, Block B",
-      image: "/src/assets/cse_hod1.jpeg",
+      image: "/cse_hod1.jpeg",
       specialization: "Data Structures, Algorithms, Software Engineering",
       achievements: ["50+ Publications", "Industry Projects", "Patent Filed"],
       departmentStats: {

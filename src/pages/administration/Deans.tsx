@@ -13,7 +13,7 @@ const Deans: React.FC = () => {
       experience: "20+ Years",
       email: "dean.student@srivasaviengg.ac.in",
       phone: "+91-866-2461558",
-      image: "/src/assets/rambabu.jpeg",
+      image: "/rambabu.jpeg",
       specialization: "VLSI Design, Embedded Systems",
       responsibilities: [
         "Student welfare and development programs",
@@ -30,7 +30,7 @@ const Deans: React.FC = () => {
       experience: "20+ Years",
       email: "deanrnd@srivasaviengg.ac.in",
       phone: "+91-9491556014",
-      image: "/src/assets/naresh.jpeg",
+      image: "/naresh.jpeg",
       specialization: "Cyber Security",
       responsibilities: [
         "Research project coordination and management",
@@ -81,7 +81,7 @@ const Deans: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {officeStructure.map((office, index) => (
               <div 
                 key={index}
@@ -237,7 +237,7 @@ const Deans: React.FC = () => {
           <p className="text-lg mb-8 max-w-xl mx-auto">
             Reach out to the respective dean offices for academic, student, or research-related matters
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
             {deans.map((dean, index) => (
               <a
                 key={index}

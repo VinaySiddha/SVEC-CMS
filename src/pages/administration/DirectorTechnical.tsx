@@ -11,7 +11,7 @@ const DirectorTechnical: React.FC = () => {
     email: "chekkaapparao@srivasaviengg.ac.in",
     phone: "+91-866-2461555",
     office: "Director's Office, Administrative Block",
-    image: "/src/assets/tech_director.jpg"
+    image: "/tech_director.jpg"
   };
 
   const responsibilities = [
