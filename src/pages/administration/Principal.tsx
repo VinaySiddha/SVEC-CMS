@@ -72,14 +72,11 @@ const Principal: React.FC = () => {
   return (
     <div className="pt-44 bg-[#FFF8F0] min-h-screen">
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white">
+      <section className="py-8 md:py-12 bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-animate">
-            Principal's Profile
+          <h1 className="text-3xl md:text-4xl font-bold text-animate">
+            Principal's Office
           </h1>
-          <p className="text-xl text-white/90 max-w-2xl mx-auto text-animate" style={{ animationDelay: '0.3s' }}>
-            At this institution, we are committed to nurturing not only minds but also hearts. Every student matters, and every lesson is a step toward a brighter future.
-          </p>
         </div>
       </section>
 
@@ -147,12 +144,12 @@ const Principal: React.FC = () => {
               <div className="bg-[#FFF8F0] p-6 rounded-xl border-l-4 border-[#B22222] text-animate" style={{ animationDelay: '0.6s' }}>
                 <h3 className="text-lg font-semibold text-[#B22222] mb-3">Message from Principal</h3>
                 <p className="text-gray-700 italic mb-4">
-                   Dr. Guduru VNSR Ratnakara Rao holds a Master’s degree in Mechanical Engineering from Gulbarga University and a Doctorate from JNTU Hyderabad. He began his teaching career in Chennai and went on to serve BVC Engineering College, Odalarevu, Andhra Pradesh, for nearly a decade, rising through the ranks from Assistant Professor to Professor.<br/><br/>
-            Between 2011 and 2013, he held the position of Principal at both the Praveenya Institute of Marine Engineering and Maritime Studies, Visakhapatnam, and the Bhimavaram Institute of Engineering Technology, Bhimavaram.<br/><br/>
-In 2013, Dr. Ratnakara Rao joined Sri Vasavi Engineering College, Tadepalligudem, as Professor and Head of the Department of Mechanical Engineering. Since 2015, he has served as Dean of Academic Affairs, playing a key role in shaping the college’s academic and administrative landscape. A dedicated academician and researcher, he is a member of prestigious professional bodies like ISTE and IE, and has contributed scholarly work to internationally reputed journals.<br/><br/>
-As the NBA Accreditation Coordinator, Dr. Ratnakara Rao was instrumental in achieving accreditation for the institution. He pioneered the adoption of Outcome-Based Education (OBE) at the college and has been a driving force in its successful implementation.<br/><br/>
-In June 2018, he was appointed Principal of Sri Vasavi Engineering College, and under his visionary leadership, the college continues its pursuit of academic distinction and holistic development.<br/><br/>
-            For professional correspondence, Dr. Ratnakara Rao can be contacted at principal@srivasaviengg.ac.in
+                  Dr. Guduru VNSR Ratnakara Rao holds a Master’s degree in Mechanical Engineering from Gulbarga University and a Doctorate from JNTU Hyderabad. He began his teaching career in Chennai and went on to serve BVC Engineering College, Odalarevu, Andhra Pradesh, for nearly a decade, rising through the ranks from Assistant Professor to Professor.<br /><br />
+                  Between 2011 and 2013, he held the position of Principal at both the Praveenya Institute of Marine Engineering and Maritime Studies, Visakhapatnam, and the Bhimavaram Institute of Engineering Technology, Bhimavaram.<br /><br />
+                  In 2013, Dr. Ratnakara Rao joined Sri Vasavi Engineering College, Tadepalligudem, as Professor and Head of the Department of Mechanical Engineering. Since 2015, he has served as Dean of Academic Affairs, playing a key role in shaping the college’s academic and administrative landscape. A dedicated academician and researcher, he is a member of prestigious professional bodies like ISTE and IE, and has contributed scholarly work to internationally reputed journals.<br /><br />
+                  As the NBA Accreditation Coordinator, Dr. Ratnakara Rao was instrumental in achieving accreditation for the institution. He pioneered the adoption of Outcome-Based Education (OBE) at the college and has been a driving force in its successful implementation.<br /><br />
+                  In June 2018, he was appointed Principal of Sri Vasavi Engineering College, and under his visionary leadership, the college continues its pursuit of academic distinction and holistic development.<br /><br />
+                  For professional correspondence, Dr. Ratnakara Rao can be contacted at principal@srivasaviengg.ac.in
                 </p>
               </div>
             </div>
@@ -172,7 +169,7 @@ In June 2018, he was appointed Principal of Sri Vasavi Engineering College, and 
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {initiatives.map((initiative, index) => (
-              <div 
+              <div
                 key={index}
                 className="quick-link bg-white p-8 rounded-xl shadow hover:shadow-lg transition-all"
                 style={{ animationDelay: `${index * 0.15}s` }}
@@ -203,7 +200,7 @@ In June 2018, he was appointed Principal of Sri Vasavi Engineering College, and 
               <h2 className="text-3xl font-bold text-[#B22222] mb-8">Recent Activities</h2>
               <div className="space-y-6">
                 {recentActivities.map((activity, index) => (
-                  <div 
+                  <div
                     key={index}
                     className="news-item border-l-4 border-[#B22222] pl-6 py-4 hover:bg-[#FFF8F0] rounded-r transition-all"
                     style={{ animationDelay: `${index * 0.1}s` }}
@@ -259,13 +256,13 @@ In June 2018, he was appointed Principal of Sri Vasavi Engineering College, and 
             Connect with the Principal for academic discussions, student concerns, or institutional matters
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
+            <a
               href={`mailto:${principalInfo.email}?subject=Meeting Request`}
               className="btn-dynamic bg-white text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#f9e8e8] transition-all"
             >
               Request Meeting
             </a>
-            <a 
+            <a
               href={`tel:${principalInfo.phone}`}
               className="btn-dynamic border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#B22222] transition-all"
             >

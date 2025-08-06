@@ -15,13 +15,13 @@ const DirectorTechnical: React.FC = () => {
   };
 
   const responsibilities = [
-       "Strong implementer with the ability to oversee the execution of strategic plans and initiatives.",
-       "Excellent networking capabilities, capable of fostering significant partnerships and collaborations.",
-       "Passionate about advancing computing education and research, with a focus on promoting an inclusive and dynamic academic community.",
-       "Strategic thinker with a robust approach to problem-solving and innovation.",
-       "Experienced leader with a strong foundation in academia and/or industry.",
-       "Effective communicator with a proven ability to enhance the college profile and outreach.",
-                
+    "Strong implementer with the ability to oversee the execution of strategic plans and initiatives.",
+    "Excellent networking capabilities, capable of fostering significant partnerships and collaborations.",
+    "Passionate about advancing computing education and research, with a focus on promoting an inclusive and dynamic academic community.",
+    "Strategic thinker with a robust approach to problem-solving and innovation.",
+    "Experienced leader with a strong foundation in academia and/or industry.",
+    "Effective communicator with a proven ability to enhance the college profile and outreach.",
+
   ];
 
   const achievements = [
@@ -109,10 +109,10 @@ const DirectorTechnical: React.FC = () => {
                 <p className="text-gray-700 leading-relaxed">
                   Sri Chekka Apparao is the son of our society member Sri Ch.V.R. Ramana Murthy. He completed his B.Tech in Computer Science and Systems Engineering from GITAM, Visakhapatnam, and pursued his Master's Degree in Computer Science in the United States.
                 </p>
-                 <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed">
                   He has worked in the IT industry for 8 years in various positions including Project Manager, Architect, System Administrator, and HR Manager in the US. He then became an entrepreneur and owned several retail franchised businesses for 9 years in the United States.
                 </p>
-                  <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed">
                   Having extensive experience in the technological field and administration, he took charge as Director (Technical) of Sri Vasavi Engineering College in 2016. Since then, he has been involved in day-to-day activities and is an integral part of policy changes and streamlining processes for the growth of the college.
                 </p>
               </div>
@@ -133,7 +133,7 @@ const DirectorTechnical: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {responsibilities.map((responsibility, index) => (
-              <div 
+              <div
                 key={index}
                 className="quick-link bg-white p-6 rounded-xl shadow hover:shadow-lg transition-all"
                 style={{ animationDelay: `${index * 0.1}s` }}
@@ -148,55 +148,6 @@ const DirectorTechnical: React.FC = () => {
         </div>
       </section>
 
-      {/* Achievements */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-[#B22222] mb-4">Notable Achievements</h2>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Recognizing excellence in leadership, education, and research
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {achievements.map((achievement, index) => (
-              <div 
-                key={index}
-                className="stat-card text-center p-8 rounded-xl bg-[#FFF8F0] border hover:shadow-lg transition-all"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <achievement.icon className="w-16 h-16 text-[#B22222] mx-auto mb-4 icon-bounce" />
-                <h3 className="text-xl font-bold text-[#B22222] mb-2">{achievement.title}</h3>
-                <p className="text-gray-600">{achievement.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-[#B22222] text-white text-center">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Connect with Our Leadership</h2>
-          <p className="text-lg mb-8 max-w-xl mx-auto">
-            For institutional partnerships, academic collaborations, or strategic discussions
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href={`mailto:${directorInfo.email}`}
-              className="btn-dynamic bg-white text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#f9e8e8] transition-all"
-            >
-              Send Email
-            </a>
-            <a 
-              href={`tel:${directorInfo.phone}`}
-              className="btn-dynamic border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#B22222] transition-all"
-            >
-              Call Now
-            </a>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
