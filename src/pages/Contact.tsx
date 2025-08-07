@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Phone, Mail, Clock, Car, Bus, Train, Plane } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Car, Bus, Train, Plane, ChevronRight } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const contactInfo = [
@@ -106,13 +106,17 @@ const Contact: React.FC = () => {
   return (
     <div className="pt-44 bg-[#FFF8F0] text-[#222222]">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
-        <div className="container mx-auto px-4 text-center">
+      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20 relative overflow-hidden isolate">
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Contact Us</h1>
           <p className="text-xl max-w-3xl mx-auto">
             Get in touch with us for admissions, information, or any queries
           </p>
         </div>
+
+        {/* Subtle background shapes */}
+        <div className="absolute right-0 top-0 h-32 w-32 md:h-40 md:w-40 bg-secondary/30 rounded-full opacity-70 shadow-sm z-0"></div>
+        <div className="absolute left-0 bottom-0 h-24 w-24 md:h-36 md:w-36 bg-secondary/20 rounded-full opacity-70 shadow-sm z-0"></div>
       </section>
 
       {/* Contact Information */}
@@ -150,16 +154,16 @@ const Contact: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0097A7] focus:border-transparent"
                         placeholder="Enter your first name"
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0097A7] focus:border-transparent"
                         placeholder="Enter your last name"
                       />
@@ -167,16 +171,16 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                    <input 
-                      type="email" 
+                    <input
+                      type="email"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0097A7] focus:border-transparent"
                       placeholder="Enter your email address"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                    <input 
-                      type="tel" 
+                    <input
+                      type="tel"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0097A7] focus:border-transparent"
                       placeholder="Enter your phone number"
                     />
@@ -194,13 +198,13 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                    <textarea 
+                    <textarea
                       rows={5}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0097A7] focus:border-transparent"
                       placeholder="Enter your message here..."
                     ></textarea>
                   </div>
-                  <button 
+                  <button
                     type="submit"
                     className="w-full bg-[#0097A7] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#007A86] transition-all transform hover:scale-105"
                   >
@@ -323,27 +327,33 @@ const Contact: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white">
-        <div className="container mx-auto px-4 text-center">
+      <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white relative overflow-hidden isolate">
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Still Have Questions?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Our team is here to help you with any queries or concerns
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="tel:+918662461555" 
-              className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all"
+            <a
+              href="tel:+918662461555"
+              className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 w-full sm:w-auto"
             >
-              Call Us Now
+              <span>Call Us Now</span>
+              <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
             </a>
-            <a 
-              href="mailto:info@srivasaviengg.ac.in" 
-              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#B22222] transition-all"
+            <a
+              href="mailto:info@srivasaviengg.ac.in"
+              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 backdrop-blur-sm hover:border-secondary transition-all transform hover:scale-105 flex items-center justify-center gap-2 w-full sm:w-auto"
             >
-              Email Us
+              <span>Email Us</span>
+              <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
             </a>
           </div>
         </div>
+
+        {/* Subtle decorative elements */}
+        <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-secondary/20 -translate-y-1/4 translate-x-1/4 opacity-70 shadow-sm z-0"></div>
+        <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-secondary/15 translate-y-1/4 -translate-x-1/4 opacity-70 shadow-sm z-0"></div>
       </section>
     </div>
   );

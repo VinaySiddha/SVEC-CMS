@@ -26,13 +26,17 @@ const About: React.FC = () => {
   return (
     <div className="pt-32 bg-[#FFF8F0] text-[#222222]">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
-        <div className="container mx-auto px-4 text-center">
+      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20 relative overflow-hidden isolate">
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">About SVEC</h1>
           <p className="text-xl max-w-3xl mx-auto">
             Committed to excellence in engineering education and fostering innovation for over two decades
           </p>
         </div>
+
+        {/* Subtle background shapes */}
+        <div className="absolute right-0 top-0 h-32 w-32 md:h-40 md:w-40 bg-secondary/30 rounded-full opacity-70 shadow-sm z-0"></div>
+        <div className="absolute left-0 bottom-0 h-24 w-24 md:h-36 md:w-36 bg-secondary/20 rounded-full opacity-70 shadow-sm z-0"></div>
       </section>
 
       {/* Navigation and Content */}
@@ -49,15 +53,14 @@ const About: React.FC = () => {
         )}
 
         {/* Sidebar */}
-        <div className={`fixed top-44 left-4 h-[calc(100vh-12rem)] w-72 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white z-40 transform transition-all duration-500 ease-in-out rounded-2xl shadow-2xl backdrop-blur-lg border border-white/10 ${
-          sidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'
-        }`}>
+        <div className={`fixed top-44 left-4 h-[calc(100vh-12rem)] w-72 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white z-40 transform transition-all duration-500 ease-in-out rounded-2xl shadow-2xl backdrop-blur-lg border border-white/10 ${sidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'
+          }`}>
           <div className="p-6 h-full flex flex-col relative overflow-hidden">
             {/* Background pattern */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#B22222]/5 to-[#0097A7]/5 rounded-2xl"></div>
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#B22222]/10 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
             <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#0097A7]/10 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
-            
+
             <div className="relative z-10 flex flex-col h-full">
               <div className="flex items-center justify-between mb-6 flex-shrink-0">
                 <h3 className="text-xl font-bold text-center flex-1 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">About SVEC</h3>
@@ -68,7 +71,7 @@ const About: React.FC = () => {
                   <X className="w-4 h-4" />
                 </button>
               </div>
-              
+
               <style dangerouslySetInnerHTML={{
                 __html: `
                   .sidebar-scroll {
@@ -105,8 +108,8 @@ const About: React.FC = () => {
                   }
                 `
               }} />
-              
-              <div 
+
+              <div
                 className="sidebar-scroll flex-1 overflow-y-auto overflow-x-hidden space-y-3 pr-2 max-h-full"
                 style={{
                   scrollbarWidth: 'none',
@@ -141,7 +144,7 @@ const About: React.FC = () => {
                   </button>
                 ))}
               </div>
-              
+
               {/* Scroll indicator */}
               <div className="flex-shrink-0 mt-4 flex justify-center">
                 <div className="flex space-x-1">
@@ -156,7 +159,7 @@ const About: React.FC = () => {
 
         {/* Overlay */}
         {sidebarOpen && (
-          <div 
+          <div
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 transition-all duration-300"
             onClick={() => setSidebarOpen(false)}
           />
@@ -192,27 +195,27 @@ const About: React.FC = () => {
                   </h2>
                   <div className="space-y-4 text-gray-600 leading-relaxed">
                     <p>
-                      Established in 1999, Sri Vasavi Engineering College has been at the forefront of 
-                      engineering education in Andhra Pradesh. Located in the serene town of Tadepalligudem, 
+                      Established in 1999, Sri Vasavi Engineering College has been at the forefront of
+                      engineering education in Andhra Pradesh. Located in the serene town of Tadepalligudem,
                       our institution has grown from humble beginnings to become a premier engineering college.
                     </p>
                     <p>
-                      We are committed to providing quality education that combines theoretical knowledge 
-                      with practical applications. Our state-of-the-art infrastructure, experienced faculty, 
-                      and industry partnerships ensure that our students are well-prepared for the challenges 
+                      We are committed to providing quality education that combines theoretical knowledge
+                      with practical applications. Our state-of-the-art infrastructure, experienced faculty,
+                      and industry partnerships ensure that our students are well-prepared for the challenges
                       of the modern engineering world.
                     </p>
                     <p>
-                      With over 3000 students and 150+ faculty members, we offer undergraduate and postgraduate 
-                      programs in various engineering disciplines. Our graduates have made significant 
+                      With over 3000 students and 150+ faculty members, we offer undergraduate and postgraduate
+                      programs in various engineering disciplines. Our graduates have made significant
                       contributions to industry, research, and entrepreneurship worldwide.
                     </p>
                   </div>
                 </div>
                 <div className="relative">
-                  <img 
-                    src="https://images.pexels.com/photos/159490/yale-university-landscape-universities-schools-159490.jpeg?auto=compress&cs=tinysrgb&w=600" 
-                    alt="College Campus" 
+                  <img
+                    src="https://images.pexels.com/photos/159490/yale-university-landscape-universities-schools-159490.jpeg?auto=compress&cs=tinysrgb&w=600"
+                    alt="College Campus"
                     className="rounded-2xl shadow-2xl"
                   />
                   <div className="absolute -bottom-6 -left-6 bg-[#B22222] text-white p-6 rounded-xl shadow-lg">
@@ -232,7 +235,7 @@ const About: React.FC = () => {
                   <Eye className="w-16 h-16 mx-auto mb-6 text-white" />
                   <h3 className="text-2xl font-bold mb-4">Vision</h3>
                   <p className="leading-relaxed">
-                    To be a globally recognized institution for excellence in engineering education, 
+                    To be a globally recognized institution for excellence in engineering education,
                     research, and innovation, producing competent engineers who contribute to society's betterment.
                   </p>
                 </div>
@@ -240,7 +243,7 @@ const About: React.FC = () => {
                   <Target className="w-16 h-16 mx-auto mb-6 text-white" />
                   <h3 className="text-2xl font-bold mb-4">Mission</h3>
                   <p className="leading-relaxed">
-                    To provide quality engineering education through innovative teaching methods, 
+                    To provide quality engineering education through innovative teaching methods,
                     foster research culture, and maintain strong industry partnerships for holistic development.
                   </p>
                 </div>
@@ -248,7 +251,7 @@ const About: React.FC = () => {
                   <Heart className="w-16 h-16 mx-auto mb-6 text-[#B22222]" />
                   <h3 className="text-2xl font-bold mb-4">Values</h3>
                   <p className="leading-relaxed">
-                    Integrity, Excellence, Innovation, Inclusivity, and Social Responsibility guide 
+                    Integrity, Excellence, Innovation, Inclusivity, and Social Responsibility guide
                     our approach to education and research in all our endeavors.
                   </p>
                 </div>
@@ -262,8 +265,8 @@ const About: React.FC = () => {
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Leadership</h2>
                 <p className="text-xl text-gray-600 mb-6">Meet our experienced leadership team</p>
-                <Link 
-                  href="/administration/deans" 
+                <Link
+                  href="/administration/deans"
                   className="inline-flex items-center gap-2 bg-[#B22222] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all"
                 >
                   View Full Administration Team
@@ -274,8 +277,8 @@ const About: React.FC = () => {
                 {content.leadership.map((leader, index) => (
                   <div key={index} className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
                     <div className="text-center mb-6">
-                      <img 
-                        src={leader.image} 
+                      <img
+                        src={leader.image}
                         alt={leader.name}
                         className="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-[#B22222]"
                       />
@@ -300,14 +303,14 @@ const About: React.FC = () => {
                 Be part of an institution that has been shaping engineers and leaders for over 25 years
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a 
-                  href="/admissions" 
+                <a
+                  href="/admissions"
                   className="bg-white text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#f9e8e8] transition-all"
                 >
                   Apply Now
                 </a>
-                <a 
-                  href="/contact" 
+                <a
+                  href="/contact"
                   className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#B22222] transition-all"
                 >
                   Contact Us
