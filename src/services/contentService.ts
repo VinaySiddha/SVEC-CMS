@@ -12,10 +12,18 @@ export async function getHomePageContent() {
       // Return default content if nothing is in Firestore
       return {
         stats: [
-          { "icon": "Users", "label": "Students", "value": "3000+" },
-          { "icon": "Users", "label": "Faculty", "value": "150+" },
+          { "icon": "Users", "label": "Students", "value": "10000+" },
+          { "icon": "Building", "label": "Labs", "value": "25+" },
+          { "icon": "BookOpen", "label": "Courses", "value": "50+" },
+          { "icon": "Users", "label": "Alumni", "value": "5000+" },
+          { "icon": "Users", "label": "Clubs", "value": "10+" },
+          { "icon": "Users", "label": "Events", "value": "100+" },
+          { "icon": "Users", "label": "Research Papers", "value": "200+" },
+          { "icon": "TrendingUp", "label": "Placements", "value": "90%" },
+          { "icon": "Award", "label": "Accreditation", "value": "NAAC A" },
+          { "icon": "Users", "label": "Faculty", "value": "350+" },
           { "icon": "Award", "label": "Years of Excellence", "value": "25+" },
-          { "icon": "Building", "label": "Departments", "value": "8" }
+          { "icon": "Building", "label": "Departments", "value": "12" }
         ],
         quickLinks: [
           { "title": "Academics", "desc": "Explore our comprehensive academic programs", "link": "/academics", "icon": "BookOpen" },

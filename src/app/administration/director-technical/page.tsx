@@ -16,13 +16,13 @@ const DirectorTechnical: React.FC = () => {
   };
 
   const responsibilities = [
-       "Strong implementer with the ability to oversee the execution of strategic plans and initiatives.",
-       "Excellent networking capabilities, capable of fostering significant partnerships and collaborations.",
-       "Passionate about advancing computing education and research, with a focus on promoting an inclusive and dynamic academic community.",
-       "Strategic thinker with a robust approach to problem-solving and innovation.",
-       "Experienced leader with a strong foundation in academia and/or industry.",
-       "Effective communicator with a proven ability to enhance the college profile and outreach.",
-                
+    "Strong implementer with the ability to oversee the execution of strategic plans and initiatives.",
+    "Excellent networking capabilities, capable of fostering significant partnerships and collaborations.",
+    "Passionate about advancing computing education and research, with a focus on promoting an inclusive and dynamic academic community.",
+    "Strategic thinker with a robust approach to problem-solving and innovation.",
+    "Experienced leader with a strong foundation in academia and/or industry.",
+    "Effective communicator with a proven ability to enhance the college profile and outreach.",
+
   ];
 
   const achievements = [
@@ -49,11 +49,9 @@ const DirectorTechnical: React.FC = () => {
       <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-animate">
-            Director - Technical
+            Technical Director's Desk
           </h1>
-          <p className="text-xl text-white/90 max-w-2xl mx-auto text-animate" style={{ animationDelay: '0.3s' }}>
-            Leading Sri Vasavi Engineering College towards excellence in technical education and innovation
-          </p>
+          
         </div>
       </section>
 
@@ -74,47 +72,52 @@ const DirectorTechnical: React.FC = () => {
                   <p className="text-xs sm:text-sm">Experience</p>
                 </div>
               </div>
-            </div>
-
-            {/* Director Information */}
-            <div className="space-y-6">
-              <div className="text-animate">
-                <h2 className="text-3xl font-bold text-[#B22222] mb-2">{directorInfo.name}</h2>
-                <p className="text-xl text-gray-600 mb-4">{directorInfo.designation}</p>
+              <div className="mt-10 text-animate">
+                <h2 className="text-3xl font-bold text-[#B22222] mb-4">{directorInfo.name}</h2>
+                <p className="text-xl text-gray-600 mb-3">{directorInfo.designation}</p>
                 <p className="text-lg text-gray-700 mb-6">{directorInfo.qualifications}</p>
               </div>
-
               {/* Contact Information */}
-              <div className="space-y-4 text-animate" style={{ animationDelay: '0.3s' }}>
-                <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-[#B22222]" />
+              <div className="space-y-6 text-animate mt-8" style={{ animationDelay: '0.3s' }}>
+                <div className="flex items-center gap-3 p-3 bg-white rounded-lg shadow-sm">
+                  <Mail className="w-6 h-6 text-[#B22222]" />
                   <a href={`mailto:${directorInfo.email}`} className="text-gray-700 hover:text-[#B22222]">
                     {directorInfo.email}
                   </a>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-[#B22222]" />
+                <div className="flex items-center gap-3 p-3 bg-white rounded-lg shadow-sm">
+                  <Phone className="w-6 h-6 text-[#B22222]" />
                   <a href={`tel:${directorInfo.phone}`} className="text-gray-700 hover:text-[#B22222]">
                     {directorInfo.phone}
                   </a>
                 </div>
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-5 h-5 text-[#B22222]" />
+                <div className="flex items-center gap-3 p-3 bg-white rounded-lg shadow-sm">
+                  <MapPin className="w-6 h-6 text-[#B22222]" />
                   <span className="text-gray-700">{directorInfo.office}</span>
                 </div>
+
+                <div className="bg-gradient-to-r from-[#FFF8F0] to-white p-4 mt-8 rounded-lg border shadow-sm">
+                  <h4 className="font-semibold text-[#B22222] mb-2">Professional Focus</h4>
+                  <p className="text-gray-700">Strategic leadership with emphasis on technological advancement and institutional growth</p>
+                </div>
               </div>
+            </div>
+
+            {/* Director Information */}
+            <div className="space-y-6">
+
 
               {/* Message */}
               <div className="bg-[#FFF8F0] p-6 rounded-xl border-l-4 border-[#B22222] text-animate" style={{ animationDelay: '0.6s' }}>
-                <h3 className="text-lg font-semibold text-[#B22222] mb-3">Technical Director Profile</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  Sri Chekka Apparao is the son of our society member Sri Ch.V.R. Ramana Murthy. He completed his B.Tech in Computer Science and Systems Engineering from GITAM, Visakhapatnam, and pursued his Master's Degree in Computer Science in the United States.
+                <h3 className="text-lg font-semibold text-[#B22222] mb-4">Technical Director Profile</h3>
+                <p className="text-gray-700 leading-relaxed text-justify mb-4 bg-white bg-opacity-40 p-3 rounded-lg">
+                  <span className="font-medium text-[#B22222]">Background:</span> Sri Chekka Apparao is the son of our society member Sri Ch.V.R. Ramana Murthy. He completed his B.Tech in Computer Science and Systems Engineering from GITAM, Visakhapatnam, and pursued his Master's Degree in Computer Science in the United States.
                 </p>
-                 <p className="text-gray-700 leading-relaxed">
-                  He has worked in the IT industry for 8 years in various positions including Project Manager, Architect, System Administrator, and HR Manager in the US. He then became an entrepreneur and owned several retail franchised businesses for 9 years in the United States.
+                <p className="text-gray-700 leading-relaxed text-justify mb-4 bg-white bg-opacity-40 p-3 rounded-lg">
+                  <span className="font-medium text-[#B22222]">Professional Experience:</span> He has worked in the IT industry for 8 years in various positions including Project Manager, Architect, System Administrator, and HR Manager in the US. He then became an entrepreneur and owned several retail franchised businesses for 9 years in the United States.
                 </p>
-                  <p className="text-gray-700 leading-relaxed">
-                  Having extensive experience in the technological field and administration, he took charge as Director (Technical) of Sri Vasavi Engineering College in 2016. Since then, he has been involved in day-to-day activities and is an integral part of policy changes and streamlining processes for the growth of the college.
+                <p className="text-gray-700 leading-relaxed text-justify bg-white bg-opacity-40 p-3 rounded-lg">
+                  <span className="font-medium text-[#B22222]">Leadership at SVEC:</span> Having extensive experience in the technological field and administration, he took charge as Director (Technical) of Sri Vasavi Engineering College in 2016. Since then, he has been involved in day-to-day activities and is an integral part of policy changes and streamlining processes for the growth of the college.
                 </p>
               </div>
             </div>
@@ -134,7 +137,7 @@ const DirectorTechnical: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {responsibilities.map((responsibility, index) => (
-              <div 
+              <div
                 key={index}
                 className="quick-link bg-white p-6 rounded-xl shadow hover:shadow-lg transition-all"
                 style={{ animationDelay: `${index * 0.1}s` }}
@@ -161,7 +164,7 @@ const DirectorTechnical: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {achievements.map((achievement, index) => (
-              <div 
+              <div
                 key={index}
                 className="stat-card text-center p-8 rounded-xl bg-[#FFF8F0] border hover:shadow-lg transition-all"
                 style={{ animationDelay: `${index * 0.2}s` }}
@@ -183,13 +186,13 @@ const DirectorTechnical: React.FC = () => {
             For institutional partnerships, academic collaborations, or strategic discussions
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
+            <a
               href={`mailto:${directorInfo.email}`}
               className="btn-dynamic bg-white text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#f9e8e8] transition-all"
             >
               Send Email
             </a>
-            <a 
+            <a
               href={`tel:${directorInfo.phone}`}
               className="btn-dynamic border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#B22222] transition-all"
             >
