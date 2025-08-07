@@ -4,10 +4,26 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 
+// Type definitions for better TypeScript support
+interface DropdownItem {
+  name: string;
+  path: string;
+  icon?: string;
+}
+
+interface MenuItemWithDropdown {
+  name: string;
+  path: string;
+  hasDropdown?: boolean;
+  dropdownItems?: DropdownItem[];
+  icon?: string;
+}
+
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const pathname = usePathname();
@@ -17,9 +33,24 @@ const Header: React.FC = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      // Close dropdown if clicking outside of any dropdown
+      if (!target.closest('[data-dropdown]') && !target.closest('button[aria-expanded]')) {
+        setActiveDropdown(null);
+        setActiveSubmenu(null);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
+    document.addEventListener('click', handleClickOutside);
     handleScroll(); // Check scroll position on initial load
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('click', handleClickOutside);
+    };
   }, []);
 
   const handleMouseEnter = (dropdown: string) => {
@@ -44,7 +75,7 @@ const Header: React.FC = () => {
     // Add a delay before closing to prevent accidental closures
     dropdownTimeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
-    }, 300);
+    }, 200);
   };
 
   const departments = [
@@ -80,14 +111,18 @@ const Header: React.FC = () => {
 
   // UGC dropdown items
   const ugcDropdownItems = [
-    { name: 'UGC Item 1', path: '/ugc/item-1' },
-    { name: 'UGC Item 2', path: '/ugc/item-2' }
+    { name: 'UGC Guidelines', path: '/ugc/guidelines' },
+    { name: 'UGC Regulations', path: '/ugc/regulations' },
+    { name: 'UGC Circulars', path: '/ugc/circulars' },
+    { name: 'UGC Compliance', path: '/ugc/compliance' }
   ];
 
   // NIRF dropdown items
   const nirfDropdownItems = [
     { name: 'SVEC-Overall Category NIRF', path: '/nirf/overall' },
-    { name: 'SVEC-Engineering Category NIRF', path: '/nirf/engineering' }
+    { name: 'SVEC-Engineering Category NIRF', path: '/nirf/engineering' },
+    { name: 'NIRF Rankings', path: '/nirf/rankings' },
+    { name: 'NIRF Data Submission', path: '/nirf/data-submission' }
   ];
 
   // Other Links dropdown items
@@ -97,19 +132,21 @@ const Header: React.FC = () => {
     { name: 'Internal Complaints Committee', path: '/other-links/internal-complaints' },
     { name: 'SC/ST Welfare Committee', path: '/other-links/scst-welfare' },
     { name: 'Institute Industry Cell', path: '/other-links/industry-cell' },
-    { name: 'Other Important Committee', path: '/other-links/important-committees' },
+    { name: 'Other Important Committees', path: '/other-links/important-committees' },
     { name: 'Alumni Engagement', path: '/other-links/alumni' },
-    { name: 'Entrepreneurial Quest', path: '/other-links/entrepreneurial' }
+    { name: 'Entrepreneurial Quest', path: '/other-links/entrepreneurial' },
+    { name: 'Student Welfare', path: '/other-links/student-welfare' },
+    { name: 'Career Guidance', path: '/other-links/career-guidance' }
   ];
 
-  // More dropdown items based on the screenshot
+  // More dropdown items - organized and consistent with other dropdowns
   const moreDropdownItems = [
-    { name: 'V Grievance', path: '/grievance' },
-    { name: 'NAAC', path: '/naac' },
-    { name: 'R & D', path: '/r-and-d' },
-    { name: 'Mandates', path: '/mandates' },
-    { name: 'Category B', path: '/category-b' },
+    { name: 'Grievance Portal', path: '/grievance' },
+    { name: 'NAAC Accreditation', path: '/naac' },
+    { name: 'Research & Development', path: '/r-and-d' },
     { name: 'Campus Life', path: '/campus-life' },
+    { name: 'Student Activities', path: '/student-activities' },
+    { name: 'Sports & Recreation', path: '/sports' },
     {
       name: 'UGC',
       path: '/ugc',
@@ -123,12 +160,14 @@ const Header: React.FC = () => {
       dropdownItems: nirfDropdownItems
     },
     {
-      name: 'Other Links',
+      name: 'Important Links',
       path: '/other-links',
       hasDropdown: true,
       dropdownItems: otherLinksDropdownItems
     },
-    { name: 'About Us', path: '/about-us' },
+    { name: 'Mandates & Policies', path: '/mandates' },
+    { name: 'Category B Documents', path: '/category-b' },
+    { name: 'About Institution', path: '/about-us' },
   ];
 
   const headerClass = isScrolled || !isHomePage
@@ -165,14 +204,20 @@ const Header: React.FC = () => {
             <div className="relative">
               <button
                 className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}
-                onClick={() => activeDropdown === 'admin' ? setActiveDropdown(null) : setActiveDropdown('admin')}
+                aria-expanded={activeDropdown === 'admin'}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveDropdown(activeDropdown === 'admin' ? null : 'admin');
+                }}
                 onMouseEnter={() => handleMouseEnter('admin')}
+                onMouseLeave={handleMouseLeave}
               >
                 Administration <ChevronDown className="w-4 h-4 ml-1" />
               </button>
               {activeDropdown === 'admin' && (
                 <div
                   className="absolute top-full -left-4 mt-2 w-56 bg-background rounded-md shadow-lg border py-1 z-50"
+                  onClick={(e) => e.stopPropagation()}
                   onMouseEnter={() => setActiveDropdown('admin')}
                   onMouseLeave={(e) => {
                     // Only close if moving outside the entire dropdown area
@@ -181,7 +226,7 @@ const Header: React.FC = () => {
                     if (!currentTarget.contains(relatedTarget)) {
                       dropdownTimeoutRef.current = setTimeout(() => {
                         setActiveDropdown(null);
-                      }, 300);
+                      }, 200);
                     }
                   }}
                 >
@@ -197,14 +242,21 @@ const Header: React.FC = () => {
             <div className="relative">
               <button
                 className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}
-                onClick={() => activeDropdown === 'more' ? setActiveDropdown(null) : setActiveDropdown('more')}
+                aria-expanded={activeDropdown === 'more'}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveDropdown(activeDropdown === 'more' ? null : 'more');
+                }}
                 onMouseEnter={() => handleMouseEnter('more')}
+                onMouseLeave={handleMouseLeave}
               >
                 More <ChevronDown className="w-4 h-4 ml-1" />
               </button>
               {activeDropdown === 'more' && (
                 <div
-                  className="absolute top-full -left-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 z-50"
+                  className="absolute top-full -left-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 z-50 max-h-96 overflow-y-auto"
+                  data-dropdown="more"
+                  onClick={(e) => e.stopPropagation()}
                   onMouseEnter={() => {
                     setActiveDropdown('more');
                     if (dropdownTimeoutRef.current) {
@@ -216,61 +268,108 @@ const Header: React.FC = () => {
                     // Only close if moving outside the entire dropdown area
                     const relatedTarget = e.relatedTarget as Node;
                     const currentTarget = e.currentTarget as Node;
-                    const containsOrIs = currentTarget.contains(relatedTarget) ||
-                      (relatedTarget && relatedTarget.textContent?.includes('UGC')) ||
-                      (relatedTarget && relatedTarget.textContent?.includes('NIRF')) ||
-                      (relatedTarget && relatedTarget.textContent?.includes('Other Links'));
 
-                    // Don't close if moving to a child or submenu element
-                    if (containsOrIs) {
+                    // Don't close if moving to a child element within the dropdown
+                    if (currentTarget.contains(relatedTarget)) {
                       return;
                     }
 
+                    // Add delay to prevent accidental closure and close submenu
                     dropdownTimeoutRef.current = setTimeout(() => {
                       setActiveDropdown(null);
-                    }, 300);
+                      setActiveSubmenu(null);
+                    }, 200);
                   }}
                 >
                   {moreDropdownItems.map((item, idx) => (
                     item.hasDropdown ? (
                       <div
                         key={idx}
-                        className="group relative py-2"
-                        onMouseEnter={() => {
-                          setActiveDropdown(`more-${item.name}`);
-                          if (dropdownTimeoutRef.current) {
-                            clearTimeout(dropdownTimeoutRef.current);
-                            dropdownTimeoutRef.current = null;
-                          }
-                        }}
+                        className="group relative"
                       >
                         <div
-                          className="flex items-center justify-between px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary"
-                          onClick={() => activeDropdown === `more-${item.name}` ? setActiveDropdown('more') : setActiveDropdown(`more-${item.name}`)}
+                          className="flex items-center justify-between px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary cursor-pointer"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (activeSubmenu === item.name) {
+                              setActiveSubmenu(null);
+                            } else {
+                              setActiveSubmenu(item.name);
+                            }
+                            console.log('Clicked:', item.name, 'Active submenu:', activeSubmenu);
+                          }}
+                          onMouseEnter={() => {
+                            setActiveSubmenu(item.name);
+                            if (dropdownTimeoutRef.current) {
+                              clearTimeout(dropdownTimeoutRef.current);
+                              dropdownTimeoutRef.current = null;
+                            }
+                          }}
                         >
                           <span>{item.name}</span>
-                          <ChevronRight className="w-3 h-3 ml-2" />
+                          <ChevronRight className={`w-4 h-4 transition-transform ${activeSubmenu === item.name ? 'rotate-90' : ''}`} />
                         </div>
-                        {activeDropdown === `more-${item.name}` && (
+                        {activeSubmenu === item.name && (
                           <div
-                            className="absolute left-full top-0 w-56 bg-background rounded-md shadow-lg border py-1 z-50"
+                            className="fixed inset-4 md:top-24 md:right-8 md:left-auto md:bottom-auto w-auto md:w-72 bg-background rounded-xl shadow-2xl border-2 border-primary/20 py-3 z-[80] animate-in fade-in-0 slide-in-from-top-4 duration-300 max-h-[80vh] overflow-y-auto"
+                            style={{
+                              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(59, 130, 246, 0.1)'
+                            }}
+                            onClick={(e) => e.stopPropagation()}
                             onMouseEnter={() => {
-                              setActiveDropdown(`more-${item.name}`);
+                              setActiveSubmenu(item.name);
                               if (dropdownTimeoutRef.current) {
                                 clearTimeout(dropdownTimeoutRef.current);
                                 dropdownTimeoutRef.current = null;
                               }
                             }}
+                            onMouseLeave={(e) => {
+                              const relatedTarget = e.relatedTarget as Element;
+                              const currentTarget = e.currentTarget as Element;
+
+                              // Don't close if moving back to parent dropdown
+                              const parentDropdown = document.querySelector('[data-dropdown="more"]');
+                              if (parentDropdown && parentDropdown.contains(relatedTarget)) {
+                                return;
+                              }
+
+                              dropdownTimeoutRef.current = setTimeout(() => {
+                                setActiveSubmenu(null);
+                              }, 300);
+                            }}
                           >
-                            {item.dropdownItems?.map((subItem, subIdx) => (
-                              <Link
-                                key={subIdx}
-                                href={subItem.path}
-                                className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary"
+                            {/* Header with close button */}
+                            <div className="flex items-center justify-between px-4 md:px-5 py-3 border-b border-border/50 mb-2">
+                              <h4 className="text-lg md:text-base font-semibold text-primary">{item.name}</h4>
+                              <button
+                                onClick={() => setActiveSubmenu(null)}
+                                className="text-foreground/50 hover:text-foreground transition-colors p-2 rounded-md hover:bg-secondary"
                               >
-                                {subItem.name}
-                              </Link>
-                            ))}
+                                <X className="w-5 h-5 md:w-4 md:h-4" />
+                              </button>
+                            </div>
+
+                            {/* Submenu Items */}
+                            <div className="space-y-2 px-3 md:px-2">
+                              {item.dropdownItems?.map((subItem, subIdx) => (
+                                <Link
+                                  key={subIdx}
+                                  href={subItem.path}
+                                  className="block px-4 py-4 md:py-3 text-base md:text-sm text-foreground/80 hover:bg-primary/10 hover:text-primary transition-all duration-200 rounded-lg touch-manipulation"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setActiveDropdown(null);
+                                    setActiveSubmenu(null);
+                                  }}
+                                >
+                                  <div className="flex items-center space-x-3">
+                                    <div className="w-2.5 h-2.5 md:w-2 md:h-2 bg-primary/60 rounded-full flex-shrink-0"></div>
+                                    <span className="font-medium">{subItem.name}</span>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
                           </div>
                         )}
                       </div>
@@ -279,6 +378,16 @@ const Header: React.FC = () => {
                         key={idx}
                         href={item.path}
                         className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary"
+                        onMouseEnter={() => {
+                          // Clear any pending timeout to keep dropdown open
+                          if (dropdownTimeoutRef.current) {
+                            clearTimeout(dropdownTimeoutRef.current);
+                            dropdownTimeoutRef.current = null;
+                          }
+                        }}
+                        onClick={() => {
+                          setActiveDropdown(null);
+                        }}
                       >
                         {item.name}
                       </Link>
@@ -291,14 +400,20 @@ const Header: React.FC = () => {
             <div className="relative">
               <button
                 className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}
-                onClick={() => activeDropdown === 'depts' ? setActiveDropdown(null) : setActiveDropdown('depts')}
+                aria-expanded={activeDropdown === 'depts'}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveDropdown(activeDropdown === 'depts' ? null : 'depts');
+                }}
                 onMouseEnter={() => handleMouseEnter('depts')}
+                onMouseLeave={handleMouseLeave}
               >
                 Departments <ChevronDown className="w-4 h-4 ml-1" />
               </button>
               {activeDropdown === 'depts' && (
                 <div
                   className="absolute top-full -right-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 max-h-96 overflow-y-auto z-50"
+                  onClick={(e) => e.stopPropagation()}
                   onMouseEnter={() => setActiveDropdown('depts')}
                   onMouseLeave={(e) => {
                     // Only close if moving outside the entire dropdown area
@@ -307,7 +422,7 @@ const Header: React.FC = () => {
                     if (!currentTarget.contains(relatedTarget)) {
                       dropdownTimeoutRef.current = setTimeout(() => {
                         setActiveDropdown(null);
-                      }, 300);
+                      }, 200);
                     }
                   }}
                 >
