@@ -201,7 +201,7 @@ const Header: React.FC = () => {
               </Link>
             ))}
 
-            <div className="relative">
+            <div className="relative" data-dropdown="admin">
               <button
                 className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}
                 aria-expanded={activeDropdown === 'admin'}
@@ -210,7 +210,13 @@ const Header: React.FC = () => {
                   setActiveDropdown(activeDropdown === 'admin' ? null : 'admin');
                 }}
                 onMouseEnter={() => handleMouseEnter('admin')}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={(e) => {
+                  const relatedTarget = e.relatedTarget as Element;
+                  const dropdown = document.querySelector('[data-dropdown="admin"]');
+                  if (dropdown && !dropdown.contains(relatedTarget)) {
+                    handleMouseLeave(e);
+                  }
+                }}
               >
                 Administration <ChevronDown className="w-4 h-4 ml-1" />
               </button>
@@ -218,12 +224,17 @@ const Header: React.FC = () => {
                 <div
                   className="absolute top-full -left-4 mt-2 w-56 bg-background rounded-md shadow-lg border py-1 z-50"
                   onClick={(e) => e.stopPropagation()}
-                  onMouseEnter={() => setActiveDropdown('admin')}
+                  onMouseEnter={() => {
+                    setActiveDropdown('admin');
+                    if (dropdownTimeoutRef.current) {
+                      clearTimeout(dropdownTimeoutRef.current);
+                      dropdownTimeoutRef.current = null;
+                    }
+                  }}
                   onMouseLeave={(e) => {
-                    // Only close if moving outside the entire dropdown area
-                    const relatedTarget = e.relatedTarget as Node;
-                    const currentTarget = e.currentTarget as Node;
-                    if (!currentTarget.contains(relatedTarget)) {
+                    const relatedTarget = e.relatedTarget as Element;
+                    const dropdown = document.querySelector('[data-dropdown="admin"]');
+                    if (dropdown && !dropdown.contains(relatedTarget)) {
                       dropdownTimeoutRef.current = setTimeout(() => {
                         setActiveDropdown(null);
                       }, 200);
@@ -231,7 +242,17 @@ const Header: React.FC = () => {
                   }}
                 >
                   {administrationItems.map(item => (
-                    <Link key={item.path} href={item.path} className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary">
+                    <Link 
+                      key={item.path} 
+                      href={item.path} 
+                      className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary"
+                      onMouseEnter={() => {
+                        if (dropdownTimeoutRef.current) {
+                          clearTimeout(dropdownTimeoutRef.current);
+                          dropdownTimeoutRef.current = null;
+                        }
+                      }}
+                    >
                       {item.name}
                     </Link>
                   ))}
