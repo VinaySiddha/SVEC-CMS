@@ -104,8 +104,42 @@ const CSEDepartment: React.FC = () => {
           <div className="py-6">
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
             <p className="text-gray-700 leading-relaxed mb-4">
-              The Department of Computer Science & Engineering was established in 2001. The department offers undergraduate program in Computer Science & Engineering with an intake of 180 students and has grown into one of the most sought-after destinations for quality education in this region. The department has state-of-the-art infrastructure and computing equipment supported by high-speed internet facility.
+              The Department of Computer Science & Engineering was established in 2001 with an intake of 60 seats in B.Tech. From 2006 onwards the intake was increased to 120 seats. From 2013 onwards the intake was increased to 180 seats. From 2015 onwards intake was increased to 240 seats. From 2024 onwards intake was increased to 300 seats.
             </p>
+            <p className="text-gray-700 leading-relaxed mb-6">
+              CSE Department is offering M.Tech (CS) program from 2020 onwards with a present intake of 12 seats. The department has state-of-the-art infrastructure and computing equipment supported by high-speed internet facility.
+            </p>
+
+            <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left text-gray-700 mb-4">
+                <thead className="text-xs bg-gray-50 uppercase">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">S.No</th>
+                    <th scope="col" className="px-6 py-3">Name of the Course</th>
+                    <th scope="col" className="px-6 py-3">Eligibility Criteria</th>
+                    <th scope="col" className="px-6 py-3">Duration</th>
+                    <th scope="col" className="px-6 py-3">Intake</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-white border-b">
+                    <td className="px-6 py-4">1</td>
+                    <td className="px-6 py-4">B.Tech-Computer Science and Engineering</td>
+                    <td className="px-6 py-4">AP EAPCET</td>
+                    <td className="px-6 py-4">4 Years</td>
+                    <td className="px-6 py-4">300</td>
+                  </tr>
+                  <tr className="bg-white border-b">
+                    <td className="px-6 py-4">2</td>
+                    <td className="px-6 py-4">M.Tech-Computer Science</td>
+                    <td className="px-6 py-4">GATE / PGECET</td>
+                    <td className="px-6 py-4">2 Years</td>
+                    <td className="px-6 py-4">12</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         );
       case 'Vision':
@@ -227,7 +261,7 @@ const CSEDepartment: React.FC = () => {
                   <p className="text-gray-600">Email: <a href="mailto:hod_cse@srivasaviengg.ac.in" className="text-primary hover:underline">hod_cse@srivasaviengg.ac.in</a></p>
                 </div>
                 <p className="text-gray-700 leading-relaxed">
-                  The Department of Computer Science and Engineering (CSE) was established in 2001 with an initial intake of 60 students. Over the years, it has grown significantly, with the intake increasing to 240 students for the B.Tech program. The department also offers an M.Tech program in Computer Science since 2020. Our vision is to evolve as a center of academic and research excellence in the area of Computer Science and Engineering.
+                  The Department of Computer Science and Engineering (CSE) was established in 2001 with an initial intake of 60 students. Over the years, it has grown significantly, with the intake increasing to 120 seats in 2006, to 180 seats in 2013, to 240 seats in 2015, and now to 300 seats in 2024 for the B.Tech program. The department also offers an M.Tech program in Computer Science since 2020 with an intake of 12 seats. Our vision is to evolve as a center of academic and research excellence in the area of Computer Science and Engineering.
                 </p>
               </div>
             </div>

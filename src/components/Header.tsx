@@ -66,8 +66,16 @@ const Header: React.FC = () => {
     if (e) {
       const relatedTarget = e.relatedTarget as Node;
       const currentTarget = e.currentTarget as Node;
-      // Don't close if moving to a child element
-      if (currentTarget.contains(relatedTarget)) {
+
+      // Check if we're moving to a related dropdown element
+      const dropdownId = (currentTarget as Element).closest('[data-dropdown]')?.getAttribute('data-dropdown');
+      const dropdown = dropdownId && document.querySelector(`[data-dropdown="${dropdownId}"]`);
+      const dropdownMenu = dropdownId && document.querySelector(`[data-dropdown="${dropdownId}-menu"]`);
+
+      // Don't close if moving to the dropdown content or child element
+      if ((dropdown && dropdown.contains(relatedTarget)) ||
+        (dropdownMenu && dropdownMenu.contains(relatedTarget)) ||
+        (currentTarget.contains(relatedTarget))) {
         return;
       }
     }
@@ -75,7 +83,7 @@ const Header: React.FC = () => {
     // Add a delay before closing to prevent accidental closures
     dropdownTimeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
-    }, 200);
+    }, 300); // Increased timeout for better user experience
   };
 
   const departments = [
@@ -242,9 +250,9 @@ const Header: React.FC = () => {
                   }}
                 >
                   {administrationItems.map(item => (
-                    <Link 
-                      key={item.path} 
-                      href={item.path} 
+                    <Link
+                      key={item.path}
+                      href={item.path}
                       className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary"
                       onMouseEnter={() => {
                         if (dropdownTimeoutRef.current) {
@@ -418,7 +426,7 @@ const Header: React.FC = () => {
               )}
             </div>
 
-            <div className="relative">
+            <div className="relative" data-dropdown="depts">
               <button
                 className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}
                 aria-expanded={activeDropdown === 'depts'}
@@ -427,20 +435,33 @@ const Header: React.FC = () => {
                   setActiveDropdown(activeDropdown === 'depts' ? null : 'depts');
                 }}
                 onMouseEnter={() => handleMouseEnter('depts')}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={(e) => {
+                  const relatedTarget = e.relatedTarget as Element;
+                  const dropdown = document.querySelector('[data-dropdown="depts"]');
+                  if (dropdown && !dropdown.contains(relatedTarget)) {
+                    handleMouseLeave(e);
+                  }
+                }}
               >
                 Departments <ChevronDown className="w-4 h-4 ml-1" />
               </button>
               {activeDropdown === 'depts' && (
                 <div
                   className="absolute top-full -right-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 max-h-96 overflow-y-auto z-50"
+                  data-dropdown="depts-menu"
                   onClick={(e) => e.stopPropagation()}
-                  onMouseEnter={() => setActiveDropdown('depts')}
+                  onMouseEnter={() => {
+                    setActiveDropdown('depts');
+                    if (dropdownTimeoutRef.current) {
+                      clearTimeout(dropdownTimeoutRef.current);
+                      dropdownTimeoutRef.current = null;
+                    }
+                  }}
                   onMouseLeave={(e) => {
                     // Only close if moving outside the entire dropdown area
-                    const relatedTarget = e.relatedTarget as Node;
-                    const currentTarget = e.currentTarget as Node;
-                    if (!currentTarget.contains(relatedTarget)) {
+                    const relatedTarget = e.relatedTarget as Element;
+                    const dropdown = document.querySelector('[data-dropdown="depts"]');
+                    if (dropdown && !dropdown.contains(relatedTarget)) {
                       dropdownTimeoutRef.current = setTimeout(() => {
                         setActiveDropdown(null);
                       }, 200);
@@ -448,7 +469,18 @@ const Header: React.FC = () => {
                   }}
                 >
                   {departments.map(item => (
-                    <Link key={item.path} href={item.path} className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary">
+                    <Link
+                      key={item.path}
+                      href={item.path}
+                      className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary"
+                      onMouseEnter={() => {
+                        // Clear any pending timeout to keep dropdown open
+                        if (dropdownTimeoutRef.current) {
+                          clearTimeout(dropdownTimeoutRef.current);
+                          dropdownTimeoutRef.current = null;
+                        }
+                      }}
+                    >
                       {item.name}
                     </Link>
                   ))}

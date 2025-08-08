@@ -245,7 +245,7 @@ const Admissions: React.FC = () => {
                     <tr>
                       <th className="px-3 sm:px-6 py-3 text-left">Program</th>
                       <th className="px-2 sm:px-6 py-3 text-center">Duration</th>
-                      <th className="px-2 sm:px-6 py-3 text-center hidden md:table-cell">Semesters</th>
+                      <th className="px-2 sm:px-6 py-3 text-cente">Semesters</th>
                       <th className="px-2 sm:px-6 py-3 text-center">Intake</th>
                       <th className="px-2 sm:px-6 py-3 text-center">Annual Fee</th>
                     </tr>
@@ -254,7 +254,7 @@ const Admissions: React.FC = () => {
                     <tr className="bg-muted/30">
                       <td className="px-3 sm:px-6 py-4 font-semibold text-primary">Computer Science & Engineering</td>
                       <td className="px-2 sm:px-6 py-4 text-center">4 Years</td>
-                      <td className="px-2 sm:px-6 py-4 text-center hidden md:table-cell">8</td>
+                      <td className="px-2 sm:px-6 py-4 text-center">8</td>
                       <td className="px-2 sm:px-6 py-4 text-center">300</td>
                       <td className="px-2 sm:px-6 py-4 text-center">₹77,200/year</td>
                     </tr>
@@ -348,7 +348,7 @@ const Admissions: React.FC = () => {
                       <td className="px-6 py-4 font-semibold text-primary">Power Electronics & Power Systems (EEE)</td>
                       <td className="px-6 py-4 text-center">2 Years</td>
                       <td className="px-6 py-4 text-center">4</td>
-                      <td className="px-6 py-4 text-center">18</td>
+                      <td className="px-6 py-4 text-center">6</td>
                       <td className="px-6 py-4 text-center">₹60,500/year</td>
                     </tr>
                     <tr className="bg-white">
@@ -362,14 +362,14 @@ const Admissions: React.FC = () => {
                       <td className="px-6 py-4 font-semibold text-primary">Computer Science (CSE)</td>
                       <td className="px-6 py-4 text-center">2 Years</td>
                       <td className="px-6 py-4 text-center">4</td>
-                      <td className="px-6 py-4 text-center">18</td>
+                      <td className="px-6 py-4 text-center">12</td>
                       <td className="px-6 py-4 text-center">₹60,500/year</td>
                     </tr>
                     <tr className="bg-white">
                       <td className="px-6 py-4 font-semibold text-primary">Structural Engineering (Civil)</td>
                       <td className="px-6 py-4 text-center">2 Years</td>
                       <td className="px-6 py-4 text-center">4</td>
-                      <td className="px-6 py-4 text-center">18</td>
+                      <td className="px-6 py-4 text-center">6</td>
                       <td className="px-6 py-4 text-center">₹60,500/year</td>
                     </tr>
                   </tbody>
