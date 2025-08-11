@@ -5,6 +5,7 @@ import { Brain, BookOpen, Award, ExternalLink, Menu, ChevronRight, Cpu, Users, B
 const CSEAIDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
+  const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const sidebarItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Physical Facilities', 'Department Library', 'MoUs', 'Faculty Development Programs', 'Faculty Achievements', 'Workshops', 'Student Achievements', 'Placements', 'Academic Toppers', 'Technical Association', 'Newsletters', 'Extra-Curricular Activities', 'Hackathons', 'Handbooks', 'Contact'
@@ -64,79 +65,246 @@ const CSEAIDepartment: React.FC = () => {
     { name: "R&D Lab", image: "/images/departments/cai/Sartaj Sahni Lab.jpg" },
   ];
 
+  const renderDeptTabContent = () => {
+    switch (activeDeptTab) {
+      case 'Department':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              The Department of Computer Science & Engineering (Artificial Intelligence) was established to provide specialized education in the rapidly evolving field of Artificial Intelligence. Our program is designed to equip students with a strong foundation in computer science principles while focusing on cutting-edge AI technologies.
+            </p>
+            <p className="text-gray-700 leading-relaxed mb-6">
+              The department has state-of-the-art infrastructure and computing equipment supported by high-speed internet facility. Our faculty members are highly qualified and experienced in various domains of artificial intelligence and machine learning.
+            </p>
+
+            <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left text-gray-700 mb-4">
+                <thead className="text-xs bg-gray-50 uppercase">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">S.No</th>
+                    <th scope="col" className="px-6 py-3">Name of the Course</th>
+                    <th scope="col" className="px-6 py-3">Eligibility Criteria</th>
+                    <th scope="col" className="px-6 py-3">Duration</th>
+                    <th scope="col" className="px-6 py-3">Intake</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-white border-b">
+                    <td className="px-6 py-4">1</td>
+                    <td className="px-6 py-4">B.Tech-Computer Science and Engineering (Artificial Intelligence)</td>
+                    <td className="px-6 py-4">AP EAPCET</td>
+                    <td className="px-6 py-4">4 Years</td>
+                    <td className="px-6 py-4">60</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      case 'Vision':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
+            <p className="text-gray-700 leading-relaxed">
+              To evolve as a center of excellence in Computer Science & Engineering with specialization in Artificial Intelligence, producing professionally competent and socially responsible engineers ready for the challenges of the AI-driven world.
+            </p>
+          </div>
+        );
+      case 'Mission':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>To impart quality education through effective teaching-learning processes with a focus on artificial intelligence and machine learning technologies.</li>
+              <li>To provide excellent infrastructure and environment conducive for AI research and innovation.</li>
+              <li>To enhance industry-institute interaction to make students industry-ready in the rapidly evolving AI ecosystem.</li>
+              <li>To develop entrepreneurship skills and ethical values among students with special emphasis on responsible AI development.</li>
+            </ul>
+          </div>
+        );
+      case 'PEOs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Educational Objectives (PEOs)</h3>
+            <p className="text-gray-700 mb-4">The graduates will:</p>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Excel in professional career and/or higher education by acquiring knowledge in mathematics, science, computer science & engineering principles with specialization in artificial intelligence.</li>
+              <li>Analyze real-life problems and design socially responsible and environmentally sustainable AI-based solutions.</li>
+              <li>Adapt to evolving AI technologies through continuous learning and research.</li>
+              <li>Lead a successful career as a team member or as a team leader with strong professional ethics, communication skills, and awareness of the societal impact of AI technologies.</li>
+            </ul>
+          </div>
+        );
+      case 'POs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Outcomes (POs)</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li><strong>Engineering Knowledge:</strong> Apply knowledge of mathematics, science, engineering fundamentals, and computer science & engineering principles to solve complex AI engineering problems.</li>
+              <li><strong>Problem Analysis:</strong> Identify, formulate, research literature, and analyze complex engineering problems in the AI domain to arrive at substantiated conclusions using principles of mathematics, natural sciences, and engineering sciences.</li>
+              <li><strong>Design/Development of Solutions:</strong> Design solutions for complex AI engineering problems and design system components or processes that meet the specified needs with appropriate consideration for public health and safety, and cultural, societal, and environmental considerations.</li>
+              <li><strong>Modern Tool Usage:</strong> Create, select, and apply appropriate techniques, resources, and modern AI engineering and IT tools for complex engineering activities with an understanding of the limitations.</li>
+            </ul>
+          </div>
+        );
+      case 'PSOs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Specific Outcomes (PSOs)</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Apply standard practices and strategies in software development with a focus on AI algorithms, machine learning models, and neural networks to deliver quality AI solutions.</li>
+              <li>Apply the fundamentals of computer science & engineering with artificial intelligence techniques to solve engineering problems in interdisciplinary domains.</li>
+              <li>Develop applications using emerging AI technologies to provide innovative solutions for real-world problems while considering ethical implications and societal impact.</li>
+            </ul>
+          </div>
+        );
+      case 'SalientFeatures':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Salient Features</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Specialized curriculum focusing on artificial intelligence, machine learning, deep learning, and related technologies</li>
+              <li>Experienced faculty members with expertise in various domains of AI and machine learning</li>
+              <li>State-of-the-art AI labs with high-performance computing systems and GPU resources</li>
+              <li>Strong industry-institute interaction through AI-focused internships, projects, and expert lectures</li>
+              <li>Research opportunities in cutting-edge AI technologies</li>
+              <li>Regular workshops, seminars, and training programs on emerging AI tools and techniques</li>
+              <li>Industry-relevant projects with real-world applications</li>
+              <li>Focus on responsible AI development and ethical considerations</li>
+            </ul>
+          </div>
+        );
+      default:
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
+            <p className="text-gray-700 leading-relaxed">
+              The Department of Computer Science & Engineering (Artificial Intelligence) offers a specialized program focused on artificial intelligence and related technologies to prepare students for the rapidly evolving AI industry.
+            </p>
+          </div>
+        );
+    }
+  };
+
   const renderContent = () => {
     switch (activeContent) {
+      case 'Department Profile':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+              <div className="relative">
+                <img
+                  src="/aihod.jpg"
+                  alt="Dr. G. Loshma"
+                  className="w-full h-80 object-cover rounded-lg shadow-md"
+                />
+              </div>
+              <div className="lg:col-span-2 space-y-4">
+                <div className="mb-4">
+                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
+                  <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, CSE(AI)</p>
+                  <p className="text-gray-600">Ph.D in Computer Science</p>
+                  <p className="text-gray-600">Email: <a href="mailto:hod_cai@srivasaviengg.ac.in" className="text-primary hover:underline">hod_cai@srivasaviengg.ac.in</a></p>
+                </div>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  The Department of Computer Science and Engineering (Artificial Intelligence) was established with a vision to evolve as a center of academic excellence and research in the emerging field of Artificial Intelligence. Our department aims to produce globally competent and socially responsible computer professionals with technical excellence in the field of Artificial Intelligence.
+                </p>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Our program focuses on providing students with a strong foundation in core computer science principles along with specialized knowledge in artificial intelligence, machine learning, deep learning, natural language processing, and related technologies. We have state-of-the-art infrastructure and computing facilities to support practical learning and research activities.
+                </p>
+                <p className="text-gray-700 leading-relaxed">
+                  The department maintains strong industry connections to ensure our curriculum remains current with technological advancements and market demands. Our faculty members are highly qualified, experienced, and actively engaged in research, contributing to the growing field of artificial intelligence through publications, projects, and innovations.
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+
       case 'Faculty Profiles':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] text-center mt-8 mb-8" id="main-heading">
-              Profile Page
-            </h2>
-            <div className="nav-content mb-2">
-              <details open>
-                <summary className="text-lg font-semibold">Faculty Profile</summary>
-                <div className="tab4-table flex justify-center items-center my-4">
-                  <div className="w-full overflow-x-auto">
-                    <table className="min-w-max w-full border border-gray-200 rounded-xl shadow-lg bg-white text-sm text-left text-gray-700">
-                      <thead className="bg-gradient-to-r from-blue-200 to-blue-100 sticky top-0 z-10">
-                        <tr>
-                          <th className="px-6 py-3 font-bold text-gray-800 text-center border-b">S.No.</th>
-                          <th className="px-6 py-3 font-bold text-gray-800 border-b">Name of the Faculty</th>
-                          <th className="px-6 py-3 font-bold text-gray-800 border-b">Qualification</th>
-                          <th className="px-6 py-3 font-bold text-gray-800 border-b">Designation</th>
-                          <th className="px-6 py-3 font-bold text-gray-800 border-b">Profile</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {[
-                          [1, 'Dr. G. Loshma', 'Ph.D.', 'Head & Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Dr.G.Loshma.pdf'],
-                          [2, 'Dr. E. Aswani Kumar', 'Ph.D.', 'Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_Dr. E. Aswani Kumar.pdf'],
-                          [3, 'Mrs. A. Leelavathi', 'M.Tech, (Ph.D.)', 'Sr. Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_A.%20Leelavathi.pdf'],
-                          [4, 'Mr. R.L. Phani Kumar', 'M.Tech, (Ph.D.)', 'Sr. Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_R.L. Phani Kumar.pdf'],
-                          [5, 'Mr. M. Subba Rao', 'M.Tech, (Ph.D.)', 'Sr. Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. M. Subba Rao.pdf'],
-                          [6, 'Mr. P. V. V. Satyanarayana', 'M.Tech, (Ph.D.)', 'Sr. Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. P. V. V Satya Narayana.pdf'],
-                          [7, 'Mr. V. Rama Narayana', 'M.Tech, (Ph.D.)', 'Sr. Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. V. Rama Narayana.pdf'],
-                          [8, 'Mrs. V. Radha', 'M.Tech, (Ph.D.)', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mrs. V. Radha.pdf'],
-                          [9, 'Mr. A. Rajesh', 'M.Tech, (Ph.D.)', 'Sr. Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_A.Rajesh.pdf'],
-                          [10, 'Mr. D. Ayyappa', 'M.Tech', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. D. Ayyappa.pdf'],
-                          [11, 'Mr. M. Yesu Sekharam', 'M.Tech', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_M. Y. SEKHARAM.pdf'],
-                          [12, 'Mrs. K. Durga Saranya', 'M.Tech', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mrs. K. Durga Saranya.pdf'],
-                          [13, 'Mr. Shaik Moulali', 'M.Tech', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Sk. Moulali.pdf'],
-                          [14, 'Mrs. P. Ujwala Sai', 'M.Tech', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_P. Ujwala.pdf'],
-                          [15, 'Mrs. M. Kiranmai', 'M.Tech', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Ms. M. Kiranmai.pdf'],
-                          [16, 'Mr. V. Thinakaran', 'M.E.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr .V. Thinakaran.pdf'],
-                          [17, 'Mr. P. Seshu Kumar', 'M.Tech.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. P Seshu Kumar.pdf'],
-                          [18, 'Mrs. G. Kalyani', 'M.Tech.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_Ms. G Kalyani.pdf'],
-                          [19, 'Mrs. Pratyusha Ch.', 'M.Tech.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_Ms. Prathyusha Ch.pdf'],
-                          [20, 'Mr. A. Reddy Chaitanya', 'M.Tech.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf'],
-                          [21, 'Dr. Jagadish Kumar K B', 'Ph.D.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_Dr. Jagadish Kumar KB.pdf'],
-                          [22, 'Mr. Nishanth N S', 'M.E.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr.Nisanth N S.pdf'],
-                          [23, 'Mr. B. V. V. Bhargav', 'M.Tech, (Ph.D.)', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Bhargav-BVV.pdf'],
-                          [24, 'Mr. V. Jaya Rama Krishna', 'M.Tech, (Ph.D.)', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. V. Jayaramakrishna.pdf'],
-                          [25, 'Dr. M. Vishnuvardhan', 'Ph.D.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Dr. M Vishnuvardhan.pdf'],
-                          [26, 'Mrs. Jane Rose', 'M.Tech.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf'],
-                          [27, 'Dr. J. Kondala Rao', 'Ph.D.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. K. Jyothi.pdf'],
-                          [28, 'Mrs. Balaji Rohitha', 'M.Tech.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_DS_Mrs. B. Rohitha.pdf'],
-                          [29, 'Mr. Jewaliddin Shaik', 'M.Tech, (Ph.D.)', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf'],
-                          [30, 'Ms. Sneha Pradhan', 'M.Tech.', 'Asst. Professor', 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mrs. P. Sneha.pdf'],
-                        ].map(([sno, name, qual, desig, url], idx) => (
-                          <tr key={sno} className={
-                            `transition-colors duration-200 ${idx % 2 === 0 ? 'bg-blue-50' : 'bg-white'} hover:bg-blue-100 border-b last:border-b-0`}
-                          >
-                            <td className="px-6 py-3 text-center font-semibold">{sno}</td>
-                            <td className="px-6 py-3 font-medium text-gray-900">{name}</td>
-                            <td className="px-6 py-3">{qual}</td>
-                            <td className="px-6 py-3">{desig}</td>
-                            <td className="px-6 py-3">
-                              <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-700 font-semibold hover:underline">View Profile</a>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </details>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Teaching Faculty</h2>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left text-gray-500">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">S.No.</th>
+                    <th scope="col" className="px-6 py-3">Name</th>
+                    <th scope="col" className="px-6 py-3">Qualification</th>
+                    <th scope="col" className="px-6 py-3">Designation</th>
+                    <th scope="col" className="px-6 py-3">Profile</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { name: 'Dr. G. Loshma', qualification: 'Ph.D.', designation: 'Head & Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Dr.G.Loshma.pdf' },
+                    { name: 'Dr. E. Aswani Kumar', qualification: 'Ph.D.', designation: 'Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_Dr. E. Aswani Kumar.pdf' },
+                    { name: 'Mrs. A. Leelavathi', qualification: 'M.Tech, (Ph.D.)', designation: 'Sr. Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_A.%20Leelavathi.pdf' },
+                    { name: 'Mr. R.L. Phani Kumar', qualification: 'M.Tech, (Ph.D.)', designation: 'Sr. Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_R.L. Phani Kumar.pdf' },
+                    { name: 'Mr. M. Subba Rao', qualification: 'M.Tech, (Ph.D.)', designation: 'Sr. Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. M. Subba Rao.pdf' },
+                    { name: 'Mr. P. V. V. Satyanarayana', qualification: 'M.Tech, (Ph.D.)', designation: 'Sr. Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. P. V. V Satya Narayana.pdf' },
+                    { name: 'Mr. V. Rama Narayana', qualification: 'M.Tech, (Ph.D.)', designation: 'Sr. Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. V. Rama Narayana.pdf' },
+                    { name: 'Mrs. V. Radha', qualification: 'M.Tech, (Ph.D.)', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mrs. V. Radha.pdf' },
+                    { name: 'Mr. A. Rajesh', qualification: 'M.Tech, (Ph.D.)', designation: 'Sr. Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_A.Rajesh.pdf' },
+                    { name: 'Mr. D. Ayyappa', qualification: 'M.Tech', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. D. Ayyappa.pdf' },
+                    { name: 'Mr. M. Yesu Sekharam', qualification: 'M.Tech', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_M. Y. SEKHARAM.pdf' },
+                    { name: 'Mrs. K. Durga Saranya', qualification: 'M.Tech', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mrs. K. Durga Saranya.pdf' },
+                    { name: 'Mr. Shaik Moulali', qualification: 'M.Tech', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Sk. Moulali.pdf' },
+                    { name: 'Mrs. P. Ujwala Sai', qualification: 'M.Tech', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_P. Ujwala.pdf' },
+                    { name: 'Mrs. M. Kiranmai', qualification: 'M.Tech', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Ms. M. Kiranmai.pdf' },
+                    { name: 'Mr. V. Thinakaran', qualification: 'M.E.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr .V. Thinakaran.pdf' },
+                    { name: 'Mr. P. Seshu Kumar', qualification: 'M.Tech.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. P Seshu Kumar.pdf' },
+                    { name: 'Mrs. G. Kalyani', qualification: 'M.Tech.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_Ms. G Kalyani.pdf' },
+                    { name: 'Mrs. Pratyusha Ch.', qualification: 'M.Tech.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_Ms. Prathyusha Ch.pdf' },
+                    { name: 'Mr. A. Reddy Chaitanya', qualification: 'M.Tech.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf' },
+                    { name: 'Dr. Jagadish Kumar K B', qualification: 'Ph.D.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_Dr. Jagadish Kumar KB.pdf' },
+                    { name: 'Mr. Nishanth N S', qualification: 'M.E.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr.Nisanth N S.pdf' },
+                    { name: 'Mr. B. V. V. Bhargav', qualification: 'M.Tech, (Ph.D.)', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Bhargav-BVV.pdf' },
+                    { name: 'Mr. V. Jaya Rama Krishna', qualification: 'M.Tech, (Ph.D.)', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. V. Jayaramakrishna.pdf' },
+                    { name: 'Dr. M. Vishnuvardhan', qualification: 'Ph.D.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Dr. M Vishnuvardhan.pdf' },
+                    { name: 'Mrs. Jane Rose', qualification: 'M.Tech.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf' },
+                    { name: 'Dr. J. Kondala Rao', qualification: 'Ph.D.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. K. Jyothi.pdf' },
+                    { name: 'Mrs. Balaji Rohitha', qualification: 'M.Tech.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_DS_Mrs. B. Rohitha.pdf' },
+                    { name: 'Mr. Jewaliddin Shaik', qualification: 'M.Tech, (Ph.D.)', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf' },
+                    { name: 'Ms. Sneha Pradhan', qualification: 'M.Tech.', designation: 'Asst. Professor', profileUrl: 'https://srivasaviengg.ac.in/faculty_profile/AIM_Mrs. P. Sneha.pdf' }
+                  ].map((member, index) => (
+                    <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                      <td className="px-6 py-4">{index + 1}</td>
+                      <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                      <td className="px-6 py-4">{member.qualification}</td>
+                      <td className="px-6 py-4">{member.designation}</td>
+                      <td className="px-6 py-4">
+                        <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View</a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 mt-12 text-center">Non-Teaching Staff</h2>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left text-gray-500">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">S.No.</th>
+                    <th scope="col" className="px-6 py-3">Name</th>
+                    <th scope="col" className="px-6 py-3">Designation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {nonTeachingFaculty.map((member, index) => (
+                    <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                      <td className="px-6 py-4">{index + 1}</td>
+                      <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                      <td className="px-6 py-4">{member.designation}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         );
@@ -1469,8 +1637,68 @@ const CSEAIDepartment: React.FC = () => {
               {sidebarOpen && (
                 <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50" onClick={() => setSidebarOpen(false)}></div>
               )}
-
+              
+              <div className="bg-white border-b shadow">
+                <div className="container mx-auto px-4">
+                  <div className="overflow-x-auto">
+                    <nav className="flex flex-nowrap whitespace-nowrap py-2">
+                      <button
+                        onClick={() => setActiveDeptTab('Department')}
+                        className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                          ${activeDeptTab === 'Department' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+                      >
+                        Department
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('Vision')}
+                        className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                          ${activeDeptTab === 'Vision' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+                      >
+                        Vision
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('Mission')}
+                        className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                          ${activeDeptTab === 'Mission' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+                      >
+                        Mission
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('PEOs')}
+                        className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                          ${activeDeptTab === 'PEOs' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+                      >
+                        PEOs
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('POs')}
+                        className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                          ${activeDeptTab === 'POs' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+                      >
+                        POs
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('PSOs')}
+                        className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
+                          ${activeDeptTab === 'PSOs' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+                      >
+                        PSOs
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('SalientFeatures')}
+                        className={`px-4 py-2 font-medium text-sm transition-colors duration-200
+                          ${activeDeptTab === 'SalientFeatures' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
+                      >
+                        Salient Features
+                      </button>
+                    </nav>
+                  </div>
+                </div>
+              </div>
               <div className="container mx-auto px-4 py-8">
+                <div className="bg-white rounded-xl shadow mb-8">
+                  {renderDeptTabContent()}
+                </div>
                 <div className="flex flex-col lg:flex-row gap-8">
                   <aside className="w-full lg:w-80 lg:flex-shrink-0">
                     <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">

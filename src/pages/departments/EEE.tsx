@@ -5,6 +5,7 @@ import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcas
 const EEEDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
+  const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const sidebarItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Labaratories', 'Department Library', 'Faculty Achievements', 'Faculty Innovations in T & L', 'Research Center', 'Student Achievements', 'Placements', 'Technical Association', 'Technical Magazines, Handbooks and Course Materials', 'Newsletters', 'Product Development', 'Departmental Activities', 'Extra-Curricular Activities', 'Handbooks', 'Green Initiative', 'Contact'
@@ -55,8 +56,217 @@ const EEEDepartment: React.FC = () => {
     { name: "Mrs. M.Satya Devi", designation: "Attender" },
   ];
 
+  const renderDeptTabContent = () => {
+    switch (activeDeptTab) {
+      case 'Department':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
+            <p className="text-gray-700 mb-3">
+              The Department of Electrical & Electronics Engineering was established in the year 2004 with an intake of 60 students and later enhanced to 120 in 2012 and to 180 in 2014. The department has well qualified, experienced and dedicated faculty and technical staff. The laboratories are equipped with modern equipment, devices and software relevant to courses.
+            </p>
+            <p className="text-gray-700 mb-3">
+              Students are encouraged to participate in several co-curricular and extracurricular activities. The EEE Department has MoUs with various industries and organizations to enhance practical exposure among students. Our students participate in industrial training programs during their vacations which helps them to get exposure to the industry scenario.
+            </p>
+            <p className="text-gray-700">
+              The Department has been recognized as Research Centre by JNTUK, Kakinada in 2019.
+            </p>
+          </div>
+        );
+      case 'Vision':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Vision</h3>
+            <p className="text-gray-700">
+              To produce quality engineers with the knowledge and skills in Electrical and Electronics Engineering to meet the challenges of the industry and society.
+            </p>
+          </div>
+        );
+      case 'Mission':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Mission</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+              <li>To impart quality technical education in EEE with state-of-art laboratories and committed faculty.</li>
+              <li>To provide hands-on experience on modern tools and technologies.</li>
+              <li>To inculcate professional ethics and leadership qualities.</li>
+              <li>To establish industry-institute interaction to enhance the employability skills.</li>
+              <li>To motivate towards higher education and research.</li>
+            </ul>
+          </div>
+        );
+      case 'PEOs':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Educational Objectives (PEOs)</h3>
+            <p className="text-gray-700 mb-4">After 3-5 years of graduation, the graduates will be able to:</p>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 1</h4>
+                <p className="text-gray-700">Apply the knowledge of Electrical and Electronics Engineering to solve the real time problems in core and allied fields.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 2</h4>
+                <p className="text-gray-700">Work in multidisciplinary environment with professional ethics and good communication skills.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 3</h4>
+                <p className="text-gray-700">Pursue higher education and research in the fields of Electrical and Electronics Engineering.</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'POs':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
+            <p className="text-gray-700 mb-4">After the completion of B.Tech. in Electrical and Electronics Engineering, the graduates will be able to:</p>
+            <div className="space-y-3">
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO1: Engineering Knowledge</h4>
+                <p className="text-gray-700">Apply knowledge of mathematics, science, engineering fundamentals and Electrical and Electronics Engineering to the solution of complex engineering problems.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO2: Problem Analysis</h4>
+                <p className="text-gray-700">Identify, formulate, research literature and analyze complex engineering problems reaching substantiated conclusions using principles of mathematics, natural sciences and engineering sciences.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO3: Design/Development of Solutions</h4>
+                <p className="text-gray-700">Design solutions for complex engineering problems and design system components, processes to meet the specifications with consideration for public health, safety and environmental considerations.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO4: Conduct Investigations of Complex Problems</h4>
+                <p className="text-gray-700">Use research-based knowledge and research methods including design of experiments, analysis and interpretation of data, and synthesis of the information to provide valid conclusions.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO5: Modern Tool Usage</h4>
+                <p className="text-gray-700">Create, select and apply appropriate techniques, resources and modern engineering tools including prediction and modeling to complex engineering activities with an understanding of the limitations.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO6: The Engineer and Society</h4>
+                <p className="text-gray-700">Apply reasoning informed by the contextual knowledge to assess societal, health, safety, legal and cultural issues and the consequent responsibilities relevant to the professional engineering practice.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO7: Environment and Sustainability</h4>
+                <p className="text-gray-700">Understand the impact of the professional engineering solutions in societal and environmental contexts, and demonstrate the knowledge of, and need for sustainable development.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO8: Ethics</h4>
+                <p className="text-gray-700">Apply ethical principles and commit to professional ethics and responsibilities and norms of the engineering practice.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO9: Individual and Team Work</h4>
+                <p className="text-gray-700">Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO10: Communication</h4>
+                <p className="text-gray-700">Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO11: Project Management and Finance</h4>
+                <p className="text-gray-700">Demonstrate knowledge and understanding of the engineering and management principles and apply these to one's own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO12: Life-Long Learning</h4>
+                <p className="text-gray-700">Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'PSOs':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Specific Outcomes (PSOs)</h3>
+            <p className="text-gray-700 mb-4">After the completion of B.Tech. in Electrical and Electronics Engineering, the graduates will be able to:</p>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PSO 1</h4>
+                <p className="text-gray-700">Apply the knowledge of Power Systems, Power Electronics, and Control Systems to solve the problems related to Electrical and Electronics Engineering and to develop the prototypes.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PSO 2</h4>
+                <p className="text-gray-700">Use modern tools and computing techniques to analyze and design electrical systems.</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'COs':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Course Outcomes (COs)</h3>
+            <p className="text-gray-700 mb-4">
+              The course outcomes for all courses offered by the Electrical and Electronics Engineering department are designed to align with program outcomes and educational objectives.
+            </p>
+            <div className="mb-4">
+              <a 
+                href="https://srivasaviengg.ac.in/uploads/eee/COs.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
+              >
+                <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
+              </a>
+            </div>
+          </div>
+        );
+      case 'SalientFeatures':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+              <li>Qualified, experienced and dedicated faculty</li>
+              <li>Well-equipped laboratories with modern equipment</li>
+              <li>Recognized Research Center by JNTUK, Kakinada</li>
+              <li>Departmental library with more than 1500 volumes</li>
+              <li>Active Technical Association (LEE - League of Electrical Engineers)</li>
+              <li>MoUs with various industries and organizations</li>
+              <li>Regular industrial visits for practical exposure</li>
+              <li>Focus on hands-on training and project-based learning</li>
+              <li>Regular guest lectures by industry experts</li>
+              <li>Research focus in Power Systems, Power Electronics, and Control Systems</li>
+              <li>500 KWp Solar Power Plant in the campus as a green initiative</li>
+              <li>Product development initiatives like Solar Rider, Lee Eco Bike, etc.</li>
+              <li>Regular conduct of national conferences and workshops</li>
+              <li>Good placement record in core and IT companies</li>
+            </ul>
+          </div>
+        );
+      default:
+        return <div>Select a tab to view content</div>;
+    }
+  };
+
   const renderContent = () => {
     switch (activeContent) {
+      case 'Department Profile':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Department Profile</h2>
+            
+            {/* Tab Navigation */}
+            <div className="flex flex-wrap gap-2 mb-8 justify-center">
+              {['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveDeptTab(tab)}
+                  className={`px-4 py-2 rounded-md text-sm transition-all ${
+                    activeDeptTab === tab
+                      ? 'bg-[#850209] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+            
+            {/* Tab Content */}
+            <div className="mt-6">
+              {renderDeptTabContent()}
+            </div>
+          </div>
+        );
+      
       case 'Handbooks':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
@@ -1448,6 +1658,31 @@ const EEEDepartment: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center">
             <h1 className="text-3xl md:text-4xl font-bold">Electrical & Electronics Engineering</h1>
+          </div>
+        </div>
+      </section>
+      <section className="bg-white py-12 shadow-sm">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+            <div className="w-48 h-48 md:w-56 md:h-56">
+              <img src="https://srivasaviengg.ac.in/uploads/eeehod.jpg" alt="Dr. D. Sudha Rani" className="w-full h-full object-cover rounded-full border-4 border-[#8B1919] shadow-lg" />
+            </div>
+            <div className="max-w-2xl text-center md:text-left">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#8B1919] mb-4">HOD's Message</h2>
+              <p className="text-gray-600 leading-relaxed mb-4">
+                The Department of Electrical & Electronics Engineering was established in the year 2004 with an intake of 60 students and later enhanced to 120 in 2012 and to 180 in 2014. The department has well qualified, experienced and dedicated faculty and technical staff. The laboratories are equipped with modern equipment, devices and software relevant to courses.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-4">
+                Students are encouraged to participate in several co-curricular and extracurricular activities. The EEE Department has MoUs with various industries and organizations to enhance practical exposure among students. Our students participate in industrial training programs during their vacations which helps them to get exposure to the industry scenario.
+              </p>
+              <p className="text-gray-600 leading-relaxed">
+                We warmly welcome students to become successful engineers by utilizing all the facilities in the department.
+              </p>
+              <div className="mt-4">
+                <p className="font-semibold text-[#8B1919]">Dr. D. Sudha Rani</p>
+                <p className="text-sm text-gray-500">Professor & Head of Department</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

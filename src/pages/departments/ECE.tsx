@@ -5,6 +5,7 @@ import { Radio, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefc
 const ECEDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
+  const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const sidebarItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Physical Facilities', 'Clubs', 'MoUs', 'Faculty Development Programs', 'Faculty Achievements', 'Workshops/SOC/Guest Lecturers', 'Student Achievements', 'Placements', 'Merit Scholarship/Academic Toppers', 'Technical Association', 'Training Activities', 'Newsletters', 'Extra-Curricular Activities', 'Faculty Innovations in Teaching & Learning', 'Handbooks', 'Contact'
@@ -62,9 +63,256 @@ const ECEDepartment: React.FC = () => {
     { name: "Mr.L.Phani Pallavi", designation: "Attender" },
   ];
 
+  const renderDeptTabContent = () => {
+    switch (activeDeptTab) {
+      case 'Department':
+        return (
+          <div>
+            {/* Head of Department's Message */}
+            <div className="mb-10">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div className="relative">
+                  <img
+                    src="/ecehod.jpg"
+                    alt="Dr. E. Kusuma Kumari"
+                    className="w-full h-80 object-cover rounded-lg shadow-md"
+                  />
+                </div>
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="mb-4">
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. E. Kusuma Kumari</h3>
+                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, ECE</p>
+                    <p className="text-gray-600">Ph.D, M.Tech</p>
+                    <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
+                    <p className="text-gray-600">Fax No: 08818-284322</p>
+                    <p className="text-gray-600">Email: <a href="mailto:hod_ece@srivasaviengg.ac.in" className="text-primary hover:underline">hod_ece@srivasaviengg.ac.in</a></p>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">
+                    Welcome to the Department of Electronics and Communication Engineering at Sri Vasavi Engineering College. Our department is committed to providing high-quality education in electronics and communication engineering, fostering innovation, and preparing our students for successful careers in the rapidly evolving technology sector.
+                    <br/><br/>
+                    Our state-of-the-art laboratories and dedicated faculty members ensure that our students receive both theoretical knowledge and practical experience. We focus on:
+                    <br/>
+                    • Industry-relevant curriculum with regular updates<br/>
+                    • Hands-on training with modern equipment and software<br/>
+                    • Research opportunities and innovative projects<br/>
+                    • Industry collaborations and internships<br/>
+                    • Professional development through workshops and seminars<br/>
+                    <br/>
+                    Our department takes pride in our achievements, including:
+                    <br/>
+                    • Successful placement records<br/>
+                    • Research publications in prestigious journals<br/>
+                    • Faculty with extensive industry and academic experience<br/>
+                    • Strong industry connections<br/>
+                    • Active student technical associations
+                    <br/><br/>
+                    We invite you to explore the opportunities our department offers and join us in shaping the future of electronics and communication technology.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Department Overview Section */}
+            <div className="border-t pt-10 mt-10">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                The Department of Electronics and Communication Engineering was established in the year 2001 with an initial intake of 60 students. Over the years, it has grown significantly with a current intake of 120 students. The department has well-equipped laboratories, qualified faculty, and modern facilities.
+              </p>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                The Department offers a B.Tech program in Electronics and Communication Engineering, providing students with comprehensive knowledge in the fields of communication systems, signal processing, VLSI design, embedded systems, and more.
+              </p>
+
+              <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-gray-700 mb-4">
+                  <thead className="text-xs bg-gray-50 uppercase">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">S.No</th>
+                      <th scope="col" className="px-6 py-3">Name of the Course</th>
+                      <th scope="col" className="px-6 py-3">Eligibility Criteria</th>
+                      <th scope="col" className="px-6 py-3">Duration</th>
+                      <th scope="col" className="px-6 py-3">Intake</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white border-b">
+                      <td className="px-6 py-4">1</td>
+                      <td className="px-6 py-4">B.Tech-Electronics and Communication Engineering</td>
+                      <td className="px-6 py-4">AP EAPCET</td>
+                      <td className="px-6 py-4">4 Years</td>
+                      <td className="px-6 py-4">120</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Vision':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
+            <p className="text-gray-700 leading-relaxed">
+              To evolve into a center of excellence in Electronics and Communication Engineering education and research, producing professionally competent and socially responsible engineers.
+            </p>
+          </div>
+        );
+      case 'Mission':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>To impart quality education through effective teaching-learning processes.</li>
+              <li>To provide excellent infrastructure and environment conducive for research.</li>
+              <li>To enhance industry-institute interaction to make students industry-ready.</li>
+              <li>To develop entrepreneurship skills and ethical values among students.</li>
+            </ul>
+          </div>
+        );
+      case 'PEOs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Educational Objectives (PEOs)</h3>
+            <p className="text-gray-700 mb-4">The graduates will:</p>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Excel in professional career and/or higher education by acquiring knowledge in mathematics, science and electronics & communication engineering principles.</li>
+              <li>Analyze real-life problems and design socially responsible and environmentally sustainable electronics-based solutions.</li>
+              <li>Adapt to evolving technologies through continuous learning.</li>
+              <li>Lead a successful career as a team member or as a team leader with strong professional ethics and communication skills.</li>
+            </ul>
+          </div>
+        );
+      case 'POs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Outcomes (POs)</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li><strong>Engineering Knowledge:</strong> Apply knowledge of mathematics, science, engineering fundamentals, and electronics & communication engineering principles to solve complex engineering problems.</li>
+              <li><strong>Problem Analysis:</strong> Identify, formulate, research literature, and analyze complex engineering problems to arrive at substantiated conclusions using principles of mathematics, natural sciences, and engineering sciences.</li>
+              <li><strong>Design/Development of Solutions:</strong> Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for public health and safety, and cultural, societal, and environmental considerations.</li>
+              <li><strong>Modern Tool Usage:</strong> Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools for complex engineering activities with an understanding of the limitations.</li>
+            </ul>
+          </div>
+        );
+      case 'PSOs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Specific Outcomes (PSOs)</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Apply the knowledge of electronics devices and circuits for the design of systems in the field of communications.</li>
+              <li>Apply engineering techniques to design, analyze and implement signal processing systems.</li>
+              <li>Develop applications using embedded systems and VLSI technology for real-world problems.</li>
+            </ul>
+          </div>
+        );
+      case 'COs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Course Outcomes (COs)</h3>
+            <p className="text-gray-700 leading-relaxed">
+              The course outcomes are defined for each course and are aligned with the Program Outcomes and Program Specific Outcomes. The course outcomes are assessed through direct and indirect assessment tools.
+            </p>
+            <p className="mt-4 text-gray-700">
+              <a href="#" className="text-[#B22222] hover:underline">Download Course Outcomes Document</a>
+            </p>
+          </div>
+        );
+      case 'SalientFeatures':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Salient Features</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Experienced and dedicated faculty members with specializations in various domains</li>
+              <li>State-of-the-art laboratories with modern equipment</li>
+              <li>Strong industry-institute interaction through internships, projects, and expert lectures</li>
+              <li>Research culture fostering innovation and intellectual growth</li>
+              <li>Active student chapters and technical clubs</li>
+              <li>Regular workshops, seminars, and training programs on emerging technologies</li>
+              <li>Excellent placement record in reputed companies</li>
+            </ul>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   const renderContent = () => {
 
     switch (activeContent) {
+      case 'Department Profile':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            {/* Navigation Tab */}
+            <div className="bg-white mb-8">
+              <div className="overflow-x-auto">
+                <nav className="flex flex-nowrap whitespace-nowrap py-2 justify-center">
+                  <button
+                    onClick={() => setActiveDeptTab('Department')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'Department' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Department
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('Vision')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'Vision' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Vision
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('Mission')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'Mission' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Mission
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('PEOs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'PEOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    PEOs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('POs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'POs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    POs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('PSOs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'PSOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    PSOs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('COs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'COs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    COs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('SalientFeatures')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'SalientFeatures' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Salient Features
+                  </button>
+                </nav>
+              </div>
+            </div>
+            
+            {/* Content Area that changes completely based on selected tab */}
+            {renderDeptTabContent()}
+          </div>
+        );
+
       case 'Physical Facilities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">

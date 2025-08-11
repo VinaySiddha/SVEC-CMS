@@ -5,6 +5,7 @@ import { Cog, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcas
 const MechanicalDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
+  const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const sidebarItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Laboratories', 'Department Library', 'MoUs', 'Faculty T&L methods', 'Faculty Achievements', 'Student Achievements', 'Placements', 'Workshops', 'Technical Association', 'Project Research', 'Newsletters', 'Magazines', 'Syllabus', 'Contact'
@@ -50,6 +51,189 @@ const MechanicalDepartment: React.FC = () => {
     { name: "Mr. K. Srinivasa Rao", designation: "Attender" }
   ];
 
+  const renderDeptTabContent = () => {
+    switch (activeDeptTab) {
+      case 'Department':
+        return (
+          <div className="mt-6 space-y-4">
+            <p className="text-gray-700 leading-relaxed">
+              The Department of Mechanical Engineering was established in 2010. Since its inception, the department has been progressing towards academic and research excellence. The department is enriched with experienced and qualified faculty and well-established lab facilities. The faculty members are striving towards imparting quality education by practicing innovative teaching and learning methods.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              The department offers B.Tech in Mechanical Engineering and M.Tech in Thermal Engineering. The department has 6 Ph.D. qualified faculty and 2 faculty pursuing Ph.D. The department offers quality education through the dedicated team of faculty members having high academic standards and rich industry experience. The department has modern, state-of-the-art laboratories for providing quality education.
+            </p>
+          </div>
+        );
+      case 'Vision':
+        return (
+          <div className="mt-6">
+            <p className="text-gray-700 leading-relaxed">
+              To evolve into a center of excellence in mechanical engineering education by imparting quality education and to produce competent engineers with professional ethics to meet the global challenges.
+            </p>
+          </div>
+        );
+      case 'Mission':
+        return (
+          <div className="mt-6">
+            <ul className="list-disc pl-5 space-y-3">
+              <li className="text-gray-700 leading-relaxed">
+                To provide quality education through effective teaching-learning methods.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                To establish strong industry-institute interaction to enhance the practical knowledge of the students.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                To facilitate the students with required skills and knowledge to enhance their career opportunities.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                To inculcate professional and ethical values among the students to serve the society.
+              </li>
+            </ul>
+          </div>
+        );
+      case 'PEOs':
+        return (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Program Educational Objectives (PEOs)</h3>
+            <p className="text-gray-700 mb-4 italic">Graduates of Mechanical Engineering Program will be able to:</p>
+            <ul className="list-disc pl-5 space-y-3">
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PEO1:</strong> Develop successful careers in mechanical engineering and allied industries.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PEO2:</strong> Pursue higher education and research to contribute to the development of the mechanical engineering field.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PEO3:</strong> Exhibit professional and ethical practices with effective communication skills.
+              </li>
+            </ul>
+          </div>
+        );
+      case 'POs':
+        return (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Program Outcomes (POs)</h3>
+            <p className="text-gray-700 mb-4 italic">Engineering Graduates will be able to:</p>
+            <ul className="list-disc pl-5 space-y-2 text-sm">
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO1: Engineering knowledge:</strong> Apply the knowledge of mathematics, science, engineering fundamentals, and an engineering specialization to the solution of complex engineering problems.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO2: Problem analysis:</strong> Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of mathematics, natural sciences, and engineering sciences.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO3: Design/development of solutions:</strong> Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for the public health and safety, and the cultural, societal, and environmental considerations.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO4: Conduct investigations of complex problems:</strong> Use research-based knowledge and research methods including design of experiments, analysis and interpretation of data, and synthesis of the information to provide valid conclusions.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO5: Modern tool usage:</strong> Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools including prediction and modeling to complex engineering activities with an understanding of the limitations.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO6: The engineer and society:</strong> Apply reasoning informed by the contextual knowledge to assess societal, health, safety, legal and cultural issues and the consequent responsibilities relevant to the professional engineering practice.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO7: Environment and sustainability:</strong> Understand the impact of the professional engineering solutions in societal and environmental contexts, and demonstrate the knowledge of, and need for sustainable development.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO8: Ethics:</strong> Apply ethical principles and commit to professional ethics and responsibilities and norms of the engineering practice.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO9: Individual and team work:</strong> Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO10: Communication:</strong> Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO11: Project management and finance:</strong> Demonstrate knowledge and understanding of the engineering and management principles and apply these to one's own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO12: Life-long learning:</strong> Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.
+              </li>
+            </ul>
+          </div>
+        );
+      case 'PSOs':
+        return (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Program Specific Outcomes (PSOs)</h3>
+            <ul className="list-disc pl-5 space-y-3">
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PSO1:</strong> Apply the fundamentals of mathematics, science and engineering to solve problems in the fields of design, thermal and manufacturing.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PSO2:</strong> Utilize modern engineering tools for analysis, design, development, and manufacturing to provide solutions for real-world mechanical engineering problems.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PSO3:</strong> Apply the gained knowledge to address the industrial and societal needs with professional ethics and social concerns.
+              </li>
+            </ul>
+          </div>
+        );
+      case 'COs':
+        return (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Course Outcomes (COs)</h3>
+            <p className="text-gray-700 mb-4">
+              Course Outcomes (COs) describe what students are expected to know and be able to do at the end of a course. They help guide teaching, learning, and assessment to ensure students reach the intended learning objectives for each course.
+            </p>
+            <div className="mt-4">
+              <p className="text-gray-700">
+                For detailed Course Outcomes for each subject, please refer to the course curriculum documents available in the department.
+              </p>
+              <a
+                href="https://srivasaviengg.ac.in/uploads/syllabus/V23_B.Tech.III&IV_Syllabus.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 inline-flex items-center text-blue-600 hover:underline"
+              >
+                <FileText className="h-4 w-4 mr-1" />
+                View Syllabus with Course Outcomes
+              </a>
+            </div>
+          </div>
+        );
+      case 'SalientFeatures':
+        return (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Salient Features</h3>
+            <ul className="list-disc pl-5 space-y-3">
+              <li className="text-gray-700 leading-relaxed">
+                Well-qualified and dedicated faculty members with rich teaching and industry experience
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                State-of-the-art laboratories with modern equipment and software
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Industry-institute interaction through industrial visits, internships, and guest lectures
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Active student association FAME (Fabulous Association of Mechanical Engineers)
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Research facilities for faculty and students to pursue innovative projects
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Regular workshops, seminars, and conferences for exposure to emerging technologies
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Emphasis on practical learning through hands-on training and project work
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Strong placement record with reputed companies
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Well-equipped departmental library with reference books and journals
+              </li>
+            </ul>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   const renderContent = () => {
     switch (activeContent) {
       case 'Department Profile':
@@ -74,6 +258,31 @@ const MechanicalDepartment: React.FC = () => {
                 <p className="text-gray-700 leading-relaxed">
                   The Department of Mechanical Engineering was established in 2010. Since its inception, the department has been progressing towards academic and research excellence. The department is enriched with experienced and qualified faculty and well-established lab facilities. The faculty members are striving towards imparting quality education by practicing innovative teaching and learning methods.
                 </p>
+              </div>
+            </div>
+
+            {/* Department Profile Tab Navigation */}
+            <div className="mt-12">
+              <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
+              <div className="overflow-x-auto">
+                <div className="border-b border-gray-200 mb-4">
+                  <div className="flex flex-wrap -mb-px text-sm font-medium text-center">
+                    {['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'].map((tab) => (
+                      <button
+                        key={tab}
+                        onClick={() => setActiveDeptTab(tab)}
+                        className={`inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg ${
+                          activeDeptTab === tab
+                            ? 'text-[#B22222] border-[#B22222]'
+                            : 'border-transparent hover:text-gray-600 hover:border-gray-300'
+                        }`}
+                      >
+                        {tab}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {renderDeptTabContent()}
               </div>
             </div>
           </div>

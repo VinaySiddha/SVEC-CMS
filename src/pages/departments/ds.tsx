@@ -3,7 +3,7 @@ import { Database, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Bri
 
 const DSDepartment: React.FC = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [activeContent, setActiveContent] = useState('Department Profile');
+    const [activeTab, setActiveTab] = useState('Department Profile');
     const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
     useEffect(() => {
@@ -204,32 +204,103 @@ const DSDepartment: React.FC = () => {
     };
 
     const renderContent = () => {
-        switch (activeContent) {
+        switch (activeTab) {
             case 'Department Profile':
                 return (
                     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                            <div className="relative">
-                                <img
-                                    src="/images/departments/ds/dshod.jpg"
-                                    alt="Dr. G. Loshma"
-                                    className="w-full h-80 object-cover rounded-lg shadow-md"
-                                />
-                            </div>
-                            <div className="lg:col-span-2 space-y-4">
-                                <div className="mb-4">
-                                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, CSE(Data Science)</p>
-                                    <p className="text-gray-600">Mobile No: 7672082130</p>
-                                    <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-442)</p>
-                                    <p className="text-gray-600">Email: <a href="mailto:hod_ds@srivasaviengg.ac.in" className="text-primary hover:underline">hod_ds@srivasaviengg.ac.in</a></p>
-                                </div>
-                                <p className="text-gray-700 leading-relaxed">
-                                    The Department of Computer Science and Engineering(Data Science) came into inception from 2024 onwards with an intake of 60 seats in B.Tech. We aim to prepare students for the emerging field of data science and analytics, equipping them with the necessary skills to succeed in this rapidly growing domain.
-                                </p>
+                        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
+                        
+                        {/* Tab Navigation - Similar to MBA.tsx */}
+                        <div className="bg-white mb-8">
+                            <div className="overflow-x-auto">
+                                <nav className="flex flex-nowrap whitespace-nowrap py-2 justify-center">
+                                    <button
+                                        onClick={() => setActiveDeptTab('Department')}
+                                        className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                                          ${activeDeptTab === 'Department' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                                    >
+                                        Department
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveDeptTab('Vision')}
+                                        className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                                          ${activeDeptTab === 'Vision' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                                    >
+                                        Vision
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveDeptTab('Mission')}
+                                        className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                                          ${activeDeptTab === 'Mission' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                                    >
+                                        Mission
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveDeptTab('PEOs')}
+                                        className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                                          ${activeDeptTab === 'PEOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                                    >
+                                        PEOs
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveDeptTab('POs')}
+                                        className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                                          ${activeDeptTab === 'POs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                                    >
+                                        POs
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveDeptTab('PSOs')}
+                                        className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                                          ${activeDeptTab === 'PSOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                                    >
+                                        PSOs
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveDeptTab('COs')}
+                                        className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                                          ${activeDeptTab === 'COs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                                    >
+                                        COs
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveDeptTab('SalientFeatures')}
+                                        className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                                          ${activeDeptTab === 'SalientFeatures' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                                    >
+                                        Salient Features
+                                    </button>
+                                </nav>
                             </div>
                         </div>
+                        
+                        {/* HOD Information */}
+                        {activeDeptTab === 'Department' && (
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-8">
+                                <div className="relative">
+                                    <img
+                                        src="/images/departments/ds/dshod.jpg"
+                                        alt="Dr. G. Loshma"
+                                        className="w-full h-80 object-cover rounded-lg shadow-md"
+                                    />
+                                </div>
+                                <div className="lg:col-span-2 space-y-4">
+                                    <div className="mb-4">
+                                        <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
+                                        <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, CSE(Data Science)</p>
+                                        <p className="text-gray-600">Mobile No: 7672082130</p>
+                                        <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-442)</p>
+                                        <p className="text-gray-600">Email: <a href="mailto:hod_ds@srivasaviengg.ac.in" className="text-primary hover:underline">hod_ds@srivasaviengg.ac.in</a></p>
+                                    </div>
+                                    <p className="text-gray-700 leading-relaxed">
+                                        The Department of Computer Science and Engineering(Data Science) came into inception from 2024 onwards with an intake of 60 seats in B.Tech. We aim to prepare students for the emerging field of data science and analytics, equipping them with the necessary skills to succeed in this rapidly growing domain.
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+                        
+                        {/* Content Area that changes based on selected tab */}
+                        {renderDeptTabContent()}
                     </div>
                 );
 
@@ -375,7 +446,7 @@ const DSDepartment: React.FC = () => {
                 );
 
             default:
-                return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
+                return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeTab} coming soon...</h3></div>;
         }
     };
 
@@ -389,75 +460,7 @@ const DSDepartment: React.FC = () => {
                 </div>
             </section>
 
-            <div className="bg-white border-b shadow">
-                <div className="container mx-auto px-4">
-                    <div className="overflow-x-auto">
-                        <nav className="flex flex-nowrap whitespace-nowrap py-2">
-                            <button
-                                onClick={() => setActiveDeptTab('Department')}
-                                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
-                  ${activeDeptTab === 'Department' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
-                            >
-                                Department
-                            </button>
-                            <button
-                                onClick={() => setActiveDeptTab('Vision')}
-                                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
-                  ${activeDeptTab === 'Vision' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
-                            >
-                                Vision
-                            </button>
-                            <button
-                                onClick={() => setActiveDeptTab('Mission')}
-                                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
-                  ${activeDeptTab === 'Mission' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
-                            >
-                                Mission
-                            </button>
-                            <button
-                                onClick={() => setActiveDeptTab('PEOs')}
-                                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
-                  ${activeDeptTab === 'PEOs' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
-                            >
-                                PEOs
-                            </button>
-                            <button
-                                onClick={() => setActiveDeptTab('POs')}
-                                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
-                  ${activeDeptTab === 'POs' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
-                            >
-                                POs
-                            </button>
-                            <button
-                                onClick={() => setActiveDeptTab('PSOs')}
-                                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
-                  ${activeDeptTab === 'PSOs' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
-                            >
-                                PSOs
-                            </button>
-                            <button
-                                onClick={() => setActiveDeptTab('COs')}
-                                className={`px-4 py-2 font-medium text-sm transition-colors duration-200 mr-2 
-                  ${activeDeptTab === 'COs' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
-                            >
-                                COs
-                            </button>
-                            <button
-                                onClick={() => setActiveDeptTab('SalientFeatures')}
-                                className={`px-4 py-2 font-medium text-sm transition-colors duration-200
-                  ${activeDeptTab === 'SalientFeatures' ? 'text-[#B22222] border-b-2 border-[#B22222] font-bold' : 'text-gray-700 hover:text-[#B22222]'}`}
-                            >
-                                Salient Features
-                            </button>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
             <div className="container mx-auto px-4 py-8">
-                <div className="bg-white rounded-xl shadow mb-8">
-                    {renderDeptTabContent()}
-                </div>
                 <div className="flex flex-col lg:flex-row gap-8">
                     <aside className="w-full lg:w-80 lg:flex-shrink-0">
                         <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
@@ -471,13 +474,13 @@ const DSDepartment: React.FC = () => {
                                     {sidebarItems.map((item) => (
                                         <li key={item}>
                                             <button
-                                                className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
+                                                className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeTab === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
                                                 onClick={() => {
-                                                    setActiveContent(item);
+                                                    setActiveTab(item);
                                                     setSidebarOpen(false);
                                                 }}
                                             >
-                                                <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
+                                                <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeTab === item ? 'rotate-90' : ''}`} />
                                                 <span>{item}</span>
                                             </button>
                                         </li>

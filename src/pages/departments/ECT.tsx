@@ -5,6 +5,7 @@ import { Radio, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefc
 const ECTDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
+  const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const sidebarItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Physical Facilities', 'Clubs', 'MoUs', 'Faculty Development Programs', 'Faculty Achievements', 'Workshops/SOC/Guest Lecturers', 'Student Achievements', 'Placements', 'Merit Scholarship/Academic Toppers', 'Technical Association', 'Training Activities', 'Newsletters', 'Extra-Curricular Activities', 'Faculty Innovations in Teaching & Learning', 'Handbooks', 'Contact'
@@ -32,6 +33,219 @@ const ECTDepartment: React.FC = () => {
     { name: "Mr.B.Srinivisa Rao", designation: "Attender" },
     { name: "Mr.L.Phani Pallavi", designation: "Attender" },
   ];
+
+  // Function to render tab content for Department Profile
+  const renderDeptTabContent = () => {
+    switch (activeDeptTab) {
+      case 'Department':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
+            <div className="prose max-w-none text-gray-700">
+              <p className="mb-4">
+                The Department of Electronics & Communication Technology (ECT) was established in the year 2012. The department offers B.Tech program in Electronics & Communication Technology with an intake of 60 students.
+              </p>
+              <p className="mb-4">
+                The department has well-qualified and experienced faculty with diverse specializations in Communication Systems, Signal Processing, Embedded Systems, VLSI Design, and IoT applications. The department boasts state-of-the-art laboratories equipped with advanced software and hardware tools to provide hands-on experience to students.
+              </p>
+              <p className="mb-4">
+                The ECT department regularly conducts workshops, seminars, and guest lectures by industry experts to keep students updated with the latest technological trends. Faculty members are actively engaged in research and have published papers in reputed national and international journals.
+              </p>
+            </div>
+          </div>
+        );
+      case 'Vision':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
+            <div className="bg-gray-50 p-6 rounded-lg border-l-4 border-[#B22222] shadow-md">
+              <p className="text-gray-700 italic">
+                "To emerge as a center of excellence in Electronics & Communication Technology education producing competent professionals with research orientation and ethical values to serve the needs of industry and society."
+              </p>
+            </div>
+          </div>
+        );
+      case 'Mission':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
+            <div className="space-y-4">
+              <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-[#B22222] shadow-sm">
+                <p className="text-gray-700">
+                  M1: To impart quality education in Electronics & Communication Technology through innovative teaching-learning methodologies.
+                </p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-[#B22222] shadow-sm">
+                <p className="text-gray-700">
+                  M2: To provide state-of-the-art infrastructure for practical exposure in emerging technologies.
+                </p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-[#B22222] shadow-sm">
+                <p className="text-gray-700">
+                  M3: To foster industry-academia collaboration for knowledge exchange and career advancement.
+                </p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-[#B22222] shadow-sm">
+                <p className="text-gray-700">
+                  M4: To promote research culture, ethical values, and lifelong learning among students and faculty.
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'PEOs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Educational Objectives (PEOs)</h3>
+            <div className="space-y-4">
+              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PEO 1:</h4>
+                <p className="text-gray-700">
+                  Graduates will have strong foundation in Electronics & Communication Technology to pursue higher education, research or technical employment.
+                </p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PEO 2:</h4>
+                <p className="text-gray-700">
+                  Graduates will be equipped with practical skills and knowledge to design, develop and implement innovative solutions to real-world problems.
+                </p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PEO 3:</h4>
+                <p className="text-gray-700">
+                  Graduates will possess professional ethics, communication skills, teamwork and leadership qualities required for successful career.
+                </p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PEO 4:</h4>
+                <p className="text-gray-700">
+                  Graduates will engage in lifelong learning to adapt to rapidly evolving technological landscape.
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'POs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Outcomes (POs)</h3>
+            <div className="space-y-3">
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 1: Engineering Knowledge</h4>
+                <p className="text-gray-700">Apply knowledge of mathematics, science, and engineering fundamentals to solve complex engineering problems.</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 2: Problem Analysis</h4>
+                <p className="text-gray-700">Identify, formulate, research literature and analyze complex engineering problems to arrive at substantiated conclusions.</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 3: Design/Development of Solutions</h4>
+                <p className="text-gray-700">Design solutions for complex engineering problems and design system components or processes that meet specified needs.</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 4: Investigation</h4>
+                <p className="text-gray-700">Use research-based knowledge and methods to design experiments, analyze and interpret data.</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 5: Modern Tool Usage</h4>
+                <p className="text-gray-700">Apply appropriate techniques and modern engineering tools necessary for engineering practice.</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 6: The Engineer and Society</h4>
+                <p className="text-gray-700">Apply reasoning to assess societal, health, safety, legal and cultural issues and the consequent responsibilities.</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 7: Environment and Sustainability</h4>
+                <p className="text-gray-700">Understand the impact of engineering solutions in a societal context and demonstrate knowledge of sustainable development.</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 8: Ethics</h4>
+                <p className="text-gray-700">Apply ethical principles and commit to professional ethics and responsibilities.</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 9: Individual and Team Work</h4>
+                <p className="text-gray-700">Function effectively as an individual, and as a member or leader in diverse teams.</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 10: Communication</h4>
+                <p className="text-gray-700">Communicate effectively on complex engineering activities with the engineering community and society.</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 11: Project Management</h4>
+                <p className="text-gray-700">Demonstrate knowledge and understanding of management principles and apply these to one's own work.</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PO 12: Life-long Learning</h4>
+                <p className="text-gray-700">Recognize the need for, and have the preparation and ability to engage in independent and life-long learning.</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'PSOs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Specific Outcomes (PSOs)</h3>
+            <div className="space-y-4">
+              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PSO 1:</h4>
+                <p className="text-gray-700">
+                  Apply knowledge of analog and digital electronics, signal processing, communication systems, and embedded systems to solve real-world engineering problems.
+                </p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PSO 2:</h4>
+                <p className="text-gray-700">
+                  Design and implement electronic circuits, communication systems, and IoT solutions using industry-standard tools and technologies.
+                </p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <h4 className="font-semibold text-gray-800">PSO 3:</h4>
+                <p className="text-gray-700">
+                  Develop skills in emerging areas such as wireless communications, VLSI design, and embedded systems to meet industry requirements.
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'COs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Course Outcomes (COs)</h3>
+            <p className="text-gray-700 mb-4">
+              Each course in the ECT curriculum has specific Course Outcomes that align with the Program Outcomes and Program Specific Outcomes. These Course Outcomes are measurable and ensure that students acquire the intended knowledge and skills from each course.
+            </p>
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <p className="text-gray-700">
+                For detailed Course Outcomes of each subject, please refer to the course syllabi available in the Syllabus section.
+              </p>
+            </div>
+          </div>
+        );
+      case 'SalientFeatures':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Salient Features</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Experienced and dedicated faculty members with specializations in various domains</li>
+              <li>State-of-the-art laboratories with modern equipment and software tools</li>
+              <li>Regular workshops, seminars, and guest lectures by industry experts</li>
+              <li>Strong industry-institute interaction through internships and projects</li>
+              <li>Focus on research and innovation in emerging technologies</li>
+              <li>Active student chapter for technical activities and competitions</li>
+              <li>Excellent placement record in reputed companies</li>
+              <li>Professional skills development through value-added courses</li>
+              <li>Well-equipped department library with reference materials</li>
+            </ul>
+          </div>
+        );
+      default:
+        return (
+          <div className="py-6">
+            <p className="text-center text-gray-500">Select a tab to view content</p>
+          </div>
+        );
+    }
+  };
 
   // Move the switch statement into a function
   function renderContent() {
@@ -1677,32 +1891,101 @@ const ECTDepartment: React.FC = () => {
           </div>
         );
       case 'Department Profile':
-
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-              <div className="relative">
-                <img
-                  src="/images/departments/ece/ecehod.jpg"
-                  alt="Dr. E.Kusuma Kumari"
-                  className="w-full h-80 object-cover rounded-lg shadow-md"
-                  data-ai-hint="female professor"
-                />
-              </div>
-              <div className="lg:col-span-2 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. E.Kusuma Kumari</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, ECT</p>
-                  <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
-                  <p className="text-gray-600">Fax No: 08818-284322</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_ece@srivasaviengg.ac.in" className="text-primary hover:underline">hod_ece@srivasaviengg.ac.in</a></p>
-                </div>
-                <p className="text-gray-700 leading-relaxed">
-                  The Department of Electronics & Communication Technology came into inception from 2019 onwards with an intake of 60 seats in B.Tech. It is one of the most significant branches of engineering which has always been in demand. The department aims primarily at excellence not only in theoretical but also in Experimental Research in various domains.
-                </p>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
+            
+            {/* Tab Navigation - Similar to MBA.tsx */}
+            <div className="bg-white mb-8">
+              <div className="overflow-x-auto">
+                <nav className="flex flex-nowrap whitespace-nowrap py-2 justify-center">
+                  <button
+                    onClick={() => setActiveDeptTab('Department')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'Department' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Department
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('Vision')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'Vision' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Vision
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('Mission')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'Mission' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Mission
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('PEOs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'PEOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    PEOs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('POs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'POs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    POs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('PSOs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'PSOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    PSOs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('COs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'COs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    COs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('SalientFeatures')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'SalientFeatures' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Salient Features
+                  </button>
+                </nav>
               </div>
             </div>
+            
+            {/* HOD Information - Always show at the top of Department Profile */}
+            {activeDeptTab === 'Department' && (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-8">
+                <div className="relative">
+                  <img
+                    src="/images/departments/ece/ecehod.jpg"
+                    alt="Dr. E.Kusuma Kumari"
+                    className="w-full h-80 object-cover rounded-lg shadow-md"
+                  />
+                </div>
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="mb-4">
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. E.Kusuma Kumari</h3>
+                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, ECT</p>
+                    <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
+                    <p className="text-gray-600">Fax No: 08818-284322</p>
+                    <p className="text-gray-600">Email: <a href="mailto:hod_ece@srivasaviengg.ac.in" className="text-primary hover:underline">hod_ece@srivasaviengg.ac.in</a></p>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">
+                    The Department of Electronics & Communication Technology came into inception from 2019 onwards with an intake of 60 seats in B.Tech. It is one of the most significant branches of engineering which has always been in demand. The department aims primarily at excellence not only in theoretical but also in Experimental Research in various domains.
+                  </p>
+                </div>
+              </div>
+            )}
+            
+            {/* Content Area that changes completely based on selected tab */}
+            {renderDeptTabContent()}
           </div>
         );
       case 'Faculty Profiles':

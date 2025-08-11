@@ -5,6 +5,7 @@ import { Briefcase, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Fi
 const MBADepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
+  const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const sidebarItems = [
     'Department Profile',
@@ -61,19 +62,18 @@ const MBADepartment: React.FC = () => {
     { name: "All Faculty Members in the MBA Dept.", designation: "are Members in BOS", organization: "", position: "" }
   ];
 
-  const renderContent = () => {
-    switch (activeContent) {
-      case 'Department Profile':
+  const renderDeptTabContent = () => {
+    switch (activeDeptTab) {
+      case 'Department':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
               <div className="relative">
                 <img
-                  src="/images/departments/mba/mbaHod1.jpeg"
+                  src="/mbaHosd1.jpeg"
                   alt="Mr. D. Naveen Kumar"
                   className="w-full h-80 object-cover rounded-lg shadow-md"
-                  data-ai-hint="male professor"
                 />
               </div>
               <div className="lg:col-span-2 space-y-4">
@@ -84,10 +84,174 @@ const MBADepartment: React.FC = () => {
                   <p className="text-gray-600">Fax No: 08818-284322</p>
                   <p className="text-gray-600">Email: <a href="mailto:hod_mba@srivasaviengg.ac.in" className="text-primary hover:underline">hod_mba@srivasaviengg.ac.in</a></p>
                 </div>
-                <p className="text-gray-700 leading-relaxed">
-                  The Department of Business Administration was established in the year 2006. The Master of Business Administration (MBA) program is designed to meet the challenge of full-filling the needs of the society under resource constraints by providing new dimensions in the body of knowledge needed for managerial development.
-                </p>
               </div>
+            </div>
+            <p className="text-gray-700 mb-3">
+              The Department of Business Administration was established in the year 2006. The Master of Business Administration (MBA) program is designed to meet the challenge of full-filling the needs of the society under resource constraints by providing new dimensions in the body of knowledge needed for managerial development.
+            </p>
+            <p className="text-gray-700 mb-3">
+              The department has well qualified and dedicated faculty with diverse specializations. The department regularly conducts industrial visits, guest lectures, and workshops to enhance practical knowledge of students.
+            </p>
+            <p className="text-gray-700">
+              The department has its own Technical Association called RAYS (Reflective Altitude Yander in Serenity) which organizes various events to develop managerial and leadership skills among students.
+            </p>
+          </div>
+        );
+      case 'Vision':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Vision</h3>
+            <p className="text-gray-700">
+              To nurture young leaders to be global business executives with high ethical values.
+            </p>
+          </div>
+        );
+      case 'Mission':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Mission</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+              <li>To prepare business leaders by providing quality education with a strong foundation of knowledge and skills.</li>
+              <li>To enhance analytical skills and decision making capabilities.</li>
+              <li>To promote research and publication.</li>
+              <li>To develop professionally competent and socially responsible business leaders with ethical values.</li>
+            </ul>
+          </div>
+        );
+      case 'PEOs':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Educational Objectives (PEOs)</h3>
+            <p className="text-gray-700 mb-4">After 3-5 years of graduation, the graduates will be able to:</p>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 1</h4>
+                <p className="text-gray-700">Excel in business, management and leadership roles by applying management knowledge and skills.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 2</h4>
+                <p className="text-gray-700">Demonstrate ethical practices, social responsibility and professional conduct in the dynamic business environment.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PEO 3</h4>
+                <p className="text-gray-700">Pursue higher education, research and lifelong learning to continuously upgrade knowledge and skills.</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'POs':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
+            <p className="text-gray-700 mb-4">After the completion of MBA, the graduates will be able to:</p>
+            <div className="space-y-3">
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO1: Business Knowledge</h4>
+                <p className="text-gray-700">Apply knowledge of management theories and practices to solve business problems.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO2: Strategic Thinking</h4>
+                <p className="text-gray-700">Foster analytical and strategic thinking abilities for decision-making.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO3: Critical Thinking</h4>
+                <p className="text-gray-700">Analyze business problems in unpredictable environments to formulate strategies.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO4: Communication Skills</h4>
+                <p className="text-gray-700">Demonstrate effective oral and written communication skills in presenting business issues.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO5: Leadership and Teamwork</h4>
+                <p className="text-gray-700">Demonstrate leadership and team membership skills in business scenarios.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO6: Global Perspective</h4>
+                <p className="text-gray-700">Recognize global business issues and practices in an ethical, legal and professional context.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO7: Ethical Practices</h4>
+                <p className="text-gray-700">Apply ethical principles to business situations and demonstrate responsible citizenship.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO8: IT Skills</h4>
+                <p className="text-gray-700">Utilize appropriate technology and tools for solving business problems.</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-md font-semibold text-blue-800">PO9: Lifelong Learning</h4>
+                <p className="text-gray-700">Recognize the need for and engage in continuous professional development.</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'PSOs':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Specific Outcomes (PSOs)</h3>
+            <p className="text-gray-700 mb-4">After the completion of MBA, the graduates will be able to:</p>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PSO 1</h4>
+                <p className="text-gray-700">Apply functional area knowledge and managerial skills to solve real-world business problems.</p>
+              </div>
+              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 className="text-lg font-semibold text-blue-800">PSO 2</h4>
+                <p className="text-gray-700">Demonstrate entrepreneurial competencies with a global outlook on business environment.</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'SalientFeatures':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+              <li>Highly qualified and experienced faculty</li>
+              <li>Well-established MoU with Star Health and Allied Insurance Company Ltd</li>
+              <li>Active Technical Association (RAYS)</li>
+              <li>Regular industrial visits and guest lectures</li>
+              <li>Focus on practical learning through case studies</li>
+              <li>Regular workshops and seminars on current business trends</li>
+              <li>Good placement record in various sectors</li>
+              <li>Strong alumni network in diverse industries</li>
+              <li>Focus on entrepreneurship development</li>
+              <li>Comprehensive training programs for skill development</li>
+              <li>Regular faculty development programs</li>
+            </ul>
+          </div>
+        );
+      default:
+        return <div>Select a tab to view content</div>;
+    }
+  };
+
+  const renderContent = () => {
+    switch (activeContent) {
+      case 'Department Profile':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
+            
+            {/* Tab Navigation */}
+            <div className="flex flex-wrap gap-2 mb-8 justify-center">
+              {['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'SalientFeatures'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveDeptTab(tab)}
+                  className={`px-4 py-2 rounded-md text-sm transition-all ${
+                    activeDeptTab === tab
+                      ? 'bg-[#B22222] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+            
+            {/* Tab Content */}
+            <div className="mt-6">
+              {renderDeptTabContent()}
             </div>
           </div>
         );

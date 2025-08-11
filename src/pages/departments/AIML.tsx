@@ -4,6 +4,7 @@ import { Brain, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefc
 const AIMLDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
+  const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const navItems = [
     'Department Profile',
@@ -68,6 +69,169 @@ const AIMLDepartment: React.FC = () => {
     { name: "Mr. N. RajaseKhar", designation: "Junior Assistant" },
     { name: "Mr. Prasad", designation: "Attender" }
   ];
+  
+  const renderDeptTabContent = () => {
+    switch (activeDeptTab) {
+      case 'Department':
+        return (
+          <div className="mt-6 space-y-4">
+            <p className="text-gray-700 leading-relaxed">
+              Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              The department focuses on cutting-edge technologies like Artificial Intelligence, Machine Learning, Deep Learning, and Data Science. Our curriculum is designed to provide students with a strong foundation in computer science principles while specializing in AI and ML techniques.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              The department has well-equipped laboratories, qualified faculty, and strong industry connections to ensure that students receive practical training alongside theoretical knowledge.
+            </p>
+          </div>
+        );
+      case 'Vision':
+        return (
+          <div className="mt-6">
+            <p className="text-gray-700 leading-relaxed">
+              To evolve as a center of academic excellence and advanced research in the field of Artificial Intelligence and Machine Learning by developing competent professionals with ethical values to meet the technological challenges.
+            </p>
+          </div>
+        );
+      case 'Mission':
+        return (
+          <div className="mt-6">
+            <ul className="list-disc pl-5 space-y-3">
+              <li className="text-gray-700 leading-relaxed">
+                To impart quality education through innovative teaching-learning methods in Artificial Intelligence and Machine Learning.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                To establish Center of Excellence through collaboration with industries to bridge the gap between academia and industry.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                To provide opportunities for students to acquire problem solving skills through projects and internships.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                To inculcate entrepreneurial skills, ethical values, and leadership qualities among students to make them responsible citizens.
+              </li>
+            </ul>
+          </div>
+        );
+      case 'PEOs':
+        return (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Program Educational Objectives (PEOs)</h3>
+            <p className="text-gray-700 mb-4 italic">Graduates of Artificial Intelligence and Machine Learning Program will be able to:</p>
+            <ul className="list-disc pl-5 space-y-3">
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PEO1:</strong> Excel in professional career and/or higher education by acquiring knowledge in Artificial Intelligence, Machine Learning and related areas.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PEO2:</strong> Analyze real-world problems and design innovative solutions using Artificial Intelligence, Machine Learning and allied technologies.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PEO3:</strong> Function effectively as individuals and as team members with professional ethics and social responsibility.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PEO4:</strong> Engage in continuous learning through research, training and professional development.
+              </li>
+            </ul>
+          </div>
+        );
+      case 'POs':
+        return (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Program Outcomes (POs)</h3>
+            <p className="text-gray-700 mb-4 italic">Engineering Graduates will be able to:</p>
+            <ul className="list-disc pl-5 space-y-2 text-sm">
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO1: Engineering knowledge:</strong> Apply the knowledge of mathematics, science, engineering fundamentals, and an engineering specialization to the solution of complex engineering problems.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO2: Problem analysis:</strong> Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of mathematics, natural sciences, and engineering sciences.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO3: Design/development of solutions:</strong> Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for the public health and safety, and the cultural, societal, and environmental considerations.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO4: Conduct investigations of complex problems:</strong> Use research-based knowledge and research methods including design of experiments, analysis and interpretation of data, and synthesis of the information to provide valid conclusions.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO5: Modern tool usage:</strong> Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools including prediction and modeling to complex engineering activities with an understanding of the limitations.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO6: The engineer and society:</strong> Apply reasoning informed by the contextual knowledge to assess societal, health, safety, legal and cultural issues and the consequent responsibilities relevant to the professional engineering practice.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO7: Environment and sustainability:</strong> Understand the impact of the professional engineering solutions in societal and environmental contexts, and demonstrate the knowledge of, and need for sustainable development.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO8: Ethics:</strong> Apply ethical principles and commit to professional ethics and responsibilities and norms of the engineering practice.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO9: Individual and team work:</strong> Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO10: Communication:</strong> Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO11: Project management and finance:</strong> Demonstrate knowledge and understanding of the engineering and management principles and apply these to one's own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PO12: Life-long learning:</strong> Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.
+              </li>
+            </ul>
+          </div>
+        );
+      case 'PSOs':
+        return (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Program Specific Outcomes (PSOs)</h3>
+            <ul className="list-disc pl-5 space-y-3">
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PSO1:</strong> Apply the concepts of Artificial Intelligence, Machine Learning, Deep Learning and Data Science to solve real-world problems.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PSO2:</strong> Design and develop intelligent systems and applications using modern tools and technologies in the field of Artificial Intelligence and Machine Learning.
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                <strong>PSO3:</strong> Apply the principles of Artificial Intelligence and Machine Learning to address industrial and societal challenges.
+              </li>
+            </ul>
+          </div>
+        );
+      case 'SalientFeatures':
+        return (
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Salient Features</h3>
+            <ul className="list-disc pl-5 space-y-3">
+              <li className="text-gray-700 leading-relaxed">
+                Well-qualified faculty with expertise in AI, ML, and Data Science
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                State-of-the-art laboratories with advanced computing facilities
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Industry collaborations through MoUs with leading tech companies
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Regular workshops, hackathons, and technical symposiums
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Access to specialized software and tools for AI/ML development
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Extensive industry internship opportunities
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Research projects in cutting-edge areas of AI and ML
+              </li>
+              <li className="text-gray-700 leading-relaxed">
+                Strong placement record with tech giants and startups
+              </li>
+            </ul>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   const boardOfStudies = [
     { name: "Dr. G. Loshma", designation: "Professor & HOD", organization: "SVEC", position: "Chairperson" },
@@ -260,6 +424,7 @@ const AIMLDepartment: React.FC = () => {
             </div>
           </div>
         );
+
       case 'Department Profile':
         return (
           <div id="department-profile" className="space-y-8 animate-fade-in">
@@ -284,6 +449,31 @@ const AIMLDepartment: React.FC = () => {
                   <p className="text-gray-700 leading-relaxed">
                     Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
                   </p>
+                </div>
+              </div>
+              
+              {/* Department Profile Tab Navigation */}
+              <div className="mt-12">
+                <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
+                <div className="overflow-x-auto">
+                  <div className="border-b border-gray-200 mb-4">
+                    <div className="flex flex-wrap -mb-px text-sm font-medium text-center">
+                      {['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'SalientFeatures'].map((tab) => (
+                        <button
+                          key={tab}
+                          onClick={() => setActiveDeptTab(tab)}
+                          className={`inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg ${
+                            activeDeptTab === tab
+                              ? 'text-[#B22222] border-[#B22222]'
+                              : 'border-transparent hover:text-gray-600 hover:border-gray-300'
+                          }`}
+                        >
+                          {tab}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  {renderDeptTabContent()}
                 </div>
               </div>
             </div>

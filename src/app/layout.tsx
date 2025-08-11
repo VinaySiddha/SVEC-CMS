@@ -15,17 +15,15 @@ export const metadata: Metadata = {
   description: "Official website of Sri Vasavi Engineering College",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout(props: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={poppins.className} suppressHydrationWarning>
+    <html lang="en">
+      <body className={poppins.className}>
         <Header />
         <main className="flex-grow bg-secondary/50">
-          {children}
+          {props.children}
         </main>
         <Footer />
         <FloatingChatWidgets />

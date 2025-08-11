@@ -4,6 +4,7 @@ import { Building, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Bri
 const CivilDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
+  const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const sidebarItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Physical Facilities', 'Department Library', 'Workshops', 'R&D', 'Faculty Achievements', 'Student Achievements', 'Placements', 'Technical Association', 'Newsletters', 'Extra-Curricular Activities', 'Research Projects', 'Syllabus', 'Consultancy', 'Contact'
@@ -30,6 +31,222 @@ const CivilDepartment: React.FC = () => {
     { name: "Mr. T.V.V.Satyanarayana", designation: "DEO" },
     { name: "Ms. B.M.G.A.Bhargav", designation: "Attender" }
   ];
+
+  const renderDeptTabContent = () => {
+    switch (activeDeptTab) {
+      case 'Department':
+        return (
+          <div>
+            {/* Head of Department's Message */}
+            <div className="mb-10">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div className="relative">
+                  <img
+                    src="/images/departments/ce/civilhod.png"
+                    alt="Dr. G. Radhakrishnan"
+                    className="w-full h-80 object-cover rounded-lg shadow-md"
+                  />
+                </div>
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="mb-4">
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Radhakrishnan</h3>
+                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, Civil</p>
+                    <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
+                    <p className="text-gray-600">Fax No: 08818-284322</p>
+                    <p className="text-gray-600">Email: <a href="mailto:hod_civil@srivasaviengg.ac.in" className="text-primary hover:underline">hod_civil@srivasaviengg.ac.in</a></p>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    The Department of Civil Engineering was established in the year 2011 with a vision to strive towards quality education, research and consultancy. Civil Engineering is one of the oldest and broadest engineering disciplines which has been an aspect of life since the beginning of human civilization. Our department has grown significantly and continues to maintain its reputation for excellence in teaching and research.
+                  </p>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    The department is equipped with state-of-the-art laboratories including Strength of Materials Lab, CAD & GIS Lab, Concrete Technology Lab, Engineering Geology Lab, Surveying Lab, and others. Our faculty members are highly qualified and experienced, actively engaged in research and consultancy activities.
+                  </p>
+                  <p className="text-gray-700 leading-relaxed">
+                    We focus on providing a strong foundation in civil engineering principles while keeping our students updated with modern technological advancements. Our students regularly participate in industrial visits, workshops, and internships to gain practical exposure. The department has also established valuable industry connections through consultancy services and collaborative projects.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Department Overview Section */}
+            <div className="border-t pt-10 mt-10">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                The Department of Civil Engineering was established in 2011 with an intake of 60 students. The department offers undergraduate program in Civil Engineering with an intake of 60 students.
+              </p>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                The department has state-of-the-art infrastructure and computing equipment supported by advanced laboratory facilities.
+              </p>
+
+              <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-gray-700 mb-4">
+                  <thead className="text-xs bg-gray-50 uppercase">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">S.No</th>
+                      <th scope="col" className="px-6 py-3">Name of the Course</th>
+                      <th scope="col" className="px-6 py-3">Eligibility Criteria</th>
+                      <th scope="col" className="px-6 py-3">Duration</th>
+                      <th scope="col" className="px-6 py-3">Intake</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white border-b">
+                      <td className="px-6 py-4">1</td>
+                      <td className="px-6 py-4">B.Tech-Civil Engineering</td>
+                      <td className="px-6 py-4">AP EAPCET</td>
+                      <td className="px-6 py-4">4 Years</td>
+                      <td className="px-6 py-4">60</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Vision':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
+            <p className="text-gray-700 leading-relaxed">
+              To evolve into a center of excellence in Civil Engineering education and research, producing professionally competent and socially responsible engineers.
+            </p>
+          </div>
+        );
+      case 'Mission':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>To impart quality education through effective teaching-learning processes.</li>
+              <li>To provide excellent infrastructure and environment conducive for research.</li>
+              <li>To enhance industry-institute interaction to make students industry-ready.</li>
+              <li>To develop entrepreneurship skills and ethical values among students.</li>
+              <li>To engage in consultancy services for the benefit of society.</li>
+            </ul>
+          </div>
+        );
+      case 'PEOs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Educational Objectives (PEOs)</h3>
+            <p className="text-gray-700 mb-4">The graduates will:</p>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Excel in professional career and/or higher education by acquiring knowledge in mathematics, science and civil engineering principles.</li>
+              <li>Analyze real-life problems and design socially responsible and environmentally sustainable civil engineering solutions.</li>
+              <li>Adapt to evolving technologies through continuous learning.</li>
+              <li>Lead a successful career as a team member or as a team leader with strong professional ethics and communication skills.</li>
+            </ul>
+          </div>
+        );
+      case 'POs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Outcomes (POs)</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li><strong>Engineering Knowledge:</strong> Apply knowledge of mathematics, science, engineering fundamentals, and civil engineering principles to solve complex engineering problems.</li>
+              <li><strong>Problem Analysis:</strong> Identify, formulate, research literature, and analyze complex engineering problems to arrive at substantiated conclusions using principles of mathematics, natural sciences, and engineering sciences.</li>
+              <li><strong>Design/Development of Solutions:</strong> Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for public health and safety, and cultural, societal, and environmental considerations.</li>
+              <li><strong>Modern Tool Usage:</strong> Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools for complex engineering activities with an understanding of the limitations.</li>
+            </ul>
+          </div>
+        );
+      case 'PSOs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Specific Outcomes (PSOs)</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Apply standard practices and strategies in construction management using modern surveying tools to deliver quality infrastructure.</li>
+              <li>Apply the fundamentals of civil engineering to solve engineering problems in interdisciplinary domains.</li>
+              <li>Develop sustainable solutions for real-world problems in structural engineering, geotechnical engineering, transportation engineering, and water resources engineering.</li>
+            </ul>
+          </div>
+        );
+      case 'COs':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Course Outcomes (COs)</h3>
+            <p className="text-gray-700 leading-relaxed">
+              The course outcomes are defined for each course and are aligned with the Program Outcomes and Program Specific Outcomes. The course outcomes are assessed through direct and indirect assessment tools.
+            </p>
+            <p className="mt-4 text-gray-700">
+              <a href="#" className="text-[#B22222] hover:underline">Download Course Outcomes Document</a>
+            </p>
+          </div>
+        );
+      case 'SalientFeatures':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Salient Features</h3>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>Experienced and dedicated faculty members with specializations in various domains</li>
+              <li>State-of-the-art laboratories with modern equipment and tools</li>
+              <li>Strong industry-institute interaction through consultancy services</li>
+              <li>Research culture fostering innovation and intellectual growth</li>
+              <li>Active student technical association (IEI Students Chapter)</li>
+              <li>Regular workshops, field visits, and training programs</li>
+              <li>Focus on practical learning through field visits and site experiences</li>
+              <li>Consultancy services in material testing and structural design</li>
+            </ul>
+          </div>
+        );
+      case 'Department Library':
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Library</h3>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+              {/* Image on the left */}
+              <div className="md:w-1/2 flex justify-center">
+                <img
+                  src="/images/departments/ce/cse-lib.jpg"
+                  alt="Department Library"
+                  className="rounded-lg shadow-lg mb-4 max-h-96 object-contain"
+                />
+              </div>
+              {/* Paragraph content on the right */}
+              <div className="md:w-1/2">
+                <p className="text-lg">
+                  Department Library offers a variety of books related to Civil Engineering. Reference books of various subjects are procured. Various Competitive Books are available to satisfy the thirst of the students. Books are issued to students and staff. Students can access the Library facility according to their convenience any time round-the-clock.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                  <div className="bg-white rounded-lg shadow border">
+                    <div className="bg-[#850209] text-white rounded-t-lg py-2">
+                      <h5 className="mb-0 text-center text-lg font-semibold">No. of Titles</h5>
+                    </div>
+                    <div className="py-4">
+                      <p className="text-red-600 font-bold text-center text-xl">244</p>
+                    </div>
+                  </div>
+                  <div className="bg-white rounded-lg shadow border">
+                    <div className="bg-green-600 text-white rounded-t-lg py-2">
+                      <h5 className="mb-0 text-center text-lg font-semibold">No. of Volumes</h5>
+                    </div>
+                    <div className="py-4">
+                      <p className="text-green-600 font-bold text-center text-xl">352</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Faculty Incharge Details */}
+            <div className="flex flex-col items-center mt-8">
+              <h3 className="text-xl font-bold text-center">Faculty Incharge</h3>
+              <p className="mt-4 text-lg">Mr. M.Prem Kumar Raju, Asst. Professor</p>
+            </div>
+          </div>
+        );
+      default:
+        return (
+          <div className="py-6">
+            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
+            <p className="text-gray-700 leading-relaxed">
+              The Department of Civil Engineering was established in 2011. The department offers undergraduate program in Civil Engineering with an intake of 60 students.
+            </p>
+          </div>
+        );
+    }
+  };
 
   const renderContent = () => {
     switch (activeContent) {
@@ -392,29 +609,72 @@ const CivilDepartment: React.FC = () => {
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-              <div className="relative">
-                <img
-                  src="/images/departments/ce/pujith_hod.png"
-                  alt="Dr. G. Radhakrishnan"
-                  className="w-full h-80 object-cover rounded-lg shadow-md"
-                  data-ai-hint="male professor"
-                />
-              </div>
-              <div className="lg:col-span-2 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Radhakrishnan</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, Civil</p>
-                  <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
-                  <p className="text-gray-600">Fax No: 08818-284322</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_civil@srivasaviengg.ac.in" className="text-primary hover:underline">hod_civil@srivasaviengg.ac.in</a></p>
-                </div>
-                <p className="text-gray-700 leading-relaxed">
-                  The Department of Civil Engineering was established in the year 2011 with a vision to strive towards quality education, research and consultancy. Civil Engineering is one of the oldest and broadest engineering discipline which has been an aspect of life, since the beginning of human civilization. Efforts have been made to provide high quality technical education to students with a view to make them successful professionals.
-                </p>
+            {/* Navigation Tab - Moved Here */}
+            <div className="bg-white mb-8">
+              <div className="overflow-x-auto">
+                <nav className="flex flex-nowrap whitespace-nowrap py-2 justify-center">
+                  <button
+                    onClick={() => setActiveDeptTab('Department')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'Department' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Department
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('Vision')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'Vision' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Vision
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('Mission')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'Mission' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Mission
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('PEOs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'PEOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    PEOs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('POs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'POs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    POs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('PSOs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'PSOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    PSOs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('COs')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'COs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    COs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('SalientFeatures')}
+                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
+                      ${activeDeptTab === 'SalientFeatures' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                  >
+                    Salient Features
+                  </button>
+                </nav>
               </div>
             </div>
+            
+            {/* Content Area that changes completely based on selected tab */}
+            {renderDeptTabContent()}
           </div>
         );
       case 'Faculty Profiles':
