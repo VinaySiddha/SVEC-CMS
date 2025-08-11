@@ -10,23 +10,17 @@ const BSHDepartment: React.FC = () => {
     'Department Profile',
     'Faculty Profiles',
     'Board of Studies',
-    'Syllabus',
-    'Physical Facilities',
-    'Department Library',
-    'MoUs',
-    'Faculty Development Programs',
+    'FDPs/Guest Lectures Organized',
+    'FDPs/Workshops Participated',
+    'Faculty Paper Presentations',
+    'Laboratories',
     'Faculty Achievements',
-    'Workshops',
+
     'Student Achievements',
-    'Placements',
-    'Merit Scholarship/Academic Toppers',
-    'Technical Association',
-    'Training Activities',
-    'Newsletters',
-    'Extra-Curricular Activities',
-    'Hackathons',
-    'e-Resources',
-    'Handbooks',
+    'Department Achievements',
+    'Activities',
+    'Syllabus',
+    'Results',
     'Contact'
   ];
 
@@ -106,6 +100,262 @@ const BSHDepartment: React.FC = () => {
 
   const renderContent = () => {
     switch (activeContent) {
+      case 'Results':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Results</h2>
+            <div className="nav-content mb-2">
+              <details open>
+                <summary className="font-semibold text-lg mb-2">Results Since 2001</summary>
+                <ul className="list-disc ml-6 mt-4 space-y-2">
+                  <li>
+                    B.Tech 1st Year Results since 2001 -{' '}
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/bsh/I%20B.Tech%20Results.pdf"
+                      className="text-primary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Activities':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Activities</h2>
+            <details open>
+              <summary className="font-semibold text-lg mb-2">National Mathematics Day</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  National Mathematics Day 2022 -{' '}
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/bsh/National%20Mathematics%20Day%20-%202022.pdf"
+                    className="text-primary hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View
+                  </a>
+                </li>
+                <li>
+                  National Mathematics Day 2015 -{' '}
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/bsh/National%20Mathematics%20Day%20-%202015.pdf"
+                    className="text-primary hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View
+                  </a>
+                </li>
+                <li>
+                  National Mathematics Day 2014 -{' '}
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/bsh/National%20Mathematics%20Day%20-%202014.pdf"
+                    className="text-primary hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View
+                  </a>
+                </li>
+                <li>
+                  National Mathematics Day 2012 -{' '}
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/bsh/National%20Mathematics%20Day%20-%202012.pdf"
+                    className="text-primary hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View
+                  </a>
+                </li>
+              </ul>
+            </details>
+            <details>
+              <summary className="font-semibold text-lg mb-2">Fly High Program</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  Fly High Details -{' '}
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/bsh/Fly High Details.pdf"
+                    className="text-primary hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View
+                  </a>
+                </li>
+              </ul>
+            </details>
+            <details>
+              <summary className="font-semibold text-lg mb-2">World Environment Day</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  World Environment Day 2015 -{' '}
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/bsh/WORLD%20ENVIRONMENT%20DAY-%202015.pdf"
+                    className="text-primary hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View
+                  </a>
+                </li>
+              </ul>
+            </details>
+          </div>
+        );
+      case 'Faculty Achievements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
+            <details open>
+              <summary className="font-semibold text-lg mb-2">Paper Publications</summary>
+              <div>
+                <ul className="list-disc ml-6 mt-4 space-y-2">
+                  <li>
+                    Paper Publications in Journals -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/bsh/Paper%20Publications.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Paper Publications in Conferences -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/bsh/Paper%20Publications%20in%20National%20and%20International%20Conferences.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <details className="mt-4">
+              <summary className="font-semibold text-lg mb-2">AP-SET-NET-GATE</summary>
+              <div>
+                <ul className="list-disc ml-6 mt-4 space-y-2">
+                  <li>
+                    AP-SET-NET-GATE -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/bsh/AP-SET-NET-GATE.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <details className="mt-4">
+              <summary className="font-semibold text-lg mb-2">Book Publications</summary>
+              <div>
+                <ul className="list-disc ml-6 mt-4 space-y-2">
+                  <li>
+                    Book Publication Details -{' '}
+                    <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Book%20Publication.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            {/* Newly added blocks from user request */}
+            <details className="mt-4">
+              <summary className="font-semibold text-lg mb-2">Online Certifications</summary>
+              <div>
+                <ul className="list-disc ml-6 mt-4 space-y-2">
+                  <li>
+                    Online Certification Details -{' '}
+                    <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Online%20Certifications.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <details className="mt-4">
+              <summary className="font-semibold text-lg mb-2">Book Reviews</summary>
+              <div>
+                <ul className="list-disc ml-6 mt-4 space-y-2">
+                  <li>
+                    Book Reviews Details -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/bsh/Book%20Reviews.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        );
+      case 'Laboratories':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Laboratories</h2>
+            <div className="mt-4 m-2">
+              <details open>
+                <summary className="font-semibold text-lg mb-2">English Communication Skills Lab</summary>
+                <div>
+                  <ul className="list-disc ml-6 mt-4 space-y-2">
+                    <li>
+                      Technology Assisted Language Learning -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/bsh/TALL.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      Task Based Language Learning -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/bsh/TBLL.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div className="mt-4 m-2">
+              <details>
+                <summary className="font-semibold text-lg mb-2">Engineering Physics Lab</summary>
+                <div>
+                  <ul className="list-disc ml-6 mt-4 space-y-2">
+                    <li>
+                      Sir.C.V. Raman Engineering Physics Lab -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/bsh/Engineering%20Physics%20Lab%20Write%20up.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div className="mt-4 m-2">
+              <details>
+                <summary className="font-semibold text-lg mb-2">Engineering Chemistry Lab</summary>
+                <div>
+                  <ul className="list-disc ml-6 mt-4 space-y-2">
+                    <li>
+                      Acharya P.C.Ray Engineering Chemistry Lab -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/bsh/Chemistry%20LAB%20write%20up.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Faculty Paper Presentations':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Paper Presentations</h2>
+            <details open>
+              <summary className="font-semibold text-lg mb-2">Faculty Paper Presentations</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  Faculty Paper Presentations -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Faculty%20Paper%20%20Presentations.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ul>
+            </details>
+          </div>
+        );
+      case 'FDPs/Workshops Participated':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">FDPs/Workshops Participated</h2>
+            <details open>
+              <summary className="font-semibold text-lg mb-2">FDPs/Workshops Participated</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  Faculty Development Programs Workshop -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Faculty%20Development%20Programs%20-%20Workshop.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ul>
+            </details>
+          </div>
+        );
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
@@ -132,6 +382,147 @@ const BSHDepartment: React.FC = () => {
                 </p>
               </div>
             </div>
+          </div>
+        );
+
+      case 'Faculty Development Programs':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Development Programs</h2>
+            <details open>
+              <summary className="font-semibold text-lg mb-2">FDPs Organized</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  Applications of Mathematics in Engineering -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/FDP%20Organized.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  The Role of Physics in Engineering Technology -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/write%20up%20on%20FDP%20by%20Physics%20Section%20(1).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ul>
+            </details>
+            <details className="mt-4">
+              <summary className="font-semibold text-lg mb-2">Guest Lectures Organised</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  Guest Lecture on Applications of Mathematics in Real Life -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Guest%20Lecture%20on%20Applications%20of%20Mathematics%20in%20Real%20Life.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ul>
+            </details>
+          </div>
+        );
+
+      case 'Board of Studies':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
+            <details open>
+              <summary className="font-semibold text-lg mb-2">English BOS Meetings</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  Minutes of 8<sup>th</sup> meeting of the Board of Studies, dated 22.07.2024 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Minutes%20of%20the%20%208th%20meeting%20of%20BOS%20of%20Mathematics%20(2).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 6<sup>th</sup> meeting of the Board of Studies, dated 23.11.2021 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Minutes%20of%20the%206th%20Meeting%20of%20Board%20of%20Studies.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 5<sup>th</sup> meeting of the Board of Studies, dated 20.09.2021 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-5%20English.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 4<sup>th</sup> meeting of the Board of Studies, dated 31.12.2020 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-4%20English.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 3<sup>rd</sup> meeting of the Board of Studies, dated 01.08.2020 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-3%20English.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 2<sup>nd</sup> meeting of the Board of Studies, dated 19.04.2019 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/BOS-2%20English.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 1<sup>st</sup> meeting of the Board of Studies, dated 02.06.2018 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/BOS-1%20English.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ul>
+            </details>
+            <details className="mt-4">
+              <summary className="font-semibold text-lg mb-2">Joint BOS</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  Joint BOS 1<sup>st</sup> B.Tech V23 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Agenda%20Notes%20of%208th%20Academic%20Council%20Sri%20Vasavi%20Engineering%20College.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ul>
+            </details>
+            <details className="mt-4">
+              <summary className="font-semibold text-lg mb-2">Mathematics BOS Meetings</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  Minutes of 8<sup>th</sup> meeting of the Board of Studies, dated 22.07.2024 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Minutes%20of%20the%20%208th%20meeting%20of%20BOS%20of%20Mathematics%20(2).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 7<sup>th</sup> meeting of the Board of Studies, dated 05.10.2023 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/7th BOS of Mathematics.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 6<sup>th</sup> meeting of the Board of Studies, dated 23.11.2021 -{' '}
+                  <a href="https://https://srivasaviengg.ac.in/uploads/bsh/Minutes%20of%20the%206th%20Meeting%20of%20Board%20of%20Studies.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 5<sup>th</sup> meeting of the Board of Studies, dated 27.09.2021 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-%205%20Maths.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 4<sup>th</sup> meeting of the Board of Studies, dated 31.12.2020 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-4%20Maths.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 3<sup>rd</sup> meeting of the Board of Studies, dated 01.08.2020 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-3%20Maths.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 2<sup>nd</sup> meeting of the Board of Studies, dated 13.04.2019 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS%202-Maths.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 1<sup>st</sup> meeting of the Board of Studies, dated 12.06.2018 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS%201%20Maths.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ul>
+            </details>
+            <details className="mt-4">
+              <summary className="font-semibold text-lg mb-2">Chemistry BOS Meetings</summary>
+              <ol className="list-decimal ml-6 mt-4 space-y-2">
+                <li>
+                  Minutes of 2<sup>nd</sup> meeting of the Board of Studies, dated 28.12.2020 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Physics%20BOS-II.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 1<sup>st</sup> meeting of the Board of Studies, dated 02.06.2018 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Physics%20BOS-1.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ol>
+            </details>
+            <details className="mt-4">
+              <summary className="font-semibold text-lg mb-2">Physics BOS Meetings</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  Minutes of 2<sup>nd</sup> meeting of the Board of Studies, dated 28.12.2020 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Chemistry%20BOS%20Meeting-2.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Minutes of 1<sup>st</sup> meeting of the Board of Studies, dated 02.06.2018 -{' '}
+                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Chemistry%20BOS%20Meeting-1.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ul>
+            </details>
           </div>
         );
 
@@ -193,6 +584,34 @@ const BSHDepartment: React.FC = () => {
             </div>
           </div>
         );
+      case 'Student Achievements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
+            <details open className="mb-4">
+              <summary className="font-semibold text-lg mb-2">Student Achievements</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  Certifications in British Council -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/British%20Council%20Certification%20-%20Sheet1%20(1).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Gets Higher Exam Qualified Student List -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Reliance%20Foundation%20Merit%20Scholarship%20(2022-2023).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ul>
+            </details>
+            <details>
+              <summary className="font-semibold text-lg mb-2">Merit Scholarships</summary>
+              <ul className="list-disc ml-6 mt-4 space-y-2">
+                <li>
+                  Reliance Foundation Merit Scholarships during the A.Y 2022-23 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Reliance%20Foundation%20Merit%20Scholarship%20(2022-2023).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ul>
+            </details>
+          </div>
+        );
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }
@@ -244,5 +663,6 @@ const BSHDepartment: React.FC = () => {
     </div>
   );
 };
+
 
 export default BSHDepartment;

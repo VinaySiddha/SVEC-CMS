@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Brain, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText } from 'lucide-react';
 
@@ -12,20 +11,16 @@ const AIMLDepartment: React.FC = () => {
     'Board of Studies',
     'Syllabus',
     'Physical Facilities',
-    'Department Library',
     'MoUs',
     'Faculty Development Programs',
     'Faculty Achievements',
     'Workshops',
     'Student Achievements',
     'Placements',
-    'Merit Scholarship/Academic Toppers',
+    'Academic Toppers',
     'Technical Association',
-    'Training Activities',
-    'Newsletters',
     'Extra-Curricular Activities',
     'Hackathons',
-    'e-Resources',
     'Handbooks',
     'Contact'
   ];
@@ -100,6 +95,171 @@ const AIMLDepartment: React.FC = () => {
 
   const renderContent = () => {
     switch (activeContent) {
+      case 'Academic Toppers':
+        return (
+          <div id="academic-toppers" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Academic Toppers</h2>
+              <div className="mb-8">
+                <details open className="border border-gray-300 rounded-lg mb-4">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    Academic Toppers for the Batch 2022-26
+                  </summary>
+                  <ul className="list-disc ml-6 mt-4">
+                    <li>
+                      Academic Toppers for the Batch 2022-26 -
+                      <a href="https://srivasaviengg.ac.in/uploads/aiml/Academic%20Toppers%20%202022-26%20Batch-2%20(AIM).pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline ml-2">View</a>
+                    </li>
+                  </ul>
+                </details>
+                <details className="border border-gray-300 rounded-lg mb-4">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    Academic Toppers for the Batch 2021-25
+                  </summary>
+                  <ul className="list-disc ml-6 mt-4">
+                    <li>
+                      Academic Toppers for the Batch 2021-25 -
+                      <a href="https://srivasaviengg.ac.in/uploads/aiml/Academic%20Toppers%20%202021-25%20Batch-1%20(AIM).pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline ml-2">View</a>
+                    </li>
+                  </ul>
+                </details>
+                <div className="overflow-x-auto mt-8">
+                  <table className="min-w-full bg-white border border-gray-200 tab4-table">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="py-3 px-4 border-b">S.No</th>
+                        <th className="py-3 px-4 border-b">Academic Year</th>
+                        <th className="py-3 px-4 border-b">Particulars</th>
+                        <th className="py-3 px-4 border-b">No. of Students Benefited</th>
+                        <th className="py-3 px-4 border-b">Scholarship Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td className="py-3 px-4 border-b">1</td>
+                        <td className="py-3 px-4 border-b">2024-25</td>
+                        <td className="py-3 px-4 border-b">Academic Toppers</td>
+                        <td className="py-3 px-4 border-b">18</td>
+                        <td className="py-3 px-4 border-b">19500</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 px-4 border-b">2</td>
+                        <td className="py-3 px-4 border-b">2023-24</td>
+                        <td className="py-3 px-4 border-b">Academic Toppers</td>
+                        <td className="py-3 px-4 border-b">37</td>
+                        <td className="py-3 px-4 border-b">40500</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 px-4 border-b">3</td>
+                        <td className="py-3 px-4 border-b">2022-23</td>
+                        <td className="py-3 px-4 border-b">Academic Toppers</td>
+                        <td className="py-3 px-4 border-b">6</td>
+                        <td className="py-3 px-4 border-b">6500</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Technical Association':
+        return (
+          <div id="technical-association" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Association</h2>
+              <div className="mb-8">
+                <ul className="list-disc ml-6 mt-4">
+                  <li>
+                    MoUs with NIT ANP, Eduskills, Hexaware, APSSDC, Alykas Innovations Pvt.Ltd, thingTronics Pvt Ltd, Bangalore and TCS-iON.
+                  </li>
+                  <li>
+                    College has MOU with TCS for conducting Online Competitive Exams for which our Department Resources are being utilized.
+                  </li>
+                  <li>
+                    Professional Society memberships in ISTE and IAENG
+                  </li>
+                  <li>Good faculty retention</li>
+                  <li>Well Equipped Laboratories</li>
+                  <li>Maitri, Social Service Unit, managed by the Students.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Extra-Curricular Activities':
+        return (
+          <div id="extra-curricular-activities" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Extra-Curricular Activities</h2>
+              <div className="mb-8">
+                <ul className="list-disc ml-6 mt-4">
+                  <li>
+                    Extracurricular activities during the Year 2022-23 -
+                    <a href="https://srivasaviengg.ac.in/uploads/cai/Extracurricular%20activities%20-%202022-23.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline ml-2">View More</a>
+                  </li>
+                </ul>
+                <h3 className="text-2xl font-semibold text-gray-700 mb-6 pb-2 border-b-2 border-primary mt-8">Maitri</h3>
+                <div className="prose max-w-none">
+                  <h3 className="text-lg font-bold mb-2">Social Services</h3>
+                  <p className="text-gray-700 leading-relaxed mb-6">
+                    Maitri Association is a compassionate community where members, united by the spirit of 'Maitri' come together to contribute funds for those in need. Through collective efforts, the club aims to make a positive impact on the lives of individuals facing challenges, fostering a sense of solidarity and kindness within the group.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Handbooks':
+        return (
+          <div id="handbooks" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Academic HandBooks</h2>
+              <div className="space-y-6">
+                <details open>
+                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Academic year 2023-24: II-Sem Handbooks</summary>
+                  <ul className="list-disc list-inside space-y-2 ml-4">
+                    <li>
+                      VI-Sem V20 Regulation Handbook -
+                      <a href="https://srivasaviengg.ac.in/uploads/aiml/VI%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2023-24.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
+                    </li>
+                  </ul>
+                </details>
+                <details>
+                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Academic year 2023-24: I-Sem Handbooks</summary>
+                  <ul className="list-disc list-inside space-y-2 ml-4">
+                    <li>
+                      V-Sem V20 Regulation Handbook -
+                      <a href="https://srivasaviengg.ac.in/uploads/aiml/V%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2023-24.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
+                    </li>
+                    <li>
+                      III-Sem V20 Regulation Handbook -
+                      <a href="https://srivasaviengg.ac.in/uploads/aiml/III%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2023-24.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
+                    </li>
+                  </ul>
+                </details>
+                <details>
+                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Academic year 2022-23: II-Sem Handbooks</summary>
+                  <ul className="list-disc list-inside space-y-2 ml-4">
+                    <li>
+                      IV-Sem V20 Regulation Handbook -
+                      <a href="https://srivasaviengg.ac.in/uploads/aiml/IV%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2022-23.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
+                    </li>
+                  </ul>
+                </details>
+                <details>
+                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Academic year 2022-23: I-Sem Handbooks</summary>
+                  <ul className="list-disc list-inside space-y-2 ml-4">
+                    <li>
+                      III-Sem V20 Regulation Handbook -
+                      <a href="https://srivasaviengg.ac.in/uploads/aiml/III%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2022-23.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
+                    </li>
+                  </ul>
+                </details>
+              </div>
+            </div>
+          </div>
+        );
       case 'Department Profile':
         return (
           <div id="department-profile" className="space-y-8 animate-fade-in">
@@ -231,26 +391,216 @@ const AIMLDepartment: React.FC = () => {
           <div id="physical-facilities" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
+
               <div className="space-y-4">
-                <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">Class Rooms & Seminar Halls</h3>
-                  <ul className="list-disc list-inside space-y-1">
-                    <li>Class Rooms with ICT Enabled Facilities - <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Classrooms.pdf" className="text-primary hover:underline">View</a></li>
-                    <li>Seminar halls with ICT Enabled Facilities - <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Seminar%20Halls.pdf" className="text-primary hover:underline">View</a></li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-800 mt-6 mb-2">Laboratories</h3>
-                  <p className="text-gray-700 mb-4">The Department has 9 well-equipped labs for UG, PG, and research, with 674 systems. We have various servers and high-speed internet (200Mbps BSNL, 400Mbps Jio, 40Mbps Broadband).</p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {labs.map((lab, index) => (
-                      <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow text-center">
-                        <img src={lab.image} alt={lab.name} className="w-full h-48 object-cover rounded-md mb-4" />
-                        <h4 className="font-bold text-lg text-gray-800">{lab.name}</h4>
-                      </div>
-                    ))}
+                <details open className="border border-gray-300 rounded-lg mb-4">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    Class Rooms
+                  </summary>
+                  <div className="p-4">
+                    <h5 className="font-medium text-lg mb-2">Class Rooms</h5>
+                    <div className="mb-2">
+                      <span>Class Rooms with ICT Enabled Facilities</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Classrooms.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </div>
+
+                    <h5 className="font-medium text-lg mt-4 mb-2">Class Time Tables</h5>
+                    <div className="mb-2">
+                      <span>Master Timetable_A.Y for Sem-II 2022-23</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/AI%20_ML_Master%20Time%20Table_2022-23_%20II%20SEM%20_AIML.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </div>
+                    <div className="mb-2">
+                      <span>Master Timetable_A.Y for Sem-I 2022-23</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/AIM_Master%20Time%20Table_A.Y%202022-23_%20I%20SEM.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </div>
                   </div>
-                </div>
+                </details>
+
+                <details className="border border-gray-300 rounded-lg mb-4">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    Seminar Halls
+                  </summary>
+                  <div className="p-4">
+                    <div className="mb-2">
+                      <span>Seminar halls with ICT Enabled Facilities</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Seminar%20Halls.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details className="border border-gray-300 rounded-lg mb-4">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    Laboratories
+                  </summary>
+                  <div className="p-4">
+                    <p className="text-gray-700 leading-relaxed mb-4">
+                      The Department has well equipped labs with the latest
+                      Configuration. Total 9 Computer Labs for UG, PG and one
+                      research lab consisting a total of 674 systems. The various
+                      servers in the server room include Oracle 11g Database Server,
+                      Intranet Server (TOMCAT), NPTEL Video/Web Server, MAT Lab
+                      Server 2012 R2, Red Hat Linux 5.0 Server, Library Automation
+                      Server, A-Mail Server, ECAP Server.
+                    </p>
+                    <p className="text-gray-700 leading-relaxed mb-4">
+                      The college has high-speed internet connectivity throughout
+                      the campus through a leased line from BSNL with 200Mbps,
+                      400Mbps from Jio, and 40 Mbps (Broadband).
+                    </p>
+                    <p className="text-gray-700 leading-relaxed mb-6">
+                      The following Laboratories are available in the department:
+                    </p>
+
+                    <div className="my-6">
+                      <h3 className="text-xl font-semibold text-center mb-4">Linus Torvalds Lab</h3>
+                      <div className="overflow-x-auto mb-6">
+                        <table className="min-w-full bg-white border border-gray-200">
+                          <thead className="bg-gray-100">
+                            <tr>
+                              <th className="py-3 px-4 border-b text-left">S.No</th>
+                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
+                              <th className="py-3 px-4 border-b text-left">Configuration</th>
+                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td className="py-3 px-4 border-b">1</td>
+                              <td className="py-3 px-4 border-b" rowSpan={2}>Linus Torvalds Lab</td>
+                              <td className="py-3 px-4 border-b">
+                                Model : HP 280PRO G9 Micro Tower<br />
+                                Processor : Intel core TM i3-10100 CPU@3.64 GHZ<br />
+                                8.00 GB RAM, 256.00 GB SSD<br />
+                                System type : x64 – based Processor<br />
+                                Monitor: 19.5" LED Monitor<br />
+                                Keyboard: Multimedia Keyboard<br />
+                                Mouse: Optical Mouse<br />
+                              </td>
+                              <td className="py-3 px-4 border-b">70</td>
+                            </tr>
+                            <tr>
+                              <td className="py-3 px-4 border-b">2</td>
+                              <td className="py-3 px-4 border-b">
+                                Model : ACER Vertion Desktop<br />
+                                Processor : Intel® Core™ i5-7400 CPU @ 3.00 GHz<br />
+                                4.00 GB RAM, 1.00 TB HDD<br />
+                                System type : x64 – based Processor<br />
+                                Monitor : 19.5" LED Monitor<br />
+                                Keyboard : Multimedia Keyboard<br />
+                                Mouse : Optical Mouse<br />
+                              </td>
+                              <td className="py-3 px-4 border-b">02</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <h3 className="text-xl font-semibold text-center mb-4">Orange Lab</h3>
+                      <div className="overflow-x-auto mb-6">
+                        <table className="min-w-full bg-white border border-gray-200">
+                          <thead className="bg-gray-100">
+                            <tr>
+                              <th className="py-3 px-4 border-b text-left">S.No</th>
+                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
+                              <th className="py-3 px-4 border-b text-left">Configuration</th>
+                              <th className="py-3 px-4 border-b text-left">Usage</th>
+                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td className="py-3 px-4 border-b">1</td>
+                              <td className="py-3 px-4 border-b">Orange Lab</td>
+                              <td className="py-3 px-4 border-b">
+                                Model: DELL OPTI PLEX 3070<br />
+                                Processor: Intel Core i3, 9th Gen<br />
+                                8.00 GB RAM, 1 TB Hard Disk<br />
+                                System type: x64 – based Processor<br />
+                                Monitor: 20.5" TFT Monitor<br />
+                                Keyboard: Multimedia Keyboard<br />
+                                Mouse: Optical Scroll Mouse
+                              </td>
+                              <td className="py-3 px-4 border-b">Placements and Training</td>
+                              <td className="py-3 px-4 border-b">72</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                        <div className="text-center">
+                          <img
+                            src="/images/departments/cai/Linus Torvalds Lab.jpg"
+                            alt="Linus Torvalds Lab"
+                            className="w-full h-auto object-cover rounded-lg shadow-md"
+                            style={{ aspectRatio: '16/9' }}
+                          />
+                          <h4 className="text-lg font-semibold text-green-600 mt-3">
+                            Linus Torvalds Lab
+                          </h4>
+                        </div>
+
+                        <div className="text-center">
+                          <img
+                            src="/images/departments/cai/Orange Lab.jpg"
+                            alt="Orange Lab"
+                            className="w-full h-auto object-cover rounded-lg shadow-md"
+                            style={{ aspectRatio: '16/9' }}
+                          />
+                          <h4 className="text-lg font-semibold text-green-600 mt-3">
+                            Orange Lab
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-8">
+                      <h3 className="text-xl font-semibold mb-4">Other Laboratories</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        {labs.map((lab, index) => (
+                          lab.name !== "Linus Torvalds Lab" && lab.name !== "Orange Lab" && (
+                            <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow text-center">
+                              <img src={lab.image} alt={lab.name} className="w-full h-48 object-cover rounded-md mb-4" />
+                              <h4 className="font-bold text-lg text-gray-800">{lab.name}</h4>
+                            </div>
+                          )
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </details>
               </div>
             </div>
           </div>
@@ -260,10 +610,95 @@ const AIMLDepartment: React.FC = () => {
           <div id="syllabus" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
-              <ul className="list-disc list-inside space-y-2 text-center">
-                <li>B.Tech - V20 Syllabus - <a href="http://srivasaviengg.ac.in/uploads/syllabus/V20%20AI%20and%20AI&ML%20CS%20&%20Syllabus_%20I%20&%20II%20SEM.pdf" className="text-primary hover:underline ml-2">View</a></li>
-                <li>SOC Syllabus during the Academic Year 2022-23 - <a href="http://srivasaviengg.ac.in/uploads/aiml/SOC_AIM_2022-23.pdf" className="text-primary hover:underline ml-2">View</a></li>
-              </ul>
+              <div className="container mx-auto">
+                <div className="section">
+                  <details open>
+                    <summary className="font-semibold text-lg">B.Tech (CAI & AIML)</summary>
+                    <div className="nav-content p-3">
+                      <ul className="list-disc list-inside my-0">
+                        <li className="m-0 p-0">
+                          B.Tech - V20 Syllabus -
+                          <a href="https://srivasaviengg.ac.in/uploads/syllabus/V20%20AI%20and%20AI&ML%20CS%20&%20Syllabus_%20I%20&%20II%20SEM.pdf" className="text-primary hover:underline ml-2">View</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+                <details>
+                  <summary className="font-semibold text-lg">SOC Syllabus</summary>
+                  <div className="nav-content p-3">
+                    <ul className="list-disc list-inside my-0">
+                      <li className="m-0 p-0">
+                        SOC Syllabus during the Academic Year 2022-23 -
+                        <a href="https://srivasaviengg.ac.in/uploads/aiml/SOC_AIM_2022-23.pdf" className="text-primary hover:underline ml-2">View</a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Hackathons':
+        return (
+          <div id="hackathons" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Hackathons</h2>
+              <div className="mb-6">
+                <ul className="list-disc list-inside mb-2">
+                  <li>
+                    Hackathon Brochure-
+                    <a href="https://srivasaviengg.ac.in/uploads/aiml/Hackathon HackWave 1.0 Brochure.jpeg" target="_blank" className="text-primary hover:underline ml-2">For more details</a>
+                  </li>
+                  <li>
+                    Hackathon Winners List during A.Y 2024-25 -
+                    <a href="https://srivasaviengg.ac.in/uploads/aiml/Hackathon HackWave 1.0 Brochure.jpeg" target="_blank" className="text-primary hover:underline ml-2">For more details</a>
+                  </li>
+                </ul>
+                <ul className="list-disc list-inside">
+                  <li>
+                    Hackathon Brochure- -
+                    <a href="https://srivasaviengg.ac.in/uploads/cai/hackathon%20brouchure.pdf" target="_blank" className="text-primary hover:underline ml-2">For more details</a>
+                  </li>
+                  <li>
+                    Hackathon Winners List during A.Y 2023-24 -
+                    <a href="https://srivasaviengg.ac.in/uploads/cai/Hackathon%20Winners%202023.pdf" target="_blank" className="text-primary hover:underline ml-2">For more details</a>
+                  </li>
+                </ul>
+              </div>
+              <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
+              <div className="container mx-auto mb-8">
+                <div className="text-center text-xl font-semibold mb-2">Hackathon 2K24</div>
+                <div className="flex flex-wrap justify-center items-center gap-4">
+                  <div className="w-full md:w-1/3 flex justify-center">
+                    <img src="https://srivasaviengg.ac.in/images/departments/cai/20241104_33020PMByGPSMapCamera.jpg" className="img-fluid m-3 rounded shadow" alt="Image 1" />
+                  </div>
+                  <div className="w-full md:w-1/3 flex justify-center">
+                    <img src="https://srivasaviengg.ac.in/images/departments/cai/20241104_104621AMByGPSMapCamera.jpg" className="img-fluid m-3 rounded shadow" alt="Image 3" />
+                  </div>
+                </div>
+              </div>
+              <div className="container mx-auto">
+                <div className="text-center text-xl font-semibold mb-2">Hackathon 2K23</div>
+                <div className="flex flex-wrap justify-center items-center gap-4">
+                  <div className="w-full md:w-1/3 flex flex-col items-center">
+                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0125.JPG" className="img-fluid m-3 rounded shadow" alt="Image 1" />
+                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0089.JPG" className="img-fluid m-3 rounded shadow" alt="Image 2" />
+                  </div>
+                  <div className="w-full md:w-1/3 flex flex-col items-center">
+                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0091.JPG" className="img-fluid m-3 rounded shadow" alt="Image 3" />
+                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0285.JPG" className="img-fluid m-3 rounded shadow" alt="Image 4" />
+                  </div>
+                  <div className="w-full md:w-1/3 flex flex-col items-center">
+                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0271.JPG" className="img-fluid m-3 rounded shadow" alt="Image 5" />
+                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0176.JPG" className="img-fluid m-3 rounded shadow" alt="Image 6" />
+                  </div>
+                  <div className="w-full md:w-1/3 flex flex-col items-center">
+                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0218.JPG" className="img-fluid m-3 rounded shadow" alt="Image 7" />
+                    <img src="https://srivasaviengg.ac.in/uploads/cai/IMG-20231111-WA0001.jpg" className="img-fluid m-3 rounded shadow" alt="Image 8" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -336,6 +771,421 @@ const AIMLDepartment: React.FC = () => {
                   <p className="text-gray-600">Fax No: 08818-284322</p>
                   <p className="text-gray-600">Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-primary hover:underline">hod_aim@srivasaviengg.ac.in</a></p>
                 </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Faculty Development Programs':
+        return (
+          <div id="faculty-development-programs" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Development Programs</h2>
+
+              <div className="section">
+                <details open>
+                  <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">FDP Attended</summary>
+                  <ul className="list-disc list-inside space-y-2 ml-4">
+                    <li>
+                      FDPs attended by the Faculty 2024-25 -
+                      <a href="https://srivasaviengg.ac.in/uploads/aiml/AIM FDPs Workshops Seminars attended by Faculty 2024-25.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
+                    </li>
+                    <li>
+                      FDPs attended by the Faculty 2023-24 -
+                      <a href="https://srivasaviengg.ac.in/uploads/aiml/FDPS%20Attended_2023-2024(AIM).pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
+                    </li>
+                  </ul>
+                </details>
+              </div>
+            </div>
+          </div>
+        );
+      case 'MoUs':
+        return (
+          <div id="mous" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
+              <h3 className="text-xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
+              <div className="overflow-x-auto flex justify-center">
+                <table className="min-w-max bg-white border border-gray-200 table-auto text-sm text-left text-gray-500">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="py-3 px-4 border-b">S.No</th>
+                      <th className="py-3 px-4 border-b">Organization Name</th>
+                      <th className="py-3 px-4 border-b">From</th>
+                      <th className="py-3 px-4 border-b">To</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="py-3 px-4 border-b">1</td>
+                      <td className="py-3 px-4 border-b">NIT ANP</td>
+                      <td className="py-3 px-4 border-b">31-12-2022</td>
+                      <td className="py-3 px-4 border-b">Till Date</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 border-b">2</td>
+                      <td className="py-3 px-4 border-b">Alteryx SparkED Partner</td>
+                      <td className="py-3 px-4 border-b">30-12-2022</td>
+                      <td className="py-3 px-4 border-b">Till Date</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 border-b">3</td>
+                      <td className="py-3 px-4 border-b">Juniper Networks</td>
+                      <td className="py-3 px-4 border-b">30-11-2022</td>
+                      <td className="py-3 px-4 border-b">Till Date</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 border-b">4</td>
+                      <td className="py-3 px-4 border-b">Celonis Academic Alliance</td>
+                      <td className="py-3 px-4 border-b">11-11-2022</td>
+                      <td className="py-3 px-4 border-b">Till Date</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 border-b">5</td>
+                      <td className="py-3 px-4 border-b">Palo Alto Networks Cyber Security Academy</td>
+                      <td className="py-3 px-4 border-b">08-11-2022</td>
+                      <td className="py-3 px-4 border-b">Till Date</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 border-b">6</td>
+                      <td className="py-3 px-4 border-b">Blue Prism Academia Program</td>
+                      <td className="py-3 px-4 border-b">01-11-2022</td>
+                      <td className="py-3 px-4 border-b">Till Date</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 border-b">7</td>
+                      <td className="py-3 px-4 border-b">Eduskills</td>
+                      <td className="py-3 px-4 border-b">31-10-2022</td>
+                      <td className="py-3 px-4 border-b">31-10-2025</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 border-b">8</td>
+                      <td className="py-3 px-4 border-b">Hexaware</td>
+                      <td className="py-3 px-4 border-b">25-04-2020</td>
+                      <td className="py-3 px-4 border-b">Till Date</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 border-b">9</td>
+                      <td className="py-3 px-4 border-b">APSSDC</td>
+                      <td className="py-3 px-4 border-b">29-03-2019</td>
+                      <td className="py-3 px-4 border-b">Till Date</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-4 border-b">10</td>
+                      <td className="py-3 px-4 border-b">TCSiON</td>
+                      <td className="py-3 px-4 border-b">25-04-2012</td>
+                      <td className="py-3 px-4 border-b">Till Date</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Faculty Achievements':
+        return (
+          <div id="faculty-achievements" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
+              <div className="tab4 mt-4">
+                <details open>
+                  <summary className="text-lg font-semibold">Faculty Out-Reach</summary>
+                  <div className="nav-content">
+                    <ul className="list-disc ml-6 mt-4">
+                      <li>
+                        Faculty Out Reach -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/Faculty%20Outreach%20AIM.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View</a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+              <div className="mt-4">
+                <details>
+                  <summary className="text-lg font-semibold">Journal Publications</summary>
+                  <div>
+                    <ul className="list-disc ml-6 mt-4">
+                      <li>
+                        Journal Publication Details 2024-2025 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_Faculty Journal Publications_2024-25.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View</a>
+                      </li>
+                      <li>
+                        Journal Publication Details 2023-2024 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_Faculty Journal Publications_2023-24.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View</a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+              <div className="mt-4">
+                <details>
+                  <summary className="text-lg font-semibold">Conferences</summary>
+                  <div>
+                    <ul className="list-disc ml-6 mt-4">
+                      <li>
+                        Conferences Details 2024-2025 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_Faculty Conference Publications_2024-25.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >For more Details</a>
+                      </li>
+                      <li>
+                        Conferences Details 2023-2024 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/Faculty%20Publications%20in%20Conferences_2023_24.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >For more Details</a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+              <div className="tab4 mt-4">
+                <details>
+                  <summary className="text-lg font-semibold">Certifications</summary>
+                  <div className="nav-content">
+                    <ul className="list-disc ml-6 mt-4">
+                      <li>
+                        Certifications done by the faculty during the A.Y. 2024-25 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/2024-25 AIM Faculty MOOCs Certifications.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >For more Details</a>
+                      </li>
+                      <li>
+                        Certifications done by the faculty during the A.Y. 2023-24 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/2023-24 AIM Faculty MOOCs Certifications.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >For more Details</a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+              <div className="tab4 mt-4">
+                <details>
+                  <summary className="text-lg font-semibold">Patents</summary>
+                  <div className="nav-content">
+                    <ul className="list-disc ml-6 mt-4">
+                      <li>
+                        Patents Published by Faculty during the A.Y 2023-2024 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/Patents by AIM Faculty 2023-24.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >For more Details</a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Student Achievements':
+        return (
+          <div id="student-achievements" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h3 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h3>
+              <div className="tab4 mt-4">
+                <details open>
+                  <summary className="text-lg font-semibold">Conference Publications</summary>
+                  <div className="m-3">
+                    <p>
+                      Conferences during the Academic Year 2023-24 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Students%20Journal%202021-25_BATCH(AIM).pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline ml-2 font-semibold"
+                      >View More</a>
+                    </p>
+                  </div>
+                </details>
+              </div>
+              <div className="tab4 mt-4">
+                <details>
+                  <summary className="text-lg font-semibold">NPTEL/Other Certifications</summary>
+                  <div className="nav-content">
+                    <ul className="list-disc ml-6 mt-4">
+                      <li>
+                        Certifications during the A.Y 2023-24 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_23-24_CERTIFICATIONS_TABLE.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View More</a>
+                      </li>
+                      <li>
+                        Certifications during the A.Y 2022-23 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/NPTEL%20&%20Others%20Certifications%202022-23(AIM).pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View More</a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+              <div className="tab4 mt-4">
+                <details>
+                  <summary className="text-lg font-semibold">Global Certifications</summary>
+                  <div className="nav-content">
+                    <ul className="list-disc ml-6 mt-4 text-center">
+                      <li>
+                        Global Certifications during A. Y 2023-24 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/Global%20Certifications%202023-24%20(AIM).pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View More</a>
+                      </li>
+                      <li>
+                        Global Certifications during A. Y 2022-23 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/Global%20certifications%202022-23(AIM).pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View More</a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+              <div className="tab4 mt-4">
+                <details>
+                  <summary className="text-lg font-semibold">Virtual Internships</summary>
+                  <div className="nav-content">
+                    <ul className="list-disc ml-6 mt-4">
+                      <li>
+                        List of Virtual Internships done by 2022-26 Batch Students during A.Y 2023-24 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM-A%20Virtual%20Intenships.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View More</a>
+                      </li>
+                      <li>
+                        List of Virtual Internships done by 2021-25 Batch Students during A.Y 2023-24 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_VIRTUAL_INTERNSHIPS_2021-25_BATCH.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View More</a>
+                      </li>
+                      <li>
+                        List of Virtual Internships done by 2021-25 Batch Students during A.Y 2022-23 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_22-23_VIRTUAL_INTERNSHIPS_2021-25_BATCH.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View More</a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+              <div className="tab4 mt-4">
+                <details>
+                  <summary className="text-lg font-semibold">Community Service Project</summary>
+                  <div className="nav-content">
+                    <ul className="list-disc ml-6 mt-4">
+                      <li>
+                        List of CSP Projects done by 2021-25 Batch Students -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/List%20of%20CSP%20Projects%20done%20by%202021-25%20Batch%20Students.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View More</a>
+                      </li>
+                      <li>
+                        List of CSP Projects done by 2022-26 Batch Students -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_CSP_2022-26_Batch.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View More</a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+              <div className="tab4 mt-4">
+                <details>
+                  <summary className="text-lg font-semibold">Student Research Projects</summary>
+                  <div className="nav-content">
+                    <ul className="list-disc ml-6 mt-4">
+                      <li>
+                        Mini Projects done by 2021-25 Batch Students -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/2021-25%20Batch%20AI&ML%20Miniproject%20Data.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline ml-2"
+                        >View More</a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Placements':
+        return (
+          <div id="placements" className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
+              <div className="nav-content">
+                <details open>
+                  <summary className="text-lg font-semibold">Placements for Batch 2021-25</summary>
+                  <ul className="list-disc ml-6 mt-4">
+                    <li>
+                      Placements for Batch 2021-25 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/2021-25 AIM Placement Summary.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline ml-2"
+                      >View More</a>
+                    </li>
+                  </ul>
+                </details>
               </div>
             </div>
           </div>

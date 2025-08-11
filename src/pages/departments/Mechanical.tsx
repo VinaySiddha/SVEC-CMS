@@ -1,13 +1,13 @@
 
 import React, { useState } from 'react';
-import { Cog, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library } from 'lucide-react';
+import { Cog, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Book, Database, User } from 'lucide-react';
 
 const MechanicalDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
 
   const sidebarItems = [
-    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Laboratories', 'Department Library', 'MoUs', 'Faculty T&L methods', 'Faculty Achievements', 'Student Achievements', 'Placements', 'Workshops', 'Technical Association', 'Project Research', 'Newsletters', 'Magazines', 'Extra-Curricular Activities', 'Green Initiative', 'Product Development', 'Syllabus', 'Handbooks', 'Contact'
+    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Laboratories', 'Department Library', 'MoUs', 'Faculty T&L methods', 'Faculty Achievements', 'Student Achievements', 'Placements', 'Workshops', 'Technical Association', 'Project Research', 'Newsletters', 'Magazines', 'Syllabus', 'Contact'
   ];
 
   const faculty = [
@@ -133,6 +133,2712 @@ const MechanicalDepartment: React.FC = () => {
             </div>
           </div>
         );
+      case 'Board of Studies':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="px-4 py-2">S.No</th>
+                    <th className="px-4 py-2">Name of the BOS Member</th>
+                    <th className="px-4 py-2">Designation</th>
+                    <th className="px-4 py-2">Organization</th>
+                    <th className="px-4 py-2">Position in JOB</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b hover:bg-gray-50">
+                    <td className="px-4 py-2">1</td>
+                    <td className="px-4 py-2">Dr.M.V.Ramesh</td>
+                    <td className="px-4 py-2">Professor & HOD</td>
+                    <td className="px-4 py-2">Dept.of ME, SVEC</td>
+                    <td className="px-4 py-2">Chairperson</td>
+                  </tr>
+                  <tr className="border-b hover:bg-gray-50">
+                    <td className="px-4 py-2">2</td>
+                    <td className="px-4 py-2">Dr.N.MohanaRao</td>
+                    <td className="px-4 py-2">Professor & Director (IIIPT & SDC)</td>
+                    <td className="px-4 py-2">Dept.of ME,JNTUK, Kakinada</td>
+                    <td className="px-4 py-2">University Nominee</td>
+                  </tr>
+                  <tr className="border-b hover:bg-gray-50">
+                    <td className="px-4 py-2">3</td>
+                    <td className="px-4 py-2">Dr.R.V.Chalam</td>
+                    <td className="px-4 py-2">Professor</td>
+                    <td className="px-4 py-2">Dept.of ME,NIT,Warangal</td>
+                    <td className="px-4 py-2">Academic Expert</td>
+                  </tr>
+                  <tr className="border-b hover:bg-gray-50">
+                    <td className="px-4 py-2">4</td>
+                    <td className="px-4 py-2">Dr.A.Krishnaiahh</td>
+                    <td className="px-4 py-2">Professor</td>
+                    <td className="px-4 py-2"></td>
+                    <td className="px-4 py-2">Academic Expert</td>
+                  </tr>
+                  <tr className="border-b hover:bg-gray-50">
+                    <td className="px-4 py-2">5</td>
+                    <td className="px-4 py-2">Sri S.S.Subrahmanya Sastry</td>
+                    <td className="px-4 py-2">Head of Parctice QMS</td>
+                    <td className="px-4 py-2">Veave Technologies Bangalore,India</td>
+                    <td className="px-4 py-2">Industry Expert</td>
+                  </tr>
+                  <tr className="border-b hover:bg-gray-50">
+                    <td className="px-4 py-2">6</td>
+                    <td className="px-4 py-2">Mr.A.Sai Krishna</td>
+                    <td className="px-4 py-2">CAE Engineer</td>
+                    <td className="px-4 py-2"></td>
+                    <td className="px-4 py-2">Alumni</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="mt-10">
+              <h3 className="text-2xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes</h3>
+              <ul className="space-y-3 pl-4">
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 7th meeting of the Board of Studies
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mech/7th BOS MOM of ME Dept.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-4 w-4 mr-1" />
+                      View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 6th meeting of the Board of Studies
+                    <a
+                      href="#"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-4 w-4 mr-1" />
+                      View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 5th meeting of the Board of Studies
+                    <a
+                      href="#"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-4 w-4 mr-1" />
+                      View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 4th meeting of the Board of Studies
+                    <a
+                      href="#"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-4 w-4 mr-1" />
+                      View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 3rd meeting of the Board of Studies
+                    <a
+                      href="#"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-4 w-4 mr-1" />
+                      View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 2nd meeting of the Board of Studies
+                    <a
+                      href="#"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-4 w-4 mr-1" />
+                      View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 1st meeting of the Board of Studies
+                    <a
+                      href="#"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-4 w-4 mr-1" />
+                      View
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        );
+      case 'Laboratories':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Laboratories</h2>
+
+            <div className="mb-8">
+              <h3 className="text-2xl font-semibold text-[#B22222] mb-4">Available Laboratories</h3>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  <HardHat className="h-5 w-5 mr-2 text-[#B22222]" />
+                  <span className="font-medium">Workshop</span>
+                </li>
+                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
+                  <span className="font-medium">Production Technology Lab</span>
+                </li>
+                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
+                  <span className="font-medium">Machine Tools Lab</span>
+                </li>
+                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  <Microscope className="h-5 w-5 mr-2 text-[#B22222]" />
+                  <span className="font-medium">Metrology Lab</span>
+                </li>
+                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
+                  <span className="font-medium">CAD/CAM Lab</span>
+                </li>
+                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
+                  <span className="font-medium">Thermal Engineering Lab</span>
+                </li>
+                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
+                  <span className="font-medium">Mechanics of Solids Lab</span>
+                </li>
+                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  <Microscope className="h-5 w-5 mr-2 text-[#B22222]" />
+                  <span className="font-medium">Metallurgy Lab</span>
+                </li>
+                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
+                  <span className="font-medium">Instrumentation Lab</span>
+                </li>
+                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  <Microscope className="h-5 w-5 mr-2 text-[#B22222]" />
+                  <span className="font-medium">Fuels & Lubricants Lab</span>
+                </li>
+                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
+                  <span className="font-medium">Mechanics of Fluids Lab</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-12">
+              <h3 className="text-2xl font-semibold text-[#B22222] mb-6">Laboratory Videos</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="flex flex-col items-center">
+                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
+                    <iframe
+                      className="w-full h-full"
+                      src="https://www.youtube.com/embed/NoaAk3gNNU0"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="Thermal Engineering Lab"
+                    ></iframe>
+                  </div>
+                  <h4 className="text-xl font-medium mt-3 text-center">Thermal Engineering Lab</h4>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
+                    <iframe
+                      className="w-full h-full"
+                      src="https://www.youtube.com/embed/Du1edQHATEY"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="Metrology Lab"
+                    ></iframe>
+                  </div>
+                  <h4 className="text-xl font-medium mt-3 text-center">Metrology Lab</h4>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
+                    <iframe
+                      className="w-full h-full"
+                      src="https://www.youtube.com/embed/VUr4WV_K7qM"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="Machine Lab"
+                    ></iframe>
+                  </div>
+                  <h4 className="text-xl font-medium mt-3 text-center">Machine Lab</h4>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
+                    <iframe
+                      className="w-full h-full"
+                      src="https://www.youtube.com/embed/hXXZAbU6jHk"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="Instrumentation Lab"
+                    ></iframe>
+                  </div>
+                  <h4 className="text-xl font-medium mt-3 text-center">Instrumentation Lab</h4>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
+                    <iframe
+                      className="w-full h-full"
+                      src="https://www.youtube.com/embed/wikbcmBvEQc"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="Heat Transfer Lab"
+                    ></iframe>
+                  </div>
+                  <h4 className="text-xl font-medium mt-3 text-center">Heat Transfer Lab</h4>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
+                    <iframe
+                      className="w-full h-full"
+                      src="https://www.youtube.com/embed/-YBCecMTlSc"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="Fuels Lab"
+                    ></iframe>
+                  </div>
+                  <h4 className="text-xl font-medium mt-3 text-center">Fuels Lab</h4>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
+                    <iframe
+                      className="w-full h-full"
+                      src="https://www.youtube.com/embed/Gqx3E5zMyxA"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="Fluid Mechanics Lab"
+                    ></iframe>
+                  </div>
+                  <h4 className="text-xl font-medium mt-3 text-center">Fluid Mechanics Lab</h4>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
+                    <iframe
+                      className="w-full h-full"
+                      src="https://www.youtube.com/embed/ktDAGVv0Csg"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="Drawing Hall"
+                    ></iframe>
+                  </div>
+                  <h4 className="text-xl font-medium mt-3 text-center">Drawing Hall</h4>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
+                    <iframe
+                      className="w-full h-full"
+                      src="https://www.youtube.com/embed/LnXTVI7q_QQ"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="CAD Lab"
+                    ></iframe>
+                  </div>
+                  <h4 className="text-xl font-medium mt-3 text-center">CAD Lab</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Department Library':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Library</h2>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-8">
+              {/* Library Image */}
+              <div className="relative">
+                <img
+                  src="https://img.freepik.com/free-photo/friends-learning-study-group_23-2149257209.jpg"
+                  alt="Department Library"
+                  className="w-full h-auto rounded-lg shadow-md"
+                />
+              </div>
+
+              {/* Library Description */}
+              <div className="space-y-4">
+                <p className="text-gray-700 leading-relaxed text-justify">
+                  The Department of Mechanical Engineering maintains a comprehensive library that serves as an essential resource for students and faculty. Our collection includes textbooks, reference materials, journals, and digital resources covering all aspects of mechanical engineering disciplines.
+                </p>
+                <p className="text-gray-700 leading-relaxed text-justify">
+                  The library provides a quiet environment for study and research, with ample seating and workspaces. Students can access technical manuals, design handbooks, engineering standards, and the latest research publications in the field.
+                </p>
+                <p className="text-gray-700 leading-relaxed text-justify  ">
+                  Digital resources include subscriptions to leading engineering journals, e-books, and access to engineering databases, enabling students to stay updated with the latest advancements in mechanical engineering.
+                </p>
+              </div>
+            </div>
+
+            {/* Library Resources */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-gray-50 p-6 rounded-lg shadow">
+                <h3 className="text-xl font-semibold text-[#B22222] mb-4">Library Resources</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-center">
+                    <Book className="h-5 w-5 mr-2 text-[#B22222]" />
+                    <span>Total Books: 1,500+</span>
+                  </li>
+                  <li className="flex items-center">
+                    <BookOpen className="h-5 w-5 mr-2 text-[#B22222]" />
+                    <span>Journals & Periodicals: 25+</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Library className="h-5 w-5 mr-2 text-[#B22222]" />
+                    <span>Digital Resources: 500+</span>
+                  </li>
+                  <li className="flex items-center">
+                    <FileText className="h-5 w-5 mr-2 text-[#B22222]" />
+                    <span>Project Reports Archive</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Database className="h-5 w-5 mr-2 text-[#B22222]" />
+                    <span>Technical Standards Collection</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-gray-50 p-6 rounded-lg shadow">
+                <h3 className="text-xl font-semibold text-[#B22222] mb-4">Library Services</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-center">
+                    <Search className="h-5 w-5 mr-2 text-[#B22222]" />
+                    <span>Reference & Research Support</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Download className="h-5 w-5 mr-2 text-[#B22222]" />
+                    <span>Digital Resource Access</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Wifi className="h-5 w-5 mr-2 text-[#B22222]" />
+                    <span>Free Wi-Fi Access</span>
+                  </li>
+                  <li className="flex items-center">
+                    <TrendingUp className="h-5 w-5 mr-2 text-[#B22222]" />
+                    <span>New Acquisitions Updates</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Presentation className="h-5 w-5 mr-2 text-[#B22222]" />
+                    <span>Presentation & Seminar Resources</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Faculty Incharge */}
+            <div className="mt-8">
+              <h3 className="text-2xl font-semibold text-[#B22222] mb-4 text-center">Faculty In-charge</h3>
+              <div className="bg-gray-50 p-6 rounded-lg shadow max-w-md mx-auto">
+                <div className="text-center">
+                  <div className="mb-3">
+                    <User className="h-16 w-16 mx-auto text-[#B22222]" />
+                  </div>
+                  <h4 className="text-lg font-semibold">Mr. K. Sri Rama Murthy</h4>
+                  <p className="text-gray-600">Sr. Assistant Professor</p>
+                  <p className="text-gray-600">Department of Mechanical Engineering</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'MoUs':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Memorandums of Understanding (MoUs)</h2>
+
+            <div className="mb-10">
+              <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">MoUs with Industries</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-3">S.No</th>
+                      <th className="px-4 py-3">Organization</th>
+                      <th className="px-4 py-3">Industry Type</th>
+                      <th className="px-4 py-3">Date of MoU</th>
+                      <th className="px-4 py-3">Validity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b hover:bg-gray-50">
+                      <td className="px-4 py-3">1</td>
+                      <td className="px-4 py-3 font-medium">National Institute of Technology, Andhra Pradesh (NITAP)</td>
+                      <td className="px-4 py-3">Educational Institution</td>
+                      <td className="px-4 py-3">15 Jun 2022</td>
+                      <td className="px-4 py-3">3 Years</td>
+                    </tr>
+                    <tr className="border-b hover:bg-gray-50">
+                      <td className="px-4 py-3">2</td>
+                      <td className="px-4 py-3 font-medium">EduSkills Foundation</td>
+                      <td className="px-4 py-3">Training & Skill Development</td>
+                      <td className="px-4 py-3">10 Aug 2022</td>
+                      <td className="px-4 py-3">2 Years</td>
+                    </tr>
+                    <tr className="border-b hover:bg-gray-50">
+                      <td className="px-4 py-3">3</td>
+                      <td className="px-4 py-3 font-medium">Andhra Pradesh State Skill Development Corporation (APSSDC)</td>
+                      <td className="px-4 py-3">Government Skill Development</td>
+                      <td className="px-4 py-3">05 Jan 2022</td>
+                      <td className="px-4 py-3">3 Years</td>
+                    </tr>
+                    <tr className="border-b hover:bg-gray-50">
+                      <td className="px-4 py-3">4</td>
+                      <td className="px-4 py-3 font-medium">SVR Technologies</td>
+                      <td className="px-4 py-3">Technology Solutions</td>
+                      <td className="px-4 py-3">20 Nov 2021</td>
+                      <td className="px-4 py-3">2 Years</td>
+                    </tr>
+                    <tr className="border-b hover:bg-gray-50">
+                      <td className="px-4 py-3">5</td>
+                      <td className="px-4 py-3 font-medium">Siemens Centre of Excellence</td>
+                      <td className="px-4 py-3">Industrial Automation</td>
+                      <td className="px-4 py-3">12 Feb 2021</td>
+                      <td className="px-4 py-3">5 Years</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="mt-12">
+              <h3 className="text-2xl font-semibold text-[#B22222] mb-6">Activities Under MoUs</h3>
+              <div className="space-y-6">
+                <div className="bg-gray-50 p-6 rounded-lg shadow">
+                  <h4 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                    <Handshake className="h-6 w-6 mr-2 text-[#B22222]" />
+                    NITAP Collaboration
+                  </h4>
+                  <ul className="space-y-3 ml-8">
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>
+                        Various activities organized / conducted under MoU of NITAP AY: 2022-23
+                        <a
+                          href="#"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View Details
+                        </a>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>Joint Research Projects: 2 ongoing faculty research collaborations</div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>Faculty Development Programs: 3 FDPs conducted</div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>Student Exchange Programs: 15 students participated in technical workshops</div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-gray-50 p-6 rounded-lg shadow">
+                  <h4 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                    <Trophy className="h-6 w-6 mr-2 text-[#B22222]" />
+                    EduSkills Foundation Programs
+                  </h4>
+                  <ul className="space-y-3 ml-8">
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>
+                        Various activities organized / conducted under MoU of Eduskills AY: 2022-23
+                        <a
+                          href="#"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View Details
+                        </a>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>Skill Development Programs: 120+ students trained in advanced CAD/CAM tools</div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>Certification Courses: 85 students received industry-recognized certifications</div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>Industry Connect Programs: 4 industry experts conducted specialized training sessions</div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-gray-50 p-6 rounded-lg shadow">
+                  <h4 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                    <Activity className="h-6 w-6 mr-2 text-[#B22222]" />
+                    APSSDC Initiatives
+                  </h4>
+                  <ul className="space-y-3 ml-8">
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>
+                        Various activities organized / conducted under MoU of APSSDC AY: 2022-23
+                        <a
+                          href="#"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View Details
+                        </a>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>
+                        Various activities organized / conducted under MoU of APSSDC AY: 2020-21
+                        <a
+                          href="#"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View Details
+                        </a>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>Technical Workshops: 6 workshops on emerging technologies</div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>Entrepreneurship Development Programs: 2 EDPs conducted</div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-gray-50 p-6 rounded-lg shadow">
+                  <h4 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                    <Briefcase className="h-6 w-6 mr-2 text-[#B22222]" />
+                    Industry Internships & Training
+                  </h4>
+                  <ul className="space-y-3 ml-8">
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>SVR Technologies: 18 students completed industry internships</div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>Siemens Centre of Excellence: 45 students received specialized training</div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>Guest Lectures: 8 industry experts delivered specialized talks</div>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <div>Industry Visits: 3 industrial visits organized for practical exposure</div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-12">
+              <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Benefits of MoUs</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
+                  <div className="mb-3">
+                    <Briefcase className="h-10 w-10 mx-auto text-[#B22222]" />
+                  </div>
+                  <h4 className="text-lg font-semibold mb-2">Enhanced Employability</h4>
+                  <p className="text-gray-700">Increases job prospects through industry-relevant training</p>
+                </div>
+
+                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
+                  <div className="mb-3">
+                    <Scroll className="h-10 w-10 mx-auto text-[#B22222]" />
+                  </div>
+                  <h4 className="text-lg font-semibold mb-2">Certifications</h4>
+                  <p className="text-gray-700">Industry-recognized certifications for career advancement</p>
+                </div>
+
+                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
+                  <div className="mb-3">
+                    <Building className="h-10 w-10 mx-auto text-[#B22222]" />
+                  </div>
+                  <h4 className="text-lg font-semibold mb-2">Industry Exposure</h4>
+                  <p className="text-gray-700">Practical knowledge through industry interactions</p>
+                </div>
+
+                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
+                  <div className="mb-3">
+                    <Users className="h-10 w-10 mx-auto text-[#B22222]" />
+                  </div>
+                  <h4 className="text-lg font-semibold mb-2">Networking</h4>
+                  <p className="text-gray-700">Connections with industry professionals</p>
+                </div>
+
+                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
+                  <div className="mb-3">
+                    <Shield className="h-10 w-10 mx-auto text-[#B22222]" />
+                  </div>
+                  <h4 className="text-lg font-semibold mb-2">Quality Assurance</h4>
+                  <p className="text-gray-700">Ensures education meets industry standards</p>
+                </div>
+
+                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
+                  <div className="mb-3">
+                    <Rss className="h-10 w-10 mx-auto text-[#B22222]" />
+                  </div>
+                  <h4 className="text-lg font-semibold mb-2">Research Opportunities</h4>
+                  <p className="text-gray-700">Collaborative research projects with industry</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Syllabus':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
+            <div className="container mt-5">
+              <div className="space-y-8">
+                {/* B.Tech (MECH) Section */}
+                <div>
+                  <details open className="border border-gray-300 rounded-lg">
+                    <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                      B.Tech (MECH)
+                    </summary>
+                    <div className="p-4">
+                      <ul className="space-y-4 list-disc list-inside ml-4">
+                        <li className="flex items-center">
+                          <span>B.Tech - V23 Syllabus</span>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/syllabus/V23_B.Tech.III&IV_Syllabus.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-5 w-5 mr-1" />
+                            View
+                          </a>
+                        </li>
+                        <li className="flex items-center">
+                          <span>B.Tech - V20 Syllabus</span>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/syllabus/V20_Course_Structure&Syllabus.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-5 w-5 mr-1" />
+                            View
+                          </a>
+                        </li>
+                        <li className="flex items-center">
+                          <span>B.Tech - V18 Syllabus</span>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/syllabus/V18_Course_Structure&Syllabus.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-5 w-5 mr-1" />
+                            View
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+
+                {/* M.TECH(MECH) Section */}
+                <div>
+                  <details className="border border-gray-300 rounded-lg">
+                    <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                      M.TECH (MECH)
+                    </summary>
+                    <div className="p-4">
+                      <ul className="space-y-4 list-disc list-inside ml-4">
+                        <li className="flex items-center">
+                          <span>M.Tech - V21 Syllabus</span>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/V21_M.Tech._TE_Course_Structure&Syllabus.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-5 w-5 mr-1" />
+                            View
+                          </a>
+                        </li>
+                        <li className="flex items-center">
+                          <span>M.Tech - V18 Syllabus</span>
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/M.Tech.Machine%20Design_Course%20structure&Syllabi_V18.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-5 w-5 mr-1" />
+                            View
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Faculty T&L methods':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Teaching & Learning Methods</h2>
+
+            <div className="mb-8">
+              <details open className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Faculty Innovation in Teaching and Learning
+                </summary>
+                <div className="p-4">
+                  <ul className="space-y-4 list-disc list-inside ml-4">
+                    <li className="flex items-start">
+                      <span className="mt-1">Presentations using PPT, wherever necessary</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/student_participations.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Technical videos for Demonstration</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/mech_t&l/technical%20videos.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Power point Presentations for various subjects</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/mech_t&l/ppts.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Usage of Tools like AUTOCAD, SOLIDWORKS, FEMAP</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/mech_t&l/tools.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Use of e-learning resources like NPTEL lectures, QEEE, & MOOCS</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/mech_t&l/e-learning_resources.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Student Seminars</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/ME_Minutes%20of%20First%20BOS%20Meeting.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Providing Question bank with short answer questions and quiz questions</span>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+
+        );
+      case 'Faculty Achievements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
+
+            <div className="mb-8">
+              <details open className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Faculty Publications
+                </summary>
+                <div className="p-4">
+                  <ul className="space-y-4">
+                    <li className="flex items-start">
+                      <span className="mt-1">Faculty Publication during the Academic Year 2022-2023</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Faculty_Publications_AY-2022-23.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        For more Details
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Faculty Publication during the Academic Year 2021-2022</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Faculty_Publications_AY-2021-22.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        For more Details
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Faculty Publication during the Academic Year 2020-2021</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Publications_2020-21-ME.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        For more Details
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Faculty Publication during the Academic Year 2019-2020</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Publications_2019-20-ME.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        For more Details
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Faculty Publication during the Academic Year 2018-2019</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Publications_2018-19-ME.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        For more Details
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Faculty Publication during the Academic Year 2017-2018</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/FACULTY%20PUBLICATIONS%20AC%202017-18.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        For more Details
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Faculty Publication during the Academic Year 2016-2017</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/FACULTY%20PUBLICATIONS%20AC%202016-17.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        For more Details
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Faculty Publication during the Academic Year 2015-2016</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/FACULTY%20PUBLICATIONS%20AC%202015-16.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        For more Details
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Faculty Publication during the Academic Year 2014-2015</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/FACULTY%20PUBLICATIONS%20AC%202014-2015.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        For more Details
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+
+            <div className="mb-8">
+              <details className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Conferences & Workshops
+                </summary>
+                <div className="p-4">
+                  <ul className="space-y-4">
+                    <li className="flex items-start">
+                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2022-23</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-AY-2022-23-ME.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2021-22</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-AY-2021-22-ME.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2020-21</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-2020-21-ME.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2019-20</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-2019-20-ME.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2018-19</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-2018-19-ME.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2017-18</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-2017-18-ME.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2016-17</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/fdps_wrkshps_2016-17.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2015-16</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/fdps_wrkshps_2015-16.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2014-15</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/fdps_wrkshps_2014-15.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2013-14</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/fdps_wrkshps_2013-14.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Student Achievements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
+
+            <div className="mb-8">
+              <details open className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Internships
+                </summary>
+                <div className="p-4">
+                  <ul className="space-y-4 list-disc list-inside ml-4">
+                    <li className="flex items-start">
+                      <span className="mt-1">Internships during the Academic Year 2022-23</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2022-23.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Internships during the Academic Year 2021-22</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2021-22.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Internships during the Academic Year 2020-21</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2020-21.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Internships during the Academic Year 2019-20</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2019-20.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Internships during the Academic Year 2018-19</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2018-19.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Internships during the Academic Year 2017-18</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2017-18.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Internships during the Academic Year 2016-17</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2016-17.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Internships during the Academic Year 2015-16</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2015-16.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+
+            <div className="mb-8">
+              <details className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  NPTEL/Other Certifications
+                </summary>
+                <div className="p-4">
+                  <ul className="space-y-4 list-disc list-inside ml-4">
+                    <li className="flex items-start">
+                      <span className="mt-1">Certifications during the A.Y 2020-21</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/nptel%2020-21%20mech.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Certifications during the A.Y 2018-19</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/nptel%202018-19%20mech.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+
+            <div className="mb-8">
+              <details className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Achievements/Participations in Co-curricular/Extra-Curricular Activities
+                </summary>
+                <div className="p-4">
+                  <ul className="space-y-4 list-disc list-inside ml-4">
+                    <li className="flex items-start">
+                      <span className="mt-1">Extracurricular activities during the Year 2023-24</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/AY23-24_ME_Student activities.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Extracurricular activities during the Year 2022-23</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/AY22-23_ME_Student activities.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Extracurricular activities during the Year 2021-22</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/AY21-22_ME_Student activities.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Extracurricular activities during the Year 2020-21</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/AY20-21_ME_Student activities.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Extracurricular activities during the Year 2019-20</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/AY19-20_ME_Student activities.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Extracurricular activities during the Year 2018-19</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Stu_Ach-AY_2018-19.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                  </ul>
+
+                  <div className="mt-6 border-t border-gray-200 pt-4">
+                    <h4 className="font-medium text-lg mb-3">Notable Individual Achievements</h4>
+                    <ul className="space-y-2 text-gray-700">
+                      <li>Mr. A. Saikumar (10a81a0302) has Presented Paper on "W.E", conducted by Jntuk.</li>
+                      <li>Mr. S.Suresh (10a81a0352) has Presented Paper on "W.E", conducted by Jntuk.</li>
+                      <li>Mr. S.Suresh (10a81a0352) has Presented Paper On "Nano Robots" conducted by Koneru Lakshmayya University, Vijayawada.</li>
+                      <li>Mr. Y Sri Ganesh Babu (10a81a0359) has Presented Paper on "Nano Robots" conducted by Koneru Lakshmayya University, Vijayawada.</li>
+                      <li>Mr. V.Venkatesh (10a81a0357) has Presented Paper on "Nano Robots" conducted by Koneru Lakshmayya University, Vijayawada.</li>
+                      <li>Mr. N. Raviteja (10a81a0341) has Presented Paper on "I Robot Arm" conducted by Anits, Vizag.</li>
+                      <li>Mr. K. Durga Prasad (10a81a0324) has Presented Paper on "I Robot Arm" conducted by Anits, Vizag.</li>
+                      <li>Ms. N. Monica (10a81a0340) has Presented Paper on "I Robot Arm" conducted by Anits, Vizag.</li>
+                      <li>Mr. M.Ramakrishna (10a81a0337) has Participated in the Paper Presentation held on 8-3-2013 conducted by Githam Engineering College Vishakapatnam.</li>
+                      <li>Mr. Shaik Sultan Salamuddin(10a81a0351) has Participated in the Poster Presentation, conducted by Koneru Lakshmayya University, Vijayawada.</li>
+                      <li>Mr. T.Chalapathi (12a85a0307) bagged First Prize in the Technical Quiz Competition held at V.R Siddartha Engineering College, Vijayawada.</li>
+                      <li>Mr. T.Chalapathi (12a85a0307) bagged First Prize in the General Quiz Competition held at Jntu, Vijayanagarm.</li>
+                      <li>Mr. M.Mahesh (12a85a0304) bagged First Prize in the General Quiz Competition held at Jntu, Vijayanagarm.</li>
+                      <li>Mr. P.V.V Ranjith Kumar and his team has bagged First Place in Intramural Cricket competition held At Sri Vasavi Engineering College, Tadepalligudem on 7-7-13.</li>
+                      <li>Mr. N.Surendra and his team has bagged First Place in Intramural Volleyball competition held At Sri Vasavi Engineering College, Tadepalligudem On 7-7-13.</li>
+                      <li>Mr. Ch.Kiran Kumar and his team has bagged Second Place in Intramural Basketball Competition held At Sri Vasavi Engineering College, Tadepalligudem on 7-7-13.</li>
+                      <li>Mr.M.Mahesh (12a85a0304) bagged First Prize in the Technical Quiz competition held at V.R Siddartha Engineering College, Vijayawada.</li>
+                      <li>M. Srinivas (11a81a0332) has Presented a Paper on "Polutionless Vehicle" bagged Second Place on 8-2-13 At B.V.C.E Odalarevu.</li>
+                      <li>M.Rakesh (11a81a0335) has Presented a Paper on "Continuous Variable Transmission" bagged Second Place on 8-2-13 At B.V.C.E Odalarevu.</li>
+                    </ul>
+
+                    <div className="mt-4">
+                      <h4 className="font-medium text-lg mb-2">Students Participations</h4>
+                      <div className="flex items-start">
+                        <span className="mt-1">Students Participations in various events</span>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/student_participations.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-5 w-5 mr-1" />
+                          View
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+            <div className="mb-8">
+              <details className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  UIF
+                </summary>
+                <div className="p-4">
+                  <ul className="space-y-4 list-disc list-inside ml-4">
+                    <li className="flex items-start">
+                      <span className="mt-1">Student Achievements during the Academic Year 2018-19</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/Stu_Ach-AY_2018-19.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+
+            <div className="mb-8">
+              <details className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Community Service Project
+                </summary>
+                <div className="p-4">
+                  <ul className="space-y-4 list-disc list-inside ml-4">
+                    <li className="flex items-start">
+                      <span className="mt-1">List of CSP Projects done by 2020-24 Batch Students</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202020-24%20Batch%20Students.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">List of CSP Projects done by 2021-25 Batch Students</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202021-25%20Batch%20Students.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+
+            <div className="mb-8">
+              <details className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Projects
+                </summary>
+                <div className="p-4">
+                  <ul className="space-y-4 list-disc list-inside ml-4">
+                    <li className="flex items-start">
+                      <span className="mt-1">Project Batches during the Academic Year 2022-23</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/AY_2022-23-Project-Batches-A&B.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Project Batches during the Academic Year 2021-22</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/AY_2021-22-Project-Batches-A&B.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Project Batches during the Academic Year 2020-21</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/AY_2020-21-Project-Batches-A&B.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Project Batches during the Academic Year 2019-20</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/AY_2019-20-Project-Batches-A&B.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mt-1">Project Batches during the Academic Year 2018-19</span>
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mech/AY_2018-19-Project-Batches-A&B.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Placements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
+
+            <div className="mb-8">
+              <details open className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Placements for Batch 2019-23
+                </summary>
+                <div className="p-4">
+                  <div className="flex items-start ml-4">
+                    <span className="mt-1">Placements for Batch 2019-23</span>
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mech/Placements-2019-23-Batch.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-5 w-5 mr-1" />
+                      View More
+                    </a>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+            <div className="mb-8">
+              <details className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Placements for Batch 2018-22
+                </summary>
+                <div className="p-4">
+                  <div className="flex items-start ml-4">
+                    <span className="mt-1">Placements for Batch 2018-22</span>
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mech/Placements-2018-22-Batch.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-5 w-5 mr-1" />
+                      View More
+                    </a>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+            <div className="mb-8">
+              <details className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Placements for Batch 2017-21
+                </summary>
+                <div className="p-4">
+                  <div className="flex items-start ml-4">
+                    <span className="mt-1">Placements for Batch 2017-21</span>
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mech/Placements-2017-21-Batch.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-5 w-5 mr-1" />
+                      View More
+                    </a>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+            <div className="mb-8">
+              <details className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Placements for Batch 2016-20
+                </summary>
+                <div className="p-4">
+                  <div className="flex items-start ml-4">
+                    <span className="mt-1">Placements for Batch 2016-20</span>
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mech/Placements-2016-20-Batch.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-5 w-5 mr-1" />
+                      View More
+                    </a>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+            <div className="mb-8">
+              <details className="border border-gray-300 rounded-lg">
+                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                  Placements for Batch 2015-19
+                </summary>
+                <div className="p-4">
+                  <div className="flex items-start ml-4">
+                    <span className="mt-1">Placements for Batch 2015-19</span>
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mech/Placements-2015-19-Batch.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-5 w-5 mr-1" />
+                      View More
+                    </a>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+            <div className="mt-12 border-t border-gray-200 pt-6">
+              <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Gallery</h3>
+              <div className="container mx-auto">
+                <div className="flex flex-col items-center">
+                  <h4 className="text-xl font-semibold mb-6">2024-2025</h4>
+                  <div className="max-w-2xl mb-8">
+                    <img
+                      src="/images/departments/me/PlacementBroucher.jpeg"
+                      alt="Placement Brochure"
+                      className="w-full rounded-lg shadow-lg"
+                      style={{ aspectRatio: '16/9' }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'Workshops':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Workshops/SOC/Seminars</h2>
+
+            <div className="mb-8">
+              <ol className="space-y-4 list-decimal pl-5">
+                <li className="flex items-start">
+                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2022-23</span>
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/mech/AY_2022-23_Department%20activities.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                  >
+                    <FileText className="h-5 w-5 mr-1" />
+                    View More
+                  </a>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2021-22</span>
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-AY-2021-22-ME.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                  >
+                    <FileText className="h-5 w-5 mr-1" />
+                    View More
+                  </a>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2020-21</span>
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/mech/AY_2020-21_Department%20activities.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                  >
+                    <FileText className="h-5 w-5 mr-1" />
+                    View More
+                  </a>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2019-20</span>
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/mech/Workshop_Guest_Lecture-2019-20-ME.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                  >
+                    <FileText className="h-5 w-5 mr-1" />
+                    View More
+                  </a>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2018-19</span>
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/mech/Workshop_Guest_Lecture-2018-19-ME.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                  >
+                    <FileText className="h-5 w-5 mr-1" />
+                    View More
+                  </a>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2017-18</span>
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-2017-18-ME.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                  >
+                    <FileText className="h-5 w-5 mr-1" />
+                    View More
+                  </a>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2016-17</span>
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/mech/Workshopsfdpsguest%20Organized%202016-17.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                  >
+                    <FileText className="h-5 w-5 mr-1" />
+                    View More
+                  </a>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2015-16</span>
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/mech/Workshopsfdpsguest%20Organized%202015-16.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                  >
+                    <FileText className="h-5 w-5 mr-1" />
+                    View More
+                  </a>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2014-15</span>
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/mech/Workshopsfdpsguest%20%20Organized%202014-15.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                  >
+                    <FileText className="h-5 w-5 mr-1" />
+                    View More
+                  </a>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2013-14</span>
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/mech/Workshopsfdpsguest%20%20Organized%202013-14.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                  >
+                    <FileText className="h-5 w-5 mr-1" />
+                    View More
+                  </a>
+                </li>
+                <li className="flex items-start">
+                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2012-13</span>
+                  <a
+                    href="https://srivasaviengg.ac.in/uploads/mech/Workshopsfdpsguest%20Organized%202012%E2%80%9313.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                  >
+                    <FileText className="h-5 w-5 mr-1" />
+                    View More
+                  </a>
+                </li>
+              </ol>
+            </div>
+
+          </div>
+        );
+
+      case 'Technical Association':
+        return (
+
+          <div className="mb-8 mt-12">
+            <h2 className="text-2xl font-bold text-[#B22222] mb-6">Technical Association</h2>
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">Fabulous Association of Mechanical Engineers (FAME) :</h3>
+              <p className="text-gray-700 mb-6">
+                FAME is a student body which is governed by the students with the support from the department.
+                Every student from Department of Mechanical Engineering is beamed to be the member of this Association.
+                The Association is very active in conducting Workshops, Seminars and other Curricular activities.
+              </p>
+
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">Various activities conducted by FAME are as follows:</h3>
+              <ul className="space-y-3 ml-6 list-disc">
+                <li className="text-gray-700">
+                  Mr. S.Ravi Kumar from IIT New-Delhi has delivered a guest lecture on "Metrology And Material Science".
+                </li>
+                <li className="text-gray-700">
+                  Mr. S.V.S.S.Srikanth from Ansys/FLUENT Technologies, Pune has delivered a guest lecture on "ANSYS"
+                </li>
+                <li className="text-gray-700">
+                  Dr.G.V.N.S.Ratnakara Rao B.E,M.E,Ph.D. from BIET, Bhimavaram has delivered a guest lecture on "An Insight Into Combustion in I.C. engines".
+                </li>
+                <li className="text-gray-700">
+                  Mr. Mallikarjun Rao from Steel Plant, Vizag has delivered a guest lecture on General Management And Skills
+                </li>
+                <li className="text-gray-700">
+                  Mr. Nageswara Rao from IIT Bombay has delivered a guest lecture on "Presentation Skills".
+                </li>
+              </ul>
+            </div>
+          </div>
+        );
+
+      case 'Project Research':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Project Research & Development</h2>
+
+
+            <div className="mb-10">
+              <h3 className="text-2xl font-semibold text-gray-700 mb-6 pb-2 border-b-2 border-primary">Research Projects Archive</h3>
+
+              <div className="grid grid-cols-1 gap-6">
+                <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+                  <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                    <FileText className="h-5 w-5 mr-2 text-[#B22222]" />
+                    Undergraduate Research Projects
+                  </h4>
+                  <ul className="space-y-3 ml-2">
+                    <li className="flex items-center">
+                      <span className="mr-2">•</span>
+                      <div>
+                        Research Projects during academic year 2022-23
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/AY_2022-23-Research_Projects.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View More
+                        </a>
+                      </div>
+                    </li>
+                    <li className="flex items-center">
+                      <span className="mr-2">•</span>
+                      <div>
+                        Research Projects during academic year 2021-22
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/AY_2021-22-Research_Projects.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View More
+                        </a>
+                      </div>
+                    </li>
+                    <li className="flex items-center">
+                      <span className="mr-2">•</span>
+                      <div>
+                        Research Projects during academic year 2020-21
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/AY_2020-21-Research_Projects.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View More
+                        </a>
+                      </div>
+                    </li>
+                    <li className="flex items-center">
+                      <span className="mr-2">•</span>
+                      <div>
+                        Research Projects during academic year 2019-20
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/AY_2019-20-Research_Projects.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View More
+                        </a>
+                      </div>
+                    </li>
+                    <li className="flex items-center">
+                      <span className="mr-2">•</span>
+                      <div>
+                        Research Projects during academic year 2018-19
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/AY_2018-19-Research%20Projects.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View More
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+                  <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                    <FileText className="h-5 w-5 mr-2 text-[#B22222]" />
+                    Postgraduate Research Projects
+                  </h4>
+                  <ul className="space-y-3 ml-2">
+                    <li className="flex items-center">
+                      <span className="mr-2">•</span>
+                      <div>
+                        Research Projects Details
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/M.Tech.Research_Projects.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View More
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        );
+
+      case 'Newsletters':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Newsletters</h2>
+
+            <div className="mx-auto max-w-4xl">
+              <p className="text-gray-700 mb-6 text-center">
+                Our department regularly publishes newsletters to keep students, faculty, and alumni updated on departmental activities, achievements, and developments.
+              </p>
+
+              <div className="bg-gray-50 rounded-xl p-6 shadow-md">
+                <div className="space-y-4">
+                  {/* 2017 Newsletters */}
+                  <div className="border-b pb-2">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">2017</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 4 Issue 3 - January 2017
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">First newsletter of the year highlighting winter activities</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%204%20Issue%20%203-%20jan%202017.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 4 Issue 4 - April 2017
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">Spring edition featuring end-of-semester projects</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%204%20Issue%20%204-%20apr%202017.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 5 Issue 1 - September 2017
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">Fall semester kickoff with new student orientation details</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%205%20Issue%20%201-%20sep%202017.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 5 Issue 2 - November 2017
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">Winter preparation and mid-year project updates</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%205%20Issue%20%202-%20nov%202017.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2016 Newsletters */}
+                  <div className="border-b pb-2">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">2016</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 3 Issue 3 - January 2016
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">New year edition featuring department goals</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%203%20Issue%20%203-%20jan%202016.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 3 Issue 4 - April 2016
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">Spring highlights and research progress</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%203%20Issue%20%204-%20apr%202016.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 4 Issue 1 - September 2016
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">New academic year with faculty updates</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%204%20Issue%20%201-%20sep%202016.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 4 Issue 2 - November 2016
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">Fall semester events and workshop recaps</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%204%20Issue%20%202-%20nov%202016.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2014-2015 Newsletters */}
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">2014-2015</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 2 Issue 1 - September 2014
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">Department relaunch with new curriculum</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%202%20Issue%20%201-%20sep%202014.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 2 Issue 2 - November 2014
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">Mid-semester achievements and guest lectures</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%202%20Issue%20%202-%20nov%202014.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 2 Issue 3 - January 2015
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">New year edition with student innovations</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%202%20Issue%20%203-%20jan%202015.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 2 Issue 4 - April 2015
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">End of academic year highlights and future plans</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%202%20Issue%20%204-%20apr%202015.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 3 Issue 1 - September 2015
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">New academic year welcome edition</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%203%20Issue%20%201-%20sep%202015.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Volume 3 Issue 2 - November 2015
+                        </h4>
+                        <p className="text-sm text-gray-600 mb-2">Fall semester activities and technical events</p>
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%203%20Issue%20%202-%20nov%202015.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center text-blue-600 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                          View Newsletter
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 text-center">
+                <p className="text-sm text-gray-500 italic">
+                  For archived newsletters or additional information, please contact the department office.
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'Magazines':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Magazines</h2>
+
+            <div className="mx-auto max-w-4xl">
+              <p className="text-gray-700 mb-6 text-center">
+                Mechazine is our department's biannual magazine that showcases student achievements, technical articles, and the latest developments in mechanical engineering.
+              </p>
+
+              <div className="bg-gray-50 rounded-xl p-6 shadow-md">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* 2019-2020 */}
+                  <div className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">2019-2020</h3>
+                    <ul className="space-y-4">
+                      <li>
+                        <div className="flex items-start">
+                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
+                          <div>
+                            <p className="font-medium text-gray-800">Mechazine Volume 6 Issue 2</p>
+                            <p className="text-sm text-gray-600 mb-2">End of academic year special edition</p>
+                            <a
+                              href="https://srivasaviengg.ac.in/uploads/mech/MECHAZINE_2019-20_V-6 _I-2.pdf"
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center text-blue-600 hover:underline"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                              View Magazine
+                            </a>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="flex items-start">
+                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
+                          <div>
+                            <p className="font-medium text-gray-800">Mechazine Volume 6 Issue 1</p>
+                            <p className="text-sm text-gray-600 mb-2">Beginning of academic year edition</p>
+                            <a
+                              href="https://srivasaviengg.ac.in/uploads/mech/MECHAZINE_2019-20_V-6 _I-1.pdf"
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center text-blue-600 hover:underline"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                              View Magazine
+                            </a>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* 2018-2019 */}
+                  <div className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">2018-2019</h3>
+                    <ul className="space-y-4">
+                      <li>
+                        <div className="flex items-start">
+                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
+                          <div>
+                            <p className="font-medium text-gray-800">Mechazine Volume 5 Issue 2</p>
+                            <p className="text-sm text-gray-600 mb-2">Spring semester technical showcase</p>
+                            <a
+                              href="https://srivasaviengg.ac.in/uploads/mech/MECHAZINE_2018-19_V-5 _I-2.pdf"
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center text-blue-600 hover:underline"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                              View Magazine
+                            </a>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="flex items-start">
+                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
+                          <div>
+                            <p className="font-medium text-gray-800">Mechazine Volume 5 Issue 1</p>
+                            <p className="text-sm text-gray-600 mb-2">Fall semester edition with student projects</p>
+                            <a
+                              href="https://srivasaviengg.ac.in/uploads/mech/MECHAZINE 2017 &amp; 18 V5I1.pdf"
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center text-blue-600 hover:underline"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                              View Magazine
+                            </a>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* 2016-2017 */}
+                  <div className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">2016-2017</h3>
+                    <ul className="space-y-4">
+                      <li>
+                        <div className="flex items-start">
+                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
+                          <div>
+                            <p className="font-medium text-gray-800">Mechazine Volume 4 Issue 2</p>
+                            <p className="text-sm text-gray-600 mb-2">Technical innovations and research highlights</p>
+                            <a
+                              href="https://srivasaviengg.ac.in/uploads/mech/MECHAZINE 2016-17 V4I2.pdf"
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center text-blue-600 hover:underline"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                              View Magazine
+                            </a>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="flex items-start">
+                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
+                          <div>
+                            <p className="font-medium text-gray-800">Mechazine Volume 4 Issue 1</p>
+                            <p className="text-sm text-gray-600 mb-2">Fall edition with student activities</p>
+                            <a
+                              href="https://srivasaviengg.ac.in/uploads/mech/Mechazine Volume 4 Issue 1.pdf"
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center text-blue-600 hover:underline"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                              View Magazine
+                            </a>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Earlier Issues */}
+                  <div className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">Earlier Issues</h3>
+                    <ul className="space-y-4">
+                      <li>
+                        <div className="flex items-start">
+                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
+                          <div>
+                            <p className="font-medium text-gray-800">Mechazine Volume 3 Issues</p>
+                            <div className="grid grid-cols-2 gap-2 mt-2">
+                              <a
+                                href="https://srivasaviengg.ac.in/uploads/mech/Mechazine Volume 3 Issue 1.pdf"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center text-blue-600 hover:underline text-sm"
+                              >
+                                <ExternalLink className="h-3 w-3 mr-1" />
+                                Issue 1
+                              </a>
+                              <a
+                                href="https://srivasaviengg.ac.in/uploads/mech/Mechazine Volume3 Issue2.pdf"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center text-blue-600 hover:underline text-sm"
+                              >
+                                <ExternalLink className="h-3 w-3 mr-1" />
+                                Issue 2
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="flex items-start">
+                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
+                          <div>
+                            <p className="font-medium text-gray-800">Mechazine Volume 2 Issues</p>
+                            <div className="grid grid-cols-2 gap-2 mt-2">
+                              <a
+                                href="https://srivasaviengg.ac.in/uploads/mech/Mechazine Volume2 Issue1.pdf"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center text-blue-600 hover:underline text-sm"
+                              >
+                                <ExternalLink className="h-3 w-3 mr-1" />
+                                Issue 1
+                              </a>
+                              <a
+                                href="https://srivasaviengg.ac.in/uploads/mech/mechazine volume2 issue2.pdf"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center text-blue-600 hover:underline text-sm"
+                              >
+                                <ExternalLink className="h-3 w-3 mr-1" />
+                                Issue 2
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 text-center">
+                <p className="text-sm text-gray-500 italic">
+                  Mechazine is a biannual publication featuring technical articles, student achievements, department events, and industry insights. Students and faculty are encouraged to contribute articles for upcoming issues.
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'Extra-Curricular Activities':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Extra-Curricular Activities</h2>
+
+            <div className="mb-10">
+              <h3 className="text-2xl font-semibold text-gray-700 mb-6 pb-2 border-b-2 border-primary">Hackathons</h3>
+
+              <div className="prose max-w-none">
+                <p className="text-gray-700 leading-relaxed mb-6">
+                  A 24-hour student hackathon is an event where students come together to collaborate, innovate, and create projects within a short time frame. These hackathons have gained immense popularity in recent years, and they hold significant importance for students for several reasons:
+                </p>
+
+                <ul className="space-y-4 text-gray-700 mb-8">
+                  <li className="flex">
+                    <span className="font-semibold text-[#B22222] mr-2">Hands-on learning:</span>
+                    <span>Hackathons provide students with a unique opportunity to engage in hands-on learning. They encourage participants to apply their knowledge and skills to real-world problems and challenges. It allows students to go beyond theoretical knowledge and gain practical experience by working on a project from start to finish within a limited time.</span>
+                  </li>
+
+                  <li className="flex">
+                    <span className="font-semibold text-[#B22222] mr-2">Collaboration and teamwork:</span>
+                    <span>Hackathons foster collaboration and teamwork among students. Participants usually form teams, bringing together individuals with diverse backgrounds and expertise. Working together, they learn to communicate effectively, leverage each other's strengths, and tackle complex problems collectively. The experience of collaborating with peers from different disciplines helps develop essential teamwork and interpersonal skills.</span>
+                  </li>
+
+                  <li className="flex">
+                    <span className="font-semibold text-[#B22222] mr-2">Innovation and creativity:</span>
+                    <span>The time constraint of a 24-hour hackathon encourages participants to think innovatively and creatively. Students are often required to come up with novel solutions to problems or create something entirely new within a limited timeframe. This pressure fuels innovation and pushes participants to explore unconventional ideas, leading to the development of unique projects.</span>
+                  </li>
+
+                  <li className="flex">
+                    <span className="font-semibold text-[#B22222] mr-2">Networking and industry exposure:</span>
+                    <span>Student hackathons often attract participants, mentors, and judges from various industries and organizations. This provides an excellent networking opportunity for students to connect with professionals, potential employers, and like-minded peers. Building connections during a hackathon can lead to future internships, job opportunities, or collaborations on other projects.</span>
+                  </li>
+
+                  <li className="flex">
+                    <span className="font-semibold text-[#B22222] mr-2">Skill development:</span>
+                    <span>Hackathons offer a platform for students to enhance their existing skills and acquire new ones. During the event, participants may have to learn and use new technologies, programming languages, or tools to complete their projects. This process helps broaden their skillset, exposes them to different technologies, and allows them to experiment with cutting-edge tools and platforms.</span>
+                  </li>
+
+                  <li className="flex">
+                    <span className="font-semibold text-[#B22222] mr-2">Resume/portfolio enhancement:</span>
+                    <span>Participating in hackathons adds value to a student's resume or portfolio. It demonstrates their passion for learning, problem-solving ability, teamwork skills, and ability to work under pressure. Employers and educational institutions often consider hackathon experience as a strong indicator of a student's practical skills and motivation.</span>
+                  </li>
+
+                  <li className="flex">
+                    <span className="font-semibold text-[#B22222] mr-2">Recognition and awards:</span>
+                    <span>Many hackathons offer prizes, recognition, or opportunities for participants to showcase their projects to a wider audience. Winning or being recognized in a hackathon can boost a student's confidence, provide validation for their work, and open doors to further opportunities.</span>
+                  </li>
+                </ul>
+
+                <p className="text-gray-700 leading-relaxed mb-8">
+                  In conclusion, 24-hour student hackathons are important because they promote hands-on learning, foster collaboration, encourage innovation, provide networking opportunities, facilitate skill development, enhance resumes/portfolios, and offer recognition for participants. They serve as a platform for students to showcase their abilities, learn from their peers, and gain valuable experience in a short period.
+                </p>
+              </div>
+
+              <div className="mb-10">
+                <h4 className="text-xl font-semibold text-gray-700 mb-4">Hackathons Conducted</h4>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full bg-white border border-gray-200">
+                    <thead className="bg-[#B22222] text-white">
+                      <tr>
+                        <th className="py-3 px-4 text-left border-b">Academic Year</th>
+                        <th className="py-3 px-4 text-left border-b">For Brochure</th>
+                        <th className="py-3 px-4 text-left border-b">For Winners List</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b">2022-23</td>
+                        <td className="py-3 px-4 border-b">
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackoverflow%20banner_2022_23.png"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-blue-600 hover:underline flex items-center"
+                          >
+                            <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                            View Brochure
+                          </a>
+                        </td>
+                        <td className="py-3 px-4 border-b">
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners_2022-23.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-blue-600 hover:underline flex items-center"
+                          >
+                            <FileText className="h-3.5 w-3.5 mr-1" />
+                            View Winners
+                          </a>
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b">2021-22</td>
+                        <td className="py-3 px-4 border-b">
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/broacher_2021_22.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-blue-600 hover:underline flex items-center"
+                          >
+                            <FileText className="h-3.5 w-3.5 mr-1" />
+                            View Brochure
+                          </a>
+                        </td>
+                        <td className="py-3 px-4 border-b">
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners_2021-22.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-blue-600 hover:underline flex items-center"
+                          >
+                            <FileText className="h-3.5 w-3.5 mr-1" />
+                            View Winners
+                          </a>
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b">2019-20</td>
+                        <td className="py-3 px-4 border-b">
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Brouchure.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-blue-600 hover:underline flex items-center"
+                          >
+                            <FileText className="h-3.5 w-3.5 mr-1" />
+                            View Brochure
+                          </a>
+                        </td>
+                        <td className="py-3 px-4 border-b">
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners_2019-20.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-blue-600 hover:underline flex items-center"
+                          >
+                            <FileText className="h-3.5 w-3.5 mr-1" />
+                            View Winners
+                          </a>
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b">2018-19</td>
+                        <td className="py-3 px-4 border-b">
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/City%20Digi%20@Hack%202K18.jpg"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-blue-600 hover:underline flex items-center"
+                          >
+                            <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                            View Brochure
+                          </a>
+                        </td>
+                        <td className="py-3 px-4 border-b">
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20winners_2018-19.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-blue-600 hover:underline flex items-center"
+                          >
+                            <FileText className="h-3.5 w-3.5 mr-1" />
+                            View Winners
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="mt-12">
+                <h4 className="text-xl font-semibold text-gray-700 mb-6">Gallery - Hackathon 2022</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-6">
+                    <img
+                      src="/images/departments/me/Hackthon_2022_23 (1).jpg"
+                      alt="Hackathon 2022-23 Photo 1"
+                      className="w-full h-auto rounded-lg shadow-md"
+                    />
+                    <img
+                      src="/images/departments/me/Hackthon 2021_22 (1).jpeg"
+                      alt="Hackathon 2021-22 Photo 1"
+                      className="w-full h-auto rounded-lg shadow-md"
+                    />
+                  </div>
+                  <div className="space-y-6">
+                    <img
+                      src="/images/departments/me/Hackthon 2021_22 (1).jpeg"
+                      alt="Hackathon 2021-22 Photo 2"
+                      className="w-full h-auto rounded-lg shadow-md"
+                    />
+                    <img
+                      src="/images/departments/me/Hackthon_2022_23 (2) (1).jpg"
+                      alt="Hackathon 2022-23 Photo 2"
+                      className="w-full h-auto rounded-lg shadow-md"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }

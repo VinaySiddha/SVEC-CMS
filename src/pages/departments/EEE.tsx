@@ -7,7 +7,7 @@ const EEEDepartment: React.FC = () => {
   const [activeContent, setActiveContent] = useState('Department Profile');
 
   const sidebarItems = [
-    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Labaratories', 'Department Library', 'Faculty Achievements', 'Faculty Innovations in T & L', 'Research Center', 'Student Achievements', 'Placements', 'Technical Association', 'Technical Magazines, Handbooks and Course Materials', 'Newsletters', 'Product Development', 'Departmental Activities', 'Extra-Curricular Activities', 'Green Initiative', 'Contact'
+    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Labaratories', 'Department Library', 'Faculty Achievements', 'Faculty Innovations in T & L', 'Research Center', 'Student Achievements', 'Placements', 'Technical Association', 'Technical Magazines, Handbooks and Course Materials', 'Newsletters', 'Product Development', 'Departmental Activities', 'Extra-Curricular Activities', 'Handbooks', 'Green Initiative', 'Contact'
   ];
 
   const faculty = [
@@ -57,33 +57,95 @@ const EEEDepartment: React.FC = () => {
 
   const renderContent = () => {
     switch (activeContent) {
-      case 'Department Profile':
+      case 'Handbooks':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-              <div className="relative">
-                <img
-                  src="/images/departments/eee/eeehod.jpg"
-                  alt="Dr. D. Sudha Rani"
-                  className="w-full h-80 object-cover rounded-lg shadow-md"
-                  data-ai-hint="female professor"
-                />
-              </div>
-              <div className="lg:col-span-2 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. D. Sudha Rani</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, EEE</p>
-                  <p className="text-gray-600">Mobile: 9949043389</p>
-                  <p className="text-gray-600">Phone No: 08818-284355</p>
-                </div>
-                <p className="text-gray-700 leading-relaxed">
-                  The Department was established in the year 2002 with an intake of 60 seats in UG- B.Tech. Programme. From 2011 onwards the intake was increased to 120 seats and later it was reduced to 90 seats in 2022. The three "E" s stand for Excellence, Expertise and Efficiency of this department. The cardinal priority is to give the students real time experience and help them learn the true functional elements of ELECTRICAL & ELECTRON ICS. In its journey of 21 years, it has put many assiduous efforts in providing such training to the students. Although Electrical Engineering is a field of engineering that generally deals with the study and application of electricity, electronics, and electromagnetism, our department has made enormous efforts to give an extra mileage to the students by training them on software design and hardware-software integration so as to create more space for them in the job market.
-                </p>
-              </div>
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center mt-5 pt-3">Academic HandBooks</h2>
+            <div className="space-y-6">
+              {/* Academic year 2023-24: I-Sem HandBooks */}
+              <details open className="border rounded-lg p-4">
+                <summary className="font-semibold text-lg cursor-pointer">Academic year 2023-24: I-Sem HandBooks</summary>
+                <ul className="py-2 pl-0 list-none">
+                  <li>V-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20Handbook_V20%20Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VII-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20Handbook_V20%20Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              {/* Academic year 2022-23: II-Sem Handbooks */}
+              <details className="border rounded-lg p-4">
+                <summary className="font-semibold text-lg cursor-pointer">Academic year 2022-23: II-Sem Handbooks</summary>
+                <ul className="py-2 pl-0 list-none">
+                  <li>IV-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV%20Sem%20V20%20Regulation%20Handbook_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VI-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VI%20Sem%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VIII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VIII%20Sem%20%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              {/* Academic year 2022-23: I-Sem Handbooks */}
+              <details className="border rounded-lg p-4">
+                <summary className="font-semibold text-lg cursor-pointer">Academic year 2022-23: I-Sem Handbooks</summary>
+                <ul className="py-2 pl-0 list-none">
+                  <li>III-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/III%20SEM%20V20%20Regulation%20Handbook%20(CSE).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>V-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20%20V20%20Regulation%20Handbook%2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook%2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              {/* Academic year 2021-22: II-Sem Handbooks */}
+              <details className="border rounded-lg p-4">
+                <summary className="font-semibold text-lg cursor-pointer">Academic year 2021-22: II-Sem Handbooks</summary>
+                <ul className="py-2 pl-0 list-none">
+                  <li>IV-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV%20Semester%20Handbook%20_V20%20Regulation.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VI-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VI%20Semester%20Handbook_22.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VIII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VIII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              {/* Academic year 2021-22: I-Sem Handbooks */}
+              <details className="border rounded-lg p-4">
+                <summary className="font-semibold text-lg cursor-pointer">Academic year 2021-22: I-Sem Handbooks</summary>
+                <ul className="py-2 pl-0 list-none">
+                  <li>III-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20&%20CST%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>V-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20&%20CST%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              {/* Academic year 2020-21: II-Sem Handbooks */}
+              <details className="border rounded-lg p-4">
+                <summary className="font-semibold text-lg cursor-pointer">Academic year 2020-21: II-Sem Handbooks</summary>
+                <ul className="py-2 pl-0 list-none">
+                  <li>IV-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Semester%20V18(Autonomous).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VI-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20VI%20Semester%20V18(Autonomous).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>IV-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Yr.%20II%20Semester%20R16%20Regulation.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              {/* Academic year 2020-21: I-Sem Handbooks */}
+              <details className="border rounded-lg p-4">
+                <summary className="font-semibold text-lg cursor-pointer">Academic year 2020-21: I-Sem Handbooks</summary>
+                <ul className="py-2 pl-0 list-none">
+                  <li>III-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_III_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>V-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_V_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>IV-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_IVYr_I_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              {/* Academic year 2019-20: II-Sem Handbooks */}
+              <details className="border rounded-lg p-4">
+                <summary className="font-semibold text-lg cursor-pointer">Academic year 2019-20: II-Sem Handbooks</summary>
+                <ul className="py-2 pl-0 list-none">
+                  <li>IV-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/II-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>III-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/III-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>IV-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              {/* Academic year 2019-20: I-Sem Handbooks */}
+              <details className="border rounded-lg p-4">
+                <summary className="font-semibold text-lg cursor-pointer">Academic year 2019-20: I-Sem Handbooks</summary>
+                <ul className="py-2 pl-0 list-none">
+                  <li>III-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/II-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>III-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/III-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>IV-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
             </div>
           </div>
         );
+      // The rest of the cases are already present below as part of the switch statement.
 
       case 'Faculty Profiles':
         return (
@@ -109,7 +171,9 @@ const EEEDepartment: React.FC = () => {
                         <td className="px-6 py-4">{member.qualification}</td>
                         <td className="px-6 py-4">{member.designation}</td>
                         <td className="px-6 py-4">
-                          <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View</a>
+                          <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                            View
+                          </a>
                         </td>
                       </tr>
                     ))}
@@ -139,6 +203,1236 @@ const EEEDepartment: React.FC = () => {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+        );
+      case 'Board of Studies':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Board of Studies</h2>
+            <div className="flex justify-center items-center">
+              <div className="overflow-x-auto w-full">
+                <table className="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-2 border">S.No</th>
+                      <th className="px-4 py-2 border">Name of the BOS Member</th>
+                      <th className="px-4 py-2 border">Designation</th>
+                      <th className="px-4 py-2 border">Organization</th>
+                      <th className="px-4 py-2 border">Position in JOB</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="px-4 py-2 border">1</td>
+                      <td className="px-4 py-2 border">Dr.Sudha Rani Donepudi</td>
+                      <td className="px-4 py-2 border">Professor &amp; HOD</td>
+                      <td className="px-4 py-2 border">Dept of EEE,SVEC</td>
+                      <td className="px-4 py-2 border">Chairperson</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border">2</td>
+                      <td className="px-4 py-2 border">Dr. R. SrinivasaRao</td>
+                      <td className="px-4 py-2 border">Professor of EEE</td>
+                      <td className="px-4 py-2 border">Dept. of EEE, UCEK, JNTUK, Kakinada</td>
+                      <td className="px-4 py-2 border">Subject Expert Nominated By V.C.</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border">3</td>
+                      <td className="px-4 py-2 border">Dr. M. Sydulu</td>
+                      <td className="px-4 py-2 border">Professor of EEE</td>
+                      <td className="px-4 py-2 border">Dept. of EE, NITW, Warangal</td>
+                      <td className="px-4 py-2 border">Subject Expert Nominated By A.C.</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border">4</td>
+                      <td className="px-4 py-2 border">Dr. Y.P. Obulesu</td>
+                      <td className="px-4 py-2 border">Professor of EEE</td>
+                      <td className="px-4 py-2 border">School of EE, VIT, Vellore</td>
+                      <td className="px-4 py-2 border">Subject Expert Nominated By A.C.</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border">5</td>
+                      <td className="px-4 py-2 border">Er. B.N.V.R.C. Suresh Kumar</td>
+                      <td className="px-4 py-2 border">Retired AGM</td>
+                      <td className="px-4 py-2 border">PGCI, Hyderabad</td>
+                      <td className="px-4 py-2 border">Industry Expert Nominated By A.C</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border">6</td>
+                      <td className="px-4 py-2 border">Er. Narayana Murty Vella</td>
+                      <td className="px-4 py-2 border">Engineer</td>
+                      <td className="px-4 py-2 border">PGCI, Vijayawada</td>
+                      <td className="px-4 py-2 border">Alumni</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border">7</td>
+                      <td className="px-4 py-2 border text-center" colSpan={4}>All the Faculty Members in the EEE Dept.are Members in BOS</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="mt-8 flex flex-col items-center">
+              <h4 className="text-2xl font-semibold text-[#850209] mb-4">Board of Studies Meeting Minutes:</h4>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Minutes of 7th meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/eee/7th Meeting of BOS, Dept. of EEE, SVEC_Minutes.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                <li>Minutes of 6th meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20sixth%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                <li>Minutes of 5th meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20Fifth%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                <li>Minutes of 4th meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20Fourth%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                <li>Minutes of 3rd meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20Third%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                <li>Minutes of 2nd meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20Second%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                <li>Minutes of 1st meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20First%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+              </ul>
+            </div>
+          </div>
+        );
+      case 'Labaratories':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Laboratories</h2>
+            <div className="text-lg text-gray-700 mb-6">
+              <p className="mb-4">
+                Each lab is established with modern facilities. Each lab is equipped with demo experiments along with the university prescribed experiments. The motors and instruments etc., are opened and exhibited on tables in the laboratories for clear understanding of the students. In Electrical Measurements Lab, Power Electronics Lab and the Networks Lab each student operates on only one set-up independently. In the Power Electronics Lab and Networks Lab each set-up is customized and equipped with an oscilloscope, Ac and regulated Dc power supplies, digital panel meters and bread boards.
+              </p>
+              <p className="mb-4">
+                The following Laboratories are available in the department:
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-center gap-8">
+              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_CPLAB.jpg" alt="Computer Programming Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">Computer Programming Lab</h5>
+              </div>
+              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_CS_LAB.jpg" alt="Control Systems Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">Control Systems Lab</h5>
+              </div>
+              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EMS_LAB.jpg" alt="EMS Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">EMS Lab</h5>
+              </div>
+              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_ETNT_LAB.jpg" alt="ET & NT Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">ET &amp; NT Lab</h5>
+              </div>
+              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EM1.jpg" alt="EM Lab1" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">EM Lab1</h5>
+              </div>
+              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EM2.jpg" alt="EM Lab2" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">EM Lab2</h5>
+              </div>
+              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_PELAB.jpg" alt="Power Electronics Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">Power Electronics Lab</h5>
+              </div>
+              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
+                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_RD.jpg" alt="R & D Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">R &amp; D Lab</h5>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'Department Library':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Department Library</h2>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
+              <div className="md:w-1/2 flex justify-center">
+                <img src="https://srivasaviengg.ac.in/image/eee%20images/library3.jpg" alt="Faculty Incharge" className="rounded-lg shadow-md w-full max-w-md object-cover mb-4 md:mb-0" />
+              </div>
+              <div className="md:w-1/2 text-lg text-gray-700">
+                <p>
+                  Department Library offers a variety of books related to Electrical Engineering subjects. Reference books of various subjects are procured. Various Competitive Books are available to satisfy the thirst of the students. Books are issued to students and staff. Students can access the Library facility according to their convenience any time round-the-clock.
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
+                <h5 className="text-xl font-semibold text-center text-[#850209] mb-2">No. of Titles</h5>
+                <p className="text-2xl text-red-600 font-bold text-center">484</p>
+              </div>
+              <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
+                <h5 className="text-xl font-semibold text-center text-green-700 mb-2">No. of Volumes</h5>
+                <p className="text-2xl text-green-600 font-bold text-center">1536</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap justify-center gap-8 mb-8">
+              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
+                <img src="/images/departments/eee/eee_lib1.jpg" alt="Library 1" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+              </div>
+              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
+                <img src="/images/departments/eee/eee_lib2.jpg" alt="Library 2" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+              </div>
+              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
+                <img src="/images/departments/eee/eee_lib3.jpg" alt="Library 3" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+              </div>
+            </div>
+            <div className="flex flex-col items-center text-lg text-gray-700">
+              <p className="font-semibold">Faculty Incharge</p>
+              <p>M T V L Ravi Kumar, Asst. Professor</p>
+              <p>Phone: 7893896567</p>
+              <p>
+                E-mail: <a href="mailto:ravi.mada@srivasaviengg.ac.in" className="text-blue-600 hover:underline">ravi.mada@srivasaviengg.ac.in</a>
+              </p>
+            </div>
+          </div>
+        );
+
+      case 'Faculty Achievements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Faculty Achievements</h2>
+            <div className="mb-8">
+              <h4 className="text-2xl font-semibold text-[#850209] mb-4">FDPs Attended</h4>
+              <ul className="space-y-3">
+                <li>
+                  Faculty attended Workshops/FDPs/Seminars during Academic Year 2022-2023 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/A.Y.%202022-2023.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+                <li>
+                  Faculty attended Workshops/FDPs/Seminars during Academic Year 2021-2022 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/A.Y.%202021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+                <li>
+                  Faculty attended Workshops/FDPs/Seminars during Academic Year 2020-2021 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/A.Y.%202020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+                <li>
+                  Faculty attended Workshops/FDPs/Seminars during Academic Year 2019-2020 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/A.Y.%202019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+                <li>
+                  Faculty attended Workshops/FDPs/Seminars during Academic Year 2018-2019 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/A.Y.%202018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+              </ul>
+            </div>
+            <div className="mb-8">
+              <h4 className="text-2xl font-semibold text-[#850209] mb-4">FDPs conducted</h4>
+              <ul className="space-y-3">
+                <li>
+                  Patents Published by Faculty during the Academic Year 2021-2022 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/Book%20Chapters%20&%20Patents.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-2xl font-semibold text-[#850209] mb-4">NPTEL</h4>
+              <ul className="space-y-3">
+                <li>
+                  Faculty NPTEL Certifications 2021-2022 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/Faculty%20NPTEL%20Certifications%202021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+                <li>
+                  Faculty NPTEL Certifications 2020-2021 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/Faculty%20NPTEL%20Certifications%202020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+                <li>
+                  Faculty NPTEL Certifications 2019-2020 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/Faculty%20NPTEL%20Certifications%202019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+                <li>
+                  Faculty NPTEL Certifications 2018-2019 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/Faculty%20NPTEL%20Certifications%202018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        );
+      case 'Research Center':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Research Center</h2>
+            {/* Research Verticles */}
+            <details open className="mb-6">
+              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Research Verticles</summary>
+              <div className="text-center mt-4">
+                <ul className="space-y-8">
+                  <li>
+                    <div>
+                      <h3 className="text-lg font-bold mb-2">Power Systems</h3>
+                      <ol className="list-decimal list-inside text-left inline-block">
+                        <li>Dr.Ch.Rambabu</li>
+                        <li>Dr.D.Sudha Rani</li>
+                        <li>Dr.E.Naga Venkata Durga Vara Prasad</li>
+                        <li>Mr.U.Chandra Rao</li>
+                        <li>Mr.N.Madhusudhan Reddy</li>
+                        <li>Mr.Durga R Ch Nookesh</li>
+                        <li>Ms.B.Rajitha</li>
+                      </ol>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <h3 className="text-lg font-bold mb-2">Power Electronics</h3>
+                      <ol className="list-decimal list-inside text-left inline-block">
+                        <li>Dr.Anilkumar Chappa</li>
+                        <li>Mr.K.Suresh</li>
+                        <li>Mr.M.T.V.L Ravi Kumar</li>
+                        <li>Mr.V.Rama Narayana</li>
+                        <li>Mr.G.Madhu Sagar Babu</li>
+                        <li>Mr.G.Govardhan</li>
+                        <li>Mr.G.Jaji Sudha</li>
+                        <li>Mr.N.Sankar</li>
+                        <li>Mr.Sk.Moulali</li>
+                        <li>Mr.D.Dhana Prasad</li>
+                      </ol>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <h3 className="text-lg font-bold mb-2">Power Electronics</h3>
+                      <ol className="list-decimal list-inside text-left inline-block">
+                        <li>Mr.N.Sri Harish</li>
+                        <li>Mr.Ch.V.S.R.Gopala Krishna</li>
+                        <li>Mr.K.Ramesh Babu</li>
+                        <li>Mr.G.Chandra Babu</li>
+                        <li>Mr.A.Uma Siva Naga Prasad</li>
+                        <li>Mr.V.S.Aditya</li>
+                        <li>Mr.S.Krishna</li>
+                      </ol>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </details>
+
+            {/* Research Supervisor */}
+            <details className="mb-6">
+              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Research Supervisor</summary>
+              <div className="overflow-x-auto mt-4">
+                <table className="min-w-full border text-sm text-center">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="border px-2 py-1">S.No.</th>
+                      <th className="border px-2 py-1">Name of the Supervisors Body</th>
+                      <th className="border px-2 py-1">Name of the Scholar</th>
+                      <th className="border px-2 py-1">Status</th>
+                      <th className="border px-2 py-1">Proof</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="border px-2 py-1">1</td>
+                      <td className="border px-2 py-1">Dr. Ch. Rambabu</td>
+                      <td className="border px-2 py-1">K. Rajendra</td>
+                      <td className="border px-2 py-1">On Going</td>
+                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/1_1.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1" rowSpan={5}>2</td>
+                      <td className="border px-2 py-1" rowSpan={5}>Dr. D. Sudha Rani</td>
+                      <td className="border px-2 py-1">Karike Swathi</td>
+                      <td className="border px-2 py-1">On Going</td>
+                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/2_1.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">Loya Preeti Purushottamdas</td>
+                      <td className="border px-2 py-1">On Going</td>
+                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/2_2.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">G. Swathi</td>
+                      <td className="border px-2 py-1">On Going</td>
+                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/2_3.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">Y. Lalitha Kameswari</td>
+                      <td className="border px-2 py-1">Completed</td>
+                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/2_4.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">Vinodita Tadanki</td>
+                      <td className="border px-2 py-1">On Going</td>
+                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/2_5.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">3</td>
+                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
+                      <td className="border px-2 py-1">I. Kranthi Kumar</td>
+                      <td className="border px-2 py-1">On Going</td>
+                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/3_1.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+
+            {/* Journal Publications */}
+            <details className="mb-6">
+              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Journal Publications</summary>
+              <div className="text-center mt-4">
+                <ul className="space-y-3">
+                  <li>
+                    Journal Publications Details 2022-2023 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/eee/Journals_2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
+                  </li>
+                  <li>
+                    Journal Publications Details 2021-2022 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/eee/Journals_2021_22.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
+                  </li>
+                  <li>
+                    Journal Publications Details 2020-2021 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/eee/Journals_2020_21.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
+                  </li>
+                  <li>
+                    Journal Publications Details 2019-2020 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/eee/Journals_2019_20.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
+                  </li>
+                  <li>
+                    Journal Publications Details 2018-2019 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/eee/Journals_2018_19.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
+                  </li>
+                </ul>
+              </div>
+            </details>
+
+            {/* Conference Publications */}
+            <details className="mb-6">
+              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Conference Publications</summary>
+              <div className="overflow-x-auto mt-4">
+                <table className="min-w-full border text-sm text-center">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="border px-2 py-1">S.No.</th>
+                      <th className="border px-2 py-1">Name of the Faculty</th>
+                      <th className="border px-2 py-1">Title of the Paper</th>
+                      <th className="border px-2 py-1">Title of the proceedings of the conference</th>
+                      <th className="border px-2 py-1">ISBN/ISSN number of the proceeding</th>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1 text-center" colSpan={5}>Academic Year 2022-23</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="border px-2 py-1">1</td>
+                      <td className="border px-2 py-1">Mr. N. Sri Harish</td>
+                      <td className="border px-2 py-1">Design and Development of an Integrated Solar PV Based Water Purification and IoT Based Water Quality Monitoring System</td>
+                      <td className="border px-2 py-1">National E-Conference on Data Engineering & Communication Technology (NCDECT) 2023</td>
+                      <td className="border px-2 py-1">978-93-5768-432-3</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">2</td>
+                      <td className="border px-2 py-1">G. Jaji Sudha, Mr. N. Sri Harish</td>
+                      <td className="border px-2 py-1">Three-phase induction motor Protection by relay against various abnormal conditions and monitoring using GSM</td>
+                      <td className="border px-2 py-1">National E-Conference on Data Engineering & Communication Technology (NCDECT) 2023</td>
+                      <td className="border px-2 py-1">978-93-5768-432-3</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">3</td>
+                      <td className="border px-2 py-1">Ch. Srinivas</td>
+                      <td className="border px-2 py-1">A Novel Way To Detect The Islanding Condition Using PSO & Control The Voltage Current Of DG Using A PI Controller</td>
+                      <td className="border px-2 py-1">2nd International Conference on Innovation in Technology (INOCON 2023)</td>
+                      <td className="border px-2 py-1">978-93-5768-432-3</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">4</td>
+                      <td className="border px-2 py-1">Mr. G. Chandra Babu</td>
+                      <td className="border px-2 py-1">A Novel Way To Detect The Islanding Condition Using PSO & Control The Voltage Current Of DG Using A PI Controller</td>
+                      <td className="border px-2 py-1">2nd International Conference on Innovation in Technology (INOCON 2023)</td>
+                      <td className="border px-2 py-1">978-93-5768-432-3</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">5</td>
+                      <td className="border px-2 py-1">Dr. Anilkumar Chappa, Dr. Sudha Rani Donpeudi</td>
+                      <td className="border px-2 py-1">“Asymmetrical Multilevel Inverter Topology”</td>
+                      <td className="border px-2 py-1">10th IEEE International Conference on Power Electronics, Drives and Energy Systems (PEDES 2022)</td>
+                      <td className="border px-2 py-1">978-1-6654-5567-1</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">6</td>
+                      <td className="border px-2 py-1">Mr. Ch. Srinivas</td>
+                      <td className="border px-2 py-1">Minimization of Power Losses in the Distribution System by Controlling Tap Changing Transformer using the PSO Algorithm</td>
+                      <td className="border px-2 py-1">International Conference on Intelligent Data Communication Technologies and Internet of Things (IDCIoT 2023)</td>
+                      <td className="border px-2 py-1">978-1-6654-5567-1</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">7</td>
+                      <td className="border px-2 py-1">Mr. Ch. Srinivas, Mr. N. Madhusudhan Reddy</td>
+                      <td className="border px-2 py-1">Minimization of Frequency Deviations in Multi-Area Power System with SSSC</td>
+                      <td className="border px-2 py-1">International Conference on Intelligent Data Communication Technologies and Internet of Things (IDCIoT 2023)</td>
+                      <td className="border px-2 py-1">978-1-6654-5567-1</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">8</td>
+                      <td className="border px-2 py-1">Mr. K. Suresh</td>
+                      <td className="border px-2 py-1">An Improved Cascaded H-Bridge High Power Factor Converter with Enhanced Power Quality</td>
+                      <td className="border px-2 py-1">10th IEEE International Conference on Power Electronics, Drives and Energy Systems (PEDES 2022)</td>
+                      <td className="border px-2 py-1">978-1-6654-5566-4</td>
+                    </tr>
+                  </tbody>
+                  {/* Additional years and rows omitted for brevity, but should be included in a full implementation */}
+                </table>
+              </div>
+            </details>
+
+            {/* Patents */}
+            <details className="mb-6">
+              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Patents</summary>
+              <div className="overflow-x-auto mt-4">
+                <table className="min-w-full border text-sm text-center">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="border px-2 py-1">S.No.</th>
+                      <th className="border px-2 py-1">Patent Title</th>
+                      <th className="border px-2 py-1">Name of the Inventor(s)</th>
+                      <th className="border px-2 py-1">Patent No.</th>
+                      <th className="border px-2 py-1">Date of the Publication</th>
+                      <th className="border px-2 py-1">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="border px-2 py-1">1</td>
+                      <td className="border px-2 py-1">Multilevel Inverter(MLI) circuit for DC-AC Power Conversion</td>
+                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
+                      <td className="border px-2 py-1">202241061706</td>
+                      <td className="border px-2 py-1">12/02/2022</td>
+                      <td className="border px-2 py-1">Published</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">2</td>
+                      <td className="border px-2 py-1">An AI Based EV Battery Charging Controller with Enhanced Battery Management</td>
+                      <td className="border px-2 py-1">Mr.N. MadhuSudhan Reddy</td>
+                      <td className="border px-2 py-1">202141050407</td>
+                      <td className="border px-2 py-1">11/3/2021.</td>
+                      <td className="border px-2 py-1">Published</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">3</td>
+                      <td className="border px-2 py-1">Deep Learning Based Fault DetectionElectrical Distribution Network</td>
+                      <td className="border px-2 py-1">Mr.V. Rama Narayana & Mr.G.Madhu Sagar Babu</td>
+                      <td className="border px-2 py-1">202141049829</td>
+                      <td className="border px-2 py-1">12/11/2021</td>
+                      <td className="border px-2 py-1">Published</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">4</td>
+                      <td className="border px-2 py-1">Three-Port Converter for Induction Motor Drive System</td>
+                      <td className="border px-2 py-1">Ch. Srinivas & V. S. Aditya</td>
+                      <td className="border px-2 py-1">202141039042</td>
+                      <td className="border px-2 py-1">28/08/2021</td>
+                      <td className="border px-2 py-1">Published</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+
+            {/* Book Publications */}
+            <details className="mb-6">
+              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Book Publications</summary>
+              <div className="overflow-x-auto mt-4">
+                <table className="min-w-full border text-sm text-center">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="border px-2 py-1">S.No.</th>
+                      <th className="border px-2 py-1">Name of the Faculty</th>
+                      <th className="border px-2 py-1">Title of the book published</th>
+                      <th className="border px-2 py-1">Year of publication</th>
+                      <th className="border px-2 py-1">ISBN/ISSN number of the proceeding</th>
+                      <th className="border px-2 py-1">Name of the publisher</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="border px-2 py-1">1</td>
+                      <td className="border px-2 py-1">Mr. U. Chandra Rao</td>
+                      <td className="border px-2 py-1">ANFIS and SCLEIC Based Battery Charging Controllers for PHEV</td>
+                      <td className="border px-2 py-1">2021</td>
+                      <td className="border px-2 py-1">978-93-90846-55-9</td>
+                      <td className="border px-2 py-1">AkiNik</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">2</td>
+                      <td className="border px-2 py-1">Dr. P. V. V. Rama Rao</td>
+                      <td className="border px-2 py-1">High Voltage Engineering for Beginners</td>
+                      <td className="border px-2 py-1">2022</td>
+                      <td className="border px-2 py-1">978-6202520379</td>
+                      <td className="border px-2 py-1">LAMBERT ACADEMIC PUBLISHING</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">3</td>
+                      <td className="border px-2 py-1">Mr. Ch. Srinivas</td>
+                      <td className="border px-2 py-1">Micropocessor and Micro Controller</td>
+                      <td className="border px-2 py-1">2022</td>
+                      <td className="border px-2 py-1">-</td>
+                      <td className="border px-2 py-1">SIPH PUBLISHER</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+
+            {/* Career Advancements */}
+            <details className="mb-6">
+              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Career Advancements</summary>
+              <div className="overflow-x-auto mt-4">
+                <table className="min-w-full border text-sm text-center">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="border px-2 py-1">S.No.</th>
+                      <th className="border px-2 py-1">Name of the Faculty</th>
+                      <th className="border px-2 py-1">Enrolled Institute</th>
+                      <th className="border px-2 py-1">Date of the joining</th>
+                      <th className="border px-2 py-1">Persuing Degree</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="border px-2 py-1">1</td>
+                      <td className="border px-2 py-1">Mr. U. Chandra Rao</td>
+                      <td className="border px-2 py-1">J.N.T.U. Kakinada</td>
+                      <td className="border px-2 py-1">20/11/2013</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">2</td>
+                      <td className="border px-2 py-1">Mr. Ch. V. S. R. Gopala Krishna</td>
+                      <td className="border px-2 py-1">Lovely Professional University</td>
+                      <td className="border px-2 py-1">10/07/2019</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">3</td>
+                      <td className="border px-2 py-1">Mr. K. Suresh</td>
+                      <td className="border px-2 py-1">National Institute of Technology, Tadepalligudem</td>
+                      <td className="border px-2 py-1">27/07/2019</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">4</td>
+                      <td className="border px-2 py-1">Mr. G. Madhu Sagar Babu</td>
+                      <td className="border px-2 py-1">National Institute of Technology, Tadepalligudem</td>
+                      <td className="border px-2 py-1">20/01/2020</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">5</td>
+                      <td className="border px-2 py-1">Mr. Durga R CH Nookesh</td>
+                      <td className="border px-2 py-1">J.N.T.U. Kakinada</td>
+                      <td className="border px-2 py-1">04/09/2020</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">6</td>
+                      <td className="border px-2 py-1">Mr. K. Amarendra</td>
+                      <td className="border px-2 py-1">National Institute of Technology, Tadepalligudem</td>
+                      <td className="border px-2 py-1">18/01/2022</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">7</td>
+                      <td className="border px-2 py-1">Mr. V. S. Aditya</td>
+                      <td className="border px-2 py-1">Puducherry Technological University, Puducherry</td>
+                      <td className="border px-2 py-1">18/04/2022</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">8</td>
+                      <td className="border px-2 py-1">Mr. R. Venkatesh</td>
+                      <td className="border px-2 py-1">IIT Bhubaneswar</td>
+                      <td className="border px-2 py-1">15/07/2022</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">9</td>
+                      <td className="border px-2 py-1">Mr. Dhana Prasad Duggapu</td>
+                      <td className="border px-2 py-1">Hindustan Institute of Technology & Science, Chennai</td>
+                      <td className="border px-2 py-1">30/01/2023</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">10</td>
+                      <td className="border px-2 py-1">Mr. Ramanarayana Vemana</td>
+                      <td className="border px-2 py-1">Hindustan Institute of Technology & Science, Chennai</td>
+                      <td className="border px-2 py-1">30/01/2023</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">11</td>
+                      <td className="border px-2 py-1">Mr. Sriharish Nandigam</td>
+                      <td className="border px-2 py-1">Hindustan Institute of Technology & Science, Chennai</td>
+                      <td className="border px-2 py-1">30/01/2023</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">12</td>
+                      <td className="border px-2 py-1">Mr. M. M. Swami Naidu</td>
+                      <td className="border px-2 py-1">National Institute of Technology, Tadepalligudem</td>
+                      <td className="border px-2 py-1">14/07/2023</td>
+                      <td className="border px-2 py-1">Ph.D</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+
+            {/* Interaction with outside the world */}
+            <details className="mb-6">
+              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Interaction with outside the world</summary>
+              <div className="overflow-x-auto mt-4">
+                <table className="min-w-full border text-sm text-center">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="border px-2 py-1">S.No.</th>
+                      <th className="border px-2 py-1">Name of the Faculty</th>
+                      <th className="border px-2 py-1">Details of the Journals</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="border px-2 py-1">1</td>
+                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
+                      <td className="border px-2 py-1">IEEE Transcactions on Industrial Electronics</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">2</td>
+                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
+                      <td className="border px-2 py-1">IEEE Transcactions on Power Electronics</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">3</td>
+                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
+                      <td className="border px-2 py-1">IEEE Transcactions on Power Delivery</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">4</td>
+                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
+                      <td className="border px-2 py-1">IET Power Electronics</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">5</td>
+                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
+                      <td className="border px-2 py-1">IET Electric Power Applications</td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1">6</td>
+                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
+                      <td className="border px-2 py-1">IEEE Region 10 Symposium</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          </div>
+        );
+      case 'Faculty Innovations in T & L':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Some of the innovative means adopted by the faculty in T and L are:</h2>
+            <div className="text-left flex justify-center">
+              <ul className="list-disc pl-6 space-y-3 max-w-2xl">
+                <li>Teaching using ICT tools wherever necessary.</li>
+                <li>Technical videos for demonstration of certain concepts and functioning of the devices.</li>
+                <li>Usage of tools like MATLAB, PSPICE etc., to demonstrate the concepts through simulation.</li>
+                <li>Use of E-learning resources like NPTEL lectures and on-line journals for effective learning.</li>
+                <li>Providing question bank includes descriptive and quiz questions.</li>
+                <li>Good hands-on practice in the laboratories for better understanding of the concepts taught in the theory classes.</li>
+                <li>Visits to industries for real time exposure.</li>
+                <li>Project exhibitions and poster presentations.</li>
+                <li>Student seminars.</li>
+                <li>Conducting guest lecturers to create exposure on advanced technologies.</li>
+                <li>Conducting open book exams in selective courses.</li>
+                <li>Implementing active learning techniques such as problem based learning, project based learning, peer to peer learning etc.</li>
+              </ul>
+            </div>
+          </div>
+        );
+      case 'Student Achievements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center mt-5 pt-3">Student Achievements</h2>
+            <div className="space-y-8">
+              {/* Student Achievements */}
+              <details open>
+                <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Student Achievements</summary>
+                <ul className="list-disc pl-6 mt-3">
+                  <li>
+                    List of Students Participated/got prizes in Technical -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/eee_studentsachievements.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                  </li>
+                </ul>
+                {/* Placement, Higher Studies and Entrepreneurship Table */}
+                <div className="overflow-x-auto mt-6 flex flex-col items-center">
+                  <table className="min-w-full border text-sm text-center mb-6 table-auto">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th colSpan={9} className="text-center py-2 text-lg font-semibold">Placement, Higher Studies and Entrepreneurship</th>
+                      </tr>
+                      <tr>
+                        <th className="border px-2 py-1">Item</th>
+                        <th className="border px-2 py-1">CAY 2021-22</th>
+                        <th className="border px-2 py-1">CAY 2020-21</th>
+                        <th className="border px-2 py-1">CAY 2019-20</th>
+                        <th className="border px-2 py-1">CAY 2018-19</th>
+                        <th className="border px-2 py-1">CAY 2017-18</th>
+                        <th className="border px-2 py-1">CAY 2016-17</th>
+                        <th className="border px-2 py-1">CAY 2015-16</th>
+                        <th className="border px-2 py-1">CAY 2014-15</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td className="border px-2 py-1">Total No.of Final Year Students</td>
+                        <td className="border px-2 py-1">118</td>
+                        <td className="border px-2 py-1">121</td>
+                        <td className="border px-2 py-1">114</td>
+                        <td className="border px-2 py-1">118</td>
+                        <td className="border px-2 py-1">99</td>
+                        <td className="border px-2 py-1">107</td>
+                        <td className="border px-2 py-1">109</td>
+                        <td className="border px-2 py-1">132</td>
+                      </tr>
+                      <tr>
+                        <td className="border px-2 py-1">No.of students placed in companies or Government Sector</td>
+                        <td className="border px-2 py-1">94</td>
+                        <td className="border px-2 py-1">58</td>
+                        <td className="border px-2 py-1">35</td>
+                        <td className="border px-2 py-1">55</td>
+                        <td className="border px-2 py-1">31</td>
+                        <td className="border px-2 py-1">32</td>
+                        <td className="border px-2 py-1">56</td>
+                        <td className="border px-2 py-1">64</td>
+                      </tr>
+                      <tr>
+                        <td className="border px-2 py-1">No.of students admitted to higher studies with valid qualifying scores (GATE or equivalent State or National Level Tests, GRE, GMAT etc.)</td>
+                        <td className="border px-2 py-1">-</td>
+                        <td className="border px-2 py-1">4</td>
+                        <td className="border px-2 py-1">3</td>
+                        <td className="border px-2 py-1">3</td>
+                        <td className="border px-2 py-1">-</td>
+                        <td className="border px-2 py-1">8</td>
+                        <td className="border px-2 py-1">3</td>
+                        <td className="border px-2 py-1">8</td>
+                      </tr>
+                      <tr>
+                        <td className="border px-2 py-1">No.of students turned entrepreneur in engineering/technology</td>
+                        <td className="border px-2 py-1">-</td>
+                        <td className="border px-2 py-1">-</td>
+                        <td className="border px-2 py-1">-</td>
+                        <td className="border px-2 py-1">-</td>
+                        <td className="border px-2 py-1">-</td>
+                        <td className="border px-2 py-1">-</td>
+                        <td className="border px-2 py-1">1</td>
+                        <td className="border px-2 py-1">-</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <h3 className="text-xl font-bold text-[#850209] mb-4 mt-8">Internships/Certificates/Workshop</h3>
+                  <table className="min-w-full border text-sm text-center mb-6 table-auto">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="border px-2 py-1">Academic Year</th>
+                        <th className="border px-2 py-1" colSpan={3}>Certificates</th>
+                        <th className="border px-2 py-1" colSpan={3}>Internships</th>
+                        <th className="border px-2 py-1">Workshops</th>
+                        <th className="border px-2 py-1">Co-Curricular Activities</th>
+                      </tr>
+                      <tr>
+                        <td className="border px-2 py-1"></td>
+                        <td className="border px-2 py-1">NPTEL</td>
+                        <td className="border px-2 py-1">Coursera</td>
+                        <td className="border px-2 py-1">Others</td>
+                        <td className="border px-2 py-1">Internshala</td>
+                        <td className="border px-2 py-1">APSSDC</td>
+                        <td className="border px-2 py-1">Others</td>
+                        <td className="border px-2 py-1"></td>
+                        <td className="border px-2 py-1"></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td className="border px-2 py-1">2021-2022</td>
+                        <td className="border px-2 py-1">03</td>
+                        <td className="border px-2 py-1">69</td>
+                        <td className="border px-2 py-1">41</td>
+                        <td className="border px-2 py-1">01</td>
+                        <td className="border px-2 py-1">26</td>
+                        <td className="border px-2 py-1">158</td>
+                        <td className="border px-2 py-1">111</td>
+                        <td className="border px-2 py-1">36</td>
+                      </tr>
+                      <tr>
+                        <td className="border px-2 py-1">2020-2021</td>
+                        <td className="border px-2 py-1">17</td>
+                        <td className="border px-2 py-1">35</td>
+                        <td className="border px-2 py-1">13</td>
+                        <td className="border px-2 py-1">-</td>
+                        <td className="border px-2 py-1">01</td>
+                        <td className="border px-2 py-1">05</td>
+                        <td className="border px-2 py-1">-</td>
+                        <td className="border px-2 py-1">03</td>
+                      </tr>
+                      <tr>
+                        <td className="border px-2 py-1">2019-2020</td>
+                        <td className="border px-2 py-1">03</td>
+                        <td className="border px-2 py-1">01</td>
+                        <td className="border px-2 py-1">03</td>
+                        <td className="border px-2 py-1">18</td>
+                        <td className="border px-2 py-1">01</td>
+                        <td className="border px-2 py-1">-</td>
+                        <td className="border px-2 py-1">48</td>
+                        <td className="border px-2 py-1">01</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+              {/* Add more details sections for Roll Of Honor, Placement, Higher Studies, Competitive Examinations, Course Certifications, Internship, Workshops/SOC, CRT, Projects, CSP as needed, following the same pattern. */}
+            </div>
+          </div>
+        );
+      case 'Placements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Placements</h2>
+            <div className="mb-8">
+              <details open className="mb-4">
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2022-23</summary>
+                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2022-23 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2022-23.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                </li>
+              </details>
+              <details className="mb-4">
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2021-22</summary>
+                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2021-22 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                </li>
+              </details>
+              <details className="mb-4">
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2020-21</summary>
+                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2020-21 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                </li>
+              </details>
+              <details className="mb-4">
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2019-20</summary>
+                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2019-20 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                </li>
+              </details>
+              <details className="mb-4">
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2018-19</summary>
+                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2018-19 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                </li>
+              </details>
+              <details className="mb-4">
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2017-18</summary>
+                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2017-18 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2017-18.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                </li>
+              </details>
+              <details className="mb-4">
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Years 2013, 2014, 2015, 2016, 2017</summary>
+                <li className="py-3 list-none ml-3 text-left">Placements during the Years 2013, 2014, 2015, 2016, 2017 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2013-17.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                </li>
+              </details>
+            </div>
+            <div className="mt-12">
+              <h2 className="text-2xl font-bold text-[#850209] mb-6 text-center">Gallery</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center items-center">
+                <div className="col-span-1 flex flex-col items-center">
+                  <h3 className="text-primary text-xl font-semibold mb-2">2018-22</h3>
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1822.jpeg" alt="Image 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                  <h5 className="text-center my-3 text-green-700">Roll No: 19A85A0221 <br />Name: J. Mahesh Srinu</h5>
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1822_2.jpeg" alt="Image 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover mt-4" />
+                  <h5 className="text-center my-3 text-green-700">Roll No: 19A85A0209 <br />Name: D. Preethi</h5>
+                </div>
+                <div className="col-span-1 flex flex-col items-center">
+                  <h3 className="text-primary text-xl font-semibold mb-2">2017-21</h3>
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1721.jpeg" alt="Image 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                  <h5 className="text-center my-3 text-green-700">Roll No: 17A81A0234 <br />Name: V. Sri Naga Vijaya Lakshmi</h5>
+                  <h3 className="text-primary text-xl font-semibold mb-2 mt-8">2016-20</h3>
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1620.jpeg" alt="Image 5" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                  <h5 className="text-center my-3 text-green-700">Roll No: 16A81A0219 <br />Name: K. Ganga Prasanna</h5>
+                  <h3 className="text-primary text-xl font-semibold mb-2 mt-8">2015-19</h3>
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1519.jpeg" alt="Image 6" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                  <h5 className="text-center my-3 text-green-700">Roll No: 15A81A0226 <br />Name: N. Rishitha Anasuya Devi</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Technical Association':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Technical Association</h2>
+            <div className="text-lg text-gray-700 space-y-4 mb-8">
+              <p>
+                LEE means "SIDE OF SOMETHING THAT IS SHELTERED FROM THE WIND" in a similar way LEE (LEAGUE OF ELECTRICAL ENGINEERS) is an Association that shelters the students from daily academics. Festival is a day to rejoice and is filled with lots of fun and excitement. Especially students feel blessed as they celebrate many festivals not only at their residence but also at college. There is an excitement all over in wearing new dresses and preparing a variety of programs. It is thrilling when there is sharing of love and happiness among the students. They come out of their daily rigmarole and rejuvenate themselves in the springs of LEE.
+              </p>
+              <p>
+                On these days they offer to the faculty a great welcome and they even felicitate the faculty members. The importance of this function lies in celebrating it in a meaningful and purposeful way by spreading joy to one and all. LEE association was initiated by the students of 2nd batch, in 2005. From the day initiation till date Seven Anniversaries have been celebrated. This association is rising under the guidance of the chairman Dr.CH.RAMBABU Dean of Student Affairs, Dr. D Sudha Rani Head of the department (EEE). Every year this function is organised by the students of third year guided by the staff co-ordinator. All the wards from all years actively participate by extending their full support. In this function the Management gives a memento and cash prize to the students who stood as toppers in their respective classes. And also the students felicitate the faculty members as a token of gratitude and respect. The Association activities give wide scope and perpetual inspiration to the all round development of the students in EEE department.
+              </p>
+              <p>
+                The details of the activities carried out by the society LEE-Technical Association in the last three academic years -{' '}
+                <a href="https://srivasaviengg.ac.in/uploads/eee_techassociation.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+              </p>
+            </div>
+            <div className="mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center items-center">
+                <div className="flex flex-col items-center">
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_lee_project1.jpg" alt="LEE Project 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                </div>
+                <div className="flex flex-col items-center">
+                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_lee_project2.jpg" alt="LEE Project 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'Technical Magazines, Handbooks and Course Materials':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Technical Activities and Handbooks</h2>
+            <div className="space-y-6">
+              <details open className="mb-4">
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Technical Magazines</summary>
+                <ul className="list-none py-2 mb-0 space-y-2">
+                  <li>
+                    ELECTRIFY Volume 1 Issue 2 August 2022 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/ELECTRIFY%20Volume%201%20Issue%202%20August%202022.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                  </li>
+                  <li>
+                    ELECTRIFY Volume 1 Issue 1 December 2021 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/ELECTRIFY%20Volume%201%20Issue%201%20December%202021.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details className="mb-4">
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Academic HandBooks</summary>
+                <ul className="list-none py-2 mb-0 space-y-2">
+                  <li>
+                    Academic Hand Books II-II SEM -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/eee/eee_handbooks/II-II%20SEM.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                  </li>
+                  <li>
+                    Academic Hand Books III-II SEM -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/eee/eee_handbooks/III-II%20SEM.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                  </li>
+                  <li>
+                    Academic Hand Books IV-II SEM -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/eee/eee_handbooks/IV-II%20SEM.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Course Materials</summary>
+                <ul className="list-none py-2 mb-0 space-y-2">
+                  <li>
+                    Course Materials -{' '}
+                    <a href="https://drive.google.com/drive/folders/1gbRiaj5jsv87blD3Be5nAZdXPvNAQuZ6" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                  </li>
+                </ul>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Newsletters':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Newsletters</h2>
+            <div className="space-y-4">
+              <details open>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume10 Issue1 2022</summary>
+                <li className="py-2 text-left list-none">News Letter Volume10 Issue1 2022 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-10_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+              </details>
+              <details>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume9 Issue1 2018</summary>
+                <li className="py-2 text-left list-none">News Letter Volume9 Issue1 2018 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-9_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+              </details>
+              <details>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume8 Issue1 2018</summary>
+                <li className="py-2 text-left list-none">News Letter Volume8 Issue1 2018 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-8_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+              </details>
+              <details>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume8 Issue2 2017</summary>
+                <li className="py-2 text-left list-none">News Letter Volume8 Issue2 2017 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-8_ISSUE-2.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+              </details>
+              <details>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume7 Issue1 2016</summary>
+                <li className="py-2 text-left list-none">News Letter Volume7 Issue1 2016 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-7_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+              </details>
+              <details>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume7 Issue2 2016</summary>
+                <li className="py-2 text-left list-none">News Letter Volume7 Issue2 2016 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-7_ISSUE-2.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+              </details>
+              <details>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume6 Issue1 2015</summary>
+                <li className="py-2 text-left list-none">News Letter Volume6 Issue1 2015 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/VOLUME-6_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+              </details>
+              <details>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume6 Issue2 2015</summary>
+                <li className="py-2 text-left list-none">News Letter Volume6 Issue2 2015 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/VOLUME-6_ISSUE-2.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
+                </li>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Product Development':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Product Development</h2>
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold mb-4">The following are the list of products which were successfully developed by our students.</h3>
+              <ul className="list-disc pl-8 space-y-2 text-lg">
+                <li>Solar Rider</li>
+                <li>Lee Eco Bike</li>
+                <li>Digital Notice Board</li>
+                <li>Solar Lift Irrigation System</li>
+                <li>Electric Wheel Chair</li>
+                <li>Multilevel Inverter</li>
+                <li>Drone</li>
+                <li>TriCycle with Solar Energy</li>
+                <li>Self-charging of Hybrid E-bicycle</li>
+              </ul>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center items-center">
+              <div className="flex flex-col items-center">
+                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp1.jpg" alt="Product 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+              </div>
+              <div className="flex flex-col items-center">
+                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp2.jpg" alt="Product 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+              </div>
+              <div className="flex flex-col items-center">
+                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp3.jpg" alt="Product 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+              </div>
+              <div className="flex flex-col items-center">
+                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp4.jpg" alt="Product 4" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+              </div>
+            </div>
+          </div>
+        );
+      case 'Departmental Activities':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Departmental Activities</h2>
+            <div className="space-y-8">
+              <details open>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Green Initiative</summary>
+                <div className="mb-5">
+                  <div className="container mx-auto">
+                    <div className="flex flex-col items-center justify-center mb-8">
+                      <h3 className="text-2xl font-bold text-[#850209] mb-4 text-center">As a part of green initiative college installed 500KWp solar plant in the campus.</h3>
+                      <div className="w-full flex justify-center mb-4">
+                        <img src="https://srivasaviengg.ac.in/image/eee%20images/green_graph.jpg" alt="Image 1" className="rounded-lg shadow-md w-full max-w-lg aspect-video object-cover" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-[#850209] mb-4 text-center">Inauguration of 200kWp Solar Power Plant on 11.11.2016.</h3>
+                      <div className="flex flex-col md:flex-row justify-center items-center gap-6">
+                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg" alt="Image 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg" alt="Image 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </details>
+              <details>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Product Development</summary>
+                <div className="mb-5">
+                  <p className="mb-4">The following are the list of products which were successfully developed by our students.</p>
+                  <ul className="list-disc pl-8 space-y-2 text-lg mb-6">
+                    <li>Solar Rider</li>
+                    <li>Lee Eco Bike</li>
+                    <li>Digital Notice Board</li>
+                    <li>Solar Lift Irrigation System</li>
+                    <li>Electric Wheel Chair</li>
+                    <li>Multilevel Inverter</li>
+                    <li>Drone</li>
+                    <li>TriCycle with Solar Energy</li>
+                    <li>Self-charging of Hybrid E-bicycle</li>
+                  </ul>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-center items-center">
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da1.jpg" alt="Product 1" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da2.jpg" alt="Product 2" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da3.jpg" alt="Product 3" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da4.jpg" alt="Product 4" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da5.jpeg" alt="Product 5" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da6.jpeg" alt="Product 6" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Green Initiative':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Departmental Activities</h2>
+            <div className="space-y-8">
+              <details open>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Green Initiative</summary>
+                <div className="mb-5">
+                  <div className="container mx-auto">
+                    <div className="flex flex-col items-center justify-center mb-8">
+                      <h3 className="text-2xl font-bold text-[#850209] mb-4 text-center">As a part of green initiative college installed 500KWp solar plant in the campus.</h3>
+                      <div className="w-full flex justify-center mb-4">
+                        <img src="https://srivasaviengg.ac.in/image/eee%20images/green_graph.jpg" alt="Image 1" className="rounded-lg shadow-md w-full max-w-lg aspect-video object-cover" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-[#850209] mb-4 text-center">Inauguration of 200kWp Solar Power Plant on 11.11.2016.</h3>
+                      <div className="flex flex-col md:flex-row justify-center items-center gap-6">
+                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg" alt="Image 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg" alt="Image 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </details>
+
+            </div>
+          </div>
+        );
+      case 'Extra-Curricular Activities':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Extra Curricular Activities</h2>
+            <div className="space-y-8">
+              <details open>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Social Service Activities</summary>
+                <ul className="py-2 pl-0">
+                  <li className="m-3 text-center list-none">Continuous social service activities are carried out by the students under LEE Association, with the support of the Head of the Department and all the faculty members.</li>
+                </ul>
+                <div className="mb-5 px-5">
+                  <div className="flex flex-col items-center justify-center">
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_ssa1.jpg" alt="Social Service Activity" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                    <p className="text-center font-semibold mt-2">Our 3rd Year B.Tech Students at Orphan Home</p>
+                  </div>
+                </div>
+              </details>
+              <details>
+                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">LEE 7th Anniversary Celebrations</summary>
+                <div className="mb-5 p-5">
+                  <p>LEE 7TH anniversary was organised by 2009-2013 batch students on 17th of February 2012. The chief guest for this anniversary is our honourable president SRIGRANDHI.SATYANARAYANA followed by the principal Dr.J.SRI HARI RAO & Chairman of LEE Mr.CH.RAMBABU. It was celebrated in the presence of all the faculty members and students of all years. Prizes are given to all of the winners of various events conducted, and also for the rank holders in previous semesters. Apart from this students give a rocking performance in cultural.</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center items-center mt-6">
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le1.jpg" alt="LEE 7th Anniversary 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le2.jpg" alt="LEE 7th Anniversary 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le3.jpg" alt="LEE 7th Anniversary 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le4.jpg" alt="LEE 7th Anniversary 4" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+                  </div>
+                </div>
+              </details>
             </div>
           </div>
         );

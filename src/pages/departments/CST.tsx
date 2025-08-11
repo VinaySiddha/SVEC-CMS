@@ -23,11 +23,12 @@ const CSTDepartment: React.FC = () => {
     { name: "Ms. M. Suneetha", qualification: "M.Tech", designation: "Asst.Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/CST_Ms.%20M.%20Sunnetha.pdf" },
     { name: "Ms. V. VenkataLakshmi", qualification: "M.Tech", designation: "Asst.Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/CST_Ms.%20V.%20VenkataLakshmi.pdf" },
     { name: "Mr. A. Niranjana Rao", qualification: "M.Tech", designation: "Asst.Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/CST_Mr.%20A.%20Niranjana%20Rao.pdf" },
+    { name: "Mrs. Ch. Naga Padma Latha", qualification: "M.Tech", designation: "Asst.Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CST_Mrs.%20Ch.%20N.%20P.%20Latha.pdf" },
+    { name: "Mr. B. Murali krishna", qualification: "M.Tech", designation: "Asst.Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CST_Mr. B. Murali Krishna.pdf" },
+    { name: "Mr. K. Sai Ektha Kumar Naidu", qualification: "M.Tech", designation: "Asst.Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CST_Mr. Kottagulli Sai Ektha Kumar Naidu_Faculty Web Profile.pdf" },
   ];
 
-  const nonTeachingFaculty = [
-    { name: "Ms. U.Devi Lakshmi", designation: "DEO" },
-    { name: "Mrs. K. Bhagya Sri", designation: "DEO" },
+  const TechnicalFaculty = [
     { name: "Mr. K.N. Suresh", designation: "System Admin" },
     { name: "Ms. BNG Lakshmi Durga", designation: "Programmer" },
     { name: "Mr. K.V Srinivasa Rao", designation: "Hardware Technician" },
@@ -39,11 +40,19 @@ const CSTDepartment: React.FC = () => {
     { name: "Mr. B. Abaddalu", designation: "Lab Technician" },
     { name: "Mr. S. Nagaraju", designation: "Programmer" },
     { name: "Mr. N Lokesh Babu", designation: "Lab Technician" },
+  ];
+
+  const nonTeachingFaculty = [
+    { name: "Ms. U.Devi Lakshmi", designation: "DEO" },
+    { name: "Mrs. K. Bhagya Sri", designation: "DEO" },
+
     { name: "Mr. D.Srinivasa Rao", designation: "Attender" },
     { name: "Mr. M.Siva Krishna", designation: "Attender" },
     { name: "Mrs. A.Sri Karuna Kumari", designation: "Attender" },
     { name: "Mr. V. Venkateswara Rao", designation: "Attender" },
+
   ];
+
 
   const renderContent = () => {
     switch (activeContent) {
@@ -105,6 +114,27 @@ const CSTDepartment: React.FC = () => {
               </table>
             </div>
 
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 mt-12 text-center">Technical Staff</h2>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left text-gray-500">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">S.No.</th>
+                    <th scope="col" className="px-6 py-3">Name</th>
+                    <th scope="col" className="px-6 py-3">Designation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {TechnicalFaculty.map((member, index) => (
+                    <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                      <td className="px-6 py-4">{index + 1}</td>
+                      <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                      <td className="px-6 py-4">{member.designation}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 mt-12 text-center">Non-Teaching Staff</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-500">
@@ -125,6 +155,94 @@ const CSTDepartment: React.FC = () => {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        );
+      case 'Handbooks':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Academic HandBooks</h2>
+            <div className="space-y-6">
+              <details open className="border rounded-lg p-4">
+                <summary className="text-lg font-semibold cursor-pointer">Academic year 2025-26: I-Sem HandBooks</summary>
+                <ul className="list-disc pl-6 my-2">
+                  <li>III Sem V23 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/CST_III SEM Handbook (1).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>V Sem V23 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/CST_V SEM Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VII Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/CST_VII SEM Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              <details className="border rounded-lg p-4">
+                <summary className="text-lg font-semibold cursor-pointer">Academic year 2024-25: II-Sem HandBooks</summary>
+                <ul className="list-disc pl-6 my-2">
+                  <li>IV Sem V23 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/2024-25_IV SEM Hand Book_CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VI Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CST_VI Semester Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              <details className="border rounded-lg p-4">
+                <summary className="text-lg font-semibold cursor-pointer">Academic year 2024-25: I-Sem HandBooks</summary>
+                <ul className="list-disc pl-6 my-2">
+                  <li>III Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/III  SEM (Autonomous) Handbook - CSTs.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>V Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/V SEM  Handbook_2024-25-CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VII Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VII SEM  Handbook_2024-25-CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              <details className="border rounded-lg p-4">
+                <summary className="text-lg font-semibold cursor-pointer">Academic year 2023-24: II-Sem HandBooks</summary>
+                <ul className="list-disc pl-6 my-2">
+                  <li>IV Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/2023-24_IV SEM Hand Book_CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VI Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VI Semester Handbook - CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              <details className="border rounded-lg p-4">
+                <summary className="text-lg font-semibold cursor-pointer">Academic year 2023-24: I-Sem HandBooks</summary>
+                <ul className="list-disc pl-6 my-2">
+                  <li>III Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/III  SEM (Autonomous) Handbook - CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>V Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/V SEM Handbook_V20 Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VII Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VII SEM V20 Regulation HandBook_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              <details className="border rounded-lg p-4">
+                <summary className="text-lg font-semibold cursor-pointer">Academic year 2022-23: II-Sem Handbooks</summary>
+                <ul className="list-disc pl-6 my-2">
+                  <li>IV Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/IV Sem V20 Regulation Handbook_CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VI Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VI Sem V20 Regulation Handbook_CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VIII Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VIII Sem V20 Regulation Handbook_CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              <details className="border rounded-lg p-4">
+                <summary className="text-lg font-semibold cursor-pointer">Academic year 2022-23: I-Sem Handbooks</summary>
+                <ul className="list-disc pl-6 my-2">
+                  <li>III Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/III SEM V20 Regulation Handbook (CST).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>V Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/V SEM CST V20(Autonomous) Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VII Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VII SEM CST V18(Autonomous) Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              <details className="border rounded-lg p-4">
+                <summary className="text-lg font-semibold cursor-pointer">Academic year 2021-22: II-Sem Handbooks</summary>
+                <ul className="list-disc pl-6 my-2">
+                  <li>IV Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/IV Semester.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>VI Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VI Semester Handbook 13-04-2022.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              <details className="border rounded-lg p-4">
+                <summary className="text-lg font-semibold cursor-pointer">Academic year 2021-22: I-Sem Handbooks</summary>
+                <ul className="list-disc pl-6 my-2">
+                  <li>III Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/III SEM CST V20 Regulation Handbook_2021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>V Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/V Sem Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              <details className="border rounded-lg p-4">
+                <summary className="text-lg font-semibold cursor-pointer">Academic year 2020-21: II-Sem Handbooks</summary>
+                <ul className="list-disc pl-6 my-2">
+                  <li>IV Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/IV SEM V18 Regulation HandBook_2020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
+              <details className="border rounded-lg p-4">
+                <summary className="text-lg font-semibold cursor-pointer">Academic year 2020-21: I-Sem Handbooks</summary>
+                <ul className="list-disc pl-6 my-2">
+                  <li>III Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst//III SEM V18 Regulation HandBook_2020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                </ul>
+              </details>
             </div>
           </div>
         );
@@ -175,6 +293,7 @@ const CSTDepartment: React.FC = () => {
           <main className="flex-1 min-w-0">
             {renderContent()}
           </main>
+
         </div>
       </div>
     </div>

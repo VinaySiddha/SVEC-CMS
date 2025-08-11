@@ -1,13 +1,13 @@
 
 import React, { useState } from 'react';
-import { Database, BookOpen, Award, ExternalLink, Menu, ChevronRight } from 'lucide-react';
+import { Database, BookOpen, Award, ExternalLink, Menu, ChevronRight, FileText } from 'lucide-react';
 
 const CSEDSDepartment: React.FC = () => {
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navItems = [
-    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Placements', 'Student Achievements'
+    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Physical Facilities', 'Placements', 'Student Achievements'
   ];
 
   const faculty = [

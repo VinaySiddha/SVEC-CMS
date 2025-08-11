@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Building, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll } from 'lucide-react';
 
@@ -34,6 +33,362 @@ const CivilDepartment: React.FC = () => {
 
   const renderContent = () => {
     switch (activeContent) {
+      case 'Placements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Placements</h2>
+            <div className="space-y-8">
+              <details open>
+                <summary className="font-semibold text-lg mb-2">Placements</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      Placements for Batch 2019-2023 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/placements_2022-23.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Placements for Batch 2018-2022 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/placements_2021-22.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Placements for Batch 2017-2021 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/placements_2020-21.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Placements for Batch 2016-2020 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/placements_2019-20.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Placements for Batch 2015-2019 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/placements_2018-19.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Student Achievements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Student Achievements</h2>
+            <div className="space-y-8">
+              <details open>
+                <summary className="font-semibold text-lg mb-2">Internships</summary>
+                <div className="ml-4">
+                  <ol className="list-decimal ml-6 space-y-2">
+                    <li>
+                      Internships during the Academic Year 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202022-2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2021-22 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202021-2022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2020-21 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202020-2021.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2019-20 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202019-2020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2018-19 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202018-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2016-17 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202016-2017.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2015-16 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202015-2016.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2014-15 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202014-2015.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ol>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Research Projects</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      B.Tech VIII Sem Project Details for the A.Y 2022-2023 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/B.Tech%20VIII%20Sem%20Project%20Details%202022-23%20(2019%20Batch.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      B.Tech VIII Sem Project Details for the A.Y 2021-2022 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/B.Tech%20VIII%20Sem%20Project%20Details%202021-2022%20(2018-2022%20Batch).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      B.Tech VIII Sem Project Details for the A.Y 2020-2021 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/B.Tech%20%20VIII%20Sem%20Project%20Details%20%202020-21(batch%202017-21).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      B.Tech VIII Sem Project Details for the A.Y 2019-2020 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/B.Tech%20%20VIII%20Sem%20Project%20Details%20%202019-20(batch%202016-20)%20-%20Copy.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      B.Tech VIII Sem Project Details for the A.Y 2018-2019 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/B.Tech%20%20VIII%20Sem%20Project%20Details%20%202018-19%20(Batch%202015-19).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Community Service Project</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      III Sem Community Service Project Guides Allocation for the A.Y 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/III%20SEM%20Community%20Service%20Project%20Guide%20Allocation%202022-23.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      V Sem Community Service Project Guides Allocation for the A.Y 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/V%20SEM%20Community%20Service%20Project%20Guide%20Allocation%202022-23.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Awards</summary>
+                <div className="text-gray-500 italic p-4">No data available.</div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">NPTEL/Other Certifications</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      Certifications during the A.Y 2019-20 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/NPTEL19CE41S613904189.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Certifications during the A.Y 2018-19 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Swayam%202018-19.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">HEI</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      HEI during the A. Y 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/civil%2022-23%20heis%20students%20list,attendance,circulars.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      HEI during the A. Y 2021-22 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/civil%2021-22%20heis%20dtudents%20list,attendance,circulars.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      HEI during the A. Y 2020-21 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/civil%2020-21%20heis%20students%20list,attendance,circulars.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      HEI during the A. Y 2019-20 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/civil%2019-20%20heis%20students%20list,attendance,circulars.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      HEI during the A. Y 2018-19 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/civil%2018-19%20heis%20students%20list,%20attendance,%20circulars.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Roll Of Honour</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      Roll of Honour List 2011-2019 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/ROLL%20OF%20HONOUR%20LIST%202011-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Other Programmes</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      SPECTRA 2K24 Celebrations -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/SPECTRA%202K24%20celebraions_3&4April23_CE%20dept.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      CADathon on Building Planning and Drawing using AUTO CAD -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/CADAthon_EVENT_14March24_CE%20dept.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Fresher's day celebration during the A. Y 2023-24 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Fresher's%20day%20celebraions_18Oct23_CE%20dept.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Engineer's day celebration during the A. Y 2023-24 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Engineers%20day%20celebraions_15Sep23_CE%20dept.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Teachers day celebration during the A. Y 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Teachers%20day%20celebraions_05Sep23_CE%20dept.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Faculty Achievements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Faculty Achievements</h2>
+            <div className="space-y-8">
+              <details open>
+                <summary className="font-semibold text-lg mb-2">Conferences</summary>
+                <div className="overflow-x-auto mt-4">
+                  <table className="w-full text-sm text-left border mb-4 table-auto">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="px-4 py-2">SNo</th>
+                        <th className="px-4 py-2">Name of the Faculty</th>
+                        <th className="px-4 py-2">Title of the Paper</th>
+                        <th className="px-4 py-2">Name of the Conference</th>
+                        <th className="px-4 py-2">Venue</th>
+                        <th className="px-4 py-2">Year</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td className="px-4 py-2">1</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Simplified model of existing intercity public transportation</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                      <tr><td className="px-4 py-2">2</td><td className="px-4 py-2">L.Vyshnavi Sai</td><td className="px-4 py-2">Simplified model of existing intercity public transportation</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                      <tr><td className="px-4 py-2">3</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Silty soil stabilization using bituminous emulsion</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                      <tr><td className="px-4 py-2">4</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Stabilization of black cotton soil using jindal global road stabilizer</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                      <tr><td className="px-4 py-2">5</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">Integrated landuse transportation over view</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                      <tr><td className="px-4 py-2">6</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">A study of speed breakers and vehicle operating cost</td><td className="px-4 py-2">Recent research advances in civil engineering</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">8-NOV-2014</td></tr>
+                      <tr><td className="px-4 py-2">7</td><td className="px-4 py-2">T.Yeswanth Sai</td><td className="px-4 py-2">Retempering of concrete structures</td><td className="px-4 py-2">ICBCCE(TROI)</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">6-DEC-2015</td></tr>
+                      <tr><td className="px-4 py-2">8</td><td className="px-4 py-2">S.Sriram pradeep</td><td className="px-4 py-2">Mechanical properties of coconut shell concrete using quarry dust</td><td className="px-4 py-2">Internationsl Of Earth Sciences And Engineering</td><td className="px-4 py-2">Tamil Nadu</td><td className="px-4 py-2">24-MAR-2015</td></tr>
+                      <tr><td className="px-4 py-2">9</td><td className="px-4 py-2">G.Radha krishnan</td><td className="px-4 py-2">Model Study on cyclic loading responses of lexible Pavement System laid on Expansive Subgrade</td><td className="px-4 py-2">IIT Madras</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">2016</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">International Conferences</summary>
+                <div className="overflow-x-auto mt-4">
+                  <table className="w-full text-sm text-left border mb-4 table-auto">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="px-4 py-2">SNo</th>
+                        <th className="px-4 py-2">Name of the Faculty</th>
+                        <th className="px-4 py-2">Title of the Paper</th>
+                        <th className="px-4 py-2">Name of the Conference</th>
+                        <th className="px-4 py-2">Venue</th>
+                        <th className="px-4 py-2">Year</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td className="px-4 py-2">1</td><td className="px-4 py-2">M.Sambasivarao</td><td className="px-4 py-2">Retempering of concrete structures</td><td className="px-4 py-2">ICBCCE(TROI)</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">6-DEC-2015</td></tr>
+                      <tr><td className="px-4 py-2">2</td><td className="px-4 py-2">T.Yeswanthi</td><td className="px-4 py-2">Retempering of concrete structures</td><td className="px-4 py-2">ICBCCE(TROI)</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">6-DEC-2015</td></tr>
+                      <tr><td className="px-4 py-2">3</td><td className="px-4 py-2">A.Venkata Krishna</td><td className="px-4 py-2">An Experiment Analysis Of Using Melt Processed Plastic Pellet In Porous Concrete By Partially replacing Fine Aggregates</td><td className="px-4 py-2">ICBCCE</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
+                      <tr><td className="px-4 py-2">4</td><td className="px-4 py-2">A.Venkata Krishna</td><td className="px-4 py-2">A Methodical Literature Review on Nano Applications in Civil Engineering</td><td className="px-4 py-2">ICNM</td><td className="px-4 py-2">Kerala</td><td className="px-4 py-2">10-02-1017</td></tr>
+                      <tr><td className="px-4 py-2">5</td><td className="px-4 py-2">Dr.V.V.V.Prabhakara Rao</td><td className="px-4 py-2">A Methodical Literature Review on Nano Applications in Civil Engineering</td><td className="px-4 py-2">ICNM</td><td className="px-4 py-2">Kerala</td><td className="px-4 py-2">10-02-1017</td></tr>
+                      <tr><td className="px-4 py-2">6</td><td className="px-4 py-2">M.Sambasiva Rao</td><td className="px-4 py-2">A Methodical Literature Review on Nano Applications in Civil Engineering</td><td className="px-4 py-2">ICNM</td><td className="px-4 py-2">Kerala</td><td className="px-4 py-2">10-02-1017</td></tr>
+                      <tr><td className="px-4 py-2">7</td><td className="px-4 py-2">K.Chandrika</td><td className="px-4 py-2">An Experimental Analysis on usage potential of lateritic soils as part/Full Replacement for fine aggregates in Concrete</td><td className="px-4 py-2">ICBCCE</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
+                      <tr><td className="px-4 py-2">8</td><td className="px-4 py-2">T.Yeswanthi Sai</td><td className="px-4 py-2">An Experimental Analysis Of Using Melt Processed Plastic Pellets In Porous Concrete By Partially Replacing Fine Aggregates</td><td className="px-4 py-2">ICBCCE</td><td className="px-4 py-2">Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
+                      <tr><td className="px-4 py-2">9</td><td className="px-4 py-2">G.V.L.N.Murthy</td><td className="px-4 py-2">An Experimental Analysis on usage potential of lateritic soils as part/Full Replacement for fine aggregates in Concrete</td><td className="px-4 py-2">IIT Madras</td><td className="px-4 py-2">Osmania University Hyderabad</td><td className="px-4 py-2">22-01-2017</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">International Journals</summary>
+                <div className="text-gray-500 italic p-4">No data available.</div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Patents</summary>
+                <div className="text-gray-500 italic p-4">No data available.</div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Awards</summary>
+                <div className="text-gray-500 italic p-4">No data available.</div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Memberships</summary>
+                <div className="text-gray-500 italic p-4">No data available.</div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">NPTEL</summary>
+                <div className="text-gray-500 italic p-4">No data available.</div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Faculty Outreach</summary>
+                <div className="text-gray-500 italic p-4">No data available.</div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Funded Projects,FDP's</summary>
+                <div className="text-gray-500 italic p-4">No data available.</div>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Department Library':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">LIBRARY</h2>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+              {/* Image on the left */}
+              <div className="md:w-1/2 flex justify-center">
+                <img
+                  src="/images/departments/ce/cse-lib.jpg"
+                  alt="Faculty Incharge"
+                  className="rounded-lg shadow-lg mb-4 max-h-96 object-contain"
+                  style={{ height: '100%' }}
+                />
+              </div>
+              {/* Paragraph content on the right */}
+              <div className="md:w-1/2">
+                <p className="text-lg font-sans">
+                  Department Library offers a variety of books related to Civil Engineering. Reference books of various subjects are procured. Various Competitive Books are available to satisfy the thirst of the students. Books are issued to students and staff. Students can access the Library facility according to their convenience any time round-the-clock.
+                </p>
+              </div>
+            </div>
+            {/* Table below the image and paragraph content */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+              <div className="bg-white rounded-lg shadow border">
+                <div className="bg-[#850209] text-white rounded-t-lg py-2">
+                  <h5 className="mb-0 text-center text-lg font-semibold">No. of Titles</h5>
+                </div>
+                <div className="py-4">
+                  <p className="text-red-600 font-bold text-center text-xl">244</p>
+                </div>
+              </div>
+              <div className="bg-white rounded-lg shadow border">
+                <div className="bg-green-600 text-white rounded-t-lg py-2">
+                  <h5 className="mb-0 text-center text-lg font-semibold">No. of Volumes</h5>
+                </div>
+                <div className="py-4">
+                  <p className="text-green-600 font-bold text-center text-xl">352</p>
+                </div>
+              </div>
+            </div>
+            {/* Faculty Incharge Details */}
+            <div className="flex flex-col items-center mt-8">
+              <h3 className="text-xl font-bold text-center">Faculty Incharge</h3>
+              <p className="mt-4 text-lg">Mr. M.Prem Kumar Raju, Asst. Professor</p>
+            </div>
+          </div>
+        );
+      case 'R&D':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">R&amp;D</h2>
+            <p className="text-lg p-4">
+              Science and Engineering Research Board, Department of Science &amp; Technology, Government of India, New Delhi Sponsored A Two Day National Workshop on "Nano Applications in Civil Engineering" on 12th &amp; 13th April, 2017
+            </p>
+          </div>
+        );
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -62,7 +417,6 @@ const CivilDepartment: React.FC = () => {
             </div>
           </div>
         );
-
       case 'Faculty Profiles':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -113,6 +467,518 @@ const CivilDepartment: React.FC = () => {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        );
+      case 'Board of Studies':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
+            <details open>
+              <summary className="font-semibold text-lg mb-2">Board Of Studies</summary>
+              <div className="mt-4">
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Minutes of 6th meeting of the Board of Studies, dated 20.07.2024 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/6TH BOS Meeting Minutes & Notes V23 Civil Engg, SVEC.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Minutes of 5th meeting of the Board of Studies, dated 20.08.2022 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/FIFTH%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Minutes of 4th meeting of the Board of Studies, dated 30.08.2021 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/FOURTH%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Minutes of 3rd meeting of the Board of Studies, dated 30.06.2020 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/THIRD%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Minutes of 2nd meeting of the Board of Studies, dated 20.04.2019 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/SECONED%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Minutes of 1st meeting of the Board of Studies, dated 06.06.2018 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/FIRST%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        );
+      case 'Physical Facilities':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
+            <div className="space-y-6">
+              <details open>
+                <summary className="font-semibold text-lg mb-2">Class Time Tables</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Civil_Master Timetable_A.Y for Sem-VIII 2022-23 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20VIII%20SEM(V18)%20TIMETABLE%20%20W.E.F%20-%2026.12.2022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Civil_Master Timetable_A.Y for Sem-VI 2022-23 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20VI%20SEM(V20)%20TIMETABLE%20%20W.E.F%20-%2027.02.2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Civil_Master Timetable_A.Y for Sem-II 2021-22 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20IV%20SEM(V20)%20TIMETABLE%20%20W.E.F%2027.02.2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Class Rooms</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Class Rooms with ICT Enabled Facilities -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/CE_Classrooms.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Laboratories</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>Strength of Materials Lab</li>
+                  <li>CAD & GSI Lab</li>
+                  <li>Concrete Technology Lab</li>
+                  <li>Engineering Geology Lab</li>
+                  <li>Surveying Lab</li>
+                  <li>Fluid Mechanics and Hydraulic Machinery Lab</li>
+                  <li>Water and Waste Water Engineering Lab</li>
+                  <li>Advanced Structural Engineering Lab</li>
+                  <li>Geotechnical Engineering Lab</li>
+                  <li>Transportation Engineering Lab</li>
+                </ul>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                  <div>
+                    <img src="/images/departments/ce/civil_adslab.jpg" alt="Strength of Materials Lab" className="w-full rounded-lg shadow" />
+                    <h4 className="text-center my-3 text-success">Strength of Materials Lab</h4>
+                  </div>
+                  <div>
+                    <img src="/images/departments/ce/civil_cadlab.jpg" alt="CAD & GIS Lab" className="w-full rounded-lg shadow" />
+                    <h4 className="text-center my-3 text-success">CAD & GIS Lab</h4>
+                  </div>
+                  <div>
+                    <img src="/images/departments/ce/civil_ctlab.jpg" alt="Concrete Technology Lab" className="w-full rounded-lg shadow" />
+                    <h4 className="text-center my-3 text-success">Concrete Technology Lab</h4>
+                  </div>
+                  <div>
+                    <img src="/images/departments/ce/civil_gtlab.jpg" alt="Engineering Geology Lab" className="w-full rounded-lg shadow" />
+                    <h4 className="text-center my-3 text-success">Engineering Geology Lab</h4>
+                  </div>
+                  <div>
+                    <img src="/images/departments/ce/civil_sllab.jpg" alt="Surveying Lab" className="w-full rounded-lg shadow" />
+                    <h4 className="text-center my-3 text-success">Surveying Lab</h4>
+                  </div>
+                  <div>
+                    <img src="/images/departments/ce/civil_fmlab.jpg" alt="Fluid Mechanics & Hydraulic Machinery Lab" className="w-full rounded-lg shadow" />
+                    <h4 className="text-center my-3 text-success">Fluid Mechanics & Hydraulic Machinery Lab</h4>
+                  </div>
+                  <div>
+                    <img src="/images/departments/ce/civil_waterlab.jpg" alt="Waste Water Engineering Lab" className="w-full rounded-lg shadow" />
+                    <h4 className="text-center my-3 text-success">Waste Water Engineering Lab</h4>
+                  </div>
+                  <div>
+                    <img src="/images/departments/ce/civil_adslab.jpg" alt="Advanced Structural Engineering Lab" className="w-full rounded-lg shadow" />
+                    <h4 className="text-center my-3 text-success">Advanced Structural Engineering Lab</h4>
+                  </div>
+                  <div>
+                    <img src="/images/departments/ce/civil_geolab.jpg" alt="Geotechnical Engineering Lab" className="w-full rounded-lg shadow" />
+                    <h4 className="text-center my-3 text-success">Geotechnical Engineering Lab</h4>
+                  </div>
+                  <div>
+                    <img src="/images/departments/ce/civil_telab.jpg" alt="Transportation Engineering Lab" className="w-full rounded-lg shadow" />
+                    <h4 className="text-center my-3 text-success">Transportation Engineering Lab</h4>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Workshops':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Workshops / Guest Lectures / Field Visits</h2>
+            <div className="space-y-6">
+              <details open>
+                <summary className="font-semibold text-lg mb-2">Workshops</summary>
+                <div className="ml-4">
+                  <ol className="list-decimal ml-6 space-y-2">
+                    <li>
+                      Workshops organized during the Academic Year 2023-2024 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202023-24.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2022-2023 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202022-2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2021-2022 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202021-2022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2019-2020 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202019-2020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2018-2019 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202018-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2017-2018 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202017-2018.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2016-2017 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202016-2017.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2015-2016 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202015-2016.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2014-2015 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202014-2015.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ol>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Guest Lectures</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      Guest Lecture organized during the Academic Year 2023-2024 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20year%202023-2024.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2020-2021 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202020-2021.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2019-2020 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202019-2020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2018-2019 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202018-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2017-2018 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202017-2018.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2016-2017 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202016-2017.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2015-2016 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202015-2016.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2014-2015 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202014-2015.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Field Visits</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      Field Visits during the A. Y 2023-24 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%20during%20the%20Academic%20Year%202023-2024.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202019-2020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2019-20 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202022-2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2018-19 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202018-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2017-18 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202017-2018.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2016-17 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202016-2017.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2015-16 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202015-2016.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2014-15 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202014-2015.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">SOC</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      SOC conducted during the A. Y 2023-24 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Skill%20Oriented%20Course.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Technical Association':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Technical Association</h2>
+            <div className="space-y-8">
+              <p className="text-lg mb-4">
+                In this institution, INSTITUTION OF ENGINEERING (INDIA) students' chapter was opened in Civil Engineering Department in the year 2017 with 117 student members. It is promoting co-operation amongst students and faculty for advancement and dissemination of knowledge in the field of Civil Engineering. The IE students' chapter committee constitutes the following members:
+              </p>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left border mb-4 table-auto">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-2 w-1/3">Designation</th>
+                      <th className="px-4 py-2">Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="px-4 py-2">Members</td>
+                      <td className="px-4 py-2">
+                        1. K.J.Ganapathi<br />
+                        2. N.G.Lokesh<br />
+                        3. T.Teja<br />
+                        4. Y.Harika
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-6">
+                <img
+                  src="/images/departments/ce/civil_ie_img2.jpg"
+                  alt="IEI Event 1"
+                  className="rounded-lg shadow-lg mb-4 max-w-xs object-contain"
+                  style={{ height: '100%' }}
+                />
+                <img
+                  src="/images/departments/ce/civil_ie_img3.jpg"
+                  alt="IEI Event 2"
+                  className="rounded-lg shadow-lg mb-4 max-w-xs object-contain"
+                  style={{ height: '100%' }}
+                />
+              </div>
+            </div>
+          </div>
+        );
+      case 'Newsletters':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Newsletters</h2>
+            <div className="space-y-6">
+              <details open>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue December 2022</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue December 2022 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/DECEMBER%202022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue June 2022</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue June 2022 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/JUNE%202022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue December 2021</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue December 2021 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/DECEMBER%202021.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue June 2021</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue June 2021 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/JUNE%202021.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue December 2020</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue December 2020 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/DECEMBER%202020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue June 2020</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue June 2020 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/JUNE%202020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue December 2019</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue December 2019 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/DECEMBER%202019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue June 2019</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue June 2019 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/JUNE%202019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+            </div>
+            <h2 className="text-3xl font-bold text-[#850209] mt-12 mb-6 text-center">Technical Magazines</h2>
+            <div className="space-y-6">
+              <details open>
+                <summary className="font-semibold text-lg mb-2">Technical Magazine</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Technical Magazine -{' '}
+                    <a href="#" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Extra-Curricular Activities':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Extra-Curricular Activities</h2>
+            <div className="space-y-6">
+              <ul className="list-disc ml-6 space-y-4 text-center">
+                <li>
+                  Extracurricular activities during the Year 2018-19 -{' '}
+                  <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/Extra_curricular_activities.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                </li>
+                <li>
+                  Extracurricular activities during the Year 2017-18 -{' '}
+                  <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/ENGINEERS%20DAY(2017-2018).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        );
+      case 'Consultancy':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Consultancy</h2>
+            <div className="space-y-6">
+              <ul className="list-disc ml-6 space-y-4">
+                <li>
+                  Consultancy Details for the Academic year 2022-2023 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202022-2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Consultancy Details for the Academic year 2021-2022 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202021-2022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Consultancy Details for the Academic year 2020-2021 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202020-2021.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Consultancy Details for the Academic year 2019-2020 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202019-2020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Consultancy Details for the Academic year 2018-2019 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202018-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Consultancy Details for the Academic year 2017-2018 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202017-2018.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Consultancy Details for the Academic year 2016-2017 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202016-2017.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Consultancy Details for the Academic year 2015-2016 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202015-2016.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Consultancy Details for the Academic year 2014-2015 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202014-2015.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+                <li>
+                  Consultancy Details for the Academic year 2013-2014 -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        );
+      case 'Syllabus':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Syllabus</h2>
+            <div className="space-y-8">
+              <details open>
+                <summary className="font-semibold text-lg mb-2">B.Tech</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      B.Tech - V20 Syllabus -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/V20%20B.TECH%20COURSE%20STRUCTURE%20AND%20SYLLABUS.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      B.Tech - V18 Syllabus -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/V18%20B.TECH%20COURSE%20STRUCTURE%20AND%20SYLLABUS.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">M.TECH(CS)</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      M.Tech - V21 Syllabus -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/V21%20M.TECH%20COURSE%20STRUCTURE%20AND%20SYLLABUS.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      M.Tech - V18 Syllabus -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/V18%20M.TECH%20COURSE%20STRUCTURE%20AND%20SYLLABUS.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
             </div>
           </div>
         );

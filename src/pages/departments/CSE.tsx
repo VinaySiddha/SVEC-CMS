@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll } from 'lucide-react';
 
@@ -226,6 +225,48 @@ const CSEDepartment: React.FC = () => {
             </ul>
           </div>
         );
+      case 'Department Library':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">LIBRARY</h2>
+            <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
+              {/* Image on the left */}
+              <img
+                src="/images/departments/cse/cse-lib.jpg"
+                alt="Faculty Incharge"
+                className="w-full md:w-1/2 h-80 object-cover rounded-lg shadow-md mb-4 md:mb-0"
+              />
+              {/* Paragraph content on the right */}
+              <div className="md:w-1/2">
+                <p className="text-gray-700 text-lg text-justify">
+                  Department Library offers a variety of books related to Computer Science and Basic Science subjects. Reference books of various subjects are procured. Various Competitive Books are available to satisfy the thirst of the students. Books are issued to students and staff. Students can access the Library facility according to their convenience any time round-the-clock.
+                </p>
+              </div>
+            </div>
+            {/* Stats cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
+                <h5 className="text-lg font-semibold text-center text-[#B22222] mb-2">No. of Titles</h5>
+                <p className="text-2xl font-bold text-red-600 text-center">455</p>
+              </div>
+              <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
+                <h5 className="text-lg font-semibold text-center text-green-700 mb-2">No. of Volumes</h5>
+                <p className="text-2xl font-bold text-green-600 text-center">684</p>
+              </div>
+            </div>
+            {/* Faculty Incharge Details */}
+            <div className="flex flex-col items-center">
+              <h3 className="text-xl font-bold text-[#B22222] mb-2">Faculty Incharge</h3>
+              <ul className="text-center space-y-1">
+                <li className="text-lg font-medium">Mrs. A. Naga Jyothi, Asst. Professor</li>
+                <li className="text-lg">Phone: 08818-284355</li>
+                <li className="text-lg">
+                  E-mail: <a href="mailto:nagajyothi.cse@srivasaviengg.ac.in" className="text-blue-600 hover:underline">nagajyothi.cse@srivasaviengg.ac.in</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        );
       default:
         return (
           <div className="py-6">
@@ -322,6 +363,65 @@ const CSEDepartment: React.FC = () => {
             </div>
           </div>
         );
+
+
+      case 'Faculty Development Programs':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Development Programs</h2>
+            <div className="section mb-6">
+              <details open>
+                <summary className="text-lg font-semibold text-[#B22222]">FDP Attended</summary>
+                <ul className="my-2 space-y-2">
+                  <li className="fdp-item">FDPs attended by the Faculty 2024-25 - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_FDPs%20in%20A.Y%202024-2025.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                  <li className="fdp-item">FDPs attended by the Faculty 2023-24 - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/FDP%20Attended%20by%20the%20faculty%20during%20the%20Academic%20year%202023-2024.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                  <li className="fdp-item">FDPs attended by the Faculty 2022-23 - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/FDP%20Attended%20by%20the%20faculty%20during%20the%20Academic%20year%202022-2023.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                  <li className="fdp-item">FDPs attended by the Faculty 2021-22 - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/FDP%20Attended%20by%20the%20faculty%20during%20the%20Academic%20year%202021-2022.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                  <li className="fdp-item">FDPs attended by the Faculty 2020-21 - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/cse_FDPS%20Attended%20by%20the%20faculty%202020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                  <li className="fdp-item">FDPs attended by the Faculty 2019-20 - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/cse_FDPS%20Attended%20by%20the%20faculty%202019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                  <li className="fdp-item">FDPs attended by the Faculty 2018-19 - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/cse%202018-2019%20fdp's.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                  <li className="fdp-item">FDPs attended by the Faculty 2017-18 - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/fdp-2017-2018.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                  <li className="fdp-item">FDPs attended by the Faculty 2016-17 - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/fdp-2016-2017.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                  <li className="fdp-item">FDPs attended by the Faculty 2015-16 - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/fdp-2015-2016.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                  <li className="fdp-item">FDPs attended by the Faculty 2014-15 - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/fdp-2014-2015.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                </ul>
+              </details>
+            </div>
+            <div className="nav-content mb-6">
+              <details>
+                <summary className="text-lg font-semibold text-[#B22222]">FDPs/ Workshops/ Training Programmes Conducted</summary>
+                <ul className="my-2 space-y-2">
+                  <li className="fdp-item">FDPs conducted by the Department to the Faculty - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/cse_FDPSconducted%20by%20the%20facultys.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
+                </ul>
+              </details>
+            </div>
+            <div className="nav-content mt-8">
+              <details>
+                <summary className="text-lg font-semibold text-[#B22222]">Gallery</summary>
+                <div className="container mx-auto">
+                  <div className="flex flex-wrap justify-center items-center">
+                    <div className="w-full md:w-1/2 lg:w-1/4 p-3">
+                      <img src="/images/departments/cse/fdp_25_26.jpg" alt="FDP 2024-25" className="rounded-lg shadow-md w-full h-auto" />
+                    </div>
+                    <div className="w-full md:w-1/2 lg:w-1/4 p-3">
+                      <img src="/images/departments/cse/FDP-2022-09-13-16.jpg" alt="FDP 2022-09-13-16" className="rounded-lg shadow-md w-full h-auto" />
+                    </div>
+                    <div className="w-full md:w-1/2 lg:w-1/4 p-3">
+                      <img src="/images/departments/cse/FDP-2022-09-13.jpg" alt="FDP 2022-09-13" className="rounded-lg shadow-md w-full h-auto" />
+                    </div>
+                    <div className="w-full md:w-1/2 lg:w-1/4 p-3">
+                      <img src="/images/departments/cse/FDP-2022-10-01-17.jpg" alt="FDP 2022-10-01-17" className="rounded-lg shadow-md w-full h-auto" />
+                    </div>
+                    <div className="w-full md:w-1/2 lg:w-1/4 p-3">
+                      <img src="/images/departments/cse/FDP-2022100117.jpg" alt="FDP 2022100117" className="rounded-lg shadow-md w-full h-auto" />
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }

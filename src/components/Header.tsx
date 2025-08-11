@@ -149,7 +149,7 @@ const Header: React.FC = () => {
 
   // More dropdown items - organized and consistent with other dropdowns
   const moreDropdownItems = [
-    { name: 'Grievance Portal', path: '/grievance' },
+    { name: 'Grievance Portal', path: 'https://srivasaviengg.ac.in/grievance' },
     { name: 'NAAC Accreditation', path: '/naac' },
     { name: 'Research & Development', path: '/r-and-d' },
     { name: 'Campus Life', path: '/campus-life' },
