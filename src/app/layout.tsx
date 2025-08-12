@@ -25,7 +25,9 @@ export default function RootLayout(props: {
         <main className="flex-grow bg-secondary/50">
           {props.children}
         </main>
+        
         <Footer />
+
         <FloatingChatWidgets />
       </body>
     </html>

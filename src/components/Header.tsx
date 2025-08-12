@@ -152,7 +152,7 @@ const Header: React.FC = () => {
     { name: 'Grievance Portal', path: 'https://srivasaviengg.ac.in/grievance' },
     { name: 'NAAC Accreditation', path: '/naac' },
     { name: 'Research & Development', path: '/r-and-d' },
-    { name: 'Campus Life', path: '/campus-life' },
+    { name: 'Campus Life', path: '/CampusLife' },
     { name: 'Student Activities', path: '/student-activities' },
     { name: 'Sports & Recreation', path: '/sports' },
     {
