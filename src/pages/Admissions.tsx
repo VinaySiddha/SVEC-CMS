@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FileText, CheckCircle, Users, Clock, ChevronRight } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { useCountUp } from '../hooks/useCountUp';
+import AnimatedSection from '../components/AnimatedSection';
+import SmoothLink from '../components/SmoothLink';
 
 const Admissions: React.FC = () => {
   // Animation states

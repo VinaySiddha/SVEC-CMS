@@ -15,6 +15,8 @@ import * as LucideIcons from 'lucide-react';
 import { AnimatedStat } from '@/components/AnimatedStat';
 import { getHomePageContent } from '@/services/contentService';
 import content from '@/content/home.json';
+import AnimatedSection from '@/components/AnimatedSection';
+import SmoothLink from '@/components/SmoothLink';
 
 type QuickLink = {
   title: string;
@@ -62,7 +64,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="bg-background text-foreground">
+    <div className="bg-background text-foreground"> 
 
       {/* VIDEO HERO BANNER */}
       <section className="relative w-full h-screen flex items-center justify-center overflow-hidden -mt-4">
@@ -98,26 +100,26 @@ const Home: React.FC = () => {
             Shaping the future through innovation, research, and strong industry connect since 1999.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
+            <SmoothLink
               href="/admissions"
-              className="bg-primary text-primary-foreground px-8 py-3 rounded-md font-semibold hover:bg-primary/90 transition-transform transform hover:scale-105"
+              className="bg-primary text-primary-foreground px-8 py-3 rounded-md font-semibold hover:bg-primary/90 transition-transform transform hover:scale-105 no-underline"
             >
               Apply Now
-            </Link>
-            <Link
+            </SmoothLink>
+            <SmoothLink
               href="/about"
-              className="border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-primary transition-colors"
+              className="border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-primary transition-colors no-underline"
             >
               Learn More
-            </Link>
+            </SmoothLink>
           </div>
         </div>
       </section>
 
       {/* A Meaningful College Section */}
-      <section className="py-16 bg-gradient-to-b from-white to-secondary/30 overflow-hidden transition-all duration-300 hover:bg-gradient-to-b hover:from-white hover:to-secondary/50">
+      <AnimatedSection animation="fadeInUp" className="py-16 bg-gradient-to-b from-white to-secondary/30 overflow-hidden transition-all duration-300 hover:bg-gradient-to-b hover:from-white hover:to-secondary/50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12 relative group">
+          <AnimatedSection animation="fadeInUp" delay={200} className="text-center mb-12 relative group">
             {/* Decorative elements with animations */}
             <div className="absolute -left-20 top-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-700 group-hover:scale-125"></div>
             <div className="absolute -right-20 bottom-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-700 group-hover:scale-125"></div>
@@ -162,88 +164,89 @@ const Home: React.FC = () => {
                 make significant contributions to society.
               </p>
             </div>
+          </AnimatedSection>
+        </div>
+
+        <div className="max-w-5xl mx-auto mt-16 transition-all duration-500">
+          <div className="text-center mb-10 animate-fade-up group transition-transform duration-500 hover:scale-105" style={{ animationDelay: '0.4s' }}>
+            <h3 className="text-xl md:text-2xl font-semibold text-primary mb-3 group-hover:-translate-y-1 transition-all duration-300">Our Accreditations & Affiliations</h3>
+            <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">Recognized for our commitment to quality education and excellence</p>
+            <div className="w-16 h-0.5 bg-primary/50 mx-auto mt-4 group-hover:w-24 transition-all duration-500"></div>
           </div>
 
-          <div className="max-w-5xl mx-auto mt-16 transition-all duration-500">
-            <div className="text-center mb-10 animate-fade-up group transition-transform duration-500 hover:scale-105" style={{ animationDelay: '0.4s' }}>
-              <h3 className="text-xl md:text-2xl font-semibold text-primary mb-3 group-hover:-translate-y-1 transition-all duration-300">Our Accreditations & Affiliations</h3>
-              <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">Recognized for our commitment to quality education and excellence</p>
-              <div className="w-16 h-0.5 bg-primary/50 mx-auto mt-4 group-hover:w-24 transition-all duration-500"></div>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8 mt-10">
+            {[
+              { logo: "/a_logo/aicte.png", name: "AICTE", alt: "AICTE Logo", delay: "0.5s", subtitle: "Approved Institution" },
+              { logo: "/a_logo/jntuk.png", name: "JNTUK", alt: "JNTUK Logo", delay: "0.6s", subtitle: "University Affiliated" },
+              { logo: "/a_logo/nba.png", name: "NBA", alt: "NBA Logo", delay: "0.7s", subtitle: "Accredited Programs" },
+              { logo: "/a_logo/naac.png", name: "NAAC A", alt: "NAAC A Grade Logo", delay: "0.8s", subtitle: "A Grade Institution" },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="relative bg-white p-6 md:p-8 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-500 ease-out flex flex-col items-center justify-center animate-fade-up group cursor-pointer overflow-hidden"
+                style={{
+                  animationDelay: item.delay,
+                  transform: "perspective(1000px)"
+                }}
+                onMouseMove={(e) => {
+                  const card = e.currentTarget;
+                  const rect = card.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const y = e.clientY - rect.top;
+                  const centerX = rect.width / 2;
+                  const centerY = rect.height / 2;
+                  const rotateX = (y - centerY) / 20;
+                  const rotateY = (centerX - x) / 20;
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8 mt-10">
-              {[
-                { logo: "/a_logo/aicte.png", name: "AICTE", alt: "AICTE Logo", delay: "0.5s", subtitle: "Approved Institution" },
-                { logo: "/a_logo/jntuk.png", name: "JNTUK", alt: "JNTUK Logo", delay: "0.6s", subtitle: "University Affiliated" },
-                { logo: "/a_logo/nba.png", name: "NBA", alt: "NBA Logo", delay: "0.7s", subtitle: "Accredited Programs" },
-                { logo: "/a_logo/naac.png", name: "NAAC A", alt: "NAAC A Grade Logo", delay: "0.8s", subtitle: "A Grade Institution" },
-              ].map((item, index) => (
-                <div
-                  key={index}
-                  className="relative bg-white p-6 md:p-8 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-500 ease-out flex flex-col items-center justify-center animate-fade-up group cursor-pointer overflow-hidden"
-                  style={{
-                    animationDelay: item.delay,
-                    transform: "perspective(1000px)"
-                  }}
-                  onMouseMove={(e) => {
-                    const card = e.currentTarget;
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const rotateX = (y - centerY) / 20;
-                    const rotateY = (centerX - x) / 20;
+                  card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = `perspective(1000px)`;
+                }}
+              >
+                {/* Glow effect on hover */}
+                <div className="absolute inset-0 bg-primary/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 group-hover:blur-lg"></div>
 
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = `perspective(1000px)`;
-                  }}
-                >
-                  {/* Glow effect on hover */}
-                  <div className="absolute inset-0 bg-primary/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 group-hover:blur-lg"></div>
+                {/* Moving spotlight effect removed to prevent background movement */}
 
-                  {/* Moving spotlight effect removed to prevent background movement */}
+                <div className="relative w-20 h-20 mb-5 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-translate-y-2">
+                  {/* Pulsing background circle */}
+                  <div className="absolute inset-0 bg-primary/10 rounded-full animate-pulse-slow group-hover:bg-primary/20 transition-colors duration-500"></div>
 
-                  <div className="relative w-20 h-20 mb-5 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-translate-y-2">
-                    {/* Pulsing background circle */}
-                    <div className="absolute inset-0 bg-primary/10 rounded-full animate-pulse-slow group-hover:bg-primary/20 transition-colors duration-500"></div>
+                  {/* Logo container */}
+                  <div className="absolute inset-1 bg-white rounded-full flex items-center justify-center overflow-hidden">
+                    {/* Subtle background pattern */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700"
+                      style={{ backgroundImage: "radial-gradient(circle at center, #4338ca 1px, transparent 1px)", backgroundSize: "8px 8px" }}></div>
 
-                    {/* Logo container */}
-                    <div className="absolute inset-1 bg-white rounded-full flex items-center justify-center overflow-hidden">
-                      {/* Subtle background pattern */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700"
-                        style={{ backgroundImage: "radial-gradient(circle at center, #4338ca 1px, transparent 1px)", backgroundSize: "8px 8px" }}></div>
+                    {/* Logo image */}
+                    <img
+                      src={item.logo}
+                      alt={item.alt}
+                      className="w-16 h-16 object-contain group-hover:scale-110 transition-transform duration-500 relative z-10"
+                    />
 
-                      {/* Logo image */}
-                      <img
-                        src={item.logo}
-                        alt={item.alt}
-                        className="w-16 h-16 object-contain group-hover:scale-110 transition-transform duration-500 relative z-10"
-                      />
-
-                      {/* Subtle shine effect on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
-                    </div>
-
-                    {/* Animated rings on hover */}
-                    <div className="absolute inset-0 border-2 border-primary/0 rounded-full group-hover:border-primary/20 group-hover:scale-110 transition-all duration-700 ease-out"></div>
-                    <div className="absolute inset-0 scale-110 border border-primary/0 rounded-full group-hover:border-primary/10 group-hover:scale-125 transition-all duration-1000 ease-out"></div>
-                    <div className="absolute inset-0 scale-125 border border-primary/0 rounded-full group-hover:border-primary/5 group-hover:scale-150 transition-all duration-1500 ease-out"></div>
+                    {/* Subtle shine effect on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
                   </div>
 
-                  <h3 className="font-bold text-center text-lg group-hover:text-primary transition-colors duration-300 relative z-10">{item.name}</h3>
-                  {item.subtitle && <p className="text-xs text-muted-foreground mt-1 group-hover:text-primary/70 transition-colors duration-300 relative z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">{item.subtitle}</p>}
+                  {/* Animated rings on hover */}
+                  <div className="absolute inset-0 border-2 border-primary/0 rounded-full group-hover:border-primary/20 group-hover:scale-110 transition-all duration-700 ease-out"></div>
+                  <div className="absolute inset-0 scale-110 border border-primary/0 rounded-full group-hover:border-primary/10 group-hover:scale-125 transition-all duration-1000 ease-out"></div>
+                  <div className="absolute inset-0 scale-125 border border-primary/0 rounded-full group-hover:border-primary/5 group-hover:scale-150 transition-all duration-1500 ease-out"></div>
                 </div>
-              ))}
-            </div>
+
+                <h3 className="font-bold text-center text-lg group-hover:text-primary transition-colors duration-300 relative z-10">{item.name}</h3>
+                {item.subtitle && <p className="text-xs text-muted-foreground mt-1 group-hover:text-primary/70 transition-colors duration-300 relative z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">{item.subtitle}</p>}
+              </div>
+            ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
+      {/* </AnimatedSection> */}
 
       {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-b from-background to-secondary/10 overflow-hidden relative">
+      <AnimatedSection animation="fadeInUp" className="py-20 bg-gradient-to-b from-background to-secondary/10 overflow-hidden relative">
         {/* Decorative background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -right-24 -top-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
@@ -444,10 +447,10 @@ const Home: React.FC = () => {
             </Link>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Quick Links */}
-      <section className="py-16 bg-secondary/50">
+      <AnimatedSection animation="fadeInUp" className="py-16 bg-secondary/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-2">Explore Our Campus</h2>
@@ -475,10 +478,10 @@ const Home: React.FC = () => {
             })}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* News & Events */}
-      <section className="py-16 bg-background">
+      <AnimatedSection animation="fadeInUp" className="py-16 bg-background">
         <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* News */}
           <div>
@@ -627,34 +630,31 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* CTA Section */}
-      <section className="py-16 bg-primary text-primary-foreground text-center">
+      <AnimatedSection animation="fadeInUp" className="py-16 bg-primary text-primary-foreground text-center">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Shape Your Future with Us</h2>
           <p className="text-lg mb-8 max-w-xl mx-auto text-primary-foreground/90">
             Be a part of Sri Vasavi Engineering College's legacy of excellence in technical education.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
+            <SmoothLink
               href="/admissions"
-              className="bg-primary-foreground text-primary px-8 py-3 rounded-md font-semibold hover:bg-primary-foreground/90 transition-transform transform hover:scale-105"
+              className="bg-primary-foreground text-primary px-8 py-3 rounded-md font-semibold hover:bg-primary-foreground/90 transition-transform transform hover:scale-105 no-underline"
             >
               Apply Now
-            </Link>
-            <Link
+            </SmoothLink>
+            <SmoothLink
               href="/contact"
-              className="border-2 border-primary-foreground text-primary-foreground px-8 py-3 rounded-md font-semibold hover:bg-primary-foreground hover:text-primary transition-colors"
+              className="border-2 border-primary-foreground text-primary-foreground px-8 py-3 rounded-md font-semibold hover:bg-primary-foreground hover:text-primary transition-colors no-underline"
             >
               Contact Us
-            </Link>
+            </SmoothLink>
           </div>
         </div>
-      </section>
-
-
-
+      </AnimatedSection>
     </div>
   );
 };

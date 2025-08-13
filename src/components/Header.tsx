@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
+import SmoothLink from './SmoothLink';
 
 // Type definitions for better TypeScript support
 interface DropdownItem {
@@ -26,6 +27,8 @@ const Header: React.FC = () => {
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [submenuPosition, setSubmenuPosition] = useState<{ top: number, left: number } | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [mobileSection, setMobileSection] = useState<'admin' | 'depts' | 'more' | null>(null);
+
 
   const pathname = usePathname();
   const isHomePage = pathname === '/';
@@ -184,25 +187,37 @@ const Header: React.FC = () => {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerClass}`}>
+      {/* Subtle top accent line */}
+      <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
+
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          <Link href="/" className="flex items-center space-x-2">
-            <img
-              src="/vasavi_logo.png"
-              alt="SVEC Logo"
-              className="w-14 h-14 object-contain"
-            />
+          <Link href="/" className="flex items-center space-x-3 group no-underline">
+            <div className="relative">
+              <img
+                src="/vasavi_logo.png"
+                alt="SVEC Logo"
+                className="w-14 h-14 object-contain transition-transform group-hover:scale-105"
+              />
+              {/* Subtle glow effect on hover */}
+              <div className="absolute inset-0 bg-primary/10 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+            </div>
             <div className={textColorClass}>
-              <h1 className="text-xl font-bold leading-tight">Sri Vasavi</h1>
-              <p className="text-xs leading-tight">Engineering College</p>
+              <h1 className="text-xl font-bold leading-tight group-hover:text-primary transition-colors">Sri Vasavi</h1>
+              <p className="text-xs leading-tight opacity-80">Engineering College</p>
             </div>
           </Link>
 
           <nav className="hidden lg:flex items-center space-x-6 text-sm font-medium">
-            {mainNavLinks.map(link => (
-              <Link key={link.path} href={link.path} className={`${textColorClass} hover:text-primary transition-colors ${pathname === link.path ? 'text-primary font-semibold' : ''}`}>
+            {mainNavLinks.map((link, index) => (
+              <SmoothLink
+                key={link.path}
+                href={link.path}
+                className={`${textColorClass} hover:text-primary transition-all duration-300 hover:scale-105 nav-underline ${pathname === link.path ? 'text-primary font-semibold' : ''}`}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
                 {link.name}
-              </Link>
+              </SmoothLink>
             ))}
 
             <div className="relative" data-dropdown="admin">
@@ -226,7 +241,7 @@ const Header: React.FC = () => {
               </button>
               {activeDropdown === 'admin' && (
                 <div
-                  className="absolute top-full -left-4 mt-2 w-56 bg-background rounded-md shadow-lg border py-1 z-50"
+                  className="absolute top-full -left-4 mt-2 w-56 bg-background rounded-md shadow-lg border py-1 z-50 animate-in slide-in-from-top-2 duration-200"
                   onClick={(e) => e.stopPropagation()}
                   onMouseEnter={() => {
                     setActiveDropdown('admin');
@@ -245,11 +260,12 @@ const Header: React.FC = () => {
                     }
                   }}
                 >
-                  {administrationItems.map(item => (
+                  {administrationItems.map((item, index) => (
                     <Link
                       key={item.path}
                       href={item.path}
-                      className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary"
+                      className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary transition-all duration-200 hover:translate-x-1"
+                      style={{ animationDelay: `${index * 50}ms` }}
                       onMouseEnter={() => {
                         if (dropdownTimeoutRef.current) {
                           clearTimeout(dropdownTimeoutRef.current);
@@ -279,7 +295,7 @@ const Header: React.FC = () => {
               </button>
               {activeDropdown === 'more' && (
                 <div
-                  className="absolute top-full -left-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 z-50 max-h-96 overflow-y-auto"
+                  className="absolute top-full -left-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 z-50 max-h-[70vh] overflow-y-auto animate-in slide-in-from-top-2 duration-200"
                   data-dropdown="more"
                   onClick={(e) => e.stopPropagation()}
                   onMouseEnter={() => {
@@ -290,21 +306,23 @@ const Header: React.FC = () => {
                     }
                   }}
                   onMouseLeave={(e) => {
-                    // Only close if moving outside the entire dropdown area
+                    // Only close if moving outside the entire dropdown/submenu area
                     const relatedTarget = e.relatedTarget as Node;
                     const currentTarget = e.currentTarget as Node;
 
                     // Don't close if moving to a child element within the dropdown
-                    if (currentTarget.contains(relatedTarget)) {
-                      return;
-                    }
+                    if (currentTarget.contains(relatedTarget)) return;
+
+                    // Don't close if moving into the submenu panel
+                    const submenuEl = document.querySelector('[data-submenu="more"]');
+                    if (submenuEl && submenuEl.contains(relatedTarget)) return;
 
                     // Add delay to prevent accidental closure and close submenu
                     dropdownTimeoutRef.current = setTimeout(() => {
                       setActiveDropdown(null);
                       setActiveSubmenu(null);
                       setSubmenuPosition(null);
-                    }, 200);
+                    }, 400);
                   }}
                 >
                   {moreDropdownItems.map((item, idx) => (
@@ -334,12 +352,23 @@ const Header: React.FC = () => {
                           <span>{item.name}</span>
                           <ChevronRight className={`w-4 h-4 transition-transform ${activeSubmenu === item.name ? 'rotate-90' : ''}`} />
                         </div>
+                        {/* Open submenu on hover for desktop */}
+                        <div
+                          className="absolute inset-0"
+                          onMouseEnter={(e) => {
+                            const target = (e.currentTarget.parentElement as HTMLElement);
+                            const rect = target.getBoundingClientRect();
+                            setSubmenuPosition({ top: rect.top, left: rect.right - 20 });
+                            setActiveSubmenu(item.name);
+                          }}
+                        />
                       </div>
                     ) : (
                       <Link
                         key={idx}
                         href={item.path}
-                        className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary"
+                        className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary transition-all duration-200 hover:translate-x-1"
+                        style={{ animationDelay: `${idx * 30}ms` }}
                         onMouseEnter={() => {
                           // Clear any pending timeout to keep dropdown open
                           if (dropdownTimeoutRef.current) {
@@ -361,7 +390,8 @@ const Header: React.FC = () => {
               {/* Sub-dropdown rendered outside main dropdown */}
               {activeDropdown === 'more' && activeSubmenu && submenuPosition && (
                 <div
-                  className="fixed bg-background shadow-lg border z-[60] max-h-96 overflow-y-auto
+                  data-submenu="more"
+                  className="fixed bg-background shadow-lg border z-[60] max-h-[70vh] overflow-y-auto
                            md:rounded-md md:py-1 md:w-56
                            w-full h-full top-0 left-0 md:top-auto md:left-auto md:h-auto
                            flex flex-col md:block"
@@ -451,7 +481,7 @@ const Header: React.FC = () => {
               </button>
               {activeDropdown === 'depts' && (
                 <div
-                  className="absolute top-full -right-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 max-h-96 overflow-y-auto z-50"
+                  className="absolute top-full -right-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 max-h-96 overflow-y-auto z-50 animate-in slide-in-from-top-2 duration-200"
                   data-dropdown="depts-menu"
                   onClick={(e) => e.stopPropagation()}
                   onMouseEnter={() => {
@@ -472,11 +502,12 @@ const Header: React.FC = () => {
                     }
                   }}
                 >
-                  {departments.map(item => (
+                  {departments.map((item, index) => (
                     <Link
                       key={item.path}
                       href={item.path}
-                      className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary"
+                      className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary transition-all duration-200 hover:translate-x-1"
+                      style={{ animationDelay: `${index * 25}ms` }}
                       onMouseEnter={() => {
                         // Clear any pending timeout to keep dropdown open
                         if (dropdownTimeoutRef.current) {
@@ -503,92 +534,217 @@ const Header: React.FC = () => {
               E-CAP
             </a>
             <button
-              className={`lg:hidden ${textColorClass}`}
+              className={`lg:hidden p-2 rounded-lg hover:bg-secondary/50 transition-all duration-200 no-underline ${textColorClass} ${isMenuOpen ? 'bg-secondary/30' : ''}`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              <div className="relative">
+                {isMenuOpen ? (
+                  <X className="w-6 h-6 transition-transform rotate-90" />
+                ) : (
+                  <Menu className="w-6 h-6 transition-transform hover:scale-110" />
+                )}
+              </div>
             </button>
           </div>
         </div>
       </div>
 
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-background shadow-lg border-t">
-          <nav className="py-4 px-4 space-y-2 text-base font-medium">
-            {mainNavLinks.map(link => (
-              <Link key={link.path} href={link.path} className="block py-2 text-foreground/80 hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>
-                {link.name}
-              </Link>
-            ))}
-            <div>
-              <p className="py-2 font-semibold text-primary">Administration</p>
-              <div className="pl-4 border-l-2 border-border">
-                {administrationItems.map(item => (
-                  <Link key={item.path} href={item.path} className="block py-2 text-sm text-foreground/70 hover:text-primary" onClick={() => setIsMenuOpen(false)}>
-                    {item.name}
-                  </Link>
-                ))}
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-[1px] lg:hidden z-[55]"
+            onClick={() => {
+              setIsMenuOpen(false);
+              setMobileSection(null);
+            }}
+          />
+
+          {/* Right-side mobile drawer */}
+          <aside
+            role="dialog"
+            aria-modal="true"
+            className="fixed right-0 top-0 h-screen w-[88vw] max-w-sm bg-background border-l z-[60] shadow-xl lg:hidden transform transition-all duration-300 ease-out animate-in slide-in-from-right"
+          >
+            {/* Drawer header with gradient */}
+            <div className="flex items-center justify-between px-4 h-16 border-b bg-gradient-to-r from-primary/5 via-background to-primary/5">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <img src="/vasavi_logo.png" alt="SVEC Logo" className="w-10 h-10 object-contain" />
+                  <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full blur-sm -z-10" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold leading-tight bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">Sri Vasavi</p>
+                  <p className="text-[11px] text-foreground/60 leading-tight">Engineering College</p>
+                </div>
               </div>
-            </div>
-            <div>
-              <p className="py-2 font-semibold text-primary">Departments</p>
-              <div className="pl-4 border-l-2 border-border max-h-48 overflow-y-auto">
-                {departments.map(item => (
-                  <Link key={item.path} href={item.path} className="block py-2 text-sm text-foreground/70 hover:text-primary" onClick={() => setIsMenuOpen(false)}>
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
+              <button
+                aria-label="Close menu"
+                className="p-2 rounded-md hover:bg-secondary/50 transition-colors"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  setMobileSection(null);
+                }}
+              >
+                <X className="w-6 h-6" />
+              </button>
             </div>
 
-            {/* More Menu for Mobile */}
-            <div>
-              <p className="py-2 font-semibold text-primary">More</p>
-              <div className="pl-4 border-l-2 border-border">
-                {moreDropdownItems.map((item, idx) => (
-                  item.hasDropdown ? (
-                    <div key={idx} className="mb-2">
-                      <p className="py-1.5 font-medium text-primary/90 flex items-center">
-                        {item.name}
-                      </p>
-                      <div className="pl-3 border-l border-primary/10">
-                        {item.dropdownItems?.map((subItem, subIdx) => (
-                          <Link
-                            key={subIdx}
-                            href={subItem.path}
-                            className="block py-1.5 text-sm text-foreground/70 hover:text-primary"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            <span className="inline-block w-1 h-1 bg-foreground/30 rounded-full mr-2"></span>
-                            {subItem.name}
-                          </Link>
-                        ))}
-                      </div>
+            {/* Drawer content */}
+            <nav className="overflow-y-auto h-[calc(100vh-4rem-4.25rem)] px-2 py-3">
+              {/* Main navigation */}
+              <div className="mb-3">
+                <p className="px-2 pb-2 text-[11px] uppercase tracking-wide text-foreground/50">Navigation</p>
+                {mainNavLinks.map((link, index) => (
+                  <SmoothLink
+                    key={link.path}
+                    href={link.path}
+                    className="flex items-center justify-between px-3 py-3 rounded-lg text-foreground/90 hover:bg-secondary transition-all duration-200 hover:translate-x-1 group"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setMobileSection(null);
+                    }}
+                  >
+                    <span>{link.name}</span>
+                    <ChevronRight className="w-4 h-4 text-foreground/50 transition-transform group-hover:translate-x-1" />
+                  </SmoothLink>
+                ))}
+              </div>
+
+              {/* Accordions */}
+              <div className="rounded-lg border border-border/60 overflow-hidden">
+                {/* Administration */}
+                <button
+                  className="w-full flex items-center justify-between px-3 py-3 font-semibold text-primary/90 bg-secondary/40"
+                  onClick={() => setMobileSection(mobileSection === 'admin' ? null : 'admin')}
+                  aria-expanded={mobileSection === 'admin'}
+                >
+                  <span>Administration</span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${mobileSection === 'admin' ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                {mobileSection === 'admin' && (
+                  <div className="bg-secondary/10 border-b border-border">
+                    <div className="px-2 py-1">
+                      {administrationItems.map((item) => (
+                        <Link
+                          key={item.path}
+                          href={item.path}
+                          className="block px-2 py-2 rounded-md text-sm text-foreground/70 hover:bg-secondary transition-colors"
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            setMobileSection(null);
+                          }}
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
                     </div>
-                  ) : (
-                    <Link
-                      key={idx}
-                      href={item.path}
-                      className="block py-1.5 text-sm text-foreground/70 hover:text-primary"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  )
-                ))}
-              </div>
-            </div>
+                  </div>
+                )}
 
-            <a
-              href="https://sves.org.in/ecap/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full text-center bg-primary text-primary-foreground px-4 py-3 rounded-md font-semibold hover:bg-primary/90 transition-colors mt-4"
-            >
-              E-CAP
-            </a>
-          </nav>
-        </div>
+                {/* Departments */}
+                <button
+                  className="w-full flex items-center justify-between px-3 py-3 font-semibold text-primary/90 bg-secondary/40 border-t border-border"
+                  onClick={() => setMobileSection(mobileSection === 'depts' ? null : 'depts')}
+                  aria-expanded={mobileSection === 'depts'}
+                >
+                  <span>Departments</span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${mobileSection === 'depts' ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                {mobileSection === 'depts' && (
+                  <div className="bg-secondary/10 border-b border-border">
+                    <div className="px-2 py-1 max-h-64 overflow-y-auto">
+                      {departments.map((item) => (
+                        <Link
+                          key={item.path}
+                          href={item.path}
+                          className="block px-2 py-2 rounded-md text-sm text-foreground/70 hover:bg-secondary transition-colors"
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            setMobileSection(null);
+                          }}
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* More */}
+                <button
+                  className="w-full flex items-center justify-between px-3 py-3 font-semibold text-primary/90 bg-secondary/40 border-t border-border"
+                  onClick={() => setMobileSection(mobileSection === 'more' ? null : 'more')}
+                  aria-expanded={mobileSection === 'more'}
+                >
+                  <span>More</span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${mobileSection === 'more' ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                {mobileSection === 'more' && (
+                  <div className="bg-secondary/10">
+                    <div className="px-2 py-1 max-h-80 overflow-y-auto">
+                      {moreDropdownItems.map((item, idx) => (
+                        item.hasDropdown ? (
+                          <div key={idx} className="mb-1">
+                            <p className="px-2 py-2 text-[13px] font-medium text-primary/90">{item.name}</p>
+                            <div className="ml-2 border-l border-primary/10 pl-2">
+                              {item.dropdownItems?.map((subItem, subIdx) => (
+                                <Link
+                                  key={subIdx}
+                                  href={subItem.path}
+                                  className="block py-1.5 text-sm text-foreground/70 hover:text-primary transition-colors"
+                                  onClick={() => {
+                                    setIsMenuOpen(false);
+                                    setMobileSection(null);
+                                  }}
+                                >
+                                  <span className="inline-block w-1 h-1 bg-foreground/30 rounded-full mr-2" />
+                                  {subItem.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <Link
+                            key={idx}
+                            href={item.path}
+                            className="block px-2 py-2 rounded-md text-sm text-foreground/70 hover:bg-secondary transition-colors"
+                            onClick={() => {
+                              setIsMenuOpen(false);
+                              setMobileSection(null);
+                            }}
+                          >
+                            {item.name}
+                          </Link>
+                        )
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </nav>
+
+            {/* Drawer footer */}
+            <div className="h-[4.25rem] p-3 border-t flex items-center">
+              <a
+                href="https://sves.org.in/ecap/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center bg-primary text-primary-foreground rounded-md py-3 font-semibold hover:bg-primary/90 transition-colors"
+              >
+                E-CAP
+              </a>
+            </div>
+          </aside>
+        </>
       )}
     </header>
   );

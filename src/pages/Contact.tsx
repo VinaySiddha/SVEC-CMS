@@ -1,5 +1,7 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Clock, Car, Bus, Train, Plane, ChevronRight } from 'lucide-react';
+import AnimatedSection from '../components/AnimatedSection';
+import SmoothLink from '../components/SmoothLink';
 
 const Contact: React.FC = () => {
   const contactInfo = [
