@@ -6,7 +6,7 @@ const AIMLDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
-
+ 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
     { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
