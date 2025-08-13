@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library } from 'lucide-react';
+import FixedSidebar from '../../components/FixedSidebar';
 
 const EEEDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -8,7 +9,26 @@ const EEEDepartment: React.FC = () => {
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const sidebarItems = [
-    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Labaratories', 'Department Library', 'Faculty Achievements', 'Faculty Innovations in T & L', 'Research Center', 'Student Achievements', 'Placements', 'Technical Association', 'Technical Magazines, Handbooks and Course Materials', 'Newsletters', 'Product Development', 'Departmental Activities', 'Extra-Curricular Activities', 'Handbooks', 'Green Initiative', 'Contact'
+    { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
+    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
+    { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
+    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'Labaratories', label: 'Labaratories', icon: <Microscope className="w-4 h-4" /> },
+    { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
+    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
+    { id: 'Faculty Innovations in T & L', label: 'Faculty Innovations in T & L', icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'Research Center', label: 'Research Center', icon: <Search className="w-4 h-4" /> },
+    { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
+    { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
+    { id: 'Technical Association', label: 'Technical Association', icon: <Zap className="w-4 h-4" /> },
+    { id: 'Technical Magazines, Handbooks and Course Materials', label: 'Technical Magazines, Handbooks and Course Materials', icon: <FileText className="w-4 h-4" /> },
+    { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
+    { id: 'Product Development', label: 'Product Development', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Departmental Activities', label: 'Departmental Activities', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
+    { id: 'Green Initiative', label: 'Green Initiative', icon: <Shield className="w-4 h-4" /> },
+    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
 
   const faculty = [
@@ -198,7 +218,7 @@ const EEEDepartment: React.FC = () => {
               The course outcomes for all courses offered by the Electrical and Electronics Engineering department are designed to align with program outcomes and educational objectives.
             </p>
             <div className="mb-4">
-              <a 
+              <a
                 href="https://srivasaviengg.ac.in/uploads/eee/COs.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -242,31 +262,30 @@ const EEEDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Department Profile</h2>
-            
+
             {/* Tab Navigation */}
             <div className="flex flex-wrap gap-2 mb-8 justify-center">
               {['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveDeptTab(tab)}
-                  className={`px-4 py-2 rounded-md text-sm transition-all ${
-                    activeDeptTab === tab
-                      ? 'bg-[#850209] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
+                  className={`px-4 py-2 rounded-md text-sm transition-all ${activeDeptTab === tab
+                    ? 'bg-[#850209] text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
                 >
                   {tab}
                 </button>
               ))}
             </div>
-            
+
             {/* Tab Content */}
             <div className="mt-6">
               {renderDeptTabContent()}
             </div>
           </div>
         );
-      
+
       case 'Handbooks':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">

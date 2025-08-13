@@ -64,7 +64,7 @@ const Departments: React.FC = () => {
   return (
     <div className="pt-44 bg-[#FFF8F0] text-[#222222]">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
+      <section className="bg-primary text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Departments</h1>
           <p className="text-xl max-w-3xl mx-auto">
@@ -80,8 +80,8 @@ const Departments: React.FC = () => {
             {departments.map((dept, index) => (
               <div key={dept.id} className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 overflow-hidden">
                 <div className="relative h-64">
-                  <img 
-                    src={dept.image} 
+                  <img
+                    src={dept.image}
                     alt={dept.name}
                     className="w-full h-full object-cover"
                   />
@@ -90,11 +90,11 @@ const Departments: React.FC = () => {
                     <dept.icon className="w-12 h-12 text-[#B22222]" />
                   </div>
                 </div>
-                
+
                 <div className="p-8">
                   <h3 className="text-2xl font-bold text-[#B22222] mb-4">{dept.name}</h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">{dept.description}</p>
-                  
+
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-4 mb-6">
                     <div className="text-center p-3 bg-[#FFF8F0] rounded-lg">
@@ -113,7 +113,7 @@ const Departments: React.FC = () => {
                       <div className="text-xs text-gray-600">Labs</div>
                     </div>
                   </div>
-                  
+
                   {/* Specializations */}
                   <div className="mb-6">
                     <h4 className="font-semibold text-[#B22222] mb-3">Key Specializations:</h4>
@@ -125,8 +125,8 @@ const Departments: React.FC = () => {
                       ))}
                     </div>
                   </div>
-                  
-                  <Link 
+
+                  <Link
                     href={`/departments/${dept.id}`}
                     className="inline-flex items-center bg-[#003366] text-white px-6 py-3 rounded-lg hover:bg-[#004080] transition-all transform hover:scale-105"
                   >
@@ -148,7 +148,7 @@ const Departments: React.FC = () => {
             </h2>
             <p className="text-xl text-gray-600">Excellence in every aspect of engineering education</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all">
               <Users className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
@@ -182,14 +182,14 @@ const Departments: React.FC = () => {
             Discover which department aligns with your passion and career goals
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/admissions" 
+            <Link
+              href="/admissions"
               className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all"
             >
               Apply Now
             </Link>
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#B22222] transition-all"
             >
               Get Guidance

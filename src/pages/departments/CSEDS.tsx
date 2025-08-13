@@ -1,14 +1,21 @@
 
 import React, { useState } from 'react';
-import { Database, BookOpen, Award, ExternalLink, Menu, ChevronRight, FileText } from 'lucide-react';
+import { Database, BookOpen, Award, ExternalLink, Menu, ChevronRight, FileText, Users, Briefcase, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
+import FixedSidebar from '../../components/FixedSidebar';
 
 const CSEDSDepartment: React.FC = () => {
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
-  const navItems = [
-    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Physical Facilities', 'Placements', 'Student Achievements'
+  const sidebarItems = [
+    { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
+    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
+    { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
+    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'Physical Facilities', label: 'Physical Facilities', icon: <HardHat className="w-4 h-4" /> },
+    { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
+    { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> }
   ];
 
   const faculty = [
@@ -195,7 +202,7 @@ const CSEDSDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
-            
+
             {/* Tab Navigation - Similar to MBA.tsx */}
             <div className="bg-white mb-8">
               <div className="overflow-x-auto">
@@ -259,7 +266,7 @@ const CSEDSDepartment: React.FC = () => {
                 </nav>
               </div>
             </div>
-            
+
             {/* HOD Information - Always show at the top of Department Profile */}
             {activeDeptTab === 'Department' && (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-8">
@@ -283,7 +290,7 @@ const CSEDSDepartment: React.FC = () => {
                 </div>
               </div>
             )}
-            
+
             {/* Content Area that changes completely based on selected tab */}
             {renderDeptTabContent()}
           </div>
@@ -329,38 +336,22 @@ const CSEDSDepartment: React.FC = () => {
         </div>
       </section>
 
+      {/* Fixed Sidebar Component */}
+      <FixedSidebar
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
+        onClose={() => setSidebarOpen(false)}
+        items={sidebarItems}
+        activeItem={activeContent}
+        onItemClick={setActiveContent}
+        title="CSE-DS Department"
+        buttonLabel="Department Menu"
+      />
+
+      {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          <aside className="w-full lg:w-80 lg:flex-shrink-0">
-            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
-              <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
-                <span className="font-bold">Department Menu</span>
-                <Menu className="w-6 h-6" />
-              </button>
-              <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
-                <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
-                <ul className="space-y-2">
-                  {navItems.map((item) => (
-                    <li key={item}>
-                      <button
-                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
-                        onClick={() => {
-                          setActiveContent(item);
-                          setSidebarOpen(false);
-                        }}
-                      >
-                        <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
-                        <span>{item}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          </aside>
-          <main className="flex-1 min-w-0">
-            {renderContent()}
-          </main>
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+          {renderContent()}
         </div>
       </div>
     </div>

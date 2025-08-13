@@ -19,7 +19,7 @@ const Academics: React.FC = () => {
   return (
     <div className="pt-24 bg-white text-[#222222]">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-16 relative overflow-hidden isolate">
+      <section className="bg-primary text-white py-16 relative overflow-hidden isolate">
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Academics</h1>
           <p className="text-lg md:text-xl max-w-3xl mx-auto">

@@ -122,16 +122,9 @@ const Home: React.FC = () => {
             <div className="absolute -left-20 top-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-700 group-hover:scale-125"></div>
             <div className="absolute -right-20 bottom-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-700 group-hover:scale-125"></div>
 
-            {/* Rotating glow effect */}
-            <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-30 transition-opacity duration-700">
-              <div className="absolute inset-1/4 w-1/2 h-1/2 bg-gradient-to-tr from-primary/30 to-transparent rounded-full blur-3xl animate-rotate-glow"></div>
-            </div>
+            {/* Rotating glow effect removed to prevent background movement */}
 
-            {/* Floating animation elements */}
-            <div className="hidden md:block absolute left-1/4 top-1/3 w-16 h-16 bg-primary/5 rounded-full blur-xl animate-float-slow"></div>
-            <div className="hidden md:block absolute right-1/4 top-2/3 w-8 h-8 bg-primary/5 rounded-full blur-lg animate-float-medium"></div>
-            <div className="hidden lg:block absolute left-1/3 bottom-1/4 w-12 h-12 bg-primary/10 rounded-full blur-lg animate-float-medium" style={{ animationDelay: "2s" }}></div>
-            <div className="hidden lg:block absolute right-1/3 top-1/4 w-10 h-10 bg-primary/10 rounded-full blur-md animate-float-slow" style={{ animationDelay: "1s" }}></div>
+            {/* Floating animation elements removed to prevent background movement */}
 
             <div className="relative transition-transform duration-500 ease-out transform group-hover:scale-105">
               <h2 className="text-3xl md:text-5xl font-bold mb-6 animate-fade-up text-primary transition-all duration-300 group-hover:text-primary/90 group-hover:-translate-y-1"
@@ -141,7 +134,7 @@ const Home: React.FC = () => {
               </h2>
               <div className="w-24 h-1 bg-primary mx-auto mb-8 animate-fade-up transition-all duration-500 ease-out group-hover:w-32 group-hover:bg-primary/90 relative overflow-hidden"
                 style={{ animationDelay: '0.2s' }}>
-                <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-30 transition-opacity duration-700 animate-slide-right"></span>
+                {/* Slide animation removed to prevent background movement */}
               </div>
             </div>
 
@@ -211,8 +204,7 @@ const Home: React.FC = () => {
                   {/* Glow effect on hover */}
                   <div className="absolute inset-0 bg-primary/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 group-hover:blur-lg"></div>
 
-                  {/* Moving spotlight effect */}
-                  <div className="absolute -inset-[200%] bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 group-hover:animate-slide-right"></div>
+                  {/* Moving spotlight effect removed to prevent background movement */}
 
                   <div className="relative w-20 h-20 mb-5 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-translate-y-2">
                     {/* Pulsing background circle */}
@@ -256,8 +248,7 @@ const Home: React.FC = () => {
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -right-24 -top-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
           <div className="absolute -left-24 -bottom-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
-          <div className="hidden md:block absolute left-1/3 top-1/4 w-12 h-12 bg-primary/5 rounded-full blur-xl animate-float-slow"></div>
-          <div className="hidden md:block absolute right-1/4 bottom-1/3 w-8 h-8 bg-primary/5 rounded-full blur-lg animate-float-medium"></div>
+          {/* Floating elements removed to prevent background movement */}
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
@@ -278,7 +269,7 @@ const Home: React.FC = () => {
             </div>
 
             <div className="w-24 h-1 bg-primary mx-auto mb-6 relative overflow-hidden group-hover:w-32 transition-all duration-700">
-              <span className="absolute inset-0 bg-white/30 animate-slide-right"></span>
+              {/* Slide animation removed to prevent background movement */}
             </div>
 
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto group-hover:text-foreground/70 transition-colors duration-300">
@@ -662,7 +653,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      
+
 
     </div>
   );

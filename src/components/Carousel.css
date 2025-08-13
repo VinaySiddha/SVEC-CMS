@@ -4,9 +4,12 @@
 }
 
 @keyframes subtle-zoom {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.08);
   }
@@ -20,6 +23,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -52,6 +56,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -69,6 +74,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -82,23 +88,10 @@
   overflow: hidden;
 }
 
-.btn-dynamic::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.5s;
-}
-
-.btn-dynamic:hover::before {
-  left: 100%;
-}
+/* Removed moving gradient effect to prevent background movement */
 
 .btn-dynamic:hover {
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 /* News items animation */
@@ -118,6 +111,7 @@
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -140,6 +134,7 @@
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -161,9 +156,12 @@
 }
 
 @keyframes pulseGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(178, 34, 34, 0.3);
   }
+
   50% {
     box-shadow: 0 0 30px rgba(178, 34, 34, 0.6);
   }
@@ -174,15 +172,16 @@
   .stat-card:hover {
     transform: translateY(-4px) scale(1.01);
   }
-  
+
   .quick-link:hover {
     transform: translateY(-5px) scale(1.02);
   }
-  
+
   .carousel-image {
-    animation-duration: 12s; /* Faster on mobile */
+    animation-duration: 12s;
+    /* Faster on mobile */
   }
-  
+
   .btn-dynamic:hover {
     transform: scale(1.02);
   }
@@ -190,6 +189,7 @@
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
+
   .carousel-image,
   .text-animate,
   .stat-card,
@@ -198,11 +198,11 @@
   .pulse-glow {
     animation: none;
   }
-  
+
   .btn-dynamic::before {
     display: none;
   }
-  
+
   * {
     transition-duration: 0.1s !important;
   }

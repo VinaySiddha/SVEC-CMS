@@ -56,17 +56,7 @@
   }
 }
 
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-15px);
-  }
-}
+/* Removed float animation to prevent background movement */
 
 @keyframes scrollNews {
   0% {
@@ -88,61 +78,11 @@
   }
 }
 
-@keyframes floatSlow {
+/* Removed floating animations to prevent background movement */
 
-  0%,
-  100% {
-    transform: translateY(0) translateX(0);
-  }
+/* Removed rotateGlow animation to prevent background movement */
 
-  25% {
-    transform: translateY(-10px) translateX(5px);
-  }
-
-  50% {
-    transform: translateY(0) translateX(10px);
-  }
-
-  75% {
-    transform: translateY(10px) translateX(5px);
-  }
-}
-
-@keyframes floatMedium {
-
-  0%,
-  100% {
-    transform: translateY(0) translateX(0);
-  }
-
-  33% {
-    transform: translateY(-8px) translateX(-8px);
-  }
-
-  66% {
-    transform: translateY(8px) translateX(8px);
-  }
-}
-
-@keyframes rotateGlow {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes slideRight {
-  0% {
-    transform: translateX(-100%);
-  }
-
-  100% {
-    transform: translateX(100%);
-  }
-}
+/* Removed slideRight animation to prevent background movement */
 
 @layer utilities {
   .animate-fade-up {
@@ -154,25 +94,13 @@
     animation: pulse 3s infinite;
   }
 
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
+  /* Removed float animation class to prevent background movement */
 
-  .animate-float-slow {
-    animation: floatSlow 15s ease-in-out infinite;
-  }
+  /* Removed floating animation classes to prevent background movement */
 
-  .animate-float-medium {
-    animation: floatMedium 8s ease-in-out infinite;
-  }
+  /* Removed rotate-glow animation class to prevent background movement */
 
-  .animate-rotate-glow {
-    animation: rotateGlow 15s linear infinite;
-  }
-
-  .animate-slide-right {
-    animation: slideRight 2s ease-in-out infinite;
-  }
+  /* Removed slide-right animation class to prevent background movement */
 
   .scale-102 {
     --tw-scale-x: 1.02;
@@ -189,8 +117,8 @@
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
-    --primary: 0 62.8% 30.6%;
-    /* A strong red */
+    --primary: 0 60% 31%;
+    /* Custom red #7f1d1d */
     --primary-foreground: 210 20% 98%;
     --secondary: 220 14.3% 95.9%;
     --secondary-foreground: 220.9% 39.3%;

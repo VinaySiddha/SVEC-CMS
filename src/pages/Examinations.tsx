@@ -64,7 +64,7 @@ const Examinations: React.FC = () => {
   return (
     <div className="pt-44 bg-[#FFF8F0] text-[#222222]">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#B22222] to-[#0097A7] text-white py-20">
+      <section className="bg-primary text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Examinations</h1>
           <p className="text-xl max-w-3xl mx-auto">
@@ -112,11 +112,10 @@ const Examinations: React.FC = () => {
                   <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
                     <div className="flex items-start justify-between mb-4">
                       <h3 className="text-lg font-semibold text-[#B22222]">{exam.exam}</h3>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        exam.status === 'Completed' 
-                          ? 'bg-green-100 text-green-800' 
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${exam.status === 'Completed'
+                          ? 'bg-green-100 text-green-800'
                           : 'bg-[#FFC107] text-[#B22222]'
-                      }`}>
+                        }`}>
                         {exam.status}
                       </span>
                     </div>
@@ -134,7 +133,7 @@ const Examinations: React.FC = () => {
                 ))}
               </div>
             </div>
-            
+
             <div>
               <h2 className="text-3xl font-bold text-[#B22222] mb-6">Exam Guidelines</h2>
               <div className="bg-white p-6 rounded-xl shadow-md">
@@ -148,7 +147,7 @@ const Examinations: React.FC = () => {
                 </div>
                 <div className="mt-6 p-4 bg-[#FFC107] bg-opacity-20 rounded-lg">
                   <p className="text-[#B22222] font-medium">
-                    <strong>Important:</strong> Students are advised to regularly check the college notice board 
+                    <strong>Important:</strong> Students are advised to regularly check the college notice board
                     and website for any updates regarding examination schedules and procedures.
                   </p>
                 </div>
@@ -225,8 +224,8 @@ const Examinations: React.FC = () => {
                   </div>
                   <div className="mt-6 p-4 bg-[#0097A7] bg-opacity-10 rounded-lg">
                     <p className="text-sm text-gray-600">
-                      <strong>Duration:</strong> 3 hours<br/>
-                      <strong>Pattern:</strong> Theory + Problem solving<br/>
+                      <strong>Duration:</strong> 3 hours<br />
+                      <strong>Pattern:</strong> Theory + Problem solving<br />
                       <strong>Passing Marks:</strong> 40% in each component
                     </p>
                   </div>
@@ -245,14 +244,14 @@ const Examinations: React.FC = () => {
             Contact our examination department for any queries or assistance
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="/contact" 
+            <a
+              href="/contact"
               className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all"
             >
               Contact Exam Cell
             </a>
-            <a 
-              href="mailto:exams@srivasaviengg.ac.in" 
+            <a
+              href="mailto:exams@srivasaviengg.ac.in"
               className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#B22222] transition-all"
             >
               Email Us

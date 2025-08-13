@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Cog, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Book, Database, User } from 'lucide-react';
+import FixedSidebar from '../../components/FixedSidebar';
 
 const MechanicalDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -8,7 +9,23 @@ const MechanicalDepartment: React.FC = () => {
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const sidebarItems = [
-    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Laboratories', 'Department Library', 'MoUs', 'Faculty T&L methods', 'Faculty Achievements', 'Student Achievements', 'Placements', 'Workshops', 'Technical Association', 'Project Research', 'Newsletters', 'Magazines', 'Syllabus', 'Contact'
+    { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
+    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
+    { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
+    { id: 'Laboratories', label: 'Laboratories', icon: <Microscope className="w-4 h-4" /> },
+    { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
+    { id: 'MoUs', label: 'MoUs', icon: <Handshake className="w-4 h-4" /> },
+    { id: 'Faculty T&L methods', label: 'Faculty T&L methods', icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
+    { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
+    { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
+    { id: 'Workshops', label: 'Workshops', icon: <Presentation className="w-4 h-4" /> },
+    { id: 'Technical Association', label: 'Technical Association', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Project Research', label: 'Project Research', icon: <Search className="w-4 h-4" /> },
+    { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
+    { id: 'Magazines', label: 'Magazines', icon: <FileText className="w-4 h-4" /> },
+    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
 
   const faculty = [
@@ -271,11 +288,10 @@ const MechanicalDepartment: React.FC = () => {
                       <button
                         key={tab}
                         onClick={() => setActiveDeptTab(tab)}
-                        className={`inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg ${
-                          activeDeptTab === tab
-                            ? 'text-[#B22222] border-[#B22222]'
-                            : 'border-transparent hover:text-gray-600 hover:border-gray-300'
-                        }`}
+                        className={`inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg ${activeDeptTab === tab
+                          ? 'text-[#B22222] border-[#B22222]'
+                          : 'border-transparent hover:text-gray-600 hover:border-gray-300'
+                          }`}
                       >
                         {tab}
                       </button>
@@ -3063,37 +3079,23 @@ const MechanicalDepartment: React.FC = () => {
         </div>
       </section>
 
-      <div className="flex flex-col lg:flex-row gap-8 container mx-auto p-4">
-        <aside className="w-full lg:w-80 lg:flex-shrink-0">
-          <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
-              <span className="font-bold">Department Menu</span>
-              <Menu className="w-6 h-6" />
-            </button>
-            <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
-              <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
-              <ul className="space-y-2">
-                {sidebarItems.map((item) => (
-                  <li key={item}>
-                    <button
-                      className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
-                      onClick={() => {
-                        setActiveContent(item);
-                        setSidebarOpen(false);
-                      }}
-                    >
-                      <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
-                      <span>{item}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-        </aside>
-        <main className="flex-1 min-w-0">
+      {/* Fixed Sidebar Component */}
+      <FixedSidebar
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
+        onClose={() => setSidebarOpen(false)}
+        items={sidebarItems}
+        activeItem={activeContent}
+        onItemClick={setActiveContent}
+        title="Mechanical Department"
+        buttonLabel="Department Menu"
+      />
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
           {renderContent()}
-        </main>
+        </div>
       </div>
     </div>
   );

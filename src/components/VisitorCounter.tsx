@@ -10,26 +10,26 @@ const VisitorCounter: React.FC = () => {
   useEffect(() => {
     // Get current visitor count
     let totalCount = Number(localStorage.getItem('totalVisitors') || '0');
-    
+
     // Get today's count
     const today = new Date().toDateString();
     const lastVisitDate = localStorage.getItem('lastVisitDate');
     let dailyCount = Number(localStorage.getItem('todayVisitors') || '0');
-    
+
     // Reset daily count if it's a new day
     if (lastVisitDate !== today) {
       dailyCount = 0;
       localStorage.setItem('lastVisitDate', today);
     }
-    
+
     // Increment counts
     totalCount += 1;
     dailyCount += 1;
-    
+
     // Store updated counts
     localStorage.setItem('totalVisitors', totalCount.toString());
     localStorage.setItem('todayVisitors', dailyCount.toString());
-    
+
     // Animate the counter
     setIsAnimating(true);
     setTimeout(() => {
@@ -49,7 +49,7 @@ const VisitorCounter: React.FC = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 p-1 rounded-2xl shadow-xl">
+    <div className="bg-gray-800 border border-gray-700 p-1 rounded-2xl shadow-xl">
       <div className="bg-gray-900 rounded-2xl p-6">
         <div className="text-center mb-4">
           <h3 className="text-white font-bold text-lg mb-2 flex items-center justify-center gap-2">
@@ -57,7 +57,7 @@ const VisitorCounter: React.FC = () => {
             Website Analytics
           </h3>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-4">
           {/* Total Visitors */}
           <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 rounded-xl p-4 border border-blue-500/30">
@@ -71,7 +71,7 @@ const VisitorCounter: React.FC = () => {
               <div className="text-xs text-gray-400 mt-1">Total Visitors</div>
             </div>
           </div>
-          
+
           {/* Today's Visitors */}
           <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-xl p-4 border border-green-500/30">
             <div className="flex items-center justify-center mb-2">
@@ -85,13 +85,13 @@ const VisitorCounter: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Live indicator */}
         <div className="flex items-center justify-center mt-4 gap-2">
           <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
           <span className="text-xs text-gray-400">Live</span>
         </div>
-        
+
         {/* Animated border effect */}
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 opacity-75 animate-pulse -z-10"></div>
       </div>

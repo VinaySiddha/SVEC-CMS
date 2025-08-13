@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
+import FixedSidebar from '../../components/FixedSidebar';
 
 const CSTDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -8,7 +9,27 @@ const CSTDepartment: React.FC = () => {
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const sidebarItems = [
-    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Physical Facilities', 'Department Library', 'MoUs', 'Faculty Development Programs', 'Faculty Achievements', 'Workshops', 'Student Achievements', 'Placements', 'Merit Scholarship/Academic Toppers', 'Technical Association', 'Training Activities', 'Newsletters', 'Extra-Curricular Activities', 'Hackathons', 'e-Resources', 'Handbooks', 'Contact'
+    { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
+    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
+    { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
+    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'Physical Facilities', label: 'Physical Facilities', icon: <HardHat className="w-4 h-4" /> },
+    { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
+    { id: 'MoUs', label: 'MoUs', icon: <Handshake className="w-4 h-4" /> },
+    { id: 'Faculty Development Programs', label: 'Faculty Development Programs', icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
+    { id: 'Workshops', label: 'Workshops', icon: <Presentation className="w-4 h-4" /> },
+    { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
+    { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
+    { id: 'Merit Scholarship/Academic Toppers', label: 'Merit Scholarship/Academic Toppers', icon: <Trophy className="w-4 h-4" /> },
+    { id: 'Technical Association', label: 'Technical Association', icon: <Cpu className="w-4 h-4" /> },
+    { id: 'Training Activities', label: 'Training Activities', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
+    { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Hackathons', label: 'Hackathons', icon: <Cpu className="w-4 h-4" /> },
+    { id: 'e-Resources', label: 'e-Resources', icon: <Wifi className="w-4 h-4" /> },
+    { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
+    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
 
   const faculty = [
@@ -231,17 +252,16 @@ const CSTDepartment: React.FC = () => {
                   <button
                     key={tab}
                     onClick={() => setActiveDeptTab(tab)}
-                    className={`px-4 py-2 rounded-md text-sm transition-all ${
-                      activeDeptTab === tab
-                        ? 'bg-[#B22222] text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
+                    className={`px-4 py-2 rounded-md text-sm transition-all ${activeDeptTab === tab
+                      ? 'bg-[#B22222] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
                   >
                     {tab}
                   </button>
                 ))}
               </div>
-              
+
               {/* Tab Content */}
               <div>
                 {renderDeptTabContent()}
@@ -603,7 +623,7 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
-        
+
       case 'e-Resources':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -629,359 +649,359 @@ const CSTDepartment: React.FC = () => {
                   Usage of Software's like Rational Rose, R Software to
                   demonstrate the concepts practically.
                 </li>
-              <li>
-                Use of E-Learning Resources like NPTEL lectures, Online
-                journals, and Online lectures like QEEE & MOOCS for effective
-                learning.
-              </li>
-              <li>
-                Providing Question bank with short answer questions and quiz
-                questions.
-              </li>
-              <li>Student paper and poster presentations.</li>
-              <li>Student seminars.</li>
-              <li>
-                Conducting peer group learning to encourage the slow learners.
-              </li>
-              <li>
-                Student participation in skill tests and technical events.
-              </li>
-              <li>
-                To incorporate real-time problem-solving skills, we are using
-                online tools like EBOX, EDYST etc.
-              </li>
-            </ul>
+                <li>
+                  Use of E-Learning Resources like NPTEL lectures, Online
+                  journals, and Online lectures like QEEE & MOOCS for effective
+                  learning.
+                </li>
+                <li>
+                  Providing Question bank with short answer questions and quiz
+                  questions.
+                </li>
+                <li>Student paper and poster presentations.</li>
+                <li>Student seminars.</li>
+                <li>
+                  Conducting peer group learning to encourage the slow learners.
+                </li>
+                <li>
+                  Student participation in skill tests and technical events.
+                </li>
+                <li>
+                  To incorporate real-time problem-solving skills, we are using
+                  online tools like EBOX, EDYST etc.
+                </li>
+              </ul>
 
-            <h3 className="text-xl font-semibold text-[#850209] mb-4">(i) Innovations in Teaching and Learning</h3>
-            <ul className="list-disc pl-6 mb-6 space-y-2 text-gray-700">
-              <li>Project Based Learning</li>
-              <li>Z TO A Approach</li>
-              <li>NPTEL Web and Video Courses</li>
-              <li>PPTs</li>
-              <li>Question Banks</li>
-              <li>Mind Map</li>
-            </ul>
+              <h3 className="text-xl font-semibold text-[#850209] mb-4">(i) Innovations in Teaching and Learning</h3>
+              <ul className="list-disc pl-6 mb-6 space-y-2 text-gray-700">
+                <li>Project Based Learning</li>
+                <li>Z TO A Approach</li>
+                <li>NPTEL Web and Video Courses</li>
+                <li>PPTs</li>
+                <li>Question Banks</li>
+                <li>Mind Map</li>
+              </ul>
 
-            <h3 className="text-xl font-semibold text-[#850209] mb-4">(ii) Tools used in Teaching and Learning</h3>
-            <ul className="list-disc pl-6 mb-8 space-y-2 text-gray-700">
-              <li>LMS</li>
-              <li>Conduira</li>
-              <li>PEARSON MePro</li>
-              <li>EBox</li>
-              <li>Edyst</li>
-            </ul>
+              <h3 className="text-xl font-semibold text-[#850209] mb-4">(ii) Tools used in Teaching and Learning</h3>
+              <ul className="list-disc pl-6 mb-8 space-y-2 text-gray-700">
+                <li>LMS</li>
+                <li>Conduira</li>
+                <li>PEARSON MePro</li>
+                <li>EBox</li>
+                <li>Edyst</li>
+              </ul>
 
-            <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">V20- Subjects</h3>
-            <div className="overflow-x-auto mb-8">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Regulation</th>
-                    <th className="py-3 px-4 border-b text-left">Sem</th>
-                    <th className="py-3 px-4 border-b text-left">Subject</th>
-                    <th className="py-3 px-4 border-b text-left">PPT</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">I</td>
-                    <td className="py-3 px-4 border-b">Problem Solving through C-Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/PCPS-V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Data Structures</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DS_V20.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Computer Organization and Architecture</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/COA_notes_V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">4</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">OOP's through C++</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/OOPS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">5</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Managerial Economics and Financial Analysis</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MEFA.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">6</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Mathematical Foundation Of Computer Science</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MFCS V20 material.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">7</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Design Analysis of Algorithms</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DAA Material.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">8</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Java Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Java V20 all units content.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">9</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Software Engineering</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SE NOTES.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">10</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Statistical Visualization using R Lab</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SVR LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">11</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">V</td>
-                    <td className="py-3 px-4 border-b">Artificial Intelligence</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/AI.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">12</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">V</td>
-                    <td className="py-3 px-4 border-b">Data Mining</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DATA MINING.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">13</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">V</td>
-                    <td className="py-3 px-4 border-b">Web Technologies</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Web_Technologies.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">14</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">VI</td>
-                    <td className="py-3 px-4 border-b">Unified Modeling Language Lab</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/UML LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">V18- Subjects</h3>
-            <div className="overflow-x-auto mb-8">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Regulation</th>
-                    <th className="py-3 px-4 border-b text-left">Sem</th>
-                    <th className="py-3 px-4 border-b text-left">Subject</th>
-                    <th className="py-3 px-4 border-b text-left">PPT</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">I/II</td>
-                    <td className="py-3 px-4 border-b">Programming in C for Problem Solving</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/cprogrammingppts.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Object Oriented Programming for Problem Solving</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/ADSPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">4</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Digital Electronics</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/DE_Cse_II_Sem.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">5</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Data Mining</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/III_Sem_DM MATERIAL.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">6</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Computer Organization</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Computer Organization.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">7</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Software Engineering</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/SEPPTs.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">8</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Python Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">9</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Java Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Java Materials.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">10</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Formal Languages and Automata Theory</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/FLATPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        );
-
-      case 'Board of Studies':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-                Board of Studies
-              </h2>
-              <div className="overflow-x-auto">
-                <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+              <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">V20- Subjects</h3>
+              <div className="overflow-x-auto mb-8">
+                <table className="min-w-full bg-white border border-gray-200">
                   <thead className="bg-gray-100">
                     <tr>
-                      <th className="py-3 px-4 border-b border-gray-200 text-left">S.No</th>
-                      <th className="py-3 px-4 border-b border-gray-200 text-left">Name of the BOS Member</th>
-                      <th className="py-3 px-4 border-b border-gray-200 text-left">Designation</th>
-                      <th className="py-3 px-4 border-b border-gray-200 text-left">Organization</th>
-                      <th className="py-3 px-4 border-b border-gray-200 text-left">Position in JOB</th>
+                      <th className="py-3 px-4 border-b text-left">S.No</th>
+                      <th className="py-3 px-4 border-b text-left">Regulation</th>
+                      <th className="py-3 px-4 border-b text-left">Sem</th>
+                      <th className="py-3 px-4 border-b text-left">Subject</th>
+                      <th className="py-3 px-4 border-b text-left">PPT</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b border-gray-200">1</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Dr. D Jaya Kumari</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Professor & HOD</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Dept of CSE, SVEC</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Chairperson</td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b border-gray-200">2</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Dr. A Krishna Mohan</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
-                      <td className="py-3 px-4 border-b border-gray-200">JNTUK, Kakinada</td>
-                      <td className="py-3 px-4 border-b border-gray-200">University Nominee</td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b border-gray-200">3</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Dr. R.B.V Subramaanyam</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
-                      <td className="py-3 px-4 border-b border-gray-200">NITW</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Academic Expert</td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b border-gray-200">4</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Dr. S Pallam Setty</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Andhra University</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Academic Expert</td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b border-gray-200">5</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Mr. SrinivasaRaju Vuppalapati</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Senior Consultant</td>
-                      <td className="py-3 px-4 border-b border-gray-200">MSR IT Services LLP</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Industry Expert</td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b border-gray-200">6</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Mr. Eedala Rambabu</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Member of Technical Staff2</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Amadeus, Bangalore</td>
-                      <td className="py-3 px-4 border-b border-gray-200">Alumni CSE Dept</td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b border-gray-200">7</td>
-                      <td className="py-3 px-4 border-b border-gray-200" colSpan={2}>
-                        All the Faculty Members in the CSE Dept.
+                      <td className="py-3 px-4 border-b">1</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">I</td>
+                      <td className="py-3 px-4 border-b">Problem Solving through C-Programming</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/PCPS-V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
                       </td>
-                      <td className="py-3 px-4 border-b border-gray-200" colSpan={2}>Members in BOS</td>
                     </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">2</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">III</td>
+                      <td className="py-3 px-4 border-b">Data Structures</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DS_V20.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">3</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">III</td>
+                      <td className="py-3 px-4 border-b">Computer Organization and Architecture</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/COA_notes_V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">4</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">III</td>
+                      <td className="py-3 px-4 border-b">OOP's through C++</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/OOPS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">5</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">III</td>
+                      <td className="py-3 px-4 border-b">Managerial Economics and Financial Analysis</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MEFA.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">6</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">III</td>
+                      <td className="py-3 px-4 border-b">Mathematical Foundation Of Computer Science</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MFCS V20 material.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">7</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">IV</td>
+                      <td className="py-3 px-4 border-b">Design Analysis of Algorithms</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DAA Material.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">8</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">IV</td>
+                      <td className="py-3 px-4 border-b">Java Programming</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Java V20 all units content.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">9</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">IV</td>
+                      <td className="py-3 px-4 border-b">Software Engineering</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SE NOTES.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">10</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">IV</td>
+                      <td className="py-3 px-4 border-b">Statistical Visualization using R Lab</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SVR LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">11</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">V</td>
+                      <td className="py-3 px-4 border-b">Artificial Intelligence</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/AI.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">12</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">V</td>
+                      <td className="py-3 px-4 border-b">Data Mining</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DATA MINING.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">13</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">V</td>
+                      <td className="py-3 px-4 border-b">Web Technologies</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Web_Technologies.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">14</td>
+                      <td className="py-3 px-4 border-b">V20</td>
+                      <td className="py-3 px-4 border-b">VI</td>
+                      <td className="py-3 px-4 border-b">Unified Modeling Language Lab</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/UML LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">V18- Subjects</h3>
+              <div className="overflow-x-auto mb-8">
+                <table className="min-w-full bg-white border border-gray-200">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="py-3 px-4 border-b text-left">S.No</th>
+                      <th className="py-3 px-4 border-b text-left">Regulation</th>
+                      <th className="py-3 px-4 border-b text-left">Sem</th>
+                      <th className="py-3 px-4 border-b text-left">Subject</th>
+                      <th className="py-3 px-4 border-b text-left">PPT</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">1</td>
+                      <td className="py-3 px-4 border-b">V18</td>
+                      <td className="py-3 px-4 border-b">I/II</td>
+                      <td className="py-3 px-4 border-b">Programming in C for Problem Solving</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/cprogrammingppts.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">2</td>
+                      <td className="py-3 px-4 border-b">V18</td>
+                      <td className="py-3 px-4 border-b">III</td>
+                      <td className="py-3 px-4 border-b">Object Oriented Programming for Problem Solving</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/ADSPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">4</td>
+                      <td className="py-3 px-4 border-b">V18</td>
+                      <td className="py-3 px-4 border-b">III</td>
+                      <td className="py-3 px-4 border-b">Digital Electronics</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/DE_Cse_II_Sem.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">5</td>
+                      <td className="py-3 px-4 border-b">V18</td>
+                      <td className="py-3 px-4 border-b">III</td>
+                      <td className="py-3 px-4 border-b">Data Mining</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/III_Sem_DM MATERIAL.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">6</td>
+                      <td className="py-3 px-4 border-b">V18</td>
+                      <td className="py-3 px-4 border-b">IV</td>
+                      <td className="py-3 px-4 border-b">Computer Organization</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Computer Organization.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">7</td>
+                      <td className="py-3 px-4 border-b">V18</td>
+                      <td className="py-3 px-4 border-b">IV</td>
+                      <td className="py-3 px-4 border-b">Software Engineering</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/SEPPTs.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">8</td>
+                      <td className="py-3 px-4 border-b">V18</td>
+                      <td className="py-3 px-4 border-b">IV</td>
+                      <td className="py-3 px-4 border-b">Python Programming</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">9</td>
+                      <td className="py-3 px-4 border-b">V18</td>
+                      <td className="py-3 px-4 border-b">IV</td>
+                      <td className="py-3 px-4 border-b">Java Programming</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Java Materials.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b">10</td>
+                      <td className="py-3 px-4 border-b">V18</td>
+                      <td className="py-3 px-4 border-b">IV</td>
+                      <td className="py-3 px-4 border-b">Formal Languages and Automata Theory</td>
+                      <td className="py-3 px-4 border-b">
+                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/FLATPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            );
+
+            case 'Board of Studies':
+            return (
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+              <div className="space-y-6">
+                <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+                  Board of Studies
+                </h2>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="py-3 px-4 border-b border-gray-200 text-left">S.No</th>
+                        <th className="py-3 px-4 border-b border-gray-200 text-left">Name of the BOS Member</th>
+                        <th className="py-3 px-4 border-b border-gray-200 text-left">Designation</th>
+                        <th className="py-3 px-4 border-b border-gray-200 text-left">Organization</th>
+                        <th className="py-3 px-4 border-b border-gray-200 text-left">Position in JOB</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b border-gray-200">1</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Dr. D Jaya Kumari</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Professor & HOD</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Dept of CSE, SVEC</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Chairperson</td>
+                      </tr>
+                      <tr className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b border-gray-200">2</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Dr. A Krishna Mohan</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
+                        <td className="py-3 px-4 border-b border-gray-200">JNTUK, Kakinada</td>
+                        <td className="py-3 px-4 border-b border-gray-200">University Nominee</td>
+                      </tr>
+                      <tr className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b border-gray-200">3</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Dr. R.B.V Subramaanyam</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
+                        <td className="py-3 px-4 border-b border-gray-200">NITW</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Academic Expert</td>
+                      </tr>
+                      <tr className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b border-gray-200">4</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Dr. S Pallam Setty</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Andhra University</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Academic Expert</td>
+                      </tr>
+                      <tr className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b border-gray-200">5</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Mr. SrinivasaRaju Vuppalapati</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Senior Consultant</td>
+                        <td className="py-3 px-4 border-b border-gray-200">MSR IT Services LLP</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Industry Expert</td>
+                      </tr>
+                      <tr className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b border-gray-200">6</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Mr. Eedala Rambabu</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Member of Technical Staff2</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Amadeus, Bangalore</td>
+                        <td className="py-3 px-4 border-b border-gray-200">Alumni CSE Dept</td>
+                      </tr>
+                      <tr className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b border-gray-200">7</td>
+                        <td className="py-3 px-4 border-b border-gray-200" colSpan={2}>
+                          All the Faculty Members in the CSE Dept.
+                        </td>
+                        <td className="py-3 px-4 border-b border-gray-200" colSpan={2}>Members in BOS</td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -1085,7 +1105,7 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
-            
+
       case 'Department Library':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -1104,9 +1124,9 @@ const CSTDepartment: React.FC = () => {
               {/* Paragraph content on the right */}
               <div className="md:w-1/2">
                 <p className="text-gray-700 text-lg text-justify">
-                  Department Library offers a variety of books related to Computer Science and Basic Science subjects. Reference books 
-                  of various subjects are procured. Various Competitive Books are available to satisfy the thirst of the students. Books are 
-                  issued to students and staff. Students can access the Library facility according to their convenience any time 
+                  Department Library offers a variety of books related to Computer Science and Basic Science subjects. Reference books
+                  of various subjects are procured. Various Competitive Books are available to satisfy the thirst of the students. Books are
+                  issued to students and staff. Students can access the Library facility according to their convenience any time
                   round-the-clock.
                 </p>
               </div>
@@ -1137,14 +1157,14 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
-        
+
       case 'MoUs':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
               MoUs
             </h2>
-            
+
             <h3 className="text-xl font-semibold text-[#850209] mb-4 text-center">A. MOUs with Industries</h3>
             <div className="overflow-x-auto mb-8">
               <table className="min-w-full bg-white border border-gray-200">
@@ -1326,7 +1346,7 @@ const CSTDepartment: React.FC = () => {
                       >View</a>
                     </td>
                   </tr>
-                  
+
                 </tbody>
               </table>
             </div>
@@ -1389,7 +1409,7 @@ const CSTDepartment: React.FC = () => {
                     View
                   </a>
                 </li>
-                
+
               </ul>
             </div>
           </div>
@@ -2241,7 +2261,7 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
-        case 'Extra-Curricular Activities':
+      case 'Extra-Curricular Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Extra-Curricular Activities</h2>
@@ -2408,7 +2428,7 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
-      
+
       case 'Technical Association':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -2524,7 +2544,7 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
-        case 'Newsletters':
+      case 'Newsletters':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Newsletters</h2>
@@ -3214,7 +3234,7 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
-      
+
       case 'Training Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -3491,39 +3511,22 @@ const CSTDepartment: React.FC = () => {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          <aside className="w-full lg:w-80 lg:flex-shrink-0">
-            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
-              <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
-                <span className="font-bold">Department Menu</span>
-                <Menu className="w-6 h-6" />
-              </button>
-              <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
-                <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
-                <ul className="space-y-2">
-                  {sidebarItems.map((item) => (
-                    <li key={item}>
-                      <button
-                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
-                        onClick={() => {
-                          setActiveContent(item);
-                          if (window.innerWidth < 1024) setSidebarOpen(false);
-                        }}
-                      >
-                        <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
-                        <span>{item}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          </aside>
-          <main className="flex-1 min-w-0">
-            {renderContent()}
-          </main>
+      {/* Fixed Sidebar Component */}
+      <FixedSidebar
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
+        onClose={() => setSidebarOpen(false)}
+        items={sidebarItems}
+        activeItem={activeContent}
+        onItemClick={setActiveContent}
+        title="CST Department"
+        buttonLabel="Department Menu"
+      />
 
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+          {renderContent()}
         </div>
       </div>
     </div>

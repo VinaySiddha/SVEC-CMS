@@ -24,6 +24,7 @@ const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const [submenuPosition, setSubmenuPosition] = useState<{ top: number, left: number } | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const pathname = usePathname();
@@ -119,42 +120,40 @@ const Header: React.FC = () => {
 
   // UGC dropdown items
   const ugcDropdownItems = [
-    { name: 'UGC Guidelines', path: '/ugc/guidelines' },
-    { name: 'UGC Regulations', path: '/ugc/regulations' },
-    { name: 'UGC Circulars', path: '/ugc/circulars' },
-    { name: 'UGC Compliance', path: '/ugc/compliance' }
+    { name: 'Academic Council', path: '#' },
+    { name: 'Board of Studies', path: 'http://srivasaviengg.ac.in/uploads/List%20of%20Board%20of%20Studies_2021_22.pdf' },
+    { name: 'Finance Committee', path: 'http://srivasaviengg.ac.in/Finance_Committee_2021_2022.png' },
+    { name: 'IQAC', path: 'http://srivasaviengg.ac.in/uploads/iqac_members_2021_2022.png' },
+    { name: 'Non Statutory Committee', path: 'http://srivasaviengg.ac.in/uploads/College%20Level%20Committees%202021-22.pdf' },
+    { name: 'Fee Structure', path: 'http://srivasaviengg.ac.in/uploads/fee.png' },
+    { name: 'Undertaking', path: 'http://srivasaviengg.ac.in/uploads/Undertaking_2021_2022.jpg' }
   ];
 
   // NIRF dropdown items
   const nirfDropdownItems = [
-    { name: 'SVEC-Overall Category NIRF', path: '/nirf/overall' },
-    { name: 'SVEC-Engineering Category NIRF', path: '/nirf/engineering' },
-    { name: 'NIRF Rankings', path: '/nirf/rankings' },
-    { name: 'NIRF Data Submission', path: '/nirf/data-submission' }
+    { name: 'SVEC-Overall Category NIRF', path: '#' },
+    { name: 'SVEC-Engineering Category NIRF', path: '#' }
   ];
 
   // Other Links dropdown items
   const otherLinksDropdownItems = [
-    { name: 'Faculty Achievements', path: '/other-links/faculty-achievements' },
-    { name: 'Anti Ragging Committee', path: '/other-links/anti-ragging' },
-    { name: 'Internal Complaints Committee', path: '/other-links/internal-complaints' },
-    { name: 'SC/ST Welfare Committee', path: '/other-links/scst-welfare' },
-    { name: 'Institute Industry Cell', path: '/other-links/industry-cell' },
-    { name: 'Other Important Committees', path: '/other-links/important-committees' },
-    { name: 'Alumni Engagement', path: '/other-links/alumni' },
-    { name: 'Entrepreneurial Quest', path: '/other-links/entrepreneurial' },
-    { name: 'Student Welfare', path: '/other-links/student-welfare' },
-    { name: 'Career Guidance', path: '/other-links/career-guidance' }
+    { name: 'Anti Ragging Committee', path: 'https://srivasaviengg.ac.in/uploads/Anti%20Ragging%20Committee%202023-4.pdf' },
+    { name: 'Internal Complaints Committee', path: 'https://srivasaviengg.ac.in/uploads/Internal%20Compliants%20Committee%202023-24.pdf' },
+    { name: 'SC/ST Welfare Committee', path: 'https://srivasaviengg.ac.in/uploads/SC%20ST%20Welfare%20Committee%202023-24.pdf' },
+    { name: 'Institute Industry Cell', path: 'https://srivasaviengg.ac.in/uploads/INSTITUTION-INDUSTRY%20CELL%202023-24.pdf' },
+    { name: 'Other Important Committee', path: 'https://srivasaviengg.ac.in/uploads/College%20Level%20Committees%20Details.pdf' },
+    { name: 'Alumni Engagement', path: './alumni_engagement.html' },
+    { name: 'Entrepreneurial Quest', path: 'https://entrepreneurialquest.netlify.app' }
   ];
 
   // More dropdown items - organized and consistent with other dropdowns
   const moreDropdownItems = [
-    { name: 'Grievance Portal', path: 'https://srivasaviengg.ac.in/grievance' },
-    { name: 'NAAC Accreditation', path: '/naac' },
-    { name: 'Research & Development', path: '/r-and-d' },
-    { name: 'Campus Life', path: '/CampusLife' },
-    { name: 'Student Activities', path: '/student-activities' },
-    { name: 'Sports & Recreation', path: '/sports' },
+    { name: 'V Grievance', path: '/v-grievance' },
+    { name: 'NAAC', path: '/naac' },
+    { name: 'R & D', path: '/rd-innovation' },
+    { name: 'Mandates', path: '/mandates' },
+    { name: 'Category B', path: '/category-b' },
+    { name: 'Campus Life', path: '/campus-life' },
     {
       name: 'UGC',
       path: '/ugc',
@@ -168,14 +167,11 @@ const Header: React.FC = () => {
       dropdownItems: nirfDropdownItems
     },
     {
-      name: 'Important Links',
+      name: 'Other Links',
       path: '/other-links',
       hasDropdown: true,
       dropdownItems: otherLinksDropdownItems
     },
-    { name: 'Mandates & Policies', path: '/mandates' },
-    { name: 'Category B Documents', path: '/category-b' },
-    { name: 'About Institution', path: '/about-us' },
   ];
 
   const headerClass = isScrolled || !isHomePage
@@ -307,6 +303,7 @@ const Header: React.FC = () => {
                     dropdownTimeoutRef.current = setTimeout(() => {
                       setActiveDropdown(null);
                       setActiveSubmenu(null);
+                      setSubmenuPosition(null);
                     }, 200);
                   }}
                 >
@@ -317,90 +314,26 @@ const Header: React.FC = () => {
                         className="group relative"
                       >
                         <div
-                          className="flex items-center justify-between px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary cursor-pointer"
+                          className="flex items-center justify-between px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary cursor-pointer w-full"
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             if (activeSubmenu === item.name) {
                               setActiveSubmenu(null);
+                              setSubmenuPosition(null);
                             } else {
+                              const rect = e.currentTarget.getBoundingClientRect();
+                              setSubmenuPosition({
+                                top: rect.top,
+                                left: rect.right - 20
+                              });
                               setActiveSubmenu(item.name);
-                            }
-                            console.log('Clicked:', item.name, 'Active submenu:', activeSubmenu);
-                          }}
-                          onMouseEnter={() => {
-                            setActiveSubmenu(item.name);
-                            if (dropdownTimeoutRef.current) {
-                              clearTimeout(dropdownTimeoutRef.current);
-                              dropdownTimeoutRef.current = null;
                             }
                           }}
                         >
                           <span>{item.name}</span>
                           <ChevronRight className={`w-4 h-4 transition-transform ${activeSubmenu === item.name ? 'rotate-90' : ''}`} />
                         </div>
-                        {activeSubmenu === item.name && (
-                          <div
-                            className="fixed inset-4 md:top-24 md:right-8 md:left-auto md:bottom-auto w-auto md:w-72 bg-background rounded-xl shadow-2xl border-2 border-primary/20 py-3 z-[80] animate-in fade-in-0 slide-in-from-top-4 duration-300 max-h-[80vh] overflow-y-auto"
-                            style={{
-                              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(59, 130, 246, 0.1)'
-                            }}
-                            onClick={(e) => e.stopPropagation()}
-                            onMouseEnter={() => {
-                              setActiveSubmenu(item.name);
-                              if (dropdownTimeoutRef.current) {
-                                clearTimeout(dropdownTimeoutRef.current);
-                                dropdownTimeoutRef.current = null;
-                              }
-                            }}
-                            onMouseLeave={(e) => {
-                              const relatedTarget = e.relatedTarget as Element;
-                              const currentTarget = e.currentTarget as Element;
-
-                              // Don't close if moving back to parent dropdown
-                              const parentDropdown = document.querySelector('[data-dropdown="more"]');
-                              if (parentDropdown && parentDropdown.contains(relatedTarget)) {
-                                return;
-                              }
-
-                              dropdownTimeoutRef.current = setTimeout(() => {
-                                setActiveSubmenu(null);
-                              }, 300);
-                            }}
-                          >
-                            {/* Header with close button */}
-                            <div className="flex items-center justify-between px-4 md:px-5 py-3 border-b border-border/50 mb-2">
-                              <h4 className="text-lg md:text-base font-semibold text-primary">{item.name}</h4>
-                              <button
-                                onClick={() => setActiveSubmenu(null)}
-                                className="text-foreground/50 hover:text-foreground transition-colors p-2 rounded-md hover:bg-secondary"
-                              >
-                                <X className="w-5 h-5 md:w-4 md:h-4" />
-                              </button>
-                            </div>
-
-                            {/* Submenu Items */}
-                            <div className="space-y-2 px-3 md:px-2">
-                              {item.dropdownItems?.map((subItem, subIdx) => (
-                                <Link
-                                  key={subIdx}
-                                  href={subItem.path}
-                                  className="block px-4 py-4 md:py-3 text-base md:text-sm text-foreground/80 hover:bg-primary/10 hover:text-primary transition-all duration-200 rounded-lg touch-manipulation"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setActiveDropdown(null);
-                                    setActiveSubmenu(null);
-                                  }}
-                                >
-                                  <div className="flex items-center space-x-3">
-                                    <div className="w-2.5 h-2.5 md:w-2 md:h-2 bg-primary/60 rounded-full flex-shrink-0"></div>
-                                    <span className="font-medium">{subItem.name}</span>
-                                  </div>
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        )}
                       </div>
                     ) : (
                       <Link
@@ -422,6 +355,77 @@ const Header: React.FC = () => {
                       </Link>
                     )
                   ))}
+                </div>
+              )}
+
+              {/* Sub-dropdown rendered outside main dropdown */}
+              {activeDropdown === 'more' && activeSubmenu && submenuPosition && (
+                <div
+                  className="fixed bg-background shadow-lg border z-[60] max-h-96 overflow-y-auto
+                           md:rounded-md md:py-1 md:w-56
+                           w-full h-full top-0 left-0 md:top-auto md:left-auto md:h-auto
+                           flex flex-col md:block"
+                  style={{
+                    top: window.innerWidth >= 768 ? `${submenuPosition.top}px` : '0',
+                    left: window.innerWidth >= 768 ? `${Math.min(submenuPosition.left, window.innerWidth - 240)}px` : '0'
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                  onMouseEnter={() => {
+                    if (dropdownTimeoutRef.current) {
+                      clearTimeout(dropdownTimeoutRef.current);
+                      dropdownTimeoutRef.current = null;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    const relatedTarget = e.relatedTarget as Element;
+                    const parentDropdown = document.querySelector('[data-dropdown="more"]');
+                    if (parentDropdown && parentDropdown.contains(relatedTarget)) {
+                      return;
+                    }
+                    dropdownTimeoutRef.current = setTimeout(() => {
+                      setActiveSubmenu(null);
+                      setSubmenuPosition(null);
+                    }, 300);
+                  }}
+                >
+                  {/* Mobile close button */}
+                  <button
+                    onClick={() => {
+                      setActiveSubmenu(null);
+                      setSubmenuPosition(null);
+                    }}
+                    className="md:hidden absolute top-4 right-4 text-foreground/60 hover:text-foreground transition-colors z-10"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+
+                  {/* Content */}
+                  <div className="md:p-0 p-4 pt-12 md:pt-0 flex-1 overflow-y-auto">
+                    {moreDropdownItems
+                      .find(item => item.name === activeSubmenu)
+                      ?.dropdownItems?.map((subItem, subIdx) => (
+                        <Link
+                          key={subIdx}
+                          href={subItem.path}
+                          className="block px-4 py-3 md:py-2 text-base md:text-sm text-foreground/80 hover:bg-secondary hover:text-primary
+                                   md:rounded-none rounded-lg mb-2 md:mb-0 transition-colors"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveDropdown(null);
+                            setActiveSubmenu(null);
+                            setSubmenuPosition(null);
+                          }}
+                          onMouseEnter={() => {
+                            if (dropdownTimeoutRef.current) {
+                              clearTimeout(dropdownTimeoutRef.current);
+                              dropdownTimeoutRef.current = null;
+                            }
+                          }}
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))}
+                  </div>
                 </div>
               )}
             </div>

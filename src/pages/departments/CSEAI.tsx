@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState } from 'react';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Brain, BookOpen, Award, ExternalLink, Menu, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
+import FixedSidebar from '../../components/FixedSidebar';
 
 const CSEAIDepartment: React.FC = () => {
   const [activeContent, setActiveContent] = useState('Department Profile');
@@ -9,7 +10,25 @@ const CSEAIDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const sidebarItems = [
-    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Physical Facilities', 'Department Library', 'MoUs', 'Faculty Development Programs', 'Faculty Achievements', 'Workshops', 'Student Achievements', 'Placements', 'Academic Toppers', 'Technical Association', 'Newsletters', 'Extra-Curricular Activities', 'Hackathons', 'Handbooks', 'Contact'
+    { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
+    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
+    { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
+    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'Physical Facilities', label: 'Physical Facilities', icon: <HardHat className="w-4 h-4" /> },
+    { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
+    { id: 'MoUs', label: 'MoUs', icon: <Handshake className="w-4 h-4" /> },
+    { id: 'Faculty Development Programs', label: 'Faculty Development Programs', icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
+    { id: 'Workshops', label: 'Workshops', icon: <Presentation className="w-4 h-4" /> },
+    { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
+    { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
+    { id: 'Academic Toppers', label: 'Academic Toppers', icon: <Trophy className="w-4 h-4" /> },
+    { id: 'Technical Association', label: 'Technical Association', icon: <Brain className="w-4 h-4" /> },
+    { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
+    { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Hackathons', label: 'Hackathons', icon: <Brain className="w-4 h-4" /> },
+    { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
+    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
 
   const renderDeptTabContent = () => {
@@ -144,18 +163,17 @@ const CSEAIDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
-            
+
             {/* Tab Navigation */}
             <div className="flex flex-wrap gap-2 mb-8 justify-center">
               {['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'SalientFeatures'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveDeptTab(tab)}
-                  className={`px-4 py-2 rounded-md text-sm transition-all ${
-                    activeDeptTab === tab
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
+                  className={`px-4 py-2 rounded-md text-sm transition-all ${activeDeptTab === tab
+                    ? 'bg-[#B22222] text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
                 >
                   {tab}
                 </button>
@@ -188,37 +206,22 @@ const CSEAIDepartment: React.FC = () => {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          <aside className="w-full lg:w-80 lg:flex-shrink-0">
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden sticky top-8">
-              <div className="bg-[#8B1919] text-white p-6">
-                <h3 className="text-xl font-bold">Department Sections</h3>
-              </div>
-              <nav className="p-4">
-                <ul className="space-y-2">
-                  {sidebarItems.map((item) => (
-                    <li key={item}>
-                      <button
-                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
-                        onClick={() => {
-                          setActiveContent(item);
-                          if (window.innerWidth < 1024) setSidebarOpen(false);
-                        }}
-                      >
-                        <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
-                        <span>{item}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          </aside>
+      {/* Fixed Sidebar Component */}
+      <FixedSidebar
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
+        onClose={() => setSidebarOpen(false)}
+        items={sidebarItems}
+        activeItem={activeContent}
+        onItemClick={setActiveContent}
+        title="CSE-AI Department"
+        buttonLabel="Department Menu"
+      />
 
-          <main className="flex-1 min-w-0">
-            {renderContent()}
-          </main>
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+          {renderContent()}
         </div>
       </div>
     </div>

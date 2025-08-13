@@ -186,7 +186,7 @@ const HeadOfDepartments: React.FC = () => {
   return (
     <div className="pt-44 bg-[#FFF8F0] min-h-screen">
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white">
+      <section className="py-16 bg-primary text-white">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-animate">
             Heads of Departments
