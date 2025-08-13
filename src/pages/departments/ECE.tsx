@@ -7,6 +7,7 @@ const ECEDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
+  const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
@@ -30,6 +31,8 @@ const ECEDepartment: React.FC = () => {
     { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
     { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
+
+  const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
   const faculty = [
     { name: "Dr.E.Kusuma Kumari", qualification: "M.Tech.,Ph.D", designation: "Professor & HOD", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/ece_Dr.%20E.%20Kusuma%20Kumari.pdf" },
@@ -234,7 +237,7 @@ const ECEDepartment: React.FC = () => {
               The course outcomes are defined for each course and are aligned with the Program Outcomes and Program Specific Outcomes. The course outcomes are assessed through direct and indirect assessment tools.
             </p>
             <p className="mt-4 text-gray-700">
-              <a href="#" className="text-[#B22222] hover:underline">Download Course Outcomes Document</a>
+              <a href="https://srivasaviengg.ac.in/uploads/ece/COs.pdf" className="text-[#B22222] hover:underline">Download Course Outcomes Document</a>
             </p>
           </div>
         );
@@ -264,69 +267,149 @@ const ECEDepartment: React.FC = () => {
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            {/* Navigation Tab */}
-            <div className="bg-white mb-8">
-              <div className="overflow-x-auto">
-                <nav className="flex flex-nowrap whitespace-nowrap py-2 justify-center">
+            {/* Desktop Navigation Tabs */}
+            <div className="hidden md:block relative mb-8">
+              <div className="flex flex-wrap justify-center gap-2 mb-6">
+                {sections.map((section) => (
                   <button
-                    onClick={() => setActiveDeptTab('Department')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'Department' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
+                    key={section}
+                    onClick={() => setActiveDeptTab(section)}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
                   >
-                    Department
+                    {section === 'SalientFeatures' ? 'Salient Features' : section}
                   </button>
-                  <button
-                    onClick={() => setActiveDeptTab('Vision')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'Vision' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    Vision
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('Mission')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'Mission' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    Mission
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('PEOs')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'PEOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    PEOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('POs')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'POs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    POs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('PSOs')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'PSOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    PSOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('COs')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'COs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    COs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('SalientFeatures')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'SalientFeatures' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    Salient Features
-                  </button>
-                </nav>
+                ))}
               </div>
             </div>
+
+            {/* Mobile Section Display */}
+            <div className="md:hidden relative mb-8">
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-semibold text-gray-800">
+                  Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                </h3>
+                <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+              </div>
+            </div>
+
+            {/* Game-Style Right Side Settings Panel */}
+            {settingsPanelOpen && (
+              <div className="fixed inset-0 z-50">
+                {/* Backdrop */}
+                <div
+                  className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+                  onClick={() => setSettingsPanelOpen(false)}
+                ></div>
+
+                {/* Settings Panel */}
+                <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+                  {/* Panel Header */}
+                  <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] p-4 border-b border-gray-700">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                          <p className="text-white/70 text-sm">Select a section to explore</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setSettingsPanelOpen(false)}
+                        className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                      >
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Panel Content */}
+                  <div className="p-6 h-full overflow-y-auto">
+                    <div className="space-y-3">
+                      {sections.map((section, index) => {
+                        const isActive = section === activeDeptTab;
+                        return (
+                          <button
+                            key={section}
+                            onClick={() => {
+                              setActiveDeptTab(section);
+                              setSettingsPanelOpen(false);
+                            }}
+                            className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                              }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
+                                }`}>
+                                {index + 1}
+                              </div>
+                              <div>
+                                <div className="font-semibold">
+                                  {section === 'SalientFeatures' ? 'Salient Features' : section}
+                                </div>
+                                <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
+                                  {section === 'Department' && 'Overview & HOD Profile'}
+                                  {section === 'Vision' && 'Department Vision Statement'}
+                                  {section === 'Mission' && 'Department Mission Statement'}
+                                  {section === 'PEOs' && 'Program Educational Objectives'}
+                                  {section === 'POs' && 'Program Outcomes'}
+                                  {section === 'PSOs' && 'Program Specific Outcomes'}
+                                  {section === 'COs' && 'Course Outcomes'}
+                                  {section === 'SalientFeatures' && 'Key Highlights & Features'}
+                                </div>
+                              </div>
+                              {isActive && (
+                                <div className="ml-auto">
+                                  <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                                </div>
+                              )}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Panel Footer */}
+                    <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
+                      <div className="text-center">
+                        <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
+                        <div className="text-white/50 text-xs">
+                          Click any section above to navigate instantly
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Floating Settings Button - Mobile Only */}
+            <button
+              onClick={() => setSettingsPanelOpen(true)}
+              className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+              title="Department Navigation"
+            >
+              <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+
+              {/* Mobile Label */}
+              <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                Menu
+                <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
+              </div>
+            </button>
 
             {/* Content Area that changes completely based on selected tab */}
             {renderDeptTabContent()}
@@ -408,7 +491,7 @@ const ECEDepartment: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Laboratory Facilities</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center items-center">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       {[
                         "https://srivasaviengg.ac.in/image/ece%20images/Electronic%20devices%20and%20Circuits%20Lab%204.JPG",
                         "https://srivasaviengg.ac.in/image/ece%20images/Electronic%20devices%20and%20Circuits%20Lab%205.JPG",
@@ -435,7 +518,7 @@ const ECEDepartment: React.FC = () => {
               <details className="border rounded-lg">
                 <summary className="font-semibold text-lg px-4 py-2 cursor-pointer">Department Library</summary>
                 <div className="p-4 space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 justify-center items-center mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
                     <img src="https://srivasaviengg.ac.in/image/ecelibrary/Deprtmnt%20Lib.JPG" alt="Library 1" className="rounded-lg shadow-md w-full h-auto object-cover" />
                     <img src="https://srivasaviengg.ac.in/image/ecelibrary/Deprtmnt%20Lib1.JPG" alt="Library 2" className="rounded-lg shadow-md w-full h-auto object-cover" />
                   </div>
@@ -1154,7 +1237,7 @@ const ECEDepartment: React.FC = () => {
               {/* TECKVEDA-2K19 Gallery */}
               <div className="mb-8">
                 <h4 className="text-xl font-bold text-center mb-4">TECKVEDA-2K19</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center items-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {[
                     { src: "tech_veda%20poster.jpg", alt: "Image 1" },
                     { src: "tech_veda1.jpg", alt: "Image 2" },
@@ -1184,7 +1267,7 @@ const ECEDepartment: React.FC = () => {
               {/* TECKVEDA-2K18 Gallery */}
               <div>
                 <h4 className="text-xl font-bold text-center mb-4">TECKVEDA-2K18</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center items-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {[
                     { src: "techf%20(1).jpg", alt: "Image 1" },
                     { src: "techf%20(2).jpg", alt: "Image 2" },
@@ -1277,7 +1360,7 @@ const ECEDepartment: React.FC = () => {
               </details>
             </div>
             <h3 className="text-2xl font-semibold mb-4 text-center mt-8">Image Gallery</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
                 1, 2, 3, 6, 5, 7, 8, 9, 9, 10, 11, 12, 13, 14
               ].map((num, idx) => (
@@ -1387,7 +1470,7 @@ const ECEDepartment: React.FC = () => {
                 </div>
                 <div className="text-center mt-8">
                   <h3 className="text-2xl font-semibold mb-4">Workshops/SOC Gallery PICS</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center items-center">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {[
                       "guestlecture_img1.jpg",
                       "guestlecture_img2.jpg",
@@ -1834,7 +1917,7 @@ const ECEDepartment: React.FC = () => {
             {/* Gallery */}
             <div className="mb-6">
               <h3 className="text-2xl font-semibold mb-4">Gallery</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {[1, 2, 3, 4, 5, 6, 7, 10, 14, 12, 13, 15, 16, 20].map((num) => (
                   <img key={num} src={`https://srivasaviengg.ac.in/uploads/facul_achievements/${num}.jpg`} alt={`Image ${num}`} className="rounded-lg shadow-md w-full h-auto object-cover" />
                 ))}

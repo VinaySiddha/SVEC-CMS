@@ -7,6 +7,7 @@ const CSTDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
+  const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
@@ -31,6 +32,8 @@ const CSTDepartment: React.FC = () => {
     { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
     { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
+
+  const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
   const faculty = [
     { name: "Mr. T. Sai Mahesh", qualification: "M.Tech", designation: "Asst.Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/CST_Sai%20Mahesh.pdf" },
@@ -222,6 +225,41 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
+      case 'COs':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Course Outcomes (COs)</h3>
+            <p className="text-gray-700 mb-4">
+              The course outcomes for all courses offered by the Computer Science & Technology department are designed to align with program outcomes and educational objectives.
+            </p>
+            <div className="mb-4">
+              <a
+                href="https://srivasaviengg.ac.in/uploads/cst/COs.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
+              >
+                <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
+              </a>
+            </div>
+          </div>
+        );
+      case 'SalientFeatures':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+              <li>Modern curriculum designed to meet industry requirements</li>
+              <li>Well-equipped computer laboratories with latest software</li>
+              <li>Experienced faculty with industry and research background</li>
+              <li>Strong emphasis on practical learning and project-based education</li>
+              <li>Regular industry interactions and guest lectures</li>
+              <li>Focus on emerging technologies and innovation</li>
+              <li>Active student clubs and technical societies</li>
+              <li>Excellent placement record with top companies</li>
+            </ul>
+          </div>
+        );
       default:
         return (
           <div className="animate-fade-in">
@@ -240,23 +278,149 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <div className="space-y-8">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
-
-              {/* Tab Navigation */}
-              <div className="flex flex-wrap gap-2 mb-8 justify-center">
-                {['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs'].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveDeptTab(tab)}
-                    className={`px-4 py-2 rounded-md text-sm transition-all ${activeDeptTab === tab
-                      ? 'bg-[#B22222] text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
+              {/* Desktop Navigation Tabs */}
+              <div className="hidden md:block relative mb-8">
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {sections.map((section) => (
+                    <button
+                      key={section}
+                      onClick={() => setActiveDeptTab(section)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                          ? 'bg-[#B22222] text-white shadow-lg'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              {/* Mobile Section Display */}
+              <div className="md:hidden relative mb-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+                </div>
+              </div>
+
+              {/* Game-Style Right Side Settings Panel */}
+              {settingsPanelOpen && (
+                <div className="fixed inset-0 z-50">
+                  {/* Backdrop */}
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+                    onClick={() => setSettingsPanelOpen(false)}
+                  ></div>
+
+                  {/* Settings Panel */}
+                  <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+                    {/* Panel Header */}
+                    <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] p-4 border-b border-gray-700">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                            <p className="text-white/70 text-sm">Select a section to explore</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setSettingsPanelOpen(false)}
+                          className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                        >
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Panel Content */}
+                    <div className="p-6 h-full overflow-y-auto">
+                      <div className="space-y-3">
+                        {sections.map((section, index) => {
+                          const isActive = section === activeDeptTab;
+                          return (
+                            <button
+                              key={section}
+                              onClick={() => {
+                                setActiveDeptTab(section);
+                                setSettingsPanelOpen(false);
+                              }}
+                              className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
+                                  ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                  : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                                }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
+                                  }`}>
+                                  {index + 1}
+                                </div>
+                                <div>
+                                  <div className="font-semibold">
+                                    {section === 'SalientFeatures' ? 'Salient Features' : section}
+                                  </div>
+                                  <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
+                                    {section === 'Department' && 'Overview & HOD Profile'}
+                                    {section === 'Vision' && 'Department Vision Statement'}
+                                    {section === 'Mission' && 'Department Mission Statement'}
+                                    {section === 'PEOs' && 'Program Educational Objectives'}
+                                    {section === 'POs' && 'Program Outcomes'}
+                                    {section === 'PSOs' && 'Program Specific Outcomes'}
+                                    {section === 'COs' && 'Course Outcomes'}
+                                    {section === 'SalientFeatures' && 'Key Highlights & Features'}
+                                  </div>
+                                </div>
+                                {isActive && (
+                                  <div className="ml-auto">
+                                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                                  </div>
+                                )}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Panel Footer */}
+                      <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
+                        <div className="text-center">
+                          <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
+                          <div className="text-white/50 text-xs">
+                            Click any section above to navigate instantly
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Floating Settings Button - Mobile Only */}
+              <button
+                onClick={() => setSettingsPanelOpen(true)}
+                className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                title="Department Navigation"
+              >
+                <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+
+                {/* Mobile Label */}
+                <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                  Menu
+                  <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
+                </div>
+              </button>
 
               {/* Tab Content */}
               <div>

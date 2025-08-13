@@ -4,6 +4,9 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingChatWidgets from "@/components/FloatingChatWidgets";
+import PageTransition from "@/components/PageTransition";
+import { LoadingProvider } from "@/contexts/LoadingContext";
+// import GlobalLoader from "@/components/GlobalLoader";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,14 +24,19 @@ export default function RootLayout(props: {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <Header />
-        <main className="flex-grow bg-secondary/50">
-          {props.children}
-        </main>
-        
-        <Footer />
+        <LoadingProvider>
+          {/* <GlobalLoader /> */}
+          <Header />
+          <PageTransition>
+            <main className="flex-grow bg-secondary/50">
+              {props.children}
+            </main>
+          </PageTransition>
 
-        <FloatingChatWidgets />
+          <Footer />
+
+          <FloatingChatWidgets />
+        </LoadingProvider>
       </body>
     </html>
   );
