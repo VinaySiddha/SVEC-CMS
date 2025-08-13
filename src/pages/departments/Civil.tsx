@@ -73,15 +73,26 @@ const CivilDepartment: React.FC = () => {
                     <p className="text-gray-600">Fax No: 08818-284322</p>
                     <p className="text-gray-600">Email: <a href="mailto:hod_civil@srivasaviengg.ac.in" className="text-primary hover:underline">hod_civil@srivasaviengg.ac.in</a></p>
                   </div>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    The Department of Civil Engineering was established in the year 2011 with a vision to strive towards quality education, research and consultancy. Civil Engineering is one of the oldest and broadest engineering disciplines which has been an aspect of life since the beginning of human civilization. Our department has grown significantly and continues to maintain its reputation for excellence in teaching and research.
+                  <p className="text-gray-700 leading-relaxed mb-4 text-justify">
+                     The Department of Civil Engineering was established in the
+                year 2011 with a vision to strive towards quality education,
+                research and consultancy. Civil Engineering is one of the
+                oldest and broadest engineering discipline which has been an
+                aspect of life, since the beginning of human civilization.
+                Efforts have been made to provide high quality technical
+                education to students with a view to make them successful
+                professionals. In order to attain the pre-defined objectives,
+                focus has been made on Outcome Based Education, which
+                facilitates the students to analyze problems, design and
+                develop solutions and usage of modern tools, by making
+                him/herself as an ethical Engineer with best of the kind
+                leadership traits. Department is offering B.Tech (Civil) with
+                an intake of 60 and M. Tech (Structural Engg.) with 18
+                students. Department comprises well qualified and proficient
+                faculty to direct the students in reaching their goals.
                   </p>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    The department is equipped with state-of-the-art laboratories including Strength of Materials Lab, CAD & GIS Lab, Concrete Technology Lab, Engineering Geology Lab, Surveying Lab, and others. Our faculty members are highly qualified and experienced, actively engaged in research and consultancy activities.
-                  </p>
-                  <p className="text-gray-700 leading-relaxed">
-                    We focus on providing a strong foundation in civil engineering principles while keeping our students updated with modern technological advancements. Our students regularly participate in industrial visits, workshops, and internships to gain practical exposure. The department has also established valuable industry connections through consultancy services and collaborative projects.
-                  </p>
+                  
+                  
                 </div>
               </div>
             </div>
@@ -89,12 +100,7 @@ const CivilDepartment: React.FC = () => {
             {/* Department Overview Section */}
             <div className="border-t pt-10 mt-10">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                The Department of Civil Engineering was established in 2011 with an intake of 60 students. The department offers undergraduate program in Civil Engineering with an intake of 60 students.
-              </p>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                The department has state-of-the-art infrastructure and computing equipment supported by advanced laboratory facilities.
-              </p>
+              
 
               <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
               <div className="overflow-x-auto">
@@ -127,7 +133,8 @@ const CivilDepartment: React.FC = () => {
           <div className="py-6">
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
             <p className="text-gray-700 leading-relaxed">
-              To evolve into a center of excellence in Civil Engineering education and research, producing professionally competent and socially responsible engineers.
+                To be a Department that strives towards quality
+              education,research and consultancy in Civil Engineering.
             </p>
           </div>
         );
@@ -136,11 +143,14 @@ const CivilDepartment: React.FC = () => {
           <div className="py-6">
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>To impart quality education through effective teaching-learning processes.</li>
-              <li>To provide excellent infrastructure and environment conducive for research.</li>
-              <li>To enhance industry-institute interaction to make students industry-ready.</li>
-              <li>To develop entrepreneurship skills and ethical values among students.</li>
-              <li>To engage in consultancy services for the benefit of society.</li>
+               <b>M1:</b>To provide broad and high quality education to its
+              students for a successful professional career.<br />
+              <b>M2:</b>To serve the construction industry through
+              dissemination of knowledge and technical service to rural
+              community and professionals.<br />
+              <b>M3:</b>To include ethics and human values, effective
+              communication and leadership qualities among students to meet
+              the challenge of the society.<br />
             </ul>
           </div>
         );
@@ -623,77 +633,35 @@ const CivilDepartment: React.FC = () => {
             </p>
           </div>
         );
-      case 'Department Profile':
+       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            {/* Navigation Tab - Moved Here */}
-            <div className="bg-white mb-8">
-              <div className="overflow-x-auto">
-                <nav className="flex flex-nowrap whitespace-nowrap py-2 justify-center">
-                  <button
-                    onClick={() => setActiveDeptTab('Department')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'Department' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    Department
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('Vision')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'Vision' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    Vision
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('Mission')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'Mission' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    Mission
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('PEOs')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'PEOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    PEOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('POs')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'POs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    POs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('PSOs')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'PSOs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    PSOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('COs')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'COs' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    COs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('SalientFeatures')}
-                    className={`px-6 py-2 font-medium text-sm transition-colors duration-200 mx-1 rounded-none border-b-2 
-                      ${activeDeptTab === 'SalientFeatures' ? 'text-[#B22222] border-[#B22222] font-semibold' : 'text-gray-600 border-transparent hover:text-[#B22222]'}`}
-                  >
-                    Salient Features
-                  </button>
-                </nav>
-              </div>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
+
+            {/* Tab Navigation */}
+            <div className="flex flex-wrap gap-2 mb-8 justify-center">
+              {['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'SalientFeatures'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveDeptTab(tab)}
+                  className={`px-4 py-2 rounded-md text-sm transition-all ${activeDeptTab === tab
+                    ? 'bg-[#B22222] text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  {tab}
+                </button>
+              ))}
             </div>
 
-            {/* Content Area that changes completely based on selected tab */}
-            {renderDeptTabContent()}
+            {/* Tab Content */}
+            <div className="mt-6">
+              {renderDeptTabContent()}
+            </div>
           </div>
         );
+
+     
       case 'Faculty Profiles':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -749,34 +717,34 @@ const CivilDepartment: React.FC = () => {
         );
       case 'Board of Studies':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
-            <details open>
-              <summary className="font-semibold text-lg mb-2">Board Of Studies</summary>
+          <div className="tab4 mt-4">
+              <details open className="border rounded-lg p-4">
+
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Board of Studies</summary>
               <div className="mt-4">
                 <ul className="list-disc ml-6 space-y-2">
                   <li>
-                    Minutes of 6th meeting of the Board of Studies, dated 20.07.2024 -{' '}
+                    Minutes of 6<sup>th</sup> meeting of the Board of Studies, dated 20.07.2024 -{' '}
                     <a href="https://srivasaviengg.ac.in/uploads/civil/6TH BOS Meeting Minutes & Notes V23 Civil Engg, SVEC.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                   <li>
-                    Minutes of 5th meeting of the Board of Studies, dated 20.08.2022 -{' '}
+                    Minutes of 5<sup>th</sup> meeting of the Board of Studies, dated 20.08.2022 -{' '}
                     <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/FIFTH%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                   <li>
-                    Minutes of 4th meeting of the Board of Studies, dated 30.08.2021 -{' '}
+                    Minutes of 4<sup>th</sup> meeting of the Board of Studies, dated 30.08.2021 -{' '}
                     <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/FOURTH%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                   <li>
-                    Minutes of 3rd meeting of the Board of Studies, dated 30.06.2020 -{' '}
+                    Minutes of 3<sup>rd</sup> meeting of the Board of Studies, dated 30.06.2020 -{' '}
                     <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/THIRD%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                   <li>
-                    Minutes of 2nd meeting of the Board of Studies, dated 20.04.2019 -{' '}
+                    Minutes of 2<sup>nd</sup> meeting of the Board of Studies, dated 20.04.2019 -{' '}
                     <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/SECONED%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                   <li>
-                    Minutes of 1st meeting of the Board of Studies, dated 06.06.2018 -{' '}
+                    Minutes of 1<sup>st</sup> meeting of the Board of Studies, dated 06.06.2018 -{' '}
                     <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/FIRST%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                 </ul>
@@ -788,26 +756,31 @@ const CivilDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
-            <div className="space-y-6">
-              <details open>
-                <summary className="font-semibold text-lg mb-2">Class Time Tables</summary>
+          <div className="tab4 mt-4">
+              <details open className="border rounded-lg p-4">
+
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Timetables</summary>      
                 <ul className="list-disc ml-6 space-y-2">
                   <li>
-                    Civil_Master Timetable_A.Y for Sem-VIII 2022-23 -{' '}
+                    Master Timetable_A.Y for Sem-VIII 2022-23 -{' '}
                     <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20VIII%20SEM(V18)%20TIMETABLE%20%20W.E.F%20-%2026.12.2022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                   <li>
-                    Civil_Master Timetable_A.Y for Sem-VI 2022-23 -{' '}
+                    Master Timetable_A.Y for Sem-VI 2022-23 -{' '}
                     <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20VI%20SEM(V20)%20TIMETABLE%20%20W.E.F%20-%2027.02.2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                   <li>
-                    Civil_Master Timetable_A.Y for Sem-II 2021-22 -{' '}
+                    Master Timetable_A.Y for Sem-II 2021-22 -{' '}
                     <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/B.Tech%20IV%20SEM(V20)%20TIMETABLE%20%20W.E.F%2027.02.2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                 </ul>
               </details>
-              <details>
-                <summary className="font-semibold text-lg mb-2">Class Rooms</summary>
+              </div>
+
+                        <div className="tab4 mt-4">
+              <details  className="border rounded-lg p-4">
+
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Rooms</summary>      
                 <ul className="list-disc ml-6 space-y-2">
                   <li>
                     Class Rooms with ICT Enabled Facilities -{' '}
@@ -815,8 +788,11 @@ const CivilDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
-              <details>
-                <summary className="font-semibold text-lg mb-2">Laboratories</summary>
+              </div>
+                        <div className="tab4 mt-4">
+              <details open className="border rounded-lg p-4">
+
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Laboratories</summary>      
                 <ul className="list-disc ml-6 space-y-2">
                   <li>Strength of Materials Lab</li>
                   <li>CAD & GSI Lab</li>
@@ -879,10 +855,10 @@ const CivilDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Workshops / Guest Lectures / Field Visits</h2>
-            <div className="space-y-6">
-              <details open>
-                <summary className="font-semibold text-lg mb-2">Workshops</summary>
-                <div className="ml-4">
+              <div className="tab4 mt-4">
+              <details open className="border rounded-lg p-4">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Tim</summary>      
+              <div className="ml-4">
                   <ol className="list-decimal ml-6 space-y-2">
                     <li>
                       Workshops organized during the Academic Year 2023-2024 -{' '}

@@ -85,7 +85,7 @@ const CSTDepartment: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
               <div className="relative">
                 <img
-                  src="/images/departments/cse/cse_hod1.jpeg"
+                 src="/cse_hod1.jpeg"
                   alt="Dr. D. Jaya Kumari"
                   className="w-full h-80 object-cover rounded-lg shadow-md"
                 />
@@ -100,15 +100,9 @@ const CSTDepartment: React.FC = () => {
               </div>
             </div>
             <p className="text-gray-700 mb-3">
-              The Department of Computer Science & Technology was established in 2019 with an initial intake of 60 students. We are committed to providing comprehensive education in computer science with a strong emphasis on emerging technologies and practical applications.
+              CST Department came into inception from 2019 onwards with an intake of 60 seats in B.Tech
             </p>
-            <p className="text-gray-700 mb-3">
-              The department has well qualified and dedicated faculty with diverse specializations in computer science and technology. We regularly conduct industrial visits, guest lectures, and workshops to enhance practical knowledge of students.
-            </p>
-            <p className="text-gray-700 mb-6">
-              Our focus is on developing technically competent graduates who can contribute effectively to the rapidly evolving technology industry while maintaining strong ethical and professional values.
-            </p>
-
+            
             <h4 className="text-xl font-bold text-[#850209] mb-4">Courses Offered</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-700 mb-4 border border-gray-200 rounded-lg">
@@ -246,6 +240,8 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <div className="space-y-8">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
+
               {/* Tab Navigation */}
               <div className="flex flex-wrap gap-2 mb-8 justify-center">
                 {['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs'].map((tab) => (
@@ -932,6 +928,7 @@ const CSTDepartment: React.FC = () => {
                 </table>
               </div>
             </div>
+            
             );
 
             case 'Board of Studies':
@@ -1157,6 +1154,8 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
+
+        
 
       case 'MoUs':
         return (
