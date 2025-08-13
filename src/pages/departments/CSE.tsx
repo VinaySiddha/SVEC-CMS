@@ -30,6 +30,133 @@ const CSEDepartment: React.FC = () => {
     { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> }
   ];
 
+
+  const gre = [
+  { rollNo: "18A81A05L0", name: "K. Mohith Adarsh", course: "MS", gre: "315", toefl: "94", ielts: "-" },
+  { rollNo: "19A85A0514", name: "P. Chandra Mouli", course: "MS", gre: "322", toefl: "-", ielts: "-" },
+  { rollNo: "17A81A05E2", name: "M. Yaswanth Kumar", course: "MS", gre: "319", toefl: "-", ielts: "-" },
+  { rollNo: "18A81A05J6", name: "I. Lakshmi Prasanna", course: "MS", gre: "325", toefl: "-", ielts: "-" },
+  { rollNo: "17A81A05C4", name: "Ch. Shyam", course: "MS", gre: "319", toefl: "-", ielts: "-" },
+  { rollNo: "13A81A05G9", name: "T. Lokesh Kumar", course: "MS", gre: "321", toefl: "-", ielts: "-" },
+  { rollNo: "18A81A0594", name: "P. Jashwanth Sai", course: "MS", gre: "322", toefl: "-", ielts: "-" },
+  { rollNo: "18A81A0599", name: "P. Sandhya Rani", course: "MS", gre: "308", toefl: "-", ielts: "7.5" },
+  { rollNo: "16A81A05M4", name: "S. Harshini Sai", course: "MS", gre: "-", toefl: "96", ielts: "-" },
+  { rollNo: "17A81A0505", name: "B.B.M Satyendra", course: "MS", gre: "329", toefl: "97", ielts: "-" },
+  { rollNo: "18A81A0578", name: "K. Bhavya Sri", course: "MS", gre: "326", toefl: "91", ielts: "-" },
+  { rollNo: "16A81A05I5", name: "B. Sriram", course: "MS", gre: "-", toefl: "-", ielts: "7" },
+  { rollNo: "19A81A05D9", name: "B. Mohith Kumar", course: "MS", gre: "306", toefl: "-", ielts: "-" },
+  { rollNo: "19A81A05I1", name: "R. Sai Nkhitha", course: "MS", gre: "327", toefl: "-", ielts: "-" },
+  { rollNo: "13A81A05B0", name: "V. Bhargavi", course: "MS", gre: "-", toefl: "105", ielts: "-" },
+  { rollNo: "15A81A05K9", name: "K. Venkata Alekhya", course: "MS", gre: "326", toefl: "-", ielts: "-" },
+  { rollNo: "16A81A0523", name: "K. Ram Chandu", course: "MS", gre: "324", toefl: "-", ielts: "-" },
+  { rollNo: "17A81A0580", name: "M. Bhargav sai", course: "MS", gre: "314", toefl: "-", ielts: "-" },
+  { rollNo: "16A81A05I9", name: "Ch. H. V. S Sairam", course: "MS", gre: "323", toefl: "-", ielts: "-" },
+  { rollNo: "15A81A0564", name: "A. Mahesh Kumar", course: "MS", gre: "-", toefl: "-", ielts: "6.5" },
+  { rollNo: "15A81A05M3", name: "P. Mohan SitaRam", course: "MS", gre: "-", toefl: "-", ielts: "6.0" },
+  { rollNo: "16A81A0523", name: "K. Ram Chandu", course: "MS", gre: "84", toefl: "-", ielts: "-" },
+  { rollNo: "13A81A05G3", name: "K. Sahithi Suresh", course: "MS", gre: "-", toefl: "-", ielts: "6.5" },
+  { rollNo: "14A81A0534", name: "K. ChaitanyaSai", course: "MS", gre: "-", toefl: "-", ielts: "6.5" },
+  { rollNo: "13A81A0547", name: "S. Sesha Reddy", course: "MS", gre: "298", toefl: "-", ielts: "6.5" },
+  { rollNo: "13A81A0514", name: "Ch. Aditya", course: "MS", gre: "297", toefl: "-", ielts: "-" },
+  { rollNo: "13A81A05A8", name: "T.Suraj", course: "MS", gre: "290", toefl: "-", ielts: "-" },
+  { rollNo: "11A81A0584", name: "K. Lakshmi Narayana", course: "MS", gre: "39th percentile", toefl: "-", ielts: "-" }
+];
+
+  const rollOfHonour = [
+  { batch: "2020-24", rollNumber: "20A81A0588", name: "K. Venkata Sri Mounika (Roll of Honour Gold Medal)", cgpa: "9.46" },
+  { batch: "2020-24", rollNumber: "20A81A05I5", name: "", cgpa: "9.46" },
+  { batch: "2019-23", rollNumber: "19A81A0594", name: "T. Sai Kishore (Certificate of Appreciation)", cgpa: "9.46" },
+  { batch: "2019-23", rollNumber: "19A81A0594", name: "Sri Peruri Subbarayudu Memorial Silver Medal – Instituted by Sri P.Bala Kasaiah (Topper among boys)", cgpa: "9.46" },
+  { batch: "2018-22", rollNumber: "18A81A0518", name: "DATLA SRIYA - Smt. Chekka Rajeswari Memorial Silver Medal – Instituted by Sri Ch.S.N.Murthy (Late) (Topper among girls)", cgpa: "88.03" },
+  { batch: "2018-22", rollNumber: "18A81A0513", name: "VANIMIREDDY BHANU TEJA (Best Outgoing Student (All Rounder)2022)", cgpa: "82.25" },
+  { batch: "2017-21", rollNumber: "17A81A0527", name: "M.Chandini", cgpa: "79.33" },
+  { batch: "2016-20", rollNumber: "16A81A0535", name: "M.Lakshmi Sailaja", cgpa: "80.70" },
+  { batch: "2016-20", rollNumber: "16A81A0561", name: "A.SaiLakshmi", cgpa: "80.70" },
+  { batch: "2015-19", rollNumber: "15A81A05F1", name: "M.Lakshmi Mounica", cgpa: "86.15" },
+  { batch: "2014-18", rollNumber: "14A81A0575", name: "K.V.G.Satish", cgpa: "82.33" },
+  { batch: "2013-17", rollNumber: "13A81A05C2", name: "A.Sai Priyanka (College Level Gold Medalist)", cgpa: "82.47" },
+  { batch: "2013-17", rollNumber: "13A81A0547", name: "S.Rajeswara Sesha Reddy (College Level outgoing UG Student Gold Medal for the A.Y.2016-17)", cgpa: "79.17" },
+  { batch: "2012-16", rollNumber: "12A81A0591", name: "K.S.N.V.G.Lavanya", cgpa: "78.51" },
+  { batch: "2011-15", rollNumber: "11A81A05A6", name: "N.Susmitha", cgpa: "85.91" },
+  { batch: "2010-14", rollNumber: "10A81A05A6", name: "A.Sravya Sree", cgpa: "79.20" },
+  { batch: "2009-13", rollNumber: "09A81A0566", name: "C.Hima Teja", cgpa: "80.70" },
+  { batch: "2008-12", rollNumber: "08A81A0510", name: "B.Surekha Devi", cgpa: "83.53" },
+  { batch: "2007-11", rollNumber: "07A81A0596", name: "V.M.Krishna", cgpa: "79.31" },
+  { batch: "2006-10", rollNumber: "06A81A0515", name: "U.Kalpana (University Gold Medal)", cgpa: "84.71" },
+  { batch: "2005-09", rollNumber: "05A81A0511", name: "K.V.Sarvani", cgpa: "80.88" },
+  { batch: "2004-08", rollNumber: "04A81A0525", name: "M.Krishnachand", cgpa: "79.70" },
+  { batch: "2003-07", rollNumber: "03A81A0518", name: "V.Kanti", cgpa: "76.39" },
+  { batch: "2002-06", rollNumber: "02A81A0527", name: "M.Poorna Chandra", cgpa: "76.91" },
+  { batch: "2002-06", rollNumber: "02A81A0501", name: "P.Anjaneyulu", cgpa: "76.91" },
+  { batch: "2001-05", rollNumber: "02A81A0548", name: "V.Udaya Kiran", cgpa: "78.61" }
+];
+
+
+const gate = [
+  { rollNo: "21A81A05P4", name: "Shaik Basheera", score: "435", year: "2025" },
+  { rollNo: "21A81A05N2", name: "Kurella Sushmadi Lakshmi", score: "381", year: "2025" },
+  { rollNo: "22A81A05Q4", name: "Yandamuri Likhita Sai", score: "374", year: "2025" },
+  { rollNo: "21A81A0540", name: "Patri Naga Venkata Pranav", score: "364", year: "2025" },
+  { rollNo: "21A81A05M4", name: "Inty J V Mohanakrishna", score: "358", year: "2025" },
+  { rollNo: "21A81A05M9", name: "K L Shanu Abhinaya", score: "356", year: "2025" },
+  { rollNo: "21A81A05N4", name: "M N V Vijaya Lakshmi", score: "347", year: "2025" },
+  { rollNo: "21A81A0520", name: "K N S L Padma Janaki", score: "341", year: "2025" },
+  { rollNo: "21A81A0554", name: "Tadi Arjun Reddy", score: "335", year: "2025" },
+  { rollNo: "21A81A0586", name: "Gorty Venkata Sowmya", score: "338", year: "2025" },
+  { rollNo: "21A81A05N1", name: "Kottu Jagadeesh Kumar", score: "331", year: "2025" },
+  { rollNo: "22A81A05A9", name: "Pesaraganti Harshavardhan", score: "323", year: "2025" },
+  { rollNo: "22A81A05E6", name: "Ganni Mahitha Lakshmi", score: "318", year: "2025" },
+  { rollNo: "22A81A0543", name: "Nalla Varshitha Banu", score: "356", year: "2025" },
+  { rollNo: "23A85A0504", name: "Kammili Manoj Vamsi", score: "314", year: "2025" },
+  { rollNo: "21A81A0520", name: "K.N.S.L.P. Janaki", score: "331", year: "2024" },
+  { rollNo: "20A81A05E1", name: "G.V.S. Siva Ram", score: "328(CS) / 303(DS)", year: "2024" },
+  { rollNo: "21A81A05C3", name: "S. Sri Satya", score: "320", year: "2024" },
+  { rollNo: "20A81A0599", name: "M. Nitish", score: "255", year: "2024" },
+  { rollNo: "20A81A0626", name: "K. Pushpa Leela Vijaya Durga", score: "328", year: "2024" },
+  { rollNo: "19A81A0593", name: "K. Naga Venkata Sai Surendra", score: "344", year: "2023" },
+  { rollNo: "19A81A0597", name: "K. Nitin Vamsi", score: "239", year: "2023" },
+  { rollNo: "18A81A05H3", name: "V. Bhanu Teja", score: "389", year: "2022" },
+  { rollNo: "18A81A05G3", name: "Rohit Pragallapti", score: "368", year: "2022" },
+  { rollNo: "18A81A0592", name: "Orusu Venkatesh", score: "324", year: "2022" },
+  { rollNo: "18A81A05K3", name: "Baby Bahragavi Karella", score: "332", year: "2022" },
+  { rollNo: "18A81A05B9", name: "Y Raghava Rao", score: "327", year: "2021" },
+  { rollNo: "13A81A05A0", name: "P.V.Prathyusha", score: "1037", year: "2017" },
+  { rollNo: "10A81A0578", name: "K. Naga Lakshmi", score: "359", year: "2014" },
+  { rollNo: "10A81A05A8", name: "S. Vineel", score: "371", year: "2014" },
+  { rollNo: "10A81A0527", name: "K.Tejaswi", score: "354", year: "2014" },
+  { rollNo: "10A81A05A3", name: "S. Hymavathi", score: "339", year: "2014" },
+  { rollNo: "08A81A0576", name: "D Sasidhar", score: "457", year: "2012" },
+  { rollNo: "08A81A0588", name: "K Venkateswara Rao", score: "402", year: "2012" },
+  { rollNo: "08A81A0540", name: "K. Pavan Kumar", score: "384", year: "2012" },
+  { rollNo: "08A81A05C2", name: "T. Narendra", score: "357", year: "2012" },
+  { rollNo: "08A81A0582", name: "G.R.A.SeshuBabu", score: "352", year: "2012" },
+  { rollNo: "08A81A0549", name: "P. DurgaBalaji", score: "352", year: "2012" },
+  { rollNo: "08A81A0512", name: "Ch.N.V. Vijay Krishna", score: "339", year: "2012" },
+  { rollNo: "08A81A05B7", name: "S. Mani Kanta", score: "316", year: "2012" },
+  { rollNo: "08A81A0563", name: "V. ShyamSudheer", score: "325", year: "2012" },
+  { rollNo: "08A81A05A3", name: "B.S.V. Naresh", score: "311", year: "2012" }
+];
+
+  const organizations = [
+  { name: "Roland Institute of Technology, Berhampur", from: "10-05-2025", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/Mou Roland Principal sir sign.pdf" },
+  { name: "Pennant Technologies Pvt Ltd", from: "06-11-2024", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/MOU with Pennant Technologies Pvt Ltd.pdf" },
+  { name: "Blumin Software & Training Consultancy LLP", from: "18-06-2024", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/Blumin MOU.pdf" },
+  { name: "Zscaler Academic Alliance Program", from: "08-12-2023", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/ZScalar_MOU.pdf" },
+  { name: "New Leaf Learning Solutions", from: "01-10-2023", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/SVEC- New Leaf 1-10-2023.pdf" },
+  { name: "NIT AP", from: "31-12-2022", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/1 NITAP_MOU with activities.pdf" },
+  { name: "Alteryx SparkED Partner", from: "30-12-2022", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/578_Alteryx SparkEd Partner_Sri Vasavi Engineering College.pdf" },
+  { name: "Juniper Networks", from: "30-11-2022", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/Juniper MOU.pdf" },
+  { name: "Celonis Academic Alliance", from: "11-11-2022", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/Celonis.pdf" },
+  { name: "Palo Alto Networks Cyber Security Academy", from: "08-11-2022", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/Paaloalto.pdf" },
+  { name: "Blue Prism Academia Program", from: "01-11-2022", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/Sri Vasavi Engineering College.pdf" },
+  { name: "Eduskills", from: "31-10-2022", to: "Till Date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/Eduskills MOU with PICS.pdf" },
+  { name: "Hexaware", from: "25-04-2020", to: "Till date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/Hexaware MOU_PICS.pdf" },
+  { name: "APSSDC", from: "29-03-2019", to: "Till date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/1 APSSDC MOU.pdf" },
+  { name: "Alykas Innovations Pvt.Ltd", from: "30-01-2018", to: "Till date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/Alykas.pdf" },
+  { name: "TCS iON", from: "25-04-2012", to: "Till date", documentUrl: "https://srivasaviengg.ac.in/uploads/csemous/6 TCS-ion MOU.pdf" }
+];
+
+
   const faculty = [
     { name: "Dr. D. Jaya Kumari", qualification: "M.Tech.,Ph.D", designation: "Professor & HOD", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Dr%20D.Jaya%20Kumari-Web%20Profile.pdf" },
     { name: "Dr. V. Venkateswara Rao", qualification: "M.Tech.,Ph.D", designation: "Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Dr.%20Venkateswara%20Rao%20Web%20Profile.pdf" },
@@ -398,169 +525,30 @@ const CSEDepartment: React.FC = () => {
                 <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Roll of Honour</summary>
                 <div className="flex justify-center items-center">
                   <div className="overflow-x-auto w-full">
-                    <table className="min-w-full bg-white border border-gray-200 mb-4">
-                      <thead className="bg-gray-100">
-                        <tr>
-                          <th className="py-3 px-4 border-b">Batch</th>
-                          <th className="py-3 px-4 border-b">Roll Number</th>
-                          <th className="py-3 px-4 border-b">Name of The Student</th>
-                          <th className="py-3 px-4 border-b">CGPA/Aggregate</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>2020-24</td>
-                          <td className="py-3 px-4 border-b">20A81A0588</td>
-                          <td className="py-3 px-4 border-b">K. Venkata Sri Mounika<br /><b>(Roll of Honour Gold Medal)</b></td>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>9.46</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">20A81A05I5</td>
-                          <td className="py-3 px-4 border-b"></td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>2019-23</td>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>19A81A0594</td>
-                          <td className="py-3 px-4 border-b">T. Sai Kishore<br /><b>(Certificate of Appreciation)</b></td>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>9.46</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">Sri Peruri Subbarayudu Memorial Silver Medal – Instituted by Sri P.Bala Kasaiah <b>(Topper among boys)</b></td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2018-22</td>
-                          <td className="py-3 px-4 border-b">18A81A0518</td>
-                          <td className="py-3 px-4 border-b">DATLA SRIYA <br />Smt. Chekka Rajeswari Memorial Silver Medal – Instituted by Sri Ch.S.N.Murthy (Late) <br />(Topper among girls)</td>
-                          <td className="py-3 px-4 border-b">88.03</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2018-22</td>
-                          <td className="py-3 px-4 border-b">18A81A0513</td>
-                          <td className="py-3 px-4 border-b">VANIMIREDDY BHANU TEJA <br />(Best Outgoing Student (All Rounder)2022)</td>
-                          <td className="py-3 px-4 border-b">82.25</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2017-21</td>
-                          <td className="py-3 px-4 border-b">17A81A0527</td>
-                          <td className="py-3 px-4 border-b">M.Chandini</td>
-                          <td className="py-3 px-4 border-b">79.33</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2016-20</td>
-                          <td className="py-3 px-4 border-b">16A81A0535</td>
-                          <td className="py-3 px-4 border-b">M.Lakshmi Sailaja</td>
-                          <td className="py-3 px-4 border-b">80.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2016-20</td>
-                          <td className="py-3 px-4 border-b">16A81A0561</td>
-                          <td className="py-3 px-4 border-b">A.SaiLakshmi</td>
-                          <td className="py-3 px-4 border-b">80.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2015-19</td>
-                          <td className="py-3 px-4 border-b">15A81A05F1</td>
-                          <td className="py-3 px-4 border-b">M.Lakshmi Mounica</td>
-                          <td className="py-3 px-4 border-b">86.15</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2014-18</td>
-                          <td className="py-3 px-4 border-b">14A81A0575</td>
-                          <td className="py-3 px-4 border-b">K.V.G.Satish</td>
-                          <td className="py-3 px-4 border-b">82.33</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2013-17</td>
-                          <td className="py-3 px-4 border-b">13A81A05C2</td>
-                          <td className="py-3 px-4 border-b">A.Sai Priyanka <br />(College Level Gold Medalist)</td>
-                          <td className="py-3 px-4 border-b">82.47</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2013-17</td>
-                          <td className="py-3 px-4 border-b">13A81A0547</td>
-                          <td className="py-3 px-4 border-b">S.Rajeswara Sesha Reddy <br />(College Level outgoing UG Student Gold Medal for the A.Y.2016-17)</td>
-                          <td className="py-3 px-4 border-b">79.17</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2012-16</td>
-                          <td className="py-3 px-4 border-b">12A81A0591</td>
-                          <td className="py-3 px-4 border-b">K.S.N.V.G.Lavanya</td>
-                          <td className="py-3 px-4 border-b">78.51</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2011-15</td>
-                          <td className="py-3 px-4 border-b">11A81A05A6</td>
-                          <td className="py-3 px-4 border-b">N.Susmitha</td>
-                          <td className="py-3 px-4 border-b">85.91</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2010-14</td>
-                          <td className="py-3 px-4 border-b">10A81A05A6</td>
-                          <td className="py-3 px-4 border-b">A.Sravya Sree</td>
-                          <td className="py-3 px-4 border-b">79.20</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2009-13</td>
-                          <td className="py-3 px-4 border-b">09A81A0566</td>
-                          <td className="py-3 px-4 border-b">C.Hima Teja</td>
-                          <td className="py-3 px-4 border-b">80.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2008-12</td>
-                          <td className="py-3 px-4 border-b">08A81A0510</td>
-                          <td className="py-3 px-4 border-b">B.Surekha Devi</td>
-                          <td className="py-3 px-4 border-b">83.53</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2007-11</td>
-                          <td className="py-3 px-4 border-b">07A81A0596</td>
-                          <td className="py-3 px-4 border-b">V.M.Krishna</td>
-                          <td className="py-3 px-4 border-b">79.31</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2006-10</td>
-                          <td className="py-3 px-4 border-b">06A81A0515</td>
-                          <td className="py-3 px-4 border-b">U.Kalpana <br />(University Gold Medal)</td>
-                          <td className="py-3 px-4 border-b">84.71</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2005-09</td>
-                          <td className="py-3 px-4 border-b">05A81A0511</td>
-                          <td className="py-3 px-4 border-b">K.V.Sarvani</td>
-                          <td className="py-3 px-4 border-b">80.88</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2004-08</td>
-                          <td className="py-3 px-4 border-b">04A81A0525</td>
-                          <td className="py-3 px-4 border-b">M.Krishnachand</td>
-                          <td className="py-3 px-4 border-b">79.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2003-07</td>
-                          <td className="py-3 px-4 border-b">03A81A0518</td>
-                          <td className="py-3 px-4 border-b">V.Kanti</td>
-                          <td className="py-3 px-4 border-b">76.39</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2002-06</td>
-                          <td className="py-3 px-4 border-b">02A81A0527</td>
-                          <td className="py-3 px-4 border-b">M.Poorna Chandra</td>
-                          <td className="py-3 px-4 border-b">76.91</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2002-06</td>
-                          <td className="py-3 px-4 border-b">02A81A0501</td>
-                          <td className="py-3 px-4 border-b">P.Anjaneyulu</td>
-                          <td className="py-3 px-4 border-b">76.91</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2001-05</td>
-                          <td className="py-3 px-4 border-b">02A81A0548</td>
-                          <td className="py-3 px-4 border-b">V.Udaya Kiran</td>
-                          <td className="py-3 px-4 border-b">78.61</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                   <table className="min-w-full bg-white border border-gray-200">
+  <thead className="bg-gray-100">
+    <tr>
+      <th className="py-3 px-4 border-b text-left">S.No</th>
+      <th className="py-3 px-4 border-b text-left">Batch</th>
+      <th className="py-3 px-4 border-b text-left">Roll Number</th>
+      <th className="py-3 px-4 border-b text-left">Name of the Student</th>
+      
+      <th className="py-3 px-4 border-b text-left">CGPA / Aggregate</th>
+    </tr>
+  </thead>
+  <tbody>
+    {rollOfHonour.map((student, index) => (
+      <tr key={index} className="hover:bg-gray-50">
+        <td className="py-3 px-4 border-b">{index + 1}</td>
+        <td className="py-3 px-4 border-b">{student.batch}</td>
+        <td className="py-3 px-4 border-b">{student.rollNumber}</td>
+        <td className="py-3 px-4 border-b">{student.name}</td>
+        <td className="py-3 px-4 border-b">{student.cgpa}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
                   </div>
                 </div>
                 <h3 className="text-xl font-semibold text-center">Image Gallery</h3>
@@ -605,61 +593,29 @@ const CSEDepartment: React.FC = () => {
               <details className="border rounded-lg p-4">
                 <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>GATE</summary>
                 <div className="overflow-x-auto">
-                  <table className="min-w-full bg-white border border-gray-200 text-center">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="py-3 px-4 border-b">S.No</th>
-                        <th className="py-3 px-4 border-b">Roll No</th>
-                        <th className="py-3 px-4 border-b">Name</th>
-                        <th className="py-3 px-4 border-b">Score</th>
-                        <th className="py-3 px-4 border-b">Year</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td className="py-2 px-3 border-b">1</td><td className="py-2 px-3 border-b">21A81A05P4</td><td className="py-2 px-3 border-b">Shaik Basheera</td><td className="py-2 px-3 border-b">435</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">2</td><td className="py-2 px-3 border-b">21A81A05N2</td><td className="py-2 px-3 border-b">Kurella Sushmadi Lakshmi</td><td className="py-2 px-3 border-b">381</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">3</td><td className="py-2 px-3 border-b">22A81A05Q4</td><td className="py-2 px-3 border-b">Yandamuri Likhita Sai</td><td className="py-2 px-3 border-b">374</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">4</td><td className="py-2 px-3 border-b">21A81A0540</td><td className="py-2 px-3 border-b">Patri Naga Venkata Pranav</td><td className="py-2 px-3 border-b">364</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">5</td><td className="py-2 px-3 border-b">21A81A05M4</td><td className="py-2 px-3 border-b">Inty J V Mohanakrishna</td><td className="py-2 px-3 border-b">358</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">6</td><td className="py-2 px-3 border-b">21A81A05M9</td><td className="py-2 px-3 border-b">K L Shanu Abhinaya</td><td className="py-2 px-3 border-b">356</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">7</td><td className="py-2 px-3 border-b">21A81A05N4</td><td className="py-2 px-3 border-b">M N V Vijaya Lakshmi</td><td className="py-2 px-3 border-b">347</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">8</td><td className="py-2 px-3 border-b">21A81A0520</td><td className="py-2 px-3 border-b">K N S L Padma Janaki</td><td className="py-2 px-3 border-b">341</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">9</td><td className="py-2 px-3 border-b">21A81A0554</td><td className="py-2 px-3 border-b">Tadi Arjun Reddy</td><td className="py-2 px-3 border-b">335</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">10</td><td className="py-2 px-3 border-b">21A81A0586</td><td className="py-2 px-3 border-b">Gorty Venkata Sowmya</td><td className="py-2 px-3 border-b">338</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">11</td><td className="py-2 px-3 border-b">21A81A05N1</td><td className="py-2 px-3 border-b">Kottu Jagadeesh Kumar</td><td className="py-2 px-3 border-b">331</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">12</td><td className="py-2 px-3 border-b">22A81A05A9</td><td className="py-2 px-3 border-b">Pesaraganti Harshavardhan</td><td className="py-2 px-3 border-b">323</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">13</td><td className="py-2 px-3 border-b">22A81A05E6</td><td className="py-2 px-3 border-b">Ganni Mahitha Lakshmi</td><td className="py-2 px-3 border-b">318</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">14</td><td className="py-2 px-3 border-b">22A81A0543</td><td className="py-2 px-3 border-b">Nalla Varshitha Banu</td><td className="py-2 px-3 border-b">356</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">15</td><td className="py-2 px-3 border-b">23A85A0504</td><td className="py-2 px-3 border-b">Kammili Manoj Vamsi</td><td className="py-2 px-3 border-b">314</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">16</td><td className="py-2 px-3 border-b">21A81A0520</td><td className="py-2 px-3 border-b">K.N.S.L.P. Janaki</td><td className="py-2 px-3 border-b">331</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">17</td><td className="py-2 px-3 border-b">20A81A05E1</td><td className="py-2 px-3 border-b">G.V.S. Siva Ram</td><td className="py-2 px-3 border-b">328(CS) / 303(DS)</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">18</td><td className="py-2 px-3 border-b">21A81A05C3</td><td className="py-2 px-3 border-b">S. Sri Satya</td><td className="py-2 px-3 border-b">320</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">19</td><td className="py-2 px-3 border-b">20A81A0599</td><td className="py-2 px-3 border-b">M. Nitish</td><td className="py-2 px-3 border-b">255</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">20</td><td className="py-2 px-3 border-b">20A81A0626</td><td className="py-2 px-3 border-b">K. Pushpa Leela Vijaya Durga</td><td className="py-2 px-3 border-b">328</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">21</td><td className="py-2 px-3 border-b">19A81A0593</td><td className="py-2 px-3 border-b">K. Naga Venkata Sai Surendra</td><td className="py-2 px-3 border-b">344</td><td className="py-2 px-3 border-b">2023</td></tr>
-                      <tr><td className="py-2 px-3 border-b">22</td><td className="py-2 px-3 border-b">19A81A0597</td><td className="py-2 px-3 border-b">K. Nitin Vamsi</td><td className="py-2 px-3 border-b">239</td><td className="py-2 px-3 border-b">2023</td></tr>
-                      <tr><td className="py-2 px-3 border-b">23</td><td className="py-2 px-3 border-b">18A81A05H3</td><td className="py-2 px-3 border-b">V. Bhanu Teja</td><td className="py-2 px-3 border-b">389</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">24</td><td className="py-2 px-3 border-b">18A81A05G3</td><td className="py-2 px-3 border-b">Rohit Pragallapti</td><td className="py-2 px-3 border-b">368</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">25</td><td className="py-2 px-3 border-b">18A81A0592</td><td className="py-2 px-3 border-b">Orusu Venkatesh</td><td className="py-2 px-3 border-b">324</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">26</td><td className="py-2 px-3 border-b">18A81A05K3</td><td className="py-2 px-3 border-b">Baby Bahragavi Karella</td><td className="py-2 px-3 border-b">332</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">27</td><td className="py-2 px-3 border-b">18A81A05B9</td><td className="py-2 px-3 border-b">Y Raghava Rao</td><td className="py-2 px-3 border-b">327</td><td className="py-2 px-3 border-b">2021</td></tr>
-                      <tr><td className="py-2 px-3 border-b">28</td><td className="py-2 px-3 border-b">13A81A05A0</td><td className="py-2 px-3 border-b">P.V.Prathyusha</td><td className="py-2 px-3 border-b">1037</td><td className="py-2 px-3 border-b">2017</td></tr>
-                      <tr><td className="py-2 px-3 border-b">29</td><td className="py-2 px-3 border-b">10A81A0578</td><td className="py-2 px-3 border-b">K. Naga Lakshmi</td><td className="py-2 px-3 border-b">359</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">30</td><td className="py-2 px-3 border-b">10A81A05A8</td><td className="py-2 px-3 border-b">S. Vineel</td><td className="py-2 px-3 border-b">371</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">31</td><td className="py-2 px-3 border-b">10A81A0527</td><td className="py-2 px-3 border-b">K.Tejaswi</td><td className="py-2 px-3 border-b">354</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">32</td><td className="py-2 px-3 border-b">10A81A05A3</td><td className="py-2 px-3 border-b">S. Hymavathi</td><td className="py-2 px-3 border-b">339</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">33</td><td className="py-2 px-3 border-b">08A81A0576</td><td className="py-2 px-3 border-b">D Sasidhar</td><td className="py-2 px-3 border-b">457</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">34</td><td className="py-2 px-3 border-b">08A81A0588</td><td className="py-2 px-3 border-b">K Venkateswara Rao</td><td className="py-2 px-3 border-b">402</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">35</td><td className="py-2 px-3 border-b">08A81A0540</td><td className="py-2 px-3 border-b">K. Pavan Kumar</td><td className="py-2 px-3 border-b">384</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">36</td><td className="py-2 px-3 border-b">08A81A05C2</td><td className="py-2 px-3 border-b">T. Narendra</td><td className="py-2 px-3 border-b">357</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">37</td><td className="py-2 px-3 border-b">08A81A0582</td><td className="py-2 px-3 border-b">G.R.A.SeshuBabu</td><td className="py-2 px-3 border-b">352</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">38</td><td className="py-2 px-3 border-b">08A81A0549</td><td className="py-2 px-3 border-b">P. DurgaBalaji</td><td className="py-2 px-3 border-b">352</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">39</td><td className="py-2 px-3 border-b">08A81A0512</td><td className="py-2 px-3 border-b">Ch.N.V. Vijay Krishna</td><td className="py-2 px-3 border-b">339</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">40</td><td className="py-2 px-3 border-b">08A81A05B7</td><td className="py-2 px-3 border-b">S. Mani Kanta</td><td className="py-2 px-3 border-b">316</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">41</td><td className="py-2 px-3 border-b">08A81A0563</td><td className="py-2 px-3 border-b">V. ShyamSudheer</td><td className="py-2 px-3 border-b">325</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">42</td><td className="py-2 px-3 border-b">08A81A05A3</td><td className="py-2 px-3 border-b">B.S.V. Naresh</td><td className="py-2 px-3 border-b">311</td><td className="py-2 px-3 border-b">2012</td></tr>
-                    </tbody>
-                  </table>
+                 <table className="min-w-full bg-white border border-gray-200">
+  <thead className="bg-gray-100">
+    <tr>
+      <th className="py-3 px-4 border-b text-left">S.No</th>
+      <th className="py-3 px-4 border-b text-left">Roll No</th>
+      <th className="py-3 px-4 border-b text-left">Name</th>
+      <th className="py-3 px-4 border-b text-left">Score</th>
+      <th className="py-3 px-4 border-b text-left">Year</th>
+    </tr>
+  </thead>
+  <tbody>
+    {gate.map((student, index) => (
+      <tr key={index} className="hover:bg-gray-50">
+        <td className="py-3 px-4 border-b">{index + 1}</td>
+        <td className="py-3 px-4 border-b">{student.rollNo}</td>
+        <td className="py-3 px-4 border-b">{student.name}</td>
+        <td className="py-3 px-4 border-b">{student.score}</td>
+        <td className="py-3 px-4 border-b">{student.year}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
                 </div>
                 <div className="mt-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -676,48 +632,31 @@ const CSEDepartment: React.FC = () => {
                 <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>GRE</summary>
                 <div className="overflow-x-auto">
                   <table className="min-w-full bg-white border border-gray-200 text-center">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="py-3 px-4 border-b">S.No</th>
-                        <th className="py-3 px-4 border-b">Roll No</th>
-                        <th className="py-3 px-4 border-b">Name</th>
-                        <th className="py-3 px-4 border-b">Course</th>
-                        <th className="py-3 px-4 border-b">GRE</th>
-                        <th className="py-3 px-4 border-b">TOEFL</th>
-                        <th className="py-3 px-4 border-b">IELTS</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td className="py-2 px-3 border-b">1</td><td className="py-2 px-3 border-b">18A81A05L0</td><td className="py-2 px-3 border-b">K. Mohith Adarsh</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">315</td><td className="py-2 px-3 border-b">94</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">2</td><td className="py-2 px-3 border-b">19A85A0514</td><td className="py-2 px-3 border-b">P. Chandra Mouli</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">322</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">3</td><td className="py-2 px-3 border-b">17A81A05E2</td><td className="py-2 px-3 border-b">M. Yaswanth Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">319</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">4</td><td className="py-2 px-3 border-b">18A81A05J6</td><td className="py-2 px-3 border-b">I. Lakshmi Prasanna</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">325</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">5</td><td className="py-2 px-3 border-b">17A81A05C4</td><td className="py-2 px-3 border-b">Ch. Shyam</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">319</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">6</td><td className="py-2 px-3 border-b">13A81A05G9</td><td className="py-2 px-3 border-b">T. Lokesh Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">321</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">7</td><td className="py-2 px-3 border-b">18A81A0594</td><td className="py-2 px-3 border-b">P. Jashwanth Sai</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">322</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">8</td><td className="py-2 px-3 border-b">18A81A0599</td><td className="py-2 px-3 border-b">P. Sandhya Rani</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">308</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">7.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">9</td><td className="py-2 px-3 border-b">16A81A05M4</td><td className="py-2 px-3 border-b">S. Harshini Sai</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">96</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">10</td><td className="py-2 px-3 border-b">17A81A0505</td><td className="py-2 px-3 border-b">B.B.M Satyendra</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">329</td><td className="py-2 px-3 border-b">97</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">11</td><td className="py-2 px-3 border-b">18A81A0578</td><td className="py-2 px-3 border-b">K. Bhavya Sri</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">326</td><td className="py-2 px-3 border-b">91</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">12</td><td className="py-2 px-3 border-b">16A81A05I5</td><td className="py-2 px-3 border-b">B. Sriram</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">7</td></tr>
-                      <tr><td className="py-2 px-3 border-b">13</td><td className="py-2 px-3 border-b">19A81A05D9</td><td className="py-2 px-3 border-b">B. Mohith Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">306</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">14</td><td className="py-2 px-3 border-b">19A81A05I1</td><td className="py-2 px-3 border-b">R. Sai Nkhitha</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">327</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">15</td><td className="py-2 px-3 border-b">13A81A05B0</td><td className="py-2 px-3 border-b">V. Bhargavi</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">105</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">16</td><td className="py-2 px-3 border-b">15A81A05K9</td><td className="py-2 px-3 border-b">K. Venkata Alekhya</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">326</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">17</td><td className="py-2 px-3 border-b">16A81A0523</td><td className="py-2 px-3 border-b">K. Ram Chandu</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">324</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">18</td><td className="py-2 px-3 border-b">17A81A0580</td><td className="py-2 px-3 border-b">M. Bhargav sai</td><td className="py-2 px-3 border-b">314</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">19</td><td className="py-2 px-3 border-b">16A81A05I9</td><td className="py-2 px-3 border-b">Ch. H. V. S Sairam</td><td className="py-2 px-3 border-b">323</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">20</td><td className="py-2 px-3 border-b">15A81A0564</td><td className="py-2 px-3 border-b">A. Mahesh Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">21</td><td className="py-2 px-3 border-b">15A81A05M3</td><td className="py-2 px-3 border-b">P. Mohan SitaRam</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.0</td></tr>
-                      <tr><td className="py-2 px-3 border-b">22</td><td className="py-2 px-3 border-b">16A81A0523</td><td className="py-2 px-3 border-b">K. Ram Chandu</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">84</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">23</td><td className="py-2 px-3 border-b">13A81A05G3</td><td className="py-2 px-3 border-b">K. Sahithi Suresh</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">24</td><td className="py-2 px-3 border-b">14A81A0534</td><td className="py-2 px-3 border-b">K. ChaitanyaSai</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">25</td><td className="py-2 px-3 border-b">13A81A0547</td><td className="py-2 px-3 border-b">S. Sesha Reddy</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">298</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">26</td><td className="py-2 px-3 border-b">13A81A0514</td><td className="py-2 px-3 border-b">Ch. Aditya</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">297</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">27</td><td className="py-2 px-3 border-b">13A81A05A8</td><td className="py-2 px-3 border-b">T.Suraj</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">290</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">28</td><td className="py-2 px-3 border-b">11A81A0584</td><td className="py-2 px-3 border-b">K. Lakshmi Narayana</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">39th percentile</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                    </tbody>
-                  </table>
+                     <thead className="bg-gray-100">
+          <tr>
+            <th className="py-3 px-4 border-b text-left">S.No</th>
+            <th className="py-3 px-4 border-b text-left">Roll No</th>
+            <th className="py-3 px-4 border-b text-left">Name</th>
+            <th className="py-3 px-4 border-b text-left">Course</th>
+            <th className="py-3 px-4 border-b text-left">GRE</th>
+            <th className="py-3 px-4 border-b text-left">TOEFL</th>
+            <th className="py-3 px-4 border-b text-left"  >IELTS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {gre.map((student, index) => (
+            <tr key={index} className="hover:bg-gray-50">
+              <td className="py-3 px-4 border-b">{index + 1}</td>
+              <td className="py-3 px-4 border-b">{student.rollNo}</td>
+              <td className="py-3 px-4 border-b">{student.name}</td>
+              <td className="py-3 px-4 border-b">{student.course}</td>
+              <td className="py-3 px-4 border-b">{student.gre}</td>
+              <td className="py-3 px-4 border-b">{student.toefl}</td>
+              <td className="py-3 px-4 border-b">{student.ielts}</td>
+            </tr>
+          ))}
+        </tbody>
+        </table>
                 </div>
               </details>
             </div>
@@ -800,9 +739,10 @@ const CSEDepartment: React.FC = () => {
             </div>
 
             {/* Student Research Projects */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Student Research Projects</summary>
+             <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Student Research Projects</summary>
+           
                 <div className="nav-content">
                   <h3 className="my-2 font-semibold">B.Tech</h3>
                   <ol className="list-decimal mt-5 pl-6 space-y-2">
@@ -1986,9 +1926,10 @@ const CSEDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
               Faculty Achievements
             </h2>
-            <div className="mt-4">
-              <details open>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Journal Publications</summary>
+            <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Journal Publications</summary>
+           
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -3582,242 +3523,37 @@ const CSEDepartment: React.FC = () => {
             <h3 className="text-xl font-semibold text-[#850209] mb-4 text-center">A. MOUs with Industries</h3>
             <div className="overflow-x-auto mb-8">
               <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Organization Name</th>
-                    <th className="py-3 px-4 border-b text-left">From</th>
-                    <th className="py-3 px-4 border-b text-left">To</th>
-                    <th className="py-3 px-4 border-b text-left">Document</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">Roland Institute of Technology,Berhampur</td>
-                    <td className="py-3 px-4 border-b">10-05-2025</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Mou Roland Principal sir sign.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">Pennant Technologies Pvt Ltd</td>
-                    <td className="py-3 px-4 border-b">06-11-2024</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/MOU with Pennant Technologies Pvt Ltd.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">Blumin Software & Training Consultancy LLP</td>
-                    <td className="py-3 px-4 border-b">18-06-2024</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Blumin MOU.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">4</td>
-                    <td className="py-3 px-4 border-b">Zscaler Academic Alliance Program</td>
-                    <td className="py-3 px-4 border-b">08-12-2023</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/ZScalar_MOU.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">5</td>
-                    <td className="py-3 px-4 border-b">New Leaf Learning Solutions</td>
-                    <td className="py-3 px-4 border-b">01-10-2023</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/SVEC- New Leaf 1-10-2023.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">6</td>
-                    <td className="py-3 px-4 border-b">NIT AP</td>
-                    <td className="py-3 px-4 border-b">31-12-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/1 NITAP_MOU with activities.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">7</td>
-                    <td className="py-3 px-4 border-b">Alteryx SparkED Partner</td>
-                    <td className="py-3 px-4 border-b">30-12-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/578_Alteryx SparkEd Partner_Sri Vasavi Engineering College.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">8</td>
-                    <td className="py-3 px-4 border-b">Juniper Networks</td>
-                    <td className="py-3 px-4 border-b">30-11-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Juniper MOU.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">9</td>
-                    <td className="py-3 px-4 border-b">Celonis Academic Alliance</td>
-                    <td className="py-3 px-4 border-b">11-11-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Celonis.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">10</td>
-                    <td className="py-3 px-4 border-b">Palo Alto Networks Cyber Security Academy</td>
-                    <td className="py-3 px-4 border-b">08-11-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Paaloalto.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">11</td>
-                    <td className="py-3 px-4 border-b">Blue Prism Academia Program</td>
-                    <td className="py-3 px-4 border-b">01-11-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Sri Vasavi Engineering College.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">12</td>
-                    <td className="py-3 px-4 border-b">Eduskills</td>
-                    <td className="py-3 px-4 border-b">31-10-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Eduskills MOU with PICS.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">13</td>
-                    <td className="py-3 px-4 border-b">Hexaware</td>
-                    <td className="py-3 px-4 border-b">25-04-2020</td>
-                    <td className="py-3 px-4 border-b">Till date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Hexaware MOU_PICS.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">14</td>
-                    <td className="py-3 px-4 border-b">APSSDC</td>
-                    <td className="py-3 px-4 border-b">29-03-2019</td>
-                    <td className="py-3 px-4 border-b">Till date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/1 APSSDC MOU.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">15</td>
-                    <td className="py-3 px-4 border-b">Alykas Innovations Pvt.Ltd</td>
-                    <td className="py-3 px-4 border-b">30-01-2018</td>
-                    <td className="py-3 px-4 border-b">Till date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Alykas.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">16</td>
-                    <td className="py-3 px-4 border-b">TCS iON</td>
-                    <td className="py-3 px-4 border-b">25-04-2012</td>
-                    <td className="py-3 px-4 border-b">Till date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/6 TCS-ion MOU.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+  <thead className="bg-gray-100">
+    <tr>
+      <th className="py-3 px-4 border-b text-left">S.No</th>
+      <th className="py-3 px-4 border-b text-left">Organization Name</th>
+      <th className="py-3 px-4 border-b text-left">From</th>
+      <th className="py-3 px-4 border-b text-left">To</th>
+      <th className="py-3 px-4 border-b text-left">Document</th>
+    </tr>
+  </thead>
+  <tbody>
+    {organizations.map((org, index) => (
+      <tr key={index} className="hover:bg-gray-50">
+        <td className="py-3 px-4 border-b">{index + 1}</td>
+        <td className="py-3 px-4 border-b">{org.name}</td>
+        <td className="py-3 px-4 border-b">{org.from}</td>
+        <td className="py-3 px-4 border-b">{org.to}</td>
+        <td className="py-3 px-4 border-b">
+          <a
+            className="text-[#850209] hover:underline"
+            href={org.documentUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View
+          </a>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
             </div>
 
             <h3 className="text-xl font-semibold text-[#850209] mb-4">B. Interaction with the Industry</h3>
@@ -4068,9 +3804,10 @@ const CSEDepartment: React.FC = () => {
             >
               Workshops/SOC/Seminars/<br />Guest Lectures
             </h3>
-            <div className="pt-3">
-              <details open>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Workshops/SOC</summary>
+            <div className="pt-3 space-y-4">
+              <details open  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Workshops/SOC</summary>
+           
                 <div className="px-3">
                   <ol className="list-decimal mt-5 ml-5 space-y-2">
                     <li>
@@ -5456,8 +5193,9 @@ const CSEDepartment: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <details open className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                     SCUD Activities during 2024-25
                   </summary>
                   <div className="px-4 py-3">
@@ -5475,8 +5213,9 @@ const CSEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                     SCUD Activities during 2023-24
                   </summary>
                   <div className="px-4 py-3">
@@ -5494,8 +5233,9 @@ const CSEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                     SCUD Activities during 2022-23
                   </summary>
                   <div className="px-4 py-3">
@@ -5513,8 +5253,9 @@ const CSEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                     SCUD Activities during 2021-22
                   </summary>
                   <div className="px-4 py-3">
@@ -5532,8 +5273,8 @@ const CSEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+                  <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                     SCUD Activities during 2019-20
                   </summary>
                   <div className="px-4 py-3">
@@ -5551,8 +5292,8 @@ const CSEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+                  <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                     SCUD Activities during 2018-19
                   </summary>
                   <div className="px-4 py-3">
@@ -5570,8 +5311,8 @@ const CSEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+                  <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                     SCUD Activities during 2017-18
                   </summary>
                   <div className="px-4 py-3">
@@ -5589,8 +5330,8 @@ const CSEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+                  <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                     SCUD Activities during 2016-17
                   </summary>
                   <div className="px-4 py-3">
@@ -5608,8 +5349,8 @@ const CSEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+                  <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                     SCUD Activities during 2015-16
                   </summary>
                   <div className="px-4 py-3">
@@ -5627,8 +5368,8 @@ const CSEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+                  <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                     SCUD Activities during 2014-15
                   </summary>
                   <div className="px-4 py-3">
@@ -5646,7 +5387,7 @@ const CSEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                <details className="bg-white border rounded-lg overflow-hidden">
+                <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
                   <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
                     SCUD Activities during 2013-14
                   </summary>
@@ -5876,9 +5617,9 @@ const CSEDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
               Newsletters
             </h2>
-            <div className="space-y-6">
-              <details open className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+            <div className="pt-3 space-y-4">
+              <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                   Newsletter Volume 14 Issue 2 2023
                 </summary>
                 <div className="px-4 py-3">
@@ -6401,6 +6142,7 @@ const CSEDepartment: React.FC = () => {
                     </li>
                   </ul>
                 </div>
+
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
                 <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
@@ -6570,6 +6312,7 @@ const CSEDepartment: React.FC = () => {
                   </ul>
                 </div>
               </details>
+              </div>
             </div>
           </div>
         );
@@ -6996,8 +6739,9 @@ const CSEDepartment: React.FC = () => {
 
             <h4 className="text-center text-xl font-semibold mt-10 mb-4">Academic Toppers</h4>
             <div className="pt-3">
-              <details open>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+              <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>
                   Academic Toppers during the A.Y 2024-25
                 </summary>
                 <div className="ml-5 my-2">

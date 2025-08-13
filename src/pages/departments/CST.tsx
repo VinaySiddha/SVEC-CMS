@@ -99,14 +99,8 @@ const CSTDepartment: React.FC = () => {
                 </div>
               </div>
             </div>
-            <p className="text-gray-700 mb-3">
-              The Department of Computer Science & Technology was established in 2019 with an initial intake of 60 students. We are committed to providing comprehensive education in computer science with a strong emphasis on emerging technologies and practical applications.
-            </p>
-            <p className="text-gray-700 mb-3">
-              The department has well qualified and dedicated faculty with diverse specializations in computer science and technology. We regularly conduct industrial visits, guest lectures, and workshops to enhance practical knowledge of students.
-            </p>
             <p className="text-gray-700 mb-6">
-              Our focus is on developing technically competent graduates who can contribute effectively to the rapidly evolving technology industry while maintaining strong ethical and professional values.
+              	CST Department came into inception from 2019 onwards with an intake of 60 seats in B.Tech
             </p>
 
             <h4 className="text-xl font-bold text-[#850209] mb-4">Courses Offered</h4>
@@ -233,7 +227,7 @@ const CSTDepartment: React.FC = () => {
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
             <p className="text-gray-700 leading-relaxed">
-              The Department of Computer Science & Technology was established in 2019. The department offers undergraduate program in Computer Science & Technology with an intake of 60 students.
+             	CST Department came into inception from 2019 onwards with an intake of 60 seats in B.Tech
             </p>
           </div>
         );
@@ -273,9 +267,9 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Student Achievements</h2>
-            <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Internships</summary>
+            <div className="pt-3 space-y-4">
+              <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Internships</summary>
                 <ul className="list-disc pl-6 my-2 space-y-2">
                   <li>
                     Internships during the Academic Year 2024-25 -{' '}
@@ -324,8 +318,9 @@ const CSTDepartment: React.FC = () => {
                 </ul>
               </details>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Conference Publications</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Conference Publications</summary>
                 <ul className="list-disc pl-6 my-2 space-y-2">
                   <li>
                     Student Journal Publications during the Academic Year 2023-24 -{' '}
@@ -351,29 +346,39 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Roll of Honour</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Roll of Honour</summary>
                 <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Awards</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Awards</summary>
                 <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">GATE</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>GATE</summary>
                 <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">GIF</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>GIF</summary>
                 <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">NPTEL/Other Certifications</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>NPTEL/Other Certifications</summary>
                 <ul className="list-disc pl-6 my-2 space-y-2">
                   <li>
                     NPTEL &amp; Other Certifications during the Academic Year 2024-25 -{' '}
@@ -421,16 +426,21 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Community Service Project</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Community Service Project</summary>
                 <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Student Research Projects</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Student Research Projects</summary>
                 <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
               </details>
+              </div>
             </div>
           </div>
         );
@@ -439,9 +449,9 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Syllabus</h2>
-            <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">B.Tech (CSE & CST)</summary>
+            <div className="pt-3 space-y-4">
+              <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>B.Tech (CSE & CST)</summary>
                 <ul className="list-disc pl-6 my-2">
                   <li>
                     B.Tech V23 Syllabus -
@@ -482,8 +492,9 @@ const CSTDepartment: React.FC = () => {
                 </ul>
               </details>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">SOC Syllabus</summary>
+              <div className="pt-3 space-y-4">
+              <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>SOC Syllabus</summary>
                 <ul className="list-disc pl-6 my-2">
                   <li>
                     SOC Syllabus during the Academic Year 2024-25 -
@@ -535,6 +546,7 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+            </div>
             </div>
           </div>
         );
@@ -1419,9 +1431,9 @@ const CSTDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Physical Facilities</h2>
 
-            <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Class Rooms</summary>
+            <div className="pt-3 space-y-4">
+              <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Class Rooms</summary>
                 <div className="mt-3 space-y-3">
                   <div>
                     <h5 className="text-md font-semibold mb-2">Class Rooms</h5>
@@ -1557,8 +1569,9 @@ const CSTDepartment: React.FC = () => {
                 </div>
               </details>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Seminar Halls</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Seminar Halls</summary>
                 <ul className="list-disc pl-6 my-2">
                   <li>
                     Seminar halls with ICT Enabled Facilities -{' '}
@@ -1573,9 +1586,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Laboratories</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Laboratories</summary>
                 <div className="space-y-4">
                   <p className="mt-3 text-gray-700">
                     The Department has well equipped labs with the latest Configuration. Total 9 Computer Labs for UG, PG and one research lab consisting a total of 674 systems. The various servers in the server room include Oracle 11g Database Server, Intranet Server (TOMCAT), NPTEL Video/Web Server, MAT Lab Server 2012 R2, Red Hat Linux 5.0 Server, Library Automation Server, A-Mail Server, ECAP Server, LMS Server.
@@ -2029,6 +2044,7 @@ const CSTDepartment: React.FC = () => {
                   </div>
                 </div>
               </details>
+              </div>
             </div>
           </div>
         );
@@ -2037,9 +2053,9 @@ const CSTDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg" style={{ borderWidth: 2 }}>
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Faculty Development Programs</h2>
 
-            <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">FDP Attended</summary>
+            <div className="pt-3 space-y-4">
+              <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>FDP Attended</summary>
                 <ul className="list-disc pl-6 my-2 space-y-2">
                   <li>
                     FDPs attended by the Faculty 2024-25 -{' '}
@@ -2077,8 +2093,9 @@ const CSTDepartment: React.FC = () => {
                 </ul>
               </details>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">FDP Conducted</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>FDP Conducted</summary>
                 <ul className="list-disc pl-6 my-2">
                   <li>
                     FDPs conducted by the Department to the Faculty -{' '}
@@ -2093,9 +2110,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">FDPs/ Workshops/ Training Programmes Conducted</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>FDPs/ Workshops/ Training Programmes Conducted</summary>
                 <ul className="list-disc pl-6 my-2">
                   <li>
                     FDPs conducted by the Department to the Faculty -{' '}
@@ -2110,9 +2129,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Gallery</summary>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
                   <img src="https://srivasaviengg.ac.in/images/departments/cst/FDP-2022-09-13-16.jpg" alt="Image 1" className="w-full h-auto rounded-lg shadow" />
                   <img src="https://srivasaviengg.ac.in/images/departments/cst/FDP-2022-09-13.jpg" alt="Image 2" className="w-full h-auto rounded-lg shadow" />
@@ -2122,30 +2143,37 @@ const CSTDepartment: React.FC = () => {
               </details>
             </div>
           </div>
+          </div>
         );
       case 'Faculty Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Faculty Achievements</h2>
 
-            <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Journal Publications</summary>
+           <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Journal Publications</summary>
                 <ul className="list-disc pl-6 my-2"></ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Conferences</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Conferences</summary>
                 <ul className="list-disc pl-6 my-2"></ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Book Publications</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Book Publications</summary>
                 <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Certifications</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Certifications</summary>
                 <ul className="list-disc pl-6 my-2 space-y-2">
                   <li>
                     Certifications done by the faculty during the A.Y. 2024-25 -{' '}
@@ -2182,18 +2210,25 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Patents</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Patents</summary>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Research Supervisors</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Research Supervisors</summary>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Faculty Out-Reach</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Faculty Out-Reach</summary>
               </details>
+              
             </div>
           </div>
         );
@@ -2438,9 +2473,9 @@ const CSTDepartment: React.FC = () => {
               SCUD team conducts regularly technical fests, workshops, and guest lectures for the benefit of students.
             </p>
 
-            <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">SCUD Activities during the year 2022-23</summary>
+            <div className="pt-3 space-y-4">
+              <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>SCUD Activities during the year 2022-23</summary>
                 <ul className="list-disc pl-6 my-2">
                   <li>
                     SCUD Activities during the year 2022-23 -{' '}
@@ -2456,8 +2491,9 @@ const CSTDepartment: React.FC = () => {
                 </ul>
               </details>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">SCUD Activities during the year 2021-22</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>SCUD Activities during the year 2021-22</summary>
                 <ul className="list-disc pl-6 my-2">
                   <li>
                     SCUD Activities during the year 2021-22 -{' '}
@@ -2472,9 +2508,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
+            <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Gallery</summary>
                 <div className="space-y-10 mt-4">
                   <div>
                     <h3 className="text-xl font-semibold text-center mb-4">TECHFEST 2K23</h3>
@@ -2541,6 +2579,7 @@ const CSTDepartment: React.FC = () => {
                   </div>
                 </div>
               </details>
+              </div>
             </div>
           </div>
         );
@@ -2559,8 +2598,9 @@ const CSTDepartment: React.FC = () => {
                 </ul>
               </details>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 12 Issue 3 2022</summary>
+              <div className="pt-3 space-y-4">
+              <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 12 Issue 3 2022</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 12 Issue 3 2022 -{' '}
@@ -2568,9 +2608,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 12 Issue 2 2021</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 12 Issue 2 2021</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 12 Issue 2 2021 -{' '}
@@ -2578,9 +2620,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 12 Issue 1 2021</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 12 Issue 1 2021</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 12 Issue 1 2021 -{' '}
@@ -2588,9 +2632,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 11 Issue 4 2021</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 11 Issue 4 2021</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 11 Issue 4 2021 -{' '}
@@ -2598,9 +2644,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 11 Issue 3 2021</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 11 Issue 3 2021</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 11 Issue 3 2021 -{' '}
@@ -2608,9 +2656,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 11 Issue 2 2020</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 11 Issue 2 2020</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 11 Issue 2 2020 -{' '}
@@ -2618,9 +2668,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 11 Issue 1 2020</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 11 Issue 1 2020</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 11 Issue 1 2020 -{' '}
@@ -2628,9 +2680,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 10 Issue 4 2020</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 10 Issue 4 2020</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 10 Issue 4 2020 -{' '}
@@ -2638,9 +2692,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 10 Issue 3 2020</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 10 Issue 3 2020</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 10 Issue 3 2020 -{' '}
@@ -2648,9 +2704,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 10 Issue 2 2019</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 10 Issue 2 2019</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 10 Issue 2 2019 -{' '}
@@ -2658,9 +2716,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 10 Issue 1 2019</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 10 Issue 1 2019</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 10 Issue 1 2019 -{' '}
@@ -2668,9 +2728,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 9 Issue 4 2019</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 9 Issue 4 2019</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 9 Issue 4 2019 -{' '}
@@ -2678,9 +2740,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+            </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 9 Issue 3 2019</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Newsletter Volume 9 Issue 3 2019</summary>
                 <ul className="list-none pl-0 my-2">
                   <li className="p-2">
                     Newsletter Volume 9 Issue 3 2019 -{' '}
@@ -2688,196 +2752,7 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 9 Issue 2 2018</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 9 Issue 2 2018 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/vol%209%20issue%202.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 9 Issue 1 2018</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 9 Issue 1 2018 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/vol%209%20issue%201.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 8 Issue 4(b) 2018</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 8 Issue 4(b) 2018 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/vol%208%20issue%204(b).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 8 Issue 4(a) 2018</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 8 Issue 4(a) 2018 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/vol%208%20issue%204(a).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 8 Issue 3 2017</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 8 Issue 3 2017 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/oct-17(1).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 8 Issue 2 2017</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 8 Issue 2 2017 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/july-2017.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 8 Issue 1 2017</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 8 Issue 1 2017 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/april.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 7 Issue 4 2017</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 7 Issue 4 2017 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Jan-17.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 7 Issue 3 2016</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 7 Issue 3 2016 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/oct-16.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 7 Issue 2 2016</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 7 Issue 2 2016 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Jul-16.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 7 Issue 1 2016</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 7 Issue 1 2016 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Apr-16.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 6 Issue 4 2016</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 6 Issue 4 2016 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/csenl_Jan-16.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 6 Issue 3 2015</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 6 Issue 3 2015 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/csenl_Oct-15.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 6 Issue 2 2015</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 6 Issue 2 2015 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/csenl_Jul-15.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 6 Issue 1 2015</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 6 Issue 1 2015 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/csenl_Apr-15.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 5 Issue 4 2015</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 5 Issue 4 2015 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/acsenl_Jan-15.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 5 Issue 3 2014</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 5 Issue 3 2014 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/acsenl_Oct-14.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 5 Issue 2 2014</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 5 Issue 2 2014 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/acsenl_Jul-14.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 5 Issue 1 2014</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 5 Issue 1 2014 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/acsenl_Apr14.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
+            </div>
             </div>
           </div>
         );
@@ -2886,9 +2761,9 @@ const CSTDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Extra-Curricular Activities</h2>
 
-            <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Extra-Curricular Activities</summary>
+            <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Extra-Curricular Activities</summary>
                 <ul className="my-2 list-none text-center space-y-2">
                   <li>
                     Extracurricular activities during the Year 2022-23 -{' '}
@@ -2948,8 +2823,9 @@ const CSTDepartment: React.FC = () => {
                 </ul>
               </details>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Sahaya</summary>
+             <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Sahaya</summary>
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-xl font-semibold">Social Services</h3>
@@ -3033,9 +2909,11 @@ const CSTDepartment: React.FC = () => {
                   </div>
                 </div>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Gallery</summary>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4">
                   <img src="/images/departments/cst/ec.jpeg" alt="Extra-Curricular Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
                   <img src="/images/departments/cst/ec1.jpg" alt="Extra-Curricular Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
@@ -3045,6 +2923,7 @@ const CSTDepartment: React.FC = () => {
                   <img src="/images/departments/cst/e5.jpg" alt="Extra-Curricular Image 6" className="w-full h-auto rounded-lg shadow object-cover" />
                 </div>
               </details>
+              </div>
             </div>
           </div>
         );
@@ -3240,9 +3119,9 @@ const CSTDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Training Activities</h2>
 
-            <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Training Activities during the Academic Year 2022-2023</summary>
+            <div className="pt-3 space-y-4">
+              <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Training Activities during the Academic Year 2022-2023</summary>
                 <ul className="list-disc pl-6 my-2">
                   <li>
                     Training Activities during the Academic Year 2022-2023 -{' '}
@@ -3258,8 +3137,9 @@ const CSTDepartment: React.FC = () => {
                 </ul>
               </details>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Training Activities during the Academic Year 2021-2022</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Training Activities during the Academic Year 2021-2022</summary>
                 <ul className="list-disc pl-6 my-2">
                   <li>
                     Training Activities during the Academic Year 2021-2022 -{' '}
@@ -3274,9 +3154,10 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
+              </div>
+              <div className="pt-3 space-y-4"></div>
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Gallery</summary>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
                   <img src="https://srivasaviengg.ac.in/images/departments/cst/g.jpg" alt="Training Activity Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
                   <img src="https://srivasaviengg.ac.in/images/departments/cst/g1.jpg" alt="Training Activity Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
@@ -3379,9 +3260,9 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Placements</h2>
-            <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Placements for Batch 2021-25</summary>
+            <div className="pt-3 space-y-4">
+              <details open className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Placements for Batch 2021-25</summary>
                 <ul className="list-none my-2 text-center">
                   <li className="font-medium">
                     Placements for Batch 2021-25 -{' '}
@@ -3396,9 +3277,9 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Placements for Batch 2020-24</summary>
+              <div className="pt-3 space-y-4">
+              <details  className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Placements for Batch 2020-24</summary>
                 <ul className="list-none my-2 text-center">
                   <li className="font-medium">
                     Placements for Batch 2020-24 -{' '}
@@ -3413,9 +3294,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Placements for Batch 2019-23</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Placements for Batch 2019-23</summary>
                 <ul className="list-none my-2 text-center">
                   <li className="font-medium">
                     Placements for Batch 2019-23 -{' '}
@@ -3430,9 +3313,11 @@ const CSTDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
+              </div>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
+              <div className="pt-3 space-y-4">
+              <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{backgroundColor: 'rgba(136,25,25,1)'}}>Gallery</summary>
                 <div className="space-y-6 mt-4">
                   <div>
                     <h3 className="text-xl font-semibold text-center text-[#850209] mb-4">2021-24</h3>
@@ -3493,6 +3378,7 @@ const CSTDepartment: React.FC = () => {
                   </div>
                 </div>
               </details>
+            </div>
             </div>
           </div>
         );
