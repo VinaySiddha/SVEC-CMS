@@ -1857,31 +1857,7 @@ const EEEDepartment: React.FC = () => {
           </div>
         </div>
       </section>
-      <section className="bg-white py-12 shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-            <div className="w-48 h-48 md:w-56 md:h-56">
-              <img src="https://srivasaviengg.ac.in/uploads/eeehod.jpg" alt="Dr. D. Sudha Rani" className="w-full h-full object-cover rounded-full border-4 border-[#8B1919] shadow-lg" />
-            </div>
-            <div className="max-w-2xl text-center md:text-left">
-              <h2 className="text-2xl md:text-3xl font-bold text-[#8B1919] mb-4">HOD's Message</h2>
-              <p className="text-gray-600 leading-relaxed mb-4">
-                The Department of Electrical & Electronics Engineering was established in the year 2004 with an intake of 60 students and later enhanced to 120 in 2012 and to 180 in 2014. The department has well qualified, experienced and dedicated faculty and technical staff. The laboratories are equipped with modern equipment, devices and software relevant to courses.
-              </p>
-              <p className="text-gray-600 leading-relaxed mb-4">
-                Students are encouraged to participate in several co-curricular and extracurricular activities. The EEE Department has MoUs with various industries and organizations to enhance practical exposure among students. Our students participate in industrial training programs during their vacations which helps them to get exposure to the industry scenario.
-              </p>
-              <p className="text-gray-600 leading-relaxed">
-                We warmly welcome students to become successful engineers by utilizing all the facilities in the department.
-              </p>
-              <div className="mt-4">
-                <p className="font-semibold text-[#8B1919]">Dr. D. Sudha Rani</p>
-                <p className="text-sm text-gray-500">Professor & Head of Department</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           <aside className="w-full lg:w-80 lg:flex-shrink-0">
