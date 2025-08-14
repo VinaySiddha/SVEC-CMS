@@ -5,12 +5,12 @@ import '../../../components/Carousel.css';
 
 const DirectorTechnical: React.FC = () => {
   const directorInfo = {
-    name: "Sri. Chekka. Apparao",
+    name: "Sri. Checka. Apparao",
     designation: "Technical Director",
     qualifications: "B.Tech, M.S. (Computer Science)",
     experience: "25+ Years",
-    email: "chekkaapparao@srivasaviengg.ac.in",
-    phone: "+91-866-2461555",
+    email: "checkaapparao@srivasaviengg.ac.in",
+    phone: "",
     office: "Director's Office, Administrative Block",
     image: "/tech_director.jpg"
   };
@@ -111,7 +111,7 @@ const DirectorTechnical: React.FC = () => {
               <div className="bg-[#FFF8F0] p-6 rounded-xl border-l-4 border-[#B22222] text-animate" style={{ animationDelay: '0.6s' }}>
                 <h3 className="text-lg font-semibold text-[#B22222] mb-4">Technical Director Profile</h3>
                 <p className="text-gray-700 leading-relaxed text-justify mb-4 bg-white bg-opacity-40 p-3 rounded-lg">
-                  <span className="font-medium text-[#B22222]">Background:</span> Sri Chekka Apparao is the son of our society member Sri Ch.V.R. Ramana Murthy. He completed his B.Tech in Computer Science and Systems Engineering from GITAM, Visakhapatnam, and pursued his Master's Degree in Computer Science in the United States.
+                  <span className="font-medium text-[#B22222]">Background:</span> Sri Checka Apparao is the son of our society member Sri Ch.V.R. Ramana Murthy. He completed his B.Tech in Computer Science and Systems Engineering from GITAM, Visakhapatnam, and pursued his Master's Degree in Computer Science in the United States.
                 </p>
                 <p className="text-gray-700 leading-relaxed text-justify mb-4 bg-white bg-opacity-40 p-3 rounded-lg">
                   <span className="font-medium text-[#B22222]">Professional Experience:</span> He has worked in the IT industry for 8 years in various positions including Project Manager, Architect, System Administrator, and HR Manager in the US. He then became an entrepreneur and owned several retail franchised businesses for 9 years in the United States.

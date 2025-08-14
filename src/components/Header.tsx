@@ -90,20 +90,21 @@ const Header: React.FC = () => {
     }, 300); // Increased timeout for better user experience
   };
 
-  const departments = [
-    { name: 'Computer Science & Engineering', path: '/departments/cse' },
-    { name: 'Computer Science & Technology', path: '/departments/cst' },
-    { name: 'CSE (AI)', path: '/departments/cse-ai' },
-    { name: 'CSE (Data Science)', path: '/departments/cse-ds' },
-    { name: 'AI & Machine Learning', path: '/departments/aiml' },
-    { name: 'Electronics & Communication', path: '/departments/ece' },
-    { name: 'Electronics & Comm. Technology', path: '/departments/ect' },
-    { name: 'Electrical & Electronics', path: '/departments/eee' },
-    { name: 'Mechanical Engineering', path: '/departments/mech' },
-    { name: 'Civil Engineering', path: '/departments/civil' },
-    { name: 'Basic Science & Humanities', path: '/departments/bsh' },
-    { name: 'MBA', path: '/departments/mba' },
-  ];
+const departments = [
+  { name: 'AI & Machine Learning', path: '/departments/aiml' },
+  { name: 'Basic Science & Humanities', path: '/departments/bsh' },
+  { name: 'Civil Engineering', path: '/departments/civil' },
+  { name: 'CSE (AI)', path: '/departments/cse-ai' },
+  { name: 'CSE (Data Science)', path: '/departments/cse-ds' },
+  { name: 'Computer Science & Engineering', path: '/departments/cse' },
+  { name: 'Computer Science & Technology', path: '/departments/cst' },
+  { name: 'Electrical & Electronics', path: '/departments/eee' },
+  { name: 'Electronics & Comm. Technology', path: '/departments/ect' },
+  { name: 'Electronics & Communication', path: '/departments/ece' },
+  { name: 'MBA', path: '/departments/mba' },
+  { name: 'Mechanical Engineering', path: '/departments/mech' },
+];
+
 
   const administrationItems = [
     { name: 'Director-Technical', path: '/administration/director-technical' },

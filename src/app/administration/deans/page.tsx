@@ -8,12 +8,12 @@ const Deans: React.FC = () => {
 
     {
       name: "Dr. Ch. Rambabu",
-      designation: "Dean - Student Affairs",
+      designation: "Dean - Student Affairs & Academics",
       department: "Electronics & Electrical Engineering",
       qualifications: "M.Tech.,Ph.D",
       experience: "20+ Years",
       email: "dean.student@srivasaviengg.ac.in",
-      phone: "+91-866-2461558",
+      phone: "+91-9441447199",
       image: "/rambabu.jpg",
       specialization: "VLSI Design, Embedded Systems",
       responsibilities: [
