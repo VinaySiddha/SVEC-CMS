@@ -401,7 +401,7 @@ const Home: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {homeContent.stats
-                  .filter(stat => ['Research Papers', 'Placements', 'Accreditation', 'Alumni'].includes(stat.label))
+                  .filter(stat => ['Research Papers', 'Placements',  'Alumni'].includes(stat.label))
                   .map((stat, index) => {
                     return (
                       <div key={index} className="flex items-center group relative p-3 hover:bg-primary/5 rounded-lg transition-all duration-300">

@@ -627,7 +627,7 @@ const Academics: React.FC = () => {
                   <div className="md:col-span-2">
                     <img
                       className="w-full rounded-lg"
-                      src="/images/controller-of-examination.jpg"
+                      src="/coe.jpg"
                       alt="Controller of Examination"
                       style={{ border: '0px solid #3c7593', aspectRatio: '16/9' }}
                     />
@@ -1237,7 +1237,7 @@ const Academics: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white relative overflow-hidden isolate">
+      <section className="py-12 md:py-16 bg-primary text-white rounded-none w-full overflow-hidden relative isolate">
         <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Start Your Engineering Journey</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
