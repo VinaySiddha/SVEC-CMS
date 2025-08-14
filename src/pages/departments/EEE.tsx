@@ -92,7 +92,7 @@ const EEEDepartment: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
               <div className="relative">
                 <img
-                  src="/eee_hod.jpeg"
+                  src="/eeehod.jpg"
                   alt="Dr. D. Sudha Rani"
                   className="w-full h-64 object-cover rounded-lg shadow-md"
                   style={{ aspectRatio: '4/3' }}

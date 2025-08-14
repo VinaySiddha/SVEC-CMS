@@ -63,7 +63,7 @@ const CivilDepartment: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                 <div className="relative">
                   <img
-                    src="/images/departments/ce/civilhod.png"
+                    src="/civilhod.png"
                     alt="Dr. G. Radhakrishnan"
                     className="w-full h-80 object-cover rounded-lg shadow-md"
                   />

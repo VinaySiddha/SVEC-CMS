@@ -2067,7 +2067,7 @@ const ECTDepartment: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-8">
                 <div className="relative">
                   <img
-                    src="/images/departments/ece/ecehod.jpg"
+                    src="/ecehod.jpg"
                     alt="Dr. E.Kusuma Kumari"
                     className="w-full h-80 object-cover rounded-lg shadow-md"
                   />

@@ -516,7 +516,7 @@ const BSHDepartment: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
               <div className="relative">
                 <img
-                  src="/images/departments/bsh/bsh-hod.png"
+                  src="/bshhod.jpg"
                   alt="Sri N. Raja Sekhar"
                   className="w-full h-80 object-cover rounded-lg shadow-md"
                   data-ai-hint="male professor"

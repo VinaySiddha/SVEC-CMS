@@ -263,7 +263,7 @@ const MechanicalDepartment: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
               <div className="relative">
                 <img
-                  src="/images/departments/me/mechhod.jpg"
+                  src="/mechhod.jpg"
                   alt="Dr. M. V. Ramesh"
                   className="w-full h-80 object-cover rounded-lg shadow-md"
                   data-ai-hint="male professor"
