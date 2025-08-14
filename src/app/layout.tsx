@@ -28,7 +28,7 @@ export default function RootLayout(props: {
           {/* <GlobalLoader /> */}
           <Header />
           <PageTransition>
-            <main className="flex-grow bg-secondary/50">
+            <main className="flex-grow bg-white">
               {props.children}
             </main>
           </PageTransition>

@@ -117,7 +117,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* A Meaningful College Section */}
-      <AnimatedSection animation="fadeInUp" className="py-16 bg-gradient-to-b from-white to-secondary/30 overflow-hidden transition-all duration-300 hover:bg-gradient-to-b hover:from-white hover:to-secondary/50">
+      <AnimatedSection animation="fadeInUp" className="py-16 bg-white overflow-hidden transition-all duration-300">
         <div className="container mx-auto px-4">
           <AnimatedSection animation="fadeInUp" delay={200} className="text-center mb-12 relative group">
             {/* Decorative elements with animations */}
@@ -246,7 +246,7 @@ const Home: React.FC = () => {
       {/* </AnimatedSection> */}
 
       {/* Stats Section */}
-      <AnimatedSection animation="fadeInUp" className="py-20 bg-gradient-to-b from-background to-secondary/10 overflow-hidden relative">
+      <AnimatedSection animation="fadeInUp" className="py-20 bg-secondary/10 overflow-hidden relative">
         {/* Decorative background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -right-24 -top-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>

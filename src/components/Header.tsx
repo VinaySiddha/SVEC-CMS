@@ -151,12 +151,12 @@ const Header: React.FC = () => {
 
   // More dropdown items - organized and consistent with other dropdowns
   const moreDropdownItems = [
-    { name: 'V Grievance', path: '/v-grievance' },
+    { name: 'Grievance', path: '/grievance' },
+    { name: 'Campus Life', path: '/campus-life' },
     { name: 'NAAC', path: '/naac' },
     { name: 'R & D', path: '/rd-innovation' },
     { name: 'Mandates', path: '/mandates' },
     { name: 'Category B', path: '/category-b' },
-    { name: 'Campus Life', path: '/campus-life' },
     {
       name: 'UGC',
       path: '/ugc',
