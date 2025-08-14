@@ -82,12 +82,7 @@ const AIMLDepartment: React.FC = () => {
             <p className="text-gray-700 leading-relaxed">
               Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
             </p>
-            <p className="text-gray-700 leading-relaxed">
-              The department focuses on cutting-edge technologies like Artificial Intelligence, Machine Learning, Deep Learning, and Data Science. Our curriculum is designed to provide students with a strong foundation in computer science principles while specializing in AI and ML techniques.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              The department has well-equipped laboratories, qualified faculty, and strong industry connections to ensure that students receive practical training alongside theoretical knowledge.
-            </p>
+            
           </div>
         );
       case 'Vision':

@@ -59,10 +59,13 @@ const MDVLogo: React.FC = () => {
                     <span className="text-xs text-[#FFD700] opacity-80">Studios</span>
                 </div>
             </div>
-
+            <p className="text-xs text-[#FFF8F0] mt-1 text-center whitespace-nowrap">
+                 <span className="text-red-500"></span>Atri Datta, Asst Professor & Web Developer
+            </p>
             <p className="text-xs text-[#FFF8F0] mt-1 text-center whitespace-nowrap">
                  <span className="text-red-500"></span>  Mallesh, Diwakar & Vinay • 2025
             </p>
+            
         </div>
     );
 };
