@@ -4,7 +4,7 @@ import { Menu, X, BookOpen, ChevronRight } from 'lucide-react';
 interface SidebarItem {
   id: string;
   label: string;
-  icon?: React.ReactNode;
+  icon?: React.ReactNode | (() => React.ReactNode);
 }
 
 interface FixedSidebarProps {
@@ -82,18 +82,17 @@ const FixedSidebar: React.FC<FixedSidebarProps> = ({
             <nav className="p-4 space-y-1">
               {items.map((item) => {
                 const isActive = activeItem === item.id;
-                
+
                 return (
                   <button
                     key={item.id}
                     onClick={() => handleItemClick(item.id)}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 hover:shadow-sm ${
-                      isActive
-                        ? 'bg-primary text-white font-medium shadow-md'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 hover:shadow-sm ${isActive
+                      ? 'bg-primary text-white font-medium shadow-md'
+                      : 'text-gray-700 hover:bg-gray-100'
+                      }`}
                   >
-                    {item.icon || getDefaultIcon(item.label)}
+                    {typeof item.icon === 'function' ? item.icon() : (item.icon || getDefaultIcon(item.label))}
                     <span className="text-sm flex-1">{item.label}</span>
                     <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? 'rotate-90' : ''}`} />
                   </button>
