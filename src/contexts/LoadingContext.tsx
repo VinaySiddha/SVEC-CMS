@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface LoadingContextType {
   isLoading: boolean;
@@ -29,6 +29,38 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) =>
   const setLoading = (loading: boolean) => {
     setIsLoading(loading);
   };
+
+  // Global click handler to show loader on any navigation
+  useEffect(() => {
+    const handleGlobalClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+
+      // Check if the clicked element or its parent is a link
+      const link = target.closest('a, button[onclick], [role="button"]');
+
+      if (link) {
+        const href = link.getAttribute('href');
+        const onclick = link.getAttribute('onclick');
+
+        // Show loader for internal navigation links
+        if (href && !href.startsWith('http') && !href.startsWith('mailto') && !href.startsWith('tel') && !href.startsWith('#')) {
+          setLoading(true);
+          setLoadingText('Loading page...');
+        }
+        // Show loader for buttons that might trigger navigation
+        else if (onclick || link.getAttribute('role') === 'button') {
+          setLoading(true);
+          setLoadingText('Loading...');
+        }
+      }
+    };
+
+    document.addEventListener('click', handleGlobalClick);
+
+    return () => {
+      document.removeEventListener('click', handleGlobalClick);
+    };
+  }, []);
 
   const value = {
     isLoading,

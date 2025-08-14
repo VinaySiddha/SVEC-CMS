@@ -10,26 +10,26 @@ const EEEDepartment: React.FC = () => {
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
 
   const sidebarItems = [
-    { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
-    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
-    { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
-    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
-    { id: 'Labaratories', label: 'Labaratories', icon: <Microscope className="w-4 h-4" /> },
-    { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
-    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
-    { id: 'Faculty Innovations in T & L', label: 'Faculty Innovations in T & L', icon: <TrendingUp className="w-4 h-4" /> },
-    { id: 'Research Center', label: 'Research Center', icon: <Search className="w-4 h-4" /> },
-    { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
-    { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
-    { id: 'Technical Association', label: 'Technical Association', icon: <Zap className="w-4 h-4" /> },
-    { id: 'Technical Magazines, Handbooks and Course Materials', label: 'Technical Magazines, Handbooks and Course Materials', icon: <FileText className="w-4 h-4" /> },
-    { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
-    { id: 'Product Development', label: 'Product Development', icon: <Activity className="w-4 h-4" /> },
-    { id: 'Departmental Activities', label: 'Departmental Activities', icon: <Activity className="w-4 h-4" /> },
-    { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
-    { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
-    { id: 'Green Initiative', label: 'Green Initiative', icon: <Shield className="w-4 h-4" /> },
-    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
+    { id: 'Department Profile', label: 'Department Profile', icon: () => <Building className="w-4 h-4" /> },
+    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: () => <Users className="w-4 h-4" /> },
+    { id: 'Board of Studies', label: 'Board of Studies', icon: () => <Award className="w-4 h-4" /> },
+    { id: 'Syllabus', label: 'Syllabus', icon: () => <BookOpen className="w-4 h-4" /> },
+    { id: 'Labaratories', label: 'Labaratories', icon: () => <Microscope className="w-4 h-4" /> },
+    { id: 'Department Library', label: 'Department Library', icon: () => <Library className="w-4 h-4" /> },
+    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: () => <Trophy className="w-4 h-4" /> },
+    { id: 'Faculty Innovations in T & L', label: 'Faculty Innovations in T & L', icon: () => <TrendingUp className="w-4 h-4" /> },
+    { id: 'Research Center', label: 'Research Center', icon: () => <Search className="w-4 h-4" /> },
+    { id: 'Student Achievements', label: 'Student Achievements', icon: () => <Award className="w-4 h-4" /> },
+    { id: 'Placements', label: 'Placements', icon: () => <Briefcase className="w-4 h-4" /> },
+    { id: 'Technical Association', label: 'Technical Association', icon: () => <Zap className="w-4 h-4" /> },
+    { id: 'Technical Magazines, Handbooks and Course Materials', label: 'Technical Magazines, Handbooks and Course Materials', icon: () => <FileText className="w-4 h-4" /> },
+    { id: 'Newsletters', label: 'Newsletters', icon: () => <Rss className="w-4 h-4" /> },
+    { id: 'Product Development', label: 'Product Development', icon: () => <Activity className="w-4 h-4" /> },
+    { id: 'Departmental Activities', label: 'Departmental Activities', icon: () => <Activity className="w-4 h-4" /> },
+    { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: () => <Activity className="w-4 h-4" /> },
+    { id: 'Handbooks', label: 'Handbooks', icon: () => <FileText className="w-4 h-4" /> },
+    { id: 'Green Initiative', label: 'Green Initiative', icon: () => <Shield className="w-4 h-4" /> },
+    { id: 'Contact', label: 'Contact', icon: () => <Phone className="w-4 h-4" /> }
   ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
@@ -1894,16 +1894,16 @@ const EEEDepartment: React.FC = () => {
                 <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
                 <ul className="space-y-2">
                   {sidebarItems.map((item) => (
-                    <li key={item}>
+                    <li key={item.id}>
                       <button
-                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
+                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item.id ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
                         onClick={() => {
-                          setActiveContent(item);
+                          setActiveContent(item.id);
                           setSidebarOpen(false);
                         }}
                       >
-                        <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
-                        <span>{item}</span>
+                        {typeof item.icon === 'function' ? item.icon() : <ChevronRight className="w-4 h-4" />}
+                        <span className="ml-2">{item.label}</span>
                       </button>
                     </li>
                   ))}
