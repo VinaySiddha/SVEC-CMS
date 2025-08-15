@@ -9,25 +9,6 @@ const CSTDepartment: React.FC = () => {
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
 
   const sidebarItems = [
-<<<<<<< HEAD
-    'Department Profile',
-    'Faculty Profiles',
-    'Board of Studies',
-    'Physical Facilities',
-    'MoUs',
-    'Faculty Development Programs',
-    'Faculty Achievements',
-    'Workshops',
-    'Placements',
-    'Student Achievements',
-    'Academic Toppers',
-    'Technical Association',
-    'Extra-Curricular Activities',
-    'Hackathons',
-    'Syllabus',
-    'Handbooks',
-    'Contact',
-=======
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
     { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
     { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
@@ -49,7 +30,6 @@ const CSTDepartment: React.FC = () => {
     { id: 'e-Resources', label: 'e-Resources', icon: <Wifi className="w-4 h-4" /> },
     { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
     { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
->>>>>>> refs/remotes/origin/master
   ];
 
   const faculty = [
@@ -100,15 +80,9 @@ const CSTDepartment: React.FC = () => {
     switch (activeDeptTab) {
       case 'Department':
         return (
-<<<<<<< HEAD
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-primary mb-6 text-center">Head of Department's Message</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-=======
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
->>>>>>> refs/remotes/origin/master
               <div className="relative">
                 <img
                   src="/images/departments/cse/cse_hod1.jpeg"
@@ -580,32 +554,6 @@ const CSTDepartment: React.FC = () => {
       case 'Faculty Profiles':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-<<<<<<< HEAD
-            <h2 className="text-3xl font-bold text-primary mb-6 text-center">Teaching Faculty</h2>
-            <div className="overflow-x-auto mb-10">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="px-4 py-2">S.No.</th>
-                    <th className="px-4 py-2">Name</th>
-                    <th className="px-4 py-2">Qualification</th>
-                    <th className="px-4 py-2">Designation</th>
-                    <th className="px-4 py-2">Profile</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {faculty.map((member, index) => (
-                    <tr key={index} className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2 font-medium">{member.name}</td>
-                      <td className="px-4 py-2">{member.qualification}</td>
-                      <td className="px-4 py-2">{member.designation}</td>
-                      <td className="px-4 py-2">
-                        <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View</a>
-                      </td>
-                    </tr>
-                  ))}
-=======
             <div className="space-y-8">
               <div>
                 <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Teaching Faculty</h2>
@@ -1411,31 +1359,10 @@ const CSTDepartment: React.FC = () => {
                     </td>
                   </tr>
 
->>>>>>> refs/remotes/origin/master
                 </tbody>
               </table>
             </div>
 
-<<<<<<< HEAD
-            <h2 className="text-3xl font-bold text-primary mt-12 mb-6 text-center">Non-Teaching Staff</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="px-4 py-2">S.No.</th>
-                    <th className="px-4 py-2">Name</th>
-                    <th className="px-4 py-2">Designation</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {nonTeachingFaculty.map((member, index) => (
-                    <tr key={index} className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2 font-medium">{member.name}</td>
-                      <td className="px-4 py-2">{member.designation}</td>
-                    </tr>
-                  ))}
-=======
             <h3 className="text-xl font-semibold text-[#850209] mb-4">B. Interaction with the Industry</h3>
             <div className="flex justify-center mb-6">
               <ul className="space-y-4 list-none max-w-3xl">
@@ -2344,7 +2271,6 @@ const CSTDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">15</td>
                     <td className="py-3 px-4 border-b">16250</td>
                   </tr>
->>>>>>> refs/remotes/origin/master
                 </tbody>
               </table>
             </div>
@@ -3463,46 +3389,6 @@ const CSTDepartment: React.FC = () => {
 
   return (
     <div className="pt-24 bg-gray-100">
-<<<<<<< HEAD
-        <div className="container mx-auto">
-        <div className="lg:hidden p-4">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="bg-primary text-white p-2 rounded-md">
-                <Menu className="w-6 h-6" />
-            </button>
-        </div>
-        <div className="flex flex-col lg:flex-row gap-8 p-4">
-            <aside className={`fixed lg:relative lg:translate-x-0 top-0 left-0 h-full lg:h-auto w-72 bg-white text-gray-800 p-6 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-50 lg:z-auto lg:rounded-2xl lg:shadow-lg lg:sticky lg:top-28`}>
-            <div className="flex justify-between items-center lg:justify-center">
-              <h3 className="text-xl font-bold text-center text-primary">Department Menu</h3>
-              <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-gray-600">
-                  <Menu className="w-6 h-6" />
-              </button>
-            </div>
-            <ul className="space-y-2 mt-6">
-                {sidebarItems.map((item) => (
-                <li key={item}>
-                    <button
-                    className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm font-medium ${activeContent === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
-                    onClick={() => {
-                        setActiveContent(item);
-                        if(sidebarOpen) setSidebarOpen(false);
-                    }}
-                    >
-                    <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeContent === item ? 'rotate-90' : ''}`} />
-                    <span>{item}</span>
-                    </button>
-                </li>
-                ))}
-            </ul>
-            </aside>
-
-            <main className="flex-1 min-w-0">
-                <div className="bg-transparent p-1 md:p-4 rounded-2xl">
-                  {renderContent()}
-                </div>
-            </main>
-        </div>
-=======
       <section className="bg-[#8B1919] text-white py-12">
         <div className="container mx-auto px-4">
           <div className="text-center">
@@ -3528,7 +3414,6 @@ const CSTDepartment: React.FC = () => {
         <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
           {renderContent()}
         </div>
->>>>>>> refs/remotes/origin/master
       </div>
     </div>
   );
