@@ -1,8 +1,8 @@
 {
   "achievements": [
-    { "icon": "Award", "title": "NAAC Accredited", "desc": "Grade A+ accreditation by NAAC" },
+    { "icon": "Award", "title": "NAAC Accredited", "desc": "Grade A accreditation by NAAC" },
     { "icon": "Users", "title": "25+ Years", "desc": "Of academic excellence" },
-    { "icon": "BookOpen", "title": "8 Departments", "desc": "Diverse engineering programs" },
+    { "icon": "BookOpen", "title": "12 Departments", "desc": "Diverse engineering programs" },
     { "icon": "Globe", "title": "Industry Connect", "desc": "Strong industry partnerships" }
   ],
   "leadership": [

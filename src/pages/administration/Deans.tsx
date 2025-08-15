@@ -4,7 +4,7 @@ import '../../components/Carousel.css';
 
 const Deans: React.FC = () => {
   const deans = [
-    
+
     {
       name: "Dr. Ch. Rambabu",
       designation: "Dean - Student Affairs",
@@ -42,7 +42,7 @@ const Deans: React.FC = () => {
   ];
 
   const officeStructure = [
-    
+
     {
       icon: Users,
       title: "Student Affairs",
@@ -81,17 +81,17 @@ const Deans: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-16 max-w-5xl mx-auto">
             {officeStructure.map((office, index) => (
-              <div 
+              <div
                 key={index}
-                className="stat-card text-center p-8 rounded-xl bg-[#FFF8F0] border hover:shadow-lg transition-all"
+                className="stat-card text-center p-8 rounded-xl bg-[#FFF8F0] border hover:shadow-lg transition-all w-full md:w-1/2 max-w-md"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 <office.icon className="w-16 h-16 text-[#B22222] mx-auto mb-4 icon-bounce" />
                 <h3 className="text-xl font-bold text-[#B22222] mb-3">{office.title}</h3>
                 <p className="text-gray-600 mb-4">{office.description}</p>
-                <a 
+                <a
                   href={`mailto:${office.contact}`}
                   className="text-[#B22222] hover:underline font-medium"
                 >
@@ -115,11 +115,10 @@ const Deans: React.FC = () => {
 
           <div className="space-y-16">
             {deans.map((dean, index) => (
-              <div 
+              <div
                 key={index}
-                className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-                  index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
-                }`}
+                className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
+                  }`}
               >
                 {/* Dean Image */}
                 <div className={`text-center ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
@@ -193,7 +192,7 @@ const Deans: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {[
               {
                 title: "Quality Enhancement",
@@ -216,7 +215,7 @@ const Deans: React.FC = () => {
                 icon: "🌍"
               }
             ].map((initiative, index) => (
-              <div 
+              <div
                 key={index}
                 className="quick-link bg-[#FFF8F0] p-6 rounded-xl border hover:shadow-lg transition-all text-center"
                 style={{ animationDelay: `${index * 0.1}s` }}

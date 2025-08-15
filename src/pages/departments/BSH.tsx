@@ -6,8 +6,24 @@ const BSHDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
 
-  const sidebarItems = [
-    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'FDPs/Guest lectures Organized', 'FDPs/Workshops Participated', 'Faculty Paper Presentations', 'Laboratories', 'Faculty Achievements', 'Student Achievements', 'Department Achievements', 'Activities', 'Syllabus', 'Results', 'Contact'
+  const navItems = [
+    'Department Profile',
+    'Faculty Profiles',
+    'Board of Studies',
+    'Physical Facilities',
+    'MoUs',
+    'Faculty Development Programs',
+    'Faculty Achievements',
+    'Workshops',
+    'Placements',
+    'Student Achievements',
+    'Academic Toppers',
+    'Technical Association',
+    'Extra-Curricular Activities',
+    'Hackathons',
+    'Syllabus',
+    'Handbooks',
+    'Contact',
   ];
 
   const facultyData = {
@@ -209,7 +225,7 @@ const BSHDepartment: React.FC = () => {
               </button>
             </div>
             <ul className="space-y-1">
-              {sidebarItems.map((item) => (
+              {navItems.map((item) => (
                 <li key={item}>
                   <button
                     className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm font-medium ${activeContent === item ? 'bg-primary text-white shadow-md' : 'hover:bg-gray-700'}`}
@@ -237,3 +253,4 @@ const BSHDepartment: React.FC = () => {
 };
 
 export default BSHDepartment;
+

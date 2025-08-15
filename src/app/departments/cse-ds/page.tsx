@@ -1,3 +1,3 @@
 "use client";
-import CSEDSDepartment from "@/pages/departments/CSEDS";
-export default CSEDSDepartment;
+import DSDepartment from "@/pages/departments/ds";
+export default DSDepartment;

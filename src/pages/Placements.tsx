@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrendingUp, Building, Users, Award, Target, Briefcase, Star, CheckCircle } from 'lucide-react';
+import { TrendingUp, Building, Users, Award, Target, Briefcase, Star, CheckCircle, ChevronRight } from 'lucide-react';
 import content from '../content/placements.json';
 
 const Placements: React.FC = () => {
@@ -19,13 +19,17 @@ const Placements: React.FC = () => {
   return (
     <div className="pt-44 bg-[#FFF8F0] text-[#222222]">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white py-20">
-        <div className="container mx-auto px-4 text-center">
+      <section className="bg-primary text-white py-20 relative overflow-hidden isolate">
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Placements</h1>
           <p className="text-xl max-w-3xl mx-auto">
             Bridging the gap between academic excellence and industry success
           </p>
         </div>
+
+        {/* Subtle background shapes */}
+        <div className="absolute right-0 top-0 h-32 w-32 md:h-40 md:w-40 bg-secondary/30 rounded-full opacity-70 shadow-sm z-0"></div>
+        <div className="absolute left-0 bottom-0 h-24 w-24 md:h-36 md:w-36 bg-secondary/20 rounded-full opacity-70 shadow-sm z-0"></div>
       </section>
 
       {/* Placement Statistics */}
@@ -123,8 +127,8 @@ const Placements: React.FC = () => {
             {content.testimonials.map((testimonial, index) => (
               <div key={index} className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
                 <div className="text-center mb-6">
-                  <img 
-                    src={testimonial.image} 
+                  <img
+                    src={testimonial.image}
                     alt={testimonial.name}
                     className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-4 border-[#0097A7]"
                   />
@@ -160,12 +164,13 @@ const Placements: React.FC = () => {
             {content.services.map((service, index) => {
               const Icon = iconMap[service.icon];
               return (
-              <div key={index} className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all">
-                <Icon className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-[#B22222] mb-3">{service.title}</h3>
-                <p className="text-gray-600">{service.desc}</p>
-              </div>
-            )})}
+                <div key={index} className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all">
+                  <Icon className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-[#B22222] mb-3">{service.title}</h3>
+                  <p className="text-gray-600">{service.desc}</p>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -253,27 +258,33 @@ const Placements: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white">
-        <div className="container mx-auto px-4 text-center">
+      <section className="py-16 bg-primary text-white relative overflow-hidden isolate">
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Launch Your Career?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Join our successful placement program and take the first step towards your dream career
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="/admissions" 
-              className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all"
+            <a
+              href="/admissions"
+              className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 w-full sm:w-auto"
             >
-              Apply Now
+              <span>Apply Now</span>
+              <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
             </a>
-            <a 
-              href="mailto:placements@srivasaviengg.ac.in" 
-              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#B22222] transition-all"
+            <a
+              href="mailto:placements@srivasaviengg.ac.in"
+              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 backdrop-blur-sm hover:border-secondary transition-all transform hover:scale-105 flex items-center justify-center gap-2 w-full sm:w-auto"
             >
-              Contact Placement Cell
+              <span>Contact Placement Cell</span>
+              <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
             </a>
           </div>
         </div>
+
+        {/* Subtle decorative elements */}
+        <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-secondary/20 -translate-y-1/4 translate-x-1/4 opacity-70 shadow-sm z-0"></div>
+        <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-secondary/15 translate-y-1/4 -translate-x-1/4 opacity-70 shadow-sm z-0"></div>
       </section>
     </div>
   );

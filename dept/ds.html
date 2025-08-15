@@ -1,0 +1,3673 @@
+<!DOCTYPE html>
+<html lang="en" class="mt-3">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="icon"
+      href="https://res.cloudinary.com/dqe4ld4cx/image/upload/v1693810335/SVEC_logo_dyjxrl.png"
+      type="image/x-icon"
+    />
+    <title>DS-Department</title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/departments/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="../../css/departments/jquery.mCustomScrollbar.min.css"
+    />
+    <link rel="stylesheet" href="../../css/departments/animate.css" />
+    <link rel="stylesheet" href="../../css/departments/style.css" />
+    <link rel="stylesheet" href="../../css/departments/media-queries.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/b2b9ab5ba1.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--dept profile link tag-->
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <!-- Optional: jQuery (required for some Bootstrap components) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Optional: Popper.js (required for some Bootstrap components) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+      $(function () {
+        $("#header").load("./header.html");
+        $("#footer").load("./footer.html");
+      });
+    </script>
+    <script>
+        // Disable right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Prevent Ctrl+U
+            if (e.ctrlKey && e.keyCode == 85) {
+                e.preventDefault();
+                return false;
+            }
+            // Prevent Ctrl+S
+            if (e.ctrlKey && e.keyCode == 83) {
+                e.preventDefault();
+                return false;
+            }
+            // Prevent Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                e.preventDefault();
+                return false;
+            }
+            // Prevent F12
+            if (e.keyCode == 123) {
+                e.preventDefault();
+                return false;
+            }
+        });
+          // Disable right-click
+  document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+  // Disable keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (
+      (e.ctrlKey && (e.key === 'c' || e.key === 'C' || e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) ||
+      (e.key === 'F12') ||
+      (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I'))
+    ) {
+      e.preventDefault();
+    }
+  });
+
+  // Disable print screen
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'PrintScreen') {
+      navigator.clipboard.writeText('');
+    }
+  });
+
+  // Clear clipboard on page load
+  window.addEventListener('load', () => {
+    navigator.clipboard.writeText('');
+  });
+    </script>
+
+    <style>
+        /* Prevent text selection */
+      
+  body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+  }
+    </style>
+
+  </head>
+
+  <body>
+    <div id="header"></div>
+    <div class="dept-main">
+      <!-- Wrapper -->
+      <div class="wrapper">
+        <!-- Sidebar -->
+        <nav class="sidebar side content-down">
+          <!-- close sidebar menu -->
+          <div class="dismiss mb-4">
+            <i class="fas fa-arrow-left"></i>
+          </div>
+
+          <div class="">
+            <h3
+              class="ml-3 m-4 text-center"
+              style="
+                font-size: 30px;
+                font-weight: 700;
+                color: #fff;
+                letter-spacing: 1px;
+                font-family: 'Poppins', Arial, Helvetica, sans-serif;
+                padding-top: 100px !important;
+              "
+            >
+              Departments<a href="index.html"></a>
+            </h3>
+          </div>
+
+          <ul class="list-unstyled components mb-5">
+            <li class="active list-group-item" style="cursor: pointer;">
+              <a
+                onclick="
+						location.reload();
+						"
+                data-toggle="tab"
+                >Department Profile</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab2"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Faculty Profiles</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab3"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Board of Studies</a
+              >
+            </li>
+
+            <li class="list-group-item">
+              <a
+                href="#tab4"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Physical Facilities</a
+              >
+            </li>
+
+            <li class="list-group-item">
+              <a
+                href="#tab5"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Department Library</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab6"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >MoUs</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab7"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Faculty Development<br />
+                Programs</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab8"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Faculty Achievements</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab9"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Workshops</a
+              >
+            </li>
+
+            <li class="list-group-item">
+              <a
+                href="#tab11"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Placements</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab10"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Student Achievements</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab12"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Merit Scholarship/Academic Toppers</a
+              >
+            </li>
+
+            <li class="list-group-item">
+              <a
+                href="#tab13"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Technical Association</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab16"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Extra-Curricular Activities</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab17"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Hackathons</a
+              >
+            </li>
+
+            <li class="list-group-item">
+              <a
+                href="#tab19"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Syllabus</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab20"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Handbooks</a
+              >
+            </li>
+            <li class="list-group-item">
+              <a
+                href="#tab21"
+                onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+                data-toggle="tab"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <!-- End sidebar -->
+
+        <!-- Dark overlay -->
+        <div class="overlay"></div>
+
+        <div>
+          <!------------------------------------------TAB 1 CONTENT STARTS---------------->
+
+          <!------------------------------------------TAB 1 CONTENT ENDS------------------->
+          <!------------------------------------------TAB 2 CONTENT STARTS---------------->
+
+          <div class="tab-pane" id="tab2">
+            <div class="container mt-4">
+              <h2
+                class="mt-8"
+                style="margin-bottom: 30px; color: #850209"
+                id="main-heading"
+              >
+                Profile Page
+              </h2>
+              <!-- Profile selection buttons -->
+              <div class="nav-content mb-2">
+                <details open>
+                  <summary>Faculty Profile</summary>
+                  <!-- Faculty Profile Table (Initially hidden) -->
+                  <div
+                    class="tab4-table"
+                    style="
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <table
+                      class="table table-bordered faculty-table mb-4 table-responsive table-striped table-hover"
+                      id="faculty-profile"
+                      class="tab4-table"
+                    >
+                      <thead>
+                        <tr class="tab4-tr" style="color: #343a40 !important">
+                          <th class="tab4-th">S.No.</th>
+                          <th class="tab4-th">Name of the Faculty</th>
+                          <th class="tab4-th">Qualification</th>
+                          <th class="tab4-th">Designation</th>
+                          <th class="tab4-th">Profile</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">1</td>
+                            <td class="tab4-td">Dr. G. Loshma</td>
+                            <td class="tab4-td">Ph.D.</td>
+                            <td class="tab4-td">Head & Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Dr.G.Loshma.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">2</td>
+                            <td class="tab4-td">Dr. E. Aswani Kumar</td>
+                            <td class="tab4-td">Ph.D.</td>
+                            <td class="tab4-td">Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_Dr. E. Aswani Kumar.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+    
+                        <tr class="tab4-tr">
+                          <td class="tab4-td">3</td>
+                          <td class="tab4-td">Mrs. A. Leelavathi</td>
+                          <td class="tab4-td">M.Tech, (Ph.D.)</td>
+                          <td class="tab4-td">Sr. Asst. Professor</td>
+                          <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_A.%20Leelavathi.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">4</td>
+                            <td class="tab4-td">Mr. R.L. Phani Kumar</td>
+                            <td class="tab4-td">M.Tech, (Ph.D.)</td>
+                            <td class="tab4-td">Sr. Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_R.L. Phani Kumar.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+    
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">5</td>
+                            <td class="tab4-td">Mr. M. Subba Rao</td>
+                            <td class="tab4-td">M.Tech, (Ph.D.)</td>
+                            <td class="tab4-td">Sr. Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. M. Subba Rao.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">6</td>
+                            <td class="tab4-td">Mr. P. V. V. Satyanarayana</td>
+                            <td class="tab4-td">M.Tech, (Ph.D.)</td>
+                            <td class="tab4-td">Sr. Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. P. V. V Satya Narayana.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">7</td>
+                            <td class="tab4-td">Mr. V. Rama Narayana</td>
+                            <td class="tab4-td">M.Tech, (Ph.D.)</td>
+                            <td class="tab4-td">Sr. Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. V. Rama Narayana.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">8</td>
+                            <td class="tab4-td">Mrs. V. Radha</td>
+                            <td class="tab4-td">M.Tech, (Ph.D.)</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Mrs. V. Radha.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">9</td>
+                            <td class="tab4-td">Mr. A. Rajesh</td>
+                            <td class="tab4-td">M.Tech, (Ph.D.)</td>
+                            <td class="tab4-td">Sr. Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_A.Rajesh.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">10</td>
+                            <td class="tab4-td">Mr. D. Ayyappa</td>
+                            <td class="tab4-td">M.Tech</td><td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. D. Ayyappa.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">11</td>
+                            <td class="tab4-td">Mr. M. Yesu Sekharam</td>
+                            <td class="tab4-td">M.Tech</td><td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_M. Y. SEKHARAM.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">12</td>
+                            <td class="tab4-td">Mrs. K. Durga Saranya</td>
+                            <td class="tab4-td">M.Tech</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_Mrs. K. Durga Saranya.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">13</td>
+                            <td class="tab4-td">Mr. Shaik Moulali</td>
+                            <td class="tab4-td">M.Tech</td><td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Sk. Moulali.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">14</td>
+                            <td class="tab4-td">Mrs. P. Ujwala Sai</td>
+                            <td class="tab4-td">M.Tech</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_P. Ujwala.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">15</td>
+                            <td class="tab4-td">Mrs. M. Kiranmai</td>
+                            <td class="tab4-td">M.Tech</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Ms. M. Kiranmai.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">16</td>
+                            <td class="tab4-td">Mr. V. Thinakaran</td>
+                            <td class="tab4-td">M.E.</td><td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Mr .V. Thinakaran.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">17</td>
+                            <td class="tab4-td">Mr. P. Seshu Kumar</td>
+                            <td class="tab4-td">M.Tech.</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. P Seshu Kumar.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">18</td>
+                            <td class="tab4-td">Mrs. G. Kalyani</td>
+                            <td class="tab4-td">M.Tech.</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_Ms. G Kalyani.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">19</td>
+                            <td class="tab4-td">Mrs. Pratyusha Ch.</td>
+                            <td class="tab4-td">M.Tech.</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_Ms. Prathyusha Ch.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">20</td>
+                            <td class="tab4-td">Mr. A. Reddy Chaitanya</td>
+                            <td class="tab4-td">M.Tech.</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">21</td>
+                            <td class="tab4-td">Dr. Jagadish Kumar K B</td>
+                            <td class="tab4-td">Ph.D.</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_Dr. Jagadish Kumar KB.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">22</td>
+                            <td class="tab4-td">Mr. Nishanth N S</td>
+                            <td class="tab4-td">M.E.</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Mr.Nisanth N S.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">23</td>
+                            <td class="tab4-td">Mr. B. V. V. Bhargav</td>
+                            <td class="tab4-td">M.Tech, (Ph.D.)</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Bhargav-BVV.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">24</td>
+                            <td class="tab4-td">Mr. V. Jaya Rama Krishna</td>
+                            <td class="tab4-td">M.Tech, (Ph.D.)</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. V. Jayaramakrishna.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                         <tr class="tab4-tr">
+                            <td class="tab4-td">25</td>
+                            <td class="tab4-td">Dr. M. Vishnuvardhan</td>
+                            <td class="tab4-td">Ph.D.</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Dr. M Vishnuvardhan.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">26</td>
+                            <td class="tab4-td">Mrs. Jane Rose</td>
+                            <td class="tab4-td">M.Tech.</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">27</td>
+                            <td class="tab4-td">Dr. J. Kondala Rao</td>
+                            <td class="tab4-td">Ph.D.</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. K. Jyothi.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">28</td>
+                            <td class="tab4-td">Mrs. Balaji Rohitha</td>
+                            <td class="tab4-td">M.Tech.</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_DS_Mrs. B. Rohitha.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">29</td>
+                            <td class="tab4-td">Mr. Jewaliddin Shaik</td>
+                            <td class="tab4-td">M.Tech, (Ph.D.)</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                        
+                        <tr class="tab4-tr">
+                            <td class="tab4-td">30</td>
+                            <td class="tab4-td">Ms. Sneha Pradhan</td>
+                            <td class="tab4-td">M.Tech.</td>
+                            <td class="tab4-td">Asst. Professor</td>
+                            <td class="tab4-td"><a href="https://srivasaviengg.ac.in/faculty_profile/AIM_Mrs. P. Sneha.pdf" id="pdfDOWNLOADER11" target="_blank">View Profile</a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                </details>
+                <!-- Course Information Table (Initially hidden) -->
+                <details>
+                  <summary>Non-Teaching Profiles</summary>
+                  <div
+                    class="table-responsive tab4-table mb-4 table-bordered table-striped table-hover"
+                    id="non-teaching"
+                  >
+                    <table
+                      class="table course-table table-bordered table-striped table-hover"
+                    >
+                      <thead>
+                        <tr>
+                          <th>S.No</th>
+                          <th style="min-width: 300px">Name of the Faculty</th>
+                          <th style="min-width: 300px">Designation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                        <td>1</td>
+                        <td>Mr. K. N. Suresh</td>
+                        <td>System Admin</td>
+                      </tr>
+                       <tr>
+                        <td>2</td>
+                        <td>Mr. Md. Arriff</td>
+                        <td>Lab Assistant</td>
+                      </tr>
+                       <tr>
+                        <td>3</td>
+                        <td>Mrs. D. Bhagya Lakshmi</td>
+                        <td>Lab Technician</td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>Mrs. B. Yamini</td>
+                        <td>Lab Technician</td>
+                      </tr>
+                      <tr>
+                        <td>5</td>
+                        <td>Mr. K. V Srinivasa Rao</td>
+                        <td>Hardware Technician</td>
+                      </tr>
+
+                      <tr>
+                        <td>6</td>
+                        <td>Mr. G. Bhanu Prakash</td>
+                        <td>Hardware Technician</td>
+                      </tr>
+                      <tr>
+                        <td>7</td>
+                        <td>Mr. N. RajaseKhar</td>
+                        <td>Junior Assistant</td>
+                      </tr>
+                      <tr>
+                        <td>8</td>    
+                        <td>Mr. Prasad</td>
+                        <td>Attender</td>
+                      </tr>
+                        <!-- Add more course information rows as needed -->
+                      </tbody>
+                    </table>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+
+          <!------------------------------------------TAB 2 CONTENT ENDS---------------->
+          <!------------------------------------------TAB 3 CONTENT STARTS---------------->
+
+          <div class="tab-pane" id="tab3">
+            <div
+              class="container mb-3 tab-content"
+              style="border-width: 2px; margin-top: 110px"
+            >
+              <h2 style="color: #850209; margin-bottom: 18px; margin-top: 20px">
+                Board of Studies
+              </h2>
+              <div class="nav-content">
+                <!-- Board of Studies Table -->
+                <div
+                  class="tab4-table"
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                >
+                  <table
+                    class="table bos-table table-bordered table-striped table-hover table-responsive"
+                    class="tab4-table"
+                  >
+                    <thead>
+                      <tr class="tab4-tr">
+                        <th class="tab4-th">S.No</th>
+                        <th class="tab4-th">Name of the BOS Member</th>
+                        <th class="tab4-th">Designation</th>
+                        <th class="tab4-th">Organization</th>
+                        <th class="tab4-th">Position in JOB</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="tab4-tr">
+                        <td class="tab4-td">1</td>
+                        <td class="tab4-td">Dr. G. Loshma</td>
+                        <td class="tab4-td">Professor & HOD</td>
+                        <td class="tab4-td">SVEC</td>
+                        <td class="tab4-td">Chairperson</td>
+                      </tr>
+                      <tr class="tab4-tr">
+                        <td class="tab4-td">2</td>
+                        <td class="tab4-td">Dr. L. Sumalatha</td>
+                        <td class="tab4-td">Professor, CSE</td>
+                        <td class="tab4-td">UCEK,JNTUK</td>
+                        <td class="tab4-td">University Nominee</td>
+                      </tr>
+                     
+                      <tr class="tab4-tr">
+                        <td class="tab4-td">3</td>
+                        <td class="tab4-td">Dr. R. B. V Subrahmanyam	</td>
+                        <td class="tab4-td">Professor, CSE</td>
+                        <td class="tab4-td">NITW, TG</td>
+                        <td class="tab4-td">Academic Expert</td>
+                      </tr>
+                      <tr class="tab4-tr">
+                        <td class="tab4-td">4</td>
+                        <td class="tab4-td">Dr. K. Himabindu</td>
+                        <td class="tab4-td">Dean, Student Welfare</td>
+                        <td class="tab4-td">NIT-AP, AP</td>
+                        <td class="tab4-td">Academic Expert</td>
+                      </tr>
+                      <tr class="tab4-tr">
+                        <td class="tab4-td">5</td>
+                        <td class="tab4-td">Mr. Ch. Pavan Kumar</td>
+                        <td class="tab4-td">Delivery Partner/Solution Architect</td>
+                        <td class="tab4-td">TCS, Hyderabad</td>
+                        <td class="tab4-td">Industry Expert</td>
+                      </tr>
+                      <tr class="tab4-tr">
+                        <td class="tab4-td">6</td>
+                        <td class="tab4-td">Mr. N. Sattibabu</td>
+                        <td class="tab4-td">Lead Consultant</td>
+                        <td class="tab4-td">Infosys Limited, Hyderabad </td>
+                        <td class="tab4-td">Alumni</td>
+                      </tr>
+                      <tr class="tab4-tr">
+                       <td class="tab4-td" colspan="4" align="center">
+                          All the Faculty Members in the CSE(Data Science) Dept. are members in BOS       </td>
+                        
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="mt-4">
+                <div
+                  class="nav-content mb-2"
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                  "
+                >
+                  <h4 style="color: #850209; margin-bottom: 10px">
+                    Board of Studies Meeting Minutes: 21-12-2024
+                  </h4>
+
+                  <ul class="list-unstyled" style="margin-top: 20px">
+                   
+                    <li>
+                      Minutes of 1st meeting of the Board of Studies, dated
+                      21.12.2024<a
+                        href="https://srivasaviengg.ac.in/uploads/ds/Minutes of First BOS Meeting CSE(DS) 21-12-2024.pdf"
+                        id="pdfDownloader"
+                      >
+                        - View</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!------------------------------------------TAB 3 CONTENT ENDS---------------->
+
+          <!------------------------------------------------TAB 4 CONTENT START------------->
+          <!------------------------------------------------TAB 4 CONTENT START------------->
+          <div class="tab-pane" id="tab4">
+            <h2
+              class="text-center mt-0 mt-sm-5 pt-2"
+              id="main-heading"
+              style="color: #850209"
+            >
+              Physical Facililties
+            </h2>
+            <details style="margin-top: 20px" open>
+              <summary>Class Rooms</summary>
+              <div class="p-3">
+                <ul class="fdp-list list-unstyled my-0">
+                  <h5 class="mt-3">Class Rooms</h5>
+                  <li class="fdp-item m-0 p-0 p-0 m-0">
+                    Class Rooms with ICT Enabled Facilities -
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Classrooms.pdf"
+                      target="_blank"
+                      id="pdfDownloader1"
+                      >View</a
+                    >
+                  </li>
+                  <h5 class="mt-3">Class Time Tables</h5>
+
+                  <li class="fdp-item m-0 p-0 p-0 m-0">
+                    Master Timetable_A.Y for Sem-II 2022-23 -
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/aiml/AI%20_ML_Master%20Time%20Table_2022-23_%20II%20SEM%20_AIML.pdf"
+                      id="pdfDownloader1"
+                      >View</a
+                    >
+                  </li>
+                  <li class="fdp-item m-0 p-0 p-0 m-0">
+                    Master Timetable_A.Y for Sem-I 2022-23 -
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/aiml/AIM_Master%20Time%20Table_A.Y%202022-23_%20I%20SEM.pdf"
+                      id="pdfDownloader2"
+                      >View</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <details>
+              <summary>Seminar Halls</summary>
+              <div class="p-3">
+                <ul class="fdp-list list-unstyled my-0">
+                  <li class="fdp-item m-0 p-0 p-0 m-0">
+                    Seminar halls with ICT Enabled Facilities -
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Seminar%20Halls.pdf"
+                      target="_blank"
+                      id="pdfDOWNLOADER11"
+                      >View</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <details>
+              <summary>Laboratories</summary>
+              <div class="container">
+                <p class="mt-3">
+                  The Department has well equipped labs with the latest
+                  Configuration. Total 9 Computer Labs for UG, PG and one
+                  research lab consisting a total of 674 systems. The various
+                  servers in the server room include Oracle 11g Database Server,
+                  Intranet Server (TOMCAT), NPTEL Video/Web Server, MAT Lab
+                  Server 2012 R2, Red Hat Linux 5.0 Server, Library Automation
+                  Server, A-Mail Server, ECAP Server.
+                </p>
+                <p>
+                  The college has high-speed internet connectivity throughout
+                  the campus through a leased line from BSNL with 200Mbps,
+                  400Mbps from Jio, and 40 Mbps (Broadband).
+                </p>
+                <p>
+                  The following Laboratories are available in the department:
+                </p>
+                <div
+                  class="container mt-4"
+                  style="
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                  "
+                >
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      flex-direction: column;
+                    "
+                  >
+                    <h3 class="my-2">Linus Torvalds Lab</h3>
+
+                  <table
+                    class="table-responsive tab4-table table-bordered table-striped table-hover"
+                    style="max-width: max-content"
+                  >
+                    <thead>
+                      <tr>
+                        <th class="tab4-th">S.No</th>
+                        <th class="tab4-th" style="min-width: 90px">
+                          Name of the Lab
+                        </th>
+                        <th class="tab4-th" style="min-width: 300px">
+                          Configuration
+                        </th>
+                        
+                        <th class="tab4-th">No. of Systems</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="tab4-tr">
+                        <td class="tab4-td">1</td>
+                        <td class="tab4-td" rowspan=2>Linus Torvalds Lab</td>
+                        <td class="tab4-td">
+                          Model : HP 280PRO G9 Micro Tower<br />
+                        Processor : Intel core TM i3-10100 CPU@3.64 GHZ<br />
+                        8.00 GB RAM, 256.00 GB SSD<br />
+                        System type : x64 – based Processor<br />
+                        Monitor: 19.5" LED Monitor<br />
+                        Keyboard: Multimedia Keyboard<br />
+                        Mouse: Optical Mouse<br />
+                        </td>
+                        <td class="tab4-td">70</td>
+                      </tr>
+                       <tr class="tab4-tr">
+                        <td class="tab4-td">2</td>
+                        <td class="tab4-td">
+                         Model : ACER Vertion Desktop<br />
+                        Processor : Intel® Core™ i5-7400 CPU @ 3.00 GHz<br />
+                        4.00 GB RAM, 1.00 TB HDD<br />
+                        System type : x64 – based Processor<br />
+                        Monitor : 19.5” LED Monitor<br />
+                        Keyboard : Multimedia Keyboard<br />
+                        Mouse : Optical Mouse<br />
+                        </td>
+                        <td class="tab4-td">02</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  
+                  <h3 class="my-2">Orange Lab</h3>
+                  <table
+                    class="table-responsive tab4-table table-bordered table-striped table-hover"
+                    style="max-width: max-content"
+                  >
+                    <thead>
+                      <tr>
+                        <th class="tab4-th">S.No</th>
+                        <th class="tab4-th" style="min-width: 120px">
+                          Name of the Lab
+                        </th>
+                        <th class="tab4-th" style="min-width: 300px">
+                          Configuration
+                        </th>
+                        <th class="tab4-th">Usage</th>
+                        <th class="tab4-th">No. of Systems</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="tab4-tr">
+                        <td class="tab4-td">1</td>
+                        <td class="tab4-td">Orange Lab</td>
+
+                        <td class="tab4-td">
+                          Model: DELL OPTI PLEX 3070<br />
+                          Processor: Intel Core i3, 9th Gen<br />
+                          8.00 GB RAM, 1 TB Hard Disk<br />
+                          System type: x64 – based Processor<br />
+                          Monitor: 20.5” TFT Monitor<br />
+                          Keyboard: Multimedia Keyboard<br />
+                          Mouse: Optical Scroll Mouse
+                        </td>
+                        <td class="tab4-td">Placements and Training</td>
+                        <td class="tab4-td">72</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+                <div class="nav-content mb-5">
+                  <div class="container">
+                    <div
+                      class="row"
+                      style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                      "
+                    >
+                    
+
+                      <div class="col-12 col-lg-5 m-3">
+                        <img
+                          src="../../images/departments/cai/Linus Torvalds Lab.jpg"
+                          alt="Linus Torvalds Lab"
+                          class="img-fluid"
+                          style="aspect-ratio: 16/9"
+                        />
+                        <h4 class="text-center my-3 text-success">
+                          Linus Torvalds Lab
+                        </h4>
+                      </div>
+                      
+
+                      <div class="col-12 col-lg-5 m-3">
+                        <img
+                          src="../../images/departments/cai/Orange Lab.jpg"
+                          alt="Orange Lab"
+                          class="img-fluid"
+                          style="aspect-ratio: 16/9; width: max-content"
+                        />
+                        <h4 class="text-center my-3 text-success">
+                          Orange Lab
+                        </h4>
+                      </div>
+                     
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+          <!------------------------------------------------TAB 4 CONTENT ENDS--------------->
+          <!------------------------------------------------TAB 4 CONTENT ENDS--------------->
+
+          <!------------------------------------------------TAB 5 CONTENT STARTS-->
+          <!------------------------------------------------TAB 5 CONTENT STARTS-->
+
+          <div class="tab-pane" id="tab5">
+            <div
+              class="tab-content border-3 mt-0 mt-sm-5 my-3"
+              id="main-heading"
+            >
+              <div class="container mt-4">
+                <h1
+                  class="text-center mb-3"
+                  style="color: #850209; margin-top: 20px"
+                >
+                  LIBRARY
+                </h1>
+                <div
+                  class="row"
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                >
+                  <!-- Image on the left -->
+                  <div class="col-md-6" style="margin: auto">
+                    <img
+                      src="../../images/departments/cai/cse-lib.jpg"
+                      alt="Faculty Incharge"
+                      class="faculty-img mb-4"
+                      style="height: 100%"
+                    />
+                  </div>
+                  <!-- Paragraph content on the right -->
+                  <div class="col-md-6" style="max-height: max-content">
+                    <p
+                      style="
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana,
+                          sans-serif;
+                        font-size: 18px;
+                      "
+                    >
+                      Department Library offers a variety of books related to
+                      Computer Science and Basic Science subjects. Reference
+                      books of various subjects are procured. Various
+                      Competitive Books are available to satisfy the thirst of
+                      the students. Books are issued to students and staff.
+                      Students can access the Library facility according to
+                      their convenience any time round-the-clock.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Table below the image and paragraph content with max width -->
+                <div class="container mt-4">
+                  <div class="row">
+                    <div class="col-12 col-md-6 mb-4">
+                      <div class="cselibfaculty-card w-100">
+                        <div
+                          class="cselibfaculty-card-header cselibfaculty-bg-primary cselibfaculty-text-white"
+                        >
+                          <h5 class="mb-0 text-center">No. of Titles</h5>
+                        </div>
+                        <div class="cselibfaculty-card-body">
+                          <p
+                            class="cselibfaculty-card-text text-danger font-weight-bold text-center"
+                          >
+                            455
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6 mb-4">
+                      <div class="cselibfaculty-card w-100">
+                        <div
+                          class="cselibfaculty-card-header cselibfaculty-bg-success cselibfaculty-text-white"
+                        >
+                          <h5 class="mb-0 text-center">No. of Volumes</h5>
+                        </div>
+                        <div class="cselibfaculty-card-body">
+                          <p
+                            class="cselibfaculty-card-text text-success font-weight-bold text-center"
+                          >
+                            684
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Faculty Incharge Details -->
+                <div class="row">
+                  <div
+                    class="col"
+                    style="
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      flex-direction: column;
+                      float: left;
+                    "
+                  >
+                    <h2 class="text-center">
+                      <strong>Faculty Incharge</strong>
+                    </h2>
+                    <ul class="list-unstyled mt-0 text-center">
+                      <li>
+                        <p style="margin-top: 20px; font-size: large">
+                          Mrs. M. V. V. Krishna, Asst. Professor
+                        </p>
+                      </li>
+                      <li>
+                        <p style="font-size: large">Phone: 08818-284355</p>
+                      </li>
+                      <li>
+                        <p style="font-size: large">
+                          E-mail:
+                          <a
+                            href="mailto:krishna.cse@srivasaviengg.ac.in"
+                            id="pdfDownloader"
+                            >krishna.cse@srivasaviengg.ac.in</a
+                          >
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!------------------------------------------------TAB 5 CONTENT ENDS-->
+
+          <!----------------------------------------TAB 6 CONTENT STARTS------------->
+          <div class="tab-pane" id="tab6">
+            <div
+              class="container my-4 tab-content"
+              style="border-width: 2px; margin-top: 100px"
+              id="main-heading"
+            >
+              <h2
+                style="
+                  color: #850209;
+                  text-align: center;
+                  margin-bottom: 30px;
+                  margin-top: 10px;
+                "
+              >
+                MoUs
+              </h2>
+
+              <h3 class="text-center">A. MOUs with Industries</h3>
+              <div
+                class="nav-content"
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <table
+                  class="table tab4-table table-responsive table-bordered mou-table table-striped table-hover"
+                >
+                  <thead>
+                    <tr class="tab4-tr">
+                      <th class="tab4-th">S.No</th>
+                      <th class="tab4-th">Organization Name</th>
+                      <th class="tab4-th">From</th>
+                      <th class="tab4-th">To</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">1</td>
+                      <td class="tab4-td">NIT ANP</td>
+                      <td class="tab4-td">31-12-2022</td>
+                      <td class="tab4-td">Till Date</td>
+                    </tr>
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">2</td>
+                      <td class="tab4-td">Alteryx SparkED Partner</td>
+                      <td class="tab4-td">30-12-2022</td>
+                      <td class="tab4-td">Till Date</td>
+                    </tr>
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">3</td>
+                      <td class="tab4-td">Juniper Networks</td>
+                      <td class="tab4-td">30-11-2022</td>
+                      <td class="tab4-td">Till Date</td>
+                    </tr>
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">4</td>
+                      <td class="tab4-td">Celonis Academic Alliance</td>
+                      <td class="tab4-td">11-11-2022</td>
+                      <td class="tab4-td">Till Date</td>
+                    </tr>
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">5</td>
+                      <td class="tab4-td">
+                        Palo Alto Networks Cyber Security Academy
+                      </td>
+                      <td class="tab4-td">08-11-2022</td>
+                      <td class="tab4-td">Till Date</td>
+                    </tr>
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">6</td>
+                      <td class="tab4-td">Blue Prism Academia Program</td>
+                      <td class="tab4-td">01-11-2022</td>
+                      <td class="tab4-td">Till Date</td>
+                    </tr>
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">7</td>
+                      <td class="tab4-td">Eduskills</td>
+                      <td class="tab4-td">31-10-2022</td>
+                      <td class="tab4-td">31-10-2025</td>
+                    </tr>
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">8</td>
+                      <td class="tab4-td">Hexaware</td>
+                      <td class="tab4-td">25-04-2020</td>
+                      <td class="tab4-td">Till Date</td>
+                    </tr>
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">9</td>
+                      <td class="tab4-td">APSSDC</td>
+                      <td class="tab4-td">29-03-2019</td>
+                      <td class="tab4-td">Till Date</td>
+                    </tr>
+
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">10</td>
+                      <td class="tab4-td">TCSiON</td>
+                      <td class="tab4-td">25-04-2012</td>
+                      <td class="tab4-td">Till Date</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!----------------------------------------TAB 6 CONTENT ENDS------------->
+
+          <!----------------------------------------TAB 7 STARTS---------------->
+
+          <div class="tab-pane" id="tab7">
+            <div class="container nav-content" style="border-width: 2px">
+              <h2
+                style="color: #850209; text-align: center; margin-bottom: 30px"
+                id="main-heading"
+              >
+                Faculty Development Programs
+              </h2>
+              <div class="section">
+                <details open>
+                  <summary>FDP Attended</summary>
+                  <ul class="fdp-list list-unstyled p-3 m-0">
+                    <li class="fdp-item m-0 p-0">
+                      FDPs attended by the Faculty 2023-24 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/FDPS%20Attended_2023-2024(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View</a
+                      >
+                    </li>
+                  </ul>
+                </details>
+              </div>
+            </div>
+          </div>
+          <!--------------------------------------------TAB 7 ENDS--------------->
+          <!----------------------------------------------TAB 8 STARTS--------------->
+          <!----------------------------------------------TAB 8 STARTS--------------->
+          <div class="tab-pane" id="tab8">
+            <h2 class="text-center" style="color: #850209" id="main-heading">
+              Faculty Achievements
+            </h2>
+            <div class="tab4 mt-4">
+              <details open>
+                <summary>Faculty Out-Reach</summary>
+                <div class="nav-content">
+                  <ul class="list-unstyled ml-3" style="margin-top: 20px">
+                    <li>
+                      Faculty Out Reach -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Faculty%20Outreach%20AIM.pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div class="mt-4">
+              <details>
+                <summary>Journal Publications</summary>
+                <div>
+                  <ul class="list-unstyled ml-3 px-3" style="margin-top: 20px">
+                    <li>
+                      Faculty Publication Details 2023-2024 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Faculty%20Publications%20in%20Journals_2023_24.pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div class="mt-4">
+              <details>
+                <summary>Conferences</summary>
+                <div>
+                  <ul class="list-unstyled ml-3 px-3" style="margin-top: 20px">
+                    <li>
+                      Faculty Conferences Details 2023-2024 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Faculty%20Publications%20in%20Conferences_2023_24.pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >For more Details</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+
+            <div class="tab4 mt-4">
+              <details>
+                <summary>Certifications</summary>
+                <div class="nav-content">
+                  <ul class="list-unstyled ml-3" style="margin-top: 20px">
+                    <li>
+                      Certifications done by the faculty during the A.Y. 2023-24
+                      -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Certificates_2023-2024(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >For more Details</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+
+            <div class="tab4 mt-4">
+              <details>
+                <summary>Patents</summary>
+                <div class="nav-content">
+                  <ul class="list-unstyled ml-3" style="margin-top: 20px">
+                    <li>
+                      Patents Published by Faculty during the A.Y 2023-2024 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Patents_2023-2024(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >For more Details</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+          <!---------------------------------------------------TAB 8 ENDS-------------------->
+          <!---------------------------------------------------TAB 8 ENDS-------------------->
+
+          <!-------------------------------------------------------TAB 9 STARTS CONTENT------------->
+          <div class="tab-pane" id="tab9">
+            <h3
+              class="text-center mt-5 pt-3"
+              style="color: #850209; margin-top: 100px"
+              id="main-heading"
+            >
+              Workshops/SOC/Seminars/<br />Guest Lectures
+            </h3>
+            <div class="tab4 pt-3">
+              <details open>
+                <summary>Workshops</summary>
+                <div class="nav-content px-3">
+                  <ul
+                    style="margin-top: 20px; padding-left: 20px"
+                    class="list-unstyled text-center"
+                  >
+                    <li>
+                      Workshops/SOC organized during the Academic Year 2023-24 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Workshops_2023-2024(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div class="tab4 pt-3">
+              <details>
+                <summary>SOC</summary>
+                <div class="nav-content px-3">
+                  <ul
+                    style="margin-top: 20px; padding-left: 20px"
+                    class="list-unstyled text-center"
+                  >
+                    <li>
+                      SOC organized during the Academic Year 2023-24 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/SOC_2023-2024(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                    <li>
+                      SOC organized during the Academic Year 2022-23 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/SOC_2022-2023(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div class="tab4 mt-4">
+              <details>
+                <summary>Guest Lecturers/Seminars</summary>
+                <div class="nav-content px-3">
+                  <ul
+                    style="margin-top: 20px; padding-left: 20px"
+                    class="list-unstyled text-center"
+                  >
+                    <li>
+                      Guest Lectures Organized during the Academic Year 2023-24
+                      -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Guest%20Lectures&Alumni%20Connect_2023-2024(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                    <li>
+                      Guest Lectures Organized during the Academic Year 2022-23
+                      -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Guest%20Lectures&Alumni%20Connect_2022-2023(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+          <!-------------------------------------------------------TAB 9 STARTS ENDS------------->
+
+          <!-----------------------------------------------------TAB 10 STARTS -------------------->
+          <div class="tab-pane" id="tab10">
+            <h3
+              class="text-center mt-5 pt-3"
+              style="color: #850209"
+              id="main-heading"
+            >
+              Student Achievements
+            </h3>
+            <div class="tab4 mt-4">
+              <details open>
+                <summary>Conference Publications</summary>
+                <div class="m-3">
+                  <p>
+                    Conferences during the Academic Year 2023-24 -<a
+                      href="https://srivasaviengg.ac.in/uploads/aiml/Students%20Journal%202021-25_BATCH(AIM).pdf"
+                      target="_blank"
+                      style="color: #850209; font-weight: 500"
+                    >
+                      View More</a
+                    >
+                  </p>
+                </div>
+              </details>
+            </div>
+            <div class="tab4 mt-4">
+              <details>
+                <summary>NPTEL/Other Certifications</summary>
+                <div class="nav-content">
+                  <ul class="list-unstyled p-3 m-0">
+                    <li class="m-0 p-0">
+                      Certifications during the A.Y 2023-24 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/AIM_23-24_CERTIFICATIONS_TABLE.pdf"
+                        target="_blank"
+                        id="pdfDownloader"
+                        >View More</a
+                      >
+                    </li>
+                    <li class="m-0 p-0">
+                      Certifications during the A.Y 2022-23 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/NPTEL%20&%20Others%20Certifications%202022-23(AIM).pdf"
+                        target="_blank"
+                        id="pdfDownloader"
+                        >View More</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div class="tab4 mt-4">
+              <details>
+                <summary>Global Certifications</summary>
+                <div class="nav-content">
+                  <ul
+                    style="margin-top: 20px; padding-left: 20px"
+                    class="list-unstyled text-center"
+                  >
+                    <li>
+                      Global Certifications during A. Y 2023-24 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Global%20Certifications%202023-24%20(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                    <li>
+                      Global Certifications during A. Y 2022-23 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Global%20certifications%202022-23(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div class="tab4 mt-4">
+              <details>
+                <summary>Virtual Internships</summary>
+                <div class="nav-content">
+                  <ul
+                    style="margin-top: 20px; padding-left: 20px"
+                    class="list-unstyled"
+                  >
+                    <li>
+                      List of Virtual Internships done by 2022-26 Batch Students
+                      during A.Y 2023-24 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/AIM-A%20Virtual%20Intenships.pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                    <li>
+                      List of Virtual Internships done by 2021-25 Batch Students
+                      during A.Y 2023-24 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/AIM_VIRTUAL_INTERNSHIPS_2021-25_BATCH.pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                    <li>
+                      List of Virtual Internships done by 2021-25 Batch Students
+                      during A.Y 2022-23 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/AIM_22-23_VIRTUAL_INTERNSHIPS_2021-25_BATCH.pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+
+            <div class="tab4 mt-4">
+              <details>
+                <summary>Community Service Project</summary>
+                <div class="nav-content">
+                  <ul class="list-unstyled p-3 m-0">
+                    <li class="m-0 p-0">
+                      List of CSP Projects done by 2021-25 Batch Students -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/List%20of%20CSP%20Projects%20done%20by%202021-25%20Batch%20Students.pdf"
+                        target="_blank"
+                        id="pdfDownloader"
+                        >View More</a
+                      >
+                    </li>
+                    <li class="m-0 p-0">
+                      List of CSP Projects done by 2022-26 Batch Students -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/AIM_CSP_2022-26_Batch.pdf"
+                        target="_blank"
+                        id="pdfDownloader"
+                        >View More</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div class="tab4 mt-4">
+              <details>
+                <summary>Student Research Projects</summary>
+                <div class="nav-content">
+                  <ul class="list-unstyled p-3 m-0">
+                    <li>
+                      Projects during the A.Y - 2021-25-
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/2021-25%20Batch%20AI&ML%20Miniproject%20Data.pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+          <!------------------------------------------------------TAB 10 ENDS-------------------------->
+
+          <!------------------------------------------------TAB 11 STARTS HTML----------------->
+          <div class="tab-pane" id="tab11">
+            <div class="container">
+              <div class="section">
+                <h2
+                  class="text-center mt-5 pt-3"
+                  style="color: #850209"
+                  id="main-heading"
+                >
+                  Placements
+                </h2>
+                <div class="nav-content">
+                  <details open>
+                    <summary>Placements for Batch 2021-25</summary>
+                    <!-- <li class="p-3" style="list-style:none;margin-left: 10px;">Placements for Batch 2020-24-<a
+											href="https://srivasaviengg.ac.in/uploads/cse_placements/2020-24%20CSE%20PLACEMENTS%20DATA%20-23.7.2023.pdf"
+											target="_blank" id="pdfDOWNLOADER11" id="pdfDOWNLOADER11">View More</a></li> -->
+                  </details>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!------------------------------------------------TAB 11 ENDS HTML----------------->
+
+          <!----------------------------------------TAB 12 STARTS------------------->
+          <div class="tab-pane" id="tab12">
+            <div class="container mt-4">
+              <h2
+                class="text-center mt-5 pt-3"
+                style="color: #850209"
+                id="main-heading"
+              >
+                Merit Scholarships and Academic Toppers
+              </h2>
+              <h3 style="margin-top: 30px" class="text-center">
+                Merit Scholarships
+              </h3>
+              <div class="nav-content">
+                <!--Content Not Added-->
+                <details open>
+                  <summary>Merit Scholarships during the A.Y 2022-26</summary>
+                  <!-- Content for A.Y 2018-19 goes here -->
+                  <li class="list-unstyled p-3 m-0">
+                    Merit Scholarships during the A.Y 2022-26-
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/aiml/Academic%20Toppers%20%202022-26%20Batch-2%20(AIM).pdf"
+                      target="_blank"
+                      id="pdfDOWNLOADER11"
+                      >View</a
+                    >
+                  </li>
+                </details>
+
+                <details>
+                  <summary>Merit Scholarships during the A.Y 2021-25</summary>
+                  <!-- Content for A.Y 2017-18 goes here -->
+                  <li class="list-unstyled p-3 m-0">
+                    Merit Scholarships during the A.Y 2021-25-
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/aiml/Academic%20Toppers%20%202021-25%20Batch-1%20(AIM).pdf"
+                      target="_blank"
+                      id="pdfDOWNLOADER11"
+                      >View</a
+                    >
+                  </li>
+                </details>
+              </div>
+
+              <h3 style="margin: 20px auto" class="text-center">
+                Academic Toppers
+              </h3>
+
+              <div
+                class="nav-content row"
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <table
+                  class="table tab4-table table-responsive table-bordered scholarship-table col-lg-12"
+                  class="tab4-table"
+                >
+                  <thead>
+                    <tr class="tab4-tr">
+                      <th class="tab4-th">S.No</th>
+                      <th class="tab4-th">Academic Year</th>
+                      <th class="tab4-th">Particulars</th>
+                      <th class="tab4-th">No. of Students Benefited</th>
+                      <th class="tab4-th">Scholarship Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">1</td>
+                      <td class="tab4-td">2023-24</td>
+                      <td class="tab4-td">Academic Toppers</td>
+                      <td class="tab4-td">37</td>
+                      <td class="tab4-td">40500</td>
+                    </tr>
+                    <tr class="tab4-tr">
+                      <td class="tab4-td">1</td>
+                      <td class="tab4-td">2022-23</td>
+                      <td class="tab4-td">Academic Toppers</td>
+                      <td class="tab4-td">6</td>
+                      <td class="tab4-td">6500</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Image Gallery -->
+              <h3 style="margin: 20px auto" class="text-center">
+                2021-2025 Batch
+              </h3>
+              <div class="nav-content mb-5">
+                <div class="container">
+                  <div
+                    class="row"
+                    style="
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/5.jpeg"
+                        alt="Image 1"
+                        class="img-fluid"
+                      />
+                    </div>
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/6.jpeg"
+                        alt="Image 2"
+                        class="img-fluid"
+                      />
+                    </div>
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/7.jpeg"
+                        alt="Image 1"
+                        class="img-fluid"
+                      />
+                    </div>
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/8.jpeg"
+                        alt="Image 2"
+                        class="img-fluid"
+                      />
+                    </div>
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/9.jpeg"
+                        alt="Image 1"
+                        class="img-fluid"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h3 style="margin: 20px auto" class="text-center">
+                2022-2026 Batch
+              </h3>
+              <div class="nav-content mb-5">
+                <div class="container">
+                  <div
+                    class="row"
+                    style="
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/13.jpeg"
+                        alt="Image 1"
+                        class="img-fluid"
+                      />
+                    </div>
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/14.jpeg"
+                        alt="Image 2"
+                        class="img-fluid"
+                      />
+                    </div>
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/15.jpeg"
+                        alt="Image 1"
+                        class="img-fluid"
+                      />
+                    </div>
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/16.jpeg"
+                        alt="Image 2"
+                        class="img-fluid"
+                      />
+                    </div>
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/17.jpeg"
+                        alt="Image 1"
+                        class="img-fluid"
+                      />
+                    </div>
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/23.jpeg"
+                        alt="Image 2"
+                        class="img-fluid"
+                      />
+                    </div>
+
+                    <div class="col-12 col-lg-5 m-3">
+                      <img
+                        src="https://srivasaviengg.ac.in/uploads/aiml/25.jpeg"
+                        alt="Image 2"
+                        class="img-fluid"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!----------------------------------------TAB 12 ENDS------------------->
+
+          <!---------------------------------------TAB 13 STARTS-------------------------------->
+          <div class="tab-pane" id="tab13">
+            <div class="container">
+              <h2
+                class="text-center mt-5 pt-3"
+                style="color: #850209"
+                id="main-heading"
+              >
+                Technical Association
+              </h2>
+              <div class="nav-content">
+                <details open>
+                  <summary>Engineer's Day:Nexus 2K23</summary>
+                  <ul class="list-unstyled p-3 m-0">
+                    <li class="m-0 p-0">
+                      Nexus Event wise Winners List -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/Nexus_2K23(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                  </ul>
+                </details>
+                <details>
+                  <summary>EAPCET 2K23</summary>
+                  <ul class="list-unstyled p-3 m-0">
+                    <li class="m-0 p-0">
+                      APEAPCET Rankers List -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/EAPCET%20Toppers%20(AIM).pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        id="pdfDOWNLOADER11"
+                        >View More</a
+                      >
+                    </li>
+                  </ul>
+                </details>
+              </div>
+
+              <!-- Image Carousel Placeholder -->
+              <div class="tab-content border-1">
+                <div class="nav-content">
+                  <div class="container">
+                    <div
+                      class="row"
+                      style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                      "
+                    >
+                      <div class="col-12 text-center">
+                        <h2 class="mt-2">Teacher's Day 2K23</h2>
+                      </div>
+                      <div class="col-12 col-lg-5 m-3">
+                        <img
+                          src="https://srivasaviengg.ac.in/uploads/cai/IMG_4385.jpg"
+                          alt="Image 1"
+                          class="img-fluid"
+                        />
+                      </div>
+                      <div class="col-12 col-lg-5 m-3">
+                        <img
+                          src="https://srivasaviengg.ac.in/uploads/cai/20230905_131701.jpg"
+                          alt="Image 2"
+                          class="img-fluid"
+                        />
+                      </div>
+                      <div class="col-12 col-lg-5 m-3">
+                        <img
+                          src="https://srivasaviengg.ac.in/uploads/cai/IMG-20230905-WA0044.jpg"
+                          alt="Image 2"
+                          class="img-fluid"
+                        />
+                      </div>
+                      <div class="col-12 col-lg-5 m-3">
+                        <img
+                          src="https://srivasaviengg.ac.in/uploads/cai/IMG-20230905-WA0060.jpg"
+                          alt="Image 2"
+                          class="img-fluid"
+                        />
+                      </div>
+                      <div class="col-12 col-lg-5 m-3">
+                        <img
+                          src="https://srivasaviengg.ac.in/uploads/cai/IMG_4333.JPG"
+                          alt="Image 2"
+                          class="img-fluid"
+                        />
+                      </div>
+                      <div class="col-12 col-lg-5 m-3">
+                        <img
+                          src="https://srivasaviengg.ac.in/uploads/cai/IMG-20230905-WA0024.jpg"
+                          alt="Image 2"
+                          class="img-fluid"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---------------------------------------TAB 13 ENDS-------------------------------->
+
+          <!----------------------------------TAB 14 STARTS--------------------------------------->
+
+          <!------------------------------------TAB 14 ENDS------------------------------------->
+
+          <!-----------------------------------TAB 15 STARTS------------------------------------>
+
+          <!---------------------------------------TAB 15 ENDS---------------------------------->
+          <!-------------------------------------TAB 16 STARTS------------------------------------->
+          <div class="tab-pane" id="tab16">
+            <div
+              class="container tab-content"
+              style="border-width: 2px; margin-top: 100px"
+              id="main-heading"
+            >
+              <div class="section">
+                <h2
+                  class="text-center pt-1"
+                  style="color: #850209; margin-top: 20px"
+                >
+                  Extra-Curricular Activities
+                </h2>
+                <div class="nav-content">
+                  <ul class="activity-list px-3 text-center">
+                    <li class="activity-item">
+                      Extracurricular activities during the Year 2022-23 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cai/Extracurricular%20activities%20-%202022-23.pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        class="view-more"
+                        >View More</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <h2 class="mt-2">Maitri</h2>
+                <div class="nav-content">
+                  <div
+                    class="container mt-4"
+                    style="
+                      font-family: 'Segoe UI', Tahoma, Geneva, Verdana,
+                        sans-serif;
+                    "
+                  >
+                    <h3 style="margin-top: 10px">Social Services</h3>
+                    <p>
+                      Maitri Association is a compassionate community where
+                      members, united by the spirit of 'Maitri' come together to
+                      contribute funds for those in need. Through collective
+                      efforts, the club aims to make a positive impact on the
+                      lives of individuals facing challenges, fostering a sense
+                      of solidarity and kindness within the group.
+                    </p>
+
+                    <h3 style="color: #850209">Faculty Coordinator:</h3>
+                    <p style="font-weight: bold">
+                      Mr. P. Kalyan Babu<br />
+                      Assistant Professor
+                    </p>
+                    <hr />
+                    <h3>MAITRI CO-ORDINATORS'S</h3>
+                    <ul>
+                      <li>
+                        Maitri Student Coordinators List -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/Maitri%20Coordinators(AIM).pdf"
+                          target="_blank"
+                          id="pdfDownloader11"
+                          >For more details</a
+                        >
+                      </li>
+                    </ul>
+                    <hr />
+                    <h3>LIST OF MAITRI EVENTS CONDUCTED YEAR WISE</h3>
+                    <ul>
+                      <li>
+                        2023-2024 -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/aiml/Maitri_2023-2024(AIM).pdf"
+                          target="_blank"
+                          id="pdfDownloader11"
+                          >For more details</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                  <div
+                    class="nav-content"
+                    style="border-color: green; border-style: dotted"
+                  >
+                    <div class="container">
+                      <div
+                        class="row"
+                        style="
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                        "
+                      >
+                        <div class="col-12 text-center">
+                          <h2 class="">Gallery</h2>
+                        </div>
+                        <div class="col-12 col-lg-5 m-3">
+                          <img
+                            src="https://srivasaviengg.ac.in/uploads/cai/3.jpg"
+                            alt="Image 1"
+                            class="img-fluid"
+                          />
+                        </div>
+                        <div class="col-12 col-lg-5 m-3">
+                          <img
+                            src="https://srivasaviengg.ac.in/uploads/cai/4.jpg"
+                            alt="Image 2"
+                            class="img-fluid"
+                          />
+                        </div>
+                        <div class="col-12 col-lg-5 m-3">
+                          <img
+                            src="https://srivasaviengg.ac.in/uploads/cai/IMG-20240106-WA0038.jpg"
+                            alt="Image 3"
+                            class="img-fluid"
+                          />
+                        </div>
+                        <div class="col-12 col-lg-5 m-3">
+                          <img
+                            src="https://srivasaviengg.ac.in/uploads/cai/IMG_3429.jpg"
+                            alt="Image 4"
+                            class="img-fluid"
+                          />
+                        </div>
+                        <div class="col-12 col-lg-5 m-3">
+                          <img
+                            src="https://srivasaviengg.ac.in/uploads/cai/IMG_3415.jpg"
+                            alt="Image 5"
+                            class="img-fluid"
+                          />
+                        </div>
+                        <div class="col-12 col-lg-5 m-3">
+                          <img
+                            src="https://srivasaviengg.ac.in/uploads/cai/IMG_3436.jpg"
+                            alt="Image 6"
+                            class="img-fluid"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-----------------------------------------TAB 16 ENDS------------------------>
+
+          <!-----------------------------------------TAB 17 STARTS---------------------------->
+          <div class="tab-pane" id="tab17">
+            <div
+              class="tab-content"
+              style="border-width: 2px; margin-top: 80px"
+              id="main-heading"
+            >
+              <div
+                class="container mt-4"
+                style="
+                  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                "
+              >
+                <h2
+                  class="text-center pt-1"
+                  style="color: #850209; margin-top: 20px"
+                >
+                  Hackthons
+                </h2>
+<ul>
+                  <li>
+                    Hackathon Brochure-
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/aiml/Hackathon HackWave 1.0 Brochure.jpeg"
+                      target="_blank"
+                      id="pdfDownloader11"
+                      >For more details</a
+                    >
+                  </li>
+                  <li>
+                    Hackathon Winners List during A.Y 2024-25 -
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/aiml/AIML HackWave 1.0 Winners PDF.pdf"
+                      target="_blank"
+                      id="pdfDownloader11"
+                      >For more details</a
+                    >
+                  </li>
+                </ul>
+               
+                <!-- Hackthons Conducted Table -->
+              </div>
+
+              <h2 class="mb-4" style="text-align: center; margin-top: 5px">
+                Gallery
+              </h2>
+              <div class="container">
+                <div
+                  class="col-12"
+                  style="text-align: center; font-size: 25px; font-size: 500"
+                >
+                  Hackathon 2K24
+                </div>
+                <div
+                  class="row"
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                >
+                  <!-- First div with two images -->
+
+                  <div class="col col-md-5">
+                    <img
+                      src="https://srivasaviengg.ac.in/uploads/ds/20241104_32626PMByGPSMapCamera.jpg"
+                      class="img-fluid m-3"
+                      alt="Image 1"
+                    />
+                    
+                  </div>
+
+                  <!-- Second div with two images -->
+
+                  <div class="col col-md-5">
+                    <img
+                      src="https://srivasaviengg.ac.in/uploads/ds/20241104_34007PMByGPSMapCamera.jpg"
+                      class="img-fluid m-3"
+                      alt="Image 3"
+                    />
+                    
+                  </div>
+                  
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-----------------------------------------TAB 17 ENDS---------------------->
+
+          <!--------------------------------------------TAB 18 STARTS------------------->
+
+          <!------------------------------------------------TAB 18 ENDS----------------->
+          <!-------------------------------------------------TAB 19 STARTS---------------->
+          <div class="tab-pane" id="tab19">
+            <h2
+              class="text-center mt-5 pt-3 mb-3"
+              style="color: #850209"
+              id="main-heading"
+            >
+              Syllabus
+            </h2>
+            <div class="container">
+              <div class="section">
+                <details open>
+                  <summary>B.Tech (CAI & AIML)</summary>
+                  <div class="nav-content p-3">
+                    <ul class="fdp-list list-unstyled my-0">
+                      <li class="fdp-item m-0 p-0 pl-0 my-0">
+                        B.Tech - V20 Syllabus -
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/syllabus/V20%20AI%20and%20AI&ML%20CS%20&%20Syllabus_%20I%20&%20II%20SEM.pdf"
+                          id="pdfDownloader1"
+                          >View</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+
+              <details>
+                <summary>SOC Syllabus</summary>
+                <div class="nav-content p-3">
+                  <ul class="fdp-list list-unstyled my-0">
+                    <li class="fdp-item m-0 p-0 pl-0 my-0">
+                      SOC Syllabus during the Academic Year 2022-23 -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/SOC_AIM_2022-23.pdf"
+                        id="pdfDownloader1"
+                        >View</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+          <!------------------------------------------------TAB 19 END--------------------->
+          <!--------------------------------TAB 20 STARTS------------------>
+          <div class="tab-pane" id="tab20">
+            <div class="nav-content">
+              <div class="container">
+                <h4
+                  style="text-decoration: none; color: #850209"
+                  class="text-center mt-5 mb-3 pt-3"
+                  id="main-heading"
+                >
+                  Academic HandBooks
+                </h4>
+
+                <details open>
+                  <summary>Academic year 2023-24:II-Sem Handbooks</summary>
+                  <ul class="list-unstyled p-3 m-0">
+                    <li class="m-0 p-0">
+                      VI-Sem V20 Regulation Handbook -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/VI%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2023-24.pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        style="text-decoration: none; color: #850209"
+                        >View</a
+                      >
+                    </li>
+                  </ul>
+                </details>
+
+                <details>
+                  <summary>Academic year 2023-24:I-Sem Handbooks</summary>
+                  <ul class="list-unstyled p-3 m-0">
+                    <li class="m-0 p-0">
+                      V-Sem V20 Regulation Handbook -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/V%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2023-24.pdf"
+                        target="_blank"
+                        id="pdfDownloader11"
+                        style="text-decoration: none; color: #850209"
+                        >View</a
+                      >
+                    </li>
+                    <li class="m-0 p-0">
+                      III-Sem V20 Regulation Handbook -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/III%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2023-24.pdf"
+                        target="_blank"
+                        id="pdfDownloader11"
+                        style="text-decoration: none; color: #850209"
+                        >View</a
+                      >
+                    </li>
+                  </ul>
+                </details>
+
+                <details>
+                  <summary>Academic year 2022-23: II-Sem Handbooks</summary>
+                  <ul class="list-unstyled p-3 m-0">
+                    <li class="m-0 p-0">
+                      IV-Sem V20 Regulation Handbook -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/IV%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2022-23.pdf"
+                        target="_blank"
+                        id="pdfDOWNLOADER11"
+                        style="text-decoration: none; color: #850209"
+                        >View</a
+                      >
+                    </li>
+                  </ul>
+                </details>
+
+                <details>
+                  <summary>Academic year 2022-23: I-Sem Handbooks</summary>
+                  <ul class="list-unstyled p-3 m-0">
+                    <li class="m-0 p-0">
+                      III-Sem V20 Regulation Handbook -
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/aiml/III%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2022-23.pdf"
+                        target="_blank"
+                        id="pdfDownloader11"
+                        style="text-decoration: none; color: #850209"
+                        >View</a
+                      >
+                    </li>
+                  </ul>
+                </details>
+              </div>
+            </div>
+          </div>
+
+          <!---------------------------------------------TAB 20 ENDS------------>
+          <!----------------------------------------------TAB21 STARTS ---------------->
+          <div class="tab-pane active" id="tab21">
+            <h1
+              style="color: #850209; text-align: center; margin-top: 80px"
+              id="main-heading"
+            >
+              Contact-Info
+            </h1>
+            <div class="container tab-content border-1 my-3 p-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <img
+                    class="img-fluid"
+                    src="../../images/departments/cai/aihod.jpg"
+                    height="160"
+                    style="border: 0px solid #3c7593; aspect-ratio: 16/9"
+                  />
+                </div>
+                <div class="col-md-6 text-center" id="hod" class="my-3 my-md-0">
+                  <h2 id="dept-head" class="mt-4 mt-md-auto">Dr. G. Loshma</h2>
+                  <p>Professor & Head of the Department</p>
+                  <p>Phone No: 08818-284355(O)-(Ext.-377)</p>
+                  <p>Fax No: 08818-284322</p>
+                  <p>
+                    Email:
+                    <a
+                      href="mailto:hod_aim@srivasaviengg.ac.in"
+                      style="color: #850209; font-weight: 500"
+                      id="hod-mail"
+                      >hod_ds@srivasaviengg.ac.in</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!---------------------------------------------------TAB 21 ENDS-------------->
+      </div>
+
+      <!-- -----------------------MIDDLE OPTINONS Content STARTS (MISSION ,VISION ETC)------------------------------- -->
+
+      <!-- Content -->
+      <div class="content m-0">
+        <!-- open sidebar menu -->
+        <a
+          class="btn btn-primary btn-customized open-menu mt-5"
+          href="#"
+          role="button"
+        >
+          <div
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <i
+              class="fas fa-align-left"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            ></i>
+            <span>Details</span>
+          </div>
+        </a>
+
+        <div id="content" class="container-fluid mt-5 mb-2">
+          <h2 class="mb-4 text-center pt-5" id="dept-name">
+           CSE(Data Science)
+          </h2>
+
+          <div class="container-fluid my-5" id="large">
+            <nav>
+              <div
+                class="nav flex-column flex-lg-row"
+                id="nav-tab"
+                role="tablist"
+              >
+                <button
+                  class="nav-link active ml-md-0"
+                  id="nav-department-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-department"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-department"
+                  aria-selected="true"
+                >
+                  Department
+                </button>
+
+                <button
+                  class="nav-link"
+                  id="nav-vision-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-vision"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-vision"
+                  aria-selected="false"
+                >
+                  Vision
+                </button>
+
+                <button
+                  class="nav-link"
+                  id="nav-mission-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-mission"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-mission"
+                  aria-selected="false"
+                >
+                  Mission
+                </button>
+
+                <button
+                  class="nav-link"
+                  id="nav-peos-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-peos"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-peos"
+                  aria-selected="false"
+                >
+                  PEOs
+                </button>
+
+                <button
+                  class="nav-link"
+                  id="nav-pos-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-pos"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-pos"
+                  aria-selected="false"
+                >
+                  POs
+                </button>
+
+                <button
+                  class="nav-link"
+                  id="nav-psos-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-psos"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-psos"
+                  aria-selected="false"
+                >
+                  PSOs
+                </button>
+
+                <button
+                  class="nav-link"
+                  id="nav-cos-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-cos"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-cos"
+                  aria-selected="false"
+                >
+                  COs
+                </button>
+
+                <button
+                  class="nav-link"
+                  id="nav-salient-features-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-salient-features"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-salient-features"
+                  aria-selected="false"
+                >
+                  Salient Features
+                </button>
+              </div>
+            </nav>
+
+            <div class="tab-content" id="nav-tabContent">
+              <div
+                class="tab-pane fade show active p-3"
+                id="nav-department"
+                role="tabpanel"
+                aria-labelledby="nav-department-tab"
+              >
+                <div class="row">
+                  <div class="col-md-8">
+                    <img
+                      class="img-fluid"
+                      src="../../images/departments/cai/aihod.jpg"
+                      height="160"
+                      style="border: 0px solid #3c7593; aspect-ratio: 16/9"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="col-md-4 text-sm-center" id="hod">
+                    <h2 id="dept-head">Dr. G. Loshma</h2>
+                    <p>Professor & Head of the Department</p>
+                    <p>Mobile No: 7672082130</p>
+                    <p>Phone No: 08818-284355(O)-(Ext.-442)</p>
+                    
+                    <p>
+                      Email:
+                      <a
+                        href="mailto:hod_aim@srivasaviengg.ac.in"
+                        style="color: #850209; font-weight: 500"
+                        id="hod-mail"
+                        >hod_aim@srivasaviengg.ac.in</a
+                      >
+                    </p>
+                  </div>
+                </div>
+                <div class="profile-card">
+                  <h3 class="text-center">Department Profile</h3>
+                  <p class="px-2">
+                    The Department of Computer Science and Engineering(Data Science) came into inception from 2024 onwards with an intake of 60 seats in B.Tech.
+                  </p>
+                </div>
+                <h3 class="text-center">Courses</h3>
+                <div
+                  class="tab4-table w-100"
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                >
+                  <table
+                    class="table table-bordered mb-4 table-responsive table-striped table-hover"
+                    class="tab4-table"
+                  >
+                    <thead>
+                      <tr class="tab4-tr">
+                        <th class="tab4-th">S.No</th>
+                        <th class="tab4-th">Name of the Course</th>
+                        <th class="tab4-th">Eligibility Criteria</th>
+                        <th class="tab4-th">Duration</th>
+                        <th class="tab4-th">Intake</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="tab4-tr">
+                        <td class="tab4-td">1</td>
+                        <td class="tab4-td">
+                          B.Tech-CSE(Data Science)
+                        </td>
+                        <td class="tab4-td">AP EAPCET</td>
+                        <td class="tab4-td">4 Years</td>
+                        <td class="tab4-td">60</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade p-3"
+                id="nav-vision"
+                role="tabpanel"
+                aria-labelledby="nav-vision-tab"
+              >
+                <h2 style="margin-top: 10px" class="text-center">Vision</h2>
+                <p
+                  class="card-text text-center"
+                  style="margin-top: 10px; text-align: left; font-weight: 450"
+                >
+                  To evolve as a centre for academic and research excellence in the area of Data Science.
+                </p>
+              </div>
+              <div
+                class="tab-pane fade p-3"
+                id="nav-mission"
+                role="tabpanel"
+                aria-labelledby="nav-mission-tab"
+              >
+                <h2 style="margin-top: 10px" class="text-center">Mission</h2>
+                <ul class="my-2">
+                  <li>
+                    To utilize innovative learning methods for academic
+                    improvement.
+                  </li>
+                  <li>
+                    To encourage higher studies and research to meet the
+                    futuristic requirements of DS.
+                  </li>
+                  <li>
+                    To inculcate Ethics and Human values for developing students
+                    with good character
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="tab-pane fade p-3"
+                id="nav-peos"
+                role="tabpanel"
+                aria-labelledby="nav-peos-tab"
+              >
+                <h2 style="margin-top: 10px" class="text-center">PEOs</h2>
+                <p
+                  style="
+                    font-weight: 700;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    color: #850209 !important;
+                    font-size: 25px;
+                  "
+                >
+                  Graduates of CSE(DS) programme will:
+                </p>
+
+                <ul>
+                  <li>Adapt to evolving technology.</li>
+                  <li>Provide optimal solutions to real time problems.</li>
+                  <li>
+                    Demonstrate his/her abilities to support service activities
+                    with due consideration for Professional &nbsp; &nbsp; and
+                    Ethical Values.
+                  </li>
+                </ul>
+              </div>
+
+              <div
+                class="tab-pane fade p-3"
+                id="nav-pos"
+                role="tabpanel"
+                aria-labelledby="nav-pos-tab"
+              >
+                <h2 style="margin-top: 10px" class="text-center">POs</h2>
+                <div
+                  style="
+                    max-width: 800px;
+                    margin: 0 auto;
+                    font-family: Arial, sans-serif;
+                  "
+                >
+                  <h3
+                    style="
+                      color: #850209;
+                      text-align: center;
+                      font-size: 900;
+                      text-align: left;
+                      margin-bottom: 20px;
+                    "
+                  >
+                    &nbsp;Computer Science Engineering(DS) Graduates will be
+                    able to:
+                  </h3>
+                  <ul
+                    style="
+                      list-style-type: decimal;
+                      padding-left: 20px;
+                      list-style: none;
+                    "
+                  >
+                    <li style="margin-bottom: 10px">
+                      <strong style="color: #850209"
+                        >1. Engineering knowledge:</strong
+                      >
+                      Apply the knowledge of Mathematics, Science, Engineering
+                      Fundamentals, and Concepts of Computer Science
+                      Engineering(AIML) to the solution of complex Engineering
+                      problems.
+                    </li>
+                    <li style="margin-bottom: 10px">
+                      <strong style="color: #850209"
+                        >2. Problem Analysis:</strong
+                      >
+                      Identify, formulate, review research literature, and
+                      analyze complex engineering problems reaching
+                      substantiated conclusions using first principles of
+                      Mathematics, Natural Sciences, and Computer Science.
+                    </li>
+                    <li style="margin-bottom: 10px">
+                      <strong style="color: #850209"
+                        >3. Design/development of solutions:</strong
+                      >
+                      Design solutions for complex engineering problems and
+                      design system components or processes that meet the
+                      specific needs with appropriate consideration for public
+                      health and safety, and the cultural, societal, and
+                      environmental considerations.
+                    </li>
+                    <li style="margin-bottom: 10px">
+                      <strong style="color: #850209"
+                        >4. Conduct investigations of complex problems:</strong
+                      >
+                      Use research-based knowledge and research methods,
+                      including the design of experiments, analysis and
+                      interpretation of data, and synthesis of information to
+                      provide valid conclusions.
+                    </li>
+                    <li style="margin-bottom: 10px">
+                      <strong style="color: #850209"
+                        >5. Modern tool usage:</strong
+                      >
+                      Create, select, and apply appropriate techniques,
+                      resources, and modern engineering and IT tools, including
+                      prediction and modeling, to complex Engineering activities
+                      with an understanding of the limitations.
+                    </li>
+                    <li style="margin-bottom: 10px">
+                      <strong style="color: #850209"
+                        >6. The engineer and society:</strong
+                      >
+                      Apply reasoning informed by contextual knowledge to assess
+                      societal, health, safety, legal, and cultural issues and
+                      the consequent responsibilities relevant to professional
+                      Engineering practice.
+                    </li>
+                    <li style="margin-bottom: 10px">
+                      <strong style="color: #850209"
+                        >7. Environment and sustainability:</strong
+                      >
+                      Understand the impact of professional engineering
+                      solutions in societal and environmental contexts and
+                      demonstrate knowledge of, and the need for sustainable
+                      development.
+                    </li>
+                    <li style="margin-bottom: 10px">
+                      <strong style="color: #850209">8. Ethics:</strong> Apply
+                      ethical principles and commit to professional ethics and
+                      responsibilities and norms of Engineering practice.
+                    </li>
+                    <li style="margin-bottom: 10px">
+                      <strong style="color: #850209"
+                        >9. Individual and team work:</strong
+                      >
+                      Function effectively as an individual and as a member or
+                      leader in diverse teams and in multidisciplinary settings.
+                    </li>
+                    <li style="margin-bottom: 10px">
+                      <strong style="color: #850209">10. Communication:</strong>
+                      Communicate effectively on complex Engineering activities
+                      with the Engineering community and with society at large,
+                      such as being able to comprehend and write effective
+                      reports and design documentation, make effective
+                      presentations, and give and receive clear instructions.
+                    </li>
+                    <li style="margin-bottom: 10px">
+                      <strong style="color: #850209"
+                        >11. Project management and finance:</strong
+                      >
+                      Demonstrate knowledge and understanding of Engineering and
+                      Management principles and apply these to one's own work,
+                      as a member and leader in a team, to manage projects and
+                      in multidisciplinary environments.
+                    </li>
+                    <li>
+                      <strong style="color: #850209"
+                        >12. Life-long learning:</strong
+                      >
+                      Recognize the need for, and have the preparation and
+                      ability to engage in independent and life-long learning in
+                      the broadest context of technological change.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade p-3"
+                id="nav-psos"
+                role="tabpanel"
+                aria-labelledby="nav-psos-tab"
+              >
+                <h2 style="margin-top: 10px" class="text-center">PSOs</h2>
+                <p
+                  style="
+                    text-align: left;
+                    color: #850209;
+                    font-size: large;
+                    margin-left: 26px;
+                    font-weight: 600;
+                  "
+                >
+                  &nbsp; &nbsp; A graduate of the CSE(Data Science) Programme will be able to:
+                </p>
+                <ul style="list-style-type: decimal; margin-left: 30px">
+                  <li>
+                    <span class="heading" style="color: #850209">PSO1:</span>
+                    Use Mathematical Abstractions and Algorithmic Design along
+                    with Open Source Programming tools to solve complexities
+                    involved in Programming.
+                    <span style="font-weight: bold">[K3]</span>
+                  </li>
+                  <li>
+                    <span class="heading" style="color: #850209">PSO2:</span>
+                    Use Professional Engineering practices and strategies for
+                    development and maintenance of software.
+                    <span style="font-weight: bold">[K3]</span>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="tab-pane fade p-3"
+                id="nav-cos"
+                role="tabpanel"
+                aria-labelledby="nav-cos-tab"
+              >
+                <h2 style="margin-top: 10px; margin-bottom: 20px">COs</h2>
+                <div class="contentCO">
+                  <div style="display: inline; margin: 20px">
+                    <h1
+                      style="font: weight 250px; font-size: 20px"
+                      class="d-inline-block"
+                    >
+                      Course Outcomes (V20 Regulation)<a
+                        href="https://srivasaviengg.ac.in/uploads/cai/Course%20Outcomes%20-V20%20Regulation.pdf"
+                        target="_blank"
+                        style="font-size: 20px"
+                        target="_blank"
+                        class="view-button p-2"
+                        >View PDF
+                      </a>
+                    </h1>
+                  </div>
+
+                  <!-- Place your content here -->
+
+                  <!-- "View PDF" button -->
+                </div>
+              </div>
+
+              <div
+                class="tab-pane fade p-3"
+                id="nav-salient-features"
+                role="tabpanel"
+                aria-labelledby="nav-salient-features-tab"
+              >
+                <h2 style="margin-top: 10px; margin-bottom: 22px">
+                  Salient Features
+                </h2>
+                <div class="decorated-text">
+                  <p>
+                    <strong>➟</strong>&nbsp;
+                    <span class="side-heading">ICT enabled class rooms </span>
+                  </p>
+                  <p>
+                    <strong>➟</strong>&nbsp;
+                    <span class="side-heading"
+                      >MoUs with NIT ANP , Eduskills , Hexaware , APSSDC ,
+                      Alykas Innovations Pvt.Ltd, thingTronics Pvt Ltd,Bangalore
+                      and TCS-iON.</span
+                    >
+                  </p>
+                  <p>
+                    <strong>➟</strong>&nbsp; College has MOU with TCS for
+                    conducting Online Competitive Exams for which our Department
+                    Resources are being utilized.
+                  </p>
+                  <p>
+                    <strong>➟</strong>&nbsp; Professional Society memberships in
+                    ISTE and IAENG
+                  </p>
+                  <p><strong>➟</strong>&nbsp; Good faculty retention</p>
+                  <p><strong>➟</strong>&nbsp; Well Equipped Laboratories</p>
+                  <p>
+                    <strong>➟</strong>&nbsp; Maitri, Social Service Unit,
+                    managed by the Students.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-content" id="small">
+            <div class="accordion" id="accordionTabs">
+              <div
+                class="card"
+                data-bs-toggle="collapse"
+                data-bs-target="#nav-department"
+                aria-expanded="false"
+              >
+                <div class="card-header" id="nav-department-heading">
+                  <h2 class="mt-0 mb-0">
+                    <button class="btn btn-link">Department</button>
+                  </h2>
+                </div>
+
+                <div
+                  class="tab-pane fade show active collapse p-3"
+                  id="nav-department"
+                  class="collapse show"
+                  aria-labelledby="nav-department-tab"
+                >
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-7 pr-0">
+                        <img
+                          class="img-fluid"
+                          src="../../images/departments/cai/aihod.jpg"
+                          height="160"
+                          style="border: 0px solid #3c7593"
+                        />
+                      </div>
+                      <div class="col-md-5 text-center" id="hod">
+                        <h2 class="" id="dept-head">Dr. G. Loshma</h2>
+                        <p>Professor & Head of the Department</p>
+                        <p>Phone No: 08818-284355(O)-(Ext.-377)</p>
+                        <p>Fax No: 08818-284322</p>
+                        <p>
+                          Email:
+                          <a
+                            href="mailto:hod_aim@srivasaviengg.ac.in"
+                            style="color: #850209; font-weight: 500"
+                            id="hod-mail"
+                            >hod_ds@srivasaviengg.ac.in</a
+                          >
+                        </p>
+                      </div>
+                    </div>
+                    <div class="profile-card">
+                      <h3>Department Profile</h3>
+                      <p>
+                       The Department of Computer Science and Engineering(Data Science) came into inception from 2024 onwards with an intake of 60 seats in B.Tech.
+                      </p>
+                    </div>
+                    <h3>Courses</h3>
+                    <div class="table-responsive mb-4 table-bordered">
+                      <table
+                        class="table tab4-table table-bordered table-striped table-hover"
+                      >
+                        <thead>
+                          <tr class="tab4-tr">
+                            <th class="tab4-th">S.No</th>
+                            <th class="tab4-th">Name of the Course</th>
+                            <th class="tab4-th">Eligibility Criteria</th>
+                            <th class="tab4-th">Duration</th>
+                            <th class="tab4-th">Intake</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="tab4-tr">
+                            <td class="tab4-td">1</td>
+                            <td class="tab4-td">
+                             B.Tech-CSE(Data Science)
+                            </td>
+                            <td class="tab4-td">AP EAPCET</td>
+                            <td class="tab4-td">4 Years</td>
+                            <td class="tab4-td">60</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="card"
+                data-bs-toggle="collapse"
+                data-bs-target="#nav-vision-content"
+                aria-expanded="false"
+              >
+                <a href="#nav-vision-content">
+                  <div class="card-header" id="nav-vision-heading">
+                    <h2 class="mt-0 mb-0">
+                      <button class="btn btn-link">Vision</button>
+                    </h2>
+                  </div>
+                </a>
+                <div
+                  class="tab-pane fade show active collapse p-3 collapsing"
+                  id="nav-vision-content"
+                  aria-labelledby="nav-vision-heading"
+                >
+                  <div class="card-body">
+                    <h2 style="margin-top: 10px">Vision</h2>
+                    <p
+                      class="card-text"
+                      style="
+                        margin-top: 10px;
+                        text-align: left;
+                        font-weight: 450;
+                      "
+                    >
+                     To evolve as a centre for academic and research excellence in the area of Data Science.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="card"
+                data-bs-toggle="collapse"
+                data-bs-target="#nav-mission-content"
+                aria-expanded="true"
+              >
+                <a href="#nav-mission-content">
+                  <div class="card-header" id="nav-mission-heading">
+                    <h2 class="mt-0 mb-0">
+                      <button class="btn btn-link">Mission</button>
+                    </h2>
+                  </div>
+                </a>
+                <div
+                  class="tab-pane fade show active collapse p-3 collapsing"
+                  id="nav-mission-content"
+                  class="collapse"
+                  aria-labelledby="nav-vision-heading"
+                >
+                  <div class="card-body">
+                    <h2 style="margin-top: 10px">Mission</h2>
+                    <p
+                      class="card-text"
+                      style="
+                        margin-top: 10px;
+                        text-align: left;
+                        font-weight: 450;
+                      "
+                    >
+                      To utilize innovative learning methods for academic
+                      improvement.To encourage higher studies and research to
+                      meet the futuristic requirements of Computer Science and
+                      Engineering(DS).To inculcate Ethics and Human values for
+                      developing students with good character
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="card"
+                data-bs-toggle="collapse"
+                data-bs-target="#nav-peos-content"
+                aria-expanded="true"
+              >
+                <a href="#nav-peos-content">
+                  <div class="card-header" id="nav-peos-heading">
+                    <h2 class="mt-0 mb-0">
+                      <button class="btn btn-link">PEOs</button>
+                    </h2>
+                  </div>
+                </a>
+                <div
+                  class="tab-pane fade show active collapse p-3 collapsing"
+                  id="nav-peos-content"
+                  class="collapse"
+                  aria-labelledby="nav-peos-heading"
+                >
+                  <div class="card-body">
+                    <h2 style="margin-top: 10px">PEOs</h2>
+                    <p
+                      style="
+                        font-weight: 700;
+
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana,
+                          sans-serif;
+                        color: #850209 !important;
+                        font-size: 19px;
+                      "
+                    >
+                      CSE(DS) Graduates of this programme will be able to :
+                    </p>
+                    <ul>
+                      <li>Adapt to evolving technology.</li>
+                      <li>Provide optimal solutions to real time problems.</li>
+                      <li>
+                        Demonstrate his/her abilities to support service
+                        activities with due consideration for Professional and
+                        Ethical Values.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="card"
+                data-bs-toggle="collapse"
+                data-bs-target="#nav-pos-content"
+                aria-expanded="true"
+              >
+                <a href="#nav-pos-content">
+                  <div class="card-header" id="nav-pos-heading">
+                    <h2 class="mt-0 mb-0">
+                      <button class="btn btn-link">POs</button>
+                    </h2>
+                  </div>
+                </a>
+                <div
+                  class="tab-pane fade show active collapse p-3 collapsing"
+                  id="nav-pos-content"
+                  class="collapse"
+                  aria-labelledby="nav-pos-heading"
+                >
+                  <div class="card-body">
+                    <h2 style="margin-top: 10px">POs</h2>
+                    <div
+                      style="
+                        max-width: 800px;
+                        margin: 0 auto;
+                        font-family: Arial, sans-serif;
+                      "
+                    >
+                      <h3
+                        style="
+                          color: #850209;
+                          text-align: center;
+                          font-size: 900;
+                          text-align: left;
+                          margin-bottom: 20px;
+                        "
+                      >
+                        &nbsp;CSE (Data Science) Graduates will be able to :
+                      </h3>
+                      <ul
+                        style="
+                          list-style-type: decimal;
+                          padding-left: 20px;
+                          list-style: none;
+                        "
+                      >
+                        <li style="margin-bottom: 10px">
+                          <strong style="color: #850209"
+                            >1. Engineering knowledge:</strong
+                          >
+                          Apply the knowledge of Mathematics, Science,
+                          Engineering Fundamentals, and Concepts of Computer
+                          Science Engineering(AIML) to the solution of complex
+                          Engineering problems.
+                        </li>
+                        <li style="margin-bottom: 10px">
+                          <strong style="color: #850209"
+                            >2. Problem Analysis:</strong
+                          >
+                          Identify, formulate, review research literature, and
+                          analyze complex engineering problems reaching
+                          substantiated conclusions using first principles of
+                          Mathematics, Natural Sciences, and Computer
+                          Science(AIML).
+                        </li>
+                        <li style="margin-bottom: 10px">
+                          <strong style="color: #850209"
+                            >3. Design/development of solutions:</strong
+                          >
+                          Design solutions for complex engineering problems and
+                          design system components or processes that meet the
+                          specific needs with appropriate consideration for
+                          public health and safety, and the cultural, societal,
+                          and environmental considerations.
+                        </li>
+                        <li style="margin-bottom: 10px">
+                          <strong style="color: #850209"
+                            >4. Conduct investigations of complex
+                            problems:</strong
+                          >
+                          Use research-based knowledge and research methods,
+                          including the design of experiments, analysis and
+                          interpretation of data, and synthesis of information
+                          to provide valid conclusions.
+                        </li>
+                        <li style="margin-bottom: 10px">
+                          <strong style="color: #850209"
+                            >5. Modern tool usage:</strong
+                          >
+                          Create, select, and apply appropriate techniques,
+                          resources, and modern engineering and IT tools,
+                          including prediction and modeling, to complex
+                          Engineering activities with an understanding of the
+                          limitations.
+                        </li>
+                        <li style="margin-bottom: 10px">
+                          <strong style="color: #850209"
+                            >6. The engineer and society:</strong
+                          >
+                          Apply reasoning informed by contextual knowledge to
+                          assess societal, health, safety, legal, and cultural
+                          issues and the consequent responsibilities relevant to
+                          professional Engineering practice.
+                        </li>
+                        <li style="margin-bottom: 10px">
+                          <strong style="color: #850209"
+                            >7. Environment and sustainability:</strong
+                          >
+                          Understand the impact of professional engineering
+                          solutions in societal and environmental contexts and
+                          demonstrate knowledge of, and the need for sustainable
+                          development.
+                        </li>
+                        <li style="margin-bottom: 10px">
+                          <strong style="color: #850209">8. Ethics:</strong>
+                          Apply ethical principles and commit to professional
+                          ethics and responsibilities and norms of Engineering
+                          practice.
+                        </li>
+                        <li style="margin-bottom: 10px">
+                          <strong style="color: #850209"
+                            >9. Individual and team work:</strong
+                          >
+                          Function effectively as an individual and as a member
+                          or leader in diverse teams and in multidisciplinary
+                          settings.
+                        </li>
+                        <li style="margin-bottom: 10px">
+                          <strong style="color: #850209"
+                            >10. Communication:</strong
+                          >
+                          Communicate effectively on complex Engineering
+                          activities with the Engineering community and with
+                          society at large, such as being able to comprehend and
+                          write effective reports and design documentation, make
+                          effective presentations, and give and receive clear
+                          instructions.
+                        </li>
+                        <li style="margin-bottom: 10px">
+                          <strong style="color: #850209"
+                            >11. Project management and finance:</strong
+                          >
+                          Demonstrate knowledge and understanding of Engineering
+                          and Management principles and apply these to one's own
+                          work, as a member and leader in a team, to manage
+                          projects and in multidisciplinary environments.
+                        </li>
+                        <li>
+                          <strong style="color: #850209"
+                            >12. Life-long learning:</strong
+                          >
+                          Recognize the need for, and have the preparation and
+                          ability to engage in independent and life-long
+                          learning in the broadest context of technological
+                          change.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="card"
+                data-bs-toggle="collapse"
+                data-bs-target="#nav-psos-content"
+                aria-expanded="true"
+              >
+                <a href="#nav-psos-content">
+                  <div class="card-header" id="nav-psos-heading">
+                    <h2 class="mt-0 mb-0">
+                      <button class="btn btn-link">PSOs</button>
+                    </h2>
+                  </div>
+                </a>
+                <div
+                  class="tab-pane fade show active collapse p-3 collapsing"
+                  id="nav-psos-content"
+                  class="collapse"
+                  aria-labelledby="nav-psos-heading"
+                >
+                  <div class="card-body">
+                    <h2 style="margin-top: 10px">PSOs</h2>
+                    <p
+                      style="
+                        text-align: left;
+                        color: #850209;
+                        font-size: large;
+
+                        font-weight: 600;
+                      "
+                    >
+                      &nbsp; &nbsp; A graduate of the CSE(Data Science) Programme will be able to:
+                    </p>
+                    <ul style="list-style-type: decimal">
+                      <li>
+                        <span class="heading" style="color: #850209"
+                          >PSO1:</span
+                        >
+                        Use Mathematical Abstractions and Algorithmic Design
+                        along with Open Source Programming tools to solve
+                        complexities involved in Programming.
+                        <span style="font-weight: bold">[K3]</span>
+                      </li>
+                      <li>
+                        <span class="heading" style="color: #850209"
+                          >PSO2:</span
+                        >
+                        Use Professional Engineering practices and strategies
+                        for development and maintenance of software.
+                        <span style="font-weight: bold">[K3]</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="card"
+                data-bs-toggle="collapse"
+                data-bs-target="#nav-cos-content"
+                aria-expanded="true"
+              >
+                <a href="#nav-cos-content">
+                  <div class="card-header" id="nav-cos-heading">
+                    <h2 class="mt-0 mb-0">
+                      <button class="btn btn-link">COs</button>
+                    </h2>
+                  </div>
+                </a>
+                <div
+                  class="tab-pane fade show active collapse p-3 collapsing"
+                  id="nav-cos-content"
+                  class="collapse"
+                  aria-labelledby="nav-cos-heading"
+                >
+                  <div class="card-body">
+                    <h2 style="margin-top: 10px; margin-bottom: 20px">COs</h2>
+                    <div class="contentCO">
+                      <h1 style="font-weight: 2; font-size: 20px">
+                        Course Outcomes (V20 Regulation)
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/cai/Course%20Outcomes%20-V20%20Regulation.pdf"
+                          class="view-button"
+                          style="font-size: 20px"
+                          target="_blank"
+                          >View PDF</a
+                        >
+                      </h1>
+                      <!-- Place your content here -->
+
+                      
+                      <!-- Place your content here -->
+
+                      <!-- "View PDF" button -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="card"
+                data-bs-toggle="collapse"
+                data-bs-target="#nav-salient-features-content"
+                aria-expanded="true"
+              >
+                <a href="#nav-salient-features-content">
+                  <div class="card-header" id="nav-salient-features-heading">
+                    <h2 class="mt-0 mb-0">
+                      <button class="btn btn-link">Salient Features</button>
+                    </h2>
+                  </div>
+                </a>
+                <div
+                  class="tab-pane fade show active collapse p-3 collapsing"
+                  id="nav-salient-features-content"
+                  class="collapse"
+                  aria-labelledby="nav-salient-features-heading"
+                >
+                  <div class="card-body">
+                    <h2 style="margin-top: 10px; margin-bottom: 22px">
+                      Salient Features
+                    </h2>
+                    <div class="decorated-text">
+                     
+                    
+                      
+                      <p>
+                        <strong>➟</strong>&nbsp; All Class Rooms are ICT
+                        enabled.
+                      </p>
+                      <p>
+                        <strong>➟</strong>&nbsp; Established 2 Digital
+                        Classrooms with a capacity of 150 each.
+                      </p>
+                      <p>
+                        <strong>➟</strong>&nbsp; MoUs-NIT ANP, Eduskills,
+                        Hexaware, APSSDC, Alykas Innovations
+                        Pvt.Ltd,thingTronics Pvt Ltd,Bangalore,TCS- & &nbsp;iON.
+                      </p>
+                      <p>
+                        <strong>➟</strong>&nbsp; College has MOU with TCS,
+                        conducting Online Competitive Exams for which Department
+                        Resources are being utilized.
+                      </p>
+                      <p>
+                        <strong>➟</strong>&nbsp; Professional Society
+                        memberships in ISTE.
+                      </p>
+                      <p><strong>➟</strong>&nbsp; Good faculty retention.</p>
+                      <p>
+                        <strong>➟</strong>&nbsp; Well Equipped Laboratories
+                      </p>
+                       <p>
+                        <strong>➟</strong>&nbsp;Maitri, Social Service Unit, managed by the Students.
+                      </p>
+                      
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Repeat the card structure for other accordion items
+				</div> -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+      </div>
+      <!-- End content -->
+    </div>
+
+    <!-- End wrapper -->
+    <div id="footer"></div>
+    <!-- Javascript -->
+    <script>
+      // J to handle tab/accordion behavior
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get all tab links and accordion buttons
+        const tabLinks = document.querySelectorAll(".nav-link");
+        const accordionCards = document.querySelectorAll(".accordion .card");
+
+        // Add click event listeners to tab links
+        tabLinks.forEach(function (link) {
+          link.addEventListener("click", function () {
+            // Hide all tab content
+            document.querySelectorAll(".tab-pane").forEach(function (pane) {
+              pane.classList.remove("show", "active");
+            });
+
+            // Show the selected tab content
+            const targetId = link
+              .getAttribute("data-bs-target")
+              .replace("#", "");
+            document.getElementById(targetId).classList.add("show", "active");
+          });
+        });
+
+        // Add click event listeners to accordion cards
+        accordionCards.forEach(function (card) {
+          card.addEventListener("click", function () {
+            // Hide all accordion content
+            document
+              .querySelectorAll(".accordion-content .card .collapse")
+              .forEach(function (collapse) {
+                collapse.classList.remove("show");
+              });
+
+            // Show the selected accordion content
+            const targetId = card
+              .getAttribute("data-bs-target")
+              .replace("#", "");
+            document.getElementById(targetId).classList.add("show");
+          });
+        });
+      });
+    </script>
+
+    <!--  -->
+
+    <script>
+      function show(id) {
+        const contentContainer = document.querySelector("#content");
+        const selectedTab = document.querySelector(id);
+
+        if (selectedTab) {
+          // Replace the content of #content with the selected tab's content
+          contentContainer.innerHTML = selectedTab.innerHTML;
+        }
+        document.querySelector(".sidebar").classList.remove("active");
+        removeActiveFromAnchors();
+        // Remove the overlay
+        document.querySelector(".overlay").classList.remove("active");
+      }
+
+      const dismissButton = document.querySelector(".dismiss");
+      const contentContainer = document.querySelector("#content");
+
+      dismissButton.addEventListener("click", function () {
+        // Hide the sidebar and reset active states
+        document.querySelector(".sidebar").classList.remove("active");
+        removeActiveFromAnchors();
+
+        // Restore the original content in the content container
+      });
+
+      const originalContentHTML = contentContainer.innerHTML;
+
+      function removeActiveFromAnchors() {
+        const anchors = document.querySelectorAll(
+          ".list-unstyled.components li a"
+        );
+        anchors.forEach((anchor) => {
+          anchor.classList.remove("active");
+        });
+      }
+
+      function removeActiveFromLis() {
+        const anchors = document.querySelectorAll(
+          ".list-unstyled.components li"
+        );
+        anchors.forEach((anchor) => {
+          anchor.classList.remove("active");
+        });
+      }
+
+      // Add click event listeners to navlinks
+      const navlinks = document.querySelectorAll(
+        ".list-unstyled.components li a"
+      );
+      navlinks.forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          removeActiveFromAnchors();
+          this.classList.add("active");
+          show(this.getAttribute("href"));
+        });
+      });
+      const navlink = document.querySelectorAll(
+        ".list-unstyled.components li "
+      );
+      navlink.forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          removeActiveFromLis();
+          this.classList.add("active");
+          show(this.getAttribute("href"));
+        });
+      });
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../../js/departments/jquery-3.3.1.min.js"></script>
+    <script src="../../js/departments/jquery-migrate-3.0.0.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../../js/departments/jquery.backstretch.min.js"></script>
+    <script src="../../js/departments/wow.min.js"></script>
+    <script src="../../js/departments/jquery.waypoints.min.js"></script>
+    <script src="../../js/departments/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="../../js/departments/scripts.js"></script>
+  </body>
+</html>

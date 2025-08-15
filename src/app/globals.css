@@ -2,6 +2,113 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Removed float animation to prevent background movement */
+
+@keyframes scrollNews {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(-100% + 300px));
+  }
+}
+
+@keyframes scrollEvents {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(-100% + 300px));
+  }
+}
+
+/* Removed floating animations to prevent background movement */
+
+/* Removed rotateGlow animation to prevent background movement */
+
+/* Removed slideRight animation to prevent background movement */
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s infinite;
+  }
+
+  /* Removed float animation class to prevent background movement */
+
+  /* Removed floating animation classes to prevent background movement */
+
+  /* Removed rotate-glow animation class to prevent background movement */
+
+  /* Removed slide-right animation class to prevent background movement */
+
+  .scale-102 {
+    --tw-scale-x: 1.02;
+    --tw-scale-y: 1.02;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -10,7 +117,8 @@
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
-    --primary: 0 62.8% 30.6%; /* A strong red */
+    --primary: 0 60% 31%;
+    /* Custom red #7f1d1d */
     --primary-foreground: 210 20% 98%;
     --secondary: 220 14.3% 95.9%;
     --secondary-foreground: 220.9% 39.3%;
@@ -53,6 +161,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;

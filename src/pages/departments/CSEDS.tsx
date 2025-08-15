@@ -7,7 +7,23 @@ const CSEDSDepartment: React.FC = () => {
   const [activeContent, setActiveContent] = useState('Department Profile');
 
   const navItems = [
-    'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Placements', 'Student Achievements'
+    'Department Profile',
+    'Faculty Profiles',
+    'Board of Studies',
+    'Physical Facilities',
+    'MoUs',
+    'Faculty Development Programs',
+    'Faculty Achievements',
+    'Workshops',
+    'Placements',
+    'Student Achievements',
+    'Academic Toppers',
+    'Technical Association',
+    'Extra-Curricular Activities',
+    'Hackathons',
+    'Syllabus',
+    'Handbooks',
+    'Contact',
   ];
 
   const faculty = [

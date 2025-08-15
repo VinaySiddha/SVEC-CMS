@@ -6,7 +6,7 @@ const CSEAIDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
 
-  const sidebarItems = [
+  const navItems = [
     'Department Profile', 'Faculty Profiles', 'Board of Studies', 'Syllabus', 'Physical Facilities', 'Department Library', 'MoUs', 'Faculty Development Programs', 'Faculty Achievements', 'Workshops', 'Student Achievements', 'Placements', 'Merit Scholarship/Academic Toppers', 'Technical Association', 'Newsletters', 'Extra-Curricular Activities', 'Hackathons', 'Handbooks', 'Contact'
   ];
 
@@ -263,7 +263,7 @@ const CSEAIDepartment: React.FC = () => {
         );
 
       default:
-        return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} will be updated soon.</h3></div>;
+        return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }
   };
 
@@ -299,7 +299,7 @@ const CSEAIDepartment: React.FC = () => {
                       </button>
                     </div>
                     <ul className="space-y-2">
-                        {sidebarItems.map((item) => (
+                        {navItems.map((item) => (
                         <li key={item}>
                             <button
                             className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 ${activeContent === item ? 'bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white font-semibold' : 'hover:bg-white/10'}`}
