@@ -1,7 +1,3 @@
-ALTER TABLE IF EXISTS syllabus_documents 
-ADD COLUMN IF NOT EXISTS type VARCHAR(50) NOT NULL DEFAULT 'btech' AFTER file_url,
-ADD COLUMN IF NOT EXISTS department VARCHAR(50) NOT NULL AFTER regulation;
-
 -- Create the table if it doesn't exist
 CREATE TABLE IF NOT EXISTS syllabus_documents (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
