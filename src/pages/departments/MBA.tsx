@@ -1508,7 +1508,7 @@ const MBADepartment: React.FC = () => {
                         SVEC-MBA Alumni List
                         <a
                           href="https://srivasaviengg.ac.in/uploads/mba/MBA%20ALUMNI%20list.pdf"
-                          id="pdfDownloader8"
+// ...existing code...
                           target="_blank"
                           rel="noreferrer"
                           className="ml-2 text-blue-600 hover:underline"

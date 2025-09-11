@@ -25,7 +25,10 @@ const nextConfig: NextConfig = {
   },
 };
  if (process.env.NODE_ENV === 'development') {
-   await setupDevPlatform();
+   // Use an async IIFE to handle the await
+   (async () => {
+     await setupDevPlatform();
+   })().catch(console.error);
  }
 
 export default nextConfig;

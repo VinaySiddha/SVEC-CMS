@@ -162,7 +162,7 @@ const Academics: React.FC = () => {
                          2023-07-26:  B.Tech II Year-III and IV semesters Academic Calendar<a class="profile-link"
                            href="https://srivasaviengg.ac.in/uploads/ac_calender/ug/B.TechIIYear-IIIandIVsemestersAcademicCalendar.pdf"
                            target="_blank"
-                           id="pdfDOWNLOADER11"
+// ...existing code...
                            style="margin-left: 5px"
                            >- View</a
                          >
@@ -367,7 +367,7 @@ const Academics: React.FC = () => {
                                 class="profile-link"
                                 href="https://srivasaviengg.ac.in/uploads/autonomous_syllabus/ug/V23%20Regulations%20and%20Syllabus.pdf"
                                 target="_blank"
-                                id="pdfDOWNLOADER11"
+// ...existing code...
                                 style="margin-left: 5px"
                                 >- View</a>
                             </li>

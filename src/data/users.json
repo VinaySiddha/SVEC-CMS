@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "$2b$10$YWlyUwVbdXp0fTOWog5qBu28U0c4i6yGgFV.mqyTh0Dla5nLXSpG6",
+      "role": "admin",
+      "department": null
+    },
+    {
+      "id": "2",
+      "username": "cse_hod",
+      "password": "$2b$10$YWlyUwVbdXp0fTOWog5qBu28U0c4i6yGgFV.mqyTh0Dla5nLXSpG6",
+      "role": "faculty",
+      "department": "CSE"
+    },
+    {
+      "id": "3",
+      "username": "aiml_hod",
+      "password": "$2b$10$YWlyUwVbdXp0fTOWog5qBu28U0c4i6yGgFV.mqyTh0Dla5nLXSpG6",
+      "role": "faculty",
+      "department": "AIML"
+    }
+  ]
+}

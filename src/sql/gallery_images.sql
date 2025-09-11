@@ -1,0 +1,10 @@
+CREATE TABLE gallery_images (
+    id VARCHAR(36) PRIMARY KEY,
+    dept VARCHAR(10) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    caption TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_dept (dept)
+);

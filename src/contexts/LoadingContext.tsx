@@ -30,7 +30,7 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) =>
     setIsLoading(loading);
   };
 
-  // Global click handler to show loader on any navigation
+  // ...existing code...
   useEffect(() => {
     const handleGlobalClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -42,12 +42,12 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) =>
         const href = link.getAttribute('href');
         const onclick = link.getAttribute('onclick');
 
-        // Show loader for internal navigation links
+  // ...existing code...
         if (href && !href.startsWith('http') && !href.startsWith('mailto') && !href.startsWith('tel') && !href.startsWith('#')) {
           setLoading(true);
           setLoadingText('Loading page...');
         }
-        // Show loader for buttons that might trigger navigation
+  // ...existing code...
         else if (onclick || link.getAttribute('role') === 'button') {
           setLoading(true);
           setLoadingText('Loading...');

@@ -2,6 +2,6 @@
 1. ABout Page Fixtures-------DONE
 2. MOre -> 2 pages changes ---- DONE
 3. Remove gradient colur pink and blue-----DONE
-4. Add Loader ------DONE
+// ...existing code...
 5. Fix the page transitions-----DONE
 6. CAI, DS Data Update

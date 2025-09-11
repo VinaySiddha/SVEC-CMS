@@ -6,7 +6,8 @@ import Footer from "@/components/Footer";
 import FloatingChatWidgets from "@/components/FloatingChatWidgets";
 import PageTransition from "@/components/PageTransition";
 import { LoadingProvider } from "@/contexts/LoadingContext";
-import GlobalLoader from "@/components/GlobalLoader";
+import { AuthProvider } from "@/lib/auth/AuthContext";
+import ToastProvider from "@/components/providers/ToastProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,19 +25,21 @@ export default function RootLayout(props: {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <LoadingProvider>
-          <GlobalLoader />
-          <Header />
-          <PageTransition>
-            <main className="flex-grow bg-white">
-              {props.children}
-            </main>
-          </PageTransition>
+        <AuthProvider>
+          <LoadingProvider>
+            <ToastProvider />
+            <Header />
+            <PageTransition>
+              <main className="flex-grow bg-white">
+                {props.children}
+              </main>
+            </PageTransition>
 
-          <Footer />
+            <Footer />
 
-          <FloatingChatWidgets />
-        </LoadingProvider>
+            <FloatingChatWidgets />
+          </LoadingProvider>
+        </AuthProvider>
       </body>
     </html>
   );

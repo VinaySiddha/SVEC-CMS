@@ -6603,7 +6603,7 @@ const CSEDepartment: React.FC = () => {
                   <a
                     href="http://srivasaviengg.ac.in/uploads/Jul-16.pdf"
                     target="_blank"
-                    id="pdfDOWNLOADER11"
+// ...existing code...
                   >View</a
                   >
                 </li>

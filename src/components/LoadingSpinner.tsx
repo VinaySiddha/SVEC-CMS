@@ -2,7 +2,7 @@
 import React from 'react';
 
 interface LoadingSpinnerProps {
-  size?: 'small' | 'medium' | 'large' | 'lg';
+  size?: 'small' | 'medium' | 'large' | 'lg' | 'sm';
   className?: string;
   variant?: 'default' | 'quick';
   text?: string;
@@ -18,7 +18,8 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     small: 'w-32 h-32',
     medium: 'w-48 h-48',
     large: 'w-64 h-64',
-    lg: 'w-64 h-64'
+    lg: 'w-64 h-64',
+    sm: 'w-24 h-24'
   };
 
   return (
