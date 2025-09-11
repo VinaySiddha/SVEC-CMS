@@ -534,16 +534,6 @@ const departments = [
             >
               E-CAP
             </a>
-            <Link
-              href="/login"
-              className="hidden sm:block bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium border-0 shadow-sm hover:opacity-95 transition-colors"
-              onClick={() => {
-                console.log('Login button clicked - navigating to /login');
-              }}
-              aria-label="Login to your account"
-            >
-              Login
-            </Link>
             <button
               className={`lg:hidden p-2 rounded-lg hover:bg-secondary/50 transition-all duration-200 no-underline ${textColorClass} ${isMenuOpen ? 'bg-secondary/30' : ''}`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -749,21 +739,10 @@ const departments = [
                 href="https://sves.org.in/ecap/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-1/2 inline-flex items-center justify-center bg-primary text-primary-foreground rounded-md py-3 font-semibold hover:bg-primary/90 transition-colors"
+                className="w-full inline-flex items-center justify-center bg-primary text-primary-foreground rounded-md py-3 font-semibold hover:bg-primary/90 transition-colors"
               >
                 E-CAP
               </a>
-              <Link
-                href="/login"
-                className="w-1/2 inline-flex items-center justify-center bg-primary text-primary-foreground rounded-md py-3 font-medium shadow-sm hover:opacity-95 transition-colors"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  console.log('Login button clicked from mobile menu - navigating to /login');
-                }}
-                aria-label="Login to your account"
-              >
-                Login
-              </Link>
             </div>
           </aside>
         </>

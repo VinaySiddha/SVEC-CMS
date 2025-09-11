@@ -16,8 +16,8 @@ export default function ProtectedPage() {
         
         if (!response.ok) {
           if (response.status === 401) {
-            // Unauthorized, redirect to login
-            router.push('/login');
+            // Unauthorized, redirect to home
+            router.push('/');
             return;
           }
           throw new Error(`HTTP error! status: ${response.status}`);

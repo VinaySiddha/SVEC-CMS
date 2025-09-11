@@ -1,6 +1,5 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
-import { getAuth, Auth } from "firebase/auth";
 import { getFirestore, Firestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -15,7 +14,6 @@ const firebaseConfig = {
 
 // Initialize Firebase for Singleton Pattern
 let app: FirebaseApp;
-let auth: Auth;
 let db: Firestore;
 
 if (!getApps().length) {
@@ -24,7 +22,6 @@ if (!getApps().length) {
   app = getApp();
 }
 
-auth = getAuth(app);
 db = getFirestore(app);
 
-export { app, auth, db };
+export { app, db };
