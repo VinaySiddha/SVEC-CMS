@@ -27,7 +27,7 @@ export async function GET(
     }
 
     // Fetch student achievements for the department
-    let query_str = 'SELECT * FROM student_achievements WHERE department = ?';
+    let query_str = 'SELECT * FROM student_achievements WHERE dept = ?';
     let queryParams = [dept];
     
     // Show only approved achievements for department users, all for admins

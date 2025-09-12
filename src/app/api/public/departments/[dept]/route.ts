@@ -3,10 +3,10 @@ import { query } from '@/lib/db';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { dept: string } }
+  { params }: { params: Promise<{ dept: string }> }
 ) {
   try {
-    const dept = params.dept;
+    const { dept } = await params;
 
     // Fetch only approved data for public display
     const [
@@ -16,7 +16,9 @@ export async function GET(
       studentAchievements,
       workshopsData,
       technicalStaff,
-      nonTeachingStaff
+      nonTeachingStaff,
+      placementsData,
+      hackathonsData
     ] = await Promise.all([
       query(
         'SELECT * FROM faculty_profiles WHERE dept = ? AND (status = "approved" OR status IS NULL) ORDER BY name',
@@ -39,11 +41,19 @@ export async function GET(
         [dept]
       ),
       query(
-        'SELECT * FROM technical_staff WHERE dept = ? AND status = "active" ORDER BY name',
+        'SELECT * FROM technical_staff WHERE dept = ? ORDER BY name',
         [dept]
       ),
       query(
-        'SELECT * FROM non_teaching_staff WHERE dept = ? AND status = "active" ORDER BY name',
+        'SELECT * FROM non_teaching_staff WHERE dept = ? ORDER BY name',
+        [dept]
+      ),
+      query(
+        'SELECT * FROM placements WHERE dept = ? ORDER BY academic_year DESC',
+        [dept]
+      ),
+      query(
+        'SELECT * FROM hackathons WHERE dept = ? ORDER BY start_date DESC',
         [dept]
       )
     ]);
@@ -58,7 +68,9 @@ export async function GET(
         studentAchievements: studentAchievements,
         workshops: workshopsData,
         technicalStaff: technicalStaff,
-        nonTeachingStaff: nonTeachingStaff
+        nonTeachingStaff: nonTeachingStaff,
+        placements: placementsData,
+        hackathons: hackathonsData
       }
     });
 

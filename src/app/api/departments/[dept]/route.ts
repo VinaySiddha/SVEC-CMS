@@ -52,7 +52,7 @@ export async function GET(
       query('SELECT * FROM student_achievements WHERE department = ? ORDER BY achievement_date DESC', [dept]),
       
       // Workshops
-      query('SELECT * FROM workshops WHERE department = ? ORDER BY start_date DESC', [dept]),
+      query('SELECT * FROM workshops WHERE department = ? ORDER BY date_from DESC', [dept]),
       
       // Placements
       query('SELECT * FROM placements WHERE department = ? ORDER BY academic_year DESC', [dept])

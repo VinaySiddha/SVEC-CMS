@@ -51,9 +51,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
-import { Association, AssociationEvent } from "@/types/associations";
 
 interface AssociationsListProps {
   deptId: string;
