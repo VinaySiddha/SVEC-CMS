@@ -114,6 +114,49 @@ body {
   border-width: 4px;
 }
 
+/* Custom scrollbar styles for dropdowns */
+[data-dropdown], [data-submenu] {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+[data-dropdown]::-webkit-scrollbar, [data-submenu]::-webkit-scrollbar {
+  width: 6px;
+}
+
+[data-dropdown]::-webkit-scrollbar-track, [data-submenu]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-dropdown]::-webkit-scrollbar-thumb, [data-submenu]::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+[data-dropdown]::-webkit-scrollbar-thumb:hover, [data-submenu]::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.7);
+}
+
+/* Dropdown hover area fix */
+[data-dropdown="depts-menu"], [data-submenu="more"] {
+  /* Add invisible padding to the right to prevent hover issues with scrollbar */
+  padding-right: 8px;
+  box-sizing: content-box;
+}
+
+/* Simple submenu styling - no gaps */
+[data-submenu="more"] a {
+  display: block;
+  margin: 0;
+  padding: 12px 16px;
+}
+
+/* Submenu hover states */
+[data-submenu="more"] a:hover {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--primary));
+}
+
 /* Cursor underline effects */
 .hover-underline {
   position: relative;

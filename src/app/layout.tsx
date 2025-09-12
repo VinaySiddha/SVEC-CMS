@@ -12,6 +12,8 @@ import ClientProviders from "@/components/providers/ClientProviders";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -24,6 +26,26 @@ export default function RootLayout(props: {
 }) {
   return (
     <html lang="en" className="h-full">
+      <head>
+        <link 
+          rel="preconnect" 
+          href="https://fonts.googleapis.com" 
+        />
+        <link 
+          rel="preconnect" 
+          href="https://fonts.gstatic.com" 
+          crossOrigin="anonymous" 
+        />
+        <link 
+          rel="preload" 
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" 
+          as="style"
+        />
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" 
+          rel="stylesheet"
+        />
+      </head>
       <body className={`${poppins.className} h-full m-0 p-0`}>
         <ClientProviders>
           <LoadingProvider>
