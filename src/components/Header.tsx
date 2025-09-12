@@ -27,6 +27,7 @@ const Header: React.FC = () => {
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [submenuPosition, setSubmenuPosition] = useState<{ top: number, left: number } | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [mobileSection, setMobileSection] = useState<'admin' | 'depts' | 'more' | null>(null);
 
 
@@ -44,6 +45,15 @@ const Header: React.FC = () => {
       if (!target.closest('[data-dropdown]') && !target.closest('button[aria-expanded]')) {
         setActiveDropdown(null);
         setActiveSubmenu(null);
+        // Clear any pending timeouts
+        if (dropdownTimeoutRef.current) {
+          clearTimeout(dropdownTimeoutRef.current);
+          dropdownTimeoutRef.current = null;
+        }
+        if (submenuTimeoutRef.current) {
+          clearTimeout(submenuTimeoutRef.current);
+          submenuTimeoutRef.current = null;
+        }
       }
     };
 
@@ -54,6 +64,13 @@ const Header: React.FC = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('click', handleClickOutside);
+      // Clean up any pending timeouts
+      if (dropdownTimeoutRef.current) {
+        clearTimeout(dropdownTimeoutRef.current);
+      }
+      if (submenuTimeoutRef.current) {
+        clearTimeout(submenuTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -68,19 +85,25 @@ const Header: React.FC = () => {
   const handleMouseLeave = (e?: React.MouseEvent) => {
     // If we have event data, check if we're moving to a child element
     if (e) {
-      const relatedTarget = e.relatedTarget as Node;
-      const currentTarget = e.currentTarget as Node;
+      const relatedTarget = e.relatedTarget;
+      const currentTarget = e.currentTarget;
 
-      // Check if we're moving to a related dropdown element
-      const dropdownId = (currentTarget as Element).closest('[data-dropdown]')?.getAttribute('data-dropdown');
-      const dropdown = dropdownId && document.querySelector(`[data-dropdown="${dropdownId}"]`);
-      const dropdownMenu = dropdownId && document.querySelector(`[data-dropdown="${dropdownId}-menu"]`);
+      // Only proceed if both are valid DOM nodes
+      if (
+        relatedTarget instanceof Node &&
+        currentTarget instanceof Node
+      ) {
+        // Check if we're moving to a related dropdown element
+        const dropdownId = (currentTarget as Element).closest('[data-dropdown]')?.getAttribute('data-dropdown');
+        const dropdown = dropdownId && document.querySelector(`[data-dropdown="${dropdownId}"]`);
+        const dropdownMenu = dropdownId && document.querySelector(`[data-dropdown="${dropdownId}-menu"]`);
 
-      // Don't close if moving to the dropdown content or child element
-      if ((dropdown && dropdown.contains(relatedTarget)) ||
-        (dropdownMenu && dropdownMenu.contains(relatedTarget)) ||
-        (currentTarget.contains(relatedTarget))) {
-        return;
+        // Don't close if moving to the dropdown content or child element
+        if ((dropdown && dropdown.contains(relatedTarget)) ||
+          (dropdownMenu && dropdownMenu.contains(relatedTarget)) ||
+          (currentTarget.contains(relatedTarget))) {
+          return;
+        }
       }
     }
 
@@ -231,9 +254,9 @@ const departments = [
                 }}
                 onMouseEnter={() => handleMouseEnter('admin')}
                 onMouseLeave={(e) => {
-                  const relatedTarget = e.relatedTarget as Element;
+                  const relatedTarget = e.relatedTarget;
                   const dropdown = document.querySelector('[data-dropdown="admin"]');
-                  if (dropdown && !dropdown.contains(relatedTarget)) {
+                  if (!(relatedTarget instanceof Node) || (dropdown && !dropdown.contains(relatedTarget))) {
                     handleMouseLeave(e);
                   }
                 }}
@@ -318,17 +341,18 @@ const departments = [
                     }
                   }}
                   onMouseLeave={(e) => {
-                    // Only close if moving outside the entire dropdown/submenu area
-                    const relatedTarget = e.relatedTarget as Node;
-                    const currentTarget = e.currentTarget as Node;
-
-                    // Don't close if moving to a child element within the dropdown
-                    if (currentTarget.contains(relatedTarget)) return;
-
-                    // Don't close if moving into the submenu panel
-                    const submenuEl = document.querySelector('[data-submenu="more"]');
-                    if (submenuEl && submenuEl.contains(relatedTarget)) return;
-
+                    const relatedTarget = e.relatedTarget;
+                    const currentTarget = e.currentTarget;
+                    if (
+                      relatedTarget instanceof Node &&
+                      currentTarget instanceof Node
+                    ) {
+                      // Don't close if moving to a child element within the dropdown
+                      if (currentTarget.contains(relatedTarget)) return;
+                      // Don't close if moving into the submenu panel
+                      const submenuEl = document.querySelector('[data-submenu="more"]');
+                      if (submenuEl && submenuEl.contains(relatedTarget)) return;
+                    }
                     // Add delay to prevent accidental closure and close submenu
                     dropdownTimeoutRef.current = setTimeout(() => {
                       setActiveDropdown(null);
@@ -409,25 +433,29 @@ const departments = [
                            flex flex-col md:block"
                   style={{
                     top: window.innerWidth >= 768 ? `${submenuPosition.top}px` : '0',
-                    left: window.innerWidth >= 768 ? `${Math.min(submenuPosition.left, window.innerWidth - 240)}px` : '0'
+                    left: window.innerWidth >= 768 ? `${Math.min(submenuPosition.left, window.innerWidth - 240)}px` : '0',
+                    scrollbarWidth: 'thin',
+                    scrollbarColor: 'rgba(156, 163, 175, 0.5) transparent'
                   }}
                   onClick={(e) => e.stopPropagation()}
                   onMouseEnter={() => {
+                    // Clear both timeouts when entering submenu
                     if (dropdownTimeoutRef.current) {
                       clearTimeout(dropdownTimeoutRef.current);
                       dropdownTimeoutRef.current = null;
                     }
-                  }}
-                  onMouseLeave={(e) => {
-                    const relatedTarget = e.relatedTarget as Element;
-                    const parentDropdown = document.querySelector('[data-dropdown="more"]');
-                    if (parentDropdown && parentDropdown.contains(relatedTarget)) {
-                      return;
+                    if (submenuTimeoutRef.current) {
+                      clearTimeout(submenuTimeoutRef.current);
+                      submenuTimeoutRef.current = null;
                     }
-                    dropdownTimeoutRef.current = setTimeout(() => {
+                  }}
+                  onMouseLeave={() => {
+                    // Simple approach: just set a timeout to close the submenu
+                    // No complex relatedTarget checking that can fail
+                    submenuTimeoutRef.current = setTimeout(() => {
                       setActiveSubmenu(null);
                       setSubmenuPosition(null);
-                    }, 300);
+                    }, 1000); // 1 second delay
                   }}
                 >
                   {/* Mobile close button */}
@@ -449,8 +477,7 @@ const departments = [
                         <Link
                           key={subIdx}
                           href={subItem.path}
-                          className="block px-4 py-3 md:py-2 text-base md:text-sm text-foreground/80 hover:bg-secondary hover:text-primary
-                                   md:rounded-none rounded-lg mb-2 md:mb-0 transition-colors"
+                          className="block px-4 py-3 md:py-2 text-base md:text-sm text-foreground/80 hover:bg-secondary hover:text-primary transition-colors"
                           onClick={(e) => {
                             e.stopPropagation();
                             setActiveDropdown(null);
@@ -458,9 +485,10 @@ const departments = [
                             setSubmenuPosition(null);
                           }}
                           onMouseEnter={() => {
-                            if (dropdownTimeoutRef.current) {
-                              clearTimeout(dropdownTimeoutRef.current);
-                              dropdownTimeoutRef.current = null;
+                            // Clear submenu timeout when hovering over items
+                            if (submenuTimeoutRef.current) {
+                              clearTimeout(submenuTimeoutRef.current);
+                              submenuTimeoutRef.current = null;
                             }
                           }}
                         >
@@ -476,6 +504,7 @@ const departments = [
               <button
                 className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}
                 aria-expanded={activeDropdown === 'depts'}
+                data-dropdown="depts"
                 onClick={(e) => {
                   e.stopPropagation();
                   setActiveDropdown(activeDropdown === 'depts' ? null : 'depts');
@@ -483,10 +512,17 @@ const departments = [
                 onMouseEnter={() => handleMouseEnter('depts')}
                 onMouseLeave={(e) => {
                   const relatedTarget = e.relatedTarget as Element;
-                  const dropdown = document.querySelector('[data-dropdown="depts"]');
-                  if (dropdown && !dropdown.contains(relatedTarget)) {
-                    handleMouseLeave(e);
+                  const dropdownMenu = document.querySelector('[data-dropdown="depts-menu"]');
+                  
+                  // Don't close if moving to the dropdown menu
+                  if (relatedTarget && (
+                    dropdownMenu?.contains(relatedTarget) ||
+                    relatedTarget.closest('[data-dropdown="depts-menu"]')
+                  )) {
+                    return;
                   }
+                  
+                  handleMouseLeave(e);
                 }}
               >
                 Departments <ChevronDown className="w-4 h-4 ml-1" />
@@ -495,6 +531,10 @@ const departments = [
                 <div
                   className="absolute top-full -right-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 max-h-96 overflow-y-auto z-50 animate-in slide-in-from-top-2 duration-200"
                   data-dropdown="depts-menu"
+                  style={{ 
+                    scrollbarWidth: 'thin',
+                    scrollbarColor: 'rgba(156, 163, 175, 0.5) transparent'
+                  }}
                   onClick={(e) => e.stopPropagation()}
                   onMouseEnter={() => {
                     setActiveDropdown('depts');
@@ -504,14 +544,24 @@ const departments = [
                     }
                   }}
                   onMouseLeave={(e) => {
-                    // Only close if moving outside the entire dropdown area
+                    // Only close if moving completely outside the dropdown container
                     const relatedTarget = e.relatedTarget as Element;
-                    const dropdown = document.querySelector('[data-dropdown="depts"]');
-                    if (dropdown && !dropdown.contains(relatedTarget)) {
-                      dropdownTimeoutRef.current = setTimeout(() => {
-                        setActiveDropdown(null);
-                      }, 200);
+                    const currentTarget = e.currentTarget as Element;
+                    const button = document.querySelector('[data-dropdown="depts"]');
+                    
+                    // Check if the mouse is moving to the button or staying within the dropdown area
+                    if (relatedTarget && (
+                      currentTarget.contains(relatedTarget) ||
+                      (button && button.contains(relatedTarget)) ||
+                      relatedTarget.closest('[data-dropdown="depts-menu"]')
+                    )) {
+                      return;
                     }
+                    
+                    // Add delay to prevent flickering when hovering over scrollbar
+                    dropdownTimeoutRef.current = setTimeout(() => {
+                      setActiveDropdown(null);
+                    }, 300);
                   }}
                 >
                   {departments.map((item, index) => (
