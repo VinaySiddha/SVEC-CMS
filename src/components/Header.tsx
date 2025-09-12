@@ -68,19 +68,25 @@ const Header: React.FC = () => {
   const handleMouseLeave = (e?: React.MouseEvent) => {
     // If we have event data, check if we're moving to a child element
     if (e) {
-      const relatedTarget = e.relatedTarget as Node;
-      const currentTarget = e.currentTarget as Node;
+      const relatedTarget = e.relatedTarget;
+      const currentTarget = e.currentTarget;
 
-      // Check if we're moving to a related dropdown element
-      const dropdownId = (currentTarget as Element).closest('[data-dropdown]')?.getAttribute('data-dropdown');
-      const dropdown = dropdownId && document.querySelector(`[data-dropdown="${dropdownId}"]`);
-      const dropdownMenu = dropdownId && document.querySelector(`[data-dropdown="${dropdownId}-menu"]`);
+      // Only proceed if both are valid DOM nodes
+      if (
+        relatedTarget instanceof Node &&
+        currentTarget instanceof Node
+      ) {
+        // Check if we're moving to a related dropdown element
+        const dropdownId = (currentTarget as Element).closest('[data-dropdown]')?.getAttribute('data-dropdown');
+        const dropdown = dropdownId && document.querySelector(`[data-dropdown="${dropdownId}"]`);
+        const dropdownMenu = dropdownId && document.querySelector(`[data-dropdown="${dropdownId}-menu"]`);
 
-      // Don't close if moving to the dropdown content or child element
-      if ((dropdown && dropdown.contains(relatedTarget)) ||
-        (dropdownMenu && dropdownMenu.contains(relatedTarget)) ||
-        (currentTarget.contains(relatedTarget))) {
-        return;
+        // Don't close if moving to the dropdown content or child element
+        if ((dropdown && dropdown.contains(relatedTarget)) ||
+          (dropdownMenu && dropdownMenu.contains(relatedTarget)) ||
+          (currentTarget.contains(relatedTarget))) {
+          return;
+        }
       }
     }
 
@@ -231,9 +237,9 @@ const departments = [
                 }}
                 onMouseEnter={() => handleMouseEnter('admin')}
                 onMouseLeave={(e) => {
-                  const relatedTarget = e.relatedTarget as Element;
+                  const relatedTarget = e.relatedTarget;
                   const dropdown = document.querySelector('[data-dropdown="admin"]');
-                  if (dropdown && !dropdown.contains(relatedTarget)) {
+                  if (!(relatedTarget instanceof Node) || (dropdown && !dropdown.contains(relatedTarget))) {
                     handleMouseLeave(e);
                   }
                 }}
@@ -307,17 +313,18 @@ const departments = [
                     }
                   }}
                   onMouseLeave={(e) => {
-                    // Only close if moving outside the entire dropdown/submenu area
-                    const relatedTarget = e.relatedTarget as Node;
-                    const currentTarget = e.currentTarget as Node;
-
-                    // Don't close if moving to a child element within the dropdown
-                    if (currentTarget.contains(relatedTarget)) return;
-
-                    // Don't close if moving into the submenu panel
-                    const submenuEl = document.querySelector('[data-submenu="more"]');
-                    if (submenuEl && submenuEl.contains(relatedTarget)) return;
-
+                    const relatedTarget = e.relatedTarget;
+                    const currentTarget = e.currentTarget;
+                    if (
+                      relatedTarget instanceof Node &&
+                      currentTarget instanceof Node
+                    ) {
+                      // Don't close if moving to a child element within the dropdown
+                      if (currentTarget.contains(relatedTarget)) return;
+                      // Don't close if moving into the submenu panel
+                      const submenuEl = document.querySelector('[data-submenu="more"]');
+                      if (submenuEl && submenuEl.contains(relatedTarget)) return;
+                    }
                     // Add delay to prevent accidental closure and close submenu
                     dropdownTimeoutRef.current = setTimeout(() => {
                       setActiveDropdown(null);
@@ -408,9 +415,9 @@ const departments = [
                     }
                   }}
                   onMouseLeave={(e) => {
-                    const relatedTarget = e.relatedTarget as Element;
+                    const relatedTarget = e.relatedTarget;
                     const parentDropdown = document.querySelector('[data-dropdown="more"]');
-                    if (parentDropdown && parentDropdown.contains(relatedTarget)) {
+                    if (relatedTarget instanceof Node && parentDropdown && parentDropdown.contains(relatedTarget)) {
                       return;
                     }
                     dropdownTimeoutRef.current = setTimeout(() => {
@@ -471,9 +478,9 @@ const departments = [
                 }}
                 onMouseEnter={() => handleMouseEnter('depts')}
                 onMouseLeave={(e) => {
-                  const relatedTarget = e.relatedTarget as Element;
+                  const relatedTarget = e.relatedTarget;
                   const dropdown = document.querySelector('[data-dropdown="depts"]');
-                  if (dropdown && !dropdown.contains(relatedTarget)) {
+                  if (!(relatedTarget instanceof Node) || (dropdown && !dropdown.contains(relatedTarget))) {
                     handleMouseLeave(e);
                   }
                 }}
