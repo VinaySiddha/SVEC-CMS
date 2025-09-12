@@ -19,7 +19,7 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const { dept } = params;
+    const { dept } = await params;
 
     // Check if user has permission for this department
     if (decoded.role !== 'admin' && decoded.department !== dept) {
@@ -81,7 +81,7 @@ export async function GET(
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const { dept } = params;
+    const { dept } = await params;
 
     // Check if user has permission for this department
     if (decoded.role !== 'admin' && decoded.department !== dept) {

@@ -2,16 +2,29 @@
 
 import { useAuth } from '@/lib/auth/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Users, BookOpen, Award, Settings, BarChart, Calendar, Building } from 'lucide-react';
 import Link from 'next/link';
 
-export default function DepartmentDashboard({ params }: { params: { dept: string } }) {
-  const { dept } = params;
+interface DepartmentDashboardProps {
+  params: Promise<{ dept: string }>;
+}
+
+export default function DepartmentDashboard({ params }: DepartmentDashboardProps) {
+  const [dept, setDept] = useState<string>('');
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
+
+  // Resolve the params promise
+  useEffect(() => {
+    const resolveParams = async () => {
+      const resolvedParams = await params;
+      setDept(resolvedParams.dept);
+    };
+    resolveParams();
+  }, [params]);
 
   useEffect(() => {
     if (!isAuthenticated || !user) {
@@ -20,13 +33,13 @@ export default function DepartmentDashboard({ params }: { params: { dept: string
     }
 
     // Check if user has permission for this department
-    if (user.role !== 'admin' && user.department !== dept) {
+    if (user.role !== 'admin' && user.department !== dept && dept) {
       router.push('/unauthorized');
       return;
     }
   }, [user, isAuthenticated, dept, router]);
 
-  if (!user) {
+  if (!user || !dept) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>

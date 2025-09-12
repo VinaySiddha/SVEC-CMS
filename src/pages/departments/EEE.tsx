@@ -25,6 +25,27 @@ interface NonTeachingStaff {
   designation: string;
 }
 
+interface BoardOfStudiesMember {
+  id: number;
+  member_name: string;
+  designation: string;
+  organization: string;
+  role: string;
+  year: string;
+  contact_email?: string;
+  image_url?: string;
+}
+
+interface BoardOfStudiesMeetingMinute {
+  id: number;
+  meeting_title: string;
+  meeting_number: number;
+  meeting_date: string;
+  document_url: string;
+  academic_year: string;
+  description?: string;
+}
+
 const EEEDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
@@ -32,6 +53,8 @@ const EEEDepartment: React.FC = () => {
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
   const [faculty, setFaculty] = useState<FacultyMember[]>([]);
   const [nonTeachingFaculty, setNonTeachingFaculty] = useState<NonTeachingStaff[]>([]);
+  const [boardOfStudiesMembers, setBoardOfStudiesMembers] = useState<BoardOfStudiesMember[]>([]);
+  const [boardOfStudiesMeetingMinutes, setBoardOfStudiesMeetingMinutes] = useState<BoardOfStudiesMeetingMinute[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -58,12 +81,24 @@ const EEEDepartment: React.FC = () => {
           setNonTeachingFaculty(data.data.nonTeachingStaff);
         }
         
+        // Set board of studies members data
+        if (data.data && data.data.boardOfStudiesMembers && Array.isArray(data.data.boardOfStudiesMembers)) {
+          setBoardOfStudiesMembers(data.data.boardOfStudiesMembers);
+        }
+        
+        // Set board of studies meeting minutes data
+        if (data.data && data.data.boardOfStudiesMeetingMinutes && Array.isArray(data.data.boardOfStudiesMeetingMinutes)) {
+          setBoardOfStudiesMeetingMinutes(data.data.boardOfStudiesMeetingMinutes);
+        }
+        
         setError(null);
       } catch (error) {
         console.error('Error fetching faculty data:', error);
         setError('Failed to load faculty data. Please try again later.');
         setFaculty([]);
         setNonTeachingFaculty([]);
+        setBoardOfStudiesMembers([]);
+        setBoardOfStudiesMeetingMinutes([]);
       } finally {
         setLoading(false);
       }
@@ -681,83 +716,103 @@ const EEEDepartment: React.FC = () => {
           </div>
         );
       case 'Board of Studies':
+        if (loading) {
+          return (
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Loading Board of Studies...</h2>
+              <div className="flex justify-center items-center py-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#850209]"></div>
+              </div>
+            </div>
+          );
+        }
+
+        if (error) {
+          return (
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Board of Studies</h2>
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <p className="text-red-700 text-center">{error}</p>
+                <div className="text-center mt-4">
+                  <button 
+                    onClick={() => window.location.reload()} 
+                    className="px-4 py-2 bg-[#850209] text-white rounded hover:bg-[#6B0000] transition-colors"
+                  >
+                    Retry
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Board of Studies</h2>
-            <div className="flex justify-center items-center">
+            
+            {/* Board of Studies Members Table */}
+            <div className="flex justify-center items-center mb-8">
               <div className="overflow-x-auto w-full">
-                <table className="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="px-4 py-2 border">S.No</th>
-                      <th className="px-4 py-2 border">Name of the BOS Member</th>
-                      <th className="px-4 py-2 border">Designation</th>
-                      <th className="px-4 py-2 border">Organization</th>
-                      <th className="px-4 py-2 border">Position in JOB</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="px-4 py-2 border">1</td>
-                      <td className="px-4 py-2 border">Dr.Sudha Rani Donepudi</td>
-                      <td className="px-4 py-2 border">Professor &amp; HOD</td>
-                      <td className="px-4 py-2 border">Dept of EEE,SVEC</td>
-                      <td className="px-4 py-2 border">Chairperson</td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-2 border">2</td>
-                      <td className="px-4 py-2 border">Dr. R. SrinivasaRao</td>
-                      <td className="px-4 py-2 border">Professor of EEE</td>
-                      <td className="px-4 py-2 border">Dept. of EEE, UCEK, JNTUK, Kakinada</td>
-                      <td className="px-4 py-2 border">Subject Expert Nominated By V.C.</td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-2 border">3</td>
-                      <td className="px-4 py-2 border">Dr. M. Sydulu</td>
-                      <td className="px-4 py-2 border">Professor of EEE</td>
-                      <td className="px-4 py-2 border">Dept. of EE, NITW, Warangal</td>
-                      <td className="px-4 py-2 border">Subject Expert Nominated By A.C.</td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-2 border">4</td>
-                      <td className="px-4 py-2 border">Dr. Y.P. Obulesu</td>
-                      <td className="px-4 py-2 border">Professor of EEE</td>
-                      <td className="px-4 py-2 border">School of EE, VIT, Vellore</td>
-                      <td className="px-4 py-2 border">Subject Expert Nominated By A.C.</td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-2 border">5</td>
-                      <td className="px-4 py-2 border">Er. B.N.V.R.C. Suresh Kumar</td>
-                      <td className="px-4 py-2 border">Retired AGM</td>
-                      <td className="px-4 py-2 border">PGCI, Hyderabad</td>
-                      <td className="px-4 py-2 border">Industry Expert Nominated By A.C</td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-2 border">6</td>
-                      <td className="px-4 py-2 border">Er. Narayana Murty Vella</td>
-                      <td className="px-4 py-2 border">Engineer</td>
-                      <td className="px-4 py-2 border">PGCI, Vijayawada</td>
-                      <td className="px-4 py-2 border">Alumni</td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-2 border">7</td>
-                      <td className="px-4 py-2 border text-center" colSpan={4}>All the Faculty Members in the EEE Dept.are Members in BOS</td>
-                    </tr>
-                  </tbody>
-                </table>
+                {boardOfStudiesMembers.length === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500">No Board of Studies members data available.</p>
+                  </div>
+                ) : (
+                  <table className="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="px-4 py-2 border">S.No</th>
+                        <th className="px-4 py-2 border">Name of the BOS Member</th>
+                        <th className="px-4 py-2 border">Designation</th>
+                        <th className="px-4 py-2 border">Organization</th>
+                        <th className="px-4 py-2 border">Position in BOS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {boardOfStudiesMembers.map((member, index) => (
+                        <tr key={member.id} className="hover:bg-gray-50">
+                          <td className="px-4 py-2 border">{index + 1}</td>
+                          <td className="px-4 py-2 border">{member.member_name}</td>
+                          <td className="px-4 py-2 border">{member.designation}</td>
+                          <td className="px-4 py-2 border">{member.organization}</td>
+                          <td className="px-4 py-2 border">{member.role}</td>
+                        </tr>
+                      ))}
+                      <tr>
+                        <td className="px-4 py-2 border font-semibold text-center" colSpan={5}>
+                          All the Faculty Members in the EEE Dept. are Members in BOS
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
+
+            {/* Meeting Minutes Section */}
             <div className="mt-8 flex flex-col items-center">
               <h4 className="text-2xl font-semibold text-[#850209] mb-4">Board of Studies Meeting Minutes:</h4>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Minutes of 7th meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/eee/7th Meeting of BOS, Dept. of EEE, SVEC_Minutes.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
-                <li>Minutes of 6th meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20sixth%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
-                <li>Minutes of 5th meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20Fifth%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
-                <li>Minutes of 4th meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20Fourth%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
-                <li>Minutes of 3rd meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20Third%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
-                <li>Minutes of 2nd meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20Second%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
-                <li>Minutes of 1st meeting of the Board of Studies - <a href="https://srivasaviengg.ac.in/uploads/EEE_Minutes%20of%20First%20BOS%20Meeting.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a></li>
-              </ul>
+              {boardOfStudiesMeetingMinutes.length === 0 ? (
+                <div className="text-center py-4">
+                  <p className="text-gray-500">No meeting minutes available.</p>
+                </div>
+              ) : (
+                <ul className="list-disc pl-6 space-y-2">
+                  {boardOfStudiesMeetingMinutes.map((minute) => (
+                    <li key={minute.id}>
+                      {minute.meeting_title} ({minute.academic_year}) - 
+                      <a 
+                        href={minute.document_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-blue-600 hover:underline ml-1"
+                      >
+                        View
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         );
