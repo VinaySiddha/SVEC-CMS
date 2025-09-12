@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Book, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
 
@@ -28,79 +28,67 @@ const BSHDepartment: React.FC = () => {
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
-  const facultyData = {
-    mathematics: [
-      { name: "Mr.N.Rajasekhar", qualification: "M.Sc.M.Phil", designation: "Assoc.Professor&HOD", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/bsh_N.Rajasekhar_webprofile.pdf" },
-      { name: "Mr.Sk.Dhana Prasad", qualification: "M.Sc,B.Ed", designation: "Asst. Professor &section Head", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Sk.Dhana%20PrasadSk.Dhana%20Prasad.pdf" },
-      { name: "Mrs. B.Adi Lakshmi", qualification: "M.Sc.,B.Ed", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/B.Adi%20LakshmiAdi%20Lakshmi%20(Maths).pdf" },
-      { name: "Mrs. G.S.Prasanthi", qualification: "M.Sc.,(Ph.D)", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/G.PrasanthiG.S.Prasanthi.pdf" },
-      { name: "Mr. V.Srinivas", qualification: "M.Sc", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/BSH_Mr.%20V.%20Srinivas.pdf" },
-      { name: "Mrs. B.V.D.Santhi lakshmi", qualification: "M.Sc.,B.Ed.,M.Phil,(Ph.D)", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/B.V.D.%20Santhi%20Lakshmisanthi(Maths).pdf" },
-      { name: "Ms. S. Sirisha", qualification: "M.Sc.", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/BSH_Ms.%20S.%20Sirisha.pdf" },
-      { name: "Ms. T. Satya Surya Praba", qualification: "M.Sc.", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/BSH_Ms.%20T.Satya%20Surya%20Prabha.pdf" },
-      { name: "Mr. T.D.Rama Krishna", qualification: "M.Sc.", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/BSH_Mr.%20T.%20D%20Rama%20Krishna.pdf" },
-      { name: "Mr. S. Veeresh", qualification: "M.Sc.,B.Ed", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/BSH_Mr.%20S.%20Veeresh.pdf" },
-      { name: "Mr. M. Satya Suresh", qualification: "M.Sc.,B.Ed", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/BSH_Mr.%20M.%20Satya%20Suresh.pdf" },
-      { name: "Ms. P. Sravani", qualification: "M.Sc.,B.Ed", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/BSH_Ms.%20P.Sravani.pdf" },
-      { name: "Mr. J.N.V Somayajulu", qualification: "M.Sc", designation: "Asst. Professor", profileUrl: "" },
-      { name: "Ms. P. Sravani", qualification: "M.Sc", designation: "Asst. Professor", profileUrl: "" }
-    ],
-    chemistry: [
-      { name: "Mrs. S.S.V.Suma Latha", qualification: "M.Sc.,B.Ed.,(Ph.D)", designation: "Asst. Professor & Section head", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/S.S.V.Suma%20Lathassvsuma%20Latha.pdf" },
-      { name: "Mr. J. Chandara Rao", qualification: "M.Sc.,M.Phil.", designation: "Sr.Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/J.Chandara%20Raochandara%20rao%20resume.pdf" },
-      { name: "Mrs. P. Durga Devi", qualification: "M.Sc.", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/P.Durga%20DeviDurga%20devi.pdf" },
-      { name: "Ms. A. Anusha", qualification: "M.Sc.", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Ms.A.Anusha.pdf" },
-      { name: "Ms. S. Lavanya", qualification: "M.Sc.", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Ms.S.Lavanya.pdf" },
-      { name: "Mrs. P. Silpa", qualification: "M.Sc.", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Mrs.%20P.Silpa.pdf" },
-      { name: "Ms. Md. Syed Yasmin", qualification: "M.Sc.", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Ms.Md.%20Syed%20Yasmin.pdf" },
-      { name: "Dr. B. Rama Krishna", qualification: "M.Sc.,Ph.D", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Dr.%20B.%20Rama%20Krishna.pdf" }
-    ],
-    english: [
-      { name: "Dr.T.Sujani", qualification: "M.A.,M.Phil.,Ph.D", designation: "Assoc. Professor & Section Head", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/BSH_Dr.%20T.SujaniSujani%20Tata.pdf" },
-      { name: "Dr.K. Venkata Rao", qualification: "M.A.,B.Ed.,M.Phil.,Ph.D", designation: "Assoc. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/BSH_Dr.K.%20Venkata%20Rao.pdf" },
-      { name: "Dr.B.Anada Rao", qualification: "M.A.,M.Phil.,Ph.D", designation: "Sr.Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Dr.%20B.%20Ananda%20Rao.pdf" },
-      { name: "Mr. K.V.Rama Rao", qualification: "M.A.,B.Ed.,(Ph.D)", designation: "Sr.Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Mr.K%20V%20Rama%20Rao.pdf" },
-      { name: "Mrs. K. Radha Madhavi", qualification: "M.A.,B.Ed.,M.Phil", designation: "Sr.Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Mrs.%20K.Radha%20Madhavi.pdf" },
-      { name: "Mrs. Ch. Tanuja", qualification: "M.A., M.Phil.,B.Ed.", designation: "Sr.Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Ms.Ch.%20Tanuja.pdf" },
-      { name: "Mrs. U. Aparanjani", qualification: "M.A.,B.Ed.,(Ph.D)", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Mrs.Aparanjani.pdf" },
-      { name: "Mr. G. Srinivas Rao", qualification: "M.A.", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Mr.%20G.%20Srinivasa%20Rao.pdf" },
-      { name: "Mr. M. Venkata Ramana", qualification: "M.A., B.Ed.,(Ph.D)", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Mr.%20M.%20Venkata%20Ramana.pdf" },
-      { name: "Ms. A.Kiranmayee", qualification: "M.A.", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Ms.%20A.Kiranmayee.pdf" },
-      { name: "Ms. P.V.Padmavathi", qualification: "M.A.,B.Ed,", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Ms.%20P.V.Padmavathi.pdf" },
-      { name: "Mrs. Ch. Manjeera", qualification: "M.A.", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Mrs.%20Ch.%20Manjeera.pdf" },
-      { name: "Mr. Ch. Mutyala Rao", qualification: "M.A., B.Ed", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Mr.%20Ch.%20Mutyala%20Rao.pdf" }
-    ],
-    physics: [
-      { name: "Mr. P. Sita Rama Raju", qualification: "M.Sc.,M.Phil.,(Ph.D)", designation: "Assoc. Professor & Section Head", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/P.Sita%20Rama%20RajuPSR%20Raju%20Profile.pdf" },
-      { name: "Dr. K. Jagadeesh", qualification: "M.Sc.,Ph.D", designation: "Sr.Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Dr.K.Jagadeesh.pdf" },
-      { name: "Mr. B. Sasi Bhushan", qualification: "M.Sc.,M.tech", designation: "Sr.Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/Sasi%20Bhushan%20BhimavarapuSasi%20Bhushan%20Bhimavarapu.pdf" },
-      { name: "Mrs. G.Ramadevi", qualification: "M.Sc.", designation: "Sr.Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/GAJULA%20RAMADEVI.pdf" },
-      { name: "Mr. P. Naga Ramesh", qualification: "M.Sc.,B.Ed", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Mr.%20P%20Naga%20Ramesh.pdf" },
-      { name: "Mrs. B. Sudha", qualification: "M.Sc.", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Mrs.%20B.%20Sudha.pdf" },
-      { name: "Mr. P. Vinay", qualification: "M.Sc.,B.Ed", designation: "Asst. Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/BSH_Mr.%20P%20%20Vinay.pdf" },
-      { name: "Mr. K. Nagavamsi Sai Dileep", qualification: "M.Sc.", designation: "Asst. Professor", profileUrl: "" }
-    ],
-    library: [
-      { name: "Dr.G.CH.S Madhusudhan Rao", qualification: "M.Sc.,M.Phil.,Ph.D", designation: "Assoc.Professor", profileUrl: "http://www.srivasaviengg.ac.in/faculty_profile/S.S.V.Suma%20Lathassvsuma%20Latha.pdf" }
-    ],
-    physicalEducation: [
-      { name: "Mr. S. Satish", qualification: "M.P.Ed", designation: "PET", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/PD_S.SATEESH%20Resume%20-%202023.pdf" },
-      { name: "Ms. K. Lavanya", qualification: "M.P.Ed", designation: "PET", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/PD_Mr.K.%20Lavanya.pdf" },
-      { name: "Ms. U. Jyothi", qualification: "M.P.Ed", designation: "PET", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/PD_U.%20Jyothi.pdf" }
-    ],
-  };
 
-  const nonTeachingFaculty = [
-    { name: "Mr. T. Sushma", designation: "Physics Lab Technician" },
-    { name: "Mr. V. sekhar Babu", designation: "Chemistry Lab Technician" },
-    { name: "Mr.P. Peda Venkata Rao", designation: "Chemistry Lab Technician" },
-    { name: "Ms. A. V. V Naga Lakshmi", designation: "DEO" },
-    { name: "Mrs. L. Gouthami", designation: "DEO" },
-    { name: "Mr. G. Srinivas Rao", designation: "Attender" },
-    { name: "Ms. A. V. V Lakshmi", designation: "Attender" },
-    { name: "Mr. O. Prabhakara Rao", designation: "Attender" },
-    { name: "Mr. P. Siva Sundaram", designation: "Attender" }
-  ];
+  // Faculty state for DB data
+  type Faculty = {
+    id: number;
+    name: string;
+    department: string;
+    qualification: string;
+    designation: string;
+    profileUrl: string;
+  };
+  const [facultyData, setFacultyData] = useState<{ [department: string]: Faculty[] }>({});
+  const [loadingFaculty, setLoadingFaculty] = useState(true);
+  const [facultyError, setFacultyError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchFaculty = async () => {
+      try {
+        const res = await fetch('/api/bsh-faculty');
+        if (!res.ok) throw new Error('Failed to fetch faculty data');
+        const data: Faculty[] = await res.json();
+        // Group by department (chemistry, physics, etc)
+        const grouped: { [department: string]: Faculty[] } = {};
+        data.forEach(fac => {
+          if (!grouped[fac.department]) grouped[fac.department] = [];
+          grouped[fac.department].push(fac);
+        });
+        setFacultyData(grouped);
+      } catch (err: any) {
+        setFacultyError(err.message || 'Unknown error');
+      } finally {
+        setLoadingFaculty(false);
+      }
+    };
+    fetchFaculty();
+  }, []);
+
+  // Non-teaching faculty state
+  type NonTeachingFaculty = {
+    id: number;
+    name: string;
+    designation: string;
+  };
+  const [nonTeachingFaculty, setNonTeachingFaculty] = useState<NonTeachingFaculty[]>([]);
+  const [loadingNonTeaching, setLoadingNonTeaching] = useState(true);
+  const [nonTeachingError, setNonTeachingError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchNonTeaching = async () => {
+      try {
+        const res = await fetch('/api/non-teaching-bsh-faculty');
+        if (!res.ok) throw new Error('Failed to fetch non-teaching faculty');
+        const data: NonTeachingFaculty[] = await res.json();
+        setNonTeachingFaculty(data);
+      } catch (err: any) {
+        setNonTeachingError(err.message || 'Unknown error');
+      } finally {
+        setLoadingNonTeaching(false);
+      }
+    };
+    fetchNonTeaching();
+  }, []);
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
@@ -477,6 +465,7 @@ const BSHDepartment: React.FC = () => {
                 </div>
               </details>
             </div>
+
           </div>
         );
       case 'Faculty Paper Presentations':
@@ -832,58 +821,100 @@ const BSHDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
-            {Object.entries(facultyData).map(([subject, members]) => (
-              <div key={subject} className="mb-10">
-                <h3 className="text-2xl font-semibold text-gray-700 mb-4 capitalize border-b-2 border-primary pb-2">{subject}</h3>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="px-4 py-2">S.No.</th>
-                        <th className="px-4 py-2">Name</th>
-                        <th className="px-4 py-2">Qualification</th>
-                        <th className="px-4 py-2">Designation</th>
-                        <th className="px-4 py-2">Profile</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {members.map((member, index) => (
-                        <tr key={index} className="border-b hover:bg-gray-50">
-                          <td className="px-4 py-2">{index + 1}</td>
-                          <td className="px-4 py-2 font-medium">{member.name}</td>
-                          <td className="px-4 py-2">{member.qualification}</td>
-                          <td className="px-4 py-2">{member.designation}</td>
-                          <td className="px-4 py-2">
-                            <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View</a>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            ))}
+            {loadingFaculty ? (
+              <div>Loading faculty data...</div>
+            ) : facultyError ? (
+              <div className="text-red-600">Error: {facultyError}</div>
+            ) : (
+              Object.entries(facultyData).map(([department, members]) => {
+                let displayName = '';
+                switch (department.toLowerCase()) {
+                  case 'chemistry':
+                    displayName = 'Chemistry Teaching Faculty';
+                    break;
+                  case 'physics':
+                    displayName = 'Physics Teaching Faculty';
+                    break;
+                  case 'mathematics':
+                    displayName = 'Mathematics Teaching Faculty';
+                    break;
+                  case 'english':
+                    displayName = 'English Teaching Faculty';
+                    break;
+                  case 'library':
+                    displayName = 'Library Faculty';
+                    break;
+                  case 'physicaleducation':
+                  case 'physical_education':
+                    displayName = 'Physical Education Faculty';
+                    break;
+                  default:
+                    displayName = department.charAt(0).toUpperCase() + department.slice(1);
+                }
+                return (
+                  <div key={department} className="mb-10">
+                    <h3 className="text-2xl font-semibold text-gray-700 mb-4 capitalize border-b-2 border-primary pb-2">{displayName}</h3>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left">
+                        <thead className="bg-gray-100">
+                          <tr>
+                            <th className="px-4 py-2">S.No.</th>
+                            <th className="px-4 py-2">Name</th>
+                            <th className="px-4 py-2">Qualification</th>
+                            <th className="px-4 py-2">Designation</th>
+                            <th className="px-4 py-2">Profile</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {members.map((member, index) => (
+                            <tr key={index} className="border-b hover:bg-gray-50">
+                              <td className="px-4 py-2">{index + 1}</td>
+                              <td className="px-4 py-2 font-medium">{member.name}</td>
+                              <td className="px-4 py-2">{member.qualification}</td>
+                              <td className="px-4 py-2">{member.designation}</td>
+                              <td className="px-4 py-2">
+                                {member.profileUrl ? (
+                                  <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View</a>
+                                ) : (
+                                  <span className="text-gray-400">N/A</span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                );
+              })
+            )}
             <h2 className="text-3xl font-bold text-[#B22222] mt-12 mb-6 text-center">Non-Teaching Staff</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="px-4 py-2">S.No.</th>
-                    <th className="px-4 py-2">Name</th>
-                    <th className="px-4 py-2">Designation</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {nonTeachingFaculty.map((member, index) => (
-                    <tr key={index} className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2 font-medium">{member.name}</td>
-                      <td className="px-4 py-2">{member.designation}</td>
+            {loadingNonTeaching ? (
+              <div>Loading non-teaching faculty...</div>
+            ) : nonTeachingError ? (
+              <div className="text-red-600">Error: {nonTeachingError}</div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-2">S.No.</th>
+                      <th className="px-4 py-2">Name</th>
+                      <th className="px-4 py-2">Designation</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {nonTeachingFaculty.map((member, index) => (
+                      <tr key={member.id} className="border-b hover:bg-gray-50">
+                        <td className="px-4 py-2">{index + 1}</td>
+                        <td className="px-4 py-2 font-medium">{member.name}</td>
+                        <td className="px-4 py-2">{member.designation}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         );
       case 'Student Achievements':
