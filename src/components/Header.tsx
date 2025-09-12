@@ -501,9 +501,14 @@ const departments = [
                 onMouseEnter={() => handleMouseEnter('depts')}
                 onMouseLeave={(e) => {
                   const relatedTarget = e.relatedTarget as Element;
-                  const dropdown = document.querySelector('[data-dropdown="depts"]');
-                  if (dropdown && !dropdown.contains(relatedTarget)) {
-                    handleMouseLeave(e);
+                  const dropdownMenu = document.querySelector('[data-dropdown="depts-menu"]');
+                  
+                  // Don't close if moving to the dropdown menu
+                  if (relatedTarget && (
+                    dropdownMenu?.contains(relatedTarget) ||
+                    relatedTarget.closest('[data-dropdown="depts-menu"]')
+                  )) {
+                    return;
                   }
                   
                   handleMouseLeave(e);
