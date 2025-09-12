@@ -30,7 +30,7 @@ export async function POST(
 
     // Insert faculty member
     const result = await query(`
-      INSERT INTO faculty_profiles (
+      INSERT INT O faculty_profiles (
         name, email, qualification, designation, specialization,
         experience_years, profile_url, bio, research_interests,
         publications, dept

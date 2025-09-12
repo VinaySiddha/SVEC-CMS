@@ -1,0 +1,18 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "62.72.31.209",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "subhash",
+            "database": "svec_cms",
+            "username": "cmsuser"
+        }
+    ]
+}

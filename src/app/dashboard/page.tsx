@@ -18,11 +18,16 @@ export default function DashboardPage() {
       }
 
       // Redirect based on user role and department
-      if (user.role === 'admin') {
+      if (user.role === 'super_admin') {
+        router.push('/super-admin/dashboard');
+      } else if (user.role === 'admin') {
         router.push('/admin/dashboard');
+      } else if (user.role === 'dept') {
+        // For department users, redirect to department-specific dashboard
+        router.push(`/departments/${user.department.toLowerCase()}/dashboard`);
       } else {
-        // For department users (faculty, hod), redirect to department dashboard
-        router.push(`/departments/${user.department}/dashboard`);
+        // Default redirect for unknown roles
+        router.push('/auth/login');
       }
     }
   }, [user, isLoading, isAuthenticated, router]);

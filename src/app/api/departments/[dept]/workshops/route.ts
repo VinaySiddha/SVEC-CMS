@@ -35,7 +35,7 @@ export async function GET(
       query_str += ' AND (status = "approved" OR status IS NULL)';
     }
     
-    query_str += ' ORDER BY start_date DESC';
+    query_str += ' ORDER BY date_from DESC';
     
     const workshops = await query(query_str, queryParams);
 

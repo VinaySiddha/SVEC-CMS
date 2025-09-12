@@ -16,9 +16,7 @@ export async function GET(
       studentAchievements,
       workshopsData,
       technicalStaff,
-      nonTeachingStaff,
-      boardOfStudiesMembers,
-      boardOfStudiesMeetingMinutes
+      nonTeachingStaff
     ] = await Promise.all([
       query(
         'SELECT * FROM faculty_profiles WHERE dept = ? AND (status = "approved" OR status IS NULL) ORDER BY name',
@@ -41,11 +39,19 @@ export async function GET(
         [dept]
       ),
       query(
-        'SELECT * FROM technical_staff WHERE dept = ? AND status = "active" ORDER BY name',
+        'SELECT * FROM technical_staff WHERE dept = ? ORDER BY name',
         [dept]
       ),
       query(
-        'SELECT * FROM non_teaching_staff WHERE dept = ? AND status = "active" ORDER BY name',
+        'SELECT * FROM non_teaching_staff WHERE dept = ? ORDER BY name',
+        [dept]
+      ),
+      query(
+        'SELECT * FROM placements WHERE dept = ? ORDER BY academic_year DESC',
+        [dept]
+      ),
+      query(
+        'SELECT * FROM hackathons WHERE dept = ? ORDER BY start_date DESC',
         [dept]
       ),
       query(
@@ -68,9 +74,7 @@ export async function GET(
         studentAchievements: studentAchievements,
         workshops: workshopsData,
         technicalStaff: technicalStaff,
-        nonTeachingStaff: nonTeachingStaff,
-        boardOfStudiesMembers: boardOfStudiesMembers,
-        boardOfStudiesMeetingMinutes: boardOfStudiesMeetingMinutes
+        nonTeachingStaff: nonTeachingStaff
       }
     });
 
