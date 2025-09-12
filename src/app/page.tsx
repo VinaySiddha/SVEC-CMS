@@ -64,11 +64,10 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="bg-background text-foreground"> 
-
+    <>
       {/* VIDEO HERO BANNER */}
-      <section className="relative w-full h-screen flex items-center justify-center overflow-hidden -mt-4">
-        <div className="absolute inset-0">
+      <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
           <video
             className="w-full h-full object-cover"
             autoPlay
@@ -82,7 +81,7 @@ const Home: React.FC = () => {
               height: 'auto'
             }}
           >
-            <source src="/enng-bg.mp4" type="video/mp4" />
+            <source src="/DroneView.mp4" type="video/mp4" />
             <img
               src="https://images.unsplash.com/photo-1562774053-701939374585?w=1920&h=1080&fit=crop&crop=center"
               alt="Engineering Campus"
@@ -655,7 +654,7 @@ const Home: React.FC = () => {
           </div>
         </div>
       </AnimatedSection>
-    </div>
+    </>
   );
 };
 
