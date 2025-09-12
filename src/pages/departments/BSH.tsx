@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Book, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
@@ -45,7 +44,7 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchFaculty = async () => {
       try {
-        const res = await fetch('/api/bsh-faculty');
+        const res = await fetch('/api/bsh/bsh-faculty');
         if (!res.ok) throw new Error('Failed to fetch faculty data');
         const data: Faculty[] = await res.json();
         // Group by department (chemistry, physics, etc)
@@ -77,7 +76,7 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchNonTeaching = async () => {
       try {
-        const res = await fetch('/api/non-teaching-bsh-faculty');
+        const res = await fetch('/api/bsh/non-teaching-bsh-faculty');
         if (!res.ok) throw new Error('Failed to fetch non-teaching faculty');
         const data: NonTeachingFaculty[] = await res.json();
         setNonTeachingFaculty(data);
@@ -88,6 +87,194 @@ const BSHDepartment: React.FC = () => {
       }
     };
     fetchNonTeaching();
+  }, []);
+
+  // Board of Studies data state
+  const [bosData, setBosData] = useState<{ [section: string]: any[] }>({});
+  const [loadingBos, setLoadingBos] = useState(true);
+  const [bosError, setBosError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchBos = async () => {
+      try {
+        const res = await fetch('/api/bsh/board-of-studies');
+        if (!res.ok) throw new Error('Failed to fetch Board of Studies data');
+        const data = await res.json();
+        // Group by section
+        const grouped: { [section: string]: any[] } = {};
+        data.forEach((item: any) => {
+          if (!grouped[item.section]) grouped[item.section] = [];
+          grouped[item.section].push(item);
+        });
+        setBosData(grouped);
+      } catch (err: any) {
+        setBosError(err.message || 'Unknown error');
+      } finally {
+        setLoadingBos(false);
+      }
+    };
+    fetchBos();
+  }, []);
+
+  // FDPs/Workshops data state
+  const [fdpDocs, setFdpDocs] = useState<any[]>([]);
+  const [loadingFdp, setLoadingFdp] = useState(true);
+  const [fdpError, setFdpError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchFdp = async () => {
+      try {
+        const res = await fetch('/api/bsh/department-documents');
+        if (!res.ok) throw new Error('Failed to fetch FDPs/Workshops');
+        const data = await res.json();
+        setFdpDocs(data.filter((doc: any) => doc.section === 'fdp_workshops'));
+      } catch (err: any) {
+        setFdpError(err.message || 'Unknown error');
+      } finally {
+        setLoadingFdp(false);
+      }
+    };
+    fetchFdp();
+  }, []);
+
+  // Department Profile data state (dynamic)
+  const [deptProfile, setDeptProfile] = useState<any>(null);
+  const [loadingDeptProfile, setLoadingDeptProfile] = useState(true);
+  const [deptProfileError, setDeptProfileError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch('/api/bsh/department-profile');
+        if (!res.ok) throw new Error('Failed to fetch department profile');
+        const data = await res.json();
+        setDeptProfile(data);
+      } catch (err: any) {
+        setDeptProfileError(err.message || 'Unknown error');
+      } finally {
+        setLoadingDeptProfile(false);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  // Results state (dynamic)
+  const [results, setResults] = useState<any[]>([]);
+  const [loadingResults, setLoadingResults] = useState(true);
+  const [resultsError, setResultsError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchResults = async () => {
+      try {
+        const res = await fetch('/api/bsh/results');
+        if (!res.ok) throw new Error('Failed to fetch results');
+        const data = await res.json();
+        setResults(data);
+      } catch (err: any) {
+        setResultsError(err.message || 'Unknown error');
+      } finally {
+        setLoadingResults(false);
+      }
+    };
+    fetchResults();
+  }, []);
+
+  // Activities state (dynamic)
+  const [activities, setActivities] = useState<any[]>([]);
+  const [loadingActivities, setLoadingActivities] = useState(true);
+  const [activitiesError, setActivitiesError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const res = await fetch('/api/bsh/activities');
+        if (!res.ok) throw new Error('Failed to fetch activities');
+        const data = await res.json();
+        setActivities(data);
+      } catch (err: any) {
+        setActivitiesError(err.message || 'Unknown error');
+      } finally {
+        setLoadingActivities(false);
+      }
+    };
+    fetchActivities();
+  }, []);
+
+  // Faculty Achievements state (dynamic)
+  const [facultyAchievements, setFacultyAchievements] = useState<any[]>([]);
+  const [loadingFacultyAchievements, setLoadingFacultyAchievements] = useState(true);
+  const [facultyAchievementsError, setFacultyAchievementsError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchAchievements = async () => {
+      try {
+        const res = await fetch('/api/bsh/faculty-achievements');
+        if (!res.ok) throw new Error('Failed to fetch faculty achievements');
+        const data = await res.json();
+        setFacultyAchievements(data);
+      } catch (err: any) {
+        setFacultyAchievementsError(err.message || 'Unknown error');
+      } finally {
+        setLoadingFacultyAchievements(false);
+      }
+    };
+    fetchAchievements();
+  }, []);
+
+  // Laboratories state (dynamic)
+  const [labs, setLabs] = useState<any[]>([]);
+  const [loadingLabs, setLoadingLabs] = useState(true);
+  const [labsError, setLabsError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchLabs = async () => {
+      try {
+        const res = await fetch('/api/bsh/laboratories');
+        if (!res.ok) throw new Error('Failed to fetch laboratories');
+        const data = await res.json();
+        setLabs(data);
+      } catch (err: any) {
+        setLabsError(err.message || 'Unknown error');
+      } finally {
+        setLoadingLabs(false);
+      }
+    };
+    fetchLabs();
+  }, []);
+
+  // Faculty Paper Presentations state (dynamic)
+  const [paperPresentations, setPaperPresentations] = useState<any[]>([]);
+  const [loadingPaperPresentations, setLoadingPaperPresentations] = useState(true);
+  const [paperPresentationsError, setPaperPresentationsError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchPapers = async () => {
+      try {
+        const res = await fetch('/api/bsh/faculty-paper-presentations');
+        if (!res.ok) throw new Error('Failed to fetch paper presentations');
+        const data = await res.json();
+        setPaperPresentations(data);
+      } catch (err: any) {
+        setPaperPresentationsError(err.message || 'Unknown error');
+      } finally {
+        setLoadingPaperPresentations(false);
+      }
+    };
+    fetchPapers();
+  }, []);
+
+  // Student Achievements state (dynamic)
+  const [studentAchievements, setStudentAchievements] = useState<any[]>([]);
+  const [loadingStudentAchievements, setLoadingStudentAchievements] = useState(true);
+  const [studentAchievementsError, setStudentAchievementsError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchAchievements = async () => {
+      try {
+        const res = await fetch('/api/bsh/student-achievements');
+        if (!res.ok) throw new Error('Failed to fetch student achievements');
+        const data = await res.json();
+        setStudentAchievements(data);
+      } catch (err: any) {
+        setStudentAchievementsError(err.message || 'Unknown error');
+      } finally {
+        setLoadingStudentAchievements(false);
+      }
+    };
+    fetchAchievements();
   }, []);
 
   const renderDeptTabContent = () => {
@@ -245,286 +432,216 @@ const BSHDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Results</h2>
-            <div className="nav-content mb-2">
-              <details open>
-                <summary className="font-semibold text-lg mb-2">Results Since 2001</summary>
-                <ul className="list-disc ml-6 mt-4 space-y-2">
-                  <li>
-                    B.Tech 1st Year Results since 2001 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/bsh/I%20B.Tech%20Results.pdf"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </div>
+            {loadingResults ? (
+              <div>Loading...</div>
+            ) : resultsError ? (
+              <div className="text-red-600">Error: {resultsError}</div>
+            ) : (
+              <div className="nav-content mb-2">
+                <details open>
+                  <summary className="font-semibold text-lg mb-2">Results Since 2001</summary>
+                  <ul className="list-disc ml-6 mt-4 space-y-2">
+                    {results.map((result) => (
+                      <li key={result.id}>
+                        {result.title} -{' '}
+                        <a
+                          href={result.url}
+                          className="text-primary hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          View
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </div>
+            )}
           </div>
         );
       case 'Activities':
+        // Group activities by section
+        const groupedActivities: { [section: string]: any[] } = {};
+        activities.forEach((act) => {
+          if (!groupedActivities[act.section]) groupedActivities[act.section] = [];
+          groupedActivities[act.section].push(act);
+        });
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Activities</h2>
-            <details open>
-              <summary className="font-semibold text-lg mb-2">National Mathematics Day</summary>
-              <ul className="list-disc ml-6 mt-4 space-y-2">
-                <li>
-                  National Mathematics Day 2022 -{' '}
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/bsh/National%20Mathematics%20Day%20-%202022.pdf"
-                    className="text-primary hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View
-                  </a>
-                </li>
-                <li>
-                  National Mathematics Day 2015 -{' '}
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/bsh/National%20Mathematics%20Day%20-%202015.pdf"
-                    className="text-primary hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View
-                  </a>
-                </li>
-                <li>
-                  National Mathematics Day 2014 -{' '}
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/bsh/National%20Mathematics%20Day%20-%202014.pdf"
-                    className="text-primary hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View
-                  </a>
-                </li>
-                <li>
-                  National Mathematics Day 2012 -{' '}
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/bsh/National%20Mathematics%20Day%20-%202012.pdf"
-                    className="text-primary hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View
-                  </a>
-                </li>
-              </ul>
-            </details>
-            <details>
-              <summary className="font-semibold text-lg mb-2">Fly High Program</summary>
-              <ul className="list-disc ml-6 mt-4 space-y-2">
-                <li>
-                  Fly High Details -{' '}
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/bsh/Fly High Details.pdf"
-                    className="text-primary hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View
-                  </a>
-                </li>
-              </ul>
-            </details>
-            <details>
-              <summary className="font-semibold text-lg mb-2">World Environment Day</summary>
-              <ul className="list-disc ml-6 mt-4 space-y-2">
-                <li>
-                  World Environment Day 2015 -{' '}
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/bsh/WORLD%20ENVIRONMENT%20DAY-%202015.pdf"
-                    className="text-primary hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View
-                  </a>
-                </li>
-              </ul>
-            </details>
+            {loadingActivities ? (
+              <div>Loading...</div>
+            ) : activitiesError ? (
+              <div className="text-red-600">Error: {activitiesError}</div>
+            ) : (
+              Object.entries(groupedActivities).map(([section, acts]) => (
+                <details key={section} open>
+                  <summary className="font-semibold text-lg mb-2">{section}</summary>
+                  <ul className="list-disc ml-6 mt-4 space-y-2">
+                    {acts.map((act) => (
+                      <li key={act.id}>
+                        {act.title} {act.year ? `(${act.year})` : ''} -{' '}
+                        <a href={act.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ))
+            )}
           </div>
         );
       case 'Faculty Achievements':
+        // Group faculty achievements by section
+        const groupedAchievements: { [section: string]: any[] } = {};
+        facultyAchievements.forEach((ach) => {
+          if (!groupedAchievements[ach.section]) groupedAchievements[ach.section] = [];
+          groupedAchievements[ach.section].push(ach);
+        });
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
-            <details open>
-              <summary className="font-semibold text-lg mb-2">Paper Publications</summary>
-              <div>
-                <ul className="list-disc ml-6 mt-4 space-y-2">
-                  <li>
-                    Paper Publications in Journals -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/bsh/Paper%20Publications.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                  <li>
-                    Paper Publications in Conferences -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/bsh/Paper%20Publications%20in%20National%20and%20International%20Conferences.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                </ul>
-              </div>
-            </details>
-            <details className="mt-4">
-              <summary className="font-semibold text-lg mb-2">AP-SET-NET-GATE</summary>
-              <div>
-                <ul className="list-disc ml-6 mt-4 space-y-2">
-                  <li>
-                    AP-SET-NET-GATE -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/bsh/AP-SET-NET-GATE.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                </ul>
-              </div>
-            </details>
-            <details className="mt-4">
-              <summary className="font-semibold text-lg mb-2">Book Publications</summary>
-              <div>
-                <ul className="list-disc ml-6 mt-4 space-y-2">
-                  <li>
-                    Book Publication Details -{' '}
-                    <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Book%20Publication.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                </ul>
-              </div>
-            </details>
-            {/* Newly added blocks from user request */}
-            <details className="mt-4">
-              <summary className="font-semibold text-lg mb-2">Online Certifications</summary>
-              <div>
-                <ul className="list-disc ml-6 mt-4 space-y-2">
-                  <li>
-                    Online Certification Details -{' '}
-                    <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Online%20Certifications.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                </ul>
-              </div>
-            </details>
-            <details className="mt-4">
-              <summary className="font-semibold text-lg mb-2">Book Reviews</summary>
-              <div>
-                <ul className="list-disc ml-6 mt-4 space-y-2">
-                  <li>
-                    Book Reviews Details -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/bsh/Book%20Reviews.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                </ul>
-              </div>
-            </details>
+            {loadingFacultyAchievements ? (
+              <div>Loading...</div>
+            ) : facultyAchievementsError ? (
+              <div className="text-red-600">Error: {facultyAchievementsError}</div>
+            ) : (
+              Object.entries(groupedAchievements).map(([section, achs]) => (
+                <details key={section} open className="mt-4">
+                  <summary className="font-semibold text-lg mb-2">{section}</summary>
+                  <ul className="list-disc ml-6 mt-4 space-y-2">
+                    {achs.map((ach) => (
+                      <li key={ach.id}>
+                        {ach.title} -{' '}
+                        <a href={ach.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ))
+            )}
           </div>
         );
       case 'Laboratories':
+        // Group labs by lab_name
+        const groupedLabs: { [lab_name: string]: any[] } = {};
+        labs.forEach((lab) => {
+          if (!groupedLabs[lab.lab_name]) groupedLabs[lab.lab_name] = [];
+          groupedLabs[lab.lab_name].push(lab);
+        });
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Laboratories</h2>
-            <div className="mt-4 m-2">
-              <details open>
-                <summary className="font-semibold text-lg mb-2">English Communication Skills Lab</summary>
-                <div>
-                  <ul className="list-disc ml-6 mt-4 space-y-2">
-                    <li>
-                      Technology Assisted Language Learning -{' '}
-                      <a href="https://srivasaviengg.ac.in/uploads/bsh/TALL.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                    </li>
-                    <li>
-                      Task Based Language Learning -{' '}
-                      <a href="https://srivasaviengg.ac.in/uploads/bsh/TBLL.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                    </li>
-                  </ul>
+            {loadingLabs ? (
+              <div>Loading...</div>
+            ) : labsError ? (
+              <div className="text-red-600">Error: {labsError}</div>
+            ) : (
+              Object.entries(groupedLabs).map(([lab_name, items]) => (
+                <div className="mt-4 m-2" key={lab_name}>
+                  <details open>
+                    <summary className="font-semibold text-lg mb-2">{lab_name}</summary>
+                    <div>
+                      <ul className="list-disc ml-6 mt-4 space-y-2">
+                        {items.map((item) => (
+                          <li key={item.id}>
+                            {item.description} -{' '}
+                            <a href={item.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
                 </div>
-              </details>
-            </div>
-            <div className="mt-4 m-2">
-              <details>
-                <summary className="font-semibold text-lg mb-2">Engineering Physics Lab</summary>
-                <div>
-                  <ul className="list-disc ml-6 mt-4 space-y-2">
-                    <li>
-                      Sir.C.V. Raman Engineering Physics Lab -{' '}
-                      <a href="https://srivasaviengg.ac.in/uploads/bsh/Engineering%20Physics%20Lab%20Write%20up.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-            </div>
-            <div className="mt-4 m-2">
-              <details>
-                <summary className="font-semibold text-lg mb-2">Engineering Chemistry Lab</summary>
-                <div>
-                  <ul className="list-disc ml-6 mt-4 space-y-2">
-                    <li>
-                      Acharya P.C.Ray Engineering Chemistry Lab -{' '}
-                      <a href="https://srivasaviengg.ac.in/uploads/bsh/Chemistry%20LAB%20write%20up.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-            </div>
-
+              ))
+            )}
           </div>
         );
       case 'Faculty Paper Presentations':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Paper Presentations</h2>
-            <details open>
-              <summary className="font-semibold text-lg mb-2">Faculty Paper Presentations</summary>
-              <ul className="list-disc ml-6 mt-4 space-y-2">
-                <li>
-                  Faculty Paper Presentations -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Faculty%20Paper%20%20Presentations.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-              </ul>
-            </details>
+            {loadingPaperPresentations ? (
+              <div>Loading...</div>
+            ) : paperPresentationsError ? (
+              <div className="text-red-600">Error: {paperPresentationsError}</div>
+            ) : (
+              <details open>
+                <summary className="font-semibold text-lg mb-2">Faculty Paper Presentations</summary>
+                <ul className="list-disc ml-6 mt-4 space-y-2">
+                  {paperPresentations.map((item) => (
+                    <li key={item.id}>
+                      {item.title} {item.year ? `(${item.year})` : ''} -{' '}
+                      <a href={item.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
           </div>
         );
-      case 'FDPs/Workshops Participated':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">FDPs/Workshops Participated</h2>
-            <details open>
-              <summary className="font-semibold text-lg mb-2">FDPs/Workshops Participated</summary>
-              <ul className="list-disc ml-6 mt-4 space-y-2">
-                <li>
-                  Faculty Development Programs Workshop -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Faculty%20Development%20Programs%20-%20Workshop.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-              </ul>
-            </details>
-          </div>
-        );
+     
+
+        case 'FDPs/Workshops Participated':
+  return (
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">FDPs/Workshops Participated</h2>
+      {loadingFdp ? (
+        <div>Loading...</div>
+      ) : fdpError ? (
+        <div className="text-red-600">Error: {fdpError}</div>
+      ) : (
+        <details open>
+          <summary className="font-semibold text-lg mb-2">FDPs/Workshops Participated</summary>
+          <ul className="list-disc ml-6 mt-4 space-y-2">
+            {fdpDocs.map((doc, idx) => (
+              <li key={doc.id}>
+                {doc.title} -{' '}
+                <a href={doc.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
+    </div>
+  );
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-              <div className="relative">
-                <img
-                  src="/bshhod.jpg"
-                  alt="Sri N. Raja Sekhar"
-                  className="w-full h-80 object-cover rounded-lg shadow-md"
-                  data-ai-hint="male professor"
-                />
-              </div>
-              <div className="lg:col-span-2 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Sri N. Raja Sekhar</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Head of the Department</p>
-                  <p className="text-gray-600">Mobile No: 9885739808</p>
-                  <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_bsh@srivasaviengg.ac.in" className="text-primary hover:underline">hod_bsh@srivasaviengg.ac.in</a></p>
+            {loadingDeptProfile ? (
+              <div>Loading...</div>
+            ) : deptProfileError ? (
+              <div className="text-red-600">Error: {deptProfileError}</div>
+            ) : deptProfile ? (
+              <>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                  <div className="relative">
+                    <img
+                      src={deptProfile.hod_image_url}
+                      alt={deptProfile.hod_name}
+                      className="w-full h-80 object-cover rounded-lg shadow-md"
+                      data-ai-hint="male professor"
+                    />
+                  </div>
+                  <div className="lg:col-span-2 space-y-4">
+                    <div className="mb-4">
+                      <h3 className="text-2xl font-bold text-[#B22222] mb-2">{deptProfile.hod_name}</h3>
+                      <p className="text-lg text-[#8B0000] font-medium mb-2">{deptProfile.hod_designation}</p>
+                      <p className="text-gray-600">Mobile No: {deptProfile.hod_mobile}</p>
+                      <p className="text-gray-600">Phone No: {deptProfile.hod_phone}</p>
+                      <p className="text-gray-600">
+                        Email: <a href={`mailto:${deptProfile.hod_email}`} className="text-primary hover:underline">{deptProfile.hod_email}</a>
+                      </p>
+                    </div>
+                    <p className="text-gray-700 leading-relaxed">{deptProfile.hod_message}</p>
+                  </div>
                 </div>
-                <p className="text-gray-700 leading-relaxed">
-                  The Department of Basic Science and Humanities started at the inception of the college. The Department is fundamental to Engineering and devoted to fostering the basic principles and understanding of science to enhance the students’ basic knowledge of Engineering. Its objective is to provide value-based education for budding Scientists and Engineers. The Department offers various courses of study namely Mathematics, Physics, Chemistry, Environmental Studies, and English.
-                </p>
-              </div>
-            </div>
-
+                <div className="mt-6">
+                  <p className="text-gray-700 mb-3 text-justify">{deptProfile.department_overview}</p>
+                </div>
+              </>
+            ) : null}
             {/* Desktop Navigation Tabs */}
             <div className="hidden md:block relative mb-8 mt-8">
               <div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -709,111 +826,35 @@ const BSHDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
-            <details open>
-              <summary className="font-semibold text-lg mb-2">English BOS Meetings</summary>
-              <ul className="list-disc ml-6 mt-4 space-y-2">
-                <li>
-                  Minutes of 8<sup>th</sup> meeting of the Board of Studies, dated 22.07.2024 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Minutes%20of%20the%20%208th%20meeting%20of%20BOS%20of%20Mathematics%20(2).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 6<sup>th</sup> meeting of the Board of Studies, dated 23.11.2021 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Minutes%20of%20the%206th%20Meeting%20of%20Board%20of%20Studies.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 5<sup>th</sup> meeting of the Board of Studies, dated 20.09.2021 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-5%20English.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 4<sup>th</sup> meeting of the Board of Studies, dated 31.12.2020 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-4%20English.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 3<sup>rd</sup> meeting of the Board of Studies, dated 01.08.2020 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-3%20English.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 2<sup>nd</sup> meeting of the Board of Studies, dated 19.04.2019 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/BOS-2%20English.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 1<sup>st</sup> meeting of the Board of Studies, dated 02.06.2018 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/BOS-1%20English.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-              </ul>
-            </details>
-            <details className="mt-4">
-              <summary className="font-semibold text-lg mb-2">Joint BOS</summary>
-              <ul className="list-disc ml-6 mt-4 space-y-2">
-                <li>
-                  Joint BOS 1<sup>st</sup> B.Tech V23 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Agenda%20Notes%20of%208th%20Academic%20Council%20Sri%20Vasavi%20Engineering%20College.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-              </ul>
-            </details>
-            <details className="mt-4">
-              <summary className="font-semibold text-lg mb-2">Mathematics BOS Meetings</summary>
-              <ul className="list-disc ml-6 mt-4 space-y-2">
-                <li>
-                  Minutes of 8<sup>th</sup> meeting of the Board of Studies, dated 22.07.2024 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Minutes%20of%20the%20%208th%20meeting%20of%20BOS%20of%20Mathematics%20(2).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 7<sup>th</sup> meeting of the Board of Studies, dated 05.10.2023 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/7th BOS of Mathematics.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 6<sup>th</sup> meeting of the Board of Studies, dated 23.11.2021 -{' '}
-                  <a href="https://https://srivasaviengg.ac.in/uploads/bsh/Minutes%20of%20the%206th%20Meeting%20of%20Board%20of%20Studies.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 5<sup>th</sup> meeting of the Board of Studies, dated 27.09.2021 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-%205%20Maths.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 4<sup>th</sup> meeting of the Board of Studies, dated 31.12.2020 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-4%20Maths.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 3<sup>rd</sup> meeting of the Board of Studies, dated 01.08.2020 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS-3%20Maths.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 2<sup>nd</sup> meeting of the Board of Studies, dated 13.04.2019 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS%202-Maths.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 1<sup>st</sup> meeting of the Board of Studies, dated 12.06.2018 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/BOS%201%20Maths.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-              </ul>
-            </details>
-            <details className="mt-4">
-              <summary className="font-semibold text-lg mb-2">Chemistry BOS Meetings</summary>
-              <ol className="list-decimal ml-6 mt-4 space-y-2">
-                <li>
-                  Minutes of 2<sup>nd</sup> meeting of the Board of Studies, dated 28.12.2020 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Physics%20BOS-II.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 1<sup>st</sup> meeting of the Board of Studies, dated 02.06.2018 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Physics%20BOS-1.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-              </ol>
-            </details>
-            <details className="mt-4">
-              <summary className="font-semibold text-lg mb-2">Physics BOS Meetings</summary>
-              <ul className="list-disc ml-6 mt-4 space-y-2">
-                <li>
-                  Minutes of 2<sup>nd</sup> meeting of the Board of Studies, dated 28.12.2020 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Chemistry%20BOS%20Meeting-2.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Minutes of 1<sup>st</sup> meeting of the Board of Studies, dated 02.06.2018 -{' '}
-                  <a href="https://www.srivasaviengg.ac.in/uploads/bsh/Chemistry%20BOS%20Meeting-1.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-              </ul>
-            </details>
+            {loadingBos ? (
+              <div>Loading...</div>
+            ) : bosError ? (
+              <div className="text-red-600">Error: {bosError}</div>
+            ) : (
+              <>
+                {Object.entries(bosData).map(([section, items]) => (
+                  <details key={section} open className="mt-4">
+                    <summary className="font-semibold text-lg mb-2">
+                      {section === 'english' && 'English BOS Meetings'}
+                      {section === 'joint' && 'Joint BOS'}
+                      {section === 'mathematics' && 'Mathematics BOS Meetings'}
+                      {section === 'chemistry' && 'Chemistry BOS Meetings'}
+                      {section === 'physics' && 'Physics BOS Meetings'}
+                      {/* Add more as needed */}
+                    </summary>
+                    <ul className="list-disc ml-6 mt-4 space-y-2">
+                      {items.map((item, idx) => (
+                        <li key={item.id}>
+                          {item.title}
+                          {item.date ? `, dated ${item.date}` : ''} -{' '}
+                          <a href={item.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                ))}
+              </>
+            )}
           </div>
         );
 
@@ -918,31 +959,34 @@ const BSHDepartment: React.FC = () => {
           </div>
         );
       case 'Student Achievements':
+        // Group student achievements by section
+        const groupedStudentAchievements: { [section: string]: any[] } = {};
+        studentAchievements.forEach((ach) => {
+          if (!groupedStudentAchievements[ach.section]) groupedStudentAchievements[ach.section] = [];
+          groupedStudentAchievements[ach.section].push(ach);
+        });
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
-            <details open className="mb-4">
-              <summary className="font-semibold text-lg mb-2">Student Achievements</summary>
-              <ul className="list-disc ml-6 mt-4 space-y-2">
-                <li>
-                  Certifications in British Council -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/British%20Council%20Certification%20-%20Sheet1%20(1).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Gets Higher Exam Qualified Student List -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Reliance%20Foundation%20Merit%20Scholarship%20(2022-2023).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-              </ul>
-            </details>
-            <details>
-              <summary className="font-semibold text-lg mb-2">Merit Scholarships</summary>
-              <ul className="list-disc ml-6 mt-4 space-y-2">
-                <li>
-                  Reliance Foundation Merit Scholarships during the A.Y 2022-23 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/bsh/Reliance%20Foundation%20Merit%20Scholarship%20(2022-2023).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-              </ul>
-            </details>
+            {loadingStudentAchievements ? (
+              <div>Loading...</div>
+            ) : studentAchievementsError ? (
+              <div className="text-red-600">Error: {studentAchievementsError}</div>
+            ) : (
+              Object.entries(groupedStudentAchievements).map(([section, achs]) => (
+                <details key={section} open className="mb-4">
+                  <summary className="font-semibold text-lg mb-2">{section}</summary>
+                  <ul className="list-disc ml-6 mt-4 space-y-2">
+                    {achs.map((ach) => (
+                      <li key={ach.id}>
+                        {ach.title} {ach.year ? `(${ach.year})` : ''} -{' '}
+                        <a href={ach.url} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ))
+            )}
           </div>
         );
       default:
