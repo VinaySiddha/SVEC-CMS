@@ -7,6 +7,7 @@ import FloatingChatWidgets from "@/components/FloatingChatWidgets";
 import PageTransition from "@/components/PageTransition";
 import { LoadingProvider } from "@/contexts/LoadingContext";
 import ToastProvider from "@/components/providers/ToastProvider";
+import ClientProviders from "@/components/providers/ClientProviders";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,19 +25,21 @@ export default function RootLayout(props: {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <LoadingProvider>
-          <ToastProvider />
-          <Header />
-          <PageTransition>
-            <main className="flex-grow bg-white">
-              {props.children}
-            </main>
-          </PageTransition>
+        <ClientProviders>
+          <LoadingProvider>
+            <ToastProvider />
+            <Header />
+            <PageTransition>
+              <main className="flex-grow bg-white">
+                {props.children}
+              </main>
+            </PageTransition>
 
-          <Footer />
+            <Footer />
 
-          <FloatingChatWidgets />
-        </LoadingProvider>
+            <FloatingChatWidgets />
+          </LoadingProvider>
+        </ClientProviders>
       </body>
     </html>
   );

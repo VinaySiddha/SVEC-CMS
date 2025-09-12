@@ -27,22 +27,6 @@ const facultyProfileSchema = z.object({
   experience: z.coerce.number().min(0, 'Experience must be a positive number'),
   specializations: z.string().min(1, 'Specializations are required'),
   email: z.string().email('Invalid email address'),
-  photo: z.instanceof(FileList).optional().refine(
-    (files) => {
-      if (!files || files.length === 0) return true;
-      const file = files[0];
-      return ['image/jpeg', 'image/png'].includes(file.type);
-    },
-    { message: 'Photo must be a JPEG or PNG file' }
-  ),
-  cv: z.instanceof(FileList).optional().refine(
-    (files) => {
-      if (!files || files.length === 0) return true;
-      const file = files[0];
-      return file.type === 'application/pdf';
-    },
-    { message: 'CV must be a PDF file' }
-  ),
 });
 
 type FormValues = z.infer<typeof facultyProfileSchema>;

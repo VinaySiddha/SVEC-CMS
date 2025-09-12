@@ -15,10 +15,10 @@ let pool: Pool | null = null;
  */
 function getDbConfig() {
   return {
-    host: process.env.MYSQL_HOST || 'localhost',
-    user: process.env.MYSQL_USER || 'root',
-    password: process.env.MYSQL_PASSWORD || '',
-    database: 'college_portal', // Hardcoded database name
+    host: process.env.MYSQL_HOST || '62.72.31.209',
+    user: process.env.MYSQL_USER || 'cmsuser',
+    password: process.env.MYSQL_PASSWORD || 'V@savi@2001',
+    database: 'svec_cms', // Hardcoded database name
     port: Number(process.env.MYSQL_PORT) || 3306,
     waitForConnections: true,
     connectionLimit: 10,
