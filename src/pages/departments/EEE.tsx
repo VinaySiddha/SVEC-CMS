@@ -35,6 +35,43 @@ const EEEDepartment: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetch faculty data from database
+  useEffect(() => {
+    const fetchFacultyData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/public/departments/eee');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Set faculty data (teaching staff) - API returns data in nested structure
+        if (data.data && data.data.faculty && Array.isArray(data.data.faculty)) {
+          setFaculty(data.data.faculty);
+        }
+        
+        // Set non-teaching staff data
+        if (data.data && data.data.nonTeachingStaff && Array.isArray(data.data.nonTeachingStaff)) {
+          setNonTeachingFaculty(data.data.nonTeachingStaff);
+        }
+        
+        setError(null);
+      } catch (error) {
+        console.error('Error fetching faculty data:', error);
+        setError('Failed to load faculty data. Please try again later.');
+        setFaculty([]);
+        setNonTeachingFaculty([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFacultyData();
+  }, []);
+
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: () => <Building className="w-4 h-4" /> },
     { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: () => <Users className="w-4 h-4" /> },
@@ -535,61 +572,111 @@ const EEEDepartment: React.FC = () => {
       // The rest of the cases are already present below as part of the switch statement.
 
       case 'Faculty Profiles':
+        if (loading) {
+          return (
+            <div className="space-y-8">
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Loading Faculty Data...</h2>
+                <div className="flex justify-center items-center py-8">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B22222]"></div>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        if (error) {
+          return (
+            <div className="space-y-8">
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <p className="text-red-700 text-center">{error}</p>
+                  <div className="text-center mt-4">
+                    <button 
+                      onClick={() => window.location.reload()} 
+                      className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#8B0000] transition-colors"
+                    >
+                      Retry
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
         return (
           <div className="space-y-8">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Teaching Faculty</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">S.No.</th>
-                      <th scope="col" className="px-6 py-3">Name</th>
-                      <th scope="col" className="px-6 py-3">Qualification</th>
-                      <th scope="col" className="px-6 py-3">Designation</th>
-                      <th scope="col" className="px-6 py-3">Profile</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {faculty.map((member, index) => (
-                      <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                        <td className="px-6 py-4">{index + 1}</td>
-                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                        <td className="px-6 py-4">{member.qualification}</td>
-                        <td className="px-6 py-4">{member.designation}</td>
-                        <td className="px-6 py-4">
-                          <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                            View
-                          </a>
-                        </td>
+              {faculty.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No faculty data available.</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left text-gray-500">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                      <tr>
+                        <th scope="col" className="px-6 py-3">S.No.</th>
+                        <th scope="col" className="px-6 py-3">Name</th>
+                        <th scope="col" className="px-6 py-3">Qualification</th>
+                        <th scope="col" className="px-6 py-3">Designation</th>
+                        <th scope="col" className="px-6 py-3">Profile</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {faculty.map((member, index) => (
+                        <tr key={member.id || index} className="bg-white border-b hover:bg-gray-50">
+                          <td className="px-6 py-4">{index + 1}</td>
+                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                          <td className="px-6 py-4">{member.qualification}</td>
+                          <td className="px-6 py-4">{member.designation}</td>
+                          <td className="px-6 py-4">
+                            {member.profile_url ? (
+                              <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                View
+                              </a>
+                            ) : (
+                              <span className="text-gray-400">N/A</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Staff</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">S.No.</th>
-                      <th scope="col" className="px-6 py-3">Name</th>
-                      <th scope="col" className="px-6 py-3">Designation</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {nonTeachingFaculty.map((member, index) => (
-                      <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                        <td className="px-6 py-4">{index + 1}</td>
-                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                        <td className="px-6 py-4">{member.designation}</td>
+              {nonTeachingFaculty.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No non-teaching staff data available.</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left text-gray-500">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                      <tr>
+                        <th scope="col" className="px-6 py-3">S.No.</th>
+                        <th scope="col" className="px-6 py-3">Name</th>
+                        <th scope="col" className="px-6 py-3">Designation</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {nonTeachingFaculty.map((member, index) => (
+                        <tr key={member.id || index} className="bg-white border-b hover:bg-gray-50">
+                          <td className="px-6 py-4">{index + 1}</td>
+                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                          <td className="px-6 py-4">{member.designation}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
         );
