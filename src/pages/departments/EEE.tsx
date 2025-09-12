@@ -1,13 +1,39 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
+
+// Interface for faculty data
+interface FacultyMember {
+  id: number;
+  name: string;
+  qualification: string;
+  designation: string;
+  specialization?: string;
+  experience_years?: number;
+  email?: string;
+  profile_url?: string;
+  bio?: string;
+  research_interests?: string;
+  publications?: string;
+  status: string;
+}
+
+interface NonTeachingStaff {
+  id: number;
+  name: string;
+  designation: string;
+}
 
 const EEEDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
+  const [faculty, setFaculty] = useState<FacultyMember[]>([]);
+  const [nonTeachingFaculty, setNonTeachingFaculty] = useState<NonTeachingStaff[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: () => <Building className="w-4 h-4" /> },
@@ -37,51 +63,6 @@ const EEEDepartment: React.FC = () => {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-
-  const faculty = [
-    { name: "Dr.Ch.Rambabu", qualification: "Ph.D", designation: "Professor & Dean(Student Affairs)", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/Dr.Ch.Rambabu206-rambabusir.pdf" },
-    { name: "Dr. D. Sudha Rani", qualification: "Ph.D", designation: "Professor & HOD", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_Dr.%20Sudha%20Rani%20Donepudi.pdf" },
-    { name: "Dr. Chappa Anil Kumar", qualification: "Ph.D", designation: "Assoc. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_Ch.Anil%20Kumar.pdf" },
-    { name: "Mr. U. Chandra Rao", qualification: "M.Tech.,(Ph.D)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_Chandra%20Rao.pdf" },
-    { name: "Mr. N. Sri Harish", qualification: "M.Tech", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_N.SriharishHarish.pdf" },
-    { name: "Mr. Ch.V S R Gopala Krishna", qualification: "M.Tech(Ph.D)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/Ch.V%20S%20R%20G%20Krishna6Ch.V.S.R.%20Gopal%20Krishna.pdf" },
-    { name: "Mr. K.Ramesh Babu", qualification: "M.Tech", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_K.Ramesh%20Babu.pdf" },
-    { name: "Mr. K.Suresh", qualification: "M.Tech.,(Ph.D)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_K.Suresh.pdf" },
-    { name: "Mr. M.T.V.L. Ravi Kumar", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_M.T.V.L.%20Ravi%20Kumar.pdf" },
-    { name: "Mr. V. Rama Narayana", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_V.%20Rama%20Narayana.pdf" },
-    { name: "Mr. G. Chandra Babu", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_Chandra%20Babu.pdf" },
-    { name: "Mr. G. Madhu Sagar Babu", qualification: "M.Tech.,(Ph.D)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_G.%20Madhu%20Sagar%20Babu.pdf" },
-    { name: "Mr. G. Govardhan", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_Govardhan.pdf" },
-    { name: "Mr. A. Uma Siva Naga Prasad", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_A.Uma%20Siva%20Naga%20Prasad.pdf" },
-    { name: "Mrs. A. Ratna Kumari", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_A%20Ratna%20Kumari2.pdf" },
-    { name: "Mr. N. Madhusudhan Reddy", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_N%20Madhusudhan%20reddy.pdf" },
-    { name: "Mr. V.S. Aditya", qualification: "M.E.,(Ph.D)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_V%20SUBRAHMANYA%20ADITYA.pdf" },
-    { name: "Mr. S. Krishna", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_Krishna.pdf" },
-    { name: "Mr. M. M. Swami Naidu", qualification: "M.Tech(Study Leave)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_MM%20SWAMY%20NAIDU.pdf" },
-    { name: "Mr. Durga R Ch. Nookesh", qualification: "M.Tech.,(Ph.D)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_Nookesh.pdf" },
-    { name: "Mrs. Jaji Sudha", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_jaji%20sudha.pdf" },
-    { name: "Mr. N. Sankar", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_N.%20Sankar.pdf" },
-    { name: "Mr. Shaik Moulali", qualification: "M.Tech.,(Ph.D)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_Moulali.pdf" },
-    { name: "Dr. E. Naga Venkata Durga Vara Prasad", qualification: "Ph.D", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_dr.e.n.v.d%20vara%20prasad.pdf" },
-    { name: "Mr. D. Dhana Prasad", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_d.dhanaprasad.pdf" },
-    { name: "Ms. B. Rajitha", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_b.rajitha.pdf" },
-    { name: "Mr. Y. Suresh Babu", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_Y%20SURESH%20BABU.pdf" },
-    { name: "Ms. T.H V S Suryakantha", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_H%20V%20S%20SURYAKANTHA%20TANUKU.pdf" },
-    { name: "Ms. S.Jaya Sri Lalitha", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_S.Jaya%20Sri%20Lalitha.pdf" },
-    { name: "Mr. K. Pavan Sai", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/eee_K.%20Pavan%20Sai.pdf" },
-  ];
-
-  const nonTeachingFaculty = [
-    { name: "Mr. M.V.S.Bangar Raju", designation: "Lab Technician" },
-    { name: "Mr. K.V.Subramanyam", designation: "Lab Technician" },
-    { name: "Ms. A.Jhansi Lakshmi", designation: "Lab Technician" },
-    { name: "Mr. K.Bhuvan Prasad", designation: "Lab Technician" },
-    { name: "Mr. K Sai Krishna", designation: "Lab Technician" },
-    { name: "Mrs. A.Ratna Kumari", designation: "DEO" },
-    { name: "Mr. L.Prakash", designation: "Attender" },
-    { name: "Mr. J.Venkateswara Rao", designation: "Attender" },
-    { name: "Mrs. M.Satya Devi", designation: "Attender" },
-  ];
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
@@ -271,7 +252,7 @@ const EEEDepartment: React.FC = () => {
                 href="https://srivasaviengg.ac.in/uploads/eee/COs.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
+                className="inline-flex px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 items-center"
               >
                 <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
               </a>
@@ -577,7 +558,7 @@ const EEEDepartment: React.FC = () => {
                         <td className="px-6 py-4">{member.qualification}</td>
                         <td className="px-6 py-4">{member.designation}</td>
                         <td className="px-6 py-4">
-                          <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                          <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                             View
                           </a>
                         </td>
