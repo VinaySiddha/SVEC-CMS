@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Reset and viewport styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  font-family: inherit;
+}
+
+#__next {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Custom animations for smooth page transitions */
 @keyframes slideInFromRight {
   from {

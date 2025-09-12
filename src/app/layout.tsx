@@ -23,20 +23,20 @@ export default function RootLayout(props: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={poppins.className}>
+    <html lang="en" className="h-full">
+      <body className={`${poppins.className} h-full m-0 p-0`}>
         <ClientProviders>
           <LoadingProvider>
             <ToastProvider />
-            <Header />
-            <PageTransition>
-              <main className="flex-grow bg-white">
-                {props.children}
-              </main>
-            </PageTransition>
-
-            <Footer />
-
+            <div className="min-h-screen flex flex-col">
+              <Header />
+              <PageTransition>
+                <main className="flex-1 w-full">
+                  {props.children}
+                </main>
+              </PageTransition>
+              <Footer />
+            </div>
             <FloatingChatWidgets />
           </LoadingProvider>
         </ClientProviders>
