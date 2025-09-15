@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useLoading } from '@/contexts/LoadingContext';
-// ...existing code...
 
 interface PageTransitionProps {
   children: React.ReactNode;
@@ -10,19 +9,16 @@ interface PageTransitionProps {
 
 const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
   const [isVisible, setIsVisible] = useState(true);
-  // ...existing code...
   const pathname = usePathname();
   const { setLoading } = useLoading();
 
   useEffect(() => {
     // Start page transition when pathname changes
     setIsVisible(false);
-  // ...existing code...
 
     // Show content and stop loading after transition
     const timer = setTimeout(() => {
       setLoading(false); // Stop global loading
-  // ...existing code...
       setIsVisible(true);
     }, 250); // Super quick transition - just enough to see the logo
 
@@ -32,7 +28,6 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
   return (
     <>
       {/* Loading Overlay */}
-  // ...existing code...
       
       {/* Page Content */}
       <div

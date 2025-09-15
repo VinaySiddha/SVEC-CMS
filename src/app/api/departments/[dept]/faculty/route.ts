@@ -19,7 +19,7 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const { dept } = params;
+    const { dept } = await params;
 
     // Check if user has permission for this department
     if (decoded.role !== 'admin' && decoded.department !== dept) {
@@ -30,7 +30,7 @@ export async function POST(
 
     // Insert faculty member
     const result = await query(`
-      INSERT INTO faculty_profiles (
+      INSERT INT O faculty_profiles (
         name, email, qualification, designation, specialization,
         experience_years, profile_url, bio, research_interests,
         publications, dept
@@ -81,7 +81,7 @@ export async function GET(
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const { dept } = params;
+    const { dept } = await params;
 
     // Check if user has permission for this department
     if (decoded.role !== 'admin' && decoded.department !== dept) {

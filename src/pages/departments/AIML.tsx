@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Brain, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
+import { useDepartmentData } from '../../hooks/useDepartmentData';
 
 const AIMLDepartment: React.FC = () => {
   const [faculty, setFaculty] = React.useState<any[]>([]);
@@ -37,6 +38,9 @@ const AIMLDepartment: React.FC = () => {
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
+  
+  // Fetch department data from database
+  const { data: departmentData, loading, error } = useDepartmentData('AIML');
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
@@ -59,6 +63,51 @@ const AIMLDepartment: React.FC = () => {
   ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
+
+  const faculty = [
+    { name: "Dr. G. Loshma", qualification: "Ph.D.", designation: "Head & Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Dr.G.Loshma.pdf" },
+    { name: "Dr. E. Aswani Kumar", qualification: "Ph.D.", designation: "Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Dr. E. Aswani Kumar.pdf" },
+    { name: "Mrs. A. Leelavathi", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_A.%20Leelavathi.pdf" },
+    { name: "Mr. R.L. Phani Kumar", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_R.L. Phani Kumar.pdf" },
+    { name: "Mr. M. Subba Rao", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. M. Subba Rao.pdf" },
+    { name: "Mr. P. V. V. Satyanarayana", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. P. V. V Satya Narayana.pdf" },
+    { name: "Mr. V. Rama Narayana", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. V. Rama Narayana.pdf" },
+    { name: "Mrs. V. Radha", qualification: "M.Tech, (Ph.D.)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mrs. V. Radha.pdf" },
+    { name: "Mr. A. Rajesh", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_A.Rajesh.pdf" },
+    { name: "Mr. D. Ayyappa", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. D. Ayyappa.pdf" },
+    { name: "Mr. M. Yesu Sekharam", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_M. Y. SEKHARAM.pdf" },
+    { name: "Mrs. K. Durga Saranya", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mrs. K. Durga Saranya.pdf" },
+    { name: "Mr. Shaik Moulali", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Sk. Moulali.pdf" },
+    { name: "Mrs. P. Ujwala Sai", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_P. Ujwala.pdf" },
+    { name: "Mrs. M. Kiranmai", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Ms. M. Kiranmai.pdf" },
+    { name: "Mr. V. Thinakaran", qualification: "M.E.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr .V. Thinakaran.pdf" },
+    { name: "Mr. P. Seshu Kumar", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. P Seshu Kumar.pdf" },
+    { name: "Mrs. G. Kalyani", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Ms. G Kalyani.pdf" },
+    { name: "Mrs. Pratyusha Ch.", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Ms. Prathyusha Ch.pdf" },
+    { name: "Mr. A. Reddy Chaitanya", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf" },
+    { name: "Dr. Jagadish Kumar K B", qualification: "Ph.D.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Dr. Jagadish Kumar KB.pdf" },
+    { name: "Mr. Nishanth N S", qualification: "M.E.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr.Nisanth N S.pdf" },
+    { name: "Mr. B. V. V. Bhargav", qualification: "M.Tech, (Ph.D.)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Bhargav-BVV.pdf" },
+    { name: "Mr. V. Jaya Rama Krishna", qualification: "M.Tech, (Ph.D.)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. V. Jayaramakrishna.pdf" },
+    { name: "Dr. M. Vishnuvardhan", qualification: "Ph.D.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Dr. M Vishnuvardhan.pdf" },
+    { name: "Mrs. Jane Rose", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf" },
+    { name: "Dr. J. Kondala Rao", qualification: "Ph.D.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. K. Jyothi.pdf" },
+    { name: "Mrs. Balaji Rohitha", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_DS_Mrs. B. Rohitha.pdf" },
+    { name: "Mr. Jewaliddin Shaik", qualification: "M.Tech, (Ph.D.)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf" },
+    { name: "Ms. Sneha Pradhan", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mrs. P. Sneha.pdf" }
+  ];
+
+  const nonTeachingFaculty = [
+    { name: "Mr. K. N. Suresh", designation: "System Admin" },
+    { name: "Mr. Md. Arriff", designation: "Lab Assistant" },
+    { name: "Mrs. D. Bhagya Lakshmi", designation: "Lab Technician" },
+    { name: "Mrs. B. Yamini", designation: "Lab Technician" },
+    { name: "Mr. K. V Srinivasa Rao", designation: "Hardware Technician" },
+    { name: "Mr. G. Bhanu Prakash", designation: "Hardware Technician" },
+    { name: "Mr. N. RajaseKhar", designation: "Junior Assistant" },
+    { name: "Mr. Prasad", designation: "Attender" }
+  ];
+
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
       case 'Department':
@@ -236,26 +285,16 @@ const AIMLDepartment: React.FC = () => {
     }
   };
 
-  const [boardOfStudies, setBoardOfStudies] = useState<any[]>([]);
-  const [loadingBOS, setLoadingBOS] = useState(true);
-  const [bosError, setBOSError] = useState<string | null>(null);
-
-  React.useEffect(() => {
-    setLoadingBOS(true);
-    fetch('/api/board-of-studies?dept=aiml')
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch Board of Studies');
-        return res.json();
-      })
-      .then(data => {
-        setBoardOfStudies(data);
-        setLoadingBOS(false);
-      })
-      .catch(err => {
-        setBOSError(err.message);
-        setLoadingBOS(false);
-      });
-  }, []);
+  const boardOfStudies = [
+    { name: "Dr. G. Loshma", designation: "Professor & HOD", organization: "SVEC", position: "Chairperson" },
+    { name: "Dr. D Haritha", designation: "Professor, CSE", organization: "UCEK,JNTUK", position: "University Nominee" },
+    { name: "Dr. Nagesh Bhattu Sristy", designation: "Assistant Professor,Dept. of CSE", organization: "NIT-AP", position: "Academic Expert" },
+    { name: "Dr. K. Venkata Rao", designation: "Professor,Dept. of CS&SE", organization: "AU College of Engineering,Visakhapatnam", position: "Academic Expert" },
+    { name: "Mr. T. Seshagiri", designation: "Enterprise Architect", organization: "TCS, Hyderabad", position: "Industry Expert" },
+    { name: "Mr. Vinay Kumar", designation: "Director", organization: "XpertBridge, Hyderabad", position: "Industry Expert" },
+    { name: "Mr. M Jnana Surya Prakasha Rao", designation: "Manager", organization: "BMW TechWorks India", position: "Alumni" },
+    { name: "All the Faculty Members in the AIML Dept.", designation: "members in BOS", organization: "", position: "" }
+  ];
 
   const labs = [
     { name: "James Gosling Lab", image: "/images/departments/cai/James Gosling Lab.jpg" },
@@ -644,39 +683,14 @@ const AIMLDepartment: React.FC = () => {
                         <td className="px-6 py-4">{member.qualification}</td>
                         <td className="px-6 py-4">{member.designation}</td>
                         <td className="px-6 py-4">
-                            <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline transition-colors duration-200">View</a>
-                            
-                          </td>
-
+                          <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View Profile</a>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             </div>
-            <div>
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Staff</h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {TechnicalFaculty.map((member, index) => (
-                        <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Profiles</h2>
               <div className="overflow-x-auto">
@@ -689,13 +703,33 @@ const AIMLDepartment: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {nonTeachingFaculty.map((member, index) => (
-                      <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                        <td className="px-6 py-4">{index + 1}</td>
-                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                        <td className="px-6 py-4">{member.designation}</td>
+                    {loading ? (
+                      <tr>
+                        <td colSpan={3} className="px-6 py-4 text-center text-gray-500">
+                          Loading non-teaching staff data...
+                        </td>
                       </tr>
-                    ))}
+                    ) : error ? (
+                      <tr>
+                        <td colSpan={3} className="px-6 py-4 text-center text-red-500">
+                          Error loading non-teaching staff data: {error}
+                        </td>
+                      </tr>
+                    ) : departmentData.nonTeachingStaff && departmentData.nonTeachingStaff.length > 0 ? (
+                      departmentData.nonTeachingStaff.map((member, index) => (
+                        <tr key={member.id || index} className="bg-white border-b hover:bg-gray-50">
+                          <td className="px-6 py-4">{index + 1}</td>
+                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                          <td className="px-6 py-4">{member.designation}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={3} className="px-6 py-4 text-center text-gray-500">
+                          No non-teaching staff data available
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -708,34 +742,28 @@ const AIMLDepartment: React.FC = () => {
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
               <div className="overflow-x-auto">
-                {loadingBOS ? (
-                  <div className="text-center py-8 text-gray-500">Loading...</div>
-                ) : bosError ? (
-                  <div className="text-center py-8 text-red-500">{bosError}</div>
-                ) : (
-                  <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3">S.No</th>
-                        <th scope="col" className="px-6 py-3">Name</th>
-                        <th scope="col" className="px-6 py-3">Designation</th>
-                        <th scope="col" className="px-6 py-3">Organization</th>
-                        <th scope="col" className="px-6 py-3">Position</th>
+                <table className="w-full text-sm text-left text-gray-500">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">S.No</th>
+                      <th scope="col" className="px-6 py-3">Name</th>
+                      <th scope="col" className="px-6 py-3">Designation</th>
+                      <th scope="col" className="px-6 py-3">Organization</th>
+                      <th scope="col" className="px-6 py-3">Position</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {boardOfStudies.map((member, index) => (
+                      <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                        <td className="px-6 py-4">{index + 1}</td>
+                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                        <td className="px-6 py-4">{member.designation}</td>
+                        <td className="px-6 py-4">{member.organization}</td>
+                        <td className="px-6 py-4">{member.position}</td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {boardOfStudies.map((member, index) => (
-                        <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.member_name}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                          <td className="px-6 py-4">{member.organization}</td>
-                          <td className="px-6 py-4">{member.role}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">

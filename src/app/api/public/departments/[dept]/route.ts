@@ -3,10 +3,10 @@ import { query } from '@/lib/db';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { dept: string } }
+  { params }: { params: Promise<{ dept: string }> }
 ) {
   try {
-    const dept = params.dept;
+    const { dept } = await params;
 
     // Fetch only approved data for public display
     const [
@@ -39,11 +39,27 @@ export async function GET(
         [dept]
       ),
       query(
-        'SELECT * FROM technical_staff WHERE dept = ? AND status = "active" ORDER BY name',
+        'SELECT * FROM technical_staff WHERE dept = ? ORDER BY name',
         [dept]
       ),
       query(
-        'SELECT * FROM non_teaching_staff WHERE dept = ? AND status = "active" ORDER BY name',
+        'SELECT * FROM non_teaching_staff WHERE dept = ? ORDER BY name',
+        [dept]
+      ),
+      query(
+        'SELECT * FROM placements WHERE dept = ? ORDER BY academic_year DESC',
+        [dept]
+      ),
+      query(
+        'SELECT * FROM hackathons WHERE dept = ? ORDER BY start_date DESC',
+        [dept]
+      ),
+      query(
+        'SELECT * FROM board_of_studies WHERE dept = ? AND status = "approved" ORDER BY id',
+        [dept]
+      ),
+      query(
+        'SELECT * FROM bos_meeting_minutes WHERE dept = ? AND status = "active" ORDER BY meeting_number DESC',
         [dept]
       )
     ]);
