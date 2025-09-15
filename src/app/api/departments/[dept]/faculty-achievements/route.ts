@@ -19,7 +19,7 @@ export async function GET(
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const { dept } = params;
+    const { dept } = await params;
 
     // Check if user has permission for this department
     if (decoded.role !== 'admin' && decoded.role !== 'super_admin' && decoded.department !== dept) {
@@ -27,7 +27,7 @@ export async function GET(
     }
 
     // Fetch faculty achievements for the department
-    let query_str = 'SELECT * FROM faculty_achievements WHERE department = ?';
+    let query_str = 'SELECT * FROM faculty_achievements WHERE dept = ?';
     let queryParams = [dept];
     
     // Show only approved achievements for department users, all for admins
@@ -70,7 +70,7 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const { dept } = params;
+    const { dept } = await params;
 
     // Check if user has permission for this department
     if (decoded.role !== 'admin' && decoded.role !== 'super_admin' && decoded.department !== dept) {

@@ -40,9 +40,15 @@ export default function LoginPage() {
         toast.success(`Welcome back, ${data.user.username}!`);
         
         // Redirect based on role
-        if (data.user.role === 'admin') {
+        if (data.user.role === 'super_admin') {
+          router.push('/super-admin/dashboard');
+        } else if (data.user.role === 'admin') {
           router.push('/admin/dashboard');
+        } else if (data.user.role === 'dept') {
+          // Redirect department users to their department dashboard
+          router.push(`/departments/${data.user.department.toLowerCase()}/dashboard`);
         } else {
+          // Default redirect for other roles
           router.push('/dashboard');
         }
       } else {

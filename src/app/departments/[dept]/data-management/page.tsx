@@ -45,7 +45,7 @@ export default function DepartmentDataManagement() {
   const params = useParams();
   const router = useRouter();
   const { user, isAuthenticated } = useAuth();
-  const dept = params.dept as string;
+  const dept = params?.dept as string;
   
   const [activeTab, setActiveTab] = useState('department-info');
   const [showForm, setShowForm] = useState(false);
@@ -449,7 +449,7 @@ export default function DepartmentDataManagement() {
                               alt={faculty.name}
                               className="w-12 h-12 rounded-full object-cover"
                               onError={(e) => {
-                                (e.target as HTMLImageElement).src = '/placeholder-avatar.png';
+                                (e.target as HTMLImageElement).src = '/placeholder-avatar.svg';
                               }}
                             />
                           )}
