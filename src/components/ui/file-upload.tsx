@@ -133,7 +133,7 @@ export function FileUpload({
                   alt="Preview"
                   className="w-20 h-20 object-cover rounded"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/placeholder-image.png';
+                    (e.target as HTMLImageElement).src = '/placeholder-image.svg';
                   }}
                 />
               )}

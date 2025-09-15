@@ -14,6 +14,13 @@ export default function DashboardPage() {
       color: 'bg-blue-500'
     },
     {
+      name: 'Board of Studies',
+      description: 'Manage Board of Studies members and meeting minutes',
+      icon: 'board',
+      href: '/dashboard/departments/board-of-studies',
+      color: 'bg-indigo-500'
+    },
+    {
       name: 'Events',
       description: 'Add and manage department events and activities',
       icon: 'event',
@@ -51,6 +58,12 @@ export default function DashboardPage() {
         return (
           <svg xmlns="http://www.w3.org/2000/svg" className={`h-8 w-8 ${iconColor}`} viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+          </svg>
+        );
+      case 'board':
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" className={`h-8 w-8 ${iconColor}`} viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm3 7a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1zm1-4a1 1 0 000 2h4a1 1 0 100-2H8z" clipRule="evenodd" />
           </svg>
         );
       case 'event':

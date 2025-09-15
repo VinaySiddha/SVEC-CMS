@@ -10,7 +10,7 @@ import {
   Instagram,
   Linkedin,
 } from 'lucide-react';
-import MDVLogo from './MDVLogo';
+// import MDVLogo from './MDVLogo';
 import VisitorCounter from './VisitorCounter';
 
 const Footer: React.FC = () => {
@@ -97,7 +97,7 @@ const Footer: React.FC = () => {
           </p>
 
           <div className="mx-4 mb-4 md:mb-0">
-            <MDVLogo />
+            {/* <MDVLogo /> */}
           </div>
 
           <div className="flex space-x-4">

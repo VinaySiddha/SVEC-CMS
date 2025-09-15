@@ -1,12 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
+
+// Interfaces for typed data
+interface Faculty {
+  id: number;
+  name: string;
+  qualification: string;
+  designation: string;
+  profile_url?: string;
+}
+
+interface Staff {
+  id: number;
+  name: string;
+  designation: string;
+}
+
+interface Achievement {
+  id: number;
+  title: string;
+  description?: string;
+  date?: string;
+  category?: string;
+}
+
+interface Placement {
+  id: number;
+  student_name: string;
+  company_name: string;
+  package?: number;
+  academic_year: string;
+}
+
+interface Hackathon {
+  id: number;
+  title: string;
+  description?: string;
+  start_date: string;
+  level?: string;
+  position?: string;
+  participants_count?: number;
+  winners?: any;
+}
+
+interface DepartmentData {
+  faculty: Faculty[];
+  technicalStaff: Staff[];
+  nonTeachingStaff: Staff[];
+  studentAchievements: Achievement[];
+  facultyAchievements: Achievement[];
+  placements: Placement[];
+  hackathons: Hackathon[];
+}
 
 const CSEDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
+  const [departmentData, setDepartmentData] = useState<DepartmentData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
@@ -33,98 +88,45 @@ const CSEDepartment: React.FC = () => {
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
+  // Fetch department data
+  useEffect(() => {
+    const fetchDepartmentData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/public/departments/cse');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch department data');
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          setDepartmentData(result.data);
+        } else {
+          throw new Error('Failed to load department data');
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+        console.error('Error fetching department data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDepartmentData();
+  }, []);
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const faculty = [
-    { name: "Dr. D. Jaya Kumari", qualification: "M.Tech.,Ph.D", designation: "Professor & HOD", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Dr%20D.Jaya%20Kumari-Web%20Profile.pdf" },
-    { name: "Dr. V. Venkateswara Rao", qualification: "M.Tech.,Ph.D", designation: "Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Dr.%20Venkateswara%20Rao%20Web%20Profile.pdf" },
-    { name: "Dr. V. S Naresh", qualification: "M.Tech.,Ph.D", designation: "Professor & Dean(R&D)", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Dr.V.S.Naresh.pdf" },
-    { name: "Dr. K. Shirin Bhanu", qualification: "M.Tech.,Ph.D", designation: "Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Dr.Shirin%20Bhanu%20Koduri.pdf" },
-    { name: "Dr. A. Daveedu Raju", qualification: "M.Tech.,Ph.D", designation: "Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Dr.%20A.%20Daveedu%20Raju.pdf" },
-    { name: "Dr. K. Venkata Ramana", qualification: "M.Tech.,Ph.D", designation: "Assoc. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Dr.%20K%20Venkata%20Ramana.pdf" },
-    { name: "Dr. G. Sivaraman", qualification: "M.Tech.,Ph.D", designation: "Assoc. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Dr.%20G%20Sivaraman.pdf" },
-    { name: "Mr. G. Nataraj", qualification: "M.Tech", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Nataraj%20G.pdf" },
-    { name: "Mrs. B. Sri Ramya", qualification: "M.Tech", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_B.Sriramya-%20Web%20profile.pdf" },
-    { name: "Mr. G. Sriram Ganesh", qualification: "M.Tech,(Ph.D)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_GSRIRAMGANESH.pdf" },
-    { name: "Mr. N. V. Murali Krishna Raja", qualification: "M.Tech,(Ph.D)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_%20N%20V%20MURALIKRISHNA%20RAJA.pdf" },
-    { name: "Mrs. N. Hiranmayee", qualification: "M.Tech,(Ph.D)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Hiranmayee.pdf" },
-    { name: "Mr. M. Nageswara Rao", qualification: "M.Tech", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_MNRAO.pdf" },
-    { name: "Mrs. Y. Divya Vani", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Y%20Divya%20Vani.pdf" },
-    { name: "Mr. K. Lakshminarayana", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_K.%20Lakshmi%20Narayana-%20Web%20profile.pdf" },
-    { name: "Ms. A. Kiranmai", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_A.kiranmai-%20Web%20profile.pdf" },
-    { name: "Ms. G. SiriVenkata Bhanu", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_G.s.v.%20Bhanu%20-%20Web%20profile.pdf" },
-    { name: "Mrs. D. S. L Manikanteswari", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_D%20S%20L%20Manikanteswrai.pdf" },
-    { name: "Mr. M. S KumarReddy", qualification: "M.Tech,(Ph.D)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/S.KumarReddy%20MallidiMS%20Kumar%20Reddy%20Web%20Profile.pdf" },
-    { name: "Mr. P. Rajesh", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_P.%20Rajesh.pdf" },
-    { name: "Ms. M. Santhi", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_MSANTHI_WEB_PROFILE.pdf" },
-    { name: "Mrs. A. Nagajyothi", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_A.Nagajyothi-%20Web%20profile.pdf" },
-    { name: "Mr. K. Praveen Kumar", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Praveen_Webprofile.pdf" },
-    { name: "Mrs. M. N. V Surekha", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_surekha_profile_WEB.pdf" },
-    { name: "Mr. P. Ramamohan Rao", qualification: "M.Tech,(Ph.D)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_P.RamamohanRao.pdf" },
-    { name: "Mr. M V V G Krishna Murthy", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.MVVGKrishnaMurthy.pdf" },
-    { name: "Mr. G. Mahesh", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.G.Mahesh.pdf" },
-    { name: "Mr. V. Gajendra Kumar", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20V.%20Gajendra%20Kumar.pdf" },
-    { name: "Mrs. J. Kanimozhi", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mrs.%20J.%20Kanimozhi.pdf" },
-    { name: "Mr. U. Jagadeesan", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20U.%20Jagadeesan.pdf" },
-    { name: "Mrs. V. Nandini", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mrs.%20V.%20Nandini.pdf" },
-    { name: "Mr. Krishna", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20Krishna.pdf" },
-    { name: "Mr. J. Dhandapani", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20J.Dhandapani.pdf" },
-    { name: "Mrs. T. Anu", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mrs.%20T.%20Anu.pdf" },
-    { name: "Mr. T. Anil Kumar Reddy", qualification: "M.Tech,(Ph.D)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20T.Anil%20Kumar%20Reddy.pdf" },
-    { name: "Mrs. Shaik Apsaruneesa", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mrs.%20Shaik%20Apsaruneesa.pdf" },
-    { name: "Mrs. K. Sri Durga Achuta", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mrs.%20K.%20Sri%20Durga%20Achuta.pdf" },
-    { name: "Mr. V Venugopal", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20V.%20Venugopal.pdf" },
-    { name: "Mr. L. Atri Datta Ravi Tez", qualification: "M.Tech", designation: "Asst. Professor & Web Developer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_L.A.D%20RAVITEZ.pdf" },
-    { name: "Mr. Md. Sadik", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Sadik.pdf" },
-    { name: "Ms. R. Nava Lavanya", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Ms.%20R.%20Nava%20Lavanya.pdf" },
-    { name: "Mr. T. Nava Krishna", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.T.%20Nava%20Krishna.pdf" },
-    { name: "Mr. G. Deepak Pavan Kumar", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.G.%20Deepak%20Pavan%20Kumar.pdf" },
-    { name: "Mrs. Y. Suneetha", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mrs.%20Y.%20Sunitha.pdf" },
-    { name: "Mr. Syed Akheel Hassan Gori", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20Syed%20Akheel%20Hassan%20Gori.pdf" },
-    { name: "Mr. Sd. Arief", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20Sayed%20Arief.pdf" },
-    { name: "Mr. E. Hanuman Sai Gupta", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20E.%20Hanuman%20Sai%20Gupta.pdf" },
-    { name: "Mr. P. Naga Bhushanam", qualification: "M.Tech,(Ph.D)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20P.%20Naga%20Bhushanam.pdf" },
-    { name: "Mrs. Y. Revathi", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mrs.%20Y.%20Revathi.pdf" },
-    { name: "Mrs. M. Sai Durga Lakshmi", qualification: "M.C.A", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mrs.%20M.%20Sai%20Durga%20Lakshmi.pdf" },
-    { name: "Ms. T. Pranusha", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_MS.T.Pranusha.pdf" },
-    { name: "Mr.P. Gopinath", qualification: "M.C.A", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.P.Gopinath.pdf" },
-    { name: "Ms. Y. Sabitha Yali", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Ms.%20Y.%20Sabitha%20Yali.pdf" },
-    { name: "Ms. M. Vineela", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Ms.%20M.%20Vineela.pdf" },
-    { name: "Ms. K. Ramya", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Ms.%20K.%20Ramya.pdf" },
-    { name: "Mr. K. Phanindra Brahmaji", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20K.%20Phanindra%20Brahmaji.pdf" },
-    { name: "Mr. S. P. Ramesh Varma", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mr.%20S.%20P.%20Ramesh%20Varma.pdf" },
-    { name: "Mrs. K. Surya Bhavani", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mrs.%20K.%20Surya%20Bhavani.pdf" },
-    { name: "Mrs. A. Neelima", qualification: "M.Sc", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CSE_Mrs.%20A.%20Neelima.pdf" }
-
-  ];
-
-  const nonTeachingFaculty = [
-    { name: "Ms. U.Devi Lakshmi", designation: "DEO" },
-    { name: "Mrs. K. Bhagya Sri", designation: "DEO" },
-    { name: "Mr. D.Srinivasa Rao", designation: "Attender" },
-    { name: "Mr. M.Siva Krishna", designation: "Attender" },
-    { name: "Mrs. A.Sri Karuna Kumari", designation: "Attender" },
-    { name: "Mr. V. Venkateswara Rao", designation: "Attender" }
-  ];
-
-
-  const TechnicalFaculty = [
-    { name: "Mr. K.N. Suresh", designation: "System Admin" },
-    { name: "Ms. BNG Lakshmi Durga", designation: "Programmer" },
-    { name: "Mr. S. Nagaraju", designation: "Programmer" },
-    { name: "Mrs. G. Uma Parvathi", designation: "Programmer" },
-    { name: "Mr. P.Lokesh Reddy", designation: "Lab Technician" },
-    { name: "Ms. M. Naga Harika", designation: "Lab Technician" },
-    { name: "Mr. B. Abaddalu", designation: "Lab Technician" },
-    { name: "Mr. Md.Arriff", designation: "Computer Lab Assistant" },
-    { name: "Mr. P.Manikanta Gupta", designation: "Lab Assistant" },
-    { name: "Mr. N Lokesh Babu", designation: "Lab Assistant" },
-    { name: "Mr. K.V Srinivasa Rao", designation: "Hardware Technician" },
-    { name: "Mr. G.Bhanu Prakash", designation: "Hardware Technician" },
-
-  ];
+  // Use database data or fallback to empty arrays
+  const faculty = departmentData?.faculty || [];
+  const nonTeachingFaculty = departmentData?.nonTeachingStaff || [];
+  const TechnicalFaculty = departmentData?.technicalStaff || [];
+  const placementsData = departmentData?.placements || [];
+  const hackathonsData = departmentData?.hackathons || [];
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
@@ -888,6 +890,39 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
             </div>
+
+            {/* Dynamic Student Achievements from Database */}
+            {departmentData?.studentAchievements && departmentData.studentAchievements.length > 0 && (
+              <div className="tab4 mt-4">
+                <details className="border rounded-lg p-4">
+                  <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
+                    Recent Student Achievements (Database)
+                  </summary>
+                  <div className="nav-content mt-4">
+                    <div className="grid gap-4">
+                      {departmentData.studentAchievements.map((achievement, index) => (
+                        <div key={achievement.id} className="bg-gray-50 p-4 rounded-lg">
+                          <h4 className="font-semibold text-gray-800">{achievement.title}</h4>
+                          {achievement.description && (
+                            <p className="text-gray-600 mt-2">{achievement.description}</p>
+                          )}
+                          {achievement.date && (
+                            <p className="text-sm text-gray-500 mt-2">
+                              Date: {new Date(achievement.date).toLocaleDateString('en-IN')}
+                            </p>
+                          )}
+                          {achievement.category && (
+                            <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mt-2">
+                              {achievement.category}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+              </div>
+            )}
           </div>
         );
 
@@ -982,156 +1017,40 @@ const CSEDepartment: React.FC = () => {
             <h3 className="text-2xl font-semibold text-[#7f1d1d] mb-4 text-center">Hackathons Conducted</h3>
             <div className="flex justify-center mb-8">
               <div className="overflow-x-auto w-full">
-                <table className="min-w-full bg-white border-collapse">
-                  <thead>
-                    <tr className="border-b-2 border-gray-200">
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">ACADEMIC YEAR</th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">FOR BROCHURE</th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">FOR WINNERS LIST</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2024-25</td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/PHOTO-2024-03-15-09-56-53.jpg"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/HackOverflow%202K24Winners%20List-CSE%20DEPT-16.03.2024.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2023-24</td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/unnamed.png"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners%20List.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2022-23</td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackoverflow%20banner_2022_23.png"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners_2022-23.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2021-22</td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/broacher_2021_22.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners_2021-22.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2019-20</td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Brouchure.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners_2019-20.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2018-19</td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/City%20Digi%20@Hack%202K18.jpg"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20winners_2018-19.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                {hackathonsData.length > 0 ? (
+                  <table className="min-w-full bg-white border-collapse">
+                    <thead>
+                      <tr className="border-b-2 border-gray-200">
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Event Name</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Date</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Description</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Participants</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {hackathonsData.map((hackathon, index) => (
+                        <tr key={hackathon.id} className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">{index + 1}</td>
+                          <td className="py-3 px-4 border-b font-medium">{hackathon.title}</td>
+                          <td className="py-3 px-4 border-b">
+                            {new Date(hackathon.start_date).toLocaleDateString('en-IN')}
+                          </td>
+                          <td className="py-3 px-4 border-b">
+                            {hackathon.description || 'No description available'}
+                          </td>
+                          <td className="py-3 px-4 border-b">
+                            {hackathon.participants_count || 'Not specified'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500">No hackathons data available at the moment.</p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -1850,7 +1769,11 @@ const CSEDepartment: React.FC = () => {
                         <td className="px-6 py-4">{member.qualification}</td>
                         <td className="px-6 py-4">{member.designation}</td>
                         <td className="px-6 py-4">
-                          <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View</a>
+                          {member.profile_url ? (
+                            <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View</a>
+                          ) : (
+                            <span className="text-gray-400">Not Available</span>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -2736,6 +2659,39 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
             </div>
+
+            {/* Dynamic Faculty Achievements from Database */}
+            {departmentData?.facultyAchievements && departmentData.facultyAchievements.length > 0 && (
+              <div className="mt-4">
+                <details>
+                  <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">
+                    Recent Faculty Achievements (Database)
+                  </summary>
+                  <div className="p-4">
+                    <div className="grid gap-4">
+                      {departmentData.facultyAchievements.map((achievement, index) => (
+                        <div key={achievement.id} className="bg-gray-50 p-4 rounded-lg">
+                          <h4 className="font-semibold text-gray-800">{achievement.title}</h4>
+                          {achievement.description && (
+                            <p className="text-gray-600 mt-2">{achievement.description}</p>
+                          )}
+                          {achievement.date && (
+                            <p className="text-sm text-gray-500 mt-2">
+                              Date: {new Date(achievement.date).toLocaleDateString('en-IN')}
+                            </p>
+                          )}
+                          {achievement.category && (
+                            <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded mt-2">
+                              {achievement.category}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+              </div>
+            )}
           </div>
         );
 
@@ -5025,6 +4981,43 @@ const CSEDepartment: React.FC = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Dynamic Placements from Database */}
+              {placementsData.length > 0 && (
+                <div className="mt-8">
+                  <details className="mb-4 p-3 border border-gray-200 rounded-lg shadow-sm">
+                    <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
+                      Recent Placements (Database)
+                    </summary>
+                    <div className="overflow-x-auto mt-4">
+                      <table className="min-w-full bg-white border-collapse">
+                        <thead>
+                          <tr className="border-b-2 border-gray-200">
+                            <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.No</th>
+                            <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Student Name</th>
+                            <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Company</th>
+                            <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Package (LPA)</th>
+                            <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Academic Year</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {placementsData.map((placement, index) => (
+                            <tr key={placement.id} className="hover:bg-gray-50">
+                              <td className="py-3 px-4 border-b">{index + 1}</td>
+                              <td className="py-3 px-4 border-b font-medium">{placement.student_name}</td>
+                              <td className="py-3 px-4 border-b">{placement.company_name}</td>
+                              <td className="py-3 px-4 border-b">
+                                {placement.package ? `${placement.package} LPA` : 'Not disclosed'}
+                              </td>
+                              <td className="py-3 px-4 border-b">{placement.academic_year}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </details>
+                </div>
+              )}
             </div>
           </div>
         );
@@ -7463,7 +7456,34 @@ const CSEDepartment: React.FC = () => {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-          {renderContent()}
+          {loading ? (
+            <div className="flex items-center justify-center min-h-[400px]">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#850209] mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading department data...</p>
+              </div>
+            </div>
+          ) : error ? (
+            <div className="flex items-center justify-center min-h-[400px]">
+              <div className="text-center">
+                <div className="text-red-500 mb-4">
+                  <svg className="w-12 h-12 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <p className="text-red-600 font-medium mb-2">Error Loading Data</p>
+                <p className="text-gray-600">{error}</p>
+                <button 
+                  onClick={() => window.location.reload()} 
+                  className="mt-4 px-4 py-2 bg-[#850209] text-white rounded hover:bg-[#660000] transition-colors"
+                >
+                  Reload Page
+                </button>
+              </div>
+            </div>
+          ) : (
+            renderContent()
+          )}
         </div>
       </div>
     </div>
