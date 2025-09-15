@@ -164,7 +164,7 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const res = await fetch('/api/bsh/results');
+        const res = await fetch('/api/bsh/bsh_results');
         if (!res.ok) throw new Error('Failed to fetch results');
         const data = await res.json();
         setResults(data);
@@ -184,7 +184,7 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const res = await fetch('/api/bsh/activities');
+        const res = await fetch('/api/bsh/bsh_activities');
         if (!res.ok) throw new Error('Failed to fetch activities');
         const data = await res.json();
         setActivities(data);
@@ -204,7 +204,7 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchAchievements = async () => {
       try {
-        const res = await fetch('/api/bsh/faculty-achievements');
+        const res = await fetch('/api/bsh/bsh_faculty_achievements');
         if (!res.ok) throw new Error('Failed to fetch faculty achievements');
         const data = await res.json();
         setFacultyAchievements(data);
@@ -224,7 +224,7 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchLabs = async () => {
       try {
-        const res = await fetch('/api/bsh/laboratories');
+        const res = await fetch('/api/bsh/bsh_laboratories');
         if (!res.ok) throw new Error('Failed to fetch laboratories');
         const data = await res.json();
         setLabs(data);
@@ -244,7 +244,7 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchPapers = async () => {
       try {
-        const res = await fetch('/api/bsh/faculty-paper-presentations');
+        const res = await fetch('/api/bsh/bsh_faculty_paper_presentations');
         if (!res.ok) throw new Error('Failed to fetch paper presentations');
         const data = await res.json();
         setPaperPresentations(data);
@@ -264,7 +264,7 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchAchievements = async () => {
       try {
-        const res = await fetch('/api/bsh/student-achievements');
+        const res = await fetch('/api/bsh/bsh_student_achievements');
         if (!res.ok) throw new Error('Failed to fetch student achievements');
         const data = await res.json();
         setStudentAchievements(data);
