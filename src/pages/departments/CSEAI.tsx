@@ -1,9 +1,49 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
 
 const CSTDepartment: React.FC = () => {
+  // API-driven state
+  const [faculty, setFaculty] = React.useState<any[]>([]);
+  const [TechnicalFaculty, setTechnicalFaculty] = React.useState<any[]>([]);
+  const [nonTeachingFaculty, setNonTeachingFaculty] = React.useState<any[]>([]);
+
+  const [mous, setMous] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/mous') // backend API URL
+      .then((res) => res.json())
+      .then((data) => setMous(data))
+      .catch((err) => console.error("Error fetching MOUs:", err));
+  }, []);
+
+  React.useEffect(() => {
+    fetch('/api/cai-faculty-profiles?dept=cseai')
+      .then(res => res.json())
+      .then((data) => {
+        setFaculty(data); // directly set data, no type filter for now
+      });
+  }, []);
+
+  React.useEffect(() => {
+    fetch("/api/cai-technical-faculty?dept=cseai")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.technical)
+        setTechnicalFaculty(data.technical || []);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    fetch("/api/cai-non-teaching-staff?dept=cseai")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        setNonTeachingFaculty(data.nonTeaching || []);
+      });
+  }, []);
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
@@ -35,52 +75,6 @@ const CSTDepartment: React.FC = () => {
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
-  const faculty = [
-    { name: "Dr. G. Loshma", qualification: "Ph.D.", designation: "Head & Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Dr.G.Loshma.pdf" },
-    { name: "Dr. E. Aswani Kumar", qualification: "Ph.D.", designation: "Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Dr. E. Aswani Kumar.pdf" },
-    { name: "Mrs. A. Leelavathi", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_A.%20Leelavathi.pdf" },
-    { name: "Mr. R.L. Phani Kumar", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_R.L. Phani Kumar.pdf" },
-    { name: "Mr. M. Subba Rao", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. M. Subba Rao.pdf" },
-    { name: "Mr. P. V. V. Satyanarayana", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. P. V. V Satya Narayana.pdf" },
-    { name: "Mr. V. Rama Narayana", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. V. Rama Narayana.pdf" },
-    { name: "Mrs. V. Radha", qualification: "M.Tech, (Ph.D.)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mrs. V. Radha.pdf" },
-    { name: "Mr. A. Rajesh", qualification: "M.Tech, (Ph.D.)", designation: "Sr. Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_A.Rajesh.pdf" },
-    { name: "Mr. D. Ayyappa", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. D. Ayyappa.pdf" },
-    { name: "Mr. M. Yesu Sekharam", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_M. Y. SEKHARAM.pdf" },
-    { name: "Mrs. K. Durga Saranya", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mrs. K. Durga Saranya.pdf" },
-    { name: "Mr. Shaik Moulali", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Sk. Moulali.pdf" },
-    { name: "Mrs. P. Ujwala Sai", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_P. Ujwala.pdf" },
-    { name: "Mrs. M. Kiranmai", qualification: "M.Tech", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Ms. M. Kiranmai.pdf" },
-    { name: "Mr. V. Thinakaran", qualification: "M.E.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr .V. Thinakaran.pdf" },
-    { name: "Mr. P. Seshu Kumar", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. P Seshu Kumar.pdf" },
-    { name: "Mrs. G. Kalyani", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Ms. G Kalyani.pdf" },
-    { name: "Mrs. Pratyusha Ch.", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Ms. Prathyusha Ch.pdf" },
-    { name: "Mr. A. Reddy Chaitanya", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf" },
-    { name: "Dr. Jagadish Kumar K B", qualification: "Ph.D.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Dr. Jagadish Kumar KB.pdf" },
-    { name: "Mr. Nishanth N S", qualification: "M.E.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr.Nisanth N S.pdf" },
-    { name: "Mr. B. V. V. Bhargav", qualification: "M.Tech, (Ph.D.)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Bhargav-BVV.pdf" },
-    { name: "Mr. V. Jaya Rama Krishna", qualification: "M.Tech, (Ph.D.)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. V. Jayaramakrishna.pdf" },
-    { name: "Dr. M. Vishnuvardhan", qualification: "Ph.D.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Dr. M Vishnuvardhan.pdf" },
-    { name: "Mrs. Jane Rose", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf" },
-    { name: "Dr. J. Kondala Rao", qualification: "Ph.D.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mr. K. Jyothi.pdf" },
-    { name: "Mrs. Balaji Rohitha", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_DS_Mrs. B. Rohitha.pdf" },
-    { name: "Mr. Jewaliddin Shaik", qualification: "M.Tech, (Ph.D.)", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/CAI_Mr. Reddy Chaitanya A.pdf" },
-    { name: "Ms. Sneha Pradhan", qualification: "M.Tech.", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/AIM_Mrs. P. Sneha.pdf" }
-  ];
-
-  const nonTeachingFaculty = [
-    { name: "Mr. N. RajaseKhar", designation: "Junior Assistant" },
-    { name: "Mr. Prasad", designation: "Attender" }
-  ];
-  const TechnicalFaculty = [
-    { name: "Mr. K. N. Suresh", designation: "System Admin" },
-    { name: "Mr. Md. Arriff", designation: "Lab Assistant" },
-    { name: "Mrs. D. Bhagya Lakshmi", designation: "Lab Technician" },
-    { name: "Mrs. B. Yamini", designation: "Lab Technician" },
-    { name: "Mr. K. V Srinivasa Rao", designation: "Hardware Technician" },
-    { name: "Mr. G. Bhanu Prakash", designation: "Hardware Technician" },
-  
-  ];
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
       case 'Department':
@@ -90,7 +84,7 @@ const CSTDepartment: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
               <div className="relative">
                 <img
-                 src="/aihod.jpg"
+                  src="/aihod.jpg"
                   alt="Dr. G. Loshma"
                   className="w-full h-80 object-cover rounded-lg shadow-md"
                 />
@@ -105,9 +99,9 @@ const CSTDepartment: React.FC = () => {
               </div>
             </div>
             <p className="text-gray-700 mb-3">
-               Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
+              Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
             </p>
-            
+
             <h4 className="text-xl font-bold text-[#850209] mb-4">Courses Offered</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-700 mb-4 border border-gray-200 rounded-lg">
@@ -123,10 +117,10 @@ const CSTDepartment: React.FC = () => {
                 <tbody>
                   <tr className="bg-white border-b border-gray-200 hover:bg-gray-50">
                     <td className="px-6 py-4">1</td>
-                    <td className="px-6 py-4">B.Tech - CSE(Artificial Intelligence)</td>
+                    <td className="px-6 py-4">B.Tech - CSE (Artificial Intelligence)</td>
                     <td className="px-6 py-4">AP EAPCET</td>
                     <td className="px-6 py-4">4 Years</td>
-                    <td className="px-6 py-4">0</td>
+                    <td className="px-6 py-4">60</td>
                   </tr>
                 </tbody>
               </table>
@@ -288,8 +282,8 @@ const CSTDepartment: React.FC = () => {
                       key={section}
                       onClick={() => setActiveDeptTab(section)}
                       className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                          ? 'bg-[#B22222] text-white shadow-lg'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                     >
                       {section === 'SalientFeatures' ? 'Salient Features' : section}
@@ -357,8 +351,8 @@ const CSTDepartment: React.FC = () => {
                                 setSettingsPanelOpen(false);
                               }}
                               className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                  ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
-                                  : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                                 }`}
                             >
                               <div className="flex items-center gap-3">
@@ -597,109 +591,70 @@ const CSTDepartment: React.FC = () => {
           </div>
         );
 
-      case 'Syllabus':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Syllabus</h2>
-            <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">B.Tech (CSE & CST)</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>
-                    B.Tech V23 Syllabus -
-                    {' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/V23%20Syllabus%20Book_CSE%20&%20CST.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    B.Tech V20 Syllabus -
-                    {' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/B.Tech%20CST%20V20.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    B.Tech V18 Syllabus -
-                    {' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/B.Tech%20CST%20V18.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View
-                    </a>
-                  </li>
-                </ul>
-              </details>
+      case 'Syllabus': {
+        function RenderSyllabus() {
+          const [syllabus, setSyllabus] = React.useState<any[]>([]);
+          const [loading, setLoading] = React.useState(true);
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">SOC Syllabus</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>
-                    SOC Syllabus during the Academic Year 2024-25 -
-                    {' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/uploads/cst/SOC_CST_2024-25.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    SOC Syllabus during the Academic Year 2023-24 -
-                    {' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/SOC_CST_2023-24.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    SOC Syllabus during the Academic Year 2022-23 -
-                    {' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/SOC_CST_2022-23.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View
-                    </a>
-                  </li>
-                  <li>
-                    SOC Syllabus during the Academic Year 2021-21 -
-                    {' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/SOC_CST_2021-22.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View
-                    </a>
-                  </li>
-                </ul>
-              </details>
+          React.useEffect(() => {
+            fetch("/api/syllabus")
+              .then((res) => res.json())
+              .then((data) => {
+                setSyllabus(data);
+                setLoading(false);
+              })
+              .catch(() => setLoading(false));
+          }, []);
+
+          if (loading) {
+            return (
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+                <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Syllabus</h2>
+                <div className="text-center text-gray-600">Loading syllabus...</div>
+              </div>
+            );
+          }
+
+          // group by category
+          const grouped = syllabus.reduce((acc: any, item: any) => {
+            if (!acc[item.category]) acc[item.category] = [];
+            acc[item.category].push(item);
+            return acc;
+          }, {});
+
+          return (
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+              <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Syllabus</h2>
+              <div className="space-y-6">
+                {Object.entries(grouped).map(([category, items]: any) => (
+                  <details key={category} className="border rounded-lg p-4" open>
+                    <summary className="text-lg font-semibold cursor-pointer">
+                      {category}
+                    </summary>
+                    <ul className="list-disc pl-6 my-2">
+                      {items.map((item: any) => (
+                        <li key={item.id}>
+                          {item.title} ({item.year}) -{" "}
+                          <a
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#850209] hover:underline"
+                          >
+                            View
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                ))}
+              </div>
             </div>
-          </div>
-        );
+          );
+        }
+
+        return <RenderSyllabus />;
+      }
 
       case 'Faculty Profiles':
         return (
@@ -726,7 +681,13 @@ const CSTDepartment: React.FC = () => {
                           <td className="px-6 py-4">{member.qualification}</td>
                           <td className="px-6 py-4">{member.designation}</td>
                           <td className="px-6 py-4">
-                            <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline transition-colors duration-200">View</a>
+                            <a
+                              href={member.profileUrl}
+                              target="_self"
+                              className="font-medium text-blue-600 hover:underline transition-colors duration-200"
+                            >
+                              View
+                            </a>
                           </td>
                         </tr>
                       ))}
@@ -1094,7 +1055,7 @@ const CSTDepartment: React.FC = () => {
                 </table>
               </div>
             </div>
-            
+
             );
 
             case 'Board of Studies':
@@ -1321,7 +1282,7 @@ const CSTDepartment: React.FC = () => {
           </div>
         );
 
-        
+
 
       case 'MoUs':
         return (
@@ -1330,7 +1291,9 @@ const CSTDepartment: React.FC = () => {
               MoUs
             </h2>
 
-            <h3 className="text-xl font-semibold text-[#850209] mb-4 text-center">A. MOUs with Industries</h3>
+            <h3 className="text-xl font-semibold text-[#850209] mb-4 text-center">
+              A. MOUs with Industries
+            </h3>
             <div className="overflow-x-auto mb-8">
               <table className="min-w-full bg-white border border-gray-200">
                 <thead className="bg-gray-100">
@@ -1343,180 +1306,45 @@ const CSTDepartment: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">Roland Institute of Technology,Berhampur</td>
-                    <td className="py-3 px-4 border-b">10-05-2025</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Mou Roland Principal sir sign.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">Pennant Technologies Pvt Ltd</td>
-                    <td className="py-3 px-4 border-b">06-11-2024</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/MOU with Pennant Technologies Pvt Ltd.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">Blumin Software & Training Consultancy LLP</td>
-                    <td className="py-3 px-4 border-b">18-06-2024</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Blumin MOU.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">4</td>
-                    <td className="py-3 px-4 border-b">Zscaler Academic Alliance Program</td>
-                    <td className="py-3 px-4 border-b">08-12-2023</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/ZScalar_MOU.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">5</td>
-                    <td className="py-3 px-4 border-b">New Leaf Learning Solutions</td>
-                    <td className="py-3 px-4 border-b">01-10-2023</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/SVEC- New Leaf 1-10-2023.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">6</td>
-                    <td className="py-3 px-4 border-b">NIT AP</td>
-                    <td className="py-3 px-4 border-b">31-12-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/1 NITAP_MOU with activities.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">7</td>
-                    <td className="py-3 px-4 border-b">Alteryx SparkED Partner</td>
-                    <td className="py-3 px-4 border-b">30-12-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/578_Alteryx SparkEd Partner_Sri Vasavi Engineering College.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">8</td>
-                    <td className="py-3 px-4 border-b">Juniper Networks</td>
-                    <td className="py-3 px-4 border-b">30-11-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Juniper MOU.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">9</td>
-                    <td className="py-3 px-4 border-b">Celonis Academic Alliance</td>
-                    <td className="py-3 px-4 border-b">11-11-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Celonis.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">10</td>
-                    <td className="py-3 px-4 border-b">Palo Alto Networks Cyber Security Academy</td>
-                    <td className="py-3 px-4 border-b">08-11-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Paaloalto.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">11</td>
-                    <td className="py-3 px-4 border-b">Blue Prism Academia Program</td>
-                    <td className="py-3 px-4 border-b">01-11-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Sri Vasavi Engineering College.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">12</td>
-                    <td className="py-3 px-4 border-b">Eduskills</td>
-                    <td className="py-3 px-4 border-b">31-10-2022</td>
-                    <td className="py-3 px-4 border-b">Till Date</td>
-                    <td className="py-3 px-4 border-b">
-                      <a
-                        className="text-[#850209] hover:underline"
-                        href="https://srivasaviengg.ac.in/uploads/csemous/Eduskills MOU with PICS.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >View</a>
-                    </td>
-                  </tr>
-
+                  {mous.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="text-center py-4">
+                        No MOUs found
+                      </td>
+                    </tr>
+                  ) : (
+                    mous.map((mou, index) => (
+                      <tr key={mou.id} className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b">{index + 1}</td>
+                        <td className="py-3 px-4 border-b">{mou.organization_name}</td>
+                        <td className="py-3 px-4 border-b">
+                          {new Date(mou.start_date).toLocaleDateString("en-GB")}
+                        </td>
+                        <td className="py-3 px-4 border-b">
+                          {mou.end_date
+                            ? new Date(mou.end_date).toLocaleDateString("en-GB")
+                            : "Till Date"}
+                        </td>
+                        <td className="py-3 px-4 border-b">
+                          <a
+                            className="text-[#850209] hover:underline"
+                            href={mou.document_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View
+                          </a>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
 
-            <h3 className="text-xl font-semibold text-[#850209] mb-4">B. Interaction with the Industry</h3>
+            <h3 className="text-xl font-semibold text-[#850209] mb-4">
+              B. Interaction with the Industry
+            </h3>
             <div className="flex justify-center mb-6">
               <ul className="space-y-4 list-none max-w-3xl">
                 <li className="py-2">
@@ -1574,11 +1402,11 @@ const CSTDepartment: React.FC = () => {
                     View
                   </a>
                 </li>
-
               </ul>
             </div>
           </div>
         );
+
       case 'Physical Facilities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
