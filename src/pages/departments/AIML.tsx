@@ -182,7 +182,7 @@ React.useEffect(() => {
             <p className="text-gray-700 leading-relaxed">
               Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
             </p>
-            
+
           </div>
         );
       case 'Vision':
@@ -673,8 +673,8 @@ React.useEffect(() => {
                                   setSettingsPanelOpen(false);
                                 }}
                                 className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                    ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
-                                    : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                                  ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                  : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                                   }`}
                               >
                                 <div className="flex items-center gap-3">
