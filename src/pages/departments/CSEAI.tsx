@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
 
@@ -8,8 +9,50 @@ const CSTDepartment: React.FC = () => {
   const [faculty, setFaculty] = React.useState<any[]>([]);
   const [TechnicalFaculty, setTechnicalFaculty] = React.useState<any[]>([]);
   const [nonTeachingFaculty, setNonTeachingFaculty] = React.useState<any[]>([]);
-
+  const [handbooks, setHandbooks] = useState([]);
+  const [grouped, setGrouped] = useState({});
   const [mous, setMous] = useState([]);
+
+  // Dynamic content state
+  const [dynamicSidebarItems, setDynamicSidebarItems] = useState<any[]>([]);
+  const [placementBatches, setPlacementBatches] = useState<any[]>([]);
+  const [placementGallery, setPlacementGallery] = useState<any>({});
+  const [eresources, setEresources] = useState<any[]>([]);
+
+  // Additional dynamic content state
+  const [departmentInfo, setDepartmentInfo] = useState<any[]>([]);
+  const [studentAchievements, setStudentAchievements] = useState<any[]>([]);
+  const [facultyDevelopmentPrograms, setFacultyDevelopmentPrograms] = useState<any>({});
+  const [facultyAchievements, setFacultyAchievements] = useState<any>({});
+  const [workshops, setWorkshops] = useState<any>({});
+  const [meritScholarships, setMeritScholarships] = useState<any[]>([]);
+  const [extraCurricularActivities, setExtraCurricularActivities] = useState<any[]>([]);
+  const [technicalAssociationActivities, setTechnicalAssociationActivities] = useState<any[]>([]);
+  const [newsletters, setNewsletters] = useState<any[]>([]);
+  const [hackathons, setHackathons] = useState<any[]>([]);
+  const [trainingActivities, setTrainingActivities] = useState<any>({});
+  const [physicalFacilities, setPhysicalFacilities] = useState<any>({});
+  const [departmentLibrary, setDepartmentLibrary] = useState<any[]>([]);
+  const [boardOfStudies, setBoardOfStudies] = useState<any[]>([]);
+  const [departmentContact, setDepartmentContact] = useState<any[]>([]);
+
+  useEffect(() => {
+    axios.get('/api/cai-handbooks')
+      .then(res => {
+        const data = res.data;
+        setHandbooks(data);
+        const groupedData: { [key: string]: any[] } = {};
+        data.forEach((entry: any) => {
+          const key = `Academic year ${entry.academic_year}: ${entry.semester}`;
+          if (!groupedData[key]) groupedData[key] = [];
+          groupedData[key].push(entry);
+        });
+        setGrouped(groupedData);
+      })
+      .catch(err => {
+        console.error('Failed to fetch handbooks:', err);
+      });
+  }, []);
 
   useEffect(() => {
     fetch('/api/mous') // backend API URL
@@ -25,6 +68,7 @@ const CSTDepartment: React.FC = () => {
         setFaculty(data); // directly set data, no type filter for now
       });
   }, []);
+
 
   React.useEffect(() => {
     fetch("/api/cai-technical-faculty?dept=cseai")
@@ -44,34 +88,294 @@ const CSTDepartment: React.FC = () => {
       });
   }, []);
 
+  // Fetch dynamic sidebar items
+  useEffect(() => {
+    fetch('/api/cseai/sidebar-items?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setDynamicSidebarItems(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch sidebar items:', err));
+  }, []);
+
+  // Fetch placement batches
+  useEffect(() => {
+    fetch('/api/cseai/placement-batches?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setPlacementBatches(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch placement batches:', err));
+  }, []);
+
+  // Fetch placement gallery
+  useEffect(() => {
+    fetch('/api/cseai/placement-gallery?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setPlacementGallery(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch placement gallery:', err));
+  }, []);
+
+  // Fetch e-resources
+  useEffect(() => {
+    fetch('/api/cseai/eresources?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setEresources(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch e-resources:', err));
+  }, []);
+
+  // Fetch department info sections
+  useEffect(() => {
+    fetch('/api/cseai/department-info?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setDepartmentInfo(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch department info:', err));
+  }, []);
+
+  // Fetch student achievements
+  useEffect(() => {
+    fetch('/api/cseai/student-achievements?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setStudentAchievements(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch student achievements:', err));
+  }, []);
+
+  // Fetch faculty development programs
+  useEffect(() => {
+    fetch('/api/cseai/faculty-development-programs?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setFacultyDevelopmentPrograms(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch faculty development programs:', err));
+  }, []);
+
+  // Fetch faculty achievements
+  useEffect(() => {
+    fetch('/api/cseai/faculty-achievements?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setFacultyAchievements(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch faculty achievements:', err));
+  }, []);
+
+  // Fetch workshops
+  useEffect(() => {
+    fetch('/api/cseai/workshops?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setWorkshops(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch workshops:', err));
+  }, []);
+
+  // Fetch merit scholarships
+  useEffect(() => {
+    fetch('/api/cseai/merit-scholarships?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setMeritScholarships(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch merit scholarships:', err));
+  }, []);
+
+  // Fetch extra-curricular activities
+  useEffect(() => {
+    fetch('/api/cseai/extra-curricular?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setExtraCurricularActivities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch extra-curricular activities:', err));
+  }, []);
+
+  // Fetch technical association activities
+  useEffect(() => {
+    fetch('/api/cseai/technical-association?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setTechnicalAssociationActivities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch technical association activities:', err));
+  }, []);
+
+  // Fetch newsletters
+  useEffect(() => {
+    fetch('/api/cseai/newsletters?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setNewsletters(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch newsletters:', err));
+  }, []);
+
+  // Fetch hackathons
+  useEffect(() => {
+    fetch('/api/cseai/hackathons?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setHackathons(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch hackathons:', err));
+  }, []);
+
+  // Fetch training activities
+  useEffect(() => {
+    fetch('/api/cseai/training-activities?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setTrainingActivities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch training activities:', err));
+  }, []);
+
+  // Fetch physical facilities
+  useEffect(() => {
+    fetch('/api/cseai/physical-facilities?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setPhysicalFacilities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch physical facilities:', err));
+  }, []);
+
+  // Fetch department library
+  useEffect(() => {
+    fetch('/api/cseai/department-library?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setDepartmentLibrary(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch department library:', err));
+  }, []);
+
+  // Fetch board of studies
+  useEffect(() => {
+    fetch('/api/cseai/board-of-studies?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setBoardOfStudies(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch board of studies:', err));
+  }, []);
+
+  // Fetch department contact
+  useEffect(() => {
+    fetch('/api/cseai/contact?dept=cseai')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setDepartmentContact(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch department contact:', err));
+  }, []);
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
 
-  const sidebarItems = [
-    { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
-    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
-    { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
-    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
-    { id: 'Physical Facilities', label: 'Physical Facilities', icon: <HardHat className="w-4 h-4" /> },
-    { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
-    { id: 'MoUs', label: 'MoUs', icon: <Handshake className="w-4 h-4" /> },
-    { id: 'Faculty Development Programs', label: 'Faculty Development Programs', icon: <TrendingUp className="w-4 h-4" /> },
-    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
-    { id: 'Workshops', label: 'Workshops', icon: <Presentation className="w-4 h-4" /> },
-    { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
-    { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
-    { id: 'Merit Scholarship/Academic Toppers', label: 'Merit Scholarship/Academic Toppers', icon: <Trophy className="w-4 h-4" /> },
-    { id: 'Technical Association', label: 'Technical Association', icon: <Cpu className="w-4 h-4" /> },
-    { id: 'Training Activities', label: 'Training Activities', icon: <Activity className="w-4 h-4" /> },
-    { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
-    { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
-    { id: 'Hackathons', label: 'Hackathons', icon: <Cpu className="w-4 h-4" /> },
-    { id: 'e-Resources', label: 'e-Resources', icon: <Wifi className="w-4 h-4" /> },
-    { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
-    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
-  ];
+  // Helper function to get icon component
+  const getIconComponent = (iconName: string) => {
+    const iconProps = { className: "w-4 h-4" };
+    switch (iconName) {
+      case 'Building': return <Building {...iconProps} />;
+      case 'Users': return <Users {...iconProps} />;
+      case 'Award': return <Award {...iconProps} />;
+      case 'BookOpen': return <BookOpen {...iconProps} />;
+      case 'HardHat': return <HardHat {...iconProps} />;
+      case 'Library': return <Library {...iconProps} />;
+      case 'Handshake': return <Handshake {...iconProps} />;
+      case 'TrendingUp': return <TrendingUp {...iconProps} />;
+      case 'Trophy': return <Trophy {...iconProps} />;
+      case 'Presentation': return <Presentation {...iconProps} />;
+      case 'Briefcase': return <Briefcase {...iconProps} />;
+      case 'Cpu': return <Cpu {...iconProps} />;
+      case 'Activity': return <Activity {...iconProps} />;
+      case 'Rss': return <Rss {...iconProps} />;
+      case 'Wifi': return <Wifi {...iconProps} />;
+      case 'FileText': return <FileText {...iconProps} />;
+      case 'Phone': return <Phone {...iconProps} />;
+      default: return <Building {...iconProps} />;
+    }
+  };
+
+  // Create sidebar items from dynamic data
+  const sidebarItems = dynamicSidebarItems.length > 0
+    ? dynamicSidebarItems.map(item => ({
+      id: item.item_id,
+      label: item.label,
+      icon: getIconComponent(item.icon_name)
+    }))
+    : [
+      { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
+      { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
+      { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
+      { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
+      { id: 'Physical Facilities', label: 'Physical Facilities', icon: <HardHat className="w-4 h-4" /> },
+      { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
+      { id: 'MoUs', label: 'MoUs', icon: <Handshake className="w-4 h-4" /> },
+      { id: 'Faculty Development Programs', label: 'Faculty Development Programs', icon: <TrendingUp className="w-4 h-4" /> },
+      { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
+      { id: 'Workshops', label: 'Workshops', icon: <Presentation className="w-4 h-4" /> },
+      { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
+      { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
+      { id: 'Merit Scholarship/Academic Toppers', label: 'Merit Scholarship/Academic Toppers', icon: <Trophy className="w-4 h-4" /> },
+      { id: 'Technical Association', label: 'Technical Association', icon: <Cpu className="w-4 h-4" /> },
+      { id: 'Training Activities', label: 'Training Activities', icon: <Activity className="w-4 h-4" /> },
+      { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
+      { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
+      { id: 'Hackathons', label: 'Hackathons', icon: <Cpu className="w-4 h-4" /> },
+      { id: 'e-Resources', label: 'e-Resources', icon: <Wifi className="w-4 h-4" /> },
+      { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
+      { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
+    ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
@@ -430,6 +734,47 @@ const CSTDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Student Achievements</h2>
             <div className="space-y-6">
+              {/* Dynamic Student Achievements */}
+              {studentAchievements.length > 0 ? (
+                studentAchievements.map((category: any, categoryIndex: number) => (
+                  <div key={categoryIndex}>
+                    <h3 className="text-xl font-semibold text-[#850209] mb-4">
+                      {category.category} - {category.academic_year}
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {category.items.map((achievement: any, itemIndex: number) => (
+                        <div key={itemIndex} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                          <h4 className="font-semibold text-lg mb-2">{achievement.title}</h4>
+                          {achievement.description && (
+                            <p className="text-gray-700 mb-2">{achievement.description}</p>
+                          )}
+                          {achievement.student_name && (
+                            <p className="text-sm text-gray-600">
+                              <strong>Student:</strong> {achievement.student_name}
+                              {achievement.student_roll_no && ` (${achievement.student_roll_no})`}
+                            </p>
+                          )}
+                          {achievement.document_url && (
+                            <a
+                              href={achievement.document_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-block mt-2 text-[#850209] hover:underline"
+                            >
+                              View Document
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                // Fallback static content if API fails
+                <div className="text-center text-gray-600">
+                  <p>Student achievements will be displayed here once data is available.</p>
+                </div>
+              )}
               <details open className="border rounded-lg p-4">
                 <summary className="text-lg font-semibold cursor-pointer">Internships</summary>
                 <ul className="list-disc pl-6 my-2 space-y-2">
@@ -600,7 +945,7 @@ const CSTDepartment: React.FC = () => {
             fetch("/api/syllabus")
               .then((res) => res.json())
               .then((data) => {
-                setSyllabus(data);
+                setSyllabus(Array.isArray(data) ? data : []);
                 setLoading(false);
               })
               .catch(() => setLoading(false));
@@ -827,132 +1172,152 @@ const CSTDepartment: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">1</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">I</td>
-                      <td className="py-3 px-4 border-b">Problem Solving through C-Programming</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/PCPS-V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">III</td>
-                      <td className="py-3 px-4 border-b">Data Structures</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DS_V20.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">3</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">III</td>
-                      <td className="py-3 px-4 border-b">Computer Organization and Architecture</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/COA_notes_V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">4</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">III</td>
-                      <td className="py-3 px-4 border-b">OOP's through C++</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/OOPS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">5</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">III</td>
-                      <td className="py-3 px-4 border-b">Managerial Economics and Financial Analysis</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MEFA.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">6</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">III</td>
-                      <td className="py-3 px-4 border-b">Mathematical Foundation Of Computer Science</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MFCS V20 material.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">7</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">IV</td>
-                      <td className="py-3 px-4 border-b">Design Analysis of Algorithms</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DAA Material.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">8</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">IV</td>
-                      <td className="py-3 px-4 border-b">Java Programming</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Java V20 all units content.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">9</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">IV</td>
-                      <td className="py-3 px-4 border-b">Software Engineering</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SE NOTES.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">10</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">IV</td>
-                      <td className="py-3 px-4 border-b">Statistical Visualization using R Lab</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SVR LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">11</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">V</td>
-                      <td className="py-3 px-4 border-b">Artificial Intelligence</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/AI.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">12</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">V</td>
-                      <td className="py-3 px-4 border-b">Data Mining</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DATA MINING.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">13</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">V</td>
-                      <td className="py-3 px-4 border-b">Web Technologies</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Web_Technologies.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">14</td>
-                      <td className="py-3 px-4 border-b">V20</td>
-                      <td className="py-3 px-4 border-b">VI</td>
-                      <td className="py-3 px-4 border-b">Unified Modeling Language Lab</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/UML LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
+                    {/* Dynamic e-resources content */}
+                    {eresources.length > 0 ? (
+                      eresources.map((category, categoryIndex) => (
+                        category.items.map((item: any, itemIndex: number) => (
+                          <tr key={`${categoryIndex}-${itemIndex}`} className="hover:bg-gray-50">
+                            <td className="py-3 px-4 border-b">{itemIndex + 1}</td>
+                            <td className="py-3 px-4 border-b">{item.academic_year}</td>
+                            <td className="py-3 px-4 border-b">{item.semester}</td>
+                            <td className="py-3 px-4 border-b">{item.title}</td>
+                            <td className="py-3 px-4 border-b">
+                              <a href={item.file_url} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                            </td>
+                          </tr>
+                        ))
+                      )).flat()
+                    ) : (
+                      // Fallback static content if API fails
+                      <>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">1</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">I</td>
+                          <td className="py-3 px-4 border-b">Problem Solving through C-Programming</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/PCPS-V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">2</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">III</td>
+                          <td className="py-3 px-4 border-b">Data Structures</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DS_V20.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">3</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">III</td>
+                          <td className="py-3 px-4 border-b">Computer Organization and Architecture</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/COA_notes_V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">4</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">III</td>
+                          <td className="py-3 px-4 border-b">OOP's through C++</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/OOPS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">5</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">III</td>
+                          <td className="py-3 px-4 border-b">Managerial Economics and Financial Analysis</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MEFA.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">6</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">III</td>
+                          <td className="py-3 px-4 border-b">Mathematical Foundation Of Computer Science</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MFCS V20 material.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">7</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">IV</td>
+                          <td className="py-3 px-4 border-b">Design Analysis of Algorithms</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DAA Material.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">8</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">IV</td>
+                          <td className="py-3 px-4 border-b">Java Programming</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Java V20 all units content.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">9</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">IV</td>
+                          <td className="py-3 px-4 border-b">Software Engineering</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SE NOTES.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">10</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">IV</td>
+                          <td className="py-3 px-4 border-b">Statistical Visualization using R Lab</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SVR LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">11</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">V</td>
+                          <td className="py-3 px-4 border-b">Artificial Intelligence</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/AI.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">12</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">V</td>
+                          <td className="py-3 px-4 border-b">Data Mining</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DATA MINING.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">13</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">V</td>
+                          <td className="py-3 px-4 border-b">Web Technologies</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Web_Technologies.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                        <tr className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">14</td>
+                          <td className="py-3 px-4 border-b">V20</td>
+                          <td className="py-3 px-4 border-b">VI</td>
+                          <td className="py-3 px-4 border-b">Unified Modeling Language Lab</td>
+                          <td className="py-3 px-4 border-b">
+                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/UML LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                          </td>
+                        </tr>
+                      </>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -1065,6 +1430,45 @@ const CSTDepartment: React.FC = () => {
                 <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
                   Board of Studies
                 </h2>
+
+                {/* Dynamic Board of Studies */}
+                {boardOfStudies.length > 0 ? (
+                  <div className="space-y-4">
+                    {boardOfStudies.map((meeting: any, index: number) => (
+                      <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <h3 className="text-lg font-semibold mb-2">{meeting.meeting_title}</h3>
+                        {meeting.meeting_date && (
+                          <p className="text-sm text-gray-600 mb-2">
+                            <strong>Date:</strong> {new Date(meeting.meeting_date).toLocaleDateString('en-GB')}
+                          </p>
+                        )}
+                        {meeting.meeting_number && (
+                          <p className="text-sm text-gray-600 mb-2">
+                            <strong>Meeting Number:</strong> {meeting.meeting_number}
+                          </p>
+                        )}
+                        {meeting.description && (
+                          <p className="text-gray-700 mb-3">{meeting.description}</p>
+                        )}
+                        {meeting.document_url && (
+                          <a
+                            href={meeting.document_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block text-[#850209] hover:underline"
+                          >
+                            View Minutes
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  // Fallback static content if API fails
+                  <div className="text-center text-gray-600 mb-6">
+                    <p>Board of Studies meetings will be displayed here once data is available.</p>
+                  </div>
+                )}
                 <div className="overflow-x-auto">
                   <table className="min-w-full bg-white border border-gray-200 rounded-lg">
                     <thead className="bg-gray-100">
@@ -1308,12 +1712,12 @@ const CSTDepartment: React.FC = () => {
                 <tbody>
                   {mous.length === 0 ? (
                     <tr>
-                      <td colSpan="5" className="text-center py-4">
+                      <td colSpan={5} className="text-center py-4">
                         No MOUs found
                       </td>
                     </tr>
                   ) : (
-                    mous.map((mou, index) => (
+                    mous.map((mou: any, index: number) => (
                       <tr key={mou.id} className="hover:bg-gray-50">
                         <td className="py-3 px-4 border-b">{index + 1}</td>
                         <td className="py-3 px-4 border-b">{mou.organization_name}</td>
@@ -3280,210 +3684,202 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
-      case 'Handbooks':
+      case "Handbooks": {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Academic HandBooks</h2>
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+              Academic HandBooks
+            </h2>
+
             <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Academic year 2025-26: I-Sem HandBooks</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>III Sem V23 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/CST_III SEM Handbook (1).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>V Sem V23 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/CST_V SEM Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VII Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/CST_VII SEM Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                </ul>
-              </details>
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Academic year 2024-25: II-Sem HandBooks</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>IV Sem V23 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/2024-25_IV SEM Hand Book_CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VI Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CST_VI Semester Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                </ul>
-              </details>
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Academic year 2024-25: I-Sem HandBooks</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>III Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/III  SEM (Autonomous) Handbook - CSTs.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>V Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/V SEM  Handbook_2024-25-CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VII Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VII SEM  Handbook_2024-25-CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                </ul>
-              </details>
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Academic year 2023-24: II-Sem HandBooks</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>IV Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/2023-24_IV SEM Hand Book_CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VI Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VI Semester Handbook - CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                </ul>
-              </details>
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Academic year 2023-24: I-Sem HandBooks</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>III Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/III  SEM (Autonomous) Handbook - CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>V Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/V SEM Handbook_V20 Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VII Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VII SEM V20 Regulation HandBook_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                </ul>
-              </details>
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Academic year 2022-23: II-Sem Handbooks</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>IV Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/IV Sem V20 Regulation Handbook_CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VI Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VI Sem V20 Regulation Handbook_CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VIII Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VIII Sem V20 Regulation Handbook_CST.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                </ul>
-              </details>
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Academic year 2022-23: I-Sem Handbooks</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>III Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/III SEM V20 Regulation Handbook (CST).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>V Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/V SEM CST V20(Autonomous) Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VII Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VII SEM CST V18(Autonomous) Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                </ul>
-              </details>
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Academic year 2021-22: II-Sem Handbooks</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>IV Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/IV Semester.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VI Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/VI Semester Handbook 13-04-2022.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                </ul>
-              </details>
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Academic year 2021-22: I-Sem Handbooks</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>III Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/III SEM CST V20 Regulation Handbook_2021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>V Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/V Sem Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                </ul>
-              </details>
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Academic year 2020-21: II-Sem Handbooks</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>IV Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst/IV SEM V18 Regulation HandBook_2020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                </ul>
-              </details>
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Academic year 2020-21: I-Sem Handbooks</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>III Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/cst//III SEM V18 Regulation HandBook_2020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                </ul>
-              </details>
+              {Object.entries(grouped).map(([groupTitle, entries]: [string, any], idx: number) => (
+                <details key={idx} className="border rounded-lg p-4" open>
+                  <summary className="text-lg font-semibold cursor-pointer">
+                    {groupTitle}
+                  </summary>
+
+                  <ul className="list-disc pl-6 my-2">
+                    {(entries as any[]).map((hb: any) => (
+                      <li key={hb.id}>
+                        {hb.title} –{" "}
+                        <a
+                          href={hb.document_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#850209] hover:underline"
+                        >
+                          View
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ))}
             </div>
           </div>
         );
+      }
+
       case 'Placements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Placements</h2>
             <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Placements for Batch 2021-25</summary>
-                <ul className="list-none my-2 text-center">
-                  <li className="font-medium">
-                    Placements for Batch 2021-25 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/2024-25 CST PLACEMENTSS.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                </ul>
-              </details>
+              {/* Dynamic Placement Batches */}
+              {placementBatches.length > 0 ? (
+                placementBatches.map((batch, index) => (
+                  <details key={batch.id || index} className={index === 0 ? "border rounded-lg p-4" : "border rounded-lg p-4"} open={index === 0}>
+                    <summary className="text-lg font-semibold cursor-pointer">{batch.batch_name}</summary>
+                    <ul className="list-none my-2 text-center">
+                      <li className="font-medium">
+                        {batch.document_title || batch.batch_name} -{' '}
+                        <a
+                          href={batch.document_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#850209] hover:underline"
+                        >
+                          View More
+                        </a>
+                      </li>
+                    </ul>
+                  </details>
+                ))
+              ) : (
+                // Fallback static content if API fails
+                <>
+                  <details open className="border rounded-lg p-4">
+                    <summary className="text-lg font-semibold cursor-pointer">Placements for Batch 2021-25</summary>
+                    <ul className="list-none my-2 text-center">
+                      <li className="font-medium">
+                        Placements for Batch 2021-25 -{' '}
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/cst/2024-25 CST PLACEMENTSS.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#850209] hover:underline"
+                        >
+                          View More
+                        </a>
+                      </li>
+                    </ul>
+                  </details>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Placements for Batch 2020-24</summary>
-                <ul className="list-none my-2 text-center">
-                  <li className="font-medium">
-                    Placements for Batch 2020-24 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/2020-24 CST PLACEMENTS DATA -23.7.2023.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                </ul>
-              </details>
+                  <details className="border rounded-lg p-4">
+                    <summary className="text-lg font-semibold cursor-pointer">Placements for Batch 2020-24</summary>
+                    <ul className="list-none my-2 text-center">
+                      <li className="font-medium">
+                        Placements for Batch 2020-24 -{' '}
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/cst/2020-24 CST PLACEMENTS DATA -23.7.2023.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#850209] hover:underline"
+                        >
+                          View More
+                        </a>
+                      </li>
+                    </ul>
+                  </details>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Placements for Batch 2019-23</summary>
-                <ul className="list-none my-2 text-center">
-                  <li className="font-medium">
-                    Placements for Batch 2019-23 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/2019-23 CST PLACEMENTS DATA.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                </ul>
-              </details>
+                  <details className="border rounded-lg p-4">
+                    <summary className="text-lg font-semibold cursor-pointer">Placements for Batch 2019-23</summary>
+                    <ul className="list-none my-2 text-center">
+                      <li className="font-medium">
+                        Placements for Batch 2019-23 -{' '}
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/cst/2019-23 CST PLACEMENTS DATA.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#850209] hover:underline"
+                        >
+                          View More
+                        </a>
+                      </li>
+                    </ul>
+                  </details>
+                </>
+              )}
 
               <details className="border rounded-lg p-4">
                 <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
                 <div className="space-y-6 mt-4">
-                  <div>
-                    <h3 className="text-xl font-semibold text-center text-[#850209] mb-4">2021-24</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <img
-                        src="https://srivasaviengg.ac.in/images/placement/WhatsApp%20Image%202025-07-16%20at%2011.02.08%20AM.jpeg"
-                        alt="Placements 2021-24"
-                        className="w-full h-auto rounded-lg shadow object-cover"
-                        style={{ aspectRatio: '16/9' }}
-                      />
-                    </div>
-                  </div>
+                  {/* Dynamic Placement Gallery */}
+                  {Object.keys(placementGallery).length > 0 ? (
+                    Object.entries(placementGallery).map(([batchName, items]) => (
+                      <div key={batchName}>
+                        <h3 className="text-xl font-semibold text-center text-[#850209] mb-4">{batchName}</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          {(items as any[]).map((item, index) => (
+                            <div key={index}>
+                              <img
+                                src={item.image_url}
+                                alt={item.alt_text || `Placement ${batchName}`}
+                                className="w-full h-auto rounded-lg shadow object-cover"
+                                style={{ aspectRatio: '16/9' }}
+                              />
+                              {item.student_name && (
+                                <div className="text-center my-3 text-green-600">
+                                  {item.student_roll_no && <><strong>Roll No:</strong> {item.student_roll_no}<br /></>}
+                                  {item.student_name && <><strong>Name:</strong> {item.student_name}<br /></>}
+                                  {item.company_name && <><strong>Company:</strong> {item.company_name}<br /></>}
+                                  {item.package_amount && <><strong>Package:</strong> {item.package_amount} LPA</>}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    // Fallback static content if API fails
+                    <>
+                      <div>
+                        <h3 className="text-xl font-semibold text-center text-[#850209] mb-4">2021-24</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          <img
+                            src="https://srivasaviengg.ac.in/images/placement/WhatsApp%20Image%202025-07-16%20at%2011.02.08%20AM.jpeg"
+                            alt="Placements 2021-24"
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            style={{ aspectRatio: '16/9' }}
+                          />
+                        </div>
+                      </div>
 
-                  <div>
-                    <h3 className="text-xl font-semibold text-center text-[#850209] mb-4">2019-23</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <img
-                          src="https://srivasaviengg.ac.in/uploads/cst/pilla.jpeg"
-                          alt="IBM 12 LPA - P. Jahnavi Sri Naidu"
-                          className="w-full h-auto rounded-lg shadow object-cover"
-                          style={{ aspectRatio: '16/9' }}
-                        />
-                        <div className="text-center my-3 text-green-600">
-                          Roll No: 19A81A0650<br />
-                          Name: P. Jahnavi Sri Naidu<br />
-                          Company: IBM<br />
-                          Package: 12 LPA
+                        <h3 className="text-xl font-semibold text-center text-[#850209] mb-4">2019-23</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          <div>
+                            <img
+                              src="https://srivasaviengg.ac.in/uploads/cst/pilla.jpeg"
+                              alt="IBM 12 LPA - P. Jahnavi Sri Naidu"
+                              className="w-full h-auto rounded-lg shadow object-cover"
+                              style={{ aspectRatio: '16/9' }}
+                            />
+                            <div className="text-center my-3 text-green-600">
+                              Roll No: 19A81A0650<br />
+                              Name: P. Jahnavi Sri Naidu<br />
+                              Company: IBM<br />
+                              Package: 12 LPA
+                            </div>
+                          </div>
+                          <div>
+                            <img
+                              src="https://srivasaviengg.ac.in/images/departments/cst/cst placement.jpg"
+                              alt="CST Placement - IBM"
+                              className="w-full h-auto rounded-lg shadow object-cover"
+                            />
+                            <div className="text-center my-3 text-green-600">
+                              <strong>Roll No:</strong> 19A81A0650<br />
+                              <strong>Name:</strong> P. Jahnavi Sri Naidu<br />
+                              <strong>Company:</strong> IBM<br />
+                              <strong>Package:</strong> 12 LPA
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div>
-                        <img
-                          src="https://srivasaviengg.ac.in/images/departments/cst/cst placement.jpg"
-                          alt="CST Placement - IBM"
-                          className="w-full h-auto rounded-lg shadow object-cover"
-                        />
-                        <div className="text-center my-3 text-green-600">
-                          <strong>Roll No:</strong> 19A81A0650<br />
-                          <strong>Name:</strong> P. Jahnavi Sri Naidu<br />
-                          <strong>Company:</strong> IBM<br />
-                          <strong>Package:</strong> 12 LPA
-                        </div>
-                      </div>
-                      <div>
-                        <img
-                          src="https://srivasaviengg.ac.in/images/departments/cst/cst placement.jpg"
-                          alt="CST Placement - TCS CodeVita"
-                          className="w-full h-auto rounded-lg shadow object-cover"
-                        />
-                        <div className="text-center my-3 text-green-600">
-                          <strong>Roll No:</strong> 19A81A0650<br />
-                          <strong>Name:</strong> P. Jahnavi Sri Naidu<br />
-                          <strong>Company:</strong> TCS CODEVITA<br />
-                          <strong>Package:</strong> 7 LPA
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    </>
+                  )}
                 </div>
               </details>
             </div>
