@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import mysql from 'mysql2/promise';
 
+// API for fetching board of studies members for any department via ?dept= query parameter
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { dept } = req.query;
     if (!dept || typeof dept !== 'string') {
@@ -14,15 +15,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         database: 'svec_cms'
     });
 
-    // Technical Staff
-    const [technicalRows] = await connection.execute(
-        'SELECT name, designation, status, created_at FROM technical_staff WHERE dept = ?',
+    // Adjust the table/column names as per your schema
+    // Fetch Board of Studies members
+    const [rows] = await connection.execute(
+        'SELECT member_name, designation, organization,role FROM board_of_studies WHERE dept = ?',
         [dept]
     );
 
     await connection.end();
-
-    res.status(200).json({
-        technical: technicalRows
-    });
+    res.status(200).json(rows);
 }

@@ -14,6 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         database: 'svec_cms'
     });
 
+    // Non-Teaching Staff
     try {
         const [nonTeachingRows] = await connection.execute(
             'SELECT name, designation, status, created_at FROM non_teaching_staff WHERE dept = ?',

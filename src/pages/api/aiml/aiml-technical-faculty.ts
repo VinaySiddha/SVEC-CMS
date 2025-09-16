@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import mysql from 'mysql2/promise';
 
-// This API now supports any department via the ?dept= query parameter (e.g., ?dept=aiml, ?dept=cseai)
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { dept } = req.query;
     if (!dept || typeof dept !== 'string') {
@@ -15,11 +14,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         database: 'svec_cms'
     });
 
-    const [rows] = await connection.execute(
-        'SELECT name, qualification, designation, profile_url, dept, status, created_at FROM faculty_profiles WHERE dept = ?',
+    // Technical Staff
+    // Fetch Technical Staff members for the specified department
+    const [technicalRows] = await connection.execute(
+        'SELECT name, designation, status, created_at FROM technical_staff WHERE dept = ?',
         [dept]
     );
 
     await connection.end();
-    res.status(200).json(rows);
+
+    res.status(200).json({
+        technical: technicalRows
+    });
 }
