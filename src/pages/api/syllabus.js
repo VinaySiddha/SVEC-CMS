@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         });
 
         const [rows] = await connection.execute(
-            "SELECT * FROM syllabus ORDER BY category, year DESC"
+            "SELECT * FROM syllabus WHERE dept='cseai' ORDER BY category, year DESC"
         );
 
         await connection.end();
