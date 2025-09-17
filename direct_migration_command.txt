@@ -1,0 +1,16 @@
+SSH to your server and run this command:
+
+mysql -h 62.72.31.209 -u svec_cms_user -pV@savi@2001 svec_cms < eee_syllabus_migration.sql
+
+OR if you're already in MySQL prompt:
+
+SOURCE eee_syllabus_migration.sql;
+
+OR execute via hosting panel:
+1. Go to your hosting control panel (cPanel/phpMyAdmin)
+2. Select svec_cms database
+3. Go to SQL tab
+4. Copy and paste the entire SQL content from eee_syllabus_migration.sql
+5. Click Execute
+
+This will insert 20 syllabus documents for the EEE department.

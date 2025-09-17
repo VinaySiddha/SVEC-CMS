@@ -26,10 +26,21 @@ export async function GET(
       productDevelopment,
       departmentalActivities,
       greenInitiatives,
-      technicalMagazines
+      technicalMagazines,
+      syllabusDocuments
     ] = await Promise.all([
       query(
-        'SELECT * FROM faculty_profiles WHERE dept = ? AND (status = "approved" OR status IS NULL) ORDER BY name',
+        `SELECT * FROM faculty_profiles WHERE dept = ? AND (status = "approved" OR status IS NULL) 
+         ORDER BY 
+           CASE designation
+             WHEN 'Professor & HOD' THEN 1
+             WHEN 'Professor & Dean(Student Affairs)' THEN 2
+             WHEN 'Assoc. Professor' THEN 3
+             WHEN 'Sr. Asst. Professor' THEN 4
+             WHEN 'Asst. Professor' THEN 5
+             ELSE 6
+           END,
+           name`,
         [dept]
       ),
       query(
@@ -89,7 +100,10 @@ export async function GET(
       query('SELECT * FROM green_initiatives WHERE dept = ? AND status IN ("active", "completed") ORDER BY start_date DESC', [dept]),
       
       // Technical Magazines
-      query('SELECT * FROM technical_magazines WHERE dept = ? AND status = "published" ORDER BY publication_date DESC', [dept])
+      query('SELECT * FROM technical_magazines WHERE dept = ? AND status = "published" ORDER BY publication_date DESC', [dept]),
+      
+      // Syllabus Documents
+      query('SELECT * FROM syllabus_documents WHERE dept = ? AND status = "approved" ORDER BY regulation DESC, type, academic_year DESC, semester', [dept])
     ]);
 
     return NextResponse.json({
@@ -112,7 +126,8 @@ export async function GET(
         productDevelopment: productDevelopment,
         departmentalActivities: departmentalActivities,
         greenInitiatives: greenInitiatives,
-        technicalMagazines: technicalMagazines
+        technicalMagazines: technicalMagazines,
+        syllabusDocuments: syllabusDocuments
       }
     });
 

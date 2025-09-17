@@ -48,6 +48,21 @@ export interface Lab {
   dept: string;
 }
 
+export interface SyllabusDocument {
+  id: number;
+  title: string;
+  description?: string;
+  document_url: string;
+  type: string;
+  academic_year: string;
+  semester?: string;
+  regulation?: string;
+  dept: string;
+  status: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface Workshop {
   id: number;
   title: string;
@@ -131,6 +146,7 @@ interface PublicDepartmentData {
   departmentalActivities?: any[];
   greenInitiatives?: any[];
   technicalMagazines?: any[];
+  syllabusDocuments?: SyllabusDocument[];
 }
 
 export function usePublicDepartmentData(dept: string) {
@@ -175,7 +191,8 @@ export function usePublicDepartmentData(dept: string) {
             productDevelopment: publicData.productDevelopment || [],
             departmentalActivities: publicData.departmentalActivities || [],
             greenInitiatives: publicData.greenInitiatives || [],
-            technicalMagazines: publicData.technicalMagazines || []
+            technicalMagazines: publicData.technicalMagazines || [],
+            syllabusDocuments: publicData.syllabusDocuments || []
           });
         }
       } catch (err) {

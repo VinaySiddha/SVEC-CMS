@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library } from 'lucide-react';
-import { usePublicDepartmentData, type Faculty, type Staff, type BoardOfStudiesMeetingMinute } from '../../hooks/usePublicDepartmentData';
+import { usePublicDepartmentData, type Faculty, type Staff, type BoardOfStudiesMeetingMinute, type SyllabusDocument } from '../../hooks/usePublicDepartmentData';
 
 // Interface for faculty data
 interface FacultyMember {
@@ -55,6 +55,7 @@ const EEEDepartment: React.FC = () => {
   const departmentalActivities = departmentData?.departmentalActivities || [];
   const greenInitiatives = departmentData?.greenInitiatives || [];
   const technicalMagazines = departmentData?.technicalMagazines || [];
+  const syllabusDocuments = departmentData?.syllabusDocuments || [];
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: () => <Building className="w-4 h-4" /> },
@@ -1989,14 +1990,80 @@ const EEEDepartment: React.FC = () => {
             
             {!loading && !error && (
               <div className="space-y-6">
-                <div className="text-center text-gray-600">
-                  <p>Syllabus information will be updated soon.</p>
-                  <div className="mt-4">
-                    <p className="text-sm text-gray-500">
-                      For current syllabus information, please refer to the Academic Handbooks section or contact the department.
-                    </p>
+                {syllabusDocuments.length === 0 ? (
+                  <div className="text-center text-gray-600">
+                    <p>Syllabus information will be updated soon.</p>
+                    <div className="mt-4">
+                      <p className="text-sm text-gray-500">
+                        For current syllabus information, please refer to the Academic Handbooks section or contact the department.
+                      </p>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="space-y-8">
+                    {/* Group syllabus documents by regulation and type */}
+                    {Object.entries(
+                      syllabusDocuments.reduce((groups: Record<string, SyllabusDocument[]>, doc) => {
+                        const key = `${doc.regulation} ${doc.type.toUpperCase()}`;
+                        if (!groups[key]) groups[key] = [];
+                        groups[key].push(doc);
+                        return groups;
+                      }, {})
+                    ).map(([groupKey, docs]) => (
+                      <div key={groupKey} className="border border-gray-200 rounded-lg p-6">
+                        <h3 className="text-xl font-bold text-[#850209] mb-4">{groupKey} Regulation</h3>
+                        <div className="grid gap-4">
+                          {docs.map((doc) => (
+                            <div key={doc.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                              <div className="flex-1">
+                                <h4 className="font-medium text-gray-900">{doc.title}</h4>
+                                {doc.description && (
+                                  <p className="text-sm text-gray-600 mt-1">{doc.description}</p>
+                                )}
+                                <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                  <span>Academic Year: {doc.academic_year}</span>
+                                  {doc.semester && <span>Semester: {doc.semester}</span>}
+                                  <span>Regulation: {doc.regulation}</span>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <a
+                                  href={doc.document_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#850209] text-white rounded-lg hover:bg-[#6B0000] transition-colors"
+                                >
+                                  <Download className="w-4 h-4" />
+                                  Download
+                                </a>
+                                <a
+                                  href={doc.document_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                                >
+                                  <ExternalLink className="w-4 h-4" />
+                                  View
+                                </a>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {/* Additional Information */}
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                      <h3 className="text-lg font-semibold text-blue-800 mb-2">Important Notes</h3>
+                      <ul className="text-sm text-blue-700 space-y-1">
+                        <li>• Students should follow the syllabus corresponding to their regulation and academic year</li>
+                        <li>• For any clarifications regarding syllabus, contact the department office</li>
+                        <li>• Latest updates and amendments will be reflected in the documents</li>
+                        <li>• Practical lab syllabus is included within the respective semester documents</li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
