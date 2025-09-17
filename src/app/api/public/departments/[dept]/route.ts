@@ -16,14 +16,24 @@ export async function GET(
       studentAchievements,
       workshopsData,
       technicalStaff,
-      nonTeachingStaff
+      nonTeachingStaff,
+      placementsData,
+      hackathonsData,
+      boardOfStudiesData,
+      boardOfStudiesMeetingMinutes,
+      facultyInnovations,
+      researchCenters,
+      productDevelopment,
+      departmentalActivities,
+      greenInitiatives,
+      technicalMagazines
     ] = await Promise.all([
       query(
         'SELECT * FROM faculty_profiles WHERE dept = ? AND (status = "approved" OR status IS NULL) ORDER BY name',
         [dept]
       ),
       query(
-        'SELECT * FROM labs WHERE dept = ? AND status = "active" ORDER BY lab_name',
+        'SELECT * FROM laboratories WHERE dept = ? AND status = "active" ORDER BY lab_name',
         [dept]
       ),
       query(
@@ -31,7 +41,7 @@ export async function GET(
         [dept]
       ),
       query(
-        'SELECT * FROM student_achievements WHERE dept = ? ORDER BY created_at DESC',
+        'SELECT * FROM student_achievements WHERE department = ? ORDER BY created_at DESC',
         [dept]
       ),
       query(
@@ -59,9 +69,27 @@ export async function GET(
         [dept]
       ),
       query(
-        'SELECT * FROM bos_meeting_minutes WHERE dept = ? AND status = "active" ORDER BY meeting_number DESC',
+        'SELECT * FROM bos_meeting_minutes WHERE dept = ? ORDER BY meeting_date DESC',
         [dept]
-      )
+      ),
+      
+      // Faculty Innovations
+      query('SELECT * FROM faculty_innovations WHERE dept = ? AND status = "active" ORDER BY implementation_date DESC', [dept]),
+      
+      // Research Centers
+      query('SELECT * FROM research_centers WHERE dept = ? AND status = "active" ORDER BY established_year DESC', [dept]),
+      
+      // Product Development
+      query('SELECT * FROM product_development WHERE dept = ? AND status IN ("active", "completed") ORDER BY created_at DESC', [dept]),
+      
+      // Departmental Activities
+      query('SELECT * FROM departmental_activities WHERE dept = ? ORDER BY date_from DESC', [dept]),
+      
+      // Green Initiatives
+      query('SELECT * FROM green_initiatives WHERE dept = ? AND status IN ("active", "completed") ORDER BY start_date DESC', [dept]),
+      
+      // Technical Magazines
+      query('SELECT * FROM technical_magazines WHERE dept = ? AND status = "published" ORDER BY publication_date DESC', [dept])
     ]);
 
     return NextResponse.json({
@@ -74,7 +102,17 @@ export async function GET(
         studentAchievements: studentAchievements,
         workshops: workshopsData,
         technicalStaff: technicalStaff,
-        nonTeachingStaff: nonTeachingStaff
+        nonTeachingStaff: nonTeachingStaff,
+        placements: placementsData,
+        hackathons: hackathonsData,
+        boardOfStudies: boardOfStudiesData,
+        boardOfStudiesMeetingMinutes: boardOfStudiesMeetingMinutes,
+        facultyInnovations: facultyInnovations,
+        researchCenters: researchCenters,
+        productDevelopment: productDevelopment,
+        departmentalActivities: departmentalActivities,
+        greenInitiatives: greenInitiatives,
+        technicalMagazines: technicalMagazines
       }
     });
 

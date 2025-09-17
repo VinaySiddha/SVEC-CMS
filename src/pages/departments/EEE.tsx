@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
+import { usePublicDepartmentData, type Faculty, type Staff, type BoardOfStudiesMeetingMinute } from '../../hooks/usePublicDepartmentData';
 
 // Interface for faculty data
 interface FacultyMember {
@@ -36,76 +36,25 @@ interface BoardOfStudiesMember {
   image_url?: string;
 }
 
-interface BoardOfStudiesMeetingMinute {
-  id: number;
-  meeting_title: string;
-  meeting_number: number;
-  meeting_date: string;
-  document_url: string;
-  academic_year: string;
-  description?: string;
-}
-
 const EEEDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
-  const [faculty, setFaculty] = useState<FacultyMember[]>([]);
-  const [nonTeachingFaculty, setNonTeachingFaculty] = useState<NonTeachingStaff[]>([]);
-  const [boardOfStudiesMembers, setBoardOfStudiesMembers] = useState<BoardOfStudiesMember[]>([]);
-  const [boardOfStudiesMeetingMinutes, setBoardOfStudiesMeetingMinutes] = useState<BoardOfStudiesMeetingMinute[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // Fetch faculty data from database
-  useEffect(() => {
-    const fetchFacultyData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/public/departments/eee');
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        // Set faculty data (teaching staff) - API returns data in nested structure
-        if (data.data && data.data.faculty && Array.isArray(data.data.faculty)) {
-          setFaculty(data.data.faculty);
-        }
-        
-        // Set non-teaching staff data
-        if (data.data && data.data.nonTeachingStaff && Array.isArray(data.data.nonTeachingStaff)) {
-          setNonTeachingFaculty(data.data.nonTeachingStaff);
-        }
-        
-        // Set board of studies members data
-        if (data.data && data.data.boardOfStudiesMembers && Array.isArray(data.data.boardOfStudiesMembers)) {
-          setBoardOfStudiesMembers(data.data.boardOfStudiesMembers);
-        }
-        
-        // Set board of studies meeting minutes data
-        if (data.data && data.data.boardOfStudiesMeetingMinutes && Array.isArray(data.data.boardOfStudiesMeetingMinutes)) {
-          setBoardOfStudiesMeetingMinutes(data.data.boardOfStudiesMeetingMinutes);
-        }
-        
-        setError(null);
-      } catch (error) {
-        console.error('Error fetching faculty data:', error);
-        setError('Failed to load faculty data. Please try again later.');
-        setFaculty([]);
-        setNonTeachingFaculty([]);
-        setBoardOfStudiesMembers([]);
-        setBoardOfStudiesMeetingMinutes([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFacultyData();
-  }, []);
+  // Use the public department data hook
+  const { data: departmentData, loading, error } = usePublicDepartmentData('eee');
+  
+  // Extract data from the hook
+  const faculty = departmentData?.faculty || [];
+  const nonTeachingFaculty = departmentData?.nonTeachingStaff || [];
+  const boardOfStudiesMembers = departmentData?.boardOfStudies || [];
+  const boardOfStudiesMeetingMinutes = departmentData?.boardOfStudiesMeetingMinutes || [];
+  const facultyInnovations = departmentData?.facultyInnovations || [];
+  const researchCenters = departmentData?.researchCenters || [];
+  const productDevelopment = departmentData?.productDevelopment || [];
+  const departmentalActivities = departmentData?.departmentalActivities || [];
+  const greenInitiatives = departmentData?.greenInitiatives || [];
+  const technicalMagazines = departmentData?.technicalMagazines || [];
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: () => <Building className="w-4 h-4" /> },
@@ -798,7 +747,7 @@ const EEEDepartment: React.FC = () => {
                 </div>
               ) : (
                 <ul className="list-disc pl-6 space-y-2">
-                  {boardOfStudiesMeetingMinutes.map((minute) => (
+                  {boardOfStudiesMeetingMinutes.map((minute: BoardOfStudiesMeetingMinute) => (
                     <li key={minute.id}>
                       {minute.meeting_title} ({minute.academic_year}) - 
                       <a 
@@ -973,6 +922,56 @@ const EEEDepartment: React.FC = () => {
           </div>
         );
       case 'Research Center':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Research Center</h2>
+            
+            {loading && <div className="text-center">Loading research centers...</div>}
+            {error && <div className="text-center text-red-600">Error loading research centers: {error}</div>}
+            
+            {!loading && !error && (
+              <div className="space-y-6">
+                {researchCenters.length > 0 ? (
+                  researchCenters.map((center: any) => (
+                    <div key={center.id} className="border rounded-lg p-6 bg-gray-50">
+                      <h3 className="text-xl font-semibold text-[#850209] mb-3">{center.name}</h3>
+                      <p className="text-gray-700 mb-3">{center.description}</p>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                        <span><strong>Focus Area:</strong> {center.focus_area}</span>
+                        <span><strong>Established:</strong> {center.established_year}</span>
+                        <span><strong>Head:</strong> {center.head_name}</span>
+                      </div>
+                      {center.research_areas && (
+                        <div className="mt-3">
+                          <strong>Research Areas:</strong> {center.research_areas}
+                        </div>
+                      )}
+                      {center.facilities && (
+                        <div className="mt-3">
+                          <strong>Facilities:</strong> {center.facilities}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center text-gray-600">
+                    <p>Research Center information will be updated soon.</p>
+                    <div className="mt-4 text-left max-w-2xl mx-auto">
+                      <h3 className="text-lg font-semibold mb-2">Key Research Areas:</h3>
+                      <ul className="list-disc list-inside space-y-1">
+                        <li>Power Systems and Smart Grid Technologies</li>
+                        <li>Power Electronics and Drive Systems</li>
+                        <li>Renewable Energy Systems</li>
+                        <li>High Voltage Engineering</li>
+                        <li>Control Systems and Automation</li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Research Center</h2>
@@ -1454,23 +1453,37 @@ const EEEDepartment: React.FC = () => {
       case 'Faculty Innovations in T & L':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Some of the innovative means adopted by the faculty in T and L are:</h2>
-            <div className="text-left flex justify-center">
-              <ul className="list-disc pl-6 space-y-3 max-w-2xl">
-                <li>Teaching using ICT tools wherever necessary.</li>
-                <li>Technical videos for demonstration of certain concepts and functioning of the devices.</li>
-                <li>Usage of tools like MATLAB, PSPICE etc., to demonstrate the concepts through simulation.</li>
-                <li>Use of E-learning resources like NPTEL lectures and on-line journals for effective learning.</li>
-                <li>Providing question bank includes descriptive and quiz questions.</li>
-                <li>Good hands-on practice in the laboratories for better understanding of the concepts taught in the theory classes.</li>
-                <li>Visits to industries for real time exposure.</li>
-                <li>Project exhibitions and poster presentations.</li>
-                <li>Student seminars.</li>
-                <li>Conducting guest lecturers to create exposure on advanced technologies.</li>
-                <li>Conducting open book exams in selective courses.</li>
-                <li>Implementing active learning techniques such as problem based learning, project based learning, peer to peer learning etc.</li>
-              </ul>
-            </div>
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Faculty Innovations in Teaching & Learning</h2>
+            
+            {loading && <div className="text-center">Loading faculty innovations...</div>}
+            {error && <div className="text-center text-red-600">Error loading faculty innovations: {error}</div>}
+            
+            {!loading && !error && (
+              <div className="space-y-6">
+                {facultyInnovations.length > 0 ? (
+                  facultyInnovations.map((innovation: any) => (
+                    <div key={innovation.id} className="border rounded-lg p-6 bg-gray-50">
+                      <h3 className="text-xl font-semibold text-[#850209] mb-3">{innovation.title}</h3>
+                      <p className="text-gray-700 mb-3">{innovation.description}</p>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                        <span><strong>Faculty:</strong> {innovation.faculty_name}</span>
+                        <span><strong>Implementation Date:</strong> {new Date(innovation.implementation_date).toLocaleDateString()}</span>
+                        <span><strong>Impact:</strong> {innovation.impact_level}</span>
+                      </div>
+                      {innovation.resources && (
+                        <div className="mt-3">
+                          <strong>Resources Used:</strong> {innovation.resources}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center text-gray-600">
+                    <p>No faculty innovations data available at the moment.</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         );
       case 'Student Achievements':
@@ -1965,6 +1978,99 @@ const EEEDepartment: React.FC = () => {
             </div>
           </div>
         );
+      
+      case 'Syllabus':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Syllabus</h2>
+            
+            {loading && <div className="text-center">Loading syllabus data...</div>}
+            {error && <div className="text-center text-red-600">Error loading syllabus: {error}</div>}
+            
+            {!loading && !error && (
+              <div className="space-y-6">
+                <div className="text-center text-gray-600">
+                  <p>Syllabus information will be updated soon.</p>
+                  <div className="mt-4">
+                    <p className="text-sm text-gray-500">
+                      For current syllabus information, please refer to the Academic Handbooks section or contact the department.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      
+      case 'Contact':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Contact Information</h2>
+            
+            <div className="space-y-8">
+              {/* Department Contact */}
+              <div className="border rounded-lg p-6 bg-gray-50">
+                <h3 className="text-xl font-semibold text-[#850209] mb-4">Department Contact</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="font-semibold text-gray-800">Head of Department</h4>
+                    <p className="text-gray-600">Dr. D. Sudha Rani</p>
+                    <p className="text-gray-600">Professor & Head</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-800">Department Office</h4>
+                    <p className="text-gray-600">
+                      Department of Electrical & Electronics Engineering<br/>
+                      Sri Vasavi Engineering College<br/>
+                      Tadepalligudem - 534101<br/>
+                      West Godavari District, Andhra Pradesh
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Key Faculty Contacts */}
+              <div className="border rounded-lg p-6 bg-gray-50">
+                <h3 className="text-xl font-semibold text-[#850209] mb-4">Key Faculty Contacts</h3>
+                <div className="space-y-4">
+                  {faculty.length > 0 ? (
+                    faculty.slice(0, 5).map((member, index) => (
+                      <div key={member.id || index} className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-gray-200 pb-2">
+                        <div>
+                          <p className="font-medium text-gray-800">{member.name}</p>
+                          <p className="text-sm text-gray-600">{member.designation}</p>
+                        </div>
+                        {member.email && (
+                          <div className="mt-2 sm:mt-0">
+                            <a href={`mailto:${member.email}`} className="text-blue-600 hover:underline text-sm">
+                              {member.email}
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">Contact information will be updated soon.</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Department Library Contact */}
+              <div className="border rounded-lg p-6 bg-gray-50">
+                <h3 className="text-xl font-semibold text-[#850209] mb-4">Department Library</h3>
+                <div>
+                  <p className="font-medium text-gray-800">Faculty Incharge</p>
+                  <p className="text-gray-600">M T V L Ravi Kumar, Asst. Professor</p>
+                  <p className="text-gray-600">Phone: 7893896567</p>
+                  <p className="text-gray-600">
+                    E-mail: <a href="mailto:ravi.mada@srivasaviengg.ac.in" className="text-blue-600 hover:underline">ravi.mada@srivasaviengg.ac.in</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }
