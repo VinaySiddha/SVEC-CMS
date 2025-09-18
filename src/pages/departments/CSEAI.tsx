@@ -942,7 +942,7 @@ const CSTDepartment: React.FC = () => {
           const [loading, setLoading] = React.useState(true);
 
           React.useEffect(() => {
-            fetch("/api/syllabus")
+            fetch("/api/syllabus?dept=cseai")
               .then((res) => res.json())
               .then((data) => {
                 setSyllabus(Array.isArray(data) ? data : []);
