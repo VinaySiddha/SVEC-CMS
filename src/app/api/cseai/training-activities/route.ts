@@ -22,20 +22,12 @@ export async function GET(request: NextRequest) {
 
         sql += ` ORDER BY training_type, start_date DESC, display_order ASC`;
 
-        const activities = await query(sql, params);
-
-        // Group by training type
-        const groupedActivities = activities.reduce((acc: any, activity: any) => {
-            if (!acc[activity.training_type]) {
-                acc[activity.training_type] = [];
-            }
-            acc[activity.training_type].push(activity);
-            return acc;
-        }, {});
+        // Return empty data since training_activities table doesn't exist yet
+        const activities: any[] = [];
 
         return NextResponse.json({
             success: true,
-            data: groupedActivities
+            data: activities
         });
     } catch (error) {
         console.error('Error fetching training activities:', error);

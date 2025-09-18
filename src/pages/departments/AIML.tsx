@@ -307,7 +307,7 @@ React.useEffect(() => {
                 href="https://srivasaviengg.ac.in/uploads/aiml/COs.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
               >
                 <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
               </a>
@@ -596,31 +596,94 @@ React.useEffect(() => {
               <div className="mt-12">
                 <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
 
-                {/* Desktop Navigation Tabs */}
-                <div className="hidden md:block relative mb-8">
-                  <div className="flex flex-wrap justify-center gap-2 mb-6">
-                    {sections.map((section) => (
-                      <button
-                        key={section}
-                        onClick={() => setActiveDeptTab(section)}
-                        className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                          ? 'bg-[#B22222] text-white shadow-lg'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        {section === 'SalientFeatures' ? 'Salient Features' : section}
-                      </button>
-                    ))}
+                {/* Department Profile Navigation - Grid Layout */}
+                <div className="mb-8">
+                  {/* Row 1: Department, Vision */}
+                  <div className="flex justify-center gap-4 mb-4">
+                    <button
+                      onClick={() => setActiveDeptTab('Department')}
+                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      Department
+                    </button>
+                    <button
+                      onClick={() => setActiveDeptTab('Vision')}
+                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      Vision
+                    </button>
                   </div>
-                </div>
 
-                {/* Mobile Section Display */}
-                <div className="md:hidden relative mb-8">
-                  <div className="text-center mb-6">
-                    <h3 className="text-xl font-semibold text-gray-800">
-                      Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
-                    </h3>
-                    <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+                  {/* Row 2: Mission, PEOs, POs */}
+                  <div className="flex justify-center gap-4 mb-4">
+                    <button
+                      onClick={() => setActiveDeptTab('Mission')}
+                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      Mission
+                    </button>
+                    <button
+                      onClick={() => setActiveDeptTab('PEOs')}
+                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      PEOs
+                    </button>
+                    <button
+                      onClick={() => setActiveDeptTab('POs')}
+                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      POs
+                    </button>
+                  </div>
+
+                  {/* Row 3: PSOs, COs */}
+                  <div className="flex justify-center gap-4 mb-4">
+                    <button
+                      onClick={() => setActiveDeptTab('PSOs')}
+                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      PSOs
+                    </button>
+                    <button
+                      onClick={() => setActiveDeptTab('COs')}
+                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      COs
+                    </button>
+                  </div>
+
+                  {/* Row 4: Salient Features (centered) */}
+                  <div className="flex justify-center">
+                    <button
+                      onClick={() => setActiveDeptTab('SalientFeatures')}
+                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      Salient Features
+                    </button>
                   </div>
                 </div>
 
@@ -1441,14 +1504,14 @@ React.useEffect(() => {
         onItemClick={setActiveContent}
         title="AI & ML Department"
         buttonLabel="Department Menu"
-      />
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-          {renderContent()}
+      >
+        {/* Main Content */}
+        <div className="py-8">
+          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+            {renderContent()}
+          </div>
         </div>
-      </div>
+      </FixedSidebar>
     </div>
   );
 };

@@ -297,53 +297,27 @@ const CivilDepartment: React.FC = () => {
       case 'Department':
         return (
           <div>
-            {/* Head of Department's Message */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                <div className="relative">
-                  <img
-                    src="/civilhod.png"
-                    alt="Dr. G. Radhakrishnan"
-                    className="w-full h-80 object-cover rounded-lg shadow-md"
-                  />
-                </div>
-                <div className="lg:col-span-2 space-y-4">
-                  <div className="mb-4">
-                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Radhakrishnan</h3>
-                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, Civil</p>
-                    <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
-                    <p className="text-gray-600">Fax No: 08818-284322</p>
-                    <p className="text-gray-600">Email: <a href="mailto:hod_civil@srivasaviengg.ac.in" className="text-primary hover:underline">hod_civil@srivasaviengg.ac.in</a></p>
-                  </div>
-                  <p className="text-gray-700 leading-relaxed mb-4 text-justify">
-                    The Department of Civil Engineering was established in the
-                    year 2011 with a vision to strive towards quality education,
-                    research and consultancy. Civil Engineering is one of the
-                    oldest and broadest engineering discipline which has been an
-                    aspect of life, since the beginning of human civilization.
-                    Efforts have been made to provide high quality technical
-                    education to students with a view to make them successful
-                    professionals. In order to attain the pre-defined objectives,
-                    focus has been made on Outcome Based Education, which
-                    facilitates the students to analyze problems, design and
-                    develop solutions and usage of modern tools, by making
-                    him/herself as an ethical Engineer with best of the kind
-                    leadership traits. Department is offering B.Tech (Civil) with
-                    an intake of 60 and M. Tech (Structural Engg.) with 18
-                    students. Department comprises well qualified and proficient
-                    faculty to direct the students in reaching their goals.
-                  </p>
-
-
-                </div>
-              </div>
-            </div>
-
             {/* Department Overview Section */}
-            <div className="border-t pt-10 mt-10">
+            <div className="mb-10">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
-
+              <p className="text-gray-700 leading-relaxed mb-4 text-justify">
+                The Department of Civil Engineering was established in the
+                year 2011 with a vision to strive towards quality education,
+                research and consultancy. Civil Engineering is one of the
+                oldest and broadest engineering discipline which has been an
+                aspect of life, since the beginning of human civilization.
+                Efforts have been made to provide high quality technical
+                education to students with a view to make them successful
+                professionals. In order to attain the pre-defined objectives,
+                focus has been made on Outcome Based Education, which
+                facilitates the students to analyze problems, design and
+                develop solutions and usage of modern tools, by making
+                him/herself as an ethical Engineer with best of the kind
+                leadership traits. Department is offering B.Tech (Civil) with
+                an intake of 60 and M. Tech (Structural Engg.) with 18
+                students. Department comprises well qualified and proficient
+                faculty to direct the students in reaching their goals.
+              </p>
 
               <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
               <div className="overflow-x-auto">
@@ -934,31 +908,122 @@ const CivilDepartment: React.FC = () => {
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            {/* Desktop Navigation Tabs */}
-            <div className="hidden md:block relative mb-8">
-              <div className="flex flex-wrap justify-center gap-2 mb-6">
-                {sections.map((section) => (
-                  <button
-                    key={section}
-                    onClick={() => setActiveDeptTab(section)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                      ? 'bg-[#B22222] text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    {section === 'SalientFeatures' ? 'Salient Features' : section}
-                  </button>
-                ))}
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Department Profile</h2>
+
+            {/* HOD Section */}
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Head of Department</h3>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div className="flex justify-center">
+                  <div className="relative">
+                    <img
+                      src="/civilhod.png"
+                      alt="Dr. G. Radhakrishnan"
+                      className="w-48 h-48 object-cover rounded-xl shadow-md"
+                      style={{ aspectRatio: '1/1' }}
+                    />
+                  </div>
+                </div>
+                <div className="text-center lg:text-left">
+                  <h4 className="text-xl font-bold text-gray-800 mb-2">Dr. G. Radhakrishnan</h4>
+                  <p className="text-gray-600 mb-4">Professor & Head of Department, Civil</p>
+                  <p className="text-gray-700 leading-relaxed mb-2">Phone No: 08818-284355(O)-(Ext.-377)</p>
+                  <p className="text-gray-700 leading-relaxed mb-2">Fax No: 08818-284322</p>
+                  <p className="text-gray-700 leading-relaxed">
+                    Email: <a href="mailto:hod_civil@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_civil@srivasaviengg.ac.in</a>
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Mobile Section Display */}
-            <div className="md:hidden relative mb-8">
-              <div className="text-center mb-6">
-                <h3 className="text-xl font-semibold text-gray-800">
-                  Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
-                </h3>
-                <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+            {/* Department Profile Navigation - Grid Layout */}
+            <div className="mb-8 mt-12">
+              {/* Row 1: Department, Vision */}
+              <div className="flex justify-center gap-4 mb-4">
+                <button
+                  onClick={() => setActiveDeptTab('Department')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Department
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('Vision')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Vision
+                </button>
+              </div>
+
+              {/* Row 2: Mission, PEOs, POs */}
+              <div className="flex justify-center gap-4 mb-4">
+                <button
+                  onClick={() => setActiveDeptTab('Mission')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Mission
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('PEOs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  PEOs
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('POs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  POs
+                </button>
+              </div>
+
+              {/* Row 3: PSOs, COs */}
+              <div className="flex justify-center gap-4 mb-4">
+                <button
+                  onClick={() => setActiveDeptTab('PSOs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  PSOs
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('COs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  COs
+                </button>
+              </div>
+
+              {/* Row 4: Salient Features (centered) */}
+              <div className="flex justify-center">
+                <button
+                  onClick={() => setActiveDeptTab('SalientFeatures')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Salient Features
+                </button>
               </div>
             </div>
 
@@ -1795,7 +1860,6 @@ const CivilDepartment: React.FC = () => {
 
       {/* Fixed Sidebar Component */}
       <FixedSidebar
-      
         isOpen={sidebarOpen}
         onToggle={() => setSidebarOpen(!sidebarOpen)}
         onClose={() => setSidebarOpen(false)}
@@ -1804,14 +1868,14 @@ const CivilDepartment: React.FC = () => {
         onItemClick={setActiveContent}
         title="Civil Department"
         buttonLabel="Department Menu"
-      />
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-          {renderContent()}
+      >
+        {/* Main Content */}
+        <div className="py-8">
+          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+            {renderContent()}
+          </div>
         </div>
-      </div>
+      </FixedSidebar>
     </div>
   );
 };

@@ -472,53 +472,8 @@ const ECEDepartment: React.FC = () => {
       case 'Department':
         return (
           <div>
-            {/* Head of Department's Message */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
-              <div className="flex flex-wrap gap-8">
-              <div className="flex-shrink-0 w-full sm:w-64 md:w-72 lg:w-80 rounded-lg overflow-hidden">
-                  <img
-                    src="/ecehod.jpg"
-                    alt="Dr. E. Kusuma Kumari"
-                    className="w-full h-auto object-cover"
-                  />
-                </div>
-                <div className="flex-1 min-w-[280px] space-y-4">
-                  <div className="mb-4">
-                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. E. Kusuma Kumari</h3>
-                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, ECE</p>
-                    <p className="text-gray-600">Ph.D, M.Tech</p>
-                    <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
-                    <p className="text-gray-600">Fax No: 08818-284322</p>
-                    <p className="text-gray-600">Email: <a href="mailto:hod_ece@srivasaviengg.ac.in" className="text-primary hover:underline">hod_ece@srivasaviengg.ac.in</a></p>
-                  </div>
-                  <p className="text-gray-700 leading-relaxed">
-                    Welcome to the Department of Electronics and Communication Engineering at Sri Vasavi Engineering College. Our department is committed to providing high-quality education in electronics and communication engineering, fostering innovation, and preparing our students for successful careers in the rapidly evolving technology sector.
-                    <br /><br />
-                    Our state-of-the-art laboratories and dedicated faculty members ensure that our students receive both theoretical knowledge and practical experience. We focus on:
-                    <br />
-                    • Industry-relevant curriculum with regular updates<br />
-                    • Hands-on training with modern equipment and software<br />
-                    • Research opportunities and innovative projects<br />
-                    • Industry collaborations and internships<br />
-                    • Professional development through workshops and seminars<br />
-                    <br />
-                    Our department takes pride in our achievements, including:
-                    <br />
-                    • Successful placement records<br />
-                    • Research publications in prestigious journals<br />
-                    • Faculty with extensive industry and academic experience<br />
-                    • Strong industry connections<br />
-                    • Active student technical associations
-                    <br /><br />
-                    We invite you to explore the opportunities our department offers and join us in shaping the future of electronics and communication technology.
-                  </p>
-                </div>
-              </div>
-            </div>
-
             {/* Department Overview Section */}
-            <div className="border-t pt-10 mt-10">
+            <div className="mb-10">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
               <p className="text-gray-700 leading-relaxed mb-4">
                 The Department of Electronics and Communication Engineering was established in the year 2001 with an initial intake of 60 students. Over the years, it has grown significantly with a current intake of 120 students. The department has well-equipped laboratories, qualified faculty, and modern facilities.
@@ -648,31 +603,123 @@ const ECEDepartment: React.FC = () => {
       case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            {/* Desktop Navigation Tabs */}
-            <div className="hidden md:block relative mb-8">
-              <div className="flex flex-wrap justify-center gap-2 mb-6">
-                {sections.map((section) => (
-                  <button
-                    key={section}
-                    onClick={() => setActiveDeptTab(section)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                        ? 'bg-[#B22222] text-white shadow-lg'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    {section === 'SalientFeatures' ? 'Salient Features' : section}
-                  </button>
-                ))}
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Department Profile</h2>
+
+            {/* HOD Section */}
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Head of Department</h3>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div className="flex justify-center">
+                  <div className="relative">
+                    <img
+                      src="/ecehod.jpg"
+                      alt="Dr. E. Kusuma Kumari"
+                      className="w-48 h-48 object-cover rounded-xl shadow-md"
+                      style={{ aspectRatio: '1/1' }}
+                    />
+                  </div>
+                </div>
+                <div className="text-center lg:text-left">
+                  <h4 className="text-xl font-bold text-gray-800 mb-2">Dr. E. Kusuma Kumari</h4>
+                  <p className="text-gray-600 mb-4">Professor & Head of Department, ECE</p>
+                  <p className="text-gray-700 leading-relaxed mb-2">Ph.D, M.Tech</p>
+                  <p className="text-gray-700 leading-relaxed mb-2">Phone No: 08818-284355(O)-(Ext.-377)</p>
+                  <p className="text-gray-700 leading-relaxed mb-2">Fax No: 08818-284322</p>
+                  <p className="text-gray-700 leading-relaxed">
+                    Email: <a href="mailto:hod_ece@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_ece@srivasaviengg.ac.in</a>
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Mobile Section Display */}
-            <div className="md:hidden relative mb-8">
-              <div className="text-center mb-6">
-                <h3 className="text-xl font-semibold text-gray-800">
-                  Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
-                </h3>
-                <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+            {/* Department Profile Navigation - Grid Layout */}
+            <div className="mb-8 mt-12">
+              {/* Row 1: Department, Vision */}
+              <div className="flex justify-center gap-4 mb-4">
+                <button
+                  onClick={() => setActiveDeptTab('Department')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Department
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('Vision')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Vision
+                </button>
+              </div>
+
+              {/* Row 2: Mission, PEOs, POs */}
+              <div className="flex justify-center gap-4 mb-4">
+                <button
+                  onClick={() => setActiveDeptTab('Mission')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Mission
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('PEOs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  PEOs
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('POs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  POs
+                </button>
+              </div>
+
+              {/* Row 3: PSOs, COs */}
+              <div className="flex justify-center gap-4 mb-4">
+                <button
+                  onClick={() => setActiveDeptTab('PSOs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  PSOs
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('COs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  COs
+                </button>
+              </div>
+
+              {/* Row 4: Salient Features (centered) */}
+              <div className="flex justify-center">
+                <button
+                  onClick={() => setActiveDeptTab('SalientFeatures')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
+                    ? 'bg-[#B22222] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Salient Features
+                </button>
               </div>
             </div>
 
@@ -1935,14 +1982,14 @@ case 'Faculty Profiles':
         onItemClick={setActiveContent}
         title="ECE Department"
         buttonLabel="Department Menu"
-      />
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-          {renderContent()}
+      >
+        {/* Main Content */}
+        <div className="container mx-auto px-4 py-8">
+          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+            {renderContent()}
+          </div>
         </div>
-      </div>
+      </FixedSidebar>
     </div>
   );
 };

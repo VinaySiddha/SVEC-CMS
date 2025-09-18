@@ -1,6 +1,7 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, X } from 'lucide-react';
+import FixedSidebar from '../../components/FixedSidebar';
 import { usePublicDepartmentData, type Faculty, type Staff, type BoardOfStudiesMeetingMinute, type SyllabusDocument } from '../../hooks/usePublicDepartmentData';
 
 // Interface for faculty data
@@ -62,35 +63,6 @@ const EEEDepartment: React.FC = () => {
       document.body.style.width = 'unset';
     };
   }, [sidebarOpen]);
-
-  // Enhanced sidebar scroll isolation
-  const handleSidebarWheel = useCallback((e: React.WheelEvent) => {
-    // Always prevent propagation to main page
-    e.stopPropagation();
-    
-    const target = e.currentTarget as HTMLElement;
-    const scrollableNav = target.querySelector('[data-scrollable-nav]') as HTMLElement;
-    
-    if (scrollableNav) {
-      const { scrollTop, scrollHeight, clientHeight } = scrollableNav;
-      const delta = e.deltaY;
-      
-      // Check scroll boundaries
-      const canScrollUp = scrollTop > 0;
-      const canScrollDown = scrollTop < scrollHeight - clientHeight - 1; // -1 for precision
-      
-      // Prevent default and handle scroll manually
-      e.preventDefault();
-      
-      // Only scroll if within bounds
-      if ((delta < 0 && canScrollUp) || (delta > 0 && canScrollDown)) {
-        scrollableNav.scrollTop += delta * 0.5; // Smooth scrolling
-      }
-    } else {
-      // Prevent any scrolling if nav not found
-      e.preventDefault();
-    }
-  }, []);
   
   // Extract data from the hook
   const faculty = departmentData?.faculty || [];
@@ -134,33 +106,14 @@ const EEEDepartment: React.FC = () => {
     switch (activeDeptTab) {
       case 'Department':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
-              <div className="relative">
-                <img
-                  src="/eeehod.jpg"
-                  alt="Dr. D. Sudha Rani"
-                  className="w-full h-64 object-cover rounded-lg shadow-md"
-                  style={{ aspectRatio: '4/3' }}
-                />
-              </div>
-              <div className="lg:col-span-2 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. D. Sudha Rani</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, EEE</p>
-                  <p className="text-gray-600">Ph.D in Electrical & Electronics Engineering</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_eee@srivasaviengg.ac.in" className="text-primary hover:underline">hod_eee@srivasaviengg.ac.in</a></p>
-                </div>
-              </div>
-            </div>
-            <p className="text-gray-700 mb-3 text-justify">
-              The Department of Electrical & Electronics Engineering was established in the year 2004 with an intake of 60 students and later enhanced to 120 in 2012 and to 180 in 2014. The department has well qualified, experienced and dedicated faculty and technical staff. The laboratories are equipped with modern equipment, devices and software relevant to courses.
+          <div className="mt-6 space-y-4">
+            <p className="text-gray-700 leading-relaxed">
+              The laboratories are equipped with modern equipment, devices and software relevant to courses. Students are encouraged to participate in several co-curricular and extracurricular activities.
             </p>
-            <p className="text-gray-700 mb-3 text-justify">
-              Students are encouraged to participate in several co-curricular and extracurricular activities. The EEE Department has MoUs with various industries and organizations to enhance practical exposure among students. Our students participate in industrial training programs during their vacations which helps them to get exposure to the industry scenario.
+            <p className="text-gray-700 leading-relaxed">
+              The EEE Department has MoUs with various industries and organizations to enhance practical exposure among students. Our students participate in industrial training programs during their vacations which helps them to get exposure to the industry scenario.
             </p>
-            <p className="text-gray-700 mb-3 text-justify">
+            <p className="text-gray-700 leading-relaxed">
               The Department has been recognized as Research Centre by JNTUK, Kakinada in 2019.
             </p>
 
@@ -359,20 +312,124 @@ const EEEDepartment: React.FC = () => {
           <div className="space-y-8">
             <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Department Profile</h2>
 
-            {/* Simplified Navigation Tabs */}
-            <div className="flex flex-wrap justify-center gap-2 mb-8">
-              {sections.map((section) => (
+            {/* HOD Section */}
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h3 className="text-2xl font-bold text-[#850209] mb-6 text-center">Head of Department</h3>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div className="relative">
+                  <img
+                    src="/eeehod.jpg"
+                    alt="Dr. D. Sudha Rani"
+                    className="w-full h-80 object-cover rounded-lg shadow-md"
+                  />
+                </div>
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="mb-4">
+                    <h4 className="text-2xl font-bold text-[#850209] mb-2">Dr. D. Sudha Rani</h4>
+                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, EEE</p>
+                    <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-376)</p>
+                    <p className="text-gray-600">Fax No: 08818-284322</p>
+                    <p className="text-gray-600">Email: <a href="mailto:hod_eee@srivasaviengg.ac.in" className="text-primary hover:underline">hod_eee@srivasaviengg.ac.in</a></p>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">
+                    Department of Electrical & Electronics Engineering<br/>
+                    Sri Vasavi Engineering College<br/>
+                    Tadepalligudem - 534101<br/>
+                    West Godavari District, Andhra Pradesh
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Department Profile Navigation - Grid Layout */}
+            <div className="mb-8 mt-12">
+              {/* Row 1: Department, Vision */}
+              <div className="flex justify-center gap-4 mb-4">
                 <button
-                  key={section}
-                  onClick={() => setActiveDeptTab(section)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === section
+                  onClick={() => setActiveDeptTab('Department')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
                     ? 'bg-[#850209] text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                 >
-                  {section === 'SalientFeatures' ? 'Salient Features' : section}
+                  Department
                 </button>
-              ))}
+                <button
+                  onClick={() => setActiveDeptTab('Vision')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Vision
+                </button>
+              </div>
+
+              {/* Row 2: Mission, PEOs, POs */}
+              <div className="flex justify-center gap-4 mb-4">
+                <button
+                  onClick={() => setActiveDeptTab('Mission')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Mission
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('PEOs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  PEOs
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('POs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  POs
+                </button>
+              </div>
+
+              {/* Row 3: PSOs, COs */}
+              <div className="flex justify-center gap-4 mb-4">
+                <button
+                  onClick={() => setActiveDeptTab('PSOs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  PSOs
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('COs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  COs
+                </button>
+              </div>
+
+              {/* Row 4: Salient Features (centered) */}
+              <div className="flex justify-center">
+                <button
+                  onClick={() => setActiveDeptTab('SalientFeatures')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Salient Features
+                </button>
+              </div>
             </div>
 
             {/* Content Area */}
@@ -2073,117 +2130,24 @@ const EEEDepartment: React.FC = () => {
         </section>
       </div>
       
-      {/* Department Menu Button - Responsive Position */}
-      <div 
-        className={`
-          fixed z-60 transition-all duration-300
-          lg:top-60 lg:left-5
-          top-4 left-4
-        `}
+      {/* Fixed Sidebar Component */}
+      <FixedSidebar
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
+        onClose={() => setSidebarOpen(false)}
+        items={sidebarItems}
+        activeItem={activeContent}
+        onItemClick={setActiveContent}
+        title="EEE Department"
+        buttonLabel="Department Menu"
       >
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="bg-[#B22222] text-white px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-[#8B0000] transition-all shadow-lg hover:shadow-xl"
-        >
-          <Menu className="w-5 h-5" />
-          <span className="hidden sm:inline">Department Menu</span>
-          <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${sidebarOpen ? 'rotate-90' : ''}`} />
-        </button>
-      </div>
-
-      {/* Mobile Backdrop Overlay */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar - Mobile and Desktop Responsive */}
-      <aside 
-        className={`
-          transition-all duration-300 ease-in-out
-          fixed z-50 overflow-hidden
-          
-          lg:top-[300px] lg:left-5 lg:h-[600px]
-          lg:${sidebarOpen ? 'w-80 bg-white shadow-lg border-r border-gray-200' : 'w-0 bg-transparent shadow-none border-none'}
-          
-          top-0 left-0 h-full w-80
-          ${sidebarOpen ? 'translate-x-0 bg-white shadow-lg border-r border-gray-200' : '-translate-x-full bg-transparent shadow-none border-none'}
-        `}
-        onWheel={handleSidebarWheel}
-      >
-        <div 
-          className={`w-full h-full flex flex-col transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`}
-        >
-          {/* Header - Fixed at top */}
-          <div className="flex justify-between items-center p-4 border-b bg-red-50 flex-shrink-0">
-            <h3 className="text-lg font-bold text-[#B22222] flex items-center gap-2">
-              <Building className="w-5 h-5" />
-              EEE Department
-            </h3>
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 p-1 rounded transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
+        {/* Main Content */}
+        <div className="py-8">
+          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+            {renderContent()}
           </div>
-
-          {/* Navigation - Scrollable area */}
-          <nav 
-            className="flex-1 overflow-y-auto p-4 space-y-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-            data-scrollable-nav
-            onTouchMove={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            {sidebarItems.map((item) => {
-              const isActive = activeContent === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    setActiveContent(item.id);
-                    if (window.innerWidth < 1024) {
-                      setSidebarOpen(false);
-                    }
-                  }}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 hover:shadow-sm ${
-                    isActive
-                      ? 'bg-[#B22222] text-white font-medium shadow-md'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  {item.icon}
-                  <span className="text-sm flex-1">{item.label}</span>
-                  <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? 'rotate-90' : ''}`} />
-                </button>
-              );
-            })}
-          </nav>
         </div>
-      </aside>
-      
-      {/* Content Layout - Responsive */}
-      <div className="container mx-auto px-4">
-        <div className="flex relative">
-          {/* Main Content - Responsive margins */}
-          <main 
-            className={`
-              w-full min-h-screen py-8 transition-all duration-300 ease-in-out
-              ${sidebarOpen ? 'lg:ml-80' : 'lg:ml-0'}
-              ml-0
-            `}
-          >
-            <div className="py-8">
-              <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                {renderContent()}
-              </div>
-            </div>
-          </main>
-        </div>
-      </div>
+      </FixedSidebar>
     </div>
   );
 };
