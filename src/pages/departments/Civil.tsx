@@ -1795,6 +1795,7 @@ const CivilDepartment: React.FC = () => {
 
       {/* Fixed Sidebar Component */}
       <FixedSidebar
+      
         isOpen={sidebarOpen}
         onToggle={() => setSidebarOpen(!sidebarOpen)}
         onClose={() => setSidebarOpen(false)}
