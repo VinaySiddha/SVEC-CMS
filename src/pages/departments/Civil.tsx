@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Building, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Library, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
+import { LogoLoader } from '@/components/ui/LogoLoader';
+import { useTabLoader } from '@/hooks/useTabLoader';
 
 const CivilDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
-  const [activeDeptTab, setActiveDeptTab] = useState('Department');
+  
+  // Use the tab loader hook for department profile tabs
+  const {
+    activeTab: activeDeptTab,
+    isTabLoading: isDeptTabLoading,
+    pendingTab: pendingDeptTab,
+    switchTab: switchDeptTab,
+    getTabButtonProps,
+    getContentProps,
+    getLoaderProps
+  } = useTabLoader('Department', { loaderDuration: 120 });
+  
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
 
   // Dynamic content state
@@ -699,22 +712,49 @@ const CivilDepartment: React.FC = () => {
         );
       case 'Department Profile':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in relative">
+            {/* Logo Loader Overlay */}
+            {getLoaderProps().isVisible && (
+              <div {...getLoaderProps()}>
+                <LogoLoader 
+                  size="md"
+                  showText={true}
+                  text="Loading section..."
+                  duration={1.0}
+                />
+              </div>
+            )}
+            
             {/* Desktop Navigation Tabs */}
             <div className="hidden md:block relative mb-8">
               <div className="flex flex-wrap justify-center gap-2 mb-6">
-                {sections.map((section) => (
-                  <button
-                    key={section}
-                    onClick={() => setActiveDeptTab(section)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                      ? 'bg-[#B22222] text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    {section === 'SalientFeatures' ? 'Salient Features' : section}
-                  </button>
-                ))}
+                {sections.map((section) => {
+                  const buttonProps = getTabButtonProps(section);
+                  const isPending = pendingDeptTab === section;
+                  return (
+                    <button
+                      key={section}
+                      {...buttonProps}
+                      onClick={() => switchDeptTab(section)}
+                      className={`px-4 py-2 rounded-lg font-medium relative ${activeDeptTab === section
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        } ${isDeptTabLoading && !isPending ? 'opacity-50 cursor-not-allowed' : ''} ${isPending ? 'bg-[#B22222]/80 text-white' : ''}`}
+                      style={{
+                        transition: 'all 0.1s ease-out',
+                        transform: 'translateZ(0)'
+                      }}
+                    >
+                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                      {/* Small loader for pending section */}
+                      {isPending && (
+                        <div className="absolute -top-1 -right-1 w-3 h-3">
+                          <LogoLoader size="sm" showText={false} duration={0.8} />
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -845,7 +885,10 @@ const CivilDepartment: React.FC = () => {
             </button>
 
             {/* Tab Content */}
-            <div className="mt-6">
+            <div 
+              {...getContentProps()}
+              className={`mt-6 ${getContentProps().className}`}
+            >
               {renderDeptTabContent()}
             </div>
           </div>

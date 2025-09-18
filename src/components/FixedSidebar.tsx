@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Menu, X, BookOpen, ChevronRight } from 'lucide-react';
+import { LogoLoader } from './ui/LogoLoader';
 
 interface SidebarItem {
   id: string;
@@ -16,6 +17,8 @@ interface FixedSidebarProps {
   onItemClick: (itemId: string) => void;
   title: string;
   buttonLabel?: string;
+  showLoader?: boolean;
+  loaderDuration?: number;
 }
 
 const FixedSidebar: React.FC<FixedSidebarProps> = ({
@@ -26,11 +29,33 @@ const FixedSidebar: React.FC<FixedSidebarProps> = ({
   activeItem,
   onItemClick,
   title,
-  buttonLabel = "Menu"
+  buttonLabel = "Menu",
+  showLoader = false,
+  loaderDuration = 150
 }) => {
-  const handleItemClick = (itemId: string) => {
-    onItemClick(itemId);
-    onClose();
+  const [isItemLoading, setIsItemLoading] = useState(false);
+  const [pendingItem, setPendingItem] = useState<string | null>(null);
+
+  const handleItemClick = async (itemId: string) => {
+    if (showLoader && itemId !== activeItem) {
+      setIsItemLoading(true);
+      setPendingItem(itemId);
+      
+      // Small delay for visual feedback
+      await new Promise(resolve => setTimeout(resolve, loaderDuration));
+      
+      onItemClick(itemId);
+      onClose();
+      
+      // Clear loader
+      setTimeout(() => {
+        setIsItemLoading(false);
+        setPendingItem(null);
+      }, 50);
+    } else {
+      onItemClick(itemId);
+      onClose();
+    }
   };
 
   const getDefaultIcon = (label: string) => {
@@ -52,6 +77,7 @@ const FixedSidebar: React.FC<FixedSidebarProps> = ({
       {/* Fixed Menu Toggle Button */}
       <div className="fixed top-28 left-4 z-50">
         <button
+          data-no-loading="true"
           onClick={onToggle}
           className="bg-primary text-white px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl"
         >
@@ -71,6 +97,7 @@ const FixedSidebar: React.FC<FixedSidebarProps> = ({
                 {title}
               </h3>
               <button
+                data-no-loading="true"
                 onClick={onClose}
                 className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 p-1 rounded transition-colors"
               >
@@ -82,19 +109,32 @@ const FixedSidebar: React.FC<FixedSidebarProps> = ({
             <nav className="p-4 space-y-1">
               {items.map((item) => {
                 const isActive = activeItem === item.id;
+                const isPending = pendingItem === item.id;
 
                 return (
                   <button
                     key={item.id}
+                    data-no-loading="true"
                     onClick={() => handleItemClick(item.id)}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 hover:shadow-sm ${isActive
+                    disabled={isItemLoading}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 hover:shadow-sm relative ${isActive
                       ? 'bg-primary text-white font-medium shadow-md'
                       : 'text-gray-700 hover:bg-gray-100'
-                      }`}
+                      } ${isItemLoading && !isPending ? 'opacity-50 cursor-not-allowed' : ''} ${isPending ? 'bg-primary/80 text-white' : ''}`}
+                    style={{
+                      transition: 'all 0.1s ease-out',
+                      transform: 'translateZ(0)'
+                    }}
                   >
                     {typeof item.icon === 'function' ? item.icon() : (item.icon || getDefaultIcon(item.label))}
                     <span className="text-sm flex-1">{item.label}</span>
                     <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? 'rotate-90' : ''}`} />
+                    {/* Small loader for pending item */}
+                    {isPending && (
+                      <div className="absolute -top-1 -right-1 w-3 h-3">
+                        <LogoLoader size="sm" showText={false} duration={0.8} />
+                      </div>
+                    )}
                   </button>
                 );
               })}

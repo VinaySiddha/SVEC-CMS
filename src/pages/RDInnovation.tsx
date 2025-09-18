@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Award, BookOpen, Users, TrendingUp, Lightbulb, FileText, Microscope, Rocket, ExternalLink, Menu, X, ChevronRight } from 'lucide-react';
+import { LogoLoader } from '@/components/ui/LogoLoader';
 
 const RDInnovation: React.FC = () => {
   const [activeTab, setActiveTab] = useState('department');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isTabLoading, setIsTabLoading] = useState(false);
+  const [pendingTab, setPendingTab] = useState<string | null>(null);
 
-  // Sidebar navigation items
-  const sidebarItems = [
+  // Memoize static data to prevent recreation on re-renders
+  const sidebarItems = useMemo(() => [
     { id: 'department', label: 'Department Profile', icon: ChevronRight },
     { id: 'coordinators', label: 'R&D Co-Ordinators', icon: ChevronRight },
     { id: 'proceedings', label: 'Conference Proceedings', icon: ChevronRight },
@@ -20,15 +23,42 @@ const RDInnovation: React.FC = () => {
     { id: 'links', label: 'Important Links', icon: ChevronRight },
     { id: 'econtent', label: 'E-Content', icon: ChevronRight },
     { id: 'contact', label: 'Contact-Info', icon: ChevronRight },
-  ];
+  ], []);
 
-  // Main navigation tabs
-  const mainTabs = [
+  // Memoize main navigation tabs
+  const mainTabs = useMemo(() => [
     { id: 'department', label: 'Department' },
     { id: 'vision', label: 'Vision' },
     { id: 'mission', label: 'Mission' },
     { id: 'objectives', label: 'Objectives & Goals' },
-  ];
+  ], []);
+
+  // Enhanced tab change with logo loader
+  const handleTabChange = useCallback(async (tabId: string) => {
+    if (tabId !== activeTab && !isTabLoading) {
+      // Show loader immediately
+      setIsTabLoading(true);
+      setPendingTab(tabId);
+      
+      // Small delay to show loader and mask any content preparation
+      await new Promise(resolve => setTimeout(resolve, 150));
+      
+      // Switch content
+      setActiveTab(tabId);
+      
+      // Hide loader after content is ready
+      setTimeout(() => {
+        setIsTabLoading(false);
+        setPendingTab(null);
+      }, 50);
+    }
+  }, [activeTab, isTabLoading]);
+
+  const handleSidebarToggle = useCallback((open: boolean) => {
+    if (open !== sidebarOpen) {
+      setSidebarOpen(open);
+    }
+  }, [sidebarOpen]);
 
   // R&D Coordinators data
   const coordinators = [
@@ -193,7 +223,7 @@ const RDInnovation: React.FC = () => {
   ];
 
   // Function to render sidebar content based on active tab
-  const renderSidebarContent = () => {
+  const renderSidebarContent = useCallback(() => {
     switch (activeTab) {
       case 'coordinators':
         return (
@@ -576,10 +606,10 @@ const RDInnovation: React.FC = () => {
       default:
         return null;
     }
-  };
+  }, [activeTab]);
 
   // Function to render main tab content
-  const renderMainTabContent = () => {
+  const renderMainTabContent = useCallback(() => {
     switch (activeTab) {
       case 'department':
         return (
@@ -681,7 +711,7 @@ const RDInnovation: React.FC = () => {
       default:
         return null;
     }
-  };
+  }, [activeTab]);
 
   return (
     <div className="pt-24 bg-background text-foreground min-h-screen">
@@ -729,20 +759,33 @@ const RDInnovation: React.FC = () => {
               <nav className="p-4 space-y-1">
                 {sidebarItems.map((item) => {
                   const isActive = activeTab === item.id;
+                  const isPending = pendingTab === item.id;
                   return (
                     <button
                       key={item.id}
+                      data-no-loading="true"
                       onClick={() => {
-                        setActiveTab(item.id);
-                        setSidebarOpen(false);
+                        handleTabChange(item.id);
+                        handleSidebarToggle(false);
                       }}
-                      className={`w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 ${isActive
+                      disabled={isTabLoading}
+                      className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 hover:shadow-sm relative ${isActive
                         ? 'bg-primary text-white font-medium shadow-md'
                         : 'text-gray-700 hover:bg-gray-100'
-                        }`}
+                        } ${isTabLoading && !isPending ? 'opacity-50' : ''} ${isPending ? 'bg-primary/80 text-white' : ''}`}
+                      style={{
+                        transition: 'all 0.1s ease-out',
+                        transform: 'translateZ(0)'
+                      }}
                     >
                       <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? 'rotate-90' : ''}`} />
-                      <span className="text-sm">{item.label}</span>
+                      <span className="text-sm flex-1">{item.label}</span>
+                      {/* Small loader for pending tab */}
+                      {isPending && (
+                        <div className="w-4 h-4">
+                          <LogoLoader size="sm" showText={false} duration={0.8} />
+                        </div>
+                      )}
                     </button>
                   );
                 })}
@@ -751,10 +794,33 @@ const RDInnovation: React.FC = () => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1">
+          <div className="flex-1 relative">
+            {/* Logo Loader Overlay */}
+            {isTabLoading && (
+              <div 
+                className="absolute inset-0 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm z-20 flex items-center justify-center rounded-lg"
+                style={{
+                  animation: 'logoFadeIn 0.1s ease-out'
+                }}
+              >
+                <LogoLoader 
+                  size="lg"
+                  showText={true}
+                  text="Switching content..."
+                  duration={1.0}
+                />
+              </div>
+            )}
+
             {/* Check if we're showing sidebar content or main tabs */}
             {sidebarItems.find(item => item.id === activeTab) && activeTab !== 'department' ? (
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-8">
+              <div 
+                key={activeTab}
+                className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-8 transition-opacity duration-100 ${
+                  isTabLoading ? 'opacity-30' : 'opacity-100'
+                }`}
+                style={{ animation: !isTabLoading ? 'quickFadeIn 0.2s ease-out' : 'none' }}
+              >
                 {renderSidebarContent()}
               </div>
             ) : (
@@ -762,23 +828,45 @@ const RDInnovation: React.FC = () => {
                 {/* Main Tab Navigation */}
                 <div className="mb-8">
                   <div className="flex flex-wrap gap-2 justify-center">
-                    {mainTabs.map((tab) => (
-                      <button
-                        key={tab.id}
-                        onClick={() => setActiveTab(tab.id)}
-                        className={`px-6 py-3 rounded-lg font-medium transition-colors ${activeTab === tab.id
-                          ? 'bg-primary text-white'
-                          : 'bg-secondary/20 text-foreground hover:bg-secondary/40'
-                          }`}
-                      >
-                        {tab.label}
-                      </button>
-                    ))}
+                    {mainTabs.map((tab) => {
+                      const isActive = activeTab === tab.id;
+                      const isPending = pendingTab === tab.id;
+                      return (
+                        <button
+                          key={tab.id}
+                          data-no-loading="true"
+                          onClick={() => handleTabChange(tab.id)}
+                          disabled={isTabLoading}
+                          className={`px-6 py-3 rounded-lg font-medium relative ${isActive
+                            ? 'bg-primary text-white'
+                            : 'bg-secondary/20 text-foreground hover:bg-secondary/40'
+                            } ${isTabLoading && !isPending ? 'opacity-50 cursor-not-allowed' : ''} ${isPending ? 'bg-primary/80 text-white' : ''}`}
+                          style={{
+                            transition: 'all 0.1s ease-out',
+                            transform: 'translateZ(0)'
+                          }}
+                        >
+                          {tab.label}
+                          {/* Small loader for pending tab */}
+                          {isPending && (
+                            <div className="absolute -top-1 -right-1 w-3 h-3">
+                              <LogoLoader size="sm" showText={false} duration={0.8} />
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
-                {/* Main Tab Content */}
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-8">
+                {/* Main Tab Content - Instant switching */}
+                <div 
+                  key={activeTab}
+                  className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-8 transition-opacity duration-100 ${
+                    isTabLoading ? 'opacity-30' : 'opacity-100'
+                  }`}
+                  style={{ animation: !isTabLoading ? 'quickFadeIn 0.2s ease-out' : 'none' }}
+                >
                   {renderMainTabContent()}
                 </div>
               </>
