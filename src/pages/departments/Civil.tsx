@@ -8,17 +8,31 @@ const CivilDepartment: React.FC = () => {
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
 
-  // Dynamic content state
+  // Dynamic content state - Updated for Civil Department API
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Civil Department specific data states
+  const [departmentProfile, setDepartmentProfile] = useState<any>(null);
+  const [academicInfo, setAcademicInfo] = useState<any>(null);
+  const [facultyData, setFacultyData] = useState<any>(null);
+  const [libraryInfo, setLibraryInfo] = useState<any>(null);
+  const [technicalAssociation, setTechnicalAssociation] = useState<any>(null);
+  const [laboratories, setLaboratories] = useState<any[]>([]);
+  const [syllabusData, setSyllabusData] = useState<any>(null);
+  const [newsletters, setNewsletters] = useState<any[]>([]);
+  const [consultancy, setConsultancy] = useState<any[]>([]);
+  const [workshops, setWorkshops] = useState<any[]>([]);
+
+  // Legacy states for compatibility (will be populated from new API)
   const [dynamicSidebarItems, setDynamicSidebarItems] = useState<any[]>([]);
   const [departmentInfo, setDepartmentInfo] = useState<any[]>([]);
   const [studentAchievements, setStudentAchievements] = useState<any[]>([]);
   const [facultyAchievements, setFacultyAchievements] = useState<any>({});
-  const [workshops, setWorkshops] = useState<any>({});
   const [physicalFacilities, setPhysicalFacilities] = useState<any>({});
   const [departmentLibrary, setDepartmentLibrary] = useState<any[]>([]);
   const [placementBatches, setPlacementBatches] = useState<any[]>([]);
   const [technicalAssociationActivities, setTechnicalAssociationActivities] = useState<any[]>([]);
-  const [newsletters, setNewsletters] = useState<any[]>([]);
   const [extraCurricularActivities, setExtraCurricularActivities] = useState<any[]>([]);
   const [researchDevelopment, setResearchDevelopment] = useState<any>({});
   const [researchProjects, setResearchProjects] = useState<any>({});
@@ -49,7 +63,74 @@ const CivilDepartment: React.FC = () => {
     }
   };
 
-  // Fetch dynamic sidebar items
+  // Fetch all Civil Department data from new API
+  useEffect(() => {
+    const fetchCivilDepartmentData = async () => {
+      setLoading(true);
+      setError(null);
+      
+      try {
+        // Fetch all data in parallel for better performance
+        const [
+          profileResponse,
+          academicResponse,
+          facultyResponse,
+          libraryResponse,
+          taResponse,
+          labsResponse,
+          syllabusResponse,
+          newslettersResponse,
+          consultancyResponse,
+          workshopsResponse
+        ] = await Promise.all([
+          fetch('/api/civil_department.api?type=profile'),
+          fetch('/api/civil_department.api?type=academic'),
+          fetch('/api/civil_department.api?type=faculty'),
+          fetch('/api/civil_department.api?type=library'),
+          fetch('/api/civil_department.api?type=technical-association'),
+          fetch('/api/civil_department.api?type=laboratories'),
+          fetch('/api/civil_department.api?type=syllabus'),
+          fetch('/api/civil_department.api?type=newsletters'),
+          fetch('/api/civil_department.api?type=consultancy'),
+          fetch('/api/civil_department.api?type=workshops')
+        ]);
+
+        // Parse responses
+        const profileData = await profileResponse.json();
+        const academicData = await academicResponse.json();
+        const facultyDataResponse = await facultyResponse.json();
+        const libraryData = await libraryResponse.json();
+        const taData = await taResponse.json();
+        const labsData = await labsResponse.json();
+        const syllabusDataResponse = await syllabusResponse.json();
+        const newslettersData = await newslettersResponse.json();
+        const consultancyData = await consultancyResponse.json();
+        const workshopsData = await workshopsResponse.json();
+
+        // Set state with API data
+        if (profileData.success) setDepartmentProfile(profileData.data);
+        if (academicData.success) setAcademicInfo(academicData.data);
+        if (facultyDataResponse.success) setFacultyData(facultyDataResponse.data);
+        if (libraryData.success) setLibraryInfo(libraryData.data);
+        if (taData.success) setTechnicalAssociation(taData.data);
+        if (labsData.success) setLaboratories(labsData.data);
+        if (syllabusDataResponse.success) setSyllabusData(syllabusDataResponse.data);
+        if (newslettersData.success) setNewsletters(newslettersData.data);
+        if (consultancyData.success) setConsultancy(consultancyData.data);
+        if (workshopsData.success) setWorkshops(workshopsData.data);
+
+      } catch (error) {
+        console.error('Failed to fetch Civil Department data:', error);
+        setError('Failed to load department data. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCivilDepartmentData();
+  }, []);
+
+  // Legacy API calls for backward compatibility (keeping existing functionality)
   useEffect(() => {
     fetch('/api/cseai/sidebar-items?dept=civil')
       .then(res => res.json())
@@ -270,7 +351,8 @@ const CivilDepartment: React.FC = () => {
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
-  const faculty = [
+  // Dynamic faculty data from API (fallback to static data if API fails)
+  const faculty = facultyData?.teaching || [
     { name: "Dr.G.Radhakrishnan", qualification: "ME,Ph.D", designation: "Professor & HOD", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/civil_G%20RADHAKRISHNAN%20PROFILE.pdf" },
     { name: "Mr. V.L.D Prasad Reddy", qualification: "M.E.", designation: "Assistant Professor & ACE", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/civil_V%20L%20D%20Prasad%20Reddy.pdf" },
     { name: "Mr. J.Vijaya Chandra", qualification: "M.Tech", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/civil_VIJAYA%20CHANDRA%20PROFILE.pdf" },
@@ -283,7 +365,7 @@ const CivilDepartment: React.FC = () => {
     { name: "Mr. K.J.Ganapathi", qualification: "B.Tech", designation: "Lecturer", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/civil_Kaigala%20J%20Ganapathi.pdf" }
   ];
 
-  const nonTeachingFaculty = [
+  const nonTeachingFaculty = facultyData?.nonTeaching || [
     { name: "Mr. A.N.V.Ravi Kumar", designation: "Lab Technician" },
     { name: "Mr. P.V.S.Krishna Prasad", designation: "Lab Technician" },
     { name: "Mr. M.Abraham Lincoln", designation: "Lab Technician" },
@@ -293,49 +375,71 @@ const CivilDepartment: React.FC = () => {
   ];
 
   const renderDeptTabContent = () => {
+    // Show loading state
+    if (loading) {
+      return (
+        <div className="py-6 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B22222] mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading department information...</p>
+        </div>
+      );
+    }
+
+    // Show error state
+    if (error) {
+      return (
+        <div className="py-6 text-center">
+          <div className="text-red-600 mb-4">⚠️ {error}</div>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="bg-[#B22222] text-white px-4 py-2 rounded hover:bg-[#8B0000]"
+          >
+            Retry
+          </button>
+        </div>
+      );
+    }
+
     switch (activeDeptTab) {
       case 'Department':
         return (
           <div>
-            {/* Head of Department's Message */}
+            {/* Head of Department's Message - Using API data */}
             <div className="mb-10">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                 <div className="relative">
                   <img
-                    src="/civilhod.png"
-                    alt="Dr. G. Radhakrishnan"
+                    src={departmentProfile?.hod_image_url || "/civilhod.png"}
+                    alt={departmentProfile?.hod_name || "Dr. G. Radhakrishnan"}
                     className="w-full h-80 object-cover rounded-lg shadow-md"
                   />
                 </div>
                 <div className="lg:col-span-2 space-y-4">
                   <div className="mb-4">
-                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Radhakrishnan</h3>
-                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, Civil</p>
-                    <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
-                    <p className="text-gray-600">Fax No: 08818-284322</p>
-                    <p className="text-gray-600">Email: <a href="mailto:hod_civil@srivasaviengg.ac.in" className="text-primary hover:underline">hod_civil@srivasaviengg.ac.in</a></p>
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">
+                      {departmentProfile?.hod_name || "Dr. G. Radhakrishnan"}
+                    </h3>
+                    <p className="text-lg text-[#8B0000] font-medium mb-2">
+                      {departmentProfile?.hod_designation || "Professor & Head of Department, Civil"}
+                    </p>
+                    <p className="text-gray-600">
+                      Phone No: {departmentProfile?.hod_phone || "08818-284355(O)-(Ext.-377)"}
+                    </p>
+                    {departmentProfile?.hod_fax && (
+                      <p className="text-gray-600">Fax No: {departmentProfile.hod_fax}</p>
+                    )}
+                    <p className="text-gray-600">
+                      Email: <a href={`mailto:${departmentProfile?.hod_email || "hod_civil@srivasaviengg.ac.in"}`} className="text-primary hover:underline">
+                        {departmentProfile?.hod_email || "hod_civil@srivasaviengg.ac.in"}
+                      </a>
+                    </p>
                   </div>
                   <p className="text-gray-700 leading-relaxed mb-4 text-justify">
-                    The Department of Civil Engineering was established in the
-                    year 2011 with a vision to strive towards quality education,
-                    research and consultancy. Civil Engineering is one of the
-                    oldest and broadest engineering discipline which has been an
-                    aspect of life, since the beginning of human civilization.
-                    Efforts have been made to provide high quality technical
-                    education to students with a view to make them successful
-                    professionals. In order to attain the pre-defined objectives,
-                    focus has been made on Outcome Based Education, which
-                    facilitates the students to analyze problems, design and
-                    develop solutions and usage of modern tools, by making
-                    him/herself as an ethical Engineer with best of the kind
-                    leadership traits. Department is offering B.Tech (Civil) with
-                    an intake of 60 and M. Tech (Structural Engg.) with 18
-                    students. Department comprises well qualified and proficient
-                    faculty to direct the students in reaching their goals.
+                    {departmentProfile?.hod_message || 
+                      `The Department of Civil Engineering was established in the year 2011 with a vision to strive towards quality education, research and consultancy. Civil Engineering is one of the oldest and broadest engineering discipline which has been an aspect of life, since the beginning of human civilization. Efforts have been made to provide high quality technical education to students with a view to make them successful professionals. In order to attain the pre-defined objectives, focus has been made on Outcome Based Education, which facilitates the students to analyze problems, design and develop solutions and usage of modern tools, by making him/herself as an ethical Engineer with best of the kind leadership traits. Department is offering B.Tech (Civil) with an intake of 60 and M. Tech (Structural Engg.) with 18 students. Department comprises well qualified and proficient faculty to direct the students in reaching their goals.`
+                    }
                   </p>
-
-
                 </div>
               </div>
             </div>
@@ -343,7 +447,6 @@ const CivilDepartment: React.FC = () => {
             {/* Department Overview Section */}
             <div className="border-t pt-10 mt-10">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
-
 
               <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
               <div className="overflow-x-auto">
@@ -358,13 +461,23 @@ const CivilDepartment: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="bg-white border-b">
-                      <td className="px-6 py-4">1</td>
-                      <td className="px-6 py-4">B.Tech-Civil Engineering</td>
-                      <td className="px-6 py-4">AP EAPCET</td>
-                      <td className="px-6 py-4">4 Years</td>
-                      <td className="px-6 py-4">60</td>
-                    </tr>
+                    {academicInfo?.courses?.map((course, index) => (
+                      <tr key={index} className="bg-white border-b">
+                        <td className="px-6 py-4">{index + 1}</td>
+                        <td className="px-6 py-4">{course.course}</td>
+                        <td className="px-6 py-4">{course.eligibility}</td>
+                        <td className="px-6 py-4">{course.duration}</td>
+                        <td className="px-6 py-4">{course.intake}</td>
+                      </tr>
+                    )) || (
+                      <tr className="bg-white border-b">
+                        <td className="px-6 py-4">1</td>
+                        <td className="px-6 py-4">B.Tech-Civil Engineering</td>
+                        <td className="px-6 py-4">AP EAPCET</td>
+                        <td className="px-6 py-4">4 Years</td>
+                        <td className="px-6 py-4">60</td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -376,8 +489,9 @@ const CivilDepartment: React.FC = () => {
           <div className="py-6">
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
             <p className="text-gray-700 leading-relaxed">
-              To be a Department that strives towards quality
-              education,research and consultancy in Civil Engineering.
+              {academicInfo?.vision || 
+                "To be a Department that strives towards quality education,research and consultancy in Civil Engineering."
+              }
             </p>
           </div>
         );
@@ -386,14 +500,15 @@ const CivilDepartment: React.FC = () => {
           <div className="py-6">
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <b>M1:</b>To provide broad and high quality education to its
-              students for a successful professional career.<br />
-              <b>M2:</b>To serve the construction industry through
-              dissemination of knowledge and technical service to rural
-              community and professionals.<br />
-              <b>M3:</b>To include ethics and human values, effective
-              communication and leadership qualities among students to meet
-              the challenge of the society.<br />
+              {academicInfo?.mission?.map((mission, index) => (
+                <li key={index}><b>M{index + 1}:</b> {mission}</li>
+              )) || (
+                <>
+                  <li><b>M1:</b>To provide broad and high quality education to its students for a successful professional career.</li>
+                  <li><b>M2:</b>To serve the construction industry through dissemination of knowledge and technical service to rural community and professionals.</li>
+                  <li><b>M3:</b>To include ethics and human values, effective communication and leadership qualities among students to meet the challenge of the society.</li>
+                </>
+              )}
             </ul>
           </div>
         );
@@ -403,10 +518,16 @@ const CivilDepartment: React.FC = () => {
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Educational Objectives (PEOs)</h3>
             <p className="text-gray-700 mb-4">The graduates will:</p>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Excel in professional career and/or higher education by acquiring knowledge in mathematics, science and civil engineering principles.</li>
-              <li>Analyze real-life problems and design socially responsible and environmentally sustainable civil engineering solutions.</li>
-              <li>Adapt to evolving technologies through continuous learning.</li>
-              <li>Lead a successful career as a team member or as a team leader with strong professional ethics and communication skills.</li>
+              {academicInfo?.peos?.map((peo, index) => (
+                <li key={index}>{peo}</li>
+              )) || (
+                <>
+                  <li>Excel in professional career and/or higher education by acquiring knowledge in mathematics, science and civil engineering principles.</li>
+                  <li>Analyze real-life problems and design socially responsible and environmentally sustainable civil engineering solutions.</li>
+                  <li>Adapt to evolving technologies through continuous learning.</li>
+                  <li>Lead a successful career as a team member or as a team leader with strong professional ethics and communication skills.</li>
+                </>
+              )}
             </ul>
           </div>
         );
@@ -415,10 +536,16 @@ const CivilDepartment: React.FC = () => {
           <div className="py-6">
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Outcomes (POs)</h3>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li><strong>Engineering Knowledge:</strong> Apply knowledge of mathematics, science, engineering fundamentals, and civil engineering principles to solve complex engineering problems.</li>
-              <li><strong>Problem Analysis:</strong> Identify, formulate, research literature, and analyze complex engineering problems to arrive at substantiated conclusions using principles of mathematics, natural sciences, and engineering sciences.</li>
-              <li><strong>Design/Development of Solutions:</strong> Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for public health and safety, and cultural, societal, and environmental considerations.</li>
-              <li><strong>Modern Tool Usage:</strong> Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools for complex engineering activities with an understanding of the limitations.</li>
+              {academicInfo?.pos?.map((po, index) => (
+                <li key={index}><strong>{po.title}:</strong> {po.description}</li>
+              )) || (
+                <>
+                  <li><strong>Engineering Knowledge:</strong> Apply knowledge of mathematics, science, engineering fundamentals, and civil engineering principles to solve complex engineering problems.</li>
+                  <li><strong>Problem Analysis:</strong> Identify, formulate, research literature, and analyze complex engineering problems to arrive at substantiated conclusions using principles of mathematics, natural sciences, and engineering sciences.</li>
+                  <li><strong>Design/Development of Solutions:</strong> Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for public health and safety, and cultural, societal, and environmental considerations.</li>
+                  <li><strong>Modern Tool Usage:</strong> Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools for complex engineering activities with an understanding of the limitations.</li>
+                </>
+              )}
             </ul>
           </div>
         );
@@ -427,9 +554,15 @@ const CivilDepartment: React.FC = () => {
           <div className="py-6">
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Program Specific Outcomes (PSOs)</h3>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Apply standard practices and strategies in construction management using modern surveying tools to deliver quality infrastructure.</li>
-              <li>Apply the fundamentals of civil engineering to solve engineering problems in interdisciplinary domains.</li>
-              <li>Develop sustainable solutions for real-world problems in structural engineering, geotechnical engineering, transportation engineering, and water resources engineering.</li>
+              {academicInfo?.psos?.map((pso, index) => (
+                <li key={index}>{pso}</li>
+              )) || (
+                <>
+                  <li>Apply standard practices and strategies in construction management using modern surveying tools to deliver quality infrastructure.</li>
+                  <li>Apply the fundamentals of civil engineering to solve engineering problems in interdisciplinary domains.</li>
+                  <li>Develop sustainable solutions for real-world problems in structural engineering, geotechnical engineering, transportation engineering, and water resources engineering.</li>
+                </>
+              )}
             </ul>
           </div>
         );
@@ -450,14 +583,20 @@ const CivilDepartment: React.FC = () => {
           <div className="py-6">
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Salient Features</h3>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Experienced and dedicated faculty members with specializations in various domains</li>
-              <li>State-of-the-art laboratories with modern equipment and tools</li>
-              <li>Strong industry-institute interaction through consultancy services</li>
-              <li>Research culture fostering innovation and intellectual growth</li>
-              <li>Active student technical association (IEI Students Chapter)</li>
-              <li>Regular workshops, field visits, and training programs</li>
-              <li>Focus on practical learning through field visits and site experiences</li>
-              <li>Consultancy services in material testing and structural design</li>
+              {academicInfo?.salientFeatures?.map((feature, index) => (
+                <li key={index}>{feature}</li>
+              )) || (
+                <>
+                  <li>Experienced and dedicated faculty members with specializations in various domains</li>
+                  <li>State-of-the-art laboratories with modern equipment and tools</li>
+                  <li>Strong industry-institute interaction through consultancy services</li>
+                  <li>Research culture fostering innovation and intellectual growth</li>
+                  <li>Active student technical association (IEI Students Chapter)</li>
+                  <li>Regular workshops, field visits, and training programs</li>
+                  <li>Focus on practical learning through field visits and site experiences</li>
+                  <li>Consultancy services in material testing and structural design</li>
+                </>
+              )}
             </ul>
           </div>
         );
@@ -469,7 +608,7 @@ const CivilDepartment: React.FC = () => {
               {/* Image on the left */}
               <div className="md:w-1/2 flex justify-center">
                 <img
-                  src="/images/departments/ce/cse-lib.jpg"
+                  src={libraryInfo?.image || "/images/departments/ce/cse-lib.jpg"}
                   alt="Department Library"
                   className="rounded-lg shadow-lg mb-4 max-h-96 object-contain"
                 />
@@ -477,7 +616,9 @@ const CivilDepartment: React.FC = () => {
               {/* Paragraph content on the right */}
               <div className="md:w-1/2">
                 <p className="text-lg">
-                  Department Library offers a variety of books related to Civil Engineering. Reference books of various subjects are procured. Various Competitive Books are available to satisfy the thirst of the students. Books are issued to students and staff. Students can access the Library facility according to their convenience any time round-the-clock.
+                  {libraryInfo?.description || 
+                    "Department Library offers a variety of books related to Civil Engineering. Reference books of various subjects are procured. Various Competitive Books are available to satisfy the thirst of the students. Books are issued to students and staff. Students can access the Library facility according to their convenience any time round-the-clock."
+                  }
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                   <div className="bg-white rounded-lg shadow border">
@@ -485,7 +626,7 @@ const CivilDepartment: React.FC = () => {
                       <h5 className="mb-0 text-center text-lg font-semibold">No. of Titles</h5>
                     </div>
                     <div className="py-4">
-                      <p className="text-red-600 font-bold text-center text-xl">244</p>
+                      <p className="text-red-600 font-bold text-center text-xl">{libraryInfo?.titles || 244}</p>
                     </div>
                   </div>
                   <div className="bg-white rounded-lg shadow border">
@@ -493,7 +634,7 @@ const CivilDepartment: React.FC = () => {
                       <h5 className="mb-0 text-center text-lg font-semibold">No. of Volumes</h5>
                     </div>
                     <div className="py-4">
-                      <p className="text-green-600 font-bold text-center text-xl">352</p>
+                      <p className="text-green-600 font-bold text-center text-xl">{libraryInfo?.volumes || 352}</p>
                     </div>
                   </div>
                 </div>
@@ -502,7 +643,7 @@ const CivilDepartment: React.FC = () => {
             {/* Faculty Incharge Details */}
             <div className="flex flex-col items-center mt-8">
               <h3 className="text-xl font-bold text-center">Faculty Incharge</h3>
-              <p className="mt-4 text-lg">Mr. M.Prem Kumar Raju, Asst. Professor</p>
+              <p className="mt-4 text-lg">{libraryInfo?.facultyIncharge || "Mr. M.Prem Kumar Raju, Asst. Professor"}</p>
             </div>
           </div>
         );
@@ -511,7 +652,7 @@ const CivilDepartment: React.FC = () => {
           <div className="py-6">
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
             <p className="text-gray-700 leading-relaxed">
-              The Department of Civil Engineering was established in 2011. The department offers undergraduate program in Civil Engineering with an intake of 60 students.
+              {departmentProfile?.overview || "The Department of Civil Engineering was established in 2011. The department offers undergraduate program in Civil Engineering with an intake of 60 students."}
             </p>
           </div>
         );

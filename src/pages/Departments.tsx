@@ -1,13 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Cpu, Zap, Cog, Building2, ArrowRight, Users, BookOpen, Award } from 'lucide-react';
+import { Cpu, Zap, Cog, Building2, Buildings, ArrowRight, Users, BookOpen, Award } from 'lucide-react';
 
 const Departments: React.FC = () => {
-  const departments = [
+  const [departments, setDepartments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Icon mapping for dynamic rendering
+  const getIconComponent = (iconName: string) => {
+    const iconProps = { className: "w-12 h-12 text-[#B22222]" };
+    switch (iconName) {
+      case 'Cpu': return <Cpu {...iconProps} />;
+      case 'Zap': return <Zap {...iconProps} />;
+      case 'Cog': return <Cog {...iconProps} />;
+      case 'Buildings': 
+      case 'Building2': return <Buildings {...iconProps} />;
+      default: return <Building2 {...iconProps} />;
+    }
+  };
+
+  // Fetch departments from API
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/departments-config');
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+          setDepartments(data.data);
+        } else {
+          // Fallback to static data if API fails
+          setDepartments(staticDepartments);
+        }
+      } catch (error) {
+        console.error('Failed to fetch departments:', error);
+        setError('Failed to load departments');
+        // Fallback to static data
+        setDepartments(staticDepartments);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDepartments();
+  }, []);
+
+  // Static fallback data
+  const staticDepartments = [
     {
       id: 'cse',
       name: 'Computer Science & Engineering',
-      icon: Cpu,
+      icon: 'Cpu',
       description: 'Leading the digital revolution with cutting-edge computing technologies, AI, and software development.',
       faculty: '25+',
       students: '480',
@@ -18,7 +63,7 @@ const Departments: React.FC = () => {
     {
       id: 'ece',
       name: 'Electronics & Communications',
-      icon: Zap,
+      icon: 'Zap',
       description: 'Pioneering innovations in electronics, communications, and embedded systems technology.',
       faculty: '18+',
       students: '240',
@@ -29,7 +74,7 @@ const Departments: React.FC = () => {
     {
       id: 'mech',
       name: 'Mechanical Engineering',
-      icon: Cog,
+      icon: 'Cog',
       description: 'Engineering the future with advanced manufacturing, robotics, and thermal systems.',
       faculty: '20+',
       students: '240',
@@ -40,7 +85,7 @@ const Departments: React.FC = () => {
     {
       id: 'civil',
       name: 'Civil Engineering',
-      icon: Building2,
+      icon: 'Buildings',
       description: 'Building tomorrow\'s infrastructure with sustainable and innovative construction technologies.',
       faculty: '15+',
       students: '240',
@@ -51,7 +96,7 @@ const Departments: React.FC = () => {
     {
       id: 'eee',
       name: 'Electrical & Electronics',
-      icon: Zap,
+      icon: 'Zap',
       description: 'Powering the future with electrical systems, renewable energy, and smart grid technologies.',
       faculty: '16+',
       students: '240',
@@ -60,6 +105,17 @@ const Departments: React.FC = () => {
       specializations: ['Power Systems', 'Control Systems', 'Renewable Energy', 'Power Electronics']
     }
   ];
+
+  if (loading) {
+    return (
+      <div className="pt-44 bg-[#FFF8F0] text-[#222222] min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#B22222] mx-auto"></div>
+          <p className="mt-4 text-xl text-gray-600">Loading Departments...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-44 bg-[#FFF8F0] text-[#222222]">
@@ -87,7 +143,7 @@ const Departments: React.FC = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute top-4 left-4">
-                    <dept.icon className="w-12 h-12 text-[#B22222]" />
+                    {getIconComponent(dept.icon)}
                   </div>
                 </div>
 
