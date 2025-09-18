@@ -2,22 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Building, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Library, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
 import { LogoLoader } from '@/components/ui/LogoLoader';
-import { useTabLoader } from '@/hooks/useTabLoader';
+import { useOptimizedTabLoader } from '@/hooks/useOptimizedTabLoader';
 
 const CivilDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   
-  // Use the tab loader hook for department profile tabs
+  // Use the optimized tab loader hook for instant switching
   const {
     activeTab: activeDeptTab,
-    isTabLoading: isDeptTabLoading,
-    pendingTab: pendingDeptTab,
+    isTransitioning,
     switchTab: switchDeptTab,
     getTabButtonProps,
     getContentProps,
     getLoaderProps
-  } = useTabLoader('Department', { loaderDuration: 120 });
+  } = useOptimizedTabLoader('Department', { animationDuration: 150 });
   
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
 
@@ -688,7 +687,7 @@ const CivilDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in relative">
             {/* Logo Loader Overlay */}
-            {getLoaderProps().isVisible && (
+            {getLoaderProps().show && (
               <div {...getLoaderProps()}>
                 <LogoLoader 
                   size="md"
@@ -704,7 +703,6 @@ const CivilDepartment: React.FC = () => {
               <div className="flex flex-wrap justify-center gap-2 mb-6">
                 {sections.map((section) => {
                   const buttonProps = getTabButtonProps(section);
-                  const isPending = pendingDeptTab === section;
                   return (
                     <button
                       key={section}
@@ -713,15 +711,15 @@ const CivilDepartment: React.FC = () => {
                       className={`px-4 py-2 rounded-lg font-medium relative ${activeDeptTab === section
                         ? 'bg-[#B22222] text-white shadow-lg'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        } ${isDeptTabLoading && !isPending ? 'opacity-50 cursor-not-allowed' : ''} ${isPending ? 'bg-[#B22222]/80 text-white' : ''}`}
+                        } ${isTransitioning ? 'opacity-50 cursor-not-allowed' : ''}`}
                       style={{
                         transition: 'all 0.1s ease-out',
                         transform: 'translateZ(0)'
                       }}
                     >
                       {section === 'SalientFeatures' ? 'Salient Features' : section}
-                      {/* Small loader for pending section */}
-                      {isPending && (
+                      {/* Small loader for transitioning section */}
+                      {isTransitioning && activeDeptTab === section && (
                         <div className="absolute -top-1 -right-1 w-3 h-3">
                           <LogoLoader size="sm" showText={false} duration={0.8} />
                         </div>
@@ -916,8 +914,8 @@ const CivilDepartment: React.FC = () => {
 
             {/* Tab Content */}
             <div 
-              {...getContentProps()}
-              className={`mt-6 ${getContentProps().className}`}
+              {...getContentProps(activeDeptTab)}
+              className={`mt-6 ${getContentProps(activeDeptTab).className}`}
             >
               {renderDeptTabContent()}
             </div>
