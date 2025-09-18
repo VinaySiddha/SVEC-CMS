@@ -293,6 +293,17 @@ const MBADepartment: React.FC = () => {
                   </button>
                 ))}
               </div>
+            </div>
+
+            {/* HOD Information */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-8">
+              <div className="relative">
+                <img
+                  src="/mbaHosd1.jpeg"
+                  alt="Mr. D. Naveen Kumar"
+                  className="w-full h-80 object-cover rounded-lg shadow-md"
+                />
+              </div>
               <div className="lg:col-span-2 space-y-4">
                 <div className="mb-4">
                   <h3 className="text-2xl font-bold text-[#B22222] mb-2">Mr. D. Naveen Kumar</h3>
@@ -335,53 +346,36 @@ const MBADepartment: React.FC = () => {
                   </button>
                 </div>
 
-                  {/* Panel Content */}
-                  <div className="p-6 h-full overflow-y-auto">
-                    <div className="space-y-3">
-                      {sections.map((section, index) => {
-                        const isActive = section === activeDeptTab;
-                        return (
-                          <button
-                            key={section}
-                            onClick={() => {
-                              setActiveDeptTab(section);
-                              setSettingsPanelOpen(false);
-                            }}
-                            className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                              ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
-                              : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
-                              }`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
-                                }`}>
-                                {index + 1}
-                              </div>
-                              <div>
-                                <div className="font-semibold">
-                                  {section === 'SalientFeatures' ? 'Salient Features' : section}
-                                </div>
-                                <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
-                                  {section === 'Department' && 'Overview & HOD Profile'}
-                                  {section === 'Vision' && 'Department Vision Statement'}
-                                  {section === 'Mission' && 'Department Mission Statement'}
-                                  {section === 'PEOs' && 'Program Educational Objectives'}
-                                  {section === 'POs' && 'Program Outcomes'}
-                                  {section === 'PSOs' && 'Program Specific Outcomes'}
-                                  {section === 'COs' && 'Course Outcomes'}
-                                  {section === 'SalientFeatures' && 'Key Highlights & Features'}
-                                </div>
-                              </div>
-                              {isActive && (
-                                <div className="ml-auto">
-                                  <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                                </div>
-                              )}
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
+                {/* Row 2: Mission, PEOs, POs */}
+                <div className="flex justify-center gap-4 mb-4">
+                  <button
+                    onClick={() => setActiveDeptTab('Mission')}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    Mission
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('PEOs')}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    PEOs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('POs')}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    POs
+                  </button>
+                </div>
 
                 {/* Row 3: PSOs, COs */}
                 <div className="flex justify-center gap-4 mb-4">

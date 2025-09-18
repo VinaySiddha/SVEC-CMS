@@ -734,7 +734,7 @@ const CivilDepartment: React.FC = () => {
               {/* Row 2: Mission, PEOs, POs */}
               <div className="flex justify-center gap-4 mb-4">
                 <button
-                  onClick={() => setActiveDeptTab('Mission')}
+                  onClick={() => switchDeptTab('Mission')}
                   className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
                     ? 'bg-[#B22222] text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -743,7 +743,7 @@ const CivilDepartment: React.FC = () => {
                   Mission
                 </button>
                 <button
-                  onClick={() => setActiveDeptTab('PEOs')}
+                  onClick={() => switchDeptTab('PEOs')}
                   className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
                     ? 'bg-[#B22222] text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -752,7 +752,7 @@ const CivilDepartment: React.FC = () => {
                   PEOs
                 </button>
                 <button
-                  onClick={() => setActiveDeptTab('POs')}
+                  onClick={() => switchDeptTab('POs')}
                   className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
                     ? 'bg-[#B22222] text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -765,7 +765,7 @@ const CivilDepartment: React.FC = () => {
               {/* Row 3: PSOs, COs */}
               <div className="flex justify-center gap-4 mb-4">
                 <button
-                  onClick={() => setActiveDeptTab('PSOs')}
+                  onClick={() => switchDeptTab('PSOs')}
                   className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
                     ? 'bg-[#B22222] text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -774,7 +774,7 @@ const CivilDepartment: React.FC = () => {
                   PSOs
                 </button>
                 <button
-                  onClick={() => setActiveDeptTab('COs')}
+                  onClick={() => switchDeptTab('COs')}
                   className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
                     ? 'bg-[#B22222] text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -787,7 +787,7 @@ const CivilDepartment: React.FC = () => {
               {/* Row 4: Salient Features (centered) */}
               <div className="flex justify-center">
                 <button
-                  onClick={() => setActiveDeptTab('SalientFeatures')}
+                  onClick={() => switchDeptTab('SalientFeatures')}
                   className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
                     ? 'bg-[#B22222] text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -843,7 +843,7 @@ const CivilDepartment: React.FC = () => {
                           <button
                             key={section}
                             onClick={() => {
-                              setActiveDeptTab(section);
+                              switchDeptTab(section);
                               setSettingsPanelOpen(false);
                             }}
                             className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive

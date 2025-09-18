@@ -808,9 +808,9 @@ const DSDepartment: React.FC = () => {
                     </aside>
                     <main className="flex-1 min-w-0">
                         {renderContent()}
-                    </div>
+                    </main>
                 </div>
-            </FixedSidebar>
+            </div>
         </div>
     );
 };
