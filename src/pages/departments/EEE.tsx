@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
-import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, X } from 'lucide-react';
 import { usePublicDepartmentData, type Faculty, type Staff, type BoardOfStudiesMeetingMinute, type SyllabusDocument } from '../../hooks/usePublicDepartmentData';
 
 // Interface for faculty data
@@ -43,6 +43,48 @@ const EEEDepartment: React.FC = () => {
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
   // Use the public department data hook
   const { data: departmentData, loading, error } = usePublicDepartmentData('eee');
+
+  // Prevent body scroll when sidebar is open on mobile
+  useEffect(() => {
+    if (sidebarOpen && window.innerWidth < 1024) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [sidebarOpen]);
+
+  // Enhanced sidebar scroll isolation
+  const handleSidebarWheel = useCallback((e: React.WheelEvent) => {
+    // Always prevent propagation to main page
+    e.stopPropagation();
+    
+    const target = e.currentTarget as HTMLElement;
+    const scrollableNav = target.querySelector('[data-scrollable-nav]') as HTMLElement;
+    
+    if (scrollableNav) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollableNav;
+      const delta = e.deltaY;
+      
+      // Check scroll boundaries
+      const canScrollUp = scrollTop > 0;
+      const canScrollDown = scrollTop < scrollHeight - clientHeight - 1; // -1 for precision
+      
+      // Prevent default and handle scroll manually
+      e.preventDefault();
+      
+      // Only scroll if within bounds
+      if ((delta < 0 && canScrollUp) || (delta > 0 && canScrollDown)) {
+        scrollableNav.scrollTop += delta * 0.5; // Smooth scrolling
+      }
+    } else {
+      // Prevent any scrolling if nav not found
+      e.preventDefault();
+    }
+  }, []);
   
   // Extract data from the hook
   const faculty = departmentData?.faculty || [];
@@ -58,33 +100,29 @@ const EEEDepartment: React.FC = () => {
   const syllabusDocuments = departmentData?.syllabusDocuments || [];
 
   const sidebarItems = [
-    { id: 'Department Profile', label: 'Department Profile', icon: () => <Building className="w-4 h-4" /> },
-    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: () => <Users className="w-4 h-4" /> },
-    { id: 'Board of Studies', label: 'Board of Studies', icon: () => <Award className="w-4 h-4" /> },
-    { id: 'Syllabus', label: 'Syllabus', icon: () => <BookOpen className="w-4 h-4" /> },
-    { id: 'Labaratories', label: 'Labaratories', icon: () => <Microscope className="w-4 h-4" /> },
-    { id: 'Department Library', label: 'Department Library', icon: () => <Library className="w-4 h-4" /> },
-    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: () => <Trophy className="w-4 h-4" /> },
-    { id: 'Faculty Innovations in T & L', label: 'Faculty Innovations in T & L', icon: () => <TrendingUp className="w-4 h-4" /> },
-    { id: 'Research Center', label: 'Research Center', icon: () => <Search className="w-4 h-4" /> },
-    { id: 'Student Achievements', label: 'Student Achievements', icon: () => <Award className="w-4 h-4" /> },
-    { id: 'Placements', label: 'Placements', icon: () => <Briefcase className="w-4 h-4" /> },
-    { id: 'Technical Association', label: 'Technical Association', icon: () => <Zap className="w-4 h-4" /> },
-    { id: 'Technical Magazines, Handbooks and Course Materials', label: 'Technical Magazines, Handbooks and Course Materials', icon: () => <FileText className="w-4 h-4" /> },
-    { id: 'Newsletters', label: 'Newsletters', icon: () => <Rss className="w-4 h-4" /> },
-    { id: 'Product Development', label: 'Product Development', icon: () => <Activity className="w-4 h-4" /> },
-    { id: 'Departmental Activities', label: 'Departmental Activities', icon: () => <Activity className="w-4 h-4" /> },
-    { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: () => <Activity className="w-4 h-4" /> },
-    { id: 'Handbooks', label: 'Handbooks', icon: () => <FileText className="w-4 h-4" /> },
-    { id: 'Green Initiative', label: 'Green Initiative', icon: () => <Shield className="w-4 h-4" /> },
-    { id: 'Contact', label: 'Contact', icon: () => <Phone className="w-4 h-4" /> }
+    { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
+    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
+    { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
+    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'Labaratories', label: 'Labaratories', icon: <Microscope className="w-4 h-4" /> },
+    { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
+    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
+    { id: 'Faculty Innovations in T & L', label: 'Faculty Innovations in T & L', icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'Research Center', label: 'Research Center', icon: <Search className="w-4 h-4" /> },
+    { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
+    { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
+    { id: 'Technical Association', label: 'Technical Association', icon: <Zap className="w-4 h-4" /> },
+    { id: 'Technical Magazines, Handbooks and Course Materials', label: 'Technical Magazines, Handbooks and Course Materials', icon: <FileText className="w-4 h-4" /> },
+    { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
+    { id: 'Product Development', label: 'Product Development', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Departmental Activities', label: 'Departmental Activities', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
+    { id: 'Green Initiative', label: 'Green Initiative', icon: <Shield className="w-4 h-4" /> },
+    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
@@ -2145,46 +2183,135 @@ const EEEDepartment: React.FC = () => {
 
 
   return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Electrical & Electronics Engineering</h1>
-          </div>
-        </div>
-      </section>
-      
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          <aside className="w-full lg:w-80 lg:flex-shrink-0">
-            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
-              <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
-                <span className="font-bold">Department Menu</span>
-                <Menu className="w-6 h-6" />
-              </button>
-              <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
-                <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
-                <ul className="space-y-2">
-                  {sidebarItems.map((item) => (
-                    <li key={item.id}>
-                      <button
-                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item.id ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
-                        onClick={() => {
-                          setActiveContent(item.id);
-                          setSidebarOpen(false);
-                        }}
-                      >
-                        {typeof item.icon === 'function' ? item.icon() : <ChevronRight className="w-4 h-4" />}
-                        <span className="ml-2">{item.label}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+    <div className="min-h-screen bg-gray-100">
+      {/* Fixed Header Section */}
+      <div className="pt-24">
+        <section className="bg-[#8B1919] text-white py-12">
+          <div className="container mx-auto px-4">
+            <div className="text-center">
+              <h1 className="text-3xl md:text-4xl font-bold">Electrical & Electronics Engineering</h1>
             </div>
-          </aside>
-          <main className="flex-1 min-w-0">
-            {renderContent()}
+          </div>
+        </section>
+      </div>
+      
+      {/* Department Menu Button - Fixed below red ribbon */}
+      <div 
+        style={{
+          position: 'fixed',
+          top: '240px',
+          left: '20px',
+          zIndex: 60,
+          isolation: 'isolate'
+        }}
+      >
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="bg-[#B22222] text-white px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-[#8B0000] transition-all shadow-lg hover:shadow-xl"
+        >
+          <Menu className="w-5 h-5" />
+          <span className="hidden sm:inline">Department Menu</span>
+        </button>
+      </div>
+
+      {/* Sidebar - Completely Fixed and Independent */}
+      <aside 
+        className={`
+          bg-white shadow-lg border-r border-gray-200 transition-all duration-300 ease-in-out
+          ${sidebarOpen ? 'w-80' : 'w-0'}
+          overflow-hidden
+        `}
+        style={{ 
+          position: 'fixed',
+          top: '310px',
+          left: 0,
+          height: 'calc(100vh - 310px)',
+          zIndex: 50,
+          isolation: 'isolate',
+          contain: 'strict',
+          transform: 'translateZ(0)',
+          pointerEvents: sidebarOpen ? 'auto' : 'none'
+        }}
+        onWheel={handleSidebarWheel}
+      >
+        <div 
+          className={`w-80 h-full flex flex-col transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`}
+          style={{ touchAction: 'pan-y' }}
+        >
+          {/* Header - Fixed at top */}
+          <div className="flex justify-between items-center p-4 border-b bg-red-50 flex-shrink-0">
+            <h3 className="text-lg font-bold text-[#B22222] flex items-center gap-2">
+              <Building className="w-5 h-5" />
+              EEE Department
+            </h3>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 p-1 rounded transition-colors lg:hidden"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Navigation - Scrollable area with invisible scrollbar */}
+          <nav 
+            className="flex-1 overflow-y-auto p-4 space-y-1"
+            data-scrollable-nav
+            style={{ 
+              scrollBehavior: 'smooth',
+              WebkitOverflowScrolling: 'touch',
+              overscrollBehavior: 'contain',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+            onTouchMove={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            {sidebarItems.map((item) => {
+              const isActive = activeContent === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveContent(item.id);
+                    if (window.innerWidth < 1024) {
+                      setSidebarOpen(false);
+                    }
+                  }}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 hover:shadow-sm ${
+                    isActive
+                      ? 'bg-[#B22222] text-white font-medium shadow-md'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  {item.icon}
+                  <span className="text-sm flex-1">{item.label}</span>
+                  <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? 'rotate-90' : ''}`} />
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+      </aside>
+      
+      {/* Content Layout */}
+      <div className="container mx-auto px-4">
+        <div className="flex relative">
+          {/* Main Content - Independent scrolling */}
+          <main 
+            className="w-full min-h-screen py-8"
+            style={{
+              marginLeft: sidebarOpen ? '320px' : '0px',
+              transition: 'margin-left 300ms ease-in-out',
+              position: 'relative',
+              zIndex: 1
+            }}
+          >
+            <div className="py-8">
+              <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                {renderContent()}
+              </div>
+            </div>
           </main>
         </div>
       </div>

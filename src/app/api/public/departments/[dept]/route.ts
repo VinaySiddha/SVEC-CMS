@@ -5,10 +5,26 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ dept: string }> }
 ) {
+  let dept: string = 'unknown';
+  
   try {
-    const { dept } = await params;
+    console.log('🚀 Starting department data fetch...');
+    const resolvedParams = await params;
+    dept = resolvedParams.dept;
+
+    if (!dept) {
+      console.error('❌ Department parameter is missing');
+      return NextResponse.json(
+        { error: 'Department parameter is required' },
+        { status: 400 }
+      );
+    }
+    
+    console.log(`🏫 Fetching data for department: ${dept}`);
 
     // Fetch only approved data for public display
+    console.log('📋 Starting database queries...');
+    
     const [
       facultyData,
       labsData,
@@ -68,7 +84,7 @@ export async function GET(
         [dept]
       ),
       query(
-        'SELECT * FROM placements WHERE dept = ? ORDER BY academic_year DESC',
+        'SELECT * FROM placements WHERE dept = ? ORDER BY batch DESC',
         [dept]
       ),
       query(
@@ -102,9 +118,15 @@ export async function GET(
       // Technical Magazines
       query('SELECT * FROM technical_magazines WHERE dept = ? AND status = "published" ORDER BY publication_date DESC', [dept]),
       
-      // Syllabus Documents
-      query('SELECT * FROM syllabus_documents WHERE dept = ? AND status = "approved" ORDER BY regulation DESC, type, academic_year DESC, semester', [dept])
+      // Syllabus Documents - Use EEE_Syllabus table for EEE department, syllabus_documents for others
+      dept.toUpperCase() === 'EEE' 
+        ? query('SELECT * FROM EEE_Syllabus WHERE status = ? ORDER BY regulation DESC, type, academic_year DESC, semester', ['active'])
+        : query('SELECT * FROM syllabus_documents WHERE dept = ? AND status = ? ORDER BY regulation DESC, type, academic_year DESC, semester', [dept, 'approved'])
     ]);
+
+    console.log(`✅ All queries completed successfully`);
+    console.log(`📊 Faculty: ${Array.isArray(facultyData) ? facultyData.length : 0} records`);
+    console.log(`📚 Syllabus: ${Array.isArray(syllabusDocuments) ? syllabusDocuments.length : 0} records`);
 
     return NextResponse.json({
       success: true,
@@ -132,9 +154,15 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error('Error fetching public department data:', error);
+    console.error('💥 Error in department data fetch:', error);
+    console.error(`🏫 Department: ${dept || 'unknown'}`);
+    
     return NextResponse.json(
-      { error: 'Failed to fetch department data' },
+      { 
+        error: 'Failed to fetch department data', 
+        department: dept || 'unknown',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
