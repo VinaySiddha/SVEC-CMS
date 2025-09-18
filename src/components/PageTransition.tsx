@@ -14,7 +14,7 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
 
   useEffect(() => {
     // Only trigger transition for actual route changes, not hash changes or query params
-    const currentPath = pathname.split('?')[0].split('#')[0];
+    const currentPath = pathname?.split("?")[0].split("#")[0] ?? "";
     const previousPath = localStorage.getItem('previousPath') || '';
     
     // If it's the same path, skip the transition completely (for tab changes, etc.)
