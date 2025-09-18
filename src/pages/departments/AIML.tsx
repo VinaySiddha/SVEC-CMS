@@ -3,7 +3,148 @@ import { Brain, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefc
 import FixedSidebar from '../../components/FixedSidebar';
 import { useDepartmentData } from '../../hooks/useDepartmentData';
 
+
+type Doc = { id: number; academic_year: string; title: string; file_url: string };
+type Image = { id: number; image_url: string; alt_text: string };
+type Gallery = { id: number; title: string; images: Image[] };
 const AIMLDepartment: React.FC = () => {
+  const [faculty, setFaculty] = React.useState<any[]>([]);
+    const [TechnicalFaculty, setTechnicalFaculty] = React.useState<any[]>([]);
+    const [nonTeachingFaculty, setNonTeachingFaculty] = React.useState<any[]>([]);
+    const [syllabus, setSyllabus] = React.useState<any[]>([]);
+    const [mous, setMous] = React.useState<any[]>([]);
+    const [fdp, setFdp] = React.useState<any[]>([]);
+    const [data, setData] = React.useState<any[]>([]);
+    const [workshopsdata,setWorkshops]=React.useState<
+    { title: string; items: { text: string; url: string }[] }[]
+  >([])
+  const [studentAchievements, setStudentAchievements] = React.useState<any[]>([]);
+  const [placements, setPlacements] = React.useState<any[]>([]);
+  const [academicToppers, setAcademicToppers] = React.useState<{
+    dept?: string;
+    batches?: any[];
+    stats?: any[];
+  }>({});
+  const batches = academicToppers.batches ?? [];
+  const stats   = academicToppers.stats ?? [];
+  const [extra, setExtra] = React.useState<{documents:any[]; clubs:any[]}>({documents:[], clubs:[]});
+  const [hackathons, setHackathons] = React.useState<{documents: Doc[]; galleries: Gallery[]}>({documents: [], galleries: []});
+  const [handbooks, setHandbooks] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-handbooks?dept=aiml')
+      .then(res => res.json())
+      .then(setHandbooks)
+      .catch(console.error);
+  }, []);
+
+
+  React.useEffect(() => {
+    fetch('/api/aiml/aiml-hackathons?dept=aiml')
+      .then(res => res.json())
+      .then(setHackathons)
+      .catch(console.error);
+  }, []);
+
+React.useEffect(() => {
+  fetch('/api/aiml/aiml-extracurricular-activities?dept=aiml')
+    .then(res => res.json())
+    .then(data => setExtra(data))
+    .catch(console.error);
+}, []);
+
+  React.useEffect(() => {
+            fetch('/api/aiml/aiml-academic-toppers?dept=aiml')
+              .then((res) => res.json())
+              .then((data) => {
+                setAcademicToppers(data);
+              })
+          }, []);
+
+  React.useEffect(() => {
+            fetch('/api/aiml/aiml-placements?dept=aiml')
+              .then((res) => res.json())
+              .then((data) => {
+                setPlacements(data);
+              })
+          }, []);
+
+
+  React.useEffect(() => {
+            fetch('/api/aiml/student-achievements?dept=aiml')
+              .then((res) => res.json())
+              .then((data) => {
+                setStudentAchievements(data);
+              })
+          }, []);
+
+    React.useEffect(() => {
+            fetch('/api/aiml/faculty-development-programs?dept=aiml')
+              .then((res) => res.json())
+              .then((data) => {
+                setFdp(data);
+              })
+          }, []);
+    React.useEffect(() => {
+            fetch('/api/aiml/aiml-workshops?dept=aiml')
+              .then((res) => res.json())
+              .then((data) => {
+                setWorkshops(data);
+              })
+          }, []);
+    
+    React.useEffect(() => {
+            fetch('/api/aiml/faculty-achievements?dept=aiml')
+              .then((res) => res.json())
+              .then((data) => {
+                setData(data);
+              })
+          }, []);
+
+    React.useEffect(() => {
+            fetch("/api/aiml/aiml-syllabus?dept=aiml")
+              .then((res) => res.json())
+              .then((data) => {
+                setSyllabus(data);
+              })
+          }, []);
+    
+    React.useEffect(() => {
+      fetch('/api/aiml/aiml-mous?dept=aiml')
+      .then((res) => res.json())
+              .then((data) => {
+                setMous(data);
+              })
+          }, []);
+    
+  
+    React.useEffect(() => {
+      fetch('/api/aiml/aiml-faculty-profiles?dept=aiml')
+        .then(res => res.json())
+        .then((data) => {
+          //console.log(data)
+          setFaculty(data); // directly set data, no type filter for now
+        });
+    }, []);
+  
+    React.useEffect(() => {
+      fetch("/api/aiml/aiml-technical-faculty?dept=aiml")
+        .then((res) => res.json())
+        .then((data) => {
+          // console.log(data.technical)
+          setTechnicalFaculty(data.technical || []);
+        });
+    }, []);
+  
+    React.useEffect(() => {
+      fetch("/api/aiml/aiml-non-teaching-staff?dept=aiml")
+        .then((res) => res.json())
+        .then((data) => {
+          //console.log(data)
+          setNonTeachingFaculty(data.nonTeaching || []);
+        });
+    }, []);
+  
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
@@ -33,7 +174,6 @@ const AIMLDepartment: React.FC = () => {
   ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
-
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
       case 'Department':
@@ -42,7 +182,7 @@ const AIMLDepartment: React.FC = () => {
             <p className="text-gray-700 leading-relaxed">
               Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
             </p>
-            
+
           </div>
         );
       case 'Vision':
@@ -211,6 +351,27 @@ const AIMLDepartment: React.FC = () => {
     }
   };
 
+  const [boardOfStudies, setBoardOfStudies] = useState<any[]>([]);
+  const [loadingBOS, setLoadingBOS] = useState(true);
+  const [bosError, setBOSError] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    setLoadingBOS(true);
+    fetch("/api/aiml/aiml-board-of-studies?dept=aiml")
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch Board of Studies');
+        return res.json();
+      })
+      .then(data => {
+        setBoardOfStudies(data);
+        setLoadingBOS(false);
+      })
+      .catch(err => {
+        setBOSError(err.message);
+        setLoadingBOS(false);
+      });
+  }, []);
+
   const labs = [
     { name: "James Gosling Lab", image: "/images/departments/cai/James Gosling Lab.jpg" },
     { name: "EF Codd Lab", image: "/images/departments/cai/E F Codd LAb.jpg" },
@@ -230,68 +391,67 @@ const AIMLDepartment: React.FC = () => {
         return (
           <div id="academic-toppers" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Academic Toppers</h2>
-              <div className="mb-8">
-                <details open className="border border-gray-300 rounded-lg mb-4">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    Academic Toppers for the Batch 2022-26
-                  </summary>
-                  <ul className="list-disc ml-6 mt-4">
-                    <li>
-                      Academic Toppers for the Batch 2022-26 -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/Academic%20Toppers%20%202022-26%20Batch-2%20(AIM).pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline ml-2">View</a>
-                    </li>
-                  </ul>
-                </details>
-                <details className="border border-gray-300 rounded-lg mb-4">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    Academic Toppers for the Batch 2021-25
-                  </summary>
-                  <ul className="list-disc ml-6 mt-4">
-                    <li>
-                      Academic Toppers for the Batch 2021-25 -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/Academic%20Toppers%20%202021-25%20Batch-1%20(AIM).pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline ml-2">View</a>
-                    </li>
-                  </ul>
-                </details>
-                <div className="overflow-x-auto mt-8">
-                  <table className="min-w-full bg-white border-collapse">
-                    <thead>
-                      <tr className="border-b-2 border-gray-200">
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">ACADEMIC YEAR</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">PARTICULARS</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">NO. OF STUDENTS BENEFITED</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">SCHOLARSHIP AMOUNT</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="py-3 px-4 text-gray-600">1</td>
-                        <td className="py-3 px-4 text-gray-600">2024-25</td>
-                        <td className="py-3 px-4 font-medium text-gray-800">Academic Toppers</td>
-                        <td className="py-3 px-4 text-gray-600">18</td>
-                        <td className="py-3 px-4 text-gray-600">19500</td>
-                      </tr>
-                      <tr className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="py-3 px-4 text-gray-600">2</td>
-                        <td className="py-3 px-4 text-gray-600">2023-24</td>
-                        <td className="py-3 px-4 font-medium text-gray-800">Academic Toppers</td>
-                        <td className="py-3 px-4 text-gray-600">37</td>
-                        <td className="py-3 px-4 text-gray-600">40500</td>
-                      </tr>
-                      <tr className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="py-3 px-4 text-gray-600">3</td>
-                        <td className="py-3 px-4 text-gray-600">2022-23</td>
-                        <td className="py-3 px-4 font-medium text-gray-800">Academic Toppers</td>
-                        <td className="py-3 px-4 text-gray-600">6</td>
-                        <td className="py-3 px-4 text-gray-600">6500</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+          Academic Toppers
+        </h2>
+
+        {/* ---------- Batch PDF Links ---------- */}
+        <div className="mb-8">
+          {batches.map((batch) => (
+            <details
+              key={batch.id}
+              open
+              className="border border-gray-300 rounded-lg mb-4"
+            >
+              <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
+                {batch.title || `Academic Toppers for the Batch ${batch.batch}`}
+              </summary>
+              <ul className="list-disc ml-6 mt-4">
+                <li>
+                  {batch.description ?? `Academic Toppers for the Batch ${batch.batch}`} –
+                  <a
+                    href={batch.pdf_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline ml-2"
+                  >
+                    View
+                  </a>
+                </li>
+              </ul>
+            </details>
+          ))}
+
+          {/* ---------- Stats Table ---------- */}
+          <div className="overflow-x-auto mt-8">
+            <table className="min-w-full bg-white border-collapse">
+              <thead>
+                <tr className="border-b-2 border-gray-200">
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">ACADEMIC YEAR</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">PARTICULARS</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">NO. OF STUDENTS BENEFITED</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">SCHOLARSHIP AMOUNT</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stats.map((row, idx) => (
+                  <tr
+                    key={row.id}
+                    className="border-b border-gray-100 hover:bg-gray-50"
+                  >
+                    <td className="py-3 px-4 text-gray-600">{idx + 1}</td>
+                    <td className="py-3 px-4 text-gray-600">{row.academic_year}</td>
+                    <td className="py-3 px-4 font-medium text-gray-800">{row.particulars}</td>
+                    <td className="py-3 px-4 text-gray-600">{row.students_benefited}</td>
+                    <td className="py-3 px-4 text-gray-600">{row.scholarship_amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
           </div>
         );
       case 'Technical Association':
@@ -322,73 +482,86 @@ const AIMLDepartment: React.FC = () => {
         return (
           <div id="extra-curricular-activities" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Extra-Curricular Activities</h2>
-              <div className="mb-8">
-                <ul className="list-disc ml-6 mt-4">
-                  <li>
-                    Extracurricular activities during the Year 2022-23 -
-                    <a href="https://srivasaviengg.ac.in/uploads/cai/Extracurricular%20activities%20-%202022-23.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline ml-2">View More</a>
-                  </li>
-                </ul>
-                <h3 className="text-2xl font-semibold text-gray-700 mb-6 pb-2 border-b-2 border-primary mt-8">Maitri</h3>
-                <div className="prose max-w-none">
-                  <h3 className="text-lg font-bold mb-2">Social Services</h3>
-                  <p className="text-gray-700 leading-relaxed mb-6">
-                    Maitri Association is a compassionate community where members, united by the spirit of 'Maitri' come together to contribute funds for those in need. Through collective efforts, the club aims to make a positive impact on the lives of individuals facing challenges, fostering a sense of solidarity and kindness within the group.
-                  </p>
-                </div>
-              </div>
+        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+          Extra-Curricular Activities
+        </h2>
+
+        {/* Documents */}
+        <ul className="list-disc ml-6 mt-4">
+          {extra.documents.map(doc => (
+            <li key={doc.id}>
+              {doc.title} ({doc.academic_year}) –
+              <a
+                href={doc.pdf_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline ml-2"
+              >
+                View More
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* Clubs */}
+        {extra.clubs.map(club => (
+          <div key={club.id} className="mt-8">
+            <h3 className="text-2xl font-semibold text-gray-700 mb-6 pb-2 border-b-2 border-primary">
+              {club.name}
+            </h3>
+            <div className="prose max-w-none">
+              <h3 className="text-lg font-bold mb-2">{club.subtitle}</h3>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                {club.description}
+              </p>
             </div>
+          </div>
+        ))}
+      </div>
           </div>
         );
       case 'Handbooks':
         return (
           <div id="handbooks" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Academic HandBooks</h2>
-              <div className="space-y-6">
-                <details open>
-                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Academic year 2023-24: II-Sem Handbooks</summary>
+        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+          Academic HandBooks
+        </h2>
+
+        <div className="space-y-6">
+          {handbooks.map((group) => (
+            <div key={group.group} className="space-y-4">
+              {/* group.group is like "Academic Year 2023-24" */}
+              {Array.from(
+                new Set(group.items.map((i: any) => i.sem_type))
+              ).map((sem) => (
+                <details key={String(sem)} open>
+                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                    {group.group}: {sem}
+                  </summary>
                   <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li>
-                      VI-Sem V20 Regulation Handbook -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/VI%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2023-24.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
-                    </li>
+                    {group.items
+                      .filter((i: any) => i.sem_type === sem)
+                      .map((i: any, idx: number) => (
+                        <li key={idx}>
+                          {i.text} –
+                          <a
+                            href={i.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline ml-2"
+                          >
+                            View
+                          </a>
+                        </li>
+                      ))}
                   </ul>
                 </details>
-                <details>
-                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Academic year 2023-24: I-Sem Handbooks</summary>
-                  <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li>
-                      V-Sem V20 Regulation Handbook -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/V%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2023-24.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
-                    </li>
-                    <li>
-                      III-Sem V20 Regulation Handbook -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/III%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2023-24.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
-                    </li>
-                  </ul>
-                </details>
-                <details>
-                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Academic year 2022-23: II-Sem Handbooks</summary>
-                  <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li>
-                      IV-Sem V20 Regulation Handbook -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/IV%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2022-23.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
-                    </li>
-                  </ul>
-                </details>
-                <details>
-                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Academic year 2022-23: I-Sem Handbooks</summary>
-                  <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li>
-                      III-Sem V20 Regulation Handbook -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/III%20SEM%20(Autonomous)%20Handbook%20-%20AIM_2022-23.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
-                    </li>
-                  </ul>
-                </details>
-              </div>
+              ))}
             </div>
+          ))}
+        </div>
+      </div>
           </div>
         );
 
@@ -500,8 +673,8 @@ const AIMLDepartment: React.FC = () => {
                                   setSettingsPanelOpen(false);
                                 }}
                                 className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                    ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
-                                    : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                                  ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                  : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                                   }`}
                               >
                                 <div className="flex items-center gap-3">
@@ -578,7 +751,7 @@ const AIMLDepartment: React.FC = () => {
         return (
           <div id="faculty-profiles" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Teaching Faculty</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-500">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -591,72 +764,61 @@ const AIMLDepartment: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {loading ? (
-                      <tr>
-                        <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                          Loading faculty data...
-                        </td>
-                      </tr>
-                    ) : error ? (
-                      <tr>
-                        <td colSpan={5} className="px-6 py-4 text-center text-red-500">
-                          Error loading faculty data: {error}
-                        </td>
-                      </tr>
-                    ) : departmentData.faculty && departmentData.faculty.length > 0 ? (
-                      departmentData.faculty.map((member, index) => (
-                        <tr key={member.id || index} className="bg-white border-b hover:bg-gray-50">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.qualification}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                          <td className="px-6 py-4">
-                            {member.profile_url ? (
-                              <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View Profile</a>
-                            ) : (
-                              <span className="text-gray-400">Not Available</span>
-                            )}
+                    {faculty.map((member, index) => (
+                      <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                        <td className="px-6 py-4">{index + 1}</td>
+                        <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                        <td className="px-6 py-4">{member.qualification}</td>
+                        <td className="px-6 py-4">{member.designation}</td>
+                        <td className="px-6 py-4">
+                            <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline transition-colors duration-200">View</a>
+                            
                           </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                          No faculty data available
-                        </td>
+
                       </tr>
-                    )}
+                    ))}
                   </tbody>
                 </table>
               </div>
             </div>
+            <div>
+                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Staff</h2>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                      <tr>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {TechnicalFaculty.map((member, index) => (
+                        <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                          <td className="px-6 py-4">{index + 1}</td>
+                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                          <td className="px-6 py-4">{member.designation}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Profiles</h2>
               <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500">
+                <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                      <th scope="col" className="px-6 py-3">S.No.</th>
-                      <th scope="col" className="px-6 py-3">Name</th>
-                      <th scope="col" className="px-6 py-3">Designation</th>
+                      <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                      <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                      <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {loading ? (
-                      <tr>
-                        <td colSpan={3} className="px-6 py-4 text-center text-gray-500">
-                          Loading non-teaching staff data...
-                        </td>
-                      </tr>
-                    ) : error ? (
-                      <tr>
-                        <td colSpan={3} className="px-6 py-4 text-center text-red-500">
-                          Error loading non-teaching staff data: {error}
-                        </td>
-                      </tr>
-                    ) : departmentData.nonTeachingStaff && departmentData.nonTeachingStaff.length > 0 ? (
-                      departmentData.nonTeachingStaff.map((member, index) => (
-                        <tr key={member.id || index} className="bg-white border-b hover:bg-gray-50">
+                    {nonTeachingFaculty && nonTeachingFaculty.length > 0 ? (
+                      nonTeachingFaculty.map((member, index) => (
+                        <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
                           <td className="px-6 py-4">{index + 1}</td>
                           <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
                           <td className="px-6 py-4">{member.designation}</td>
@@ -681,48 +843,34 @@ const AIMLDepartment: React.FC = () => {
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
               <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">S.No</th>
-                      <th scope="col" className="px-6 py-3">Name</th>
-                      <th scope="col" className="px-6 py-3">Designation</th>
-                      <th scope="col" className="px-6 py-3">Organization</th>
-                      <th scope="col" className="px-6 py-3">Position</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {loading ? (
+                {loadingBOS ? (
+                  <div className="text-center py-8 text-gray-500">Loading...</div>
+                ) : bosError ? (
+                  <div className="text-center py-8 text-red-500">{bosError}</div>
+                ) : (
+                  <table className="w-full text-sm text-left text-gray-500">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                       <tr>
-                        <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                          Loading Board of Studies data...
-                        </td>
+                        <th scope="col" className="px-6 py-3">S.No</th>
+                        <th scope="col" className="px-6 py-3">Name</th>
+                        <th scope="col" className="px-6 py-3">Designation</th>
+                        <th scope="col" className="px-6 py-3">Organization</th>
+                        <th scope="col" className="px-6 py-3">Position</th>
                       </tr>
-                    ) : error ? (
-                      <tr>
-                        <td colSpan={5} className="px-6 py-4 text-center text-red-500">
-                          Error loading Board of Studies data: {error}
-                        </td>
-                      </tr>
-                    ) : departmentData.boardOfStudiesMembers && departmentData.boardOfStudiesMembers.length > 0 ? (
-                      departmentData.boardOfStudiesMembers.map((member, index) => (
-                        <tr key={member.id || index} className="bg-white border-b hover:bg-gray-50">
+                    </thead>
+                    <tbody>
+                      {boardOfStudies.map((member, index) => (
+                        <tr key={index} className="bg-white border-b hover:bg-gray-50">
                           <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
+                          <td className="px-6 py-4 font-medium text-gray-900">{member.member_name}</td>
                           <td className="px-6 py-4">{member.designation}</td>
                           <td className="px-6 py-4">{member.organization}</td>
-                          <td className="px-6 py-4">{member.position}</td>
+                          <td className="px-6 py-4">{member.role}</td>
                         </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                          No Board of Studies data available
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
@@ -958,153 +1106,121 @@ const AIMLDepartment: React.FC = () => {
         return (
           <div id="syllabus" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
-              <div className="container mx-auto">
-                <div className="section">
-                  <details open>
-                    <summary className="font-semibold text-lg">B.Tech (CAI & AIML)</summary>
-                    <div className="nav-content p-3">
-                      <ul className="list-disc list-inside my-0">
-                        <li className="m-0 p-0">
-                          B.Tech - V20 Syllabus -
-                          <a href="https://srivasaviengg.ac.in/uploads/syllabus/V20%20AI%20and%20AI&ML%20CS%20&%20Syllabus_%20I%20&%20II%20SEM.pdf" className="text-primary hover:underline ml-2">View</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </details>
-                </div>
-                <details>
-                  <summary className="font-semibold text-lg">SOC Syllabus</summary>
-                  <div className="nav-content p-3">
-                    <ul className="list-disc list-inside my-0">
-                      <li className="m-0 p-0">
-                        SOC Syllabus during the Academic Year 2022-23 -
-                        <a href="https://srivasaviengg.ac.in/uploads/aiml/SOC_AIM_2022-23.pdf" className="text-primary hover:underline ml-2">View</a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
+  <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
+  <div className="container mx-auto">
+    {syllabus.length === 0 ? (
+      <div className="text-center text-gray-500">No syllabus data available.</div>
+    ) : (
+      // Group syllabus items by category to create collapsible sections
+      Object.entries(
+        syllabus.reduce((groups, item) => {
+          const cat = item.category || "Others";
+          if (!groups[cat]) groups[cat] = [];
+          groups[cat].push(item);
+          return groups;
+        }, {} as Record<string, any[]>)
+      ).map(([category, items]) => (
+        <div className="section" key={category}>
+          <details open={category.toLowerCase().includes("b.tech")}>
+            <summary className="font-semibold text-lg">{category}</summary>
+            <div className="nav-content p-3">
+              <ul className="list-disc list-inside my-0">
+                {(items as any[]).map((item, idx) => (
+                  <li className="m-0 p-0" key={item.id}>
+                    {item.title} –
+                    <a
+                      href={item.pdf_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline ml-2"
+                    >
+                      View
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
+          </details>
+        </div>
+      ))
+    )}
+  </div>
+</div>
+
           </div>
         );
       case 'Hackathons':
         return (
           <div id="hackathons" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Hackathons</h2>
-              <div className="mb-6">
-                <ul className="list-disc list-inside mb-2">
-                  <li>
-                    Hackathon Brochure-
-                    <a href="https://srivasaviengg.ac.in/uploads/aiml/Hackathon HackWave 1.0 Brochure.jpeg" target="_blank" className="text-primary hover:underline ml-2">For more details</a>
-                  </li>
-                  <li>
-                    Hackathon Winners List during A.Y 2024-25 -
-                    <a href="https://srivasaviengg.ac.in/uploads/aiml/Hackathon HackWave 1.0 Brochure.jpeg" target="_blank" className="text-primary hover:underline ml-2">For more details</a>
-                  </li>
-                </ul>
-                <ul className="list-disc list-inside">
-                  <li>
-                    Hackathon Brochure- -
-                    <a href="https://srivasaviengg.ac.in/uploads/cai/hackathon%20brouchure.pdf" target="_blank" className="text-primary hover:underline ml-2">For more details</a>
-                  </li>
-                  <li>
-                    Hackathon Winners List during A.Y 2023-24 -
-                    <a href="https://srivasaviengg.ac.in/uploads/cai/Hackathon%20Winners%202023.pdf" target="_blank" className="text-primary hover:underline ml-2">For more details</a>
-                  </li>
-                </ul>
-              </div>
-              <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
-              <div className="container mx-auto mb-8">
-                <div className="text-center text-xl font-semibold mb-2">Hackathon 2K24</div>
-                <div className="flex flex-wrap justify-center items-center gap-4">
-                  <div className="w-full md:w-1/3 flex justify-center">
-                    <img src="https://srivasaviengg.ac.in/images/departments/cai/20241104_33020PMByGPSMapCamera.jpg" className="img-fluid m-3 rounded shadow" alt="Image 1" />
-                  </div>
-                  <div className="w-full md:w-1/3 flex justify-center">
-                    <img src="https://srivasaviengg.ac.in/images/departments/cai/20241104_104621AMByGPSMapCamera.jpg" className="img-fluid m-3 rounded shadow" alt="Image 3" />
-                  </div>
+        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Hackathons</h2>
+
+        {/* Documents */}
+        <div className="mb-6">
+          <ul className="list-disc list-inside">
+            {hackathons.documents.map(doc => (
+              <li key={doc.id}>
+                {doc.title} -
+                <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
+                   className="text-primary hover:underline ml-2">
+                  For more details
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Galleries */}
+        <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
+        {hackathons.galleries.map(g => (
+          <div key={g.id} className="container mx-auto mb-8">
+            <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
+            <div className="flex flex-wrap justify-center items-center gap-4">
+              {g.images.map(img => (
+                <div key={img.id} className="w-full md:w-1/3 flex justify-center">
+                  <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
+                       className="img-fluid m-3 rounded shadow" />
                 </div>
-              </div>
-              <div className="container mx-auto">
-                <div className="text-center text-xl font-semibold mb-2">Hackathon 2K23</div>
-                <div className="flex flex-wrap justify-center items-center gap-4">
-                  <div className="w-full md:w-1/3 flex flex-col items-center">
-                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0125.JPG" className="img-fluid m-3 rounded shadow" alt="Image 1" />
-                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0089.JPG" className="img-fluid m-3 rounded shadow" alt="Image 2" />
-                  </div>
-                  <div className="w-full md:w-1/3 flex flex-col items-center">
-                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0091.JPG" className="img-fluid m-3 rounded shadow" alt="Image 3" />
-                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0285.JPG" className="img-fluid m-3 rounded shadow" alt="Image 4" />
-                  </div>
-                  <div className="w-full md:w-1/3 flex flex-col items-center">
-                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0271.JPG" className="img-fluid m-3 rounded shadow" alt="Image 5" />
-                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0176.JPG" className="img-fluid m-3 rounded shadow" alt="Image 6" />
-                  </div>
-                  <div className="w-full md:w-1/3 flex flex-col items-center">
-                    <img src="https://srivasaviengg.ac.in/uploads/cai/VEC_0218.JPG" className="img-fluid m-3 rounded shadow" alt="Image 7" />
-                    <img src="https://srivasaviengg.ac.in/uploads/cai/IMG-20231111-WA0001.jpg" className="img-fluid m-3 rounded shadow" alt="Image 8" />
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
+          </div>
+        ))}
+      </div>
           </div>
         );
       case 'Workshops':
         return (
           <div id="workshops" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Workshops/SOC/Seminars/Guest Lectures</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+        Workshops/SOC/Seminars/Guest Lectures
+      </h2>
 
-              <div className="section">
-                <details open>
-                  <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">Workshops</summary>
-                  <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li>
-                      Workshops/SOC organized during the Academic Year 2023-24 -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/Workshops_2023-2024(AIM).pdf" target="_blank" className="text-primary hover:underline ml-2">View More</a>
-                    </li>
-                  </ul>
-                </details>
-              </div>
-
-              <div className="section mt-6">
-                <details>
-                  <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">SOC</summary>
-                  <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li>
-                      SOC organized during the Academic Year 2023-24 -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/SOC_2023-2024(AIM).pdf" target="_blank" className="text-primary hover:underline ml-2">View More</a>
-                    </li>
-                    <li>
-                      SOC organized during the Academic Year 2022-23 -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/SOC_2022-2023(AIM).pdf" target="_blank" className="text-primary hover:underline ml-2">View More</a>
-                    </li>
-                  </ul>
-                </details>
-              </div>
-
-              <div className="section mt-6">
-                <details>
-                  <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">Guest Lecturers/Seminars</summary>
-                  <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li>
-                      Guest Lectures Organized during the Academic Year 2024-25 -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/Guest Lectures 2024-25.pdf" target="_blank" className="text-primary hover:underline ml-2">View More</a>
-                    </li>
-                    <li>
-                      Guest Lectures Organized during the Academic Year 2023-24 -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/Guest%20Lectures&Alumni%20Connect_2023-2024(AIM).pdf" target="_blank" className="text-primary hover:underline ml-2">View More</a>
-                    </li>
-                    <li>
-                      Guest Lectures Organized during the Academic Year 2022-23 -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/Guest%20Lectures&Alumni%20Connect_2022-2023(AIM).pdf" target="_blank" className="text-primary hover:underline ml-2">View More</a>
-                    </li>
-                  </ul>
-                </details>
-              </div>
-            </div>
+      {workshopsdata.map(section => (
+        <div key={section.title} className="section mt-6">
+          <details open={section.title === 'Workshops'}>
+            <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">
+              {section.title}
+            </summary>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              {section.items.map((item, idx) => (
+                <li key={idx}>
+                  {item.text} –
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline ml-2"
+                  >
+                    View More
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </div>
+      ))}
+    </div>
           </div>
         );
       case 'Contact':
@@ -1134,15 +1250,20 @@ const AIMLDepartment: React.FC = () => {
                 <details open>
                   <summary className="text-xl font-bold text-gray-800 mb-2 cursor-pointer">FDP Attended</summary>
                   <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li>
-                      FDPs attended by the Faculty 2024-25 -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/AIM FDPs Workshops Seminars attended by Faculty 2024-25.pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
-                    </li>
-                    <li>
-                      FDPs attended by the Faculty 2023-24 -
-                      <a href="https://srivasaviengg.ac.in/uploads/aiml/FDPS%20Attended_2023-2024(AIM).pdf" target="_blank" className="text-primary hover:underline ml-2">View</a>
-                    </li>
-                  </ul>
+              {fdp.map((item, idx) => (
+                <li key={item.id ?? idx}>
+                  {item.title} ({item.year}) –
+                  <a
+                    href={item.file_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline ml-2"
+                  >
+                    View
+                  </a>
+                </li>
+              ))}
+            </ul>
                 </details>
               </div>
             </div>
@@ -1152,366 +1273,109 @@ const AIMLDepartment: React.FC = () => {
         return (
           <div id="mous" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
-              <h3 className="text-xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
-              <div className="overflow-x-auto flex justify-center">
-                <table className="min-w-max bg-white border border-gray-200 table-auto text-sm text-left text-gray-500">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="py-3 px-4 border-b">S.No</th>
-                      <th className="py-3 px-4 border-b">Organization Name</th>
-                      <th className="py-3 px-4 border-b">From</th>
-                      <th className="py-3 px-4 border-b">To</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="py-3 px-4 border-b">1</td>
-                      <td className="py-3 px-4 border-b">NIT ANP</td>
-                      <td className="py-3 px-4 border-b">31-12-2022</td>
-                      <td className="py-3 px-4 border-b">Till Date</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-4 border-b">2</td>
-                      <td className="py-3 px-4 border-b">Alteryx SparkED Partner</td>
-                      <td className="py-3 px-4 border-b">30-12-2022</td>
-                      <td className="py-3 px-4 border-b">Till Date</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-4 border-b">3</td>
-                      <td className="py-3 px-4 border-b">Juniper Networks</td>
-                      <td className="py-3 px-4 border-b">30-11-2022</td>
-                      <td className="py-3 px-4 border-b">Till Date</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-4 border-b">4</td>
-                      <td className="py-3 px-4 border-b">Celonis Academic Alliance</td>
-                      <td className="py-3 px-4 border-b">11-11-2022</td>
-                      <td className="py-3 px-4 border-b">Till Date</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-4 border-b">5</td>
-                      <td className="py-3 px-4 border-b">Palo Alto Networks Cyber Security Academy</td>
-                      <td className="py-3 px-4 border-b">08-11-2022</td>
-                      <td className="py-3 px-4 border-b">Till Date</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-4 border-b">6</td>
-                      <td className="py-3 px-4 border-b">Blue Prism Academia Program</td>
-                      <td className="py-3 px-4 border-b">01-11-2022</td>
-                      <td className="py-3 px-4 border-b">Till Date</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-4 border-b">7</td>
-                      <td className="py-3 px-4 border-b">Eduskills</td>
-                      <td className="py-3 px-4 border-b">31-10-2022</td>
-                      <td className="py-3 px-4 border-b">31-10-2025</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-4 border-b">8</td>
-                      <td className="py-3 px-4 border-b">Hexaware</td>
-                      <td className="py-3 px-4 border-b">25-04-2020</td>
-                      <td className="py-3 px-4 border-b">Till Date</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-4 border-b">9</td>
-                      <td className="py-3 px-4 border-b">APSSDC</td>
-                      <td className="py-3 px-4 border-b">29-03-2019</td>
-                      <td className="py-3 px-4 border-b">Till Date</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-4 border-b">10</td>
-                      <td className="py-3 px-4 border-b">TCSiON</td>
-                      <td className="py-3 px-4 border-b">25-04-2012</td>
-                      <td className="py-3 px-4 border-b">Till Date</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
+      <h3 className="text-xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
+
+      <div className="overflow-x-auto flex justify-center">
+        <table className="min-w-max bg-white border border-gray-200 table-auto text-sm text-left text-gray-500">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="py-3 px-4 border-b">S.No</th>
+              <th className="py-3 px-4 border-b">Organization Name</th>
+              <th className="py-3 px-4 border-b">From</th>
+              <th className="py-3 px-4 border-b">To</th>
+            </tr>
+          </thead>
+          <tbody>
+            {mous.map((mou: any, index: number) => (
+              <tr key={mou.id ?? index}>
+                <td className="py-3 px-4 border-b">{index + 1}</td>
+                <td className="py-3 px-4 border-b">{mou.organization_name}</td>
+                <td className="py-3 px-4 border-b">
+                  {new Date(mou.start_date).toLocaleDateString("en-GB")}
+                </td>
+                <td className="py-3 px-4 border-b">
+                  {mou.end_date
+                    ? new Date(mou.end_date).toLocaleDateString("en-GB")
+                    : "Till Date"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
           </div>
         );
       case 'Faculty Achievements':
         return (
-          <div id="faculty-achievements" className="space-y-8 animate-fade-in">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
-              <div className="tab4 mt-4">
-                <details open>
-                  <summary className="text-lg font-semibold">Faculty Out-Reach</summary>
-                  <div className="nav-content">
-                    <ul className="list-disc ml-6 mt-4">
-                      <li>
-                        Faculty Out Reach -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/Faculty%20Outreach%20AIM.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View</a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
+         <div id="faculty-achievements" className="space-y-8 animate-fade-in">
+      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+          Faculty Achievements
+        </h2>
+
+        {data.map((section, idx) => (
+          <div key={idx} className="mt-4">
+            <details>
+              <summary className="text-lg font-semibold">{section.title}</summary>
+              <div className="nav-content">
+                <ul className="list-disc ml-6 mt-4">
+                  {section.items?.map((item: any, i: number) => (
+                    <li key={i}>
+                      {item.text} –
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline ml-2"
+                      >
+                        View
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="mt-4">
-                <details>
-                  <summary className="text-lg font-semibold">Journal Publications</summary>
-                  <div>
-                    <ul className="list-disc ml-6 mt-4">
-                      <li>
-                        Journal Publication Details 2024-2025 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_Faculty Journal Publications_2024-25.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View</a>
-                      </li>
-                      <li>
-                        Journal Publication Details 2023-2024 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_Faculty Journal Publications_2023-24.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View</a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
-              <div className="mt-4">
-                <details>
-                  <summary className="text-lg font-semibold">Conferences</summary>
-                  <div>
-                    <ul className="list-disc ml-6 mt-4">
-                      <li>
-                        Conferences Details 2024-2025 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_Faculty Conference Publications_2024-25.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >For more Details</a>
-                      </li>
-                      <li>
-                        Conferences Details 2023-2024 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/Faculty%20Publications%20in%20Conferences_2023_24.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >For more Details</a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
-              <div className="tab4 mt-4">
-                <details>
-                  <summary className="text-lg font-semibold">Certifications</summary>
-                  <div className="nav-content">
-                    <ul className="list-disc ml-6 mt-4">
-                      <li>
-                        Certifications done by the faculty during the A.Y. 2024-25 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/2024-25 AIM Faculty MOOCs Certifications.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >For more Details</a>
-                      </li>
-                      <li>
-                        Certifications done by the faculty during the A.Y. 2023-24 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/2023-24 AIM Faculty MOOCs Certifications.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >For more Details</a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
-              <div className="tab4 mt-4">
-                <details>
-                  <summary className="text-lg font-semibold">Patents</summary>
-                  <div className="nav-content">
-                    <ul className="list-disc ml-6 mt-4">
-                      <li>
-                        Patents Published by Faculty during the A.Y 2023-2024 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/Patents by AIM Faculty 2023-24.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >For more Details</a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
-            </div>
+            </details>
           </div>
+        ))}
+      </div>
+    </div>
         );
       case 'Student Achievements':
         return (
           <div id="student-achievements" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h3 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h3>
-              <div className="tab4 mt-4">
-                <details open>
-                  <summary className="text-lg font-semibold">Conference Publications</summary>
-                  <div className="m-3">
-                    <p>
-                      Conferences during the Academic Year 2023-24 -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/aiml/Students%20Journal%202021-25_BATCH(AIM).pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline ml-2 font-semibold"
-                      >View More</a>
-                    </p>
-                  </div>
-                </details>
+              {studentAchievements.map((section, idx) => (
+          <div key={idx} className="mt-4">
+            <details>
+              <summary className="text-lg font-semibold">{section.title}</summary>
+              <div className="nav-content">
+                <ul className="list-disc ml-6 mt-4">
+                  {section.items?.map((item: any, i: number) => (
+                    <li key={i}>
+                      {item.text}
+                      {item.url && (
+                        <>
+                          {" – "}
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline ml-2"
+                          >
+                            View
+                          </a>
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="tab4 mt-4">
-                <details>
-                  <summary className="text-lg font-semibold">NPTEL/Other Certifications</summary>
-                  <div className="nav-content">
-                    <ul className="list-disc ml-6 mt-4">
-                      <li>
-                        Certifications during the A.Y 2023-24 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_23-24_CERTIFICATIONS_TABLE.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View More</a>
-                      </li>
-                      <li>
-                        Certifications during the A.Y 2022-23 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/NPTEL%20&%20Others%20Certifications%202022-23(AIM).pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View More</a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
-              <div className="tab4 mt-4">
-                <details>
-                  <summary className="text-lg font-semibold">Global Certifications</summary>
-                  <div className="nav-content">
-                    <ul className="list-disc ml-6 mt-4 text-center">
-                      <li>
-                        Global Certifications during A. Y 2023-24 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/Global%20Certifications%202023-24%20(AIM).pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View More</a>
-                      </li>
-                      <li>
-                        Global Certifications during A. Y 2022-23 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/Global%20certifications%202022-23(AIM).pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View More</a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
-              <div className="tab4 mt-4">
-                <details>
-                  <summary className="text-lg font-semibold">Virtual Internships</summary>
-                  <div className="nav-content">
-                    <ul className="list-disc ml-6 mt-4">
-                      <li>
-                        List of Virtual Internships done by 2022-26 Batch Students during A.Y 2023-24 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM-A%20Virtual%20Intenships.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View More</a>
-                      </li>
-                      <li>
-                        List of Virtual Internships done by 2021-25 Batch Students during A.Y 2023-24 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_VIRTUAL_INTERNSHIPS_2021-25_BATCH.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View More</a>
-                      </li>
-                      <li>
-                        List of Virtual Internships done by 2021-25 Batch Students during A.Y 2022-23 -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_22-23_VIRTUAL_INTERNSHIPS_2021-25_BATCH.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View More</a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
-              <div className="tab4 mt-4">
-                <details>
-                  <summary className="text-lg font-semibold">Community Service Project</summary>
-                  <div className="nav-content">
-                    <ul className="list-disc ml-6 mt-4">
-                      <li>
-                        List of CSP Projects done by 2021-25 Batch Students -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/List%20of%20CSP%20Projects%20done%20by%202021-25%20Batch%20Students.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View More</a>
-                      </li>
-                      <li>
-                        List of CSP Projects done by 2022-26 Batch Students -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/AIM_CSP_2022-26_Batch.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View More</a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
-              <div className="tab4 mt-4">
-                <details>
-                  <summary className="text-lg font-semibold">Student Research Projects</summary>
-                  <div className="nav-content">
-                    <ul className="list-disc ml-6 mt-4">
-                      <li>
-                        Mini Projects done by 2021-25 Batch Students -
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/aiml/2021-25%20Batch%20AI&ML%20Miniproject%20Data.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline ml-2"
-                        >View More</a>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-              </div>
+            </details>
+          </div>
+        ))}
             </div>
           </div>
         );
@@ -1520,22 +1384,35 @@ const AIMLDepartment: React.FC = () => {
           <div id="placements" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
+              {placements.map((section, idx) => (
+          <div key={idx} className="mt-4">
+            <details>
+              <summary className="text-lg font-semibold">{section.title}</summary>
               <div className="nav-content">
-                <details open>
-                  <summary className="text-lg font-semibold">Placements for Batch 2021-25</summary>
-                  <ul className="list-disc ml-6 mt-4">
-                    <li>
-                      Placements for Batch 2021-25 -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/aiml/2021-25 AIM Placement Summary.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline ml-2"
-                      >View More</a>
+                <ul className="list-disc ml-6 mt-4">
+                  {section.items?.map((item: any, i: number) => (
+                    <li key={i}>
+                      {item.text}
+                      {item.url && (
+                        <>
+                          {" – "}
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline ml-2"
+                          >
+                            View
+                          </a>
+                        </>
+                      )}
                     </li>
-                  </ul>
-                </details>
+                  ))}
+                </ul>
               </div>
+            </details>
+          </div>
+        ))}
             </div>
           </div>
         );
@@ -1577,3 +1454,7 @@ const AIMLDepartment: React.FC = () => {
 };
 
 export default AIMLDepartment;
+
+function useEffect(arg0: () => void, arg1: never[]) {
+  throw new Error('Function not implemented.');
+}

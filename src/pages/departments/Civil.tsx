@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Building, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Library, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
 
@@ -8,25 +8,265 @@ const CivilDepartment: React.FC = () => {
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
 
-  const sidebarItems = [
-    { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
-    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
-    { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
-    { id: 'Physical Facilities', label: 'Physical Facilities', icon: <HardHat className="w-4 h-4" /> },
-    { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
-    { id: 'Workshops', label: 'Workshops', icon: <Presentation className="w-4 h-4" /> },
-    { id: 'R&D', label: 'R&D', icon: <Search className="w-4 h-4" /> },
-    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
-    { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
-    { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
-    { id: 'Technical Association', label: 'Technical Association', icon: <Activity className="w-4 h-4" /> },
-    { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
-    { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
-    { id: 'Research Projects', label: 'Research Projects', icon: <Search className="w-4 h-4" /> },
-    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
-    { id: 'Consultancy', label: 'Consultancy', icon: <Handshake className="w-4 h-4" /> },
-    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
-  ];
+  // Dynamic content state
+  const [dynamicSidebarItems, setDynamicSidebarItems] = useState<any[]>([]);
+  const [departmentInfo, setDepartmentInfo] = useState<any[]>([]);
+  const [studentAchievements, setStudentAchievements] = useState<any[]>([]);
+  const [facultyAchievements, setFacultyAchievements] = useState<any>({});
+  const [workshops, setWorkshops] = useState<any>({});
+  const [physicalFacilities, setPhysicalFacilities] = useState<any>({});
+  const [departmentLibrary, setDepartmentLibrary] = useState<any[]>([]);
+  const [placementBatches, setPlacementBatches] = useState<any[]>([]);
+  const [technicalAssociationActivities, setTechnicalAssociationActivities] = useState<any[]>([]);
+  const [newsletters, setNewsletters] = useState<any[]>([]);
+  const [extraCurricularActivities, setExtraCurricularActivities] = useState<any[]>([]);
+  const [researchDevelopment, setResearchDevelopment] = useState<any>({});
+  const [researchProjects, setResearchProjects] = useState<any>({});
+  const [consultancyActivities, setConsultancyActivities] = useState<any[]>([]);
+  const [boardOfStudies, setBoardOfStudies] = useState<any[]>([]);
+  const [departmentContact, setDepartmentContact] = useState<any[]>([]);
+
+  // Helper function to get icon component
+  const getIconComponent = (iconName: string) => {
+    const iconProps = { className: "w-4 h-4" };
+    switch (iconName) {
+      case 'Building': return <Building {...iconProps} />;
+      case 'Users': return <Users {...iconProps} />;
+      case 'Award': return <Award {...iconProps} />;
+      case 'BookOpen': return <BookOpen {...iconProps} />;
+      case 'HardHat': return <HardHat {...iconProps} />;
+      case 'Library': return <Library {...iconProps} />;
+      case 'Handshake': return <Handshake {...iconProps} />;
+      case 'TrendingUp': return <TrendingUp {...iconProps} />;
+      case 'Trophy': return <Trophy {...iconProps} />;
+      case 'Presentation': return <Presentation {...iconProps} />;
+      case 'Briefcase': return <Briefcase {...iconProps} />;
+      case 'Activity': return <Activity {...iconProps} />;
+      case 'Rss': return <Rss {...iconProps} />;
+      case 'Search': return <Search {...iconProps} />;
+      case 'Phone': return <Phone {...iconProps} />;
+      default: return <Building {...iconProps} />;
+    }
+  };
+
+  // Fetch dynamic sidebar items
+  useEffect(() => {
+    fetch('/api/cseai/sidebar-items?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setDynamicSidebarItems(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch sidebar items:', err));
+  }, []);
+
+  // Fetch department info sections
+  useEffect(() => {
+    fetch('/api/cseai/department-info?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setDepartmentInfo(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch department info:', err));
+  }, []);
+
+  // Fetch student achievements
+  useEffect(() => {
+    fetch('/api/cseai/student-achievements?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setStudentAchievements(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch student achievements:', err));
+  }, []);
+
+  // Fetch faculty achievements
+  useEffect(() => {
+    fetch('/api/cseai/faculty-achievements?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setFacultyAchievements(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch faculty achievements:', err));
+  }, []);
+
+  // Fetch workshops
+  useEffect(() => {
+    fetch('/api/cseai/workshops?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setWorkshops(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch workshops:', err));
+  }, []);
+
+  // Fetch physical facilities
+  useEffect(() => {
+    fetch('/api/cseai/physical-facilities?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setPhysicalFacilities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch physical facilities:', err));
+  }, []);
+
+  // Fetch department library
+  useEffect(() => {
+    fetch('/api/cseai/department-library?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setDepartmentLibrary(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch department library:', err));
+  }, []);
+
+  // Fetch placement batches
+  useEffect(() => {
+    fetch('/api/cseai/placement-batches?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setPlacementBatches(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch placement batches:', err));
+  }, []);
+
+  // Fetch technical association activities
+  useEffect(() => {
+    fetch('/api/cseai/technical-association?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setTechnicalAssociationActivities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch technical association activities:', err));
+  }, []);
+
+  // Fetch newsletters
+  useEffect(() => {
+    fetch('/api/cseai/newsletters?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setNewsletters(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch newsletters:', err));
+  }, []);
+
+  // Fetch extra-curricular activities
+  useEffect(() => {
+    fetch('/api/cseai/extra-curricular?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setExtraCurricularActivities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch extra-curricular activities:', err));
+  }, []);
+
+  // Fetch research development activities
+  useEffect(() => {
+    fetch('/api/civil/research-development?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setResearchDevelopment(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch research development activities:', err));
+  }, []);
+
+  // Fetch research projects
+  useEffect(() => {
+    fetch('/api/civil/research-projects?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setResearchProjects(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch research projects:', err));
+  }, []);
+
+  // Fetch consultancy activities
+  useEffect(() => {
+    fetch('/api/civil/consultancy?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setConsultancyActivities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch consultancy activities:', err));
+  }, []);
+
+  // Fetch board of studies
+  useEffect(() => {
+    fetch('/api/cseai/board-of-studies?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setBoardOfStudies(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch board of studies:', err));
+  }, []);
+
+  // Fetch department contact
+  useEffect(() => {
+    fetch('/api/cseai/contact?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setDepartmentContact(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch department contact:', err));
+  }, []);
+
+  // Create sidebar items from dynamic data
+  const sidebarItems = dynamicSidebarItems.length > 0
+    ? dynamicSidebarItems.map(item => ({
+      id: item.item_id,
+      label: item.label,
+      icon: getIconComponent(item.icon_name)
+    }))
+    : [
+      { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
+      { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
+      { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
+      { id: 'Physical Facilities', label: 'Physical Facilities', icon: <HardHat className="w-4 h-4" /> },
+      { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
+      { id: 'Workshops', label: 'Workshops', icon: <Presentation className="w-4 h-4" /> },
+      { id: 'R&D', label: 'R&D', icon: <Search className="w-4 h-4" /> },
+      { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
+      { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
+      { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
+      { id: 'Technical Association', label: 'Technical Association', icon: <Activity className="w-4 h-4" /> },
+      { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
+      { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
+      { id: 'Research Projects', label: 'Research Projects', icon: <Search className="w-4 h-4" /> },
+      { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
+      { id: 'Consultancy', label: 'Consultancy', icon: <Handshake className="w-4 h-4" /> },
+      { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
+    ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
@@ -77,25 +317,25 @@ const CivilDepartment: React.FC = () => {
                     <p className="text-gray-600">Email: <a href="mailto:hod_civil@srivasaviengg.ac.in" className="text-primary hover:underline">hod_civil@srivasaviengg.ac.in</a></p>
                   </div>
                   <p className="text-gray-700 leading-relaxed mb-4 text-justify">
-                     The Department of Civil Engineering was established in the
-                year 2011 with a vision to strive towards quality education,
-                research and consultancy. Civil Engineering is one of the
-                oldest and broadest engineering discipline which has been an
-                aspect of life, since the beginning of human civilization.
-                Efforts have been made to provide high quality technical
-                education to students with a view to make them successful
-                professionals. In order to attain the pre-defined objectives,
-                focus has been made on Outcome Based Education, which
-                facilitates the students to analyze problems, design and
-                develop solutions and usage of modern tools, by making
-                him/herself as an ethical Engineer with best of the kind
-                leadership traits. Department is offering B.Tech (Civil) with
-                an intake of 60 and M. Tech (Structural Engg.) with 18
-                students. Department comprises well qualified and proficient
-                faculty to direct the students in reaching their goals.
+                    The Department of Civil Engineering was established in the
+                    year 2011 with a vision to strive towards quality education,
+                    research and consultancy. Civil Engineering is one of the
+                    oldest and broadest engineering discipline which has been an
+                    aspect of life, since the beginning of human civilization.
+                    Efforts have been made to provide high quality technical
+                    education to students with a view to make them successful
+                    professionals. In order to attain the pre-defined objectives,
+                    focus has been made on Outcome Based Education, which
+                    facilitates the students to analyze problems, design and
+                    develop solutions and usage of modern tools, by making
+                    him/herself as an ethical Engineer with best of the kind
+                    leadership traits. Department is offering B.Tech (Civil) with
+                    an intake of 60 and M. Tech (Structural Engg.) with 18
+                    students. Department comprises well qualified and proficient
+                    faculty to direct the students in reaching their goals.
                   </p>
-                  
-                  
+
+
                 </div>
               </div>
             </div>
@@ -103,7 +343,7 @@ const CivilDepartment: React.FC = () => {
             {/* Department Overview Section */}
             <div className="border-t pt-10 mt-10">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
-              
+
 
               <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
               <div className="overflow-x-auto">
@@ -136,7 +376,7 @@ const CivilDepartment: React.FC = () => {
           <div className="py-6">
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
             <p className="text-gray-700 leading-relaxed">
-                To be a Department that strives towards quality
+              To be a Department that strives towards quality
               education,research and consultancy in Civil Engineering.
             </p>
           </div>
@@ -146,7 +386,7 @@ const CivilDepartment: React.FC = () => {
           <div className="py-6">
             <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-               <b>M1:</b>To provide broad and high quality education to its
+              <b>M1:</b>To provide broad and high quality education to its
               students for a successful professional career.<br />
               <b>M2:</b>To serve the construction industry through
               dissemination of knowledge and technical service to rural
@@ -631,12 +871,67 @@ const CivilDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">R&amp;D</h2>
-            <p className="text-lg p-4">
-              Science and Engineering Research Board, Department of Science &amp; Technology, Government of India, New Delhi Sponsored A Two Day National Workshop on "Nano Applications in Civil Engineering" on 12th &amp; 13th April, 2017
-            </p>
+            <div className="space-y-6">
+              {/* Dynamic R&D Activities */}
+              {Object.keys(researchDevelopment).length > 0 ? (
+                Object.entries(researchDevelopment).map(([activityType, activities]: [string, any]) => (
+                  <div key={activityType}>
+                    <h3 className="text-xl font-semibold text-[#850209] mb-4">{activityType}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {activities.map((activity: any, index: number) => (
+                        <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                          <h4 className="font-semibold text-lg mb-2">{activity.activity_title}</h4>
+                          {activity.description && (
+                            <p className="text-gray-700 mb-2">{activity.description}</p>
+                          )}
+                          {activity.faculty_name && (
+                            <p className="text-sm text-gray-600 mb-2">
+                              <strong>Faculty:</strong> {activity.faculty_name}
+                            </p>
+                          )}
+                          {activity.funding_agency && (
+                            <p className="text-sm text-gray-600 mb-2">
+                              <strong>Funding Agency:</strong> {activity.funding_agency}
+                            </p>
+                          )}
+                          {activity.funding_amount && (
+                            <p className="text-sm text-gray-600 mb-2">
+                              <strong>Amount:</strong> ₹{activity.funding_amount.toLocaleString()}
+                            </p>
+                          )}
+                          {activity.status && (
+                            <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${activity.status === 'Ongoing' ? 'bg-green-100 text-green-800' :
+                              activity.status === 'Completed' ? 'bg-blue-100 text-blue-800' :
+                                'bg-gray-100 text-gray-800'
+                              }`}>
+                              {activity.status}
+                            </span>
+                          )}
+                          {activity.document_url && (
+                            <a
+                              href={activity.document_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-block mt-2 text-[#850209] hover:underline"
+                            >
+                              View Document
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                // Fallback static content if API fails
+                <div className="text-center text-gray-600">
+                  <p>Science and Engineering Research Board, Department of Science &amp; Technology, Government of India, New Delhi Sponsored A Two Day National Workshop on "Nano Applications in Civil Engineering" on 12th &amp; 13th April, 2017</p>
+                </div>
+              )}
+            </div>
           </div>
         );
-       case 'Department Profile':
+      case 'Department Profile':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             {/* Desktop Navigation Tabs */}
@@ -647,8 +942,8 @@ const CivilDepartment: React.FC = () => {
                     key={section}
                     onClick={() => setActiveDeptTab(section)}
                     className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                        ? 'bg-[#B22222] text-white shadow-lg'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-[#B22222] text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
                     {section === 'SalientFeatures' ? 'Salient Features' : section}
@@ -716,8 +1011,8 @@ const CivilDepartment: React.FC = () => {
                               setSettingsPanelOpen(false);
                             }}
                             className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
-                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                              ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                              : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                               }`}
                           >
                             <div className="flex items-center gap-3">
@@ -790,7 +1085,7 @@ const CivilDepartment: React.FC = () => {
           </div>
         );
 
-     
+
       case 'Faculty Profiles':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -847,9 +1142,9 @@ const CivilDepartment: React.FC = () => {
       case 'Board of Studies':
         return (
           <div className="tab4 mt-4">
-              <details open className="border rounded-lg p-4">
+            <details open className="border rounded-lg p-4">
 
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Board of Studies</summary>
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Board of Studies</summary>
               <div className="mt-4">
                 <ul className="list-disc ml-6 space-y-2">
                   <li>
@@ -885,10 +1180,10 @@ const CivilDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
-          <div className="tab4 mt-4">
+            <div className="tab4 mt-4">
               <details open className="border rounded-lg p-4">
 
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Timetables</summary>      
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Timetables</summary>
                 <ul className="list-disc ml-6 space-y-2">
                   <li>
                     Master Timetable_A.Y for Sem-VIII 2022-23 -{' '}
@@ -904,12 +1199,12 @@ const CivilDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
-              </div>
+            </div>
 
-                        <div className="tab4 mt-4">
-              <details  className="border rounded-lg p-4">
+            <div className="tab4 mt-4">
+              <details className="border rounded-lg p-4">
 
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Rooms</summary>      
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Rooms</summary>
                 <ul className="list-disc ml-6 space-y-2">
                   <li>
                     Class Rooms with ICT Enabled Facilities -{' '}
@@ -917,11 +1212,11 @@ const CivilDepartment: React.FC = () => {
                   </li>
                 </ul>
               </details>
-              </div>
-                        <div className="tab4 mt-4">
+            </div>
+            <div className="tab4 mt-4">
               <details open className="border rounded-lg p-4">
 
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Laboratories</summary>      
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Laboratories</summary>
                 <ul className="list-disc ml-6 space-y-2">
                   <li>Strength of Materials Lab</li>
                   <li>CAD & GSI Lab</li>
@@ -984,10 +1279,10 @@ const CivilDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Workshops / Guest Lectures / Field Visits</h2>
-              <div className="tab4 mt-4">
+            <div className="tab4 mt-4">
               <details open className="border rounded-lg p-4">
-              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Tim</summary>      
-              <div className="ml-4">
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Workshops</summary>
+                <div className="ml-4">
                   <ol className="list-decimal ml-6 space-y-2">
                     <li>
                       Workshops organized during the Academic Year 2023-2024 -{' '}
@@ -1263,69 +1558,187 @@ const CivilDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Extra-Curricular Activities</h2>
             <div className="space-y-6">
-              <ul className="list-disc ml-6 space-y-4 text-center">
-                <li>
-                  Extracurricular activities during the Year 2018-19 -{' '}
-                  <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/Extra_curricular_activities.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
-                </li>
-                <li>
-                  Extracurricular activities during the Year 2017-18 -{' '}
-                  <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/ENGINEERS%20DAY(2017-2018).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
-                </li>
-              </ul>
-            </div>
+                <ul className="list-disc ml-6 space-y-4 text-center">
+                  <li>
+                    Extracurricular activities during the Year 2018-19 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/Extra_curricular_activities.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                  <li>
+                    Extracurricular activities during the Year 2017-18 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/ENGINEERS%20DAY(2017-2018).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </div>
           </div>
         );
-      case 'Consultancy':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Consultancy</h2>
-            <div className="space-y-6">
-              <ul className="list-disc ml-6 space-y-4">
-                <li>
-                  Consultancy Details for the Academic year 2022-2023 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202022-2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Consultancy Details for the Academic year 2021-2022 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202021-2022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Consultancy Details for the Academic year 2020-2021 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202020-2021.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Consultancy Details for the Academic year 2019-2020 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202019-2020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Consultancy Details for the Academic year 2018-2019 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202018-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Consultancy Details for the Academic year 2017-2018 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202017-2018.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Consultancy Details for the Academic year 2016-2017 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202016-2017.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Consultancy Details for the Academic year 2015-2016 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202015-2016.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Consultancy Details for the Academic year 2014-2015 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202014-2015.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-                <li>
-                  Consultancy Details for the Academic year 2013-2014 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                </li>
-              </ul>
-            </div>
+
+        case 'Consultancy':
+  return (
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Consultancy</h2>
+      <div className="space-y-6">
+        {/* Dynamic Consultancy Activities */}
+        {consultancyActivities.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {consultancyActivities.map((consultancy: any, index: number) => (
+              <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                <h4 className="font-semibold text-lg mb-2">{consultancy.project_title}</h4>
+                {consultancy.description && (
+                  <p className="text-gray-700 mb-2">{consultancy.description}</p>
+                )}
+                {consultancy.client_name && (
+                  <p className="text-sm text-gray-600 mb-2">
+                    <strong>Client:</strong> {consultancy.client_name}
+                  </p>
+                )}
+                {consultancy.faculty_involved && (
+                  <p className="text-sm text-gray-600 mb-2">
+                    <strong>Faculty Involved:</strong> {consultancy.faculty_involved}
+                  </p>
+                )}
+                {consultancy.project_value && (
+                  <p className="text-sm text-gray-600 mb-2">
+                    <strong>Project Value:</strong> ₹{consultancy.project_value.toLocaleString()}
+                  </p>
+                )}
+                {consultancy.project_type && (
+                  <span className="inline-block px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800 mb-2">
+                    {consultancy.project_type}
+                  </span>
+                )}
+                {consultancy.document_url && (
+                  <a
+                    href={consultancy.document_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-2 text-[#850209] hover:underline"
+                  >
+                    View Document
+                  </a>
+                )}
+              </div>
+            ))}
           </div>
-        );
+        ) : (
+          // Fallback static content if API fails
+          <ul className="list-disc ml-6 space-y-4">
+            <li>
+              Consultancy Details for the Academic year 2022-2023 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202022-2023.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2021-2022 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202021-2022.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2020-2021 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202020-2021.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2019-2020 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202019-2020.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2018-2019 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202018-2019.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2017-2018 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202017-2018.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2016-2017 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202016-2017.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2015-2016 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202015-2016.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2014-2015 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202014-2015.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2013-2014 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+
+      
       case 'Syllabus':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
