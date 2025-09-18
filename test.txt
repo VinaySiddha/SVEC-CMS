@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS civil_syllabus (
+  id INT NOT NULL AUTO_INCREMENT,
+  department VARCHAR(50) NOT NULL,
+  program VARCHAR(50) NOT NULL,
+  version VARCHAR(20) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  url VARCHAR(512) NOT NULL,
+  PRIMARY KEY (id)
+);
