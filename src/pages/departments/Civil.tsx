@@ -1281,7 +1281,7 @@ const CivilDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Workshops / Guest Lectures / Field Visits</h2>
             <div className="tab4 mt-4">
               <details open className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Tim</summary>
+                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Workshops</summary>
                 <div className="ml-4">
                   <ol className="list-decimal ml-6 space-y-2">
                     <li>
@@ -1558,113 +1558,187 @@ const CivilDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Extra-Curricular Activities</h2>
             <div className="space-y-6">
-              <ul className="list-disc ml-6 space-y-4 text-center">
-                <li>
-                  Extracurricular activities during the Year 2018-19 -{' '}
-                  <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/Extra_curricular_activities.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
-                </li>
-                <li>
-                  Extracurricular activities during the Year 2017-18 -{' '}
-                  <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/ENGINEERS%20DAY(2017-2018).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        );
-      case 'Consultancy':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Consultancy</h2>
-            <div className="space-y-6">
-              {/* Dynamic Consultancy Activities */}
-              {consultancyActivities.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {consultancyActivities.map((consultancy: any, index: number) => (
-                    <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <h4 className="font-semibold text-lg mb-2">{consultancy.project_title}</h4>
-                      {consultancy.description && (
-                        <p className="text-gray-700 mb-2">{consultancy.description}</p>
-                      )}
-                      {consultancy.client_name && (
-                        <p className="text-sm text-gray-600 mb-2">
-                          <strong>Client:</strong> {consultancy.client_name}
-                        </p>
-                      )}
-                      {consultancy.faculty_involved && (
-                        <p className="text-sm text-gray-600 mb-2">
-                          <strong>Faculty Involved:</strong> {consultancy.faculty_involved}
-                        </p>
-                      )}
-                      {consultancy.project_value && (
-                        <p className="text-sm text-gray-600 mb-2">
-                          <strong>Project Value:</strong> ₹{consultancy.project_value.toLocaleString()}
-                        </p>
-                      )}
-                      {consultancy.project_type && (
-                        <span className="inline-block px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800 mb-2">
-                          {consultancy.project_type}
-                        </span>
-                      )}
-                      {consultancy.document_url && (
-                        <a
-                          href={consultancy.document_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block mt-2 text-[#850209] hover:underline"
-                        >
-                          View Document
-                        </a>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                // Fallback static content if API fails
-                <ul className="list-disc ml-6 space-y-4">
+                <ul className="list-disc ml-6 space-y-4 text-center">
                   <li>
-                    Consultancy Details for the Academic year 2022-2023 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202022-2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    Extracurricular activities during the Year 2018-19 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/Extra_curricular_activities.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
                   </li>
                   <li>
-                    Consultancy Details for the Academic year 2021-2022 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202021-2022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2020-2021 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202020-2021.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2019-2020 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202019-2020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2018-2019 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202018-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2017-2018 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202017-2018.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2016-2017 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202016-2017.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2015-2016 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202015-2016.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2014-2015 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202014-2015.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
-                  </li>
-                  <li>
-                    Consultancy Details for the Academic year 2013-2014 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    Extracurricular activities during the Year 2017-18 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/ENGINEERS%20DAY(2017-2018).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
                   </li>
                 </ul>
-            </div>
+              </div>
           </div>
         );
+
+        case 'Consultancy':
+  return (
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Consultancy</h2>
+      <div className="space-y-6">
+        {/* Dynamic Consultancy Activities */}
+        {consultancyActivities.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {consultancyActivities.map((consultancy: any, index: number) => (
+              <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                <h4 className="font-semibold text-lg mb-2">{consultancy.project_title}</h4>
+                {consultancy.description && (
+                  <p className="text-gray-700 mb-2">{consultancy.description}</p>
+                )}
+                {consultancy.client_name && (
+                  <p className="text-sm text-gray-600 mb-2">
+                    <strong>Client:</strong> {consultancy.client_name}
+                  </p>
+                )}
+                {consultancy.faculty_involved && (
+                  <p className="text-sm text-gray-600 mb-2">
+                    <strong>Faculty Involved:</strong> {consultancy.faculty_involved}
+                  </p>
+                )}
+                {consultancy.project_value && (
+                  <p className="text-sm text-gray-600 mb-2">
+                    <strong>Project Value:</strong> ₹{consultancy.project_value.toLocaleString()}
+                  </p>
+                )}
+                {consultancy.project_type && (
+                  <span className="inline-block px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800 mb-2">
+                    {consultancy.project_type}
+                  </span>
+                )}
+                {consultancy.document_url && (
+                  <a
+                    href={consultancy.document_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-2 text-[#850209] hover:underline"
+                  >
+                    View Document
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          // Fallback static content if API fails
+          <ul className="list-disc ml-6 space-y-4">
+            <li>
+              Consultancy Details for the Academic year 2022-2023 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202022-2023.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2021-2022 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202021-2022.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2020-2021 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202020-2021.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2019-2020 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202019-2020.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2018-2019 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202018-2019.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2017-2018 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202017-2018.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2016-2017 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202016-2017.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2015-2016 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202015-2016.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2014-2015 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202014-2015.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+            <li>
+              Consultancy Details for the Academic year 2013-2014 -{' '}
+              <a
+                href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </li>
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+
+      
       case 'Syllabus':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
