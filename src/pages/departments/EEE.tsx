@@ -48,12 +48,18 @@ const EEEDepartment: React.FC = () => {
   useEffect(() => {
     if (sidebarOpen && window.innerWidth < 1024) {
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
     } else {
       document.body.style.overflow = 'unset';
+      document.body.style.position = 'unset';
+      document.body.style.width = 'unset';
     }
 
     return () => {
       document.body.style.overflow = 'unset';
+      document.body.style.position = 'unset';
+      document.body.style.width = 'unset';
     };
   }, [sidebarOpen]);
 
@@ -350,155 +356,27 @@ const EEEDepartment: React.FC = () => {
     switch (activeContent) {
       case 'Department Profile':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="space-y-8">
             <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Department Profile</h2>
 
-            {/* Desktop Navigation Tabs */}
-            <div className="hidden md:block relative mb-8">
-              <div className="flex flex-wrap justify-center gap-2 mb-6">
-                {sections.map((section) => (
-                  <button
-                    key={section}
-                    onClick={() => setActiveDeptTab(section)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                      ? 'bg-[#850209] text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    {section === 'SalientFeatures' ? 'Salient Features' : section}
-                  </button>
-                ))}
-              </div>
+            {/* Simplified Navigation Tabs */}
+            <div className="flex flex-wrap justify-center gap-2 mb-8">
+              {sections.map((section) => (
+                <button
+                  key={section}
+                  onClick={() => setActiveDeptTab(section)}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === section
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  {section === 'SalientFeatures' ? 'Salient Features' : section}
+                </button>
+              ))}
             </div>
 
-            {/* Mobile Section Display */}
-            <div className="md:hidden relative mb-8">
-              <div className="text-center mb-6">
-                <h3 className="text-xl font-semibold text-gray-800">
-                  Current Section: <span className="text-[#850209]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
-                </h3>
-                <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
-              </div>
-            </div>
-
-            {/* Game-Style Right Side Settings Panel */}
-            {settingsPanelOpen && (
-              <div className="fixed inset-0 z-50">
-                {/* Backdrop */}
-                <div
-                  className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
-                  onClick={() => setSettingsPanelOpen(false)}
-                ></div>
-
-                {/* Settings Panel */}
-                <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
-                  {/* Panel Header */}
-                  <div className="bg-gradient-to-r from-[#850209] to-[#6B0000] p-4 border-b border-gray-700">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <h3 className="text-white font-bold text-lg">Department Navigation</h3>
-                          <p className="text-white/70 text-sm">Select a section to explore</p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => setSettingsPanelOpen(false)}
-                        className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
-                      >
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Panel Content */}
-                  <div className="p-6 h-full overflow-y-auto">
-                    <div className="space-y-3">
-                      {sections.map((section, index) => {
-                        const isActive = section === activeDeptTab;
-                        return (
-                          <button
-                            key={section}
-                            onClick={() => {
-                              setActiveDeptTab(section);
-                              setSettingsPanelOpen(false);
-                            }}
-                            className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                              ? 'bg-gradient-to-r from-[#850209] to-[#6B0000] text-white shadow-lg scale-105'
-                              : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
-                              }`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
-                                }`}>
-                                {index + 1}
-                              </div>
-                              <div>
-                                <div className="font-semibold">
-                                  {section === 'SalientFeatures' ? 'Salient Features' : section}
-                                </div>
-                                <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
-                                  {section === 'Department' && 'Overview & HOD Profile'}
-                                  {section === 'Vision' && 'Department Vision Statement'}
-                                  {section === 'Mission' && 'Department Mission Statement'}
-                                  {section === 'PEOs' && 'Program Educational Objectives'}
-                                  {section === 'POs' && 'Program Outcomes'}
-                                  {section === 'PSOs' && 'Program Specific Outcomes'}
-                                  {section === 'COs' && 'Course Outcomes'}
-                                  {section === 'SalientFeatures' && 'Key Highlights & Features'}
-                                </div>
-                              </div>
-                              {isActive && (
-                                <div className="ml-auto">
-                                  <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                                </div>
-                              )}
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Panel Footer */}
-                    <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
-                      <div className="text-center">
-                        <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
-                        <div className="text-white/50 text-xs">
-                          Click any section above to navigate instantly
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Floating Settings Button - Mobile Only */}
-            <button
-              onClick={() => setSettingsPanelOpen(true)}
-              className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#850209] to-[#6B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-              title="Department Navigation"
-            >
-              <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-
-              {/* Mobile Label */}
-              <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                Menu
-                <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
-              </div>
-            </button>
-
-            {/* Tab Content */}
-            <div className="mt-6">
+            {/* Content Area */}
+            <div>
               {renderDeptTabContent()}
             </div>
           </div>
@@ -2195,15 +2073,13 @@ const EEEDepartment: React.FC = () => {
         </section>
       </div>
       
-      {/* Department Menu Button - Fixed below red ribbon */}
+      {/* Department Menu Button - Responsive Position */}
       <div 
-        style={{
-          position: 'fixed',
-          top: '240px',
-          left: '20px',
-          zIndex: 60,
-          isolation: 'isolate'
-        }}
+        className={`
+          fixed z-60 transition-all duration-300
+          lg:top-60 lg:left-5
+          top-4 left-4
+        `}
       >
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -2211,32 +2087,34 @@ const EEEDepartment: React.FC = () => {
         >
           <Menu className="w-5 h-5" />
           <span className="hidden sm:inline">Department Menu</span>
+          <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${sidebarOpen ? 'rotate-90' : ''}`} />
         </button>
       </div>
 
-      {/* Sidebar - Completely Fixed and Independent */}
+      {/* Mobile Backdrop Overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar - Mobile and Desktop Responsive */}
       <aside 
         className={`
-          bg-white shadow-lg border-r border-gray-200 transition-all duration-300 ease-in-out
-          ${sidebarOpen ? 'w-80' : 'w-0'}
-          overflow-hidden
+          transition-all duration-300 ease-in-out
+          fixed z-50 overflow-hidden
+          
+          lg:top-[300px] lg:left-5 lg:h-[600px]
+          lg:${sidebarOpen ? 'w-80 bg-white shadow-lg border-r border-gray-200' : 'w-0 bg-transparent shadow-none border-none'}
+          
+          top-0 left-0 h-full w-80
+          ${sidebarOpen ? 'translate-x-0 bg-white shadow-lg border-r border-gray-200' : '-translate-x-full bg-transparent shadow-none border-none'}
         `}
-        style={{ 
-          position: 'fixed',
-          top: '310px',
-          left: 0,
-          height: 'calc(100vh - 310px)',
-          zIndex: 50,
-          isolation: 'isolate',
-          contain: 'strict',
-          transform: 'translateZ(0)',
-          pointerEvents: sidebarOpen ? 'auto' : 'none'
-        }}
         onWheel={handleSidebarWheel}
       >
         <div 
-          className={`w-80 h-full flex flex-col transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`}
-          style={{ touchAction: 'pan-y' }}
+          className={`w-full h-full flex flex-col transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`}
         >
           {/* Header - Fixed at top */}
           <div className="flex justify-between items-center p-4 border-b bg-red-50 flex-shrink-0">
@@ -2246,23 +2124,16 @@ const EEEDepartment: React.FC = () => {
             </h3>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 p-1 rounded transition-colors lg:hidden"
+              className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 p-1 rounded transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Navigation - Scrollable area with invisible scrollbar */}
+          {/* Navigation - Scrollable area */}
           <nav 
-            className="flex-1 overflow-y-auto p-4 space-y-1"
+            className="flex-1 overflow-y-auto p-4 space-y-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             data-scrollable-nav
-            style={{ 
-              scrollBehavior: 'smooth',
-              WebkitOverflowScrolling: 'touch',
-              overscrollBehavior: 'contain',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            }}
             onTouchMove={(e) => {
               e.stopPropagation();
             }}
@@ -2294,18 +2165,16 @@ const EEEDepartment: React.FC = () => {
         </div>
       </aside>
       
-      {/* Content Layout */}
+      {/* Content Layout - Responsive */}
       <div className="container mx-auto px-4">
         <div className="flex relative">
-          {/* Main Content - Independent scrolling */}
+          {/* Main Content - Responsive margins */}
           <main 
-            className="w-full min-h-screen py-8"
-            style={{
-              marginLeft: sidebarOpen ? '320px' : '0px',
-              transition: 'margin-left 300ms ease-in-out',
-              position: 'relative',
-              zIndex: 1
-            }}
+            className={`
+              w-full min-h-screen py-8 transition-all duration-300 ease-in-out
+              ${sidebarOpen ? 'lg:ml-80' : 'lg:ml-0'}
+              ml-0
+            `}
           >
             <div className="py-8">
               <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
