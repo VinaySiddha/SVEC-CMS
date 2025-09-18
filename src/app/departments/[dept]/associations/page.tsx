@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useParams } from "next/navigation";
-import AssociationsList from "@/components/associations/AssociationsList";
+import { AssociationsList } from "@/components/associations/AssociationsList";
 
 // UI Components
 import {

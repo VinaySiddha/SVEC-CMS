@@ -184,6 +184,7 @@ export default function DataManagementDashboard() {
             <TabsTrigger
               key={tab.id}
               value={tab.id}
+              data-no-loading="true"
               className="flex flex-col items-center gap-2 p-4 h-auto data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <span className="text-2xl">{tab.icon}</span>

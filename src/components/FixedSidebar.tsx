@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Menu, X, BookOpen, ChevronRight } from 'lucide-react';
+import { LogoLoader } from './ui/LogoLoader';
 
 interface SidebarItem {
   id: string;
@@ -62,6 +63,7 @@ const FixedSidebar: React.FC<FixedSidebarProps> = ({
         `}
       >
         <button
+          data-no-loading="true"
           onClick={onToggle}
           className="bg-[#B22222] text-white px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-[#8B0000] transition-all shadow-lg hover:shadow-xl"
         >

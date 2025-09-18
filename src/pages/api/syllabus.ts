@@ -1,6 +1,8 @@
 import mysql from "mysql2/promise";
+import { NextApiRequest, NextApiResponse } from 'next';
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    const { dept } = req.query; // dynamically get department
 
-export default async function handler(req, res) {
     try {
         const connection = await mysql.createConnection({
             host: "62.72.31.209",
@@ -10,7 +12,8 @@ export default async function handler(req, res) {
         });
 
         const [rows] = await connection.execute(
-            "SELECT * FROM syllabus WHERE dept='cseai' ORDER BY category, year DESC"
+            "SELECT * FROM syllabus WHERE dept = ? ORDER BY category, year DESC",
+            [dept]   // safely bind dept
         );
 
         await connection.end();
