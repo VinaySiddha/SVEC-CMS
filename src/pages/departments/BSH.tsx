@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Book, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
+
+ import React, { useState, useEffect } from 'react';
+import { Book, BookOpen, Award,  Users, FileText, Activity,  Phone,  Microscope,  Download, Presentation, Trophy,  Building, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
 import StandardDepartmentProfile from '../../components/StandardDepartmentProfile';
 
