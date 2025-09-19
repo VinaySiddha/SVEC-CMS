@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library } from 'lucide-react';
+import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, X } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
+import { usePublicDepartmentData, type Faculty, type Staff, type BoardOfStudiesMeetingMinute, type SyllabusDocument } from '../../hooks/usePublicDepartmentData';
 
 // Interface for faculty data
 interface FacultyMember {
@@ -36,137 +37,83 @@ interface BoardOfStudiesMember {
   image_url?: string;
 }
 
-interface BoardOfStudiesMeetingMinute {
-  id: number;
-  meeting_title: string;
-  meeting_number: number;
-  meeting_date: string;
-  document_url: string;
-  academic_year: string;
-  description?: string;
-}
-
 const EEEDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
-  const [faculty, setFaculty] = useState<FacultyMember[]>([]);
-  const [nonTeachingFaculty, setNonTeachingFaculty] = useState<NonTeachingStaff[]>([]);
-  const [boardOfStudiesMembers, setBoardOfStudiesMembers] = useState<BoardOfStudiesMember[]>([]);
-  const [boardOfStudiesMeetingMinutes, setBoardOfStudiesMeetingMinutes] = useState<BoardOfStudiesMeetingMinute[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // Use the public department data hook
+  const { data: departmentData, loading, error } = usePublicDepartmentData('eee');
 
-  // Fetch faculty data from database
+  // Prevent body scroll when sidebar is open on mobile
   useEffect(() => {
-    const fetchFacultyData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/public/departments/eee');
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        // Set faculty data (teaching staff) - API returns data in nested structure
-        if (data.data && data.data.faculty && Array.isArray(data.data.faculty)) {
-          setFaculty(data.data.faculty);
-        }
-        
-        // Set non-teaching staff data
-        if (data.data && data.data.nonTeachingStaff && Array.isArray(data.data.nonTeachingStaff)) {
-          setNonTeachingFaculty(data.data.nonTeachingStaff);
-        }
-        
-        // Set board of studies members data
-        if (data.data && data.data.boardOfStudiesMembers && Array.isArray(data.data.boardOfStudiesMembers)) {
-          setBoardOfStudiesMembers(data.data.boardOfStudiesMembers);
-        }
-        
-        // Set board of studies meeting minutes data
-        if (data.data && data.data.boardOfStudiesMeetingMinutes && Array.isArray(data.data.boardOfStudiesMeetingMinutes)) {
-          setBoardOfStudiesMeetingMinutes(data.data.boardOfStudiesMeetingMinutes);
-        }
-        
-        setError(null);
-      } catch (error) {
-        console.error('Error fetching faculty data:', error);
-        setError('Failed to load faculty data. Please try again later.');
-        setFaculty([]);
-        setNonTeachingFaculty([]);
-        setBoardOfStudiesMembers([]);
-        setBoardOfStudiesMeetingMinutes([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (sidebarOpen && window.innerWidth < 1024) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.overflow = 'unset';
+      document.body.style.position = 'unset';
+      document.body.style.width = 'unset';
+    }
 
-    fetchFacultyData();
-  }, []);
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.style.position = 'unset';
+      document.body.style.width = 'unset';
+    };
+  }, [sidebarOpen]);
+  
+  // Extract data from the hook
+  const faculty = departmentData?.faculty || [];
+  const nonTeachingFaculty = departmentData?.nonTeachingStaff || [];
+  const boardOfStudiesMembers = departmentData?.boardOfStudies || [];
+  const boardOfStudiesMeetingMinutes = departmentData?.boardOfStudiesMeetingMinutes || [];
+  const facultyInnovations = departmentData?.facultyInnovations || [];
+  const researchCenters = departmentData?.researchCenters || [];
+  const productDevelopment = departmentData?.productDevelopment || [];
+  const departmentalActivities = departmentData?.departmentalActivities || [];
+  const greenInitiatives = departmentData?.greenInitiatives || [];
+  const technicalMagazines = departmentData?.technicalMagazines || [];
+  const syllabusDocuments = departmentData?.syllabusDocuments || [];
 
   const sidebarItems = [
-    { id: 'Department Profile', label: 'Department Profile', icon: () => <Building className="w-4 h-4" /> },
-    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: () => <Users className="w-4 h-4" /> },
-    { id: 'Board of Studies', label: 'Board of Studies', icon: () => <Award className="w-4 h-4" /> },
-    { id: 'Syllabus', label: 'Syllabus', icon: () => <BookOpen className="w-4 h-4" /> },
-    { id: 'Labaratories', label: 'Labaratories', icon: () => <Microscope className="w-4 h-4" /> },
-    { id: 'Department Library', label: 'Department Library', icon: () => <Library className="w-4 h-4" /> },
-    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: () => <Trophy className="w-4 h-4" /> },
-    { id: 'Faculty Innovations in T & L', label: 'Faculty Innovations in T & L', icon: () => <TrendingUp className="w-4 h-4" /> },
-    { id: 'Research Center', label: 'Research Center', icon: () => <Search className="w-4 h-4" /> },
-    { id: 'Student Achievements', label: 'Student Achievements', icon: () => <Award className="w-4 h-4" /> },
-    { id: 'Placements', label: 'Placements', icon: () => <Briefcase className="w-4 h-4" /> },
-    { id: 'Technical Association', label: 'Technical Association', icon: () => <Zap className="w-4 h-4" /> },
-    { id: 'Technical Magazines, Handbooks and Course Materials', label: 'Technical Magazines, Handbooks and Course Materials', icon: () => <FileText className="w-4 h-4" /> },
-    { id: 'Newsletters', label: 'Newsletters', icon: () => <Rss className="w-4 h-4" /> },
-    { id: 'Product Development', label: 'Product Development', icon: () => <Activity className="w-4 h-4" /> },
-    { id: 'Departmental Activities', label: 'Departmental Activities', icon: () => <Activity className="w-4 h-4" /> },
-    { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: () => <Activity className="w-4 h-4" /> },
-    { id: 'Handbooks', label: 'Handbooks', icon: () => <FileText className="w-4 h-4" /> },
-    { id: 'Green Initiative', label: 'Green Initiative', icon: () => <Shield className="w-4 h-4" /> },
-    { id: 'Contact', label: 'Contact', icon: () => <Phone className="w-4 h-4" /> }
+    { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
+    { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
+    { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
+    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'Labaratories', label: 'Labaratories', icon: <Microscope className="w-4 h-4" /> },
+    { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
+    { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
+    { id: 'Faculty Innovations in T & L', label: 'Faculty Innovations in T & L', icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'Research Center', label: 'Research Center', icon: <Search className="w-4 h-4" /> },
+    { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
+    { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
+    { id: 'Technical Association', label: 'Technical Association', icon: <Zap className="w-4 h-4" /> },
+    { id: 'Technical Magazines, Handbooks and Course Materials', label: 'Technical Magazines, Handbooks and Course Materials', icon: <FileText className="w-4 h-4" /> },
+    { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
+    { id: 'Product Development', label: 'Product Development', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Departmental Activities', label: 'Departmental Activities', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
+    { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
+    { id: 'Green Initiative', label: 'Green Initiative', icon: <Shield className="w-4 h-4" /> },
+    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
       case 'Department':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
-              <div className="relative">
-                <img
-                  src="/eeehod.jpg"
-                  alt="Dr. D. Sudha Rani"
-                  className="w-full h-64 object-cover rounded-lg shadow-md"
-                  style={{ aspectRatio: '4/3' }}
-                />
-              </div>
-              <div className="lg:col-span-2 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. D. Sudha Rani</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, EEE</p>
-                  <p className="text-gray-600">Ph.D in Electrical & Electronics Engineering</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_eee@srivasaviengg.ac.in" className="text-primary hover:underline">hod_eee@srivasaviengg.ac.in</a></p>
-                </div>
-              </div>
-            </div>
-            <p className="text-gray-700 mb-3 text-justify">
-              The Department of Electrical & Electronics Engineering was established in the year 2004 with an intake of 60 students and later enhanced to 120 in 2012 and to 180 in 2014. The department has well qualified, experienced and dedicated faculty and technical staff. The laboratories are equipped with modern equipment, devices and software relevant to courses.
+          <div className="mt-6 space-y-4">
+            <p className="text-gray-700 leading-relaxed">
+              The laboratories are equipped with modern equipment, devices and software relevant to courses. Students are encouraged to participate in several co-curricular and extracurricular activities.
             </p>
-            <p className="text-gray-700 mb-3 text-justify">
-              Students are encouraged to participate in several co-curricular and extracurricular activities. The EEE Department has MoUs with various industries and organizations to enhance practical exposure among students. Our students participate in industrial training programs during their vacations which helps them to get exposure to the industry scenario.
+            <p className="text-gray-700 leading-relaxed">
+              The EEE Department has MoUs with various industries and organizations to enhance practical exposure among students. Our students participate in industrial training programs during their vacations which helps them to get exposure to the industry scenario.
             </p>
-            <p className="text-gray-700 mb-3 text-justify">
+            <p className="text-gray-700 leading-relaxed">
               The Department has been recognized as Research Centre by JNTUK, Kakinada in 2019.
             </p>
 
@@ -362,155 +309,131 @@ const EEEDepartment: React.FC = () => {
     switch (activeContent) {
       case 'Department Profile':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="space-y-8">
             <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Department Profile</h2>
 
-            {/* Desktop Navigation Tabs */}
-            <div className="hidden md:block relative mb-8">
-              <div className="flex flex-wrap justify-center gap-2 mb-6">
-                {sections.map((section) => (
-                  <button
-                    key={section}
-                    onClick={() => setActiveDeptTab(section)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                      ? 'bg-[#850209] text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    {section === 'SalientFeatures' ? 'Salient Features' : section}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Mobile Section Display */}
-            <div className="md:hidden relative mb-8">
-              <div className="text-center mb-6">
-                <h3 className="text-xl font-semibold text-gray-800">
-                  Current Section: <span className="text-[#850209]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
-                </h3>
-                <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
-              </div>
-            </div>
-
-            {/* Game-Style Right Side Settings Panel */}
-            {settingsPanelOpen && (
-              <div className="fixed inset-0 z-50">
-                {/* Backdrop */}
-                <div
-                  className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
-                  onClick={() => setSettingsPanelOpen(false)}
-                ></div>
-
-                {/* Settings Panel */}
-                <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
-                  {/* Panel Header */}
-                  <div className="bg-gradient-to-r from-[#850209] to-[#6B0000] p-4 border-b border-gray-700">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <h3 className="text-white font-bold text-lg">Department Navigation</h3>
-                          <p className="text-white/70 text-sm">Select a section to explore</p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => setSettingsPanelOpen(false)}
-                        className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
-                      >
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </div>
+            {/* HOD Section */}
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h3 className="text-2xl font-bold text-[#850209] mb-6 text-center">Head of Department</h3>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div className="relative">
+                  <img
+                    src="/eeehod.jpg"
+                    alt="Dr. D. Sudha Rani"
+                    className="w-full h-80 object-cover rounded-lg shadow-md"
+                  />
+                </div>
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="mb-4">
+                    <h4 className="text-2xl font-bold text-[#850209] mb-2">Dr. D. Sudha Rani</h4>
+                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, EEE</p>
+                    <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-376)</p>
+                    <p className="text-gray-600">Fax No: 08818-284322</p>
+                    <p className="text-gray-600">Email: <a href="mailto:hod_eee@srivasaviengg.ac.in" className="text-primary hover:underline">hod_eee@srivasaviengg.ac.in</a></p>
                   </div>
-
-                  {/* Panel Content */}
-                  <div className="p-6 h-full overflow-y-auto">
-                    <div className="space-y-3">
-                      {sections.map((section, index) => {
-                        const isActive = section === activeDeptTab;
-                        return (
-                          <button
-                            key={section}
-                            onClick={() => {
-                              setActiveDeptTab(section);
-                              setSettingsPanelOpen(false);
-                            }}
-                            className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                              ? 'bg-gradient-to-r from-[#850209] to-[#6B0000] text-white shadow-lg scale-105'
-                              : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
-                              }`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
-                                }`}>
-                                {index + 1}
-                              </div>
-                              <div>
-                                <div className="font-semibold">
-                                  {section === 'SalientFeatures' ? 'Salient Features' : section}
-                                </div>
-                                <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
-                                  {section === 'Department' && 'Overview & HOD Profile'}
-                                  {section === 'Vision' && 'Department Vision Statement'}
-                                  {section === 'Mission' && 'Department Mission Statement'}
-                                  {section === 'PEOs' && 'Program Educational Objectives'}
-                                  {section === 'POs' && 'Program Outcomes'}
-                                  {section === 'PSOs' && 'Program Specific Outcomes'}
-                                  {section === 'COs' && 'Course Outcomes'}
-                                  {section === 'SalientFeatures' && 'Key Highlights & Features'}
-                                </div>
-                              </div>
-                              {isActive && (
-                                <div className="ml-auto">
-                                  <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                                </div>
-                              )}
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Panel Footer */}
-                    <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
-                      <div className="text-center">
-                        <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
-                        <div className="text-white/50 text-xs">
-                          Click any section above to navigate instantly
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <p className="text-gray-700 leading-relaxed">
+                    Department of Electrical & Electronics Engineering<br/>
+                    Sri Vasavi Engineering College<br/>
+                    Tadepalligudem - 534101<br/>
+                    West Godavari District, Andhra Pradesh
+                  </p>
                 </div>
               </div>
-            )}
+            </div>
 
-            {/* Floating Settings Button - Mobile Only */}
-            <button
-              onClick={() => setSettingsPanelOpen(true)}
-              className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#850209] to-[#6B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-              title="Department Navigation"
-            >
-              <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-
-              {/* Mobile Label */}
-              <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                Menu
-                <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
+            {/* Department Profile Navigation - Grid Layout */}
+            <div className="mb-8 mt-12">
+              {/* Row 1: Department, Vision */}
+              <div className="flex justify-center gap-4 mb-4">
+                <button
+                  onClick={() => setActiveDeptTab('Department')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Department
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('Vision')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Vision
+                </button>
               </div>
-            </button>
 
-            {/* Tab Content */}
-            <div className="mt-6">
+              {/* Row 2: Mission, PEOs, POs */}
+              <div className="flex justify-center gap-4 mb-4">
+                <button
+                  onClick={() => setActiveDeptTab('Mission')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Mission
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('PEOs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  PEOs
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('POs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  POs
+                </button>
+              </div>
+
+              {/* Row 3: PSOs, COs */}
+              <div className="flex justify-center gap-4 mb-4">
+                <button
+                  onClick={() => setActiveDeptTab('PSOs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  PSOs
+                </button>
+                <button
+                  onClick={() => setActiveDeptTab('COs')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  COs
+                </button>
+              </div>
+
+              {/* Row 4: Salient Features (centered) */}
+              <div className="flex justify-center">
+                <button
+                  onClick={() => setActiveDeptTab('SalientFeatures')}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
+                    ? 'bg-[#850209] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                >
+                  Salient Features
+                </button>
+              </div>
+            </div>
+
+            {/* Content Area */}
+            <div>
               {renderDeptTabContent()}
             </div>
           </div>
@@ -798,7 +721,7 @@ const EEEDepartment: React.FC = () => {
                 </div>
               ) : (
                 <ul className="list-disc pl-6 space-y-2">
-                  {boardOfStudiesMeetingMinutes.map((minute) => (
+                  {boardOfStudiesMeetingMinutes.map((minute: BoardOfStudiesMeetingMinute) => (
                     <li key={minute.id}>
                       {minute.meeting_title} ({minute.academic_year}) - 
                       <a 
@@ -973,6 +896,56 @@ const EEEDepartment: React.FC = () => {
           </div>
         );
       case 'Research Center':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Research Center</h2>
+            
+            {loading && <div className="text-center">Loading research centers...</div>}
+            {error && <div className="text-center text-red-600">Error loading research centers: {error}</div>}
+            
+            {!loading && !error && (
+              <div className="space-y-6">
+                {researchCenters.length > 0 ? (
+                  researchCenters.map((center: any) => (
+                    <div key={center.id} className="border rounded-lg p-6 bg-gray-50">
+                      <h3 className="text-xl font-semibold text-[#850209] mb-3">{center.name}</h3>
+                      <p className="text-gray-700 mb-3">{center.description}</p>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                        <span><strong>Focus Area:</strong> {center.focus_area}</span>
+                        <span><strong>Established:</strong> {center.established_year}</span>
+                        <span><strong>Head:</strong> {center.head_name}</span>
+                      </div>
+                      {center.research_areas && (
+                        <div className="mt-3">
+                          <strong>Research Areas:</strong> {center.research_areas}
+                        </div>
+                      )}
+                      {center.facilities && (
+                        <div className="mt-3">
+                          <strong>Facilities:</strong> {center.facilities}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center text-gray-600">
+                    <p>Research Center information will be updated soon.</p>
+                    <div className="mt-4 text-left max-w-2xl mx-auto">
+                      <h3 className="text-lg font-semibold mb-2">Key Research Areas:</h3>
+                      <ul className="list-disc list-inside space-y-1">
+                        <li>Power Systems and Smart Grid Technologies</li>
+                        <li>Power Electronics and Drive Systems</li>
+                        <li>Renewable Energy Systems</li>
+                        <li>High Voltage Engineering</li>
+                        <li>Control Systems and Automation</li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Research Center</h2>
@@ -1454,23 +1427,37 @@ const EEEDepartment: React.FC = () => {
       case 'Faculty Innovations in T & L':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Some of the innovative means adopted by the faculty in T and L are:</h2>
-            <div className="text-left flex justify-center">
-              <ul className="list-disc pl-6 space-y-3 max-w-2xl">
-                <li>Teaching using ICT tools wherever necessary.</li>
-                <li>Technical videos for demonstration of certain concepts and functioning of the devices.</li>
-                <li>Usage of tools like MATLAB, PSPICE etc., to demonstrate the concepts through simulation.</li>
-                <li>Use of E-learning resources like NPTEL lectures and on-line journals for effective learning.</li>
-                <li>Providing question bank includes descriptive and quiz questions.</li>
-                <li>Good hands-on practice in the laboratories for better understanding of the concepts taught in the theory classes.</li>
-                <li>Visits to industries for real time exposure.</li>
-                <li>Project exhibitions and poster presentations.</li>
-                <li>Student seminars.</li>
-                <li>Conducting guest lecturers to create exposure on advanced technologies.</li>
-                <li>Conducting open book exams in selective courses.</li>
-                <li>Implementing active learning techniques such as problem based learning, project based learning, peer to peer learning etc.</li>
-              </ul>
-            </div>
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Faculty Innovations in Teaching & Learning</h2>
+            
+            {loading && <div className="text-center">Loading faculty innovations...</div>}
+            {error && <div className="text-center text-red-600">Error loading faculty innovations: {error}</div>}
+            
+            {!loading && !error && (
+              <div className="space-y-6">
+                {facultyInnovations.length > 0 ? (
+                  facultyInnovations.map((innovation: any) => (
+                    <div key={innovation.id} className="border rounded-lg p-6 bg-gray-50">
+                      <h3 className="text-xl font-semibold text-[#850209] mb-3">{innovation.title}</h3>
+                      <p className="text-gray-700 mb-3">{innovation.description}</p>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                        <span><strong>Faculty:</strong> {innovation.faculty_name}</span>
+                        <span><strong>Implementation Date:</strong> {new Date(innovation.implementation_date).toLocaleDateString()}</span>
+                        <span><strong>Impact:</strong> {innovation.impact_level}</span>
+                      </div>
+                      {innovation.resources && (
+                        <div className="mt-3">
+                          <strong>Resources Used:</strong> {innovation.resources}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center text-gray-600">
+                    <p>No faculty innovations data available at the moment.</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         );
       case 'Student Achievements':
@@ -1965,6 +1952,165 @@ const EEEDepartment: React.FC = () => {
             </div>
           </div>
         );
+      
+      case 'Syllabus':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Syllabus</h2>
+            
+            {loading && <div className="text-center">Loading syllabus data...</div>}
+            {error && <div className="text-center text-red-600">Error loading syllabus: {error}</div>}
+            
+            {!loading && !error && (
+              <div className="space-y-6">
+                {syllabusDocuments.length === 0 ? (
+                  <div className="text-center text-gray-600">
+                    <p>Syllabus information will be updated soon.</p>
+                    <div className="mt-4">
+                      <p className="text-sm text-gray-500">
+                        For current syllabus information, please refer to the Academic Handbooks section or contact the department.
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-8">
+                    {/* Group syllabus documents by regulation and type */}
+                    {Object.entries(
+                      syllabusDocuments.reduce((groups: Record<string, SyllabusDocument[]>, doc) => {
+                        const key = `${doc.regulation} ${doc.type.toUpperCase()}`;
+                        if (!groups[key]) groups[key] = [];
+                        groups[key].push(doc);
+                        return groups;
+                      }, {})
+                    ).map(([groupKey, docs]) => (
+                      <div key={groupKey} className="border border-gray-200 rounded-lg p-6">
+                        <h3 className="text-xl font-bold text-[#850209] mb-4">{groupKey} Regulation</h3>
+                        <div className="grid gap-4">
+                          {docs.map((doc) => (
+                            <div key={doc.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                              <div className="flex-1">
+                                <h4 className="font-medium text-gray-900">{doc.title}</h4>
+                                {doc.description && (
+                                  <p className="text-sm text-gray-600 mt-1">{doc.description}</p>
+                                )}
+                                <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                  <span>Academic Year: {doc.academic_year}</span>
+                                  {doc.semester && <span>Semester: {doc.semester}</span>}
+                                  <span>Regulation: {doc.regulation}</span>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <a
+                                  href={doc.document_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#850209] text-white rounded-lg hover:bg-[#6B0000] transition-colors"
+                                >
+                                  <Download className="w-4 h-4" />
+                                  Download
+                                </a>
+                                <a
+                                  href={doc.document_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                                >
+                                  <ExternalLink className="w-4 h-4" />
+                                  View
+                                </a>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {/* Additional Information */}
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                      <h3 className="text-lg font-semibold text-blue-800 mb-2">Important Notes</h3>
+                      <ul className="text-sm text-blue-700 space-y-1">
+                        <li>• Students should follow the syllabus corresponding to their regulation and academic year</li>
+                        <li>• For any clarifications regarding syllabus, contact the department office</li>
+                        <li>• Latest updates and amendments will be reflected in the documents</li>
+                        <li>• Practical lab syllabus is included within the respective semester documents</li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      
+      case 'Contact':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Contact Information</h2>
+            
+            <div className="space-y-8">
+              {/* Department Contact */}
+              <div className="border rounded-lg p-6 bg-gray-50">
+                <h3 className="text-xl font-semibold text-[#850209] mb-4">Department Contact</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="font-semibold text-gray-800">Head of Department</h4>
+                    <p className="text-gray-600">Dr. D. Sudha Rani</p>
+                    <p className="text-gray-600">Professor & Head</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-800">Department Office</h4>
+                    <p className="text-gray-600">
+                      Department of Electrical & Electronics Engineering<br/>
+                      Sri Vasavi Engineering College<br/>
+                      Tadepalligudem - 534101<br/>
+                      West Godavari District, Andhra Pradesh
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Key Faculty Contacts */}
+              <div className="border rounded-lg p-6 bg-gray-50">
+                <h3 className="text-xl font-semibold text-[#850209] mb-4">Key Faculty Contacts</h3>
+                <div className="space-y-4">
+                  {faculty.length > 0 ? (
+                    faculty.slice(0, 5).map((member, index) => (
+                      <div key={member.id || index} className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-gray-200 pb-2">
+                        <div>
+                          <p className="font-medium text-gray-800">{member.name}</p>
+                          <p className="text-sm text-gray-600">{member.designation}</p>
+                        </div>
+                        {member.email && (
+                          <div className="mt-2 sm:mt-0">
+                            <a href={`mailto:${member.email}`} className="text-blue-600 hover:underline text-sm">
+                              {member.email}
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">Contact information will be updated soon.</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Department Library Contact */}
+              <div className="border rounded-lg p-6 bg-gray-50">
+                <h3 className="text-xl font-semibold text-[#850209] mb-4">Department Library</h3>
+                <div>
+                  <p className="font-medium text-gray-800">Faculty Incharge</p>
+                  <p className="text-gray-600">M T V L Ravi Kumar, Asst. Professor</p>
+                  <p className="text-gray-600">Phone: 7893896567</p>
+                  <p className="text-gray-600">
+                    E-mail: <a href="mailto:ravi.mada@srivasaviengg.ac.in" className="text-blue-600 hover:underline">ravi.mada@srivasaviengg.ac.in</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }
@@ -1972,49 +2118,36 @@ const EEEDepartment: React.FC = () => {
 
 
   return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Electrical & Electronics Engineering</h1>
+    <div className="min-h-screen bg-gray-100">
+      {/* Fixed Header Section */}
+      <div className="pt-24">
+        <section className="bg-[#8B1919] text-white py-12">
+          <div className="container mx-auto px-4">
+            <div className="text-center">
+              <h1 className="text-3xl md:text-4xl font-bold">Electrical & Electronics Engineering</h1>
+            </div>
+          </div>
+        </section>
+      </div>
+      
+      {/* Fixed Sidebar Component */}
+      <FixedSidebar
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
+        onClose={() => setSidebarOpen(false)}
+        items={sidebarItems}
+        activeItem={activeContent}
+        onItemClick={setActiveContent}
+        title="EEE Department"
+        buttonLabel="Department Menu"
+      >
+        {/* Main Content */}
+        <div className="py-8">
+          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+            {renderContent()}
           </div>
         </div>
-      </section>
-      
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          <aside className="w-full lg:w-80 lg:flex-shrink-0">
-            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
-              <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
-                <span className="font-bold">Department Menu</span>
-                <Menu className="w-6 h-6" />
-              </button>
-              <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
-                <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
-                <ul className="space-y-2">
-                  {sidebarItems.map((item) => (
-                    <li key={item.id}>
-                      <button
-                        className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeContent === item.id ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
-                        onClick={() => {
-                          setActiveContent(item.id);
-                          setSidebarOpen(false);
-                        }}
-                      >
-                        {typeof item.icon === 'function' ? item.icon() : <ChevronRight className="w-4 h-4" />}
-                        <span className="ml-2">{item.label}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          </aside>
-          <main className="flex-1 min-w-0">
-            {renderContent()}
-          </main>
-        </div>
-      </div>
+      </FixedSidebar>
     </div>
   );
 };

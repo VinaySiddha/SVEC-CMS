@@ -252,7 +252,11 @@ export function useDepartmentData(dept: string) {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`/api/departments/${encodeURIComponent(dept)}`);
+        const response = await fetch(`/api/public/departments/${encodeURIComponent(dept)}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         
         if (!response.ok) {
           throw new Error(`Failed to fetch department data: ${response.status}`);

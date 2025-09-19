@@ -292,7 +292,7 @@ fetch('/api/cstcse/cst-mous')
                 href="https://srivasaviengg.ac.in/uploads/cst/COs.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
+                className="inline-flex px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 items-center"
               >
                 <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
               </a>
@@ -1524,14 +1524,14 @@ case 'Physical Facilities': {
         onItemClick={setActiveContent}
         title="CST Department"
         buttonLabel="Department Menu"
-      />
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-          {renderContent()}
+      >
+        {/* Main Content */}
+        <div className="container mx-auto px-4 py-8">
+          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+            {renderContent()}
+          </div>
         </div>
-      </div>
+      </FixedSidebar>
     </div>
   );
 };

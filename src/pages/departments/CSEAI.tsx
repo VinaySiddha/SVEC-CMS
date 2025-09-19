@@ -385,23 +385,6 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
-              <div className="relative">
-                <img
-                  src="/aihod.jpg"
-                  alt="Dr. G. Loshma"
-                  className="w-full h-80 object-cover rounded-lg shadow-md"
-                />
-              </div>
-              <div className="lg:col-span-2 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Head of Department, CSE-AI</p>
-                  <p className="text-gray-600">Ph.D in Computer Science, M.Tech CSE</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_cst@srivasaviengg.ac.in" className="text-primary hover:underline">hod_cst@srivasaviengg.ac.in</a></p>
-                </div>
-              </div>
-            </div>
             <p className="text-gray-700 mb-3">
               Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
             </p>
@@ -537,7 +520,7 @@ const CSTDepartment: React.FC = () => {
                 href="https://srivasaviengg.ac.in/uploads/cst/COs.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
+                className="inline-flex px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 items-center"
               >
                 <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
               </a>
@@ -578,31 +561,121 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <div className="space-y-8">
-              {/* Desktop Navigation Tabs */}
-              <div className="hidden md:block relative mb-8">
-                <div className="flex flex-wrap justify-center gap-2 mb-6">
-                  {sections.map((section) => (
-                    <button
-                      key={section}
-                      onClick={() => setActiveDeptTab(section)}
-                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                        ? 'bg-[#B22222] text-white shadow-lg'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      {section === 'SalientFeatures' ? 'Salient Features' : section}
-                    </button>
-                  ))}
+              <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Department Profile</h2>
+
+              {/* HOD Section */}
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Head of Department</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                  <div className="flex justify-center">
+                    <div className="relative">
+                      <img
+                        src="/aihod.jpg"
+                        alt="Dr. G. Loshma"
+                        className="w-48 h-48 object-cover rounded-xl shadow-md"
+                        style={{ aspectRatio: '1/1' }}
+                      />
+                    </div>
+                  </div>
+                  <div className="text-center lg:text-left">
+                    <h4 className="text-xl font-bold text-gray-800 mb-2">Dr. G. Loshma</h4>
+                    <p className="text-gray-600 mb-4">Head of Department, CSE-AI</p>
+                    <p className="text-gray-700 leading-relaxed mb-2">Ph.D in Computer Science, M.Tech CSE</p>
+                    <p className="text-gray-700 leading-relaxed">
+                      Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_aim@srivasaviengg.ac.in</a>
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Mobile Section Display */}
-              <div className="md:hidden relative mb-8">
-                <div className="text-center mb-6">
-                  <h3 className="text-xl font-semibold text-gray-800">
-                    Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
+              {/* Department Profile Navigation - Grid Layout */}
+              <div className="mb-8 mt-12">
+                {/* Row 1: Department, Vision */}
+                <div className="flex justify-center gap-4 mb-4">
+                  <button
+                    onClick={() => setActiveDeptTab('Department')}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
+                      ? 'bg-[#B22222] text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    Department
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('Vision')}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
+                      ? 'bg-[#B22222] text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    Vision
+                  </button>
+                </div>
+
+                {/* Row 2: Mission, PEOs, POs */}
+                <div className="flex justify-center gap-4 mb-4">
+                  <button
+                    onClick={() => setActiveDeptTab('Mission')}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
+                      ? 'bg-[#B22222] text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    Mission
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('PEOs')}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
+                      ? 'bg-[#B22222] text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    PEOs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('POs')}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
+                      ? 'bg-[#B22222] text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    POs
+                  </button>
+                </div>
+
+                {/* Row 3: PSOs, COs */}
+                <div className="flex justify-center gap-4 mb-4">
+                  <button
+                    onClick={() => setActiveDeptTab('PSOs')}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
+                      ? 'bg-[#B22222] text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    PSOs
+                  </button>
+                  <button
+                    onClick={() => setActiveDeptTab('COs')}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
+                      ? 'bg-[#B22222] text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    COs
+                  </button>
+                </div>
+
+                {/* Row 4: Salient Features (centered) */}
+                <div className="flex justify-center">
+                  <button
+                    onClick={() => setActiveDeptTab('SalientFeatures')}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
+                      ? 'bg-[#B22222] text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    Salient Features
+                  </button>
                 </div>
               </div>
 
@@ -942,7 +1015,7 @@ const CSTDepartment: React.FC = () => {
           const [loading, setLoading] = React.useState(true);
 
           React.useEffect(() => {
-            fetch("/api/syllabus")
+            fetch("/api/syllabus?dept=cseai")
               .then((res) => res.json())
               .then((data) => {
                 setSyllabus(Array.isArray(data) ? data : []);
@@ -3908,16 +3981,16 @@ const CSTDepartment: React.FC = () => {
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="CST Department"
+        title="CSE-AI Department"
         buttonLabel="Department Menu"
-      />
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-          {renderContent()}
+      >
+        {/* Main Content */}
+        <div className="container mx-auto px-4 py-8">
+          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+            {renderContent()}
+          </div>
         </div>
-      </div>
+      </FixedSidebar>
     </div>
   );
 };

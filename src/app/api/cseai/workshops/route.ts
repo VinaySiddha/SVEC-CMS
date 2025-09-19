@@ -8,28 +8,23 @@ export async function GET(request: NextRequest) {
         const workshopType = searchParams.get('workshop_type');
 
         let sql = `
-      SELECT workshop_title, workshop_type, description, organizer, 
-             start_date, end_date, venue, participants_count, document_url, display_order 
+      SELECT id, dept, title, date_from, date_to, description, report_url, gallery 
       FROM workshops 
-      WHERE department = ? AND is_active = TRUE 
+      WHERE dept = ? 
     `;
         const params = [department];
 
-        if (workshopType) {
-            sql += ` AND workshop_type = ?`;
-            params.push(workshopType);
-        }
-
-        sql += ` ORDER BY workshop_type, start_date DESC, display_order ASC`;
+        sql += ` ORDER BY date_from DESC`;
 
         const workshops = await query(sql, params);
 
-        // Group by workshop type
+        // Group by year
         const groupedWorkshops = workshops.reduce((acc: any, workshop: any) => {
-            if (!acc[workshop.workshop_type]) {
-                acc[workshop.workshop_type] = [];
+            const year = new Date(workshop.date_from).getFullYear();
+            if (!acc[year]) {
+                acc[year] = [];
             }
-            acc[workshop.workshop_type].push(workshop);
+            acc[year].push(workshop);
             return acc;
         }, {});
 

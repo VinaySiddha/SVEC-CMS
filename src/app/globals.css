@@ -2,6 +2,121 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tab optimization classes - Instant switching with smooth visual feedback */
+@layer components {
+  .tab-button {
+    @apply px-4 py-2 rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary/50;
+    transition: all 0.1s ease-out; /* Super fast transition */
+    transform: translateZ(0); /* Force hardware acceleration */
+    will-change: background-color, color, box-shadow;
+  }
+  
+  .tab-button.active-tab {
+    @apply bg-primary text-white shadow-lg;
+    transition: all 0.15s ease-out;
+  }
+  
+  .tab-button.inactive-tab {
+    @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+    transition: all 0.1s ease-out;
+  }
+  
+  .tab-content {
+    @apply min-h-[200px];
+    contain: layout style paint;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.08s ease-out, transform 0.08s ease-out; /* Ultra-fast content switching */
+  }
+  
+  .tab-content-enter {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  
+  .tab-content-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .no-loading-btn {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+  }
+  
+  /* Instant feedback animations */
+  .instant-tab-switch {
+    transition: none !important;
+  }
+  
+  .smooth-tab-content {
+    animation: quickFadeIn 0.1s ease-out;
+  }
+}
+
+@keyframes quickFadeIn {
+  from {
+    opacity: 0.7;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Logo Loader Animations */
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes logoSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logoRing {
+  from {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  to {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+}
+
+@keyframes textFade {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Custom animations for smooth page transitions */
 @keyframes slideInFromRight {
   from {
@@ -402,4 +517,14 @@ nav a:hover::before {
     @apply bg-white text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
+
+/* Hide scrollbar for sidebar navigation */
+[data-scrollable-nav]::-webkit-scrollbar {
+  display: none;
+}
+
+[data-scrollable-nav] {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }

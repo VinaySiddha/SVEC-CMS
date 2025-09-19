@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Next.js Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=mysql://cmsuser:V@savi@2001@mysql:3306/svec_cms
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./public:/app/public
+    networks:
+      - svec-network
+    restart: unless-stopped
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: svec_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: V@savi@2001
+      MYSQL_DATABASE: svec_cms
+      MYSQL_USER: cmsuser
+      MYSQL_PASSWORD: V@savi@2001
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - svec-network
+
+  # phpMyAdmin (Optional - for database management)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: svec_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: cmsuser
+      PMA_PASSWORD: V@savi@2001
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - svec-network
+    profiles:
+      - tools
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  svec-network:
+    driver: bridge

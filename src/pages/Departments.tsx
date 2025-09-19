@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Cpu, Zap, Cog, Building2, ArrowRight, Users, BookOpen, Award } from 'lucide-react';
+import { Cpu, Zap, Cog, Building2, ArrowRight, Users, BookOpen, Award, GraduationCap, Microchip, BarChart3 } from 'lucide-react';
 
 const Departments: React.FC = () => {
   const departments = [
@@ -58,6 +58,39 @@ const Departments: React.FC = () => {
       labs: '6',
       image: 'https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Power Systems', 'Control Systems', 'Renewable Energy', 'Power Electronics']
+    },
+    {
+      id: 'mba',
+      name: 'Master of Business Administration',
+      icon: GraduationCap,
+      description: 'Developing future business leaders with comprehensive management education and industry exposure.',
+      faculty: '12+',
+      students: '120',
+      labs: '3',
+      image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600',
+      specializations: ['Finance', 'Marketing', 'Human Resources', 'Operations']
+    },
+    {
+      id: 'ect',
+      name: 'Electronics & Communication Technology',
+      icon: Microchip,
+      description: 'Advanced electronics and communication systems with focus on emerging technologies.',
+      faculty: '14+',
+      students: '180',
+      labs: '5',
+      image: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=600',
+      specializations: ['Digital Systems', 'Communication Networks', 'Embedded Systems', 'IoT']
+    },
+    {
+      id: 'cst',
+      name: 'Computer Science & Technology',
+      icon: BarChart3,
+      description: 'Comprehensive computer science education with emphasis on modern software technologies.',
+      faculty: '18+',
+      students: '200',
+      labs: '6',
+      image: 'https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=600',
+      specializations: ['Software Development', 'Web Technologies', 'Database Systems', 'Cloud Computing']
     }
   ];
 
