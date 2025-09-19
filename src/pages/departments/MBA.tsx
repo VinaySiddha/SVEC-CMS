@@ -19,7 +19,7 @@ const MBADepartment: React.FC = () => {
   const [placement, setPlacement] = React.useState<any[]>([]);
   const [StudentAch, setStudentAch] = React.useState<any[]>([]);
   useEffect(() => {
-    fetch('/api/mba-student-achivements?dept=mba') // backend API URL
+    fetch('/api/mba-student-achievements?dept=mba') // backend API URL
       .then((res) => res.json())
       .then((data) => setPlacement(data)) // assuming your API returns { placements: [...] }
       .catch((err) => console.error("Error fetching MBA Placements:", err));
