@@ -63,7 +63,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
   };
 
   return (
-    <div className="p-8 max-w-6xl mx-auto space-y-8">
+    <div className="pt-24 p-8 max-w-6xl mx-auto space-y-8">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">{getDepartmentName(dept)}</h1>

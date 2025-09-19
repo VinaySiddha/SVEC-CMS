@@ -256,7 +256,7 @@ const departments = [
                 onMouseLeave={(e) => {
                   const relatedTarget = e.relatedTarget;
                   const dropdown = document.querySelector('[data-dropdown="admin"]');
-                  if (!(relatedTarget instanceof Node) || (dropdown && !dropdown.contains(relatedTarget))) {
+                  if (!relatedTarget || !(relatedTarget instanceof Node) || (dropdown && !dropdown.contains(relatedTarget))) {
                     handleMouseLeave(e);
                   }
                 }}
@@ -277,7 +277,7 @@ const departments = [
                   onMouseLeave={(e) => {
                     const relatedTarget = e.relatedTarget as Element;
                     const dropdown = document.querySelector('[data-dropdown="admin"]');
-                    if (dropdown && !dropdown.contains(relatedTarget)) {
+                    if (!relatedTarget || !(relatedTarget instanceof Node) || (dropdown && !dropdown.contains(relatedTarget))) {
                       dropdownTimeoutRef.current = setTimeout(() => {
                         setActiveDropdown(null);
                       }, 200);
@@ -302,17 +302,6 @@ const departments = [
                   ))}
                 </div>
               )}
-            </div>
-
-            {/* Super Admin Access */}
-            <div className="relative">
-              <Link
-                href="/super-admin/login"
-                className={`flex items-center ${textColorClass} hover:text-primary transition-all duration-300 hover:scale-105 nav-underline group`}
-              >
-                <Shield className="w-4 h-4 mr-1 group-hover:text-blue-600" />
-                Super Admin
-              </Link>
             </div>
 
             <div className="relative">
@@ -344,6 +333,7 @@ const departments = [
                     const relatedTarget = e.relatedTarget;
                     const currentTarget = e.currentTarget;
                     if (
+                      relatedTarget && 
                       relatedTarget instanceof Node &&
                       currentTarget instanceof Node
                     ) {
@@ -515,7 +505,7 @@ const departments = [
                   const dropdownMenu = document.querySelector('[data-dropdown="depts-menu"]');
                   
                   // Don't close if moving to the dropdown menu
-                  if (relatedTarget && (
+                  if (relatedTarget && relatedTarget instanceof Node && (
                     dropdownMenu?.contains(relatedTarget) ||
                     relatedTarget.closest('[data-dropdown="depts-menu"]')
                   )) {
@@ -550,7 +540,7 @@ const departments = [
                     const button = document.querySelector('[data-dropdown="depts"]');
                     
                     // Check if the mouse is moving to the button or staying within the dropdown area
-                    if (relatedTarget && (
+                    if (relatedTarget && relatedTarget instanceof Node && (
                       currentTarget.contains(relatedTarget) ||
                       (button && button.contains(relatedTarget)) ||
                       relatedTarget.closest('[data-dropdown="depts-menu"]')

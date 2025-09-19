@@ -35,19 +35,44 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) =>
       const target = e.target as HTMLElement;
 
       // Check if the clicked element or its parent is a link
-      const link = target.closest('a, button[onclick], [role="button"]');
+      const link = target.closest('a, button[onclick], [role="button"], button');
 
       if (link) {
+        // Skip loading for tab buttons, toggle buttons, and other UI elements
+        const isTabButton = link.closest('[role="tablist"], .tab-navigation, .tabs-trigger') || 
+                           link.classList.contains('tab-button') ||
+                           link.getAttribute('aria-selected') !== null ||
+                           (link as HTMLElement).dataset?.isTab === 'true';
+        
+        // Enhanced skip loading detection
+        const skipLoading = link.getAttribute('data-no-loading') === 'true' ||
+                           link.closest('[data-no-loading="true"]') ||
+                           link.classList.contains('no-loading-btn');
+        
+        if (isTabButton || skipLoading) {
+          return;
+        }
+
         const href = link.getAttribute('href');
         const onclick = link.getAttribute('onclick');
 
         if (href && !href.startsWith('http') && !href.startsWith('mailto') && !href.startsWith('tel') && !href.startsWith('#')) {
-          setLoading(true);
-          setLoadingText('Loading page...');
+          // Use requestAnimationFrame for immediate response
+          requestAnimationFrame(() => {
+            setLoading(true);
+            setLoadingText('Loading page...');
+          });
         }
         else if (onclick || link.getAttribute('role') === 'button') {
-          setLoading(true);
-          setLoadingText('Loading...');
+          // Only trigger loading for actual navigation buttons, not UI toggles
+          if (!link.closest('.ui-button, .toggle-button, .dropdown-trigger, .tab-content, [role="tabpanel"]')) {
+            requestAnimationFrame(() => {
+              setLoading(true);
+              setLoadingText('Loading...');
+              // Auto-clear for quick interactions
+              setTimeout(() => setLoading(false), 100);
+            });
+          }
         }
       }
     };

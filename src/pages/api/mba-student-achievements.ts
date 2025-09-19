@@ -13,10 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         const [rows] = await connection.execute(
-            `SELECT id, category, title, description, academic_year, document_url
-       FROM student_achievements
-       WHERE department = ? AND (is_active IS NULL OR is_active = TRUE)
-       ORDER BY academic_year DESC, category ASC, id DESC`,
+            `SELECT * FROM student_achievements WHERE department = ? ORDER BY created_at DESC`,
             [dept]
         );
 

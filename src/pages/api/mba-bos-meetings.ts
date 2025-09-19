@@ -14,9 +14,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const [rows] = await connection.execute(
             `SELECT meeting_number, meeting_date, document_url, id
-       FROM board_of_studies
-       WHERE dept = ? AND is_active = TRUE
-       ORDER BY meeting_date DESC, display_order ASC`,
+       FROM bos_meeting_minutes
+       WHERE dept = ? AND status = 'active'
+       ORDER BY meeting_date DESC, meeting_number ASC`,
             [dept]
         );
 

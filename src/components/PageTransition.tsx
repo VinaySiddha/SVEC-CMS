@@ -13,14 +13,28 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
   const { setLoading } = useLoading();
 
   useEffect(() => {
-    // Start page transition when pathname changes
+    // Only trigger transition for actual route changes, not hash changes or query params
+    const currentPath = pathname?.split("?")[0].split("#")[0] ?? "";
+    const previousPath = localStorage.getItem('previousPath') || '';
+    
+    // If it's the same path, skip the transition completely (for tab changes, etc.)
+    if (currentPath === previousPath) {
+      setIsVisible(true);
+      setLoading(false);
+      return;
+    }
+    
+    // Store current path for next comparison
+    localStorage.setItem('previousPath', currentPath);
+    
+    // For actual route changes, make transition much faster
     setIsVisible(false);
 
-    // Show content and stop loading after transition
+    // Ultra-fast transition - just enough to prevent flash
     const timer = setTimeout(() => {
-      setLoading(false); // Stop global loading
+      setLoading(false);
       setIsVisible(true);
-    }, 250); // Super quick transition - just enough to see the logo
+    }, 100); // Reduced from 250ms to 100ms for snappier feel
 
     return () => clearTimeout(timer);
   }, [pathname, setLoading]);
@@ -29,9 +43,9 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     <>
       {/* Loading Overlay */}
       
-      {/* Page Content */}
+      {/* Page Content - Faster transitions */}
       <div
-        className={`transition-all duration-200 ease-out ${isVisible
+        className={`transition-all duration-75 ease-out ${isVisible
           ? 'opacity-100 translate-y-0 scale-100'
           : 'opacity-0 translate-y-1 scale-99'
           }`}

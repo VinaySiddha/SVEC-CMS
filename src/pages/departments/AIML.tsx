@@ -307,7 +307,7 @@ React.useEffect(() => {
                 href="https://srivasaviengg.ac.in/uploads/aiml/COs.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
               >
                 <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
               </a>
@@ -596,31 +596,21 @@ React.useEffect(() => {
               <div className="mt-12">
                 <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
 
-                {/* Desktop Navigation Tabs */}
-                <div className="hidden md:block relative mb-8">
-                  <div className="flex flex-wrap justify-center gap-2 mb-6">
+                {/* Department Profile Navigation - Single Line Layout */}
+                <div className="mb-8">
+                  <div className="flex flex-nowrap justify-center gap-1 lg:gap-2 overflow-x-auto scrollbar-hide">
                     {sections.map((section) => (
                       <button
                         key={section}
                         onClick={() => setActiveDeptTab(section)}
-                        className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                          ? 'bg-[#B22222] text-white shadow-lg'
+                        className={`px-2 lg:px-4 py-2 rounded-lg font-medium transition-colors duration-200 whitespace-nowrap text-sm lg:text-base ${activeDeptTab === section
+                          ? 'bg-[#B22222] text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                           }`}
                       >
                         {section === 'SalientFeatures' ? 'Salient Features' : section}
                       </button>
                     ))}
-                  </div>
-                </div>
-
-                {/* Mobile Section Display */}
-                <div className="md:hidden relative mb-8">
-                  <div className="text-center mb-6">
-                    <h3 className="text-xl font-semibold text-gray-800">
-                      Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
-                    </h3>
-                    <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
                   </div>
                 </div>
 
@@ -1441,14 +1431,14 @@ React.useEffect(() => {
         onItemClick={setActiveContent}
         title="AI & ML Department"
         buttonLabel="Department Menu"
-      />
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-          {renderContent()}
+      >
+        {/* Main Content */}
+        <div className="py-8">
+          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+            {renderContent()}
+          </div>
         </div>
-      </div>
+      </FixedSidebar>
     </div>
   );
 };
