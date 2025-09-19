@@ -1,4 +1,4 @@
-import React from 'react';
+
 import StandardDepartmentProfile from '../../components/StandardDepartmentProfile';
 
 import React, { useEffect, useState } from 'react';
@@ -2202,5 +2202,4 @@ const MechanicalDepartment: React.FC = () => {
     </div>
   );
 };
-
 export default MechanicalDepartment;
