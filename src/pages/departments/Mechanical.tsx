@@ -1,13 +1,133 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Cog, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Book, Database, User } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
+interface Faculty {
+  name: string;
+  qualification: string;
+  designation: string;
+  profile_url: string;
+  faculty_type: string;
+}
+interface BoardOfStudiesMember {
+  member_name: string;
+  designation: string;
+  organization: string;
+  role: string;
+}
+
+interface BosMinutes {
+  meeting_title: string;
+  meeting_number: string;
+  meeting_date: string;
+  document_url: string;
+  academic_year: string;
+}
+interface Laboratories {
+  lab_name: string;
+  icon: string;
+  video_title: string;
+  video_url: string;
+}
+interface library {
+  title: string;
+  description: string[];
+  image_url: string;
+  resources: { icon: string; text: string }[];
+  services: { icon: string; text: string }[];
+  faculty_incharge: { name: string; designation: string; department: string };
+}
+interface Mous {
+  type: string;
+  data: any;
+}
+interface FacultyTLmethods {
+  method: string;
+  url: string;
+}
+interface FacultyAchievements {
+  category: string;
+  academic_year: string;
+  description: string;
+  url: string;
+}
+interface StudentAchievements {
+  category: string;
+  title: string;
+  description: string;
+  url: string;
+}
+interface Placements {
+  batch: string;
+  url: string;
+}
+interface Workshops {
+  academic_year: string;
+  description: string;
+  url: string;
+}
+interface TechnicalAssociation {
+  title: string;
+  description: string;
+}
+interface ProjectResearch {
+  category: string;
+  description: string;
+  url: string;
+}
+interface Newsletters {
+  year: string;
+  volume: string;
+  issue: string;
+  month: string;
+  title: string;
+  description: string;
+  url: string;
+}
+interface Magazines {
+  year: string;
+  volume: string;
+  issue: string;
+  title: string;
+  description: string;
+  url: string;
+}
+interface Syllabus {
+  program: string;
+  version: string;
+  name: string;
+  url: string;
+}
+
+
+
 
 const MechanicalDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
+
+  const [faculty, setFaculty] = useState<Faculty[]>([]);
+  const [nonTeachingFaculty, setNonTeachingFaculty] = useState<Faculty[]>([]);
+  const [boardOfStudies, setBoardOfStudies] = useState<BoardOfStudiesMember[]>([]);
+  const [bosminutes, setBosMinutes] = useState<BosMinutes[]>([]);
+  const [laboratories, setLaboratories] = useState<Laboratories[]>([]);
+  const [library, setLibrary] = useState<library[]>([]);
+  const [mous, setMous] = useState<Mous[]>([]);
+  const [facultyTLmethods, setFacultyTLmethods] = useState<FacultyTLmethods[]>([]);
+  const [facultyAchievements, setFacultyAchievements] = useState<FacultyAchievements[]>([]);
+  const [studentAchievements, setStudentAchievements] = useState<StudentAchievements[]>([]);
+  const [placements, setPlacements] = useState<Placements[]>([]);
+  const [workshops, setWorkshops] = useState<Workshops[]>([]);
+  const [technicalAssociation, setTechnicalAssociation] = useState<TechnicalAssociation[]>([]);
+  const [projectResearch, setProjectResearch] = useState<ProjectResearch[]>([]);
+  const [newsletters, setNewsletters] = useState<Newsletters[]>([]);
+  const [magazines, setMagazines] = useState<Magazines[]>([]);
+  const [syllabus, setSyllabus] = useState<Syllabus[]>([]);
+
+
+
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
@@ -28,48 +148,80 @@ const MechanicalDepartment: React.FC = () => {
     { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
     { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
-
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
-  const faculty = [
-    { name: "Dr.G.V.N.S.R.Ratnakara Rao", qualification: "M.E.,Ph.D", designation: "Professor & Principal", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Dr.%20G.V.N.S.R.%20Ratnakara%20RaoDr.Ratnakar_Ph.D%20profile.pdf" },
-    { name: "Dr.M.V.Ramesh", qualification: "M.Tech.,Ph.D", designation: "Professor & HOD", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Mr.Dr.M.V.RameshResume%20OCT%202017.pdf" },
-    { name: "Mr.K.S.B.S.V.S.Sastry", qualification: "M.Tech.,(Ph.D)", designation: "Associate Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Mr.%20K.S.B.S.V.S.%20SastryMr.%20K.S.B.S.V.S.Sastry_Profile.pdf" },
-    { name: "Mr.P.N.V.Gopala Krishna", qualification: "M.E,M.B.A,M.Tech,(Ph.D)", designation: "Associate Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MECH_Dr.Shirin%20Bhanu%20Koduri.pdf" },
-    { name: "Dr.K.Dorathi", qualification: "M.Tech,Ph.D", designation: "Associate Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Mrs.%20K.%20DorathiMrs.%20K.Dorathi_Profile.pdf" },
-    { name: "Mr.K.Sri Rama Murthy", qualification: "M.Tech,(Ph.D)", designation: "Sr. Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Mr.%20K.%20Sri%20Rama%20MurthyMr.%20K.%20Sri%20Rama%20Murthy_Profile.pdf" },
-    { name: "Mr. G.Rama Prasad", qualification: "M.Tech,(Ph.D)", designation: "Sr. Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Mr.%20G.%20Rama%20PrasadMr.%20G.%20Rama%20Prasad_Profile.pdf" },
-    { name: "Mr.B.N.V.Srinivas", qualification: "M.Tech,(Ph.D)", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/B.N.V%20Srinivas%20BNV%20SRINIVAS%20(1).pdf" },
-    { name: "Mr.T.S.S.R.Krishna", qualification: "M.Tech", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Mr.%20T.S.S.R.%20KrishnaMr.%20T.S.S.R.%20Krishna_Profile.pdf" },
-    { name: "Mr. S.Chandrasekhar", qualification: "M.Tech,(Ph.D)", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Mr.%20S.%20ChandrasekharMr.%20S.%20Chandraskehar_Profile.pdf" },
-    { name: "Mr. K.C.S.Vyasa Krishnaji", qualification: "M.Tech,(Ph.D)", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Mr.%20K.C.S.%20Vyasa%20KrishnajiFaculty_profile%20Format%20KCS%20VYASA%20KRISHNAJI.docx.pdf" },
-    { name: "Mr.G.Prasanth", qualification: "M.E,(Ph.D)(Study Leave)", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Mr.%20G.%20Prasanth%20prasanth%20faculty%20profile%20format.pdf" },
-    { name: "Mr.D.V.N.Prabhakar", qualification: "M.E(Ph.D)", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/Mr%20D%20V%20N%20Prabhakar25-%20dvn%20prabhakar.pdf" },
-    { name: "Mr. T.Atama Ramadu", qualification: "M.Tech(Ph.D)(Study Leave)", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MECH_MNRAO.pdf" },
-    { name: "Mr. D.Ayyappa", qualification: "M.Tech", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/mech_Ayyappa%20Resume.pdf" },
-    { name: "Mr. M.D.Nagedra Prasad", qualification: "M.Tech", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/mech_M.D.Nagendra_Prasad_CV.pdf" },
-    { name: "Mr. M.Venkatesh", qualification: "M.Tech", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/me_Venkatesh.M.pdf" },
-    { name: "Mr. M.Chaitanya", qualification: "M.Tech", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/me_Chaitanya.M.pdf" },
-    { name: "Mr. Sk.Arief", qualification: "M.Tech", designation: "Assistant Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/me_Sk.Arief-Resume.pdf" },
-    { name: "Mr. V.Ravi Kumar", qualification: "M.Tech(Ph.D)", designation: "Assistant Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/ME_%20Resume_%20Ravi.pdf" },
-    { name: "Dr.S.Subbarama Kousik", qualification: "M.Tech,(Ph.D)(Study Leave)", designation: "Assistant Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/mech_Dr.%20SSR%20Kousik.pdf" },
-    { name: "Mr. M. V. S. S. D. S Surya Pavan", qualification: "M.Tech", designation: "Assistant Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/mech_Mr.%20Mallampalli%20V%20S%20S%20%20D%20S%20Surya%20Pavan.pdf" },
-    { name: "Mr. M.S.N.Murthy", qualification: "B.Tech", designation: "Lecturer", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/mech_MSN%20Murthy%20Resume.pdf" },
-    { name: "Mr. P.Mohankrishna", qualification: "B.Tech", designation: "Lecturer", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/mech_Mohan.pdf" },
-    { name: "Mr .K. Suchendra Kumar", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/mech_Mr.%20K.%20Suchendra%20Kumar.pdf" },
-    { name: "Ms.Y.Sampurna", qualification: "B.Tech", designation: "Lecturer", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/mech_Ms.%20Y.%20Sampurna.pdf" }
-  ];
 
-  const nonTeachingFaculty = [
-    { name: "Mr.A.Bala Balaji", designation: "Lab Technician" },
-    { name: "Mr.K.V.V.Durga Rao", designation: "Lab Technician" },
-    { name: "Mr. P.Rama Krishna", designation: "Lab Technician" },
-    { name: "Mr. Y. Narasimha Rao", designation: "Lab Technician" },
-    { name: "Mr. Ch. Naga Babu", designation: "Lab Technician" },
-    { name: "Mr. K Ravi Kiran", designation: "Lab Technician" },
-    { name: "Mr. G.Kiran", designation: "Attender" },
-    { name: "Mr. K. Srinivasa Rao", designation: "Attender" }
-  ];
+  useEffect(() => {
+      //1
+      fetch('/api/mech/faculty')
+        .then(res => res.json())
+        .then(data => {
+          setFaculty(data);
+          const teaching = data.filter((member: Faculty) => member.faculty_type === 'teaching');
+          const nonTeaching = data.filter((member: Faculty) => member.faculty_type === 'non-teaching');
+          setNonTeachingFaculty(nonTeaching);
+          setFaculty(teaching);
+        })
+        //2
+      fetch('/api/mech/boardofstudies')
+        .then(res => res.json())
+        .then(data => setBoardOfStudies(data))
+      fetch('/api/ece/bos-meeting-minutes')
+        .then(res => res.json())
+        .then(data => setBosMinutes(data))
+      //3
+      fetch('/api/mech/laboratories')
+        .then(res => res.json())
+        .then(data => setLaboratories(data))
+      //4
+      fetch('/api/mech/library')
+        .then(res => res.json())
+        .then(data => setLibrary(data))
+      //5
+      fetch('/api/mech/mous')
+        .then(res => res.json())
+        .then(data => setMous(data))
+      //6
+      fetch('/api/mech/facultyTLmethods')
+        .then(res => res.json())
+        .then(data => setFacultyTLmethods(data))
+      //7
+      fetch('/api/mech/facultyachievements')
+        .then(res => res.json())
+        .then(data => setFacultyAchievements(data))
+      //8
+      fetch('/api/mech/studentachievements')
+        .then(res => res.json())
+        .then(data => setStudentAchievements(data))
+      //9
+      fetch('/api/mech/placements')
+        .then(res => res.json())
+        .then(data => setPlacements(data))
+      //10
+      fetch('/api/mech/workshops')
+        .then(res => res.json())
+        .then(data => setWorkshops(data))
+      //11
+      fetch('/api/mech/technicalassociation')
+        .then(res => res.json())
+        .then(data => setTechnicalAssociation(data))
+      //12
+      fetch('/api/mech/research')
+        .then(res => res.json())
+        .then(data => setProjectResearch(data))
+      //13
+      fetch('/api/mech/newsletters')
+        .then(res => res.json())
+        .then(data => setNewsletters(data))
+      //14
+      fetch('/api/mech/magazines')
+        .then(res => res.json())
+        .then(data => setMagazines(data))
+      //15
+      fetch('/api/mech/syllabus')
+        .then(res => res.json())
+        .then(data => setSyllabus(data))
+      }, [activeContent]);
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
@@ -460,7 +612,7 @@ const MechanicalDepartment: React.FC = () => {
                       <td className="px-4 py-2">{member.qualification}</td>
                       <td className="px-4 py-2">{member.designation}</td>
                       <td className="px-4 py-2">
-                        <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View</a>
+                        <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View</a>
                       </td>
                     </tr>
                   ))}
@@ -506,48 +658,15 @@ const MechanicalDepartment: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-2">1</td>
-                    <td className="px-4 py-2">Dr.M.V.Ramesh</td>
-                    <td className="px-4 py-2">Professor & HOD</td>
-                    <td className="px-4 py-2">Dept.of ME, SVEC</td>
-                    <td className="px-4 py-2">Chairperson</td>
-                  </tr>
-                  <tr className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-2">2</td>
-                    <td className="px-4 py-2">Dr.N.MohanaRao</td>
-                    <td className="px-4 py-2">Professor & Director (IIIPT & SDC)</td>
-                    <td className="px-4 py-2">Dept.of ME,JNTUK, Kakinada</td>
-                    <td className="px-4 py-2">University Nominee</td>
-                  </tr>
-                  <tr className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-2">3</td>
-                    <td className="px-4 py-2">Dr.R.V.Chalam</td>
-                    <td className="px-4 py-2">Professor</td>
-                    <td className="px-4 py-2">Dept.of ME,NIT,Warangal</td>
-                    <td className="px-4 py-2">Academic Expert</td>
-                  </tr>
-                  <tr className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-2">4</td>
-                    <td className="px-4 py-2">Dr.A.Krishnaiahh</td>
-                    <td className="px-4 py-2">Professor</td>
-                    <td className="px-4 py-2"></td>
-                    <td className="px-4 py-2">Academic Expert</td>
-                  </tr>
-                  <tr className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-2">5</td>
-                    <td className="px-4 py-2">Sri S.S.Subrahmanya Sastry</td>
-                    <td className="px-4 py-2">Head of Parctice QMS</td>
-                    <td className="px-4 py-2">Veave Technologies Bangalore,India</td>
-                    <td className="px-4 py-2">Industry Expert</td>
-                  </tr>
-                  <tr className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-2">6</td>
-                    <td className="px-4 py-2">Mr.A.Sai Krishna</td>
-                    <td className="px-4 py-2">CAE Engineer</td>
-                    <td className="px-4 py-2"></td>
-                    <td className="px-4 py-2">Alumni</td>
-                  </tr>
+                  {boardOfStudies.map((member, index) => (
+                    <tr key={index} className="border-b hover:bg-gray-50">
+                      <td className="px-4 py-2">{index + 1}</td>
+                      <td className="px-4 py-2">{member.member_name}</td>
+                      <td className="px-4 py-2">{member.designation}</td>
+                      <td className="px-4 py-2">{member.organization}</td>
+                      <td className="px-4 py-2">{member.role}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -555,111 +674,23 @@ const MechanicalDepartment: React.FC = () => {
             <div className="mt-10">
               <h3 className="text-2xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes</h3>
               <ul className="space-y-3 pl-4">
-                <li className="flex items-start">
-                  <span className="mr-2">•</span>
-                  <div>
-                    Minutes of 7th meeting of the Board of Studies
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/mech/7th BOS MOM of ME Dept.pdf"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-4 w-4 mr-1" />
-                      View
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-2">•</span>
-                  <div>
-                    Minutes of 6th meeting of the Board of Studies
-                    <a
-                      href="#"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-4 w-4 mr-1" />
-                      View
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-2">•</span>
-                  <div>
-                    Minutes of 5th meeting of the Board of Studies
-                    <a
-                      href="#"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-4 w-4 mr-1" />
-                      View
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-2">•</span>
-                  <div>
-                    Minutes of 4th meeting of the Board of Studies
-                    <a
-                      href="#"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-4 w-4 mr-1" />
-                      View
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-2">•</span>
-                  <div>
-                    Minutes of 3rd meeting of the Board of Studies
-                    <a
-                      href="#"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-4 w-4 mr-1" />
-                      View
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-2">•</span>
-                  <div>
-                    Minutes of 2nd meeting of the Board of Studies
-                    <a
-                      href="#"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-4 w-4 mr-1" />
-                      View
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-2">•</span>
-                  <div>
-                    Minutes of 1st meeting of the Board of Studies
-                    <a
-                      href="#"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-4 w-4 mr-1" />
-                      View
-                    </a>
-                  </div>
-                </li>
+                {bosminutes.map((minute, index) => (
+                  <li key={index} className="flex items-start">
+                    <span className="mr-2">•</span>
+                    <div>
+                      {minute.meeting_title}
+                      <a
+                        href={minute.document_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -672,181 +703,37 @@ const MechanicalDepartment: React.FC = () => {
             <div className="mb-8">
               <h3 className="text-2xl font-semibold text-[#B22222] mb-4">Available Laboratories</h3>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                  <HardHat className="h-5 w-5 mr-2 text-[#B22222]" />
-                  <span className="font-medium">Workshop</span>
-                </li>
-                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
-                  <span className="font-medium">Production Technology Lab</span>
-                </li>
-                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
-                  <span className="font-medium">Machine Tools Lab</span>
-                </li>
-                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Microscope className="h-5 w-5 mr-2 text-[#B22222]" />
-                  <span className="font-medium">Metrology Lab</span>
-                </li>
-                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
-                  <span className="font-medium">CAD/CAM Lab</span>
-                </li>
-                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
-                  <span className="font-medium">Thermal Engineering Lab</span>
-                </li>
-                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
-                  <span className="font-medium">Mechanics of Solids Lab</span>
-                </li>
-                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Microscope className="h-5 w-5 mr-2 text-[#B22222]" />
-                  <span className="font-medium">Metallurgy Lab</span>
-                </li>
-                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
-                  <span className="font-medium">Instrumentation Lab</span>
-                </li>
-                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Microscope className="h-5 w-5 mr-2 text-[#B22222]" />
-                  <span className="font-medium">Fuels & Lubricants Lab</span>
-                </li>
-                <li className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                  <Cog className="h-5 w-5 mr-2 text-[#B22222]" />
-                  <span className="font-medium">Mechanics of Fluids Lab</span>
-                </li>
+                {laboratories.map((lab, index) => (
+                  <li key={index} className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    {lab.icon === 'HardHat' && <HardHat className="h-5 w-5 mr-2 text-[#B22222]" />}
+                    {lab.icon === 'Cog' && <Cog className="h-5 w-5 mr-2 text-[#B22222]" />}
+                    {lab.icon === 'Microscope' && <Microscope className="h-5 w-5 mr-2 text-[#B22222]" />}
+                    <span className="font-medium">{lab.lab_name}</span>
+                  </li>
+                ))}
               </ul>
             </div>
 
             <div className="mt-12">
               <h3 className="text-2xl font-semibold text-[#B22222] mb-6">Laboratory Videos</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="flex flex-col items-center">
-                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <iframe
-                      className="w-full h-full"
-                      src="https://www.youtube.com/embed/NoaAk3gNNU0"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title="Thermal Engineering Lab"
-                    ></iframe>
-                  </div>
-                  <h4 className="text-xl font-medium mt-3 text-center">Thermal Engineering Lab</h4>
-                </div>
-
-                <div className="flex flex-col items-center">
-                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <iframe
-                      className="w-full h-full"
-                      src="https://www.youtube.com/embed/Du1edQHATEY"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title="Metrology Lab"
-                    ></iframe>
-                  </div>
-                  <h4 className="text-xl font-medium mt-3 text-center">Metrology Lab</h4>
-                </div>
-
-                <div className="flex flex-col items-center">
-                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <iframe
-                      className="w-full h-full"
-                      src="https://www.youtube.com/embed/VUr4WV_K7qM"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title="Machine Lab"
-                    ></iframe>
-                  </div>
-                  <h4 className="text-xl font-medium mt-3 text-center">Machine Lab</h4>
-                </div>
-
-                <div className="flex flex-col items-center">
-                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <iframe
-                      className="w-full h-full"
-                      src="https://www.youtube.com/embed/hXXZAbU6jHk"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title="Instrumentation Lab"
-                    ></iframe>
-                  </div>
-                  <h4 className="text-xl font-medium mt-3 text-center">Instrumentation Lab</h4>
-                </div>
-
-                <div className="flex flex-col items-center">
-                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <iframe
-                      className="w-full h-full"
-                      src="https://www.youtube.com/embed/wikbcmBvEQc"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title="Heat Transfer Lab"
-                    ></iframe>
-                  </div>
-                  <h4 className="text-xl font-medium mt-3 text-center">Heat Transfer Lab</h4>
-                </div>
-
-                <div className="flex flex-col items-center">
-                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <iframe
-                      className="w-full h-full"
-                      src="https://www.youtube.com/embed/-YBCecMTlSc"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title="Fuels Lab"
-                    ></iframe>
-                  </div>
-                  <h4 className="text-xl font-medium mt-3 text-center">Fuels Lab</h4>
-                </div>
-
-                <div className="flex flex-col items-center">
-                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <iframe
-                      className="w-full h-full"
-                      src="https://www.youtube.com/embed/Gqx3E5zMyxA"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title="Fluid Mechanics Lab"
-                    ></iframe>
-                  </div>
-                  <h4 className="text-xl font-medium mt-3 text-center">Fluid Mechanics Lab</h4>
-                </div>
-
-                <div className="flex flex-col items-center">
-                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <iframe
-                      className="w-full h-full"
-                      src="https://www.youtube.com/embed/ktDAGVv0Csg"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title="Drawing Hall"
-                    ></iframe>
-                  </div>
-                  <h4 className="text-xl font-medium mt-3 text-center">Drawing Hall</h4>
-                </div>
-
-                <div className="flex flex-col items-center">
-                  <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <iframe
-                      className="w-full h-full"
-                      src="https://www.youtube.com/embed/LnXTVI7q_QQ"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title="CAD Lab"
-                    ></iframe>
-                  </div>
-                  <h4 className="text-xl font-medium mt-3 text-center">CAD Lab</h4>
-                </div>
+                {laboratories.map((lab, index) => (
+                  lab.video_url && (
+                    <div key={index} className="flex flex-col items-center">
+                      <div className="w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
+                        <iframe
+                          className="w-full h-full"
+                          src={lab.video_url}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          title={lab.video_title}
+                        ></iframe>
+                      </div>
+                      <h4 className="text-xl font-medium mt-3 text-center">{lab.video_title}</h4>
+                    </div>
+                  )
+                ))}
               </div>
             </div>
           </div>
@@ -854,101 +741,87 @@ const MechanicalDepartment: React.FC = () => {
       case 'Department Library':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Library</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">{library.length > 0 ? library[0].title : 'Department Library'}</h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-8">
-              {/* Library Image */}
-              <div className="relative">
-                <img
-                  src="https://img.freepik.com/free-photo/friends-learning-study-group_23-2149257209.jpg"
-                  alt="Department Library"
-                  className="w-full h-auto rounded-lg shadow-md"
-                />
-              </div>
-
-              {/* Library Description */}
-              <div className="space-y-4">
-                <p className="text-gray-700 leading-relaxed text-justify">
-                  The Department of Mechanical Engineering maintains a comprehensive library that serves as an essential resource for students and faculty. Our collection includes textbooks, reference materials, journals, and digital resources covering all aspects of mechanical engineering disciplines.
-                </p>
-                <p className="text-gray-700 leading-relaxed text-justify">
-                  The library provides a quiet environment for study and research, with ample seating and workspaces. Students can access technical manuals, design handbooks, engineering standards, and the latest research publications in the field.
-                </p>
-                <p className="text-gray-700 leading-relaxed text-justify  ">
-                  Digital resources include subscriptions to leading engineering journals, e-books, and access to engineering databases, enabling students to stay updated with the latest advancements in mechanical engineering.
-                </p>
-              </div>
-            </div>
-
-            {/* Library Resources */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-gray-50 p-6 rounded-lg shadow">
-                <h3 className="text-xl font-semibold text-[#B22222] mb-4">Library Resources</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <Book className="h-5 w-5 mr-2 text-[#B22222]" />
-                    <span>Total Books: 1,500+</span>
-                  </li>
-                  <li className="flex items-center">
-                    <BookOpen className="h-5 w-5 mr-2 text-[#B22222]" />
-                    <span>Journals & Periodicals: 25+</span>
-                  </li>
-                  <li className="flex items-center">
-                    <Library className="h-5 w-5 mr-2 text-[#B22222]" />
-                    <span>Digital Resources: 500+</span>
-                  </li>
-                  <li className="flex items-center">
-                    <FileText className="h-5 w-5 mr-2 text-[#B22222]" />
-                    <span>Project Reports Archive</span>
-                  </li>
-                  <li className="flex items-center">
-                    <Database className="h-5 w-5 mr-2 text-[#B22222]" />
-                    <span>Technical Standards Collection</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-gray-50 p-6 rounded-lg shadow">
-                <h3 className="text-xl font-semibold text-[#B22222] mb-4">Library Services</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <Search className="h-5 w-5 mr-2 text-[#B22222]" />
-                    <span>Reference & Research Support</span>
-                  </li>
-                  <li className="flex items-center">
-                    <Download className="h-5 w-5 mr-2 text-[#B22222]" />
-                    <span>Digital Resource Access</span>
-                  </li>
-                  <li className="flex items-center">
-                    <Wifi className="h-5 w-5 mr-2 text-[#B22222]" />
-                    <span>Free Wi-Fi Access</span>
-                  </li>
-                  <li className="flex items-center">
-                    <TrendingUp className="h-5 w-5 mr-2 text-[#B22222]" />
-                    <span>New Acquisitions Updates</span>
-                  </li>
-                  <li className="flex items-center">
-                    <Presentation className="h-5 w-5 mr-2 text-[#B22222]" />
-                    <span>Presentation & Seminar Resources</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Faculty Incharge */}
-            <div className="mt-8">
-              <h3 className="text-2xl font-semibold text-[#B22222] mb-4 text-center">Faculty In-charge</h3>
-              <div className="bg-gray-50 p-6 rounded-lg shadow max-w-md mx-auto">
-                <div className="text-center">
-                  <div className="mb-3">
-                    <User className="h-16 w-16 mx-auto text-[#B22222]" />
+            {library.length > 0 && (
+              <>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-8">
+                  {/* Library Image */}
+                  <div className="relative">
+                    <img
+                      src={library[0].image_url}
+                      alt="Department Library"
+                      className="w-full h-auto rounded-lg shadow-md"
+                    />
                   </div>
-                  <h4 className="text-lg font-semibold">Mr. K. Sri Rama Murthy</h4>
-                  <p className="text-gray-600">Sr. Assistant Professor</p>
-                  <p className="text-gray-600">Department of Mechanical Engineering</p>
+
+                  {/* Library Description */}
+                  <div className="space-y-4">
+                    {library[0].description.map((paragraph, index) => (
+                      <p key={index} className="text-gray-700 leading-relaxed text-justify">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
                 </div>
+
+                {/* Library Resources */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  <div className="bg-gray-50 p-6 rounded-lg shadow">
+                    <h3 className="text-xl font-semibold text-[#B22222] mb-4">Library Resources</h3>
+                    <ul className="space-y-2">
+                      {library[0].resources.map((resource, index) => (
+                        <li key={index} className="flex items-center">
+                          {resource.icon === 'Book' && <Book className="h-5 w-5 mr-2 text-[#B22222]" />}
+                          {resource.icon === 'BookOpen' && <BookOpen className="h-5 w-5 mr-2 text-[#B22222]" />}
+                          {resource.icon === 'Library' && <Library className="h-5 w-5 mr-2 text-[#B22222]" />}
+                          {resource.icon === 'FileText' && <FileText className="h-5 w-5 mr-2 text-[#B22222]" />}
+                          {resource.icon === 'Database' && <Database className="h-5 w-5 mr-2 text-[#B22222]" />}
+                          <span>{resource.text}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="bg-gray-50 p-6 rounded-lg shadow">
+                    <h3 className="text-xl font-semibold text-[#B22222] mb-4">Library Services</h3>
+                    <ul className="space-y-2">
+                      {library[0].services.map((service, index) => (
+                        <li key={index} className="flex items-center">
+                          {service.icon === 'Search' && <Search className="h-5 w-5 mr-2 text-[#B22222]" />}
+                          {service.icon === 'Download' && <Download className="h-5 w-5 mr-2 text-[#B22222]" />}
+                          {service.icon === 'Wifi' && <Wifi className="h-5 w-5 mr-2 text-[#B22222]" />}
+                          {service.icon === 'TrendingUp' && <TrendingUp className="h-5 w-5 mr-2 text-[#B22222]" />}
+                          {service.icon === 'Presentation' && <Presentation className="h-5 w-5 mr-2 text-[#B22222]" />}
+                          <span>{service.text}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Faculty Incharge */}
+                <div className="mt-8">
+                  <h3 className="text-2xl font-semibold text-[#B22222] mb-4 text-center">Faculty In-charge</h3>
+                  <div className="bg-gray-50 p-6 rounded-lg shadow max-w-md mx-auto">
+                    <div className="text-center">
+                      <div className="mb-3">
+                        <User className="h-16 w-16 mx-auto text-[#B22222]" />
+                      </div>
+                      <h4 className="text-lg font-semibold">{library[0].faculty_incharge.name}</h4>
+                      <p className="text-gray-600">{library[0].faculty_incharge.designation}</p>
+                      <p className="text-gray-600">{library[0].faculty_incharge.department}</p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {library.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-gray-600">Loading library information...</p>
               </div>
-            </div>
+            )}
           </div>
         );
       case 'MoUs':
@@ -956,346 +829,224 @@ const MechanicalDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Memorandums of Understanding (MoUs)</h2>
 
-            <div className="mb-10">
-              <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">MoUs with Industries</h3>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="px-4 py-3">S.No</th>
-                      <th className="px-4 py-3">Organization</th>
-                      <th className="px-4 py-3">Industry Type</th>
-                      <th className="px-4 py-3">Date of MoU</th>
-                      <th className="px-4 py-3">Validity</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-3">1</td>
-                      <td className="px-4 py-3 font-medium">National Institute of Technology, Andhra Pradesh (NITAP)</td>
-                      <td className="px-4 py-3">Educational Institution</td>
-                      <td className="px-4 py-3">15 Jun 2022</td>
-                      <td className="px-4 py-3">3 Years</td>
-                    </tr>
-                    <tr className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-3">2</td>
-                      <td className="px-4 py-3 font-medium">EduSkills Foundation</td>
-                      <td className="px-4 py-3">Training & Skill Development</td>
-                      <td className="px-4 py-3">10 Aug 2022</td>
-                      <td className="px-4 py-3">2 Years</td>
-                    </tr>
-                    <tr className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-3">3</td>
-                      <td className="px-4 py-3 font-medium">Andhra Pradesh State Skill Development Corporation (APSSDC)</td>
-                      <td className="px-4 py-3">Government Skill Development</td>
-                      <td className="px-4 py-3">05 Jan 2022</td>
-                      <td className="px-4 py-3">3 Years</td>
-                    </tr>
-                    <tr className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-3">4</td>
-                      <td className="px-4 py-3 font-medium">SVR Technologies</td>
-                      <td className="px-4 py-3">Technology Solutions</td>
-                      <td className="px-4 py-3">20 Nov 2021</td>
-                      <td className="px-4 py-3">2 Years</td>
-                    </tr>
-                    <tr className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-3">5</td>
-                      <td className="px-4 py-3 font-medium">Siemens Centre of Excellence</td>
-                      <td className="px-4 py-3">Industrial Automation</td>
-                      <td className="px-4 py-3">12 Feb 2021</td>
-                      <td className="px-4 py-3">5 Years</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div className="mt-12">
-              <h3 className="text-2xl font-semibold text-[#B22222] mb-6">Activities Under MoUs</h3>
-              <div className="space-y-6">
-                <div className="bg-gray-50 p-6 rounded-lg shadow">
-                  <h4 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
-                    <Handshake className="h-6 w-6 mr-2 text-[#B22222]" />
-                    NITAP Collaboration
-                  </h4>
-                  <ul className="space-y-3 ml-8">
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Various activities organized / conducted under MoU of NITAP AY: 2022-23
-                        <a
-                          href="#"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View Details
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>Joint Research Projects: 2 ongoing faculty research collaborations</div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>Faculty Development Programs: 3 FDPs conducted</div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>Student Exchange Programs: 15 students participated in technical workshops</div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="bg-gray-50 p-6 rounded-lg shadow">
-                  <h4 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
-                    <Trophy className="h-6 w-6 mr-2 text-[#B22222]" />
-                    EduSkills Foundation Programs
-                  </h4>
-                  <ul className="space-y-3 ml-8">
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Various activities organized / conducted under MoU of Eduskills AY: 2022-23
-                        <a
-                          href="#"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View Details
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>Skill Development Programs: 120+ students trained in advanced CAD/CAM tools</div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>Certification Courses: 85 students received industry-recognized certifications</div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>Industry Connect Programs: 4 industry experts conducted specialized training sessions</div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="bg-gray-50 p-6 rounded-lg shadow">
-                  <h4 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
-                    <Activity className="h-6 w-6 mr-2 text-[#B22222]" />
-                    APSSDC Initiatives
-                  </h4>
-                  <ul className="space-y-3 ml-8">
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Various activities organized / conducted under MoU of APSSDC AY: 2022-23
-                        <a
-                          href="#"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View Details
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Various activities organized / conducted under MoU of APSSDC AY: 2020-21
-                        <a
-                          href="#"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View Details
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>Technical Workshops: 6 workshops on emerging technologies</div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>Entrepreneurship Development Programs: 2 EDPs conducted</div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="bg-gray-50 p-6 rounded-lg shadow">
-                  <h4 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
-                    <Briefcase className="h-6 w-6 mr-2 text-[#B22222]" />
-                    Industry Internships & Training
-                  </h4>
-                  <ul className="space-y-3 ml-8">
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>SVR Technologies: 18 students completed industry internships</div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>Siemens Centre of Excellence: 45 students received specialized training</div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>Guest Lectures: 8 industry experts delivered specialized talks</div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>Industry Visits: 3 industrial visits organized for practical exposure</div>
-                    </li>
-                  </ul>
+            {/* MoUs with Industries */}
+            {mous.filter((item: Mous) => item.type === 'industry').length > 0 && (
+              <div className="mb-10">
+                <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">MoUs with Industries</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="px-4 py-3">S.No</th>
+                        <th className="px-4 py-3">Organization</th>
+                        <th className="px-4 py-3">Industry Type</th>
+                        <th className="px-4 py-3">Date of MoU</th>
+                        <th className="px-4 py-3">Validity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {mous.filter((item: Mous) => item.type === 'industry').map((item: Mous, index: number) => (
+                        <tr key={index} className="border-b hover:bg-gray-50">
+                          <td className="px-4 py-3">{index + 1}</td>
+                          <td className="px-4 py-3 font-medium">{item.data.organization}</td>
+                          <td className="px-4 py-3">{item.data.industry_type}</td>
+                          <td className="px-4 py-3">{item.data.date_of_mou}</td>
+                          <td className="px-4 py-3">{item.data.validity}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
-            </div>
+            )}
 
-            <div className="mt-12">
-              <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Benefits of MoUs</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
-                  <div className="mb-3">
-                    <Briefcase className="h-10 w-10 mx-auto text-[#B22222]" />
-                  </div>
-                  <h4 className="text-lg font-semibold mb-2">Enhanced Employability</h4>
-                  <p className="text-gray-700">Increases job prospects through industry-relevant training</p>
-                </div>
+            {/* Activities Under MoUs */}
+            {mous.filter((item: Mous) => item.type === 'activity').length > 0 && (
+              <div className="mt-12">
+                <h3 className="text-2xl font-semibold text-[#B22222] mb-6">Activities Under MoUs</h3>
+                <div className="space-y-6">
+                  {mous.filter((item: Mous) => item.type === 'activity').map((item: Mous, index: number) => {
+                    const getIcon = (category: string) => {
+                      switch (category.toLowerCase()) {
+                        case 'nitap collaboration':
+                          return <Handshake className="h-6 w-6 mr-2 text-[#B22222]" />;
+                        case 'eduskills foundation programs':
+                          return <Trophy className="h-6 w-6 mr-2 text-[#B22222]" />;
+                        case 'apssdc initiatives':
+                          return <Activity className="h-6 w-6 mr-2 text-[#B22222]" />;
+                        case 'industry internships & training':
+                          return <Briefcase className="h-6 w-6 mr-2 text-[#B22222]" />;
+                        default:
+                          return <Activity className="h-6 w-6 mr-2 text-[#B22222]" />;
+                      }
+                    };
 
-                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
-                  <div className="mb-3">
-                    <Scroll className="h-10 w-10 mx-auto text-[#B22222]" />
-                  </div>
-                  <h4 className="text-lg font-semibold mb-2">Certifications</h4>
-                  <p className="text-gray-700">Industry-recognized certifications for career advancement</p>
-                </div>
-
-                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
-                  <div className="mb-3">
-                    <Building className="h-10 w-10 mx-auto text-[#B22222]" />
-                  </div>
-                  <h4 className="text-lg font-semibold mb-2">Industry Exposure</h4>
-                  <p className="text-gray-700">Practical knowledge through industry interactions</p>
-                </div>
-
-                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
-                  <div className="mb-3">
-                    <Users className="h-10 w-10 mx-auto text-[#B22222]" />
-                  </div>
-                  <h4 className="text-lg font-semibold mb-2">Networking</h4>
-                  <p className="text-gray-700">Connections with industry professionals</p>
-                </div>
-
-                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
-                  <div className="mb-3">
-                    <Shield className="h-10 w-10 mx-auto text-[#B22222]" />
-                  </div>
-                  <h4 className="text-lg font-semibold mb-2">Quality Assurance</h4>
-                  <p className="text-gray-700">Ensures education meets industry standards</p>
-                </div>
-
-                <div className="bg-gray-50 p-5 rounded-lg shadow text-center">
-                  <div className="mb-3">
-                    <Rss className="h-10 w-10 mx-auto text-[#B22222]" />
-                  </div>
-                  <h4 className="text-lg font-semibold mb-2">Research Opportunities</h4>
-                  <p className="text-gray-700">Collaborative research projects with industry</p>
+                    return (
+                      <div key={index} className="bg-gray-50 p-6 rounded-lg shadow">
+                        <h4 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                          {getIcon(item.data.category)}
+                          {item.data.category}
+                        </h4>
+                        <ul className="space-y-3 ml-8">
+                          {item.data.activities.map((activity: any, actIndex: number) => (
+                            <li key={actIndex} className="flex items-start">
+                              <span className="mr-2">•</span>
+                              <div>
+                                {activity.description}
+                                {activity.link && (
+                                  <a
+                                    href={activity.link}
+                                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                                  >
+                                    <FileText className="h-4 w-4 mr-1" />
+                                    View Details
+                                  </a>
+                                )}
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
+            )}
+
+            {/* Benefits of MoUs */}
+            {mous.filter((item: Mous) => item.type === 'benefit').length > 0 && (
+              <div className="mt-12">
+                <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Benefits of MoUs</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {mous.filter((item: Mous) => item.type === 'benefit').map((item: Mous, index: number) => {
+                    const getIcon = (iconName: string) => {
+                      switch (iconName) {
+                        case 'Briefcase':
+                          return <Briefcase className="h-10 w-10 mx-auto text-[#B22222]" />;
+                        case 'Scroll':
+                          return <Scroll className="h-10 w-10 mx-auto text-[#B22222]" />;
+                        case 'Building':
+                          return <Building className="h-10 w-10 mx-auto text-[#B22222]" />;
+                        case 'Users':
+                          return <Users className="h-10 w-10 mx-auto text-[#B22222]" />;
+                        case 'Shield':
+                          return <Shield className="h-10 w-10 mx-auto text-[#B22222]" />;
+                        case 'Rss':
+                          return <Rss className="h-10 w-10 mx-auto text-[#B22222]" />;
+                        default:
+                          return <Shield className="h-10 w-10 mx-auto text-[#B22222]" />;
+                      }
+                    };
+
+                    return (
+                      <div key={index} className="bg-gray-50 p-5 rounded-lg shadow text-center">
+                        <div className="mb-3">
+                          {getIcon(item.data.icon)}
+                        </div>
+                        <h4 className="text-lg font-semibold mb-2">{item.data.title}</h4>
+                        <p className="text-gray-700">{item.data.description}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {mous.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-gray-600">Loading MoUs information...</p>
+              </div>
+            )}
           </div>
         );
       case 'Syllabus':
+        // Group syllabus data by program
+        const groupedSyllabus = syllabus.reduce((acc, item) => {
+          if (!acc[item.program]) {
+            acc[item.program] = [];
+          }
+          acc[item.program].push(item);
+          return acc;
+        }, {} as Record<string, Syllabus[]>);
+
+        // Sort B.Tech syllabus by version (V23, V20, V18)
+        if (groupedSyllabus['B.Tech']) {
+          groupedSyllabus['B.Tech'].sort((a, b) => {
+            const versionOrder = { 'V23': 3, 'V20': 2, 'V18': 1 };
+            return (versionOrder[b.version as keyof typeof versionOrder] || 0) - (versionOrder[a.version as keyof typeof versionOrder] || 0);
+          });
+        }
+
+        // Sort M.Tech syllabus by version (V21, V18)
+        if (groupedSyllabus['M.Tech']) {
+          groupedSyllabus['M.Tech'].sort((a, b) => {
+            const versionOrder = { 'V21': 2, 'V18': 1 };
+            return (versionOrder[b.version as keyof typeof versionOrder] || 0) - (versionOrder[a.version as keyof typeof versionOrder] || 0);
+          });
+        }
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
             <div className="container mt-5">
               <div className="space-y-8">
                 {/* B.Tech (MECH) Section */}
-                <div>
-                  <details open className="border border-gray-300 rounded-lg">
-                    <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                      B.Tech (MECH)
-                    </summary>
-                    <div className="p-4">
-                      <ul className="space-y-4 list-disc list-inside ml-4">
-                        <li className="flex items-center">
-                          <span>B.Tech - V23 Syllabus</span>
-                          <a
-                            href="https://srivasaviengg.ac.in/uploads/syllabus/V23_B.Tech.III&IV_Syllabus.pdf"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                          >
-                            <FileText className="h-5 w-5 mr-1" />
-                            View
-                          </a>
-                        </li>
-                        <li className="flex items-center">
-                          <span>B.Tech - V20 Syllabus</span>
-                          <a
-                            href="https://srivasaviengg.ac.in/uploads/syllabus/V20_Course_Structure&Syllabus.pdf"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                          >
-                            <FileText className="h-5 w-5 mr-1" />
-                            View
-                          </a>
-                        </li>
-                        <li className="flex items-center">
-                          <span>B.Tech - V18 Syllabus</span>
-                          <a
-                            href="https://srivasaviengg.ac.in/uploads/syllabus/V18_Course_Structure&Syllabus.pdf"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                          >
-                            <FileText className="h-5 w-5 mr-1" />
-                            View
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </details>
-                </div>
+                {groupedSyllabus['B.Tech'] && groupedSyllabus['B.Tech'].length > 0 && (
+                  <div>
+                    <details open className="border border-gray-300 rounded-lg">
+                      <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                        B.Tech (MECH)
+                      </summary>
+                      <div className="p-4">
+                        <ul className="space-y-4 list-disc list-inside ml-4">
+                          {groupedSyllabus['B.Tech'].map((item, index) => (
+                            <li key={index} className="flex items-center">
+                              <span>{item.name}</span>
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                              >
+                                <FileText className="h-5 w-5 mr-1" />
+                                View
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </details>
+                  </div>
+                )}
 
                 {/* M.TECH(MECH) Section */}
-                <div>
-                  <details className="border border-gray-300 rounded-lg">
-                    <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                      M.TECH (MECH)
-                    </summary>
-                    <div className="p-4">
-                      <ul className="space-y-4 list-disc list-inside ml-4">
-                        <li className="flex items-center">
-                          <span>M.Tech - V21 Syllabus</span>
-                          <a
-                            href="https://srivasaviengg.ac.in/uploads/V21_M.Tech._TE_Course_Structure&Syllabus.pdf"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                          >
-                            <FileText className="h-5 w-5 mr-1" />
-                            View
-                          </a>
-                        </li>
-                        <li className="flex items-center">
-                          <span>M.Tech - V18 Syllabus</span>
-                          <a
-                            href="https://srivasaviengg.ac.in/uploads/M.Tech.Machine%20Design_Course%20structure&Syllabi_V18.pdf"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                          >
-                            <FileText className="h-5 w-5 mr-1" />
-                            View
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </details>
-                </div>
+                {groupedSyllabus['M.Tech'] && groupedSyllabus['M.Tech'].length > 0 && (
+                  <div>
+                    <details className="border border-gray-300 rounded-lg">
+                      <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                        M.TECH (MECH)
+                      </summary>
+                      <div className="p-4">
+                        <ul className="space-y-4 list-disc list-inside ml-4">
+                          {groupedSyllabus['M.Tech'].map((item, index) => (
+                            <li key={index} className="flex items-center">
+                              <span>{item.name}</span>
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                              >
+                                <FileText className="h-5 w-5 mr-1" />
+                                View
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </details>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -1312,81 +1063,22 @@ const MechanicalDepartment: React.FC = () => {
                 </summary>
                 <div className="p-4">
                   <ul className="space-y-4 list-disc list-inside ml-4">
-                    <li className="flex items-start">
-                      <span className="mt-1">Presentations using PPT, wherever necessary</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/student_participations.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Technical videos for Demonstration</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/mech_t&l/technical%20videos.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Power point Presentations for various subjects</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/mech_t&l/ppts.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Usage of Tools like AUTOCAD, SOLIDWORKS, FEMAP</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/mech_t&l/tools.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Use of e-learning resources like NPTEL lectures, QEEE, & MOOCS</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/mech_t&l/e-learning_resources.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Student Seminars</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/ME_Minutes%20of%20First%20BOS%20Meeting.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Providing Question bank with short answer questions and quiz questions</span>
-                    </li>
+                    {facultyTLmethods.map((item, index) => (
+                      <li key={index} className="flex items-start">
+                        <span className="mt-1">{item.method}</span>
+                        {item.url && (
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-5 w-5 mr-1" />
+                            View
+                          </a>
+                        )}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </details>
@@ -1406,114 +1098,20 @@ const MechanicalDepartment: React.FC = () => {
                 </summary>
                 <div className="p-4">
                   <ul className="space-y-4">
-                    <li className="flex items-start">
-                      <span className="mt-1">Faculty Publication during the Academic Year 2022-2023</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Faculty_Publications_AY-2022-23.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        For more Details
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Faculty Publication during the Academic Year 2021-2022</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Faculty_Publications_AY-2021-22.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        For more Details
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Faculty Publication during the Academic Year 2020-2021</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Publications_2020-21-ME.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        For more Details
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Faculty Publication during the Academic Year 2019-2020</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Publications_2019-20-ME.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        For more Details
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Faculty Publication during the Academic Year 2018-2019</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Publications_2018-19-ME.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        For more Details
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Faculty Publication during the Academic Year 2017-2018</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/FACULTY%20PUBLICATIONS%20AC%202017-18.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        For more Details
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Faculty Publication during the Academic Year 2016-2017</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/FACULTY%20PUBLICATIONS%20AC%202016-17.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        For more Details
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Faculty Publication during the Academic Year 2015-2016</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/FACULTY%20PUBLICATIONS%20AC%202015-16.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        For more Details
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Faculty Publication during the Academic Year 2014-2015</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/FACULTY%20PUBLICATIONS%20AC%202014-2015.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        For more Details
-                      </a>
-                    </li>
+                    {facultyAchievements.filter(item => item.category === 'Faculty Publications').map((item, index) => (
+                      <li key={index} className="flex items-start">
+                        <span className="mt-1">{item.description}</span>
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-5 w-5 mr-1" />
+                          For more Details
+                        </a>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </details>
@@ -1526,653 +1124,301 @@ const MechanicalDepartment: React.FC = () => {
                 </summary>
                 <div className="p-4">
                   <ul className="space-y-4">
-                    <li className="flex items-start">
-                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2022-23</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-AY-2022-23-ME.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2021-22</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-AY-2021-22-ME.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2020-21</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-2020-21-ME.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2019-20</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-2019-20-ME.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2018-19</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-2018-19-ME.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2017-18</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-2017-18-ME.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2016-17</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/fdps_wrkshps_2016-17.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2015-16</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/fdps_wrkshps_2015-16.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2014-15</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/fdps_wrkshps_2014-15.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Workshops/Conferencec/FDP's Conducted by the Faculty during the Academic Year 2013-14</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/fdps_wrkshps_2013-14.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </li>
+                    {facultyAchievements
+                      .filter(item => item.category === 'Conferences & Workshops')
+                      .sort((a, b) => {
+                        const yearA = parseInt(a.academic_year.split('-')[0]);
+                        const yearB = parseInt(b.academic_year.split('-')[0]);
+                        return yearB - yearA;
+                      })
+                      .map((item, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="mt-1">{item.description}</span>
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-5 w-5 mr-1" />
+                            View
+                          </a>
+                        </li>
+                      ))}
                   </ul>
                 </div>
               </details>
             </div>
           </div>
         );
-      case 'Student Achievements':
+      case 'Student Achievements': {
+        // Group student achievements by category
+        const groupedAchievements = studentAchievements.reduce((acc, achievement) => {
+          if (!acc[achievement.category]) {
+            acc[achievement.category] = [];
+          }
+          acc[achievement.category].push(achievement);
+          return acc;
+        }, {} as Record<string, StudentAchievements[]>);
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
 
-            <div className="mb-8">
-              <details open className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Internships
-                </summary>
-                <div className="p-4">
-                  <ul className="space-y-4 list-disc list-inside ml-4">
-                    <li className="flex items-start">
-                      <span className="mt-1">Internships during the Academic Year 2022-23</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2022-23.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Internships during the Academic Year 2021-22</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2021-22.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Internships during the Academic Year 2020-21</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2020-21.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Internships during the Academic Year 2019-20</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2019-20.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Internships during the Academic Year 2018-19</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2018-19.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Internships during the Academic Year 2017-18</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2017-18.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Internships during the Academic Year 2016-17</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2016-17.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Internships during the Academic Year 2015-16</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Internship_Details-2015-16.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-            </div>
-
-            <div className="mb-8">
-              <details className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  NPTEL/Other Certifications
-                </summary>
-                <div className="p-4">
-                  <ul className="space-y-4 list-disc list-inside ml-4">
-                    <li className="flex items-start">
-                      <span className="mt-1">Certifications during the A.Y 2020-21</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/nptel%2020-21%20mech.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Certifications during the A.Y 2018-19</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/nptel%202018-19%20mech.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-            </div>
-
-            <div className="mb-8">
-              <details className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Achievements/Participations in Co-curricular/Extra-Curricular Activities
-                </summary>
-                <div className="p-4">
-                  <ul className="space-y-4 list-disc list-inside ml-4">
-                    <li className="flex items-start">
-                      <span className="mt-1">Extracurricular activities during the Year 2023-24</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/AY23-24_ME_Student activities.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Extracurricular activities during the Year 2022-23</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/AY22-23_ME_Student activities.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Extracurricular activities during the Year 2021-22</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/AY21-22_ME_Student activities.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Extracurricular activities during the Year 2020-21</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/AY20-21_ME_Student activities.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Extracurricular activities during the Year 2019-20</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/AY19-20_ME_Student activities.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Extracurricular activities during the Year 2018-19</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Stu_Ach-AY_2018-19.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                  </ul>
-
-                  <div className="mt-6 border-t border-gray-200 pt-4">
-                    <h4 className="font-medium text-lg mb-3">Notable Individual Achievements</h4>
-                    <ul className="space-y-2 text-gray-700">
-                      <li>Mr. A. Saikumar (10a81a0302) has Presented Paper on "W.E", conducted by Jntuk.</li>
-                      <li>Mr. S.Suresh (10a81a0352) has Presented Paper on "W.E", conducted by Jntuk.</li>
-                      <li>Mr. S.Suresh (10a81a0352) has Presented Paper On "Nano Robots" conducted by Koneru Lakshmayya University, Vijayawada.</li>
-                      <li>Mr. Y Sri Ganesh Babu (10a81a0359) has Presented Paper on "Nano Robots" conducted by Koneru Lakshmayya University, Vijayawada.</li>
-                      <li>Mr. V.Venkatesh (10a81a0357) has Presented Paper on "Nano Robots" conducted by Koneru Lakshmayya University, Vijayawada.</li>
-                      <li>Mr. N. Raviteja (10a81a0341) has Presented Paper on "I Robot Arm" conducted by Anits, Vizag.</li>
-                      <li>Mr. K. Durga Prasad (10a81a0324) has Presented Paper on "I Robot Arm" conducted by Anits, Vizag.</li>
-                      <li>Ms. N. Monica (10a81a0340) has Presented Paper on "I Robot Arm" conducted by Anits, Vizag.</li>
-                      <li>Mr. M.Ramakrishna (10a81a0337) has Participated in the Paper Presentation held on 8-3-2013 conducted by Githam Engineering College Vishakapatnam.</li>
-                      <li>Mr. Shaik Sultan Salamuddin(10a81a0351) has Participated in the Poster Presentation, conducted by Koneru Lakshmayya University, Vijayawada.</li>
-                      <li>Mr. T.Chalapathi (12a85a0307) bagged First Prize in the Technical Quiz Competition held at V.R Siddartha Engineering College, Vijayawada.</li>
-                      <li>Mr. T.Chalapathi (12a85a0307) bagged First Prize in the General Quiz Competition held at Jntu, Vijayanagarm.</li>
-                      <li>Mr. M.Mahesh (12a85a0304) bagged First Prize in the General Quiz Competition held at Jntu, Vijayanagarm.</li>
-                      <li>Mr. P.V.V Ranjith Kumar and his team has bagged First Place in Intramural Cricket competition held At Sri Vasavi Engineering College, Tadepalligudem on 7-7-13.</li>
-                      <li>Mr. N.Surendra and his team has bagged First Place in Intramural Volleyball competition held At Sri Vasavi Engineering College, Tadepalligudem On 7-7-13.</li>
-                      <li>Mr. Ch.Kiran Kumar and his team has bagged Second Place in Intramural Basketball Competition held At Sri Vasavi Engineering College, Tadepalligudem on 7-7-13.</li>
-                      <li>Mr.M.Mahesh (12a85a0304) bagged First Prize in the Technical Quiz competition held at V.R Siddartha Engineering College, Vijayawada.</li>
-                      <li>M. Srinivas (11a81a0332) has Presented a Paper on "Polutionless Vehicle" bagged Second Place on 8-2-13 At B.V.C.E Odalarevu.</li>
-                      <li>M.Rakesh (11a81a0335) has Presented a Paper on "Continuous Variable Transmission" bagged Second Place on 8-2-13 At B.V.C.E Odalarevu.</li>
+            {/* Internships */}
+            {(groupedAchievements['Internships'] || []).length > 0 && (
+              <div className="mb-8">
+                <details open className="border border-gray-300 rounded-lg">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    Internships
+                  </summary>
+                  <div className="p-4">
+                    <ul className="space-y-4 list-disc list-inside ml-4">
+                      {groupedAchievements['Internships'].map((achievement, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="mt-1">{achievement.title}</span>
+                          {achievement.url && achievement.url.trim() !== '' && (
+                            <a
+                              href={achievement.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                            >
+                              <FileText className="h-5 w-5 mr-1" />
+                              View More
+                            </a>
+                          )}
+                        </li>
+                      ))}
                     </ul>
-
-                    <div className="mt-4">
-                      <h4 className="font-medium text-lg mb-2">Students Participations</h4>
-                      <div className="flex items-start">
-                        <span className="mt-1">Students Participations in various events</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/student_participations.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-5 w-5 mr-1" />
-                          View
-                        </a>
-                      </div>
-                    </div>
                   </div>
-                </div>
-              </details>
-            </div>
+                </details>
+              </div>
+            )}
 
-            <div className="mb-8">
-              <details className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  UIF
-                </summary>
-                <div className="p-4">
-                  <ul className="space-y-4 list-disc list-inside ml-4">
-                    <li className="flex items-start">
-                      <span className="mt-1">Student Achievements during the Academic Year 2018-19</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/Stu_Ach-AY_2018-19.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-            </div>
+            {/* NPTEL/Other Certifications */}
+            {(groupedAchievements['NPTEL/Other Certifications'] || []).length > 0 && (
+              <div className="mb-8">
+                <details className="border border-gray-300 rounded-lg">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    NPTEL/Other Certifications
+                  </summary>
+                  <div className="p-4">
+                    <ul className="space-y-4 list-disc list-inside ml-4">
+                      {groupedAchievements['NPTEL/Other Certifications'].map((achievement, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="mt-1">{achievement.title}</span>
+                          {achievement.url && achievement.url.trim() !== '' && (
+                            <a
+                              href={achievement.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                            >
+                              <FileText className="h-5 w-5 mr-1" />
+                              View More
+                            </a>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            )}
 
-            <div className="mb-8">
-              <details className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Community Service Project
-                </summary>
-                <div className="p-4">
-                  <ul className="space-y-4 list-disc list-inside ml-4">
-                    <li className="flex items-start">
-                      <span className="mt-1">List of CSP Projects done by 2020-24 Batch Students</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202020-24%20Batch%20Students.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">List of CSP Projects done by 2021-25 Batch Students</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202021-25%20Batch%20Students.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-            </div>
+            {/* Achievements/Participations in Co-curricular/Extra-Curricular Activities */}
+            {((groupedAchievements['Co-curricular/Extra-Curricular Activities'] || []).length > 0 ||
+              (groupedAchievements['Notable Individual Achievements'] || []).length > 0 ||
+              (groupedAchievements['Students Participations'] || []).length > 0) && (
+              <div className="mb-8">
+                <details className="border border-gray-300 rounded-lg">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    Achievements/Participations in Co-curricular/Extra-Curricular Activities
+                  </summary>
+                  <div className="p-4">
+                    {/* Extracurricular activities */}
+                    {(groupedAchievements['Co-curricular/Extra-Curricular Activities'] || []).length > 0 && (
+                      <ul className="space-y-4 list-disc list-inside ml-4">
+                        {groupedAchievements['Co-curricular/Extra-Curricular Activities'].map((achievement, index) => (
+                          <li key={index} className="flex items-start">
+                            <span className="mt-1">{achievement.title}</span>
+                            {achievement.url && achievement.url.trim() !== '' && (
+                              <a
+                                href={achievement.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                              >
+                                <FileText className="h-5 w-5 mr-1" />
+                                View More
+                              </a>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
 
-            <div className="mb-8">
-              <details className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Projects
-                </summary>
-                <div className="p-4">
-                  <ul className="space-y-4 list-disc list-inside ml-4">
-                    <li className="flex items-start">
-                      <span className="mt-1">Project Batches during the Academic Year 2022-23</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/AY_2022-23-Project-Batches-A&B.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Project Batches during the Academic Year 2021-22</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/AY_2021-22-Project-Batches-A&B.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Project Batches during the Academic Year 2020-21</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/AY_2020-21-Project-Batches-A&B.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Project Batches during the Academic Year 2019-20</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/AY_2019-20-Project-Batches-A&B.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mt-1">Project Batches during the Academic Year 2018-19</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mech/AY_2018-19-Project-Batches-A&B.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-            </div>
+                    {/* Notable Individual Achievements */}
+                    {(groupedAchievements['Notable Individual Achievements'] || []).length > 0 && (
+                      <div className="mt-6 border-t border-gray-200 pt-4">
+                        <h4 className="font-medium text-lg mb-3">Notable Individual Achievements</h4>
+                        <ul className="space-y-2 text-gray-700">
+                          {groupedAchievements['Notable Individual Achievements'].map((achievement, index) => (
+                            <li key={index}>{achievement.title}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Students Participations */}
+                    {(groupedAchievements['Students Participations'] || []).length > 0 && (
+                      <div className="mt-4">
+                        <h4 className="font-medium text-lg mb-2">Students Participations</h4>
+                        <div className="flex items-start">
+                          <span className="mt-1">{groupedAchievements['Students Participations'][0].title}</span>
+                          {groupedAchievements['Students Participations'][0].url && groupedAchievements['Students Participations'][0].url.trim() !== '' && (
+                            <a
+                              href={groupedAchievements['Students Participations'][0].url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                            >
+                              <FileText className="h-5 w-5 mr-1" />
+                              View
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </details>
+              </div>
+            )}
+
+            {/* UIF */}
+            {(groupedAchievements['UIF'] || []).length > 0 && (
+              <div className="mb-8">
+                <details className="border border-gray-300 rounded-lg">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    UIF
+                  </summary>
+                  <div className="p-4">
+                    <ul className="space-y-4 list-disc list-inside ml-4">
+                      {groupedAchievements['UIF'].map((achievement, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="mt-1">{achievement.title}</span>
+                          {achievement.url && achievement.url.trim() !== '' && (
+                            <a
+                              href={achievement.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                            >
+                              <FileText className="h-5 w-5 mr-1" />
+                              View More
+                            </a>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            )}
+
+            {/* Community Service Project */}
+            {(groupedAchievements['Community Service Project'] || []).length > 0 && (
+              <div className="mb-8">
+                <details className="border border-gray-300 rounded-lg">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    Community Service Project
+                  </summary>
+                  <div className="p-4">
+                    <ul className="space-y-4 list-disc list-inside ml-4">
+                      {groupedAchievements['Community Service Project'].map((achievement, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="mt-1">{achievement.title}</span>
+                          {achievement.url && achievement.url.trim() !== '' && (
+                            <a
+                              href={achievement.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                            >
+                              <FileText className="h-5 w-5 mr-1" />
+                              View More
+                            </a>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            )}
+
+            {/* Projects */}
+            {(groupedAchievements['Projects'] || []).length > 0 && (
+              <div className="mb-8">
+                <details className="border border-gray-300 rounded-lg">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    Projects
+                  </summary>
+                  <div className="p-4">
+                    <ul className="space-y-4 list-disc list-inside ml-4">
+                      {groupedAchievements['Projects'].map((achievement, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="mt-1">{achievement.title}</span>
+                          {achievement.url && achievement.url.trim() !== '' && (
+                            <a
+                              href={achievement.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                            >
+                              <FileText className="h-5 w-5 mr-1" />
+                              View More
+                            </a>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            )}
           </div>
         );
+      }
       case 'Placements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
 
-            <div className="mb-8">
-              <details open className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Placements for Batch 2019-23
-                </summary>
-                <div className="p-4">
-                  <div className="flex items-start ml-4">
-                    <span className="mt-1">Placements for Batch 2019-23</span>
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/mech/Placements-2019-23-Batch.pdf"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-5 w-5 mr-1" />
-                      View More
-                    </a>
+            {placements.map((placement, index) => (
+              <div key={placement.batch} className="mb-8">
+                <details open={index === 0} className="border border-gray-300 rounded-lg">
+                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
+                    Placements for Batch {placement.batch}
+                  </summary>
+                  <div className="p-4">
+                    <div className="flex items-start ml-4">
+                      <span className="mt-1">Placements for Batch {placement.batch}</span>
+                      <a
+                        href={placement.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-5 w-5 mr-1" />
+                        View More
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </details>
-            </div>
-
-            <div className="mb-8">
-              <details className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Placements for Batch 2018-22
-                </summary>
-                <div className="p-4">
-                  <div className="flex items-start ml-4">
-                    <span className="mt-1">Placements for Batch 2018-22</span>
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/mech/Placements-2018-22-Batch.pdf"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-5 w-5 mr-1" />
-                      View More
-                    </a>
-                  </div>
-                </div>
-              </details>
-            </div>
-
-            <div className="mb-8">
-              <details className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Placements for Batch 2017-21
-                </summary>
-                <div className="p-4">
-                  <div className="flex items-start ml-4">
-                    <span className="mt-1">Placements for Batch 2017-21</span>
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/mech/Placements-2017-21-Batch.pdf"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-5 w-5 mr-1" />
-                      View More
-                    </a>
-                  </div>
-                </div>
-              </details>
-            </div>
-
-            <div className="mb-8">
-              <details className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Placements for Batch 2016-20
-                </summary>
-                <div className="p-4">
-                  <div className="flex items-start ml-4">
-                    <span className="mt-1">Placements for Batch 2016-20</span>
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/mech/Placements-2016-20-Batch.pdf"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-5 w-5 mr-1" />
-                      View More
-                    </a>
-                  </div>
-                </div>
-              </details>
-            </div>
-
-            <div className="mb-8">
-              <details className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Placements for Batch 2015-19
-                </summary>
-                <div className="p-4">
-                  <div className="flex items-start ml-4">
-                    <span className="mt-1">Placements for Batch 2015-19</span>
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/mech/Placements-2015-19-Batch.pdf"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-5 w-5 mr-1" />
-                      View More
-                    </a>
-                  </div>
-                </div>
-              </details>
-            </div>
+                </details>
+              </div>
+            ))}
 
             <div className="mt-12 border-t border-gray-200 pt-6">
               <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Gallery</h3>
@@ -2200,138 +1446,20 @@ const MechanicalDepartment: React.FC = () => {
 
             <div className="mb-8">
               <ol className="space-y-4 list-decimal pl-5">
-                <li className="flex items-start">
-                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2022-23</span>
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mech/AY_2022-23_Department%20activities.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                  >
-                    <FileText className="h-5 w-5 mr-1" />
-                    View More
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2021-22</span>
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-AY-2021-22-ME.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                  >
-                    <FileText className="h-5 w-5 mr-1" />
-                    View More
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2020-21</span>
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mech/AY_2020-21_Department%20activities.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                  >
-                    <FileText className="h-5 w-5 mr-1" />
-                    View More
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2019-20</span>
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mech/Workshop_Guest_Lecture-2019-20-ME.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                  >
-                    <FileText className="h-5 w-5 mr-1" />
-                    View More
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2018-19</span>
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mech/Workshop_Guest_Lecture-2018-19-ME.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                  >
-                    <FileText className="h-5 w-5 mr-1" />
-                    View More
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2017-18</span>
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mech/Workshop's-FDPs-2017-18-ME.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                  >
-                    <FileText className="h-5 w-5 mr-1" />
-                    View More
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2016-17</span>
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mech/Workshopsfdpsguest%20Organized%202016-17.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                  >
-                    <FileText className="h-5 w-5 mr-1" />
-                    View More
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2015-16</span>
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mech/Workshopsfdpsguest%20Organized%202015-16.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                  >
-                    <FileText className="h-5 w-5 mr-1" />
-                    View More
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2014-15</span>
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mech/Workshopsfdpsguest%20%20Organized%202014-15.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                  >
-                    <FileText className="h-5 w-5 mr-1" />
-                    View More
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2013-14</span>
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mech/Workshopsfdpsguest%20%20Organized%202013-14.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                  >
-                    <FileText className="h-5 w-5 mr-1" />
-                    View More
-                  </a>
-                </li>
-                <li className="flex items-start">
-                  <span className="mt-1">Workshops/Guest Lectures/FDPs Organized during the Academic Year 2012-13</span>
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/mech/Workshopsfdpsguest%20Organized%202012%E2%80%9313.pdf"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                  >
-                    <FileText className="h-5 w-5 mr-1" />
-                    View More
-                  </a>
-                </li>
+                {workshops.map((workshop, index) => (
+                  <li key={index} className="flex items-start">
+                    <span className="mt-1">{workshop.description}</span>
+                    <a
+                      href={workshop.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-5 w-5 mr-1" />
+                      View More
+                    </a>
+                  </li>
+                ))}
               </ol>
             </div>
 
@@ -2340,35 +1468,31 @@ const MechanicalDepartment: React.FC = () => {
 
       case 'Technical Association':
         return (
-
           <div className="mb-8 mt-12">
             <h2 className="text-2xl font-bold text-[#B22222] mb-6">Technical Association</h2>
             <div className="bg-gray-50 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Fabulous Association of Mechanical Engineers (FAME) :</h3>
-              <p className="text-gray-700 mb-6">
-                FAME is a student body which is governed by the students with the support from the department.
-                Every student from Department of Mechanical Engineering is beamed to be the member of this Association.
-                The Association is very active in conducting Workshops, Seminars and other Curricular activities.
-              </p>
+              {technicalAssociation.length > 0 && (
+                <>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-4">{technicalAssociation[0].title} :</h3>
+                  <p className="text-gray-700 mb-6">
+                    {technicalAssociation[0].description}
+                  </p>
 
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Various activities conducted by FAME are as follows:</h3>
-              <ul className="space-y-3 ml-6 list-disc">
-                <li className="text-gray-700">
-                  Mr. S.Ravi Kumar from IIT New-Delhi has delivered a guest lecture on "Metrology And Material Science".
-                </li>
-                <li className="text-gray-700">
-                  Mr. S.V.S.S.Srikanth from Ansys/FLUENT Technologies, Pune has delivered a guest lecture on "ANSYS"
-                </li>
-                <li className="text-gray-700">
-                  Dr.G.V.N.S.Ratnakara Rao B.E,M.E,Ph.D. from BIET, Bhimavaram has delivered a guest lecture on "An Insight Into Combustion in I.C. engines".
-                </li>
-                <li className="text-gray-700">
-                  Mr. Mallikarjun Rao from Steel Plant, Vizag has delivered a guest lecture on General Management And Skills
-                </li>
-                <li className="text-gray-700">
-                  Mr. Nageswara Rao from IIT Bombay has delivered a guest lecture on "Presentation Skills".
-                </li>
-              </ul>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-4">Various activities conducted by FAME are as follows:</h3>
+                  <ul className="space-y-3 ml-6 list-disc">
+                    {technicalAssociation.slice(1).map((activity, index) => (
+                      <li key={index} className="text-gray-700">
+                        {activity.description}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              {technicalAssociation.length === 0 && (
+                <div className="text-center py-8">
+                  <p className="text-gray-600">Loading technical association information...</p>
+                </div>
+              )}
             </div>
           </div>
         );
@@ -2377,7 +1501,6 @@ const MechanicalDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Project Research & Development</h2>
-
 
             <div className="mb-10">
               <h3 className="text-2xl font-semibold text-gray-700 mb-6 pb-2 border-b-2 border-primary">Research Projects Archive</h3>
@@ -2389,81 +1512,25 @@ const MechanicalDepartment: React.FC = () => {
                     Undergraduate Research Projects
                   </h4>
                   <ul className="space-y-3 ml-2">
-                    <li className="flex items-center">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Research Projects during academic year 2022-23
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/AY_2022-23-Research_Projects.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View More
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex items-center">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Research Projects during academic year 2021-22
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/AY_2021-22-Research_Projects.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View More
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex items-center">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Research Projects during academic year 2020-21
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/AY_2020-21-Research_Projects.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View More
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex items-center">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Research Projects during academic year 2019-20
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/AY_2019-20-Research_Projects.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View More
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex items-center">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Research Projects during academic year 2018-19
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/AY_2018-19-Research%20Projects.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View More
-                        </a>
-                      </div>
-                    </li>
+                    {projectResearch
+                      .filter(project => project.category === 'Undergraduate')
+                      .map((project, index) => (
+                        <li key={index} className="flex items-center">
+                          <span className="mr-2">•</span>
+                          <div>
+                            {project.description}
+                            <a
+                              href={project.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                            >
+                              <FileText className="h-4 w-4 mr-1" />
+                              View More
+                            </a>
+                          </div>
+                        </li>
+                      ))}
                   </ul>
                 </div>
 
@@ -2473,31 +1540,49 @@ const MechanicalDepartment: React.FC = () => {
                     Postgraduate Research Projects
                   </h4>
                   <ul className="space-y-3 ml-2">
-                    <li className="flex items-center">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Research Projects Details
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/M.Tech.Research_Projects.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          View More
-                        </a>
-                      </div>
-                    </li>
+                    {projectResearch
+                      .filter(project => project.category === 'Postgraduate')
+                      .map((project, index) => (
+                        <li key={index} className="flex items-center">
+                          <span className="mr-2">•</span>
+                          <div>
+                            {project.description}
+                            <a
+                              href={project.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                            >
+                              <FileText className="h-4 w-4 mr-1" />
+                              View More
+                            </a>
+                          </div>
+                        </li>
+                      ))}
                   </ul>
                 </div>
               </div>
             </div>
 
-
           </div>
         );
 
       case 'Newsletters':
+        // Group newsletters by year and sort years descending
+        const groupedNewsletters = newsletters.reduce((acc, newsletter) => {
+          const year = Number(newsletter.year);
+          if (!acc[year]) {
+            acc[year] = [];
+          }
+          acc[year].push(newsletter);
+          return acc;
+        }, {} as Record<number, Newsletters[]>);
+
+        // Sort years in descending order
+        const sortedYears = Object.keys(groupedNewsletters)
+          .map(Number)
+          .sort((a, b) => b - a);
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Newsletters</h2>
@@ -2509,261 +1594,53 @@ const MechanicalDepartment: React.FC = () => {
 
               <div className="bg-gray-50 rounded-xl p-6 shadow-md">
                 <div className="space-y-4">
-                  {/* 2017 Newsletters */}
-                  <div className="border-b pb-2">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4">2017</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 4 Issue 3 - January 2017
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">First newsletter of the year highlighting winter activities</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%204%20Issue%20%203-%20jan%202017.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
+                  {sortedYears.map((year, yearIndex) => {
+                    // Handle 2014-2015 combined display
+                    const has2014 = groupedNewsletters[2014] !== undefined;
+                    const has2015 = groupedNewsletters[2015] !== undefined;
+                    const displayYear = (year === 2014 || year === 2015) && has2014 && has2015
+                      ? '2014-2015'
+                      : year.toString();
 
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 4 Issue 4 - April 2017
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">Spring edition featuring end-of-semester projects</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%204%20Issue%20%204-%20apr%202017.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
+                    // Skip duplicate rendering for 2015 if 2014-2015 is already shown
+                    if (year === 2015 && has2014 && has2015) {
+                      return null;
+                    }
 
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 5 Issue 1 - September 2017
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">Fall semester kickoff with new student orientation details</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%205%20Issue%20%201-%20sep%202017.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
+                    // Get newsletters for this year (combine 2014 and 2015 if both exist)
+                    const yearNewsletters = displayYear === '2014-2015'
+                      ? [...(groupedNewsletters[2014] || []), ...(groupedNewsletters[2015] || [])].sort((a, b) => {
+                          const volumeDiff = Number(a.volume) - Number(b.volume);
+                          return volumeDiff !== 0 ? volumeDiff : Number(a.issue) - Number(b.issue);
+                        })
+                      : groupedNewsletters[year];
 
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 5 Issue 2 - November 2017
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">Winter preparation and mid-year project updates</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%205%20Issue%20%202-%20nov%202017.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
+                    return (
+                      <div key={year} className={yearIndex < sortedYears.length - 1 ? "border-b pb-2" : ""}>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-4">{displayYear}</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {yearNewsletters?.map((newsletter, index) => (
+                            <div key={index} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                              <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
+                                <FileText className="h-4 w-4 mr-2" />
+                                {newsletter.title}
+                              </h4>
+                              <p className="text-sm text-gray-600 mb-2">{newsletter.description}</p>
+                              <a
+                                href={newsletter.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center text-blue-600 hover:underline"
+                              >
+                                <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                                View Newsletter
+                              </a>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* 2016 Newsletters */}
-                  <div className="border-b pb-2">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4">2016</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 3 Issue 3 - January 2016
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">New year edition featuring department goals</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%203%20Issue%20%203-%20jan%202016.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
-
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 3 Issue 4 - April 2016
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">Spring highlights and research progress</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%203%20Issue%20%204-%20apr%202016.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
-
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 4 Issue 1 - September 2016
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">New academic year with faculty updates</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%204%20Issue%20%201-%20sep%202016.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
-
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 4 Issue 2 - November 2016
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">Fall semester events and workshop recaps</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%204%20Issue%20%202-%20nov%202016.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 2014-2015 Newsletters */}
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4">2014-2015</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 2 Issue 1 - September 2014
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">Department relaunch with new curriculum</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%202%20Issue%20%201-%20sep%202014.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
-
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 2 Issue 2 - November 2014
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">Mid-semester achievements and guest lectures</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%202%20Issue%20%202-%20nov%202014.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
-
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 2 Issue 3 - January 2015
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">New year edition with student innovations</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%202%20Issue%20%203-%20jan%202015.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
-
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 2 Issue 4 - April 2015
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">End of academic year highlights and future plans</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%202%20Issue%20%204-%20apr%202015.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
-
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 3 Issue 1 - September 2015
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">New academic year welcome edition</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%203%20Issue%20%201-%20sep%202015.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
-
-                      <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Volume 3 Issue 2 - November 2015
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2">Fall semester activities and technical events</p>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/mech/Volume%20%203%20Issue%20%202-%20nov%202015.pdf"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:underline"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                          View Newsletter
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -2777,6 +1654,16 @@ const MechanicalDepartment: React.FC = () => {
         );
 
       case 'Magazines':
+        // Group magazines by year
+        const groupedMagazines = magazines.reduce((acc, mag) => {
+          if (!acc[mag.year]) acc[mag.year] = [];
+          acc[mag.year].push(mag);
+          return acc;
+        }, {} as Record<string, Magazines[]>);
+
+        // Define year order to maintain same display order
+        const yearOrder = ['2019-2020', '2018-2019', '2016-2017', 'Earlier Issues'];
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Magazines</h2>
@@ -2788,197 +1675,103 @@ const MechanicalDepartment: React.FC = () => {
 
               <div className="bg-gray-50 rounded-xl p-6 shadow-md">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* 2019-2020 */}
-                  <div className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                    <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">2019-2020</h3>
-                    <ul className="space-y-4">
-                      <li>
-                        <div className="flex items-start">
-                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
-                          <div>
-                            <p className="font-medium text-gray-800">Mechazine Volume 6 Issue 2</p>
-                            <p className="text-sm text-gray-600 mb-2">End of academic year special edition</p>
-                            <a
-                              href="https://srivasaviengg.ac.in/uploads/mech/MECHAZINE_2019-20_V-6 _I-2.pdf"
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center text-blue-600 hover:underline"
-                            >
-                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                              View Magazine
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="flex items-start">
-                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
-                          <div>
-                            <p className="font-medium text-gray-800">Mechazine Volume 6 Issue 1</p>
-                            <p className="text-sm text-gray-600 mb-2">Beginning of academic year edition</p>
-                            <a
-                              href="https://srivasaviengg.ac.in/uploads/mech/MECHAZINE_2019-20_V-6 _I-1.pdf"
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center text-blue-600 hover:underline"
-                            >
-                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                              View Magazine
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
+                  {yearOrder.map(year => {
+                    const yearMagazines = groupedMagazines[year] || [];
 
-                  {/* 2018-2019 */}
-                  <div className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                    <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">2018-2019</h3>
-                    <ul className="space-y-4">
-                      <li>
-                        <div className="flex items-start">
-                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
-                          <div>
-                            <p className="font-medium text-gray-800">Mechazine Volume 5 Issue 2</p>
-                            <p className="text-sm text-gray-600 mb-2">Spring semester technical showcase</p>
-                            <a
-                              href="https://srivasaviengg.ac.in/uploads/mech/MECHAZINE_2018-19_V-5 _I-2.pdf"
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center text-blue-600 hover:underline"
-                            >
-                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                              View Magazine
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="flex items-start">
-                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
-                          <div>
-                            <p className="font-medium text-gray-800">Mechazine Volume 5 Issue 1</p>
-                            <p className="text-sm text-gray-600 mb-2">Fall semester edition with student projects</p>
-                            <a
-                              href="https://srivasaviengg.ac.in/uploads/mech/MECHAZINE 2017 &amp; 18 V5I1.pdf"
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center text-blue-600 hover:underline"
-                            >
-                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                              View Magazine
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
+                    if (year === 'Earlier Issues') {
+                      // Special handling for Earlier Issues - group by volume
+                      const volume3 = yearMagazines.filter(m => m.volume === '3');
+                      const volume2 = yearMagazines.filter(m => m.volume === '2');
 
-                  {/* 2016-2017 */}
-                  <div className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                    <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">2016-2017</h3>
-                    <ul className="space-y-4">
-                      <li>
-                        <div className="flex items-start">
-                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
-                          <div>
-                            <p className="font-medium text-gray-800">Mechazine Volume 4 Issue 2</p>
-                            <p className="text-sm text-gray-600 mb-2">Technical innovations and research highlights</p>
-                            <a
-                              href="https://srivasaviengg.ac.in/uploads/mech/MECHAZINE 2016-17 V4I2.pdf"
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center text-blue-600 hover:underline"
-                            >
-                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                              View Magazine
-                            </a>
-                          </div>
+                      return (
+                        <div key={year} className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                          <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">{year}</h3>
+                          <ul className="space-y-4">
+                            {/* Volume 3 */}
+                            <li>
+                              <div className="flex items-start">
+                                <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
+                                <div>
+                                  <p className="font-medium text-gray-800">Mechazine Volume 3 Issues</p>
+                                  <div className="grid grid-cols-2 gap-2 mt-2">
+                                    {volume3.map(issue => (
+                                      <a
+                                        key={`${issue.year}-${issue.volume}-${issue.issue}`}
+                                        href={issue.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="inline-flex items-center text-blue-600 hover:underline text-sm"
+                                      >
+                                        <ExternalLink className="h-3 w-3 mr-1" />
+                                        Issue {issue.issue}
+                                      </a>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                            {/* Volume 2 */}
+                            <li>
+                              <div className="flex items-start">
+                                <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
+                                <div>
+                                  <p className="font-medium text-gray-800">Mechazine Volume 2 Issues</p>
+                                  <div className="grid grid-cols-2 gap-2 mt-2">
+                                    {volume2.map(issue => (
+                                      <a
+                                        key={`${issue.year}-${issue.volume}-${issue.issue}`}
+                                        href={issue.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="inline-flex items-center text-blue-600 hover:underline text-sm"
+                                      >
+                                        <ExternalLink className="h-3 w-3 mr-1" />
+                                        Issue {issue.issue}
+                                      </a>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
                         </div>
-                      </li>
-                      <li>
-                        <div className="flex items-start">
-                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
-                          <div>
-                            <p className="font-medium text-gray-800">Mechazine Volume 4 Issue 1</p>
-                            <p className="text-sm text-gray-600 mb-2">Fall edition with student activities</p>
-                            <a
-                              href="https://srivasaviengg.ac.in/uploads/mech/Mechazine Volume 4 Issue 1.pdf"
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center text-blue-600 hover:underline"
-                            >
-                              <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                              View Magazine
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
+                      );
+                    } else {
+                      // Regular years - sort by volume desc, then issue desc
+                      const sortedMagazines = yearMagazines.sort((a, b) => {
+                        if (a.volume !== b.volume) return parseInt(b.volume) - parseInt(a.volume);
+                        return parseInt(b.issue) - parseInt(a.issue);
+                      });
 
-                  {/* Earlier Issues */}
-                  <div className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                    <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">Earlier Issues</h3>
-                    <ul className="space-y-4">
-                      <li>
-                        <div className="flex items-start">
-                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
-                          <div>
-                            <p className="font-medium text-gray-800">Mechazine Volume 3 Issues</p>
-                            <div className="grid grid-cols-2 gap-2 mt-2">
-                              <a
-                                href="https://srivasaviengg.ac.in/uploads/mech/Mechazine Volume 3 Issue 1.pdf"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center text-blue-600 hover:underline text-sm"
-                              >
-                                <ExternalLink className="h-3 w-3 mr-1" />
-                                Issue 1
-                              </a>
-                              <a
-                                href="https://srivasaviengg.ac.in/uploads/mech/Mechazine Volume3 Issue2.pdf"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center text-blue-600 hover:underline text-sm"
-                              >
-                                <ExternalLink className="h-3 w-3 mr-1" />
-                                Issue 2
-                              </a>
-                            </div>
-                          </div>
+                      return (
+                        <div key={year} className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                          <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">{year}</h3>
+                          <ul className="space-y-4">
+                            {sortedMagazines.map(mag => (
+                              <li key={`${mag.year}-${mag.volume}-${mag.issue}`}>
+                                <div className="flex items-start">
+                                  <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
+                                  <div>
+                                    <p className="font-medium text-gray-800">{mag.title}</p>
+                                    <p className="text-sm text-gray-600 mb-2">{mag.description}</p>
+                                    <a
+                                      href={mag.url}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="inline-flex items-center text-blue-600 hover:underline"
+                                    >
+                                      <ExternalLink className="h-3.5 w-3.5 mr-1" />
+                                      View Magazine
+                                    </a>
+                                  </div>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                      </li>
-                      <li>
-                        <div className="flex items-start">
-                          <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
-                          <div>
-                            <p className="font-medium text-gray-800">Mechazine Volume 2 Issues</p>
-                            <div className="grid grid-cols-2 gap-2 mt-2">
-                              <a
-                                href="https://srivasaviengg.ac.in/uploads/mech/Mechazine Volume2 Issue1.pdf"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center text-blue-600 hover:underline text-sm"
-                              >
-                                <ExternalLink className="h-3 w-3 mr-1" />
-                                Issue 1
-                              </a>
-                              <a
-                                href="https://srivasaviengg.ac.in/uploads/mech/mechazine volume2 issue2.pdf"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center text-blue-600 hover:underline text-sm"
-                              >
-                                <ExternalLink className="h-3 w-3 mr-1" />
-                                Issue 2
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
+                      );
+                    }
+                  })}
                 </div>
               </div>
 
