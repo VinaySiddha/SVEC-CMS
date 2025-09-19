@@ -1662,7 +1662,8 @@ const CivilDepartment: React.FC = () => {
                     <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                 </ul>
-            </div>
+              )}
+              </div>
           </div>
         );
       case 'Syllabus':

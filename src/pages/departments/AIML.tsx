@@ -30,6 +30,13 @@ const AIMLDepartment: React.FC = () => {
   const [extra, setExtra] = React.useState<{documents:any[]; clubs:any[]}>({documents:[], clubs:[]});
   const [hackathons, setHackathons] = React.useState<{documents: Doc[]; galleries: Gallery[]}>({documents: [], galleries: []});
   const [handbooks, setHandbooks] = React.useState<any[]>([]);
+  const [acdemictoppersgal,setAcademicToppersGal] = React.useState<{galleries: Gallery[]}>({galleries: []});
+            React.useEffect(() => {
+                fetch('/api/aiml/academic-toppers-gallery?dept=aiml')
+                  .then(res => res.json())
+                  .then(setAcademicToppersGal)
+                  .catch(console.error);
+              }, []);
 
   React.useEffect(() => {
     fetch('/api/aiml/aiml-handbooks?dept=aiml')
@@ -450,8 +457,24 @@ React.useEffect(() => {
               </tbody>
             </table>
           </div>
+           {/* ---------- Image Gallery ---------- */}
+
+            <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
+        {acdemictoppersgal.galleries.map(g => (
+          <div key={g.id} className="container mx-auto mb-8">
+            <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
+            <div className="flex flex-wrap justify-center items-center gap-4">
+              {g.images.map(img => (
+                <div key={img.id} className="w-full md:w-1/3 flex justify-center">
+                  <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
+                       className="img-fluid m-3 rounded shadow" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
         </div>
-      </div>
+       </div>
           </div>
         );
       case 'Technical Association':
@@ -1273,38 +1296,38 @@ React.useEffect(() => {
         return (
           <div id="mous" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
-      <h3 className="text-xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
+                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
+                <h3 className="text-xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
 
-      <div className="overflow-x-auto flex justify-center">
-        <table className="min-w-max bg-white border border-gray-200 table-auto text-sm text-left text-gray-500">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="py-3 px-4 border-b">S.No</th>
-              <th className="py-3 px-4 border-b">Organization Name</th>
-              <th className="py-3 px-4 border-b">From</th>
-              <th className="py-3 px-4 border-b">To</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mous.map((mou: any, index: number) => (
-              <tr key={mou.id ?? index}>
-                <td className="py-3 px-4 border-b">{index + 1}</td>
-                <td className="py-3 px-4 border-b">{mou.organization_name}</td>
-                <td className="py-3 px-4 border-b">
-                  {new Date(mou.start_date).toLocaleDateString("en-GB")}
-                </td>
-                <td className="py-3 px-4 border-b">
-                  {mou.end_date
-                    ? new Date(mou.end_date).toLocaleDateString("en-GB")
-                    : "Till Date"}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+                <div className="overflow-x-auto flex justify-center">
+                  <table className="min-w-max bg-white border border-gray-200 table-auto text-sm text-left text-gray-500">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="py-3 px-4 border-b">S.No</th>
+                        <th className="py-3 px-4 border-b">Organization Name</th>
+                        <th className="py-3 px-4 border-b">From</th>
+                        <th className="py-3 px-4 border-b">To</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {mous.map((mou: any, index: number) => (
+                        <tr key={mou.id ?? index}>
+                          <td className="py-3 px-4 border-b">{index + 1}</td>
+                          <td className="py-3 px-4 border-b">{mou.organization_name}</td>
+                          <td className="py-3 px-4 border-b">
+                            {new Date(mou.start_date).toLocaleDateString("en-GB")}
+                          </td>
+                          <td className="py-3 px-4 border-b">
+                            {mou.end_date
+                              ? new Date(mou.end_date).toLocaleDateString("en-GB")
+                              : "Till Date"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
           </div>
         );
       case 'Faculty Achievements':
