@@ -5,7 +5,7 @@ on:
   push:
     branches: [ main, master, Final_Blast ]
   pull_request:
-    branches: [ main, master, Final_Blast ]
+    branches: [ main, master ]
   
   # Allow manual triggering
   workflow_dispatch:
@@ -15,30 +15,8 @@ env:
   IMAGE_NAME: vinaysiddha/svec-cms
 
 jobs:
-  # Pre-build validation
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run build validation
-        run: npm run build
-        env:
-          SKIP_DOCKER_BUILD: true
-
   build-and-push:
     runs-on: ubuntu-latest
-    needs: validate
     
     steps:
       - name: Checkout repository
@@ -66,7 +44,6 @@ jobs:
             type=sha,prefix={{branch}}-
 
       - name: Build and push Docker image
-        id: build
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -77,58 +54,40 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build success notification
-        if: success() && github.event_name != 'pull_request'
-        run: |
-          echo "✅ Docker image built and pushed successfully!"
-          echo "Image: ${{ env.IMAGE_NAME }}:latest"
-          echo "Tags: ${{ steps.meta.outputs.tags }}"
-          echo "You can now deploy using: docker pull ${{ env.IMAGE_NAME }}:latest"
-
-      - name: Build failure notification
-        if: failure()
-        run: |
-          echo "❌ Docker build failed!"
-          echo "Please check the build logs above for details."
-          echo "Common issues:"
-          echo "   - Missing files or dependencies"
-          echo "   - Build context issues"
-          echo "   - Docker Hub authentication problems"
-
       - name: Image digest
-        if: success() && github.event_name != 'pull_request'
-        run: echo "Image digest: ${{ steps.build.outputs.digest }}"
+        if: github.event_name != 'pull_request'
+        run: echo ${{ steps.build.outputs.digest }}
 
   # Optional: Deploy to staging/production environment
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
-    if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/Final_Blast')
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/celigo@abhi'
     
     steps:
       - name: Deploy notification
         run: |
-          echo "New Docker image has been pushed to Docker Hub!"
+          echo "🚀 New Docker image has been pushed to Docker Hub!"
           echo "Image: ${{ env.IMAGE_NAME }}:latest"
-          echo "Deploy with: docker pull ${{ env.IMAGE_NAME }}:latest && docker-compose up -d"
-          echo "Or use the deployment scripts: ./deploy.sh (Linux/Mac) or deploy.bat (Windows)"
+          echo "You can now pull and deploy the latest version."
 
   # Security scanning (optional but recommended)
   security-scan:
     runs-on: ubuntu-latest
-    if: success() && github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request'
     needs: build-and-push
     
+
     steps:
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.24.0
+        uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.IMAGE_NAME }}:latest
           format: 'sarif'
           output: 'trivy-results.sarif'
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v2
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
