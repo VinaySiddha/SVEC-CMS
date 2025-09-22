@@ -81,23 +81,23 @@ jobs:
         if: success() && github.event_name != 'pull_request'
         run: |
           echo "✅ Docker image built and pushed successfully!"
-          echo "🐳 Image: ${{ env.IMAGE_NAME }}:latest"
-          echo "🏷️  Tags: ${{ steps.meta.outputs.tags }}"
-          echo "📦 You can now deploy using: docker pull ${{ env.IMAGE_NAME }}:latest"
+          echo "Image: ${{ env.IMAGE_NAME }}:latest"
+          echo "Tags: ${{ steps.meta.outputs.tags }}"
+          echo "You can now deploy using: docker pull ${{ env.IMAGE_NAME }}:latest"
 
       - name: Build failure notification
         if: failure()
         run: |
           echo "❌ Docker build failed!"
-          echo "📋 Please check the build logs above for details."
-          echo "🔧 Common issues:"
+          echo "Please check the build logs above for details."
+          echo "Common issues:"
           echo "   - Missing files or dependencies"
           echo "   - Build context issues"
           echo "   - Docker Hub authentication problems"
 
       - name: Image digest
         if: success() && github.event_name != 'pull_request'
-        run: echo "🔍 Image digest: ${{ steps.build.outputs.digest }}"
+        run: echo "Image digest: ${{ steps.build.outputs.digest }}"
 
   # Optional: Deploy to staging/production environment
   deploy:
@@ -108,10 +108,10 @@ jobs:
     steps:
       - name: Deploy notification
         run: |
-          echo "🚀 New Docker image has been pushed to Docker Hub!"
-          echo "🐳 Image: ${{ env.IMAGE_NAME }}:latest"
-          echo "📋 Deploy with: docker pull ${{ env.IMAGE_NAME }}:latest && docker-compose up -d"
-          echo "🌐 Or use the deployment scripts: ./deploy.sh (Linux/Mac) or deploy.bat (Windows)"
+          echo "New Docker image has been pushed to Docker Hub!"
+          echo "Image: ${{ env.IMAGE_NAME }}:latest"
+          echo "Deploy with: docker pull ${{ env.IMAGE_NAME }}:latest && docker-compose up -d"
+          echo "Or use the deployment scripts: ./deploy.sh (Linux/Mac) or deploy.bat (Windows)"
 
   # Security scanning (optional but recommended)
   security-scan:
