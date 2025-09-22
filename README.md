@@ -13,6 +13,22 @@ A comprehensive Content Management System for Sri Vasavi Engineering College, de
 
 </div>
 
+## 📚 Table of Contents
+
+- [🚀 Features](#-features)
+- [🏗️ Architecture](#️-architecture)
+- [🛠️ Installation & Setup](#️-installation--setup)
+- [📖 Usage Guide](#-usage-guide)
+- [🔧 API Documentation](#-api-documentation)
+- [🧪 Development](#-development)
+- [🎨 Customization](#-customization)
+- [🔍 Troubleshooting](#-troubleshooting)
+- [📊 System Requirements](#-system-requirements)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [🙏 Credits & Acknowledgments](#-credits--acknowledgments)
+- [📞 Support & Contact](#-support--contact)
+
 ## 🚀 Features
 
 ### 🎯 Core Functionality
