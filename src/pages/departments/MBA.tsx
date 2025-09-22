@@ -2,90 +2,13 @@
 import React, { useState } from 'react';
 import { Briefcase, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
-import { useEffect } from 'react';
+
 const MBADepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
-  const [faculty, setFaculty] = React.useState<any[]>([]);
-  const [nonTeachingFaculty, setNonTeachingFaculty] = React.useState<any[]>([]);
-  const [boardOfStudies, setboardOfStudies] = React.useState<any[]>([]);
-  const [bosMeetings, setbosMeetings] = React.useState<any[]>([]);
-  const [syllabus, setSyllabus] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(true);
-  const [facultyDev, setFacultyDev] = React.useState<any[]>([]);
-  const [facultyAch, setFacultyAch] = React.useState<any[]>([]);
-  const [placement, setPlacement] = React.useState<any[]>([]);
-  const [StudentAch, setStudentAch] = React.useState<any[]>([]);
-  useEffect(() => {
-    fetch('/api/mba-student-achivements?dept=mba') // backend API URL
-      .then((res) => res.json())
-      .then((data) => setPlacement(data)) // assuming your API returns { placements: [...] }
-      .catch((err) => console.error("Error fetching MBA Placements:", err));
-  }, []);
-  useEffect(() => {
-    fetch('/api/mba-placement?dept=mba') // backend API URL
-      .then((res) => res.json())
-      .then((data) => setPlacement(data)) // assuming your API returns { placements: [...] }
-      .catch((err) => console.error("Error fetching MBA Placements:", err));
-  }, []);
-  const groupedData = facultyAch.reduce((acc: any, curr) => {
-    if (!acc[curr.type]) acc[curr.type] = [];
-    acc[curr.type].push(curr);
-    return acc;
-  }, {})
-  useEffect(() => {
-    fetch('/api/mba-faculty-profiles?dept=mba') // backend API URL
-      .then((res) => res.json())
-      .then((data) => setFaculty(data))
-      .catch((err) => console.error("Error fetching Faculty Profiles:", err));
-  }, []);
-  useEffect(() => {
-    fetch('/api/mba-faculty-achivements?dept=mba') // backend API URL
-      .then((res) => res.json())
-      .then((data) => setFacultyAch(data))
-      .catch((err) => console.error("Error fetching FAculty Achivements:", err));
-  }, []);
 
-
-  useEffect(() => {
-    fetch('/api/mba-faculty-dev?dept=mba') // backend API URL
-      .then((res) => res.json())
-      .then((data) => setFacultyDev(data))
-      .catch((err) => console.error("Error fetching MOUs:", err));
-  }, []);
-  React.useEffect(() => {
-    fetch("/api/syllabus?dept=mba")
-      .then((res) => res.json())
-      .then((data) => {
-        setSyllabus(Array.isArray(data) ? data : []);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
-  useEffect(() => {
-    fetch('/api/mba-bos-meetings?dept=mba') // backend API URL
-      .then((res) => res.json())
-      .then((data) => setbosMeetings(data))
-      .catch((err) => console.error("Error fetching bos:", err));
-  }, []);
-  React.useEffect(() => {
-    fetch("/api/mba-non-teaching-staff?dept=mba")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setNonTeachingFaculty(data.nonTeaching || []);
-      });
-  }, []);
-  React.useEffect(() => {
-    fetch("/api/mba-board-of-studies?dept=mba")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setboardOfStudies(data || []);
-      });
-  }, []);
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
     { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
@@ -111,6 +34,37 @@ const MBADepartment: React.FC = () => {
   ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
+
+  const faculty = [
+    { name: "Mr.D.Naveen Kumar", qualification: "MBA", designation: "Sr.Asst.Professor & HOD", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Mr.%20D.Naveen%20Kumar.pdf" },
+    { name: "Dr.G.V.Subba Raju", qualification: "MBA,Ph.D", designation: "Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Dr.G.V.%20Subba%20Raju.pdf" },
+    { name: "Dr.S.Krishnamurthy Naidu", qualification: "MBA,Ph.D", designation: "Assoc.Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Dr.%20S.%20Krishnamurthy%20Naidu.pdf" },
+    { name: "Mr.D. Satyanarayana", qualification: "MA,M.com,MBA,ICWAI(I),SET", designation: "Sr.Asst.Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Mr.%20D.Satyanarayana.pdf" },
+    { name: "Dr.K.Rambabu", qualification: "MBA,(Ph.D)", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Dr.K.Rambabu.pdf" },
+    { name: "Mr.T.Dileep", qualification: "MBA,(Ph.D)", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Mr.T.Dileep.pdf" },
+    { name: "Mr. K.Pavan Kumar", qualification: "MBA(Ph.D)", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Mr.%20K.Pavan%20Kumar.pdf" },
+    { name: "Mr. P.Bharat Kumar", qualification: "MBA", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Mr.%20P.Bharat%20Kumar.pdf" },
+    { name: "Mrs. P.Devi", qualification: "MBA", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Mrs.P.Devi.pdf" },
+    { name: "Dr. K.Pulla Rao", qualification: "MBA,Ph.D", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Dr.K.Pulla%20Rao.pdf" },
+    { name: "Mr. K.Lalitha Bhavani", qualification: "MBA,MHRM", designation: "Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Mrs.K.Lalitha%20Bavani.pdf" },
+    { name: "Mr. V.Rajasekhar Ryaly", qualification: "MBA", designation: "Sr. Asst. Professor", profileUrl: "http://srivasaviengg.ac.in/faculty_profile/MBA_Mr.%20%20V%20Rajasekhar%20Ryaly.pdf" },
+    { name: "Ms. P.Bala Jyothi", qualification: "MBA", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/MBA_" },
+    { name: "Ms. V. Sandhya Chowdary", qualification: "MBA", designation: "Asst. Professor", profileUrl: "https://srivasaviengg.ac.in/faculty_profile/MBA_" }
+  ];
+
+  const nonTeachingFaculty = [
+    { name: "U.Raja Ratnam", designation: "DEO" },
+    { name: "M. Satyanarayana", designation: "Attender" }
+  ];
+
+  const boardOfStudies = [
+    { name: "Dr. G.V.Subba Raju", designation: "Professor", organization: "Dept of MBA, SVEC", position: "Chairperson" },
+    { name: "Dr. B.Amarnath", designation: "Former Professor,Department of Management Studies", organization: "SV University", position: "Council Nominee" },
+    { name: "Dr. Suryachandra Rao", designation: "Professor,Department of Management Studies", organization: "Krishna University", position: "University Nominee" },
+    { name: "Sri. P.S. Varma", designation: "Former D G M,Coromandel International Limited", organization: "Kakinada", position: "Industry Expert" },
+    { name: "Sri Satyanarayana Ruttala", designation: "Senior Manager", organization: "Ericsson India Global Services Pvt., Ltd.", position: "Alumni" },
+    { name: "All Faculty Members in the MBA Dept.", designation: "are Members in BOS", organization: "", position: "" }
+  ];
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
@@ -309,8 +263,8 @@ const MBADepartment: React.FC = () => {
                     key={section}
                     onClick={() => setActiveDeptTab(section)}
                     className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                      ? 'bg-[#B22222] text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
                     {section === 'SalientFeatures' ? 'Salient Features' : section}
@@ -378,8 +332,8 @@ const MBADepartment: React.FC = () => {
                               setSettingsPanelOpen(false);
                             }}
                             className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                              ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
-                              : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                               }`}
                           >
                             <div className="flex items-center gap-3">
@@ -476,7 +430,7 @@ const MBADepartment: React.FC = () => {
                         <td className="px-6 py-4">{member.qualification}</td>
                         <td className="px-6 py-4">{member.designation}</td>
                         <td className="px-6 py-4">
-                          <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View</a>
+                          <a href={member.profileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">View</a>
                         </td>
                       </tr>
                     ))}
@@ -513,10 +467,7 @@ const MBADepartment: React.FC = () => {
       case 'Board of Studies':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-              Board of Studies Members
-            </h2>
-
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies Members</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-500">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -525,17 +476,17 @@ const MBADepartment: React.FC = () => {
                     <th scope="col" className="px-6 py-3">Name</th>
                     <th scope="col" className="px-6 py-3">Designation</th>
                     <th scope="col" className="px-6 py-3">Organization</th>
-                    <th scope="col" className="px-6 py-3">Role</th>
+                    <th scope="col" className="px-6 py-3">Position</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {boardOfStudies.map((member: any, index: number) => (
+                  {boardOfStudies.map((member, index) => (
                     <tr key={index} className="bg-white border-b hover:bg-gray-50">
                       <td className="px-6 py-4">{index + 1}</td>
                       <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
                       <td className="px-6 py-4">{member.designation}</td>
                       <td className="px-6 py-4">{member.organization}</td>
-                      <td className="px-6 py-4">{member.role}</td>
+                      <td className="px-6 py-4">{member.position}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -543,43 +494,107 @@ const MBADepartment: React.FC = () => {
             </div>
 
             <div className="mt-8">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-4">
-                Board of Studies Meeting Minutes
-              </h3>
-
-              {bosMeetings.length === 0 ? (
-                <p className="text-gray-600">No meeting minutes available.</p>
-              ) : (
-                <ul className="space-y-3">
-                  {bosMeetings.map((meeting) => (
-                    <li key={meeting.id} className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <div>
-                        Minutes of {meeting.meeting_number}
-                        <sup>
-                          {meeting.meeting_number === "1"
-                            ? "st"
-                            : meeting.meeting_number === "2"
-                              ? "nd"
-                              : meeting.meeting_number === "3"
-                                ? "rd"
-                                : "th"}
-                        </sup>{" "}
-                        meeting of the Board of Studies, dated{" "}
-                        {new Date(meeting.meeting_date).toLocaleDateString("en-GB")}
-                        <a
-                          href={meeting.document_url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline"
-                        >
-                          - View
-                        </a>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <h3 className="text-2xl font-bold text-[#B22222] mb-4">Board of Studies Meeting Minutes</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 8<sup>th</sup> meeting of the Board of Studies, dated 02.07.2025
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mba/Minutes of the Meeting - 8th BOS.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline"
+                    >
+                      - View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 7<sup>th</sup> meeting of the Board of Studies, dated 02.09.2024
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mba/Minutes of the Meeting - 7th BOS.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline"
+                    >
+                      - View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 5<sup>th</sup> meeting of the Board of Studies, dated 29.07.2022
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mba/5th%20BOS%20-%20Minutes%20of%20the%20Meeting.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline"
+                    >
+                      - View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 4<sup>th</sup> meeting of the Board of Studies, dated 01.09.2021
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mba/4th%20BOS%20minutes%20of%20meeting.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline"
+                    >
+                      - View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 3<sup>rd</sup> meeting of the Board of Studies, dated 06.06.2020
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mba/3rd%20BOS%20Minutes%20of%20meeting-1.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline"
+                    >
+                      - View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 2<sup>nd</sup> meeting of the Board of Studies, dated 16.04.2019
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mba/2nd%20BOS%20minutes%20of%20meeting%2016-4-2019.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline"
+                    >
+                      - View
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <div>
+                    Minutes of 1<sup>st</sup> meeting of the Board of Studies, dated 02.06.2018
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/mba/1ST%20BOS%20minutes%20of%20meeting%20final.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline"
+                    >
+                      - View
+                    </a>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         );
@@ -653,24 +668,185 @@ const MBADepartment: React.FC = () => {
       case 'Faculty Development Programs':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-              Faculty Development Programs
-            </h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Development Programs</h2>
 
             <div className="space-y-4">
               <div>
-                <h3 className="text-xl font-semibold mb-4 bg-gray-100 p-3 rounded-lg">
-                  FDPs Attended
-                </h3>
+                <h3 className="text-xl font-semibold mb-4 bg-gray-100 p-3 rounded-lg">FDPs Attended</h3>
                 <ul className="space-y-3 pl-4">
-                  {facultyDev.length > 0 ? (
-                    facultyDev.map((item: any, idx: number) => (
-                      <li key={idx} className="flex items-start">
+                  <li className="flex items-start">
+                    <span className="mr-2 text-gray-600">•</span>
+                    <div>
+                      FDPs attended during the Academic Year 2022-23
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/FDP%202022-23.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2 text-gray-600">•</span>
+                    <div>
+                      FDPs attended during the Academic Year 2021-22
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/FDP%202021-22.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2 text-gray-600">•</span>
+                    <div>
+                      FDPs attended during the Academic Year 2020-21
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/FDP%202020-21.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2 text-gray-600">•</span>
+                    <div>
+                      FDPs attended during the Academic Year 2019-20
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/FDP%202019-20.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2 text-gray-600">•</span>
+                    <div>
+                      FDPs attended during the Academic Year 2018-19
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/FDP%202018-19.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2 text-gray-600">•</span>
+                    <div>
+                      FDPs attended during the Academic Year 2017-18
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/FDP%202017-18.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2 text-gray-600">•</span>
+                    <div>
+                      FDPs attended during the Academic Year 2016-17
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/FDP%202016-17.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2 text-gray-600">•</span>
+                    <div>
+                      FDPs attended during the Academic Year 2015-16
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/FDP%202015-16.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2 text-gray-600">•</span>
+                    <div>
+                      FDPs attended during the Academic Year 2014-15
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/FDP%202014-15.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-2 text-gray-600">•</span>
+                    <div>
+                      FDPs attended during the Academic Year 2013-14
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/mba/FDP%202013-14.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                      >
+                        <FileText className="h-4 w-4 mr-1" />
+                        View
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'Faculty Achievements':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
+
+            <div className="space-y-6">
+              <div>
+                <details open>
+                  <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">Patents</summary>
+                  <div className="mt-4 pl-4">
+                    <ul className="space-y-3">
+                      <li className="flex items-start">
                         <span className="mr-2 text-gray-600">•</span>
                         <div>
-                          FDPs attended during the Academic Year {item.academic_year}
+                          Patents during the Academic Year 2021-22
                           <a
-                            href={item.file_url}
+                            href="https://srivasaviengg.ac.in/uploads/mba/PATENTS%201.pdf"
                             target="_blank"
                             rel="noreferrer"
                             className="ml-2 text-blue-600 hover:underline inline-flex items-center"
@@ -680,59 +856,188 @@ const MBADepartment: React.FC = () => {
                           </a>
                         </div>
                       </li>
-                    ))
-                  ) : (
-                    <li className="text-gray-500">No data available</li>
-                  )}
-                </ul>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+
+              <div>
+                <details>
+                  <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">Publications</summary>
+                  <div className="mt-4 pl-4">
+                    <ul className="space-y-3">
+                      <li className="flex items-start">
+                        <span className="mr-2 text-gray-600">•</span>
+                        <div>
+                          Publications during the Academic Year 2022-23
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/2022-23.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            View
+                          </a>
+                        </div>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 text-gray-600">•</span>
+                        <div>
+                          Publications during the Academic Year 2021-22
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/2021-22.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            View
+                          </a>
+                        </div>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 text-gray-600">•</span>
+                        <div>
+                          Publications during the Academic Year 2020-21
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/2020-21.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            View
+                          </a>
+                        </div>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 text-gray-600">•</span>
+                        <div>
+                          Publications during the Academic Year 2019-20
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/2019-20.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            View
+                          </a>
+                        </div>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 text-gray-600">•</span>
+                        <div>
+                          Publications during the Academic Year 2018-19
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/2018-19.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            View
+                          </a>
+                        </div>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 text-gray-600">•</span>
+                        <div>
+                          Publications during the Academic Year 2017-18
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/2017-18.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            View
+                          </a>
+                        </div>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 text-gray-600">•</span>
+                        <div>
+                          Publications during the Academic Year 2016-17
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/2016-17.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            View
+                          </a>
+                        </div>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 text-gray-600">•</span>
+                        <div>
+                          Publications during the Academic Year 2015-16
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/2015-16.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            View
+                          </a>
+                        </div>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 text-gray-600">•</span>
+                        <div>
+                          Publications during the Academic Year 2014-15
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/2014-15.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            View
+                          </a>
+                        </div>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 text-gray-600">•</span>
+                        <div>
+                          Publications during the Academic Year 2013-14
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/2013-14.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            View
+                          </a>
+                        </div>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 text-gray-600">•</span>
+                        <div>
+                          Publications during the Academic Year 2012-13
+                          <a
+                            href="https://srivasaviengg.ac.in/uploads/mba/2012-13.pdf"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            View
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
               </div>
             </div>
           </div>
         );
-
-
-      case 'Faculty Achievements':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
-              Faculty Achievements
-            </h2>
-
-            <div className="space-y-6">
-              {Object.keys(groupedData).map((type) => (
-                <div key={type}>
-                  <details open={type === "Patents"}>
-                    <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
-                      {type}
-                    </summary>
-                    <div className="mt-4 pl-4">
-                      <ul className="space-y-3">
-                        {groupedData[type].map((item: any, idx: number) => (
-                          <li key={idx} className="flex items-start">
-                            <span className="mr-2 text-gray-600">•</span>
-                            <div>
-                              {item.title}
-                              <a
-                                href={item.proof_url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                              >
-                                <FileText className="h-4 w-4 mr-1" />
-                                View
-                              </a>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </details>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-
 
       case 'Placements':
         return (
@@ -740,43 +1045,209 @@ const MBADepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
 
             <div className="space-y-4">
-              {placement?.length > 0 ? (
-                placement
-                  .sort((a, b) => b.academic_year.localeCompare(a.academic_year)) // optional: sort by year descending
-                  .map((item, index) => (
-                    <details key={index} open={index === 0}>
-                      <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
-                        Placement Year {item.academic_year}
-                      </summary>
-                      <div className="mt-3 ml-4">
-                        <ul className="space-y-2">
-                          <li className="flex items-start">
-                            <span className="mr-2 text-gray-600">•</span>
-                            <div>
-                              <p>
-                                Placements during the Academic Year {item.academic_year}
-                                <a
-                                  href={item.report_url}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                                >
-                                  <FileText className="h-4 w-4 mr-1" />
-                                  View
-                                </a>
-                              </p>
-                            </div>
-                          </li>
-                        </ul>
+              <details open>
+                <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
+                  Placement Year 2022-23
+                </summary>
+                <div className="mt-3 ml-4">
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="mr-2 text-gray-600">•</span>
+                      <div>
+                        Placements during the Academic Year 2022-23
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mba/mba_Placements%202022-23.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View
+                        </a>
                       </div>
-                    </details>
-                  ))
-              ) : (
-                <p className="text-center text-gray-500">No placement data available.</p>
-              )}
+                    </li>
+                  </ul>
+                </div>
+              </details>
+
+              <details>
+                <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
+                  Placement Year 2021-22
+                </summary>
+                <div className="mt-3 ml-4">
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="mr-2 text-gray-600">•</span>
+                      <div>
+                        Placements during the Academic Year 2021-22
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mba/mba_Placements%202020-21.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+
+              <details>
+                <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
+                  Placement Year 2020-21
+                </summary>
+                <div className="mt-3 ml-4">
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="mr-2 text-gray-600">•</span>
+                      <div>
+                        Placements during the Academic Year 2020-21
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mba/mba_Placements%202020-21.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+
+              <details>
+                <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
+                  Placement Year 2019-20
+                </summary>
+                <div className="mt-3 ml-4">
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="mr-2 text-gray-600">•</span>
+                      <div>
+                        Placements during the Academic Year 2019-20
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mba/mba_Placements%202019-20.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+
+              <details>
+                <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
+                  Placement Year 2018-19
+                </summary>
+                <div className="mt-3 ml-4">
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="mr-2 text-gray-600">•</span>
+                      <div>
+                        Placements during the Academic Year 2018-19
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mba/mba_Placements%202018-19.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+
+              <details>
+                <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
+                  Placement Year 2016-17
+                </summary>
+                <div className="mt-3 ml-4">
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="mr-2 text-gray-600">•</span>
+                      <div>
+                        Placements during the Academic Year 2016-17
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mba/mba_Placements%202016-17.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+
+              <details>
+                <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
+                  Placement Year 2015-16
+                </summary>
+                <div className="mt-3 ml-4">
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="mr-2 text-gray-600">•</span>
+                      <div>
+                        Placements during the Academic Year 2015-16
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mba/mba_Placements%202015-16.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+
+              <details>
+                <summary className="text-xl font-semibold p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
+                  Placement Year 2014-15
+                </summary>
+                <div className="mt-3 ml-4">
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="mr-2 text-gray-600">•</span>
+                      <div>
+                        Placements during the Academic Year 2014-15
+                        <a
+                          href="https://srivasaviengg.ac.in/uploads/mba/mba_Placements%202014-15.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          View
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </details>
             </div>
           </div>
         );
+
       case 'Student Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -1037,7 +1508,7 @@ const MBADepartment: React.FC = () => {
                         SVEC-MBA Alumni List
                         <a
                           href="https://srivasaviengg.ac.in/uploads/mba/MBA%20ALUMNI%20list.pdf"
-                          // ...existing code...
+// ...existing code...
                           target="_blank"
                           rel="noreferrer"
                           className="ml-2 text-blue-600 hover:underline"
@@ -1158,33 +1629,80 @@ const MBADepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
-
-            {loading ? (
-              <p className="text-center text-gray-600">Loading syllabus...</p>
-            ) : syllabus.length === 0 ? (
-              <p className="text-center text-gray-600">No syllabus available.</p>
-            ) : (
-              <div className="container mt-5">
-                <div className="grid grid-cols-1 gap-6">
-                  {syllabus.map((item, index) => (
-                    <div key={index} className="text-center">
-                      <h3 className="text-xl font-semibold mb-2">
-                        {item.year} - {item.title}
-                        <a
-                          href={item.pdf_url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-5 w-5 mr-1" />
-                          View
-                        </a>
-                      </h3>
-                    </div>
-                  ))}
+            <div className="container mt-5">
+              <div className="grid grid-cols-1 gap-6">
+                <div className="text-center">
+                  <h3 className="text-xl font-semibold mb-2">
+                    V21 Regulation- I Sem
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/autonomous_syllabus/pg/MBA%20Syllabus(V21)%20-%20I%20semester.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-5 w-5 mr-1" />
+                      View
+                    </a>
+                  </h3>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-xl font-semibold mb-2">
+                    V21 Regulation - II Sem
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/autonomous_syllabus/pg/MBA%20Syllabus(V21)%20-%20II%20Semester.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-5 w-5 mr-1" />
+                      View
+                    </a>
+                  </h3>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-xl font-semibold mb-2">
+                    V21 Regulation - III Sem
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/autonomous_syllabus/pg/MBA%20Syllabus(V21)%20-%20II%20Semester.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-5 w-5 mr-1" />
+                      View
+                    </a>
+                  </h3>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-xl font-semibold mb-2">
+                    V21 Regulation - IV Sem
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/autonomous_syllabus/pg/MBA%20Syllabus(V21)%20-%20IV%20Semester.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-5 w-5 mr-1" />
+                      View
+                    </a>
+                  </h3>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-xl font-semibold mb-2">
+                    V18 Regulation
+                    <a
+                      href="https://srivasaviengg.ac.in/uploads/autonomous_syllabus/pg/V18%20MBA%20SYLLABUS%20&%20COURSE%20STRUCTURE.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                    >
+                      <FileText className="h-5 w-5 mr-1" />
+                      View
+                    </a>
+                  </h3>
                 </div>
               </div>
-            )}
+            </div>
           </div>
         );
       default:

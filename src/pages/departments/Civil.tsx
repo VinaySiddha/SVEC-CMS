@@ -13,46 +13,19 @@ const CivilDepartment: React.FC = () => {
   const [departmentInfo, setDepartmentInfo] = useState<any[]>([]);
   const [studentAchievements, setStudentAchievements] = useState<any[]>([]);
   const [facultyAchievements, setFacultyAchievements] = useState<any>({});
+  const [workshops, setWorkshops] = useState<any>({});
   const [physicalFacilities, setPhysicalFacilities] = useState<any>({});
   const [departmentLibrary, setDepartmentLibrary] = useState<any[]>([]);
   const [placementBatches, setPlacementBatches] = useState<any[]>([]);
   const [technicalAssociationActivities, setTechnicalAssociationActivities] = useState<any[]>([]);
   const [newsletters, setNewsletters] = useState<any[]>([]);
   const [extraCurricularActivities, setExtraCurricularActivities] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetch("/api/civil-extra-curricular?dept=civil")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("API response:", data); // 👀 check this in browser console
-        setExtraCurricularActivities(data);
-      })
-      .catch((err) => console.error("Fetch error:", err));
-  }, []);
   const [researchDevelopment, setResearchDevelopment] = useState<any>({});
   const [researchProjects, setResearchProjects] = useState<any>({});
   const [consultancyActivities, setConsultancyActivities] = useState<any[]>([]);
-  useEffect(() => {
-    fetch("/api/civil-consultancy?department=Civil")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("API response:", data); // 👀 check this in browser console
-        setConsultancyActivities(data);
-      })
-      .catch((err) => console.error("Fetch error:", err));
-  }, []);
-  console.log(consultancyActivities);
+  const [boardOfStudies, setBoardOfStudies] = useState<any[]>([]);
   const [departmentContact, setDepartmentContact] = useState<any[]>([]);
-  const [Syllabus, setSyllabus] = useState<any[]>([]);
-  useEffect(() => {
-    fetch("/api/civil-syllabus?department=Civil")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("API response:", data); // 👀 check this in browser console
-        setSyllabus(data.undefined);
-      })
-      .catch((err) => console.error("Fetch error:", err));
-  }, []);
+
   // Helper function to get icon component
   const getIconComponent = (iconName: string) => {
     const iconProps = { className: "w-4 h-4" };
@@ -75,70 +48,198 @@ const CivilDepartment: React.FC = () => {
       default: return <Building {...iconProps} />;
     }
   };
-  const [achievements, setAchievements] = useState<Record<string, any[]>>({});
-  const [loading, setLoading] = useState(true);
-  const [studentBOS, setStudentBOS] = useState<any[]>([]);
-  //const [newsletters, setNewsletters] = useState<any[]>([]);
-  const [workshops, setWorkshops] = useState<any[]>([]);
+
+  // Fetch dynamic sidebar items
   useEffect(() => {
-    fetch("/api/civil-newsletters?department=civil")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("API response:", data); // 👀 check this in browser console
-        setNewsletters(data);
-      })
-      .catch((err) => console.error("Fetch error:", err));
-  }, []);
-  useEffect(() => {
-    fetch("/api/civil-workshops?dept=civil")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("API response:", data); // 👀 check this in browser console
-        setWorkshops(data);
-      })
-      .catch((err) => console.error("Fetch error:", err));
-  }, []);
-  useEffect(() => {
-    fetch('/api/civil-bos?dept=civil')
+    fetch('/api/cseai/sidebar-items?dept=civil')
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) {
-          setStudentBOS(data);
-        } else if (data.success && Array.isArray(data.data)) {
-          setStudentBOS(data.data);
-        } else {
-          setStudentBOS([]); // fallback
+        if (data.success) {
+          setDynamicSidebarItems(data.data);
         }
       })
-      .catch(err => console.error("Failed to fetch BOS:", err));
-  }, []);
-  useEffect(() => {
-    fetch('/api/civil-student-achievements?dept=civil')
-      .then((res) => res.json())
-      .then((data) => {
-        setAchievements(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Failed to fetch student achievements:', err);
-        setLoading(false);
-      });
+      .catch(err => console.error('Failed to fetch sidebar items:', err));
   }, []);
 
-  const [placements, setPlacements] = useState<any[]>([]);
-
+  // Fetch department info sections
   useEffect(() => {
-    fetch('/api/civil-placements?dept=civil')
+    fetch('/api/cseai/department-info?dept=civil')
       .then(res => res.json())
       .then(data => {
-        // API direct array return chestundi
-        setPlacements(data);
+        if (data.success) {
+          setDepartmentInfo(data.data);
+        }
       })
-      .catch(err => console.error('Failed to fetch placements:', err));
+      .catch(err => console.error('Failed to fetch department info:', err));
   }, []);
 
+  // Fetch student achievements
+  useEffect(() => {
+    fetch('/api/cseai/student-achievements?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setStudentAchievements(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch student achievements:', err));
+  }, []);
 
+  // Fetch faculty achievements
+  useEffect(() => {
+    fetch('/api/cseai/faculty-achievements?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setFacultyAchievements(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch faculty achievements:', err));
+  }, []);
 
+  // Fetch workshops
+  useEffect(() => {
+    fetch('/api/cseai/workshops?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setWorkshops(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch workshops:', err));
+  }, []);
+
+  // Fetch physical facilities
+  useEffect(() => {
+    fetch('/api/cseai/physical-facilities?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setPhysicalFacilities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch physical facilities:', err));
+  }, []);
+
+  // Fetch department library
+  useEffect(() => {
+    fetch('/api/cseai/department-library?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setDepartmentLibrary(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch department library:', err));
+  }, []);
+
+  // Fetch placement batches
+  useEffect(() => {
+    fetch('/api/cseai/placement-batches?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setPlacementBatches(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch placement batches:', err));
+  }, []);
+
+  // Fetch technical association activities
+  useEffect(() => {
+    fetch('/api/cseai/technical-association?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setTechnicalAssociationActivities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch technical association activities:', err));
+  }, []);
+
+  // Fetch newsletters
+  useEffect(() => {
+    fetch('/api/cseai/newsletters?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setNewsletters(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch newsletters:', err));
+  }, []);
+
+  // Fetch extra-curricular activities
+  useEffect(() => {
+    fetch('/api/cseai/extra-curricular?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setExtraCurricularActivities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch extra-curricular activities:', err));
+  }, []);
+
+  // Fetch research development activities
+  useEffect(() => {
+    fetch('/api/civil/research-development?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setResearchDevelopment(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch research development activities:', err));
+  }, []);
+
+  // Fetch research projects
+  useEffect(() => {
+    fetch('/api/civil/research-projects?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setResearchProjects(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch research projects:', err));
+  }, []);
+
+  // Fetch consultancy activities
+  useEffect(() => {
+    fetch('/api/civil/consultancy?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setConsultancyActivities(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch consultancy activities:', err));
+  }, []);
+
+  // Fetch board of studies
+  useEffect(() => {
+    fetch('/api/cseai/board-of-studies?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setBoardOfStudies(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch board of studies:', err));
+  }, []);
+
+  // Fetch department contact
+  useEffect(() => {
+    fetch('/api/cseai/contact?dept=civil')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setDepartmentContact(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to fetch department contact:', err));
+  }, []);
 
   // Create sidebar items from dynamic data
   const sidebarItems = dynamicSidebarItems.length > 0
@@ -422,75 +523,208 @@ const CivilDepartment: React.FC = () => {
       case 'Placements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              Placements
-            </h2>
-
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Placements</h2>
             <div className="space-y-8">
               <details open>
                 <summary className="font-semibold text-lg mb-2">Placements</summary>
                 <div className="ml-4">
                   <ul className="list-disc ml-6 space-y-2">
-                    {placements.length > 0 ? (
-                      placements.map((p: any) => (
-                        <li key={p.id}>
-                          Placements for Batch {p.batch} -{' '}
-                          <a
-                            href={p.file_url}
-                            className="text-primary hover:underline"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            View More
-                          </a>
-                        </li>
-                      ))
-                    ) : (
-                      <li>No placement data available</li>
-                    )}
+                    <li>
+                      Placements for Batch 2019-2023 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/placements_2022-23.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Placements for Batch 2018-2022 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/placements_2021-22.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Placements for Batch 2017-2021 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/placements_2020-21.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Placements for Batch 2016-2020 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/placements_2019-20.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Placements for Batch 2015-2019 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/placements_2018-19.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
                   </ul>
                 </div>
               </details>
             </div>
           </div>
         );
-
       case 'Student Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              Student Achievements
-            </h2>
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Student Achievements</h2>
             <div className="space-y-8">
-              {Object.keys(achievements).length > 0 ? (
-                Object.entries(achievements).map(([category, items]) => (
-                  <details key={category} open>
-                    <summary className="font-semibold text-lg mb-2">{category}</summary>
-                    <div className="ml-4">
-                      <ul className="list-disc ml-6 space-y-2">
-                        {items.map((item) => (
-                          <li key={item.id}>
-                            {item.title} ({item.academic_year}){' '}
-                            <a
-                              href={item.proof_document_url}
-                              className="text-primary hover:underline"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              View More
-                            </a>
-                            {item.description && (
-                              <p className="text-gray-600 text-sm">{item.description}</p>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </details>
-                ))
-              ) : (
-                <p className="text-gray-500 italic">No student achievements available.</p>
-              )}
+              <details open>
+                <summary className="font-semibold text-lg mb-2">Internships</summary>
+                <div className="ml-4">
+                  <ol className="list-decimal ml-6 space-y-2">
+                    <li>
+                      Internships during the Academic Year 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202022-2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2021-22 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202021-2022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2020-21 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202020-2021.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2019-20 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202019-2020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2018-19 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202018-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2016-17 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202016-2017.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2015-16 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202015-2016.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Internships during the Academic Year 2014-15 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Internships%20during%20the%202014-2015.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ol>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Research Projects</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      B.Tech VIII Sem Project Details for the A.Y 2022-2023 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/B.Tech%20VIII%20Sem%20Project%20Details%202022-23%20(2019%20Batch.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      B.Tech VIII Sem Project Details for the A.Y 2021-2022 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/B.Tech%20VIII%20Sem%20Project%20Details%202021-2022%20(2018-2022%20Batch).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      B.Tech VIII Sem Project Details for the A.Y 2020-2021 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/B.Tech%20%20VIII%20Sem%20Project%20Details%20%202020-21(batch%202017-21).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      B.Tech VIII Sem Project Details for the A.Y 2019-2020 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/B.Tech%20%20VIII%20Sem%20Project%20Details%20%202019-20(batch%202016-20)%20-%20Copy.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      B.Tech VIII Sem Project Details for the A.Y 2018-2019 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/B.Tech%20%20VIII%20Sem%20Project%20Details%20%202018-19%20(Batch%202015-19).pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Community Service Project</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      III Sem Community Service Project Guides Allocation for the A.Y 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/III%20SEM%20Community%20Service%20Project%20Guide%20Allocation%202022-23.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      V Sem Community Service Project Guides Allocation for the A.Y 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/V%20SEM%20Community%20Service%20Project%20Guide%20Allocation%202022-23.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Awards</summary>
+                <div className="text-gray-500 italic p-4">No data available.</div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">NPTEL/Other Certifications</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      Certifications during the A.Y 2019-20 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/NPTEL19CE41S613904189.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Certifications during the A.Y 2018-19 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Swayam%202018-19.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">HEI</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      HEI during the A. Y 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/civil%2022-23%20heis%20students%20list,attendance,circulars.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      HEI during the A. Y 2021-22 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/civil%2021-22%20heis%20dtudents%20list,attendance,circulars.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      HEI during the A. Y 2020-21 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/civil%2020-21%20heis%20students%20list,attendance,circulars.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      HEI during the A. Y 2019-20 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/civil%2019-20%20heis%20students%20list,attendance,circulars.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      HEI during the A. Y 2018-19 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/civil%2018-19%20heis%20students%20list,%20attendance,%20circulars.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Roll Of Honour</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      Roll of Honour List 2011-2019 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/ROLL%20OF%20HONOUR%20LIST%202011-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Other Programmes</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      SPECTRA 2K24 Celebrations -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/SPECTRA%202K24%20celebraions_3&4April23_CE%20dept.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      CADathon on Building Planning and Drawing using AUTO CAD -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/CADAthon_EVENT_14March24_CE%20dept.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Fresher's day celebration during the A. Y 2023-24 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Fresher's%20day%20celebraions_18Oct23_CE%20dept.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Engineer's day celebration during the A. Y 2023-24 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Engineers%20day%20celebraions_15Sep23_CE%20dept.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Teachers day celebration during the A. Y 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Teachers%20day%20celebraions_05Sep23_CE%20dept.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
             </div>
           </div>
         );
@@ -909,54 +1143,39 @@ const CivilDepartment: React.FC = () => {
         return (
           <div className="tab4 mt-4">
             <details open className="border rounded-lg p-4">
-              <summary
-                className="px-4 py-3 cursor-pointer text-lg font-semibold text-white"
-                style={{ backgroundColor: 'rgba(136,25,25,1)' }}
-              >
-                Board of Studies
-              </summary>
 
-              <div className="mt-4 overflow-x-auto">
-                {studentBOS.length > 0 ? (
-                  <table className="w-full text-sm text-left border-collapse border border-gray-300 shadow-md rounded-lg">
-                    <thead className="bg-gray-100 text-gray-700">
-                      <tr>
-                        <th className="px-4 py-2 border border-gray-300">S.No</th>
-                        <th className="px-4 py-2 border border-gray-300">Member Name</th>
-                        <th className="px-4 py-2 border border-gray-300">Designation</th>
-                        <th className="px-4 py-2 border border-gray-300">Organization</th>
-                        <th className="px-4 py-2 border border-gray-300">Role</th>
-                        <th className="px-4 py-2 border border-gray-300">Joined On</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {studentBOS.map((member, idx) => (
-                        <tr
-                          key={idx}
-                          className="hover:bg-gray-50 transition-colors"
-                        >
-                          <td className="px-4 py-2 border border-gray-300">{idx + 1}</td>
-                          <td className="px-4 py-2 border border-gray-300 font-semibold">
-                            {member.member_name}
-                          </td>
-                          <td className="px-4 py-2 border border-gray-300">{member.designation}</td>
-                          <td className="px-4 py-2 border border-gray-300">{member.organization}</td>
-                          <td className="px-4 py-2 border border-gray-300">{member.role}</td>
-                          <td className="px-4 py-2 border border-gray-300">
-                            {new Date(member.created_at).toLocaleDateString()}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <p className="text-gray-500 italic">No Board of Studies members found.</p>
-                )}
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Board of Studies</summary>
+              <div className="mt-4">
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Minutes of 6<sup>th</sup> meeting of the Board of Studies, dated 20.07.2024 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/6TH BOS Meeting Minutes & Notes V23 Civil Engg, SVEC.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Minutes of 5<sup>th</sup> meeting of the Board of Studies, dated 20.08.2022 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/FIFTH%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Minutes of 4<sup>th</sup> meeting of the Board of Studies, dated 30.08.2021 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/FOURTH%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Minutes of 3<sup>rd</sup> meeting of the Board of Studies, dated 30.06.2020 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/THIRD%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Minutes of 2<sup>nd</sup> meeting of the Board of Studies, dated 20.04.2019 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/SECONED%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                  <li>
+                    Minutes of 1<sup>st</sup> meeting of the Board of Studies, dated 06.06.2018 -{' '}
+                    <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/FIRST%20BOS%20NOTES.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                  </li>
+                </ul>
               </div>
             </details>
           </div>
         );
-
       case 'Physical Facilities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -1056,38 +1275,146 @@ const CivilDepartment: React.FC = () => {
             </div>
           </div>
         );
-      case "Workshops":
+      case 'Workshops':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              Workshops
-            </h2>
-
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Workshops / Guest Lectures / Field Visits</h2>
             <div className="tab4 mt-4">
               <details open className="border rounded-lg p-4">
                 <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Class Tim</summary>
                 <div className="ml-4">
                   <ol className="list-decimal ml-6 space-y-2">
-                    {workshops.map((item) => (
-                      <li key={item.id}>
-                        {item.name} -{" "}
-                        <a
-                          href={item.url}
-                          className="text-primary hover:underline"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View More
-                        </a>
-                      </li>
-                    ))}
+                    <li>
+                      Workshops organized during the Academic Year 2023-2024 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202023-24.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2022-2023 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202022-2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2021-2022 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202021-2022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2019-2020 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202019-2020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2018-2019 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202018-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2017-2018 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202017-2018.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2016-2017 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202016-2017.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2015-2016 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202015-2016.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Workshops organized during the Academic Year 2014-2015 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/workshops%20organized%20during%20the%20Academic%20Year%202014-2015.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
                   </ol>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Guest Lectures</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      Guest Lecture organized during the Academic Year 2023-2024 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20year%202023-2024.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2020-2021 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202020-2021.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2019-2020 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202019-2020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2018-2019 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202018-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2017-2018 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202017-2018.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2016-2017 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202016-2017.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2015-2016 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202015-2016.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Guest Lecture organized during the Academic Year 2014-2015 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Guest%20Lecture%20organized%20during%20the%20Academic%20Year%202014-2015.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Field Visits</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      Field Visits during the A. Y 2023-24 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%20during%20the%20Academic%20Year%202023-2024.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2022-23 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202019-2020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2019-20 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202022-2023.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2018-19 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202018-2019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2017-18 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202017-2018.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2016-17 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202016-2017.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2015-16 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202015-2016.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                    <li>
+                      Field Visits during the A. Y 2014-15 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Field%20visits%202014-2015.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">SOC</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      SOC conducted during the A. Y 2023-24 -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/civil/Skill%20Oriented%20Course.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                    </li>
+                  </ul>
                 </div>
               </details>
             </div>
           </div>
         );
-
       case 'Technical Association':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -1135,58 +1462,91 @@ const CivilDepartment: React.FC = () => {
           </div>
         );
       case 'Newsletters':
-
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              Newsletters
-            </h2>
-            <div className="space-y-6">
-              {Array.isArray(newsletters) && newsletters.length > 0 ? (
-                newsletters.map((item, index) => (
-                  <details key={item.id} open={index === 0}>
-                    <summary className="font-semibold text-lg mb-2">
-                      Newsletter Issue {item.issue}
-                    </summary>
-                    <ul className="list-disc ml-6 space-y-2">
-                      <li>
-                        Newsletter Issue {item.issue} –{" "}
-                        <a
-                          href={item.url}
-                          className="text-primary hover:underline"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View More
-                        </a>
-                      </li>
-                    </ul>
-                  </details>
-                ))
-              ) : (
-                <p>No newsletters available</p>
-              )}
-            </div>
-
-            <h2 className="text-3xl font-bold text-[#850209] mt-12 mb-6 text-center">
-              Technical Magazines
-            </h2>
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Newsletters</h2>
             <div className="space-y-6">
               <details open>
-                <summary className="font-semibold text-lg mb-2">
-                  Technical Magazine
-                </summary>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue December 2022</summary>
                 <ul className="list-disc ml-6 space-y-2">
                   <li>
-                    Technical Magazine –{" "}
-                    <a
-                      href="#"
-                      className="text-primary hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View More
-                    </a>
+                    Newsletter Issue December 2022 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/DECEMBER%202022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue June 2022</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue June 2022 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/JUNE%202022.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue December 2021</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue December 2021 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/DECEMBER%202021.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue June 2021</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue June 2021 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/JUNE%202021.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue December 2020</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue December 2020 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/DECEMBER%202020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue June 2020</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue June 2020 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/JUNE%202020.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue December 2019</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue December 2019 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/DECEMBER%202019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">Newsletter Issue June 2019</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Newsletter Issue June 2019 -{' '}
+                    <a href="https://srivasaviengg.ac.in/uploads/civil/JUNE%202019.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
+                  </li>
+                </ul>
+              </details>
+            </div>
+            <h2 className="text-3xl font-bold text-[#850209] mt-12 mb-6 text-center">Technical Magazines</h2>
+            <div className="space-y-6">
+              <details open>
+                <summary className="font-semibold text-lg mb-2">Technical Magazine</summary>
+                <ul className="list-disc ml-6 space-y-2">
+                  <li>
+                    Technical Magazine -{' '}
+                    <a href="#" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View More</a>
                   </li>
                 </ul>
               </details>
@@ -1194,12 +1554,9 @@ const CivilDepartment: React.FC = () => {
           </div>
         );
       case 'Extra-Curricular Activities':
-
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              Extra-Curricular Activities
-            </h2>
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Extra-Curricular Activities</h2>
             <div className="space-y-6">
               <ul className="list-disc ml-6 space-y-4 text-center">
                 <li>
@@ -1305,44 +1662,48 @@ const CivilDepartment: React.FC = () => {
                     <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                 </ul>
-            </div>
+              )}
+              </div>
           </div>
         );
       case 'Syllabus':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              Syllabus
-            </h2>
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Syllabus</h2>
             <div className="space-y-8">
-              {Array.isArray(Syllabus) && Syllabus.length > 0 ? (
-                Syllabus.map((item, index) => (
-                  <details key={index} open>
-                    <summary className="font-semibold text-lg mb-2">{item.program}</summary>
-                    <div className="ml-4">
-                      <ul className="list-disc ml-6 space-y-2">
-                        <li>
-                          <a
-                            href={item.url}
-                            className="text-primary hover:underline"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            View Syllabus
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </details>
-                ))
-
-              ) : (
-                <p className="text-center text-gray-600">No syllabus available</p>
-              )}
+              <details open>
+                <summary className="font-semibold text-lg mb-2">B.Tech</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      B.Tech - V20 Syllabus -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/V20%20B.TECH%20COURSE%20STRUCTURE%20AND%20SYLLABUS.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      B.Tech - V18 Syllabus -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/V18%20B.TECH%20COURSE%20STRUCTURE%20AND%20SYLLABUS.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details>
+                <summary className="font-semibold text-lg mb-2">M.TECH(CS)</summary>
+                <div className="ml-4">
+                  <ul className="list-disc ml-6 space-y-2">
+                    <li>
+                      M.Tech - V21 Syllabus -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/V21%20M.TECH%20COURSE%20STRUCTURE%20AND%20SYLLABUS.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                    <li>
+                      M.Tech - V18 Syllabus -{' '}
+                      <a href="https://srivasaviengg.ac.in/civil_guest_workshops_fdps_seminars/V18%20M.TECH%20COURSE%20STRUCTURE%20AND%20SYLLABUS.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
             </div>
           </div>
         );
-
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center animate-fade-in"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }
@@ -1361,7 +1722,6 @@ const CivilDepartment: React.FC = () => {
 
       {/* Fixed Sidebar Component */}
       <FixedSidebar
-      
         isOpen={sidebarOpen}
         onToggle={() => setSidebarOpen(!sidebarOpen)}
         onClose={() => setSidebarOpen(false)}

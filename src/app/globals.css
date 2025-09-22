@@ -403,13 +403,3 @@ nav a:hover::before {
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
-
-/* Hide scrollbar for sidebar navigation */
-[data-scrollable-nav]::-webkit-scrollbar {
-  display: none;
-}
-
-[data-scrollable-nav] {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}

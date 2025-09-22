@@ -7,7 +7,24 @@ export async function POST(
   { params }: { params: { dept: string } }
 ) {
   try {
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader) {
+      return NextResponse.json({ error: 'No authorization header' }, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const decoded = verifyToken(token);
+    
+    if (!decoded) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    }
+
     const { dept } = await params;
+
+    // Check if user has permission for this department
+    if (decoded.role !== 'admin' && decoded.department !== dept) {
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
+    }
 
     const data = await request.json();
 
@@ -74,6 +91,11 @@ export async function GET(
     // Fetch faculty members (only approved ones for regular users)
     let query_str = 'SELECT * FROM faculty_profiles WHERE dept = ?';
     let queryParams = [dept];
+    
+    // Show only approved faculty for department users, all for admins
+    if (decoded.role === 'dept') {
+      query_str += ' AND (status = "approved" OR status IS NULL)';
+    }
     
     query_str += ' ORDER BY name';
     
