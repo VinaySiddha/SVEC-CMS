@@ -8,8 +8,8 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json package-lock.json* ./
-# Install all dependencies (including dev) for build stage
-RUN npm ci
+# Install all dependencies (including dev) for build stage with legacy peer deps
+RUN npm ci --legacy-peer-deps
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
@@ -18,10 +18,6 @@ WORKDIR /app
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-# Debug: List copied files to see what's available
-RUN echo "Listing src/pages directory:" && ls -la src/pages/ || echo "src/pages directory not found"
-RUN echo "Listing src/app directory:" && ls -la src/app/ || echo "src/app directory not found"
 
 # Set environment variables for build
 ENV NODE_ENV=production
