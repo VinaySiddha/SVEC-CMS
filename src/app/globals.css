@@ -20,6 +20,29 @@
     @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
     transition: all 0.1s ease-out;
   }
+
+  /* Single line tab navigation for desktop */
+  .dept-tab-navigation {
+    @apply flex flex-nowrap justify-center gap-1 lg:gap-2 overflow-x-auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .dept-tab-navigation::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .dept-tab-button {
+    @apply px-2 lg:px-4 py-2 rounded-lg font-medium transition-all duration-200 whitespace-nowrap text-sm lg:text-base;
+  }
+  
+  .dept-tab-button.active {
+    @apply bg-[#B22222] text-white shadow-lg;
+  }
+  
+  .dept-tab-button.inactive {
+    @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+  }
   
   .tab-content {
     @apply min-h-[200px];

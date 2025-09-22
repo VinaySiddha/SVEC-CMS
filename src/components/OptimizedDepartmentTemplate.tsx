@@ -25,75 +25,21 @@ const TabNavigation = memo(({
   onTabChange: (tab: string) => void,
   isTransitioning: boolean 
 }) => (
-  <div className="space-y-4">
-    {/* Row 1: Department, Vision */}
-    <div className="flex justify-center gap-4 mb-4">
-      {tabs.slice(0, 2).map((tab) => (
+  <div className="mb-6">
+    {/* Single line navigation for desktop, responsive for mobile */}
+    <div className="flex flex-nowrap justify-center gap-1 lg:gap-2 overflow-x-auto scrollbar-hide">
+      {tabs.map((tab) => (
         <button
           key={tab}
           onClick={() => onTabChange(tab)}
           disabled={isTransitioning}
-          className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 transform ${
+          className={`px-2 lg:px-4 py-2 rounded-lg font-medium transition-all duration-200 whitespace-nowrap text-sm lg:text-base ${
             activeTab === tab
-              ? 'bg-[#B22222] text-white scale-105 shadow-lg'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-102'
+              ? 'bg-[#B22222] text-white shadow-lg'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           } ${isTransitioning ? 'pointer-events-none opacity-50' : ''}`}
         >
-          {tab}
-        </button>
-      ))}
-    </div>
-    
-    {/* Row 2: Mission, PEOs, POs */}
-    <div className="flex justify-center gap-4 mb-4">
-      {tabs.slice(2, 5).map((tab) => (
-        <button
-          key={tab}
-          onClick={() => onTabChange(tab)}
-          disabled={isTransitioning}
-          className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 transform ${
-            activeTab === tab
-              ? 'bg-[#B22222] text-white scale-105 shadow-lg'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-102'
-          } ${isTransitioning ? 'pointer-events-none opacity-50' : ''}`}
-        >
-          {tab}
-        </button>
-      ))}
-    </div>
-
-    {/* Row 3: PSOs, COs */}
-    <div className="flex justify-center gap-4 mb-4">
-      {tabs.slice(5, 7).map((tab) => (
-        <button
-          key={tab}
-          onClick={() => onTabChange(tab)}
-          disabled={isTransitioning}
-          className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 transform ${
-            activeTab === tab
-              ? 'bg-[#B22222] text-white scale-105 shadow-lg'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-102'
-          } ${isTransitioning ? 'pointer-events-none opacity-50' : ''}`}
-        >
-          {tab}
-        </button>
-      ))}
-    </div>
-
-    {/* Row 4: Salient Features */}
-    <div className="flex justify-center gap-4 mb-6">
-      {tabs.slice(7).map((tab) => (
-        <button
-          key={tab}
-          onClick={() => onTabChange(tab)}
-          disabled={isTransitioning}
-          className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 transform ${
-            activeTab === tab
-              ? 'bg-[#B22222] text-white scale-105 shadow-lg'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-102'
-          } ${isTransitioning ? 'pointer-events-none opacity-50' : ''}`}
-        >
-          {tab}
+          {tab === 'SalientFeatures' ? 'Salient Features' : tab}
         </button>
       ))}
     </div>
