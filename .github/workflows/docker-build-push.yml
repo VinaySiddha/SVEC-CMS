@@ -5,7 +5,7 @@ on:
   push:
     branches: [ main, master, Final_Blast ]
   pull_request:
-    branches: [main, master, Final_Blast ]
+    branches: [ main, master, Final_Blast ]
   
   # Allow manual triggering
   workflow_dispatch:
@@ -62,8 +62,8 @@ jobs:
           tags: |
             type=ref,event=branch
             type=ref,event=pr
-            type=raw,value=latest,enable={{is_default_branch}}
-            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/Final_Blast' }}
+            type=sha
 
       - name: Build and push Docker image
         id: build
