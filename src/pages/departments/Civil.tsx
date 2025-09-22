@@ -159,11 +159,11 @@ const CivilDepartment: React.FC = () => {
 
   // Fetch newsletters
   useEffect(() => {
-    fetch('/api/departments/civil')
+    fetch('/api/cseai/newsletters?dept=civil')
       .then(res => res.json())
       .then(data => {
-        if (data.success && data.data.newsletters) {
-          setNewsletters(data.data.newsletters);
+        if (data.success) {
+          setNewsletters(data.data);
         }
       })
       .catch(err => console.error('Failed to fetch newsletters:', err));
@@ -1662,8 +1662,7 @@ const CivilDepartment: React.FC = () => {
                     <a href="https://srivasaviengg.ac.in/uploads/civil/Consultancy%20Details%20for%20the%20Academic%20year%202013-2014.pdf" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">View</a>
                   </li>
                 </ul>
-              )}
-              </div>
+            </div>
           </div>
         );
       case 'Syllabus':

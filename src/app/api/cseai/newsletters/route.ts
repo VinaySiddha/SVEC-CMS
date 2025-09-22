@@ -13,10 +13,20 @@ export async function GET(request: NextRequest) {
       ORDER BY publication_date DESC
     `, [dept]);
 
+<<<<<<< HEAD
     return NextResponse.json({
       success: true,
       data: newsletters
     });
+=======
+        const newsletters = await query(`
+      SELECT newsletter_title, issue_number, publication_date, description, 
+             document_url, cover_image_url, display_order 
+      FROM newsletters 
+      WHERE department = ? AND is_active = TRUE 
+      ORDER BY publication_date DESC, display_order ASC
+    `, [department]);
+>>>>>>> parent of c4eba33 (Merge branch 'celigo@abhi' of https://github.com/VinaySiddha/SVEC-CMS into celigo@abhi)
 
   } catch (error) {
     console.error('Error fetching newsletters:', error);

@@ -1,0 +1,68 @@
+const mysql = require('mysql2/promise');
+
+const fdpData = [
+    {
+        dept: "cai",
+        title: "AI in Healthcare",
+        faculty_name: "Dr. G. Loshma",
+        organizer: "IIT Hyderabad",
+        date_from: "2024-06-10",
+        date_to: "2024-06-14",
+        certificate_url: "https://srivasaviengg.ac.in/uploads/cai/FDP_AI_Healthcare.pdf"
+    },
+    {
+        dept: "cai",
+        title: "Deep Learning Workshop",
+        faculty_name: "Mr. R.L. Phani Kumar",
+        organizer: "NIT Warangal",
+        date_from: "2024-07-01",
+        date_to: "2024-07-05",
+        certificate_url: "https://srivasaviengg.ac.in/uploads/cai/FDP_DL_Workshop.pdf"
+    }
+];
+
+async function insertFDPs() {
+    const connection = await mysql.createConnection({
+        host: '62.72.31.209',
+        user: 'cmsuser',
+        password: 'V@savi@2001',
+        database: 'svec_cms'
+    });
+
+    try {
+        console.log('Connected to database');
+
+        // Example: Clear existing FDPs for CAI dept (optional)
+        // await connection.execute('DELETE FROM faculty_development_programs WHERE dept = ?', ['cai']);
+        // console.log('Cleared existing FDPs for CAI');
+
+        for (const fdp of fdpData) {
+            try {
+                await connection.execute(`
+          INSERT INTO faculty_development_programs 
+          (dept, title, faculty_name, organizer, date_from, date_to, certificate_url, created_at) 
+          VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+        `, [
+                    fdp.dept,
+                    fdp.title,
+                    fdp.faculty_name,
+                    fdp.organizer,
+                    fdp.date_from,
+                    fdp.date_to,
+                    fdp.certificate_url
+                ]);
+                console.log(`Inserted FDP: ${fdp.title} (${fdp.faculty_name})`);
+            } catch (e) {
+                console.log(`Error inserting FDP ${fdp.title}:`, e.message);
+            }
+        }
+
+        console.log("✅ FDP data inserted successfully!");
+    } catch (error) {
+        console.error("❌ Error inserting FDPs:", error);
+    } finally {
+        await connection.end();
+    }
+}
+
+insertFDPs();
