@@ -3,13 +3,26 @@
 
 # Stage 1: Dependencies
 FROM node:20-alpine AS deps
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat curl
 WORKDIR /app
+
+# Configure npm for better reliability and faster downloads
+RUN npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm config set fetch-retries 5 && \
+    npm config set fetch-timeout 600000 && \
+    npm config set registry https://registry.npmjs.org/ && \
+    npm config set progress false && \
+    npm config set loglevel error
 
 # Copy package files
 COPY package.json package-lock.json* ./
-# Install all dependencies (including dev) for build stage with legacy peer deps
-RUN npm ci --legacy-peer-deps
+
+# Install dependencies with better caching and retry logic
+# Split npm clean cache and install for better debugging
+RUN --mount=type=cache,target=/root/.npm \
+    npm cache clean --force || true && \
+    npm ci --legacy-peer-deps --no-audit --no-fund --prefer-offline
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder

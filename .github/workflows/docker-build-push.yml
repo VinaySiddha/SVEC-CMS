@@ -51,12 +51,20 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          # Currently building AMD64 only due to ARM64 network timeout issues
+          # To re-enable ARM64: change to "linux/amd64,linux/arm64"
+          # ARM64 builds may timeout during npm install due to emulation overhead
+          platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1
+            NODE_ENV=production
+          provenance: false
+          sbom: false
 
       - name: Image digest
         if: github.event_name != 'pull_request'
