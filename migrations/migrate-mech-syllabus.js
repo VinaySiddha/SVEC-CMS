@@ -1,9 +1,9 @@
 const mysql = require('mysql2/promise');
 
 const dbConfig = {
-  host: '62.72.31.209',
-  user: 'cmsuser',
-  password: 'V@savi@2001',
+  host: 'localhost',
+  user: 'root',
+  password: '',
   database: 'svec_cms',
   port: 3306
 };
