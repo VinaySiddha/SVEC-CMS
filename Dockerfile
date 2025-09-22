@@ -19,6 +19,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Debug: List copied files to see what's available
+RUN echo "Listing src/pages directory:" && ls -la src/pages/ || echo "src/pages directory not found"
+RUN echo "Listing src/app directory:" && ls -la src/app/ || echo "src/app directory not found"
+
 # Set environment variables for build
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
