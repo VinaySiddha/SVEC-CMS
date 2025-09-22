@@ -11,8 +11,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         const [rows] = await connection.execute(
-            "SELECT id, section_name, title, content FROM department_profile_sections WHERE dept = ? ORDER BY id ASC",
-            ['cseai']
+            `SELECT meeting_number, meeting_date, document_url, id
+       FROM bos_meeting_minutes
+       WHERE dept = ? AND status = 'active'
+       ORDER BY meeting_date DESC, meeting_number ASC`,
+            [dept]
         );
 
         await connection.end();
