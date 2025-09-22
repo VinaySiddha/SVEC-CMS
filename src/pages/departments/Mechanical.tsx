@@ -1,6 +1,4 @@
-import React from 'react';
-import StandardDepartmentProfile from '../../components/StandardDepartmentProfile';
-
+// src/pages/departments/Mechanical.tsx
 import React, { useEffect, useState } from 'react';
 import { Cog, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Book, Database, User } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';

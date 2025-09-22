@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,12 +8,8 @@ import { LoadingProvider } from "@/contexts/LoadingContext";
 import ToastProvider from "@/components/providers/ToastProvider";
 import ClientProviders from "@/components/providers/ClientProviders";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-  fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
-});
+// Use system fonts during Docker build to avoid network issues
+const fontClassName = "font-sans";
 
 export const metadata: Metadata = {
   title: "Sri Vasavi Engineering College",
@@ -46,7 +41,7 @@ export default function RootLayout(props: {
           rel="stylesheet"
         />
       </head>
-      <body className={`${poppins.className} h-full m-0 p-0`}>
+      <body className={`${fontClassName} h-full m-0 p-0`}>
         <ClientProviders>
           <LoadingProvider>
             <ToastProvider />

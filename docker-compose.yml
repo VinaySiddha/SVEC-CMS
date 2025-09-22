@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  svec-cms:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: svec-cms:latest
+    container_name: svec-cms-app
+    ports:
+      - "3000:3000"
+    environment:
+      # Database Configuration (Remote MySQL) - matching your .env names
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT:-3306}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      
+      # JWT Configuration
+      - JWT_SECRET=${JWT_SECRET}
+      
+      # Cookie Configuration
+      - COOKIE_NAME=${COOKIE_NAME:-sid}
+      - COOKIE_MAX_AGE=${COOKIE_MAX_AGE:-86400}
+      
+      # Next.js Configuration
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      
+      # Application Configuration
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      
+    volumes:
+      # Mount uploads directory for persistent file storage
+      - ./public/uploads:/app/public/uploads
+      
+    restart: unless-stopped
+    
+    networks:
+      - svec-network
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  svec-network:
+    driver: bridge

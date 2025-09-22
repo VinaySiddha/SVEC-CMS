@@ -159,11 +159,11 @@ const CivilDepartment: React.FC = () => {
 
   // Fetch newsletters
   useEffect(() => {
-    fetch('/api/cseai/newsletters?dept=civil')
+    fetch('/api/departments/civil')
       .then(res => res.json())
       .then(data => {
-        if (data.success) {
-          setNewsletters(data.data);
+        if (data.success && data.data.newsletters) {
+          setNewsletters(data.data.newsletters);
         }
       })
       .catch(err => console.error('Failed to fetch newsletters:', err));
