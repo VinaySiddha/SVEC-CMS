@@ -2,8 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import mysql from 'mysql2/promise';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const { dept = 'Civil' } = req.query as { dept?: string };
-
     try {
         const connection = await mysql.createConnection({
             host: '62.72.31.209',
@@ -13,17 +11,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         const [rows] = await connection.execute(
-            `SELECT url
-       FROM civil_extra_curricular_activities
-       WHERE department = ? `,
-            [dept]
+            "SELECT id, section_name, title, content FROM department_profile_sections WHERE dept = ? ORDER BY id ASC",
+            ['cseai']
         );
 
         await connection.end();
-        res.status(200).json(rows);
+
+        res.status(200).json({
+            success: true,
+            sections: rows,
+        });
     } catch (error) {
-        console.error('Error fetching Civil extra-curricular activities:', error);
-        res.status(500).json({ error: 'Failed to fetch Civil extra-curricular activities' });
+        console.error('DB Error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch department profile data',
+            details: error,
+        });
     }
 }
-
