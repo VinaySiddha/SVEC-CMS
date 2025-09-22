@@ -61,7 +61,6 @@
     "date-fns": "^3.6.0",
     "dotenv": "^16.5.0",
     "embla-carousel-react": "^8.6.0",
-    "firebase": "^11.9.1",
     "formidable": "^3.5.4",
     "fs": "^0.0.1-security",
     "genkit": "^1.14.1",
@@ -87,7 +86,6 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.13",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^18",
