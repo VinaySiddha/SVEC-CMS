@@ -12,6 +12,61 @@ const CSTDepartment: React.FC = () => {
   const [handbooks, setHandbooks] = useState([]);
   const [grouped, setGrouped] = useState({});
   const [mous, setMous] = useState([]);
+  const [newslettersLoading, setNewslettersLoading] = useState(true);
+  const [newsletters, setNewsletters] = useState<any[]>([]);
+  const [hackathons, setHackathons] = useState<any[]>([]);
+  const [hackathonGallery, setHackathonGallery] = useState<any[]>([]);
+  type TrainingActivity = {
+    academic_year: string;
+    title: string;
+    pdf_url: string;
+  };
+
+  type tGalleryImage = {
+    image_url: string;
+    alt_text: string;
+  };
+
+
+  const [tactivities, tsetActivities] = useState<TrainingActivity[]>([]);
+  const [tgallery, tsetGallery] = useState<tGalleryImage[]>([]);
+
+  useEffect(() => {
+    axios.get('/api/cai-training-activities')
+      .then(res => {
+        tsetActivities(res.data.activities);
+        tsetGallery(res.data.gallery);
+      })
+      .catch(err => console.error('Failed to fetch training data:', err));
+  }, [])
+
+  console.log("A", tactivities);
+  const [activities, setActivities] = useState([]);
+  type GalleryImage = {
+    event_name: string;
+    image_url: string;
+    alt_text: string;
+  };
+
+  const [gallery, setGallery] = useState<GalleryImage[]>([]);
+
+  useEffect(() => {
+    axios.get('/api/cai-technical-ass')
+      .then(res => {
+        setActivities(res.data.activities);
+        setGallery(res.data.gallery);
+      })
+      .catch(err => console.error('Failed to fetch SCUD data:', err));
+  }, []);
+
+  console.log("gallery", gallery);
+  // Group gallery images by event name
+  const groupedGallery = gallery.reduce((acc: Record<string, GalleryImage[]>, img) => {
+    if (!acc[img.event_name]) acc[img.event_name] = [];
+    acc[img.event_name].push(img);
+    return acc;
+  }, {});
+
 
   // Dynamic content state
   const [dynamicSidebarItems, setDynamicSidebarItems] = useState<any[]>([]);
@@ -28,10 +83,26 @@ const CSTDepartment: React.FC = () => {
   const [meritScholarships, setMeritScholarships] = useState<any[]>([]);
   const [extraCurricularActivities, setExtraCurricularActivities] = useState<any[]>([]);
   const [technicalAssociationActivities, setTechnicalAssociationActivities] = useState<any[]>([]);
-  const [newsletters, setNewsletters] = useState<any[]>([]);
-  const [hackathons, setHackathons] = useState<any[]>([]);
   const [trainingActivities, setTrainingActivities] = useState<any>({});
-  const [physicalFacilities, setPhysicalFacilities] = useState<any>({});
+  const [physicalFacilities, setPhysicalFacilities] = useState<any>(null);
+  const [scholarships, setScholarships] = useState([]);
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/cai-merit-scholarships')
+      .then(res => {
+        setScholarships(res.data.scholarships);
+        setImages(res.data.images);
+      })
+      .catch(err => console.error('API fetch failed:', err));
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/civil_physical_facilities")
+      .then((res) => res.json())
+      .then((data) => setPhysicalFacilities(data))
+      .catch((err) => console.error("Fetch error:", err));
+  }, []);
   const [departmentLibrary, setDepartmentLibrary] = useState<any[]>([]);
   const [boardOfStudies, setBoardOfStudies] = useState<any[]>([]);
   const [departmentContact, setDepartmentContact] = useState<any[]>([]);
@@ -54,6 +125,20 @@ const CSTDepartment: React.FC = () => {
       });
   }, []);
 
+  // Fetch newsletters
+  useEffect(() => {
+    setNewslettersLoading(true);
+    axios.get('/api/cai-newsletters?dept=cseai')
+      .then(res => {
+        setNewsletters(res.data.newsletters || []);
+        setNewslettersLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch newsletters:', err);
+        setNewslettersLoading(false);
+      });
+  }, []);
+  console.log(newsletters);
   useEffect(() => {
     fetch('/api/mous') // backend API URL
       .then((res) => res.json())
@@ -126,7 +211,7 @@ const CSTDepartment: React.FC = () => {
 
   // Fetch e-resources
   useEffect(() => {
-    fetch('/api/cseai/eresources?dept=cseai')
+    fetch('/api/cai-eresources?dept=cseai')
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -136,81 +221,12 @@ const CSTDepartment: React.FC = () => {
       .catch(err => console.error('Failed to fetch e-resources:', err));
   }, []);
 
-  // Fetch department info sections
-  useEffect(() => {
-    fetch('/api/cseai/department-info?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setDepartmentInfo(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch department info:', err));
-  }, []);
 
-  // Fetch student achievements
-  useEffect(() => {
-    fetch('/api/cseai/student-achievements?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setStudentAchievements(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch student achievements:', err));
-  }, []);
 
-  // Fetch faculty development programs
-  useEffect(() => {
-    fetch('/api/cseai/faculty-development-programs?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setFacultyDevelopmentPrograms(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch faculty development programs:', err));
-  }, []);
-
-  // Fetch faculty achievements
-  useEffect(() => {
-    fetch('/api/cseai/faculty-achievements?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setFacultyAchievements(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch faculty achievements:', err));
-  }, []);
-
-  // Fetch workshops
-  useEffect(() => {
-    fetch('/api/cseai/workshops?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setWorkshops(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch workshops:', err));
-  }, []);
-
-  // Fetch merit scholarships
-  useEffect(() => {
-    fetch('/api/cseai/merit-scholarships?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setMeritScholarships(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch merit scholarships:', err));
-  }, []);
 
   // Fetch extra-curricular activities
   useEffect(() => {
-    fetch('/api/cseai/extra-curricular?dept=cseai')
+    fetch('/api/cai-extra-curricular?dept=cseai')
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -220,101 +236,34 @@ const CSTDepartment: React.FC = () => {
       .catch(err => console.error('Failed to fetch extra-curricular activities:', err));
   }, []);
 
-  // Fetch technical association activities
-  useEffect(() => {
-    fetch('/api/cseai/technical-association?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setTechnicalAssociationActivities(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch technical association activities:', err));
-  }, []);
-
-  // Fetch newsletters
-  useEffect(() => {
-    fetch('/api/cseai/newsletters?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setNewsletters(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch newsletters:', err));
-  }, []);
-
   // Fetch hackathons
   useEffect(() => {
-    fetch('/api/cseai/hackathons?dept=cseai')
+    fetch('/api/cai-hackathons?dept=cseai')
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          setHackathons(data.data);
+          setHackathons(data.hackathons);
+          setHackathonGallery(data.gallery);
         }
       })
       .catch(err => console.error('Failed to fetch hackathons:', err));
   }, []);
 
-  // Fetch training activities
-  useEffect(() => {
-    fetch('/api/cseai/training-activities?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setTrainingActivities(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch training activities:', err));
-  }, []);
+
+
 
   // Fetch physical facilities
   useEffect(() => {
-    fetch('/api/cseai/physical-facilities?dept=cseai')
+    fetch('/api/cai-physical-facilities?dept=cseai')
       .then(res => res.json())
       .then(data => {
-        if (data.success) {
-          setPhysicalFacilities(data.data);
-        }
+        setPhysicalFacilities(data);
       })
       .catch(err => console.error('Failed to fetch physical facilities:', err));
   }, []);
+  console.log("p", physicalFacilities);
 
-  // Fetch department library
-  useEffect(() => {
-    fetch('/api/cseai/department-library?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setDepartmentLibrary(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch department library:', err));
-  }, []);
 
-  // Fetch board of studies
-  useEffect(() => {
-    fetch('/api/cseai/board-of-studies?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setBoardOfStudies(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch board of studies:', err));
-  }, []);
-
-  // Fetch department contact
-  useEffect(() => {
-    fetch('/api/cseai/contact?dept=cseai')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setDepartmentContact(data.data);
-        }
-      })
-      .catch(err => console.error('Failed to fetch department contact:', err));
-  }, []);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
@@ -385,6 +334,23 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-6">
+              <div className="relative">
+                <img
+                  src="/aihod.jpg"
+                  alt="Dr. G. Loshma"
+                  className="w-full h-80 object-cover rounded-lg shadow-md"
+                />
+              </div>
+              <div className="lg:col-span-2 space-y-4">
+                <div className="mb-4">
+                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
+                  <p className="text-lg text-[#8B0000] font-medium mb-2">Head of Department, CSE-AI</p>
+                  <p className="text-gray-600">Ph.D in Computer Science, M.Tech CSE</p>
+                  <p className="text-gray-600">Email: <a href="mailto:hod_cst@srivasaviengg.ac.in" className="text-primary hover:underline">hod_cst@srivasaviengg.ac.in</a></p>
+                </div>
+              </div>
+            </div>
             <p className="text-gray-700 mb-3">
               Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
             </p>
@@ -520,7 +486,7 @@ const CSTDepartment: React.FC = () => {
                 href="https://srivasaviengg.ac.in/uploads/cst/COs.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 items-center"
+                className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
               >
                 <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
               </a>
@@ -561,121 +527,31 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <div className="space-y-8">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Department Profile</h2>
-
-              {/* HOD Section */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Head of Department</h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                  <div className="flex justify-center">
-                    <div className="relative">
-                      <img
-                        src="/aihod.jpg"
-                        alt="Dr. G. Loshma"
-                        className="w-48 h-48 object-cover rounded-xl shadow-md"
-                        style={{ aspectRatio: '1/1' }}
-                      />
-                    </div>
-                  </div>
-                  <div className="text-center lg:text-left">
-                    <h4 className="text-xl font-bold text-gray-800 mb-2">Dr. G. Loshma</h4>
-                    <p className="text-gray-600 mb-4">Head of Department, CSE-AI</p>
-                    <p className="text-gray-700 leading-relaxed mb-2">Ph.D in Computer Science, M.Tech CSE</p>
-                    <p className="text-gray-700 leading-relaxed">
-                      Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_aim@srivasaviengg.ac.in</a>
-                    </p>
-                  </div>
+              {/* Desktop Navigation Tabs */}
+              <div className="hidden md:block relative mb-8">
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {sections.map((section) => (
+                    <button
+                      key={section}
+                      onClick={() => setActiveDeptTab(section)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {/* Department Profile Navigation - Grid Layout */}
-              <div className="mb-8 mt-12">
-                {/* Row 1: Department, Vision */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('Department')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Department
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('Vision')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Vision
-                  </button>
-                </div>
-
-                {/* Row 2: Mission, PEOs, POs */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('Mission')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Mission
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('PEOs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PEOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('POs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    POs
-                  </button>
-                </div>
-
-                {/* Row 3: PSOs, COs */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('PSOs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PSOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('COs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    COs
-                  </button>
-                </div>
-
-                {/* Row 4: Salient Features (centered) */}
-                <div className="flex justify-center">
-                  <button
-                    onClick={() => setActiveDeptTab('SalientFeatures')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                      ? 'bg-[#B22222] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Salient Features
-                  </button>
+              {/* Mobile Section Display */}
+              <div className="md:hidden relative mb-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
                 </div>
               </div>
 
@@ -1015,7 +891,7 @@ const CSTDepartment: React.FC = () => {
           const [loading, setLoading] = React.useState(true);
 
           React.useEffect(() => {
-            fetch("/api/syllabus?dept=cseai")
+            fetch("/api/syllabus")
               .then((res) => res.json())
               .then((data) => {
                 setSyllabus(Array.isArray(data) ? data : []);
@@ -1232,380 +1108,182 @@ const CSTDepartment: React.FC = () => {
                 <li>Edyst</li>
               </ul>
 
-              <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">V20- Subjects</h3>
-              <div className="overflow-x-auto mb-8">
-                <table className="min-w-full bg-white border border-gray-200">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="py-3 px-4 border-b text-left">S.No</th>
-                      <th className="py-3 px-4 border-b text-left">Regulation</th>
-                      <th className="py-3 px-4 border-b text-left">Sem</th>
-                      <th className="py-3 px-4 border-b text-left">Subject</th>
-                      <th className="py-3 px-4 border-b text-left">PPT</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {/* Dynamic e-resources content */}
-                    {eresources.length > 0 ? (
-                      eresources.map((category, categoryIndex) => (
-                        category.items.map((item: any, itemIndex: number) => (
-                          <tr key={`${categoryIndex}-${itemIndex}`} className="hover:bg-gray-50">
-                            <td className="py-3 px-4 border-b">{itemIndex + 1}</td>
-                            <td className="py-3 px-4 border-b">{item.academic_year}</td>
-                            <td className="py-3 px-4 border-b">{item.semester}</td>
-                            <td className="py-3 px-4 border-b">{item.title}</td>
-                            <td className="py-3 px-4 border-b">
-                              <a href={item.file_url} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                            </td>
+              {/* Dynamic E-Resources Tables from API */}
+              {eresources.length > 0 ? (
+                eresources.map((regulationGroup: any, index: number) => (
+                  <div key={index} className="mb-8">
+                    <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">
+                      {regulationGroup.category} Subjects
+                    </h3>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full bg-white border border-gray-200">
+                        <thead className="bg-gray-100">
+                          <tr>
+                            <th className="py-3 px-4 border-b text-left">S.No</th>
+                            <th className="py-3 px-4 border-b text-left">Regulation</th>
+                            <th className="py-3 px-4 border-b text-left">Semester</th>
+                            <th className="py-3 px-4 border-b text-left">Subject</th>
+                            <th className="py-3 px-4 border-b text-left">Material</th>
                           </tr>
-                        ))
-                      )).flat()
-                    ) : (
-                      // Fallback static content if API fails
-                      <>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">1</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">I</td>
-                          <td className="py-3 px-4 border-b">Problem Solving through C-Programming</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/PCPS-V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">2</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">III</td>
-                          <td className="py-3 px-4 border-b">Data Structures</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DS_V20.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">3</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">III</td>
-                          <td className="py-3 px-4 border-b">Computer Organization and Architecture</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/COA_notes_V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">4</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">III</td>
-                          <td className="py-3 px-4 border-b">OOP's through C++</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/OOPS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">5</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">III</td>
-                          <td className="py-3 px-4 border-b">Managerial Economics and Financial Analysis</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MEFA.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">6</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">III</td>
-                          <td className="py-3 px-4 border-b">Mathematical Foundation Of Computer Science</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MFCS V20 material.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">7</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">IV</td>
-                          <td className="py-3 px-4 border-b">Design Analysis of Algorithms</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DAA Material.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">8</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">IV</td>
-                          <td className="py-3 px-4 border-b">Java Programming</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Java V20 all units content.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">9</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">IV</td>
-                          <td className="py-3 px-4 border-b">Software Engineering</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SE NOTES.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">10</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">IV</td>
-                          <td className="py-3 px-4 border-b">Statistical Visualization using R Lab</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SVR LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">11</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">V</td>
-                          <td className="py-3 px-4 border-b">Artificial Intelligence</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/AI.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">12</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">V</td>
-                          <td className="py-3 px-4 border-b">Data Mining</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DATA MINING.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">13</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">V</td>
-                          <td className="py-3 px-4 border-b">Web Technologies</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Web_Technologies.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">14</td>
-                          <td className="py-3 px-4 border-b">V20</td>
-                          <td className="py-3 px-4 border-b">VI</td>
-                          <td className="py-3 px-4 border-b">Unified Modeling Language Lab</td>
-                          <td className="py-3 px-4 border-b">
-                            <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/UML LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                          </td>
-                        </tr>
-                      </>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                        </thead>
+                        <tbody>
+                          {regulationGroup.items.map((item: any, itemIndex: number) => (
+                            <tr key={item.id || itemIndex} className="hover:bg-gray-50">
+                              <td className="py-3 px-4 border-b">{itemIndex + 1}</td>
+                              <td className="py-3 px-4 border-b font-medium">{regulationGroup.category}</td>
+                              <td className="py-3 px-4 border-b text-center">
+                                <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm font-medium">
+                                  {item.semester}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4 border-b">
+                                <div className="font-medium text-gray-900">{item.title}</div>
+                                {item.academic_year && (
+                                  <div className="text-xs text-gray-500 mt-1">Batch: {item.academic_year}</div>
+                                )}
+                              </td>
+                              <td className="py-3 px-4 border-b">
+                                <a
+                                  href={item.file_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center px-3 py-1 bg-[#850209] text-white text-sm font-medium rounded-md hover:bg-[#6b0106] transition-colors"
+                                >
+                                  Download
+                                  {item.file_type && (
+                                    <span className="ml-1 text-xs">({item.file_type})</span>
+                                  )}
+                                </a>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <div className="mb-4">
+                    <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <p>No e-resources available at the moment.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      case 'Board of Studies':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <div className="space-y-6">
+              <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+                Board of Studies
+              </h2>
 
-              <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">V18- Subjects</h3>
-              <div className="overflow-x-auto mb-8">
-                <table className="min-w-full bg-white border border-gray-200">
+              {/* Dynamic Board of Studies */}
+              {boardOfStudies.length > 0 ? (
+                <div className="space-y-4">
+                  {boardOfStudies.map((meeting: any, index: number) => (
+                    <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                      <h3 className="text-lg font-semibold mb-2">{meeting.meeting_title}</h3>
+                      {meeting.meeting_date && (
+                        <p className="text-sm text-gray-600 mb-2">
+                          <strong>Date:</strong> {new Date(meeting.meeting_date).toLocaleDateString('en-GB')}
+                        </p>
+                      )}
+                      {meeting.meeting_number && (
+                        <p className="text-sm text-gray-600 mb-2">
+                          <strong>Meeting Number:</strong> {meeting.meeting_number}
+                        </p>
+                      )}
+                      {meeting.description && (
+                        <p className="text-gray-700 mb-3">{meeting.description}</p>
+                      )}
+                      {meeting.document_url && (
+                        <a
+                          href={meeting.document_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block text-[#850209] hover:underline"
+                        >
+                          View Minutes
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                // Fallback static content if API fails
+                <div className="text-center text-gray-600 mb-6">
+                  <p>Board of Studies meetings will be displayed here once data is available.</p>
+                </div>
+              )}
+              <div className="overflow-x-auto">
+                <table className="min-w-full bg-white border border-gray-200 rounded-lg">
                   <thead className="bg-gray-100">
                     <tr>
-                      <th className="py-3 px-4 border-b text-left">S.No</th>
-                      <th className="py-3 px-4 border-b text-left">Regulation</th>
-                      <th className="py-3 px-4 border-b text-left">Sem</th>
-                      <th className="py-3 px-4 border-b text-left">Subject</th>
-                      <th className="py-3 px-4 border-b text-left">PPT</th>
+                      <th className="py-3 px-4 border-b border-gray-200 text-left">S.No</th>
+                      <th className="py-3 px-4 border-b border-gray-200 text-left">Name of the BOS Member</th>
+                      <th className="py-3 px-4 border-b border-gray-200 text-left">Designation</th>
+                      <th className="py-3 px-4 border-b border-gray-200 text-left">Organization</th>
+                      <th className="py-3 px-4 border-b border-gray-200 text-left">Position in JOB</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">1</td>
-                      <td className="py-3 px-4 border-b">V18</td>
-                      <td className="py-3 px-4 border-b">I/II</td>
-                      <td className="py-3 px-4 border-b">Programming in C for Problem Solving</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/cprogrammingppts.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
+                      <td className="py-3 px-4 border-b border-gray-200">1</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Dr. D Jaya Kumari</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Professor & HOD</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Dept of CSE, SVEC</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Chairperson</td>
                     </tr>
                     <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2</td>
-                      <td className="py-3 px-4 border-b">V18</td>
-                      <td className="py-3 px-4 border-b">III</td>
-                      <td className="py-3 px-4 border-b">Object Oriented Programming for Problem Solving</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/ADSPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
+                      <td className="py-3 px-4 border-b border-gray-200">2</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Dr. A Krishna Mohan</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
+                      <td className="py-3 px-4 border-b border-gray-200">JNTUK, Kakinada</td>
+                      <td className="py-3 px-4 border-b border-gray-200">University Nominee</td>
                     </tr>
                     <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">4</td>
-                      <td className="py-3 px-4 border-b">V18</td>
-                      <td className="py-3 px-4 border-b">III</td>
-                      <td className="py-3 px-4 border-b">Digital Electronics</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/DE_Cse_II_Sem.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
+                      <td className="py-3 px-4 border-b border-gray-200">3</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Dr. R.B.V Subramaanyam</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
+                      <td className="py-3 px-4 border-b border-gray-200">NITW</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Academic Expert</td>
                     </tr>
                     <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">5</td>
-                      <td className="py-3 px-4 border-b">V18</td>
-                      <td className="py-3 px-4 border-b">III</td>
-                      <td className="py-3 px-4 border-b">Data Mining</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/III_Sem_DM MATERIAL.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
+                      <td className="py-3 px-4 border-b border-gray-200">4</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Dr. S Pallam Setty</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Andhra University</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Academic Expert</td>
                     </tr>
                     <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">6</td>
-                      <td className="py-3 px-4 border-b">V18</td>
-                      <td className="py-3 px-4 border-b">IV</td>
-                      <td className="py-3 px-4 border-b">Computer Organization</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Computer Organization.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
+                      <td className="py-3 px-4 border-b border-gray-200">5</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Mr. SrinivasaRaju Vuppalapati</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Senior Consultant</td>
+                      <td className="py-3 px-4 border-b border-gray-200">MSR IT Services LLP</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Industry Expert</td>
                     </tr>
                     <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">7</td>
-                      <td className="py-3 px-4 border-b">V18</td>
-                      <td className="py-3 px-4 border-b">IV</td>
-                      <td className="py-3 px-4 border-b">Software Engineering</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/SEPPTs.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
+                      <td className="py-3 px-4 border-b border-gray-200">6</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Mr. Eedala Rambabu</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Member of Technical Staff2</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Amadeus, Bangalore</td>
+                      <td className="py-3 px-4 border-b border-gray-200">Alumni CSE Dept</td>
                     </tr>
                     <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">8</td>
-                      <td className="py-3 px-4 border-b">V18</td>
-                      <td className="py-3 px-4 border-b">IV</td>
-                      <td className="py-3 px-4 border-b">Python Programming</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      <td className="py-3 px-4 border-b border-gray-200">7</td>
+                      <td className="py-3 px-4 border-b border-gray-200" colSpan={2}>
+                        All the Faculty Members in the CSE Dept.
                       </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">9</td>
-                      <td className="py-3 px-4 border-b">V18</td>
-                      <td className="py-3 px-4 border-b">IV</td>
-                      <td className="py-3 px-4 border-b">Java Programming</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Java Materials.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">10</td>
-                      <td className="py-3 px-4 border-b">V18</td>
-                      <td className="py-3 px-4 border-b">IV</td>
-                      <td className="py-3 px-4 border-b">Formal Languages and Automata Theory</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/FLATPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                      </td>
+                      <td className="py-3 px-4 border-b border-gray-200" colSpan={2}>Members in BOS</td>
                     </tr>
                   </tbody>
                 </table>
-              </div>
-            </div>
-
-            );
-
-            case 'Board of Studies':
-            return (
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-              <div className="space-y-6">
-                <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-                  Board of Studies
-                </h2>
-
-                {/* Dynamic Board of Studies */}
-                {boardOfStudies.length > 0 ? (
-                  <div className="space-y-4">
-                    {boardOfStudies.map((meeting: any, index: number) => (
-                      <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <h3 className="text-lg font-semibold mb-2">{meeting.meeting_title}</h3>
-                        {meeting.meeting_date && (
-                          <p className="text-sm text-gray-600 mb-2">
-                            <strong>Date:</strong> {new Date(meeting.meeting_date).toLocaleDateString('en-GB')}
-                          </p>
-                        )}
-                        {meeting.meeting_number && (
-                          <p className="text-sm text-gray-600 mb-2">
-                            <strong>Meeting Number:</strong> {meeting.meeting_number}
-                          </p>
-                        )}
-                        {meeting.description && (
-                          <p className="text-gray-700 mb-3">{meeting.description}</p>
-                        )}
-                        {meeting.document_url && (
-                          <a
-                            href={meeting.document_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block text-[#850209] hover:underline"
-                          >
-                            View Minutes
-                          </a>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  // Fallback static content if API fails
-                  <div className="text-center text-gray-600 mb-6">
-                    <p>Board of Studies meetings will be displayed here once data is available.</p>
-                  </div>
-                )}
-                <div className="overflow-x-auto">
-                  <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="py-3 px-4 border-b border-gray-200 text-left">S.No</th>
-                        <th className="py-3 px-4 border-b border-gray-200 text-left">Name of the BOS Member</th>
-                        <th className="py-3 px-4 border-b border-gray-200 text-left">Designation</th>
-                        <th className="py-3 px-4 border-b border-gray-200 text-left">Organization</th>
-                        <th className="py-3 px-4 border-b border-gray-200 text-left">Position in JOB</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="hover:bg-gray-50">
-                        <td className="py-3 px-4 border-b border-gray-200">1</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Dr. D Jaya Kumari</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Professor & HOD</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Dept of CSE, SVEC</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Chairperson</td>
-                      </tr>
-                      <tr className="hover:bg-gray-50">
-                        <td className="py-3 px-4 border-b border-gray-200">2</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Dr. A Krishna Mohan</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
-                        <td className="py-3 px-4 border-b border-gray-200">JNTUK, Kakinada</td>
-                        <td className="py-3 px-4 border-b border-gray-200">University Nominee</td>
-                      </tr>
-                      <tr className="hover:bg-gray-50">
-                        <td className="py-3 px-4 border-b border-gray-200">3</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Dr. R.B.V Subramaanyam</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
-                        <td className="py-3 px-4 border-b border-gray-200">NITW</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Academic Expert</td>
-                      </tr>
-                      <tr className="hover:bg-gray-50">
-                        <td className="py-3 px-4 border-b border-gray-200">4</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Dr. S Pallam Setty</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Professor of CSE</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Andhra University</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Academic Expert</td>
-                      </tr>
-                      <tr className="hover:bg-gray-50">
-                        <td className="py-3 px-4 border-b border-gray-200">5</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Mr. SrinivasaRaju Vuppalapati</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Senior Consultant</td>
-                        <td className="py-3 px-4 border-b border-gray-200">MSR IT Services LLP</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Industry Expert</td>
-                      </tr>
-                      <tr className="hover:bg-gray-50">
-                        <td className="py-3 px-4 border-b border-gray-200">6</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Mr. Eedala Rambabu</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Member of Technical Staff2</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Amadeus, Bangalore</td>
-                        <td className="py-3 px-4 border-b border-gray-200">Alumni CSE Dept</td>
-                      </tr>
-                      <tr className="hover:bg-gray-50">
-                        <td className="py-3 px-4 border-b border-gray-200">7</td>
-                        <td className="py-3 px-4 border-b border-gray-200" colSpan={2}>
-                          All the Faculty Members in the CSE Dept.
-                        </td>
-                        <td className="py-3 px-4 border-b border-gray-200" colSpan={2}>Members in BOS</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
               </div>
             </div>
 
@@ -1704,7 +1382,7 @@ const CSTDepartment: React.FC = () => {
                 </ul>
               </div>
             </div>
-          </div>
+          </div >
         );
 
       case 'Department Library':
@@ -1819,689 +1497,67 @@ const CSTDepartment: React.FC = () => {
               </table>
             </div>
 
-            <h3 className="text-xl font-semibold text-[#850209] mb-4">
-              B. Interaction with the Industry
-            </h3>
-            <div className="flex justify-center mb-6">
-              <ul className="space-y-4 list-none max-w-3xl">
-                <li className="py-2">
-                  Various Programs organized during Academic Year 2024-25 -
-                  <a
-                    href="https://www.srivasaviengg.ac.in/uploads/csemous/Industry data ( 2024-2025).pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
-                  >
-                    View
-                  </a>
-                </li>
-                <li className="py-2">
-                  Various Programs organized during Academic Year 2023-24 -
-                  <a
-                    href="https://www.srivasaviengg.ac.in/uploads/csemous/Industry%20data%20%202023-24.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
-                  >
-                    View
-                  </a>
-                </li>
-                <li className="py-2">
-                  Various Programs organized during Academic Year 2022-23 -
-                  <a
-                    href="https://www.srivasaviengg.ac.in/uploads/csemous/Industry%20data%20%202022-23.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
-                  >
-                    View
-                  </a>
-                </li>
-                <li className="py-2">
-                  Various Programs organized during Academic Year 2021-22 -
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2021-2022.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
-                  >
-                    View
-                  </a>
-                </li>
-                <li className="py-2">
-                  Various Programs organized during Academic Year 2020-21 -
-                  <a
-                    href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2020-2021.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
-                  >
-                    View
-                  </a>
-                </li>
-              </ul>
-            </div>
+
           </div>
         );
 
-      case 'Physical Facilities':
+      case "Physical Facilities":
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Physical Facilities</h2>
+            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+              Physical Facilities
+            </h2>
 
-            <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Class Rooms</summary>
-                <div className="mt-3 space-y-3">
-                  <div>
-                    <h5 className="text-md font-semibold mb-2">Class Rooms</h5>
-                    <ul className="list-disc pl-6 my-2">
-                      <li>
-                        Class Rooms with ICT Enabled Facilities -{' '}
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Classrooms.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h5 className="text-md font-semibold mb-2">Class Time Tables</h5>
-                    <ul className="list-disc pl-6 my-2 space-y-2">
-                      <li>
-                        Master Timetable A.Y for Sem-I 2025-26 -{' '}
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cst/Master Time Table_2025-26_ III, V, VII SEM _CST.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Master Timetable A.Y for Sem-II 2024-25 -{' '}
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cst/CST_Master%20Time%20Table_2024-25_%20II%20SEM%20_CST%20(1).pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Master Timetable A.Y for Sem-I 2024-25 -{' '}
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cst/CST_Master%20Timetable_A.Y%20for%20Sem-I%202024-25.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Master Timetable A.Y for Sem-II 2023-24 -{' '}
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cst/CST_Master%20Time%20Table_2023-24_%20II%20SEM%20_CST.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Master Timetable A.Y for Sem-I 2023-24 -{' '}
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cst/Master Time Table_2022-23_ III, V, VII SEM _CST.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Master Timetable A.Y for Sem-I 2022-23 -{' '}
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cst/Master Time Table_2022-23_ III, V, VII SEM _CST.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Master Timetable A.Y for Sem-II 2023-24 -{' '}
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/uploads/cst/CST_Master Time Table_2022-23_ II SEM _CST.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Master Timetable A.Y for Sem-I 2022-23 -{' '}
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cst/CST_Master Time Table_A.Y. 2022-23_ I SEM.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Master Timetable A.Y for Sem-II 2021-22 -{' '}
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cst/Master Time Table _CST_II SEM_A.Y 2021-22.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                      <li>
-                        Master Timetable A.Y for Sem-I 2021-22 -{' '}
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cst/Master Time Table _CST_I SEM_A.Y 2021-22.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          View
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </details>
+            <div className="space-y-8">
+              {physicalFacilities?.facilities ? (
+                Object.entries(physicalFacilities.facilities).map(([category, items], catIndex) => {
+                  const facilities = items as any[];
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Seminar Halls</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>
-                    Seminar halls with ICT Enabled Facilities -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Seminar%20Halls.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View
-                    </a>
-                  </li>
-                </ul>
-              </details>
+                  return (
+                    <div key={catIndex} className="space-y-4">
+                      <h3 className="text-2xl font-semibold text-[#850209] capitalize">
+                        {category.replace(/([A-Z])/g, " $1")} {/* camelCase → readable */}
+                      </h3>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Laboratories</summary>
-                <div className="space-y-4">
-                  <p className="mt-3 text-gray-700">
-                    The Department has well equipped labs with the latest Configuration. Total 9 Computer Labs for UG, PG and one research lab consisting a total of 674 systems. The various servers in the server room include Oracle 11g Database Server, Intranet Server (TOMCAT), NPTEL Video/Web Server, MAT Lab Server 2012 R2, Red Hat Linux 5.0 Server, Library Automation Server, A-Mail Server, ECAP Server, LMS Server.
-                  </p>
-                  <p className="text-gray-700">
-                    The college has high speed internet connectivity throughout the campus through a leased line from BSNL with 1Gbps, 500Mbps from Blueifi.
-                  </p>
-                  <p className="text-gray-700">The following Laboratories are available in the department:</p>
+                      {facilities.length > 0 ? (
+                        facilities.map((item, index) => (
+                          <details
+                            key={index}
+                            className="border rounded-lg p-4"
+                            open={index === 0}
+                          >
+                            <summary className="text-lg font-semibold cursor-pointer">
+                              {item.name}
+                            </summary>
 
-                  <div className="space-y-8">
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">James Gosling Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b" rowSpan={3}>James Gosling Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: HP Pro Tower 280 G9<br />
-                                Processor: Intel® Core™ i5-13500 CPU @ 2.50 GHz<br />
-                                16.00GB RAM, 500GB SSD<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 21.5” LED Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Scroll Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">72</td>
-                            </tr>
-                            <tr>
-                              <td className="py-3 px-4 border-b">2</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: ASUS VIVO AIO V222 GAR_V333GA<br />
-                                Processor: Intel® Pentium® Silver J5040<br />
-                                8.00 GB RAM, 256.00 GB SSD<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 21.5” TFT Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">02</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
+
+                            {item.proof_url || item.description?.includes("http") ? (
+                              <a
+                                href={item.proof_url || item.description}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#850209] hover:underline block mt-2"
+                              >
+                                View Document
+                              </a>
+                            ) : null}
+                          </details>
+                        ))
+                      ) : (
+                        <p className="text-center text-gray-500">No data available</p>
+                      )}
                     </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">EF Codd Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b" rowSpan={2}>EF Codd Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: HP Pro Tower 280 G9<br />
-                                Processor: Intel® Core™ i5-12400 CPU @ 2.50 GHz<br />
-                                16.00 GB RAM, 500.00 GB SSD<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 19.5” LED Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">68</td>
-                            </tr>
-                            <tr>
-                              <td className="py-3 px-4 border-b">2</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: Dell Optiplex 3020<br />
-                                Processor: Intel® Core™ i3-9100 CPU @ 3.60 GHz<br />
-                                8.00 GB RAM, 1.00 TB HDD<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 20.5” LED Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">06</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">Linus Torvalds Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b" rowSpan={2}>Linus Torvalds Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: HP Pro Tower 280 G9<br />
-                                Processor: Intel core TM i3-10100 CPU @ 3.64 GHz<br />
-                                8.00 GB RAM, 500.00 GB SSD<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 19.5" LED Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">72</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">PGCP Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b" rowSpan={2}>PGCP Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: Acer Vertion Desktop System<br />
-                                Processor: Intel® Core™ i3-8100 CPU @ 2.65 GHz<br />
-                                8.00 GB RAM, 1.00 TB HDD<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 21.5" LED Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">71</td>
-                            </tr>
-                            <tr>
-                              <td className="py-3 px-4 border-b">2</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: Acer Vertion Desktop System<br />
-                                Processor: Intel® Core™ i5-7400 CPU @ 3.00 GHz<br />
-                                4.00 GB RAM, 1.00 TB HDD<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 19.5" LED Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">02</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">R&D Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b" rowSpan={2}>R&amp;D Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: Acer Vertion Desktop System<br />
-                                Processor: Intel® Core™ i5-7400 CPU @ 3.00 GHz<br />
-                                4.00 GB RAM, 1.00 TB HDD<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 17.5" LED Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">03</td>
-                            </tr>
-                            <tr>
-                              <td className="py-3 px-4 border-b">2</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: Dell 7D49KQR<br />
-                                Processor: Intel® Core™ i5-7400 CPU @ 3.00 GHz<br />
-                                4.00 GB RAM, 1.00 TB HDD<br />
-                                System type: x64-based processor<br />
-                                Monitor: 21.5” LED Monitor<br />
-                                Keyboard: Multimedia keyboard<br />
-                                Mouse: Optical Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">07</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">Yellow Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">Usage</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b">Yellow Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: DELL OPTI PLEX 3070<br />
-                                Processor: Intel Core i3, 9th Gen<br />
-                                8.00 GB RAM, 1 TB Hard Disk<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 20.5” TFT Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Scroll Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">Placements and Training</td>
-                              <td className="py-3 px-4 border-b">72</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">Pink Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">Usage</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b">Pink Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: DELL OPTI PLEX 3070<br />
-                                Processor: Intel Core i3, 9th Gen<br />
-                                8.00 GB RAM, 1 TB Hard Disk<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 20.5” TFT Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Scroll Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">Placements and Training</td>
-                              <td className="py-3 px-4 border-b">72</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">Orange Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">Usage</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b">Orange Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: DELL OPTI PLEX 3070<br />
-                                Processor: Intel Core i3, 9th Gen<br />
-                                8.00 GB RAM, 1 TB Hard Disk<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 20.5” TFT Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Scroll Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">Placements and Training</td>
-                              <td className="py-3 px-4 border-b">72</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">Green Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">Usage</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b">Green Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: DELL OPTI PLEX 3070<br />
-                                Processor: Intel Core i3, 9th Gen<br />
-                                8.00 GB RAM, 1 TB Hard Disk<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 20.5” TFT Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Scroll Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">Placements and Training</td>
-                              <td className="py-3 px-4 border-b">72</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">Brown Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">Usage</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b">Brown Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: DELL OPTI PLEX 3070<br />
-                                Processor: Intel Core i3, 9th Gen<br />
-                                8.00 GB RAM, 1 TB Hard Disk<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 20.5” TFT Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Scroll Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">Placements and Training</td>
-                              <td className="py-3 px-4 border-b">72</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">PG CP Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">Usage</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b">PG CP Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: Acer Vertion I3 Desktop System<br />
-                                Processor: Intel Core i3 -8100, 8th Gen<br />
-                                8 GB DDR4 RAM, 1 TB Hard Disk Drive<br />
-                                Monitor: 21.5” LED Monitor<br />
-                                Keyboard: USB Keyboard<br />
-                                Mouse: USB Optical Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">AJWT, OOPS through C++ Lab</td>
-                              <td className="py-3 px-4 border-b">70</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold my-2">R&amp;D Lab</h3>
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Location</th>
-                              <th className="py-3 px-4 border-b text-left">Usage</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b">R&amp;D Lab</td>
-                              <td className="py-3 px-4 border-b">B-Block, First Floor</td>
-                              <td className="py-3 px-4 border-b">To Carryout Research Activities by Students and Faculty Members</td>
-                              <td className="py-3 px-4 border-b">30</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </details>
+                  );
+                })
+              ) : (
+                <p className="text-center text-gray-500">No data available</p>
+              )}
             </div>
           </div>
         );
+
+
+
       case 'Faculty Development Programs':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg" style={{ borderWidth: 2 }}>
@@ -2668,135 +1724,105 @@ const CSTDepartment: React.FC = () => {
           </div>
         );
       case 'Merit Scholarship/Academic Toppers':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Merit Scholarships and Academic Toppers</h2>
-
-            <h3 className="text-xl font-semibold text-center mb-4">Merit Scholarships / Academic Toppers</h3>
-            <div className="overflow-x-auto mb-8">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Academic Year</th>
-                    <th className="py-3 px-4 border-b text-left">Particulars</th>
-                    <th className="py-3 px-4 border-b text-left">No. of Students Benefited</th>
-                    <th className="py-3 px-4 border-b text-left">Scholarship Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">2023-24</td>
-                    <td className="py-3 px-4 border-b">Academic Toppers</td>
-                    <td className="py-3 px-4 border-b">21</td>
-                    <td className="py-3 px-4 border-b">30750</td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">2022-23</td>
-                    <td className="py-3 px-4 border-b">Academic Toppers</td>
-                    <td className="py-3 px-4 border-b">7</td>
-                    <td className="py-3 px-4 border-b">7500</td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">2021-22</td>
-                    <td className="py-3 px-4 border-b">Academic Toppers</td>
-                    <td className="py-3 px-4 border-b">15</td>
-                    <td className="py-3 px-4 border-b">16250</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <h3 className="text-xl font-semibold text-center mb-4">Image Gallery</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              <img
-                src="https://srivasaviengg.ac.in/uploads/cst/20231014_123258PM_ByGPSMapCamera.jpg"
-                alt="Merit Scholarship Event 1"
-                className="w-full h-auto rounded-lg shadow object-cover"
-              />
-              <img
-                src="https://srivasaviengg.ac.in/uploads/cst/20231014_123634pm_ByGPSMapCamera.jpg"
-                alt="Merit Scholarship Event 2"
-                className="w-full h-auto rounded-lg shadow object-cover"
-              />
-              <img src="https://srivasaviengg.ac.in/images/departments/cst/cstat1.jpeg" alt="Merit Scholarships 1" className="w-full h-auto rounded-lg shadow object-cover" />
-              <img src="https://srivasaviengg.ac.in/images/departments/cst/cstat2.jpeg" alt="Merit Scholarships 2" className="w-full h-auto rounded-lg shadow object-cover" />
-              <img src="https://srivasaviengg.ac.in/images/departments/cst/cstat3.jpeg" alt="Merit Scholarships 3" className="w-full h-auto rounded-lg shadow object-cover" />
-              <img src="https://srivasaviengg.ac.in/images/departments/cst/cstat4.jpeg" alt="Merit Scholarships 4" className="w-full h-auto rounded-lg shadow object-cover" />
-              <img src="https://srivasaviengg.ac.in/images/departments/cst/cstat5.jpeg" alt="Merit Scholarships 5" className="w-full h-auto rounded-lg shadow object-cover" />
-              <img src="https://srivasaviengg.ac.in/images/departments/cst/cstat6.jpeg" alt="Merit Scholarships 6" className="w-full h-auto rounded-lg shadow object-cover" />
-            </div>
-          </div>
-        );
+        return (<div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in"> <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center"> Merit Scholarships and Academic Toppers </h2> <h3 className="text-xl font-semibold text-center mb-4"> Merit Scholarships / Academic Toppers </h3> <div className="overflow-x-auto mb-8"> <table className="min-w-full bg-white border border-gray-200"> <thead className="bg-gray-100"> <tr> <th className="py-3 px-4 border-b text-left">S.No</th> <th className="py-3 px-4 border-b text-left">Academic Year</th> <th className="py-3 px-4 border-b text-left">Particulars</th> <th className="py-3 px-4 border-b text-left">No. of Students Benefited</th> <th className="py-3 px-4 border-b text-left">Scholarship Amount</th> </tr> </thead> <tbody> {scholarships.map((row, index) => (<tr key={row.id} className="hover:bg-gray-50"> <td className="py-3 px-4 border-b">{index + 1}</td> <td className="py-3 px-4 border-b">{row.academic_year}</td> <td className="py-3 px-4 border-b">{row.particulars}</td> <td className="py-3 px-4 border-b">{row.students_benefited}</td> <td className="py-3 px-4 border-b">{row.scholarship_amount}</td> </tr>))} </tbody> </table> </div> <h3 className="text-xl font-semibold text-center mb-4">Image Gallery</h3> <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"> {images.map((img) => (<img key={img.id} src={img.image_url} alt={img.alt_text} className="w-full h-auto rounded-lg shadow object-cover" />))} </div> </div>);
       case 'Extra-Curricular Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Extra-Curricular Activities</h2>
 
             <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Extra-Curricular Activities</summary>
-                <ul className="my-2 list-none text-center space-y-2">
-                  <li>
-                    Extracurricular activities during the Year 2022-23 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202022-23.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                  <li>
-                    Extracurricular activities during the Year 2021-22 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202021-2022.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                  <li>
-                    Extracurricular activities during the Year 2019-20 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202019-2020.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                  <li>
-                    Extracurricular activities during the Year 2018-19 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202018-2019.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                  <li>
-                    Extracurricular activities during the Year 2017-18 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202017-2018.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                </ul>
-              </details>
+              {/* Dynamic Extra-Curricular Activities from API */}
+              {extraCurricularActivities.length > 0 ? (
+                extraCurricularActivities.map((yearGroup: any, index: number) => (
+                  <details key={index} className="border rounded-lg p-4" open={index === 0}>
+                    <summary className="text-lg font-semibold cursor-pointer">
+                      Extra-Curricular Activities - {yearGroup.academic_year}
+                    </summary>
+                    <div className="mt-4 space-y-3">
+                      {yearGroup.items.map((activity: any, actIndex: number) => (
+                        <div key={actIndex} className="border-l-4 border-[#850209] pl-4 py-2">
+                          <h4 className="font-medium text-gray-900 mb-1">{activity.title}</h4>
+                          {activity.publish_date && (
+                            <p className="text-sm text-gray-600 mb-2">
+                              Date: {new Date(activity.publish_date).toLocaleDateString('en-GB')}
+                            </p>
+                          )}
+                          <a
+                            href={activity.document_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#850209] hover:underline text-sm font-medium"
+                          >
+                            View Details →
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </details>
+                ))
+              ) : (
+                // Fallback static content if API fails
+                <details open className="border rounded-lg p-4">
+                  <summary className="text-lg font-semibold cursor-pointer">Extra-Curricular Activities</summary>
+                  <ul className="my-2 list-none text-center space-y-2">
+                    <li>
+                      Extracurricular activities during the Year 2022-23 -{' '}
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202022-23.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                    <li>
+                      Extracurricular activities during the Year 2021-22 -{' '}
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202021-2022.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                    <li>
+                      Extracurricular activities during the Year 2019-20 -{' '}
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202019-2020.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                    <li>
+                      Extracurricular activities during the Year 2018-19 -{' '}
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202018-2019.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                    <li>
+                      Extracurricular activities during the Year 2017-18 -{' '}
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202017-2018.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                  </ul>
+                </details>
+              )}
 
               <details className="border rounded-lg p-4">
                 <summary className="text-lg font-semibold cursor-pointer">Sahaya</summary>
@@ -2898,7 +1924,6 @@ const CSTDepartment: React.FC = () => {
             </div>
           </div>
         );
-
       case 'Technical Association':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -2909,106 +1934,45 @@ const CSTDepartment: React.FC = () => {
             </p>
 
             <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">SCUD Activities during the year 2022-23</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>
-                    SCUD Activities during the year 2022-23 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/SCUD%20summary_22-23.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">SCUD Activities during the year 2021-22</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>
-                    SCUD Activities during the year 2021-22 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/SCUD%20summary_%2021-22.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                </ul>
-              </details>
+              {activities.map((activity) => (
+                <details key={activity.academic_year} className="border rounded-lg p-4" open>
+                  <summary className="text-lg font-semibold cursor-pointer">
+                    {activity.title}
+                  </summary>
+                  <ul className="list-disc pl-6 my-2">
+                    <li>
+                      {activity.title} –{' '}
+                      <a
+                        href={activity.pdf_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                  </ul>
+                </details>
+              ))}
 
               <details className="border rounded-lg p-4">
                 <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
                 <div className="space-y-10 mt-4">
-                  <div>
-                    <h3 className="text-xl font-semibold text-center mb-4">TECHFEST 2K23</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/t.jpeg" alt="TECHFEST 2K23 Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/t1.jpeg" alt="TECHFEST 2K23 Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
+                  {Object.entries(groupedGallery).map(([eventName, images]) => (
+                    <div key={eventName}>
+                      <h3 className="text-xl font-semibold text-center mb-4">{eventName}</h3>
+                      <div className={`grid grid-cols-1 sm:grid-cols-2 ${images.length >= 4 ? 'md:grid-cols-4' : images.length === 3 ? 'md:grid-cols-3' : ''} gap-6`}>
+                        {images.map((img, index) => (
+                          <img
+                            key={index}
+                            src={img.image_url}
+                            alt={img.alt_text}
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                          />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold text-center mb-4">HACKOVERFLOW 2K23</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/t.jpeg" alt="HACKOVERFLOW 2K23 Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/t1.jpeg" alt="HACKOVERFLOW 2K23 Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold text-center mb-4">FRESHER'S 2K22</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/f.jpeg" alt="Freshers 2K22 Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/f1.jpeg" alt="Freshers 2K22 Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/f2.jpeg" alt="Freshers 2K22 Image 3" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/f3.jpeg" alt="Freshers 2K22 Image 4" className="w-full h-auto rounded-lg shadow object-cover" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold text-center mb-4">ENGINEER'S DAY 2K22</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/ed.jpeg" alt="Engineer's Day 2K22 Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/ed1.jpeg" alt="Engineer's Day 2K22 Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold text-center mb-4">FAREWELL 2K22</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/farewell_2k22_1.jpeg" alt="Farewell 2K22 Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/farewell_2k22_2.jpeg" alt="Farewell 2K22 Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/farewell_2k22_3.jpeg" alt="Farewell 2K22 Image 3" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/farewell_2k22_4.jpeg" alt="Farewell 2K22 Image 4" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/farewell_2k22_5.jpeg" alt="Farewell 2K22 Image 5" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/farewell_2k22_6.jpeg" alt="Farewell 2K22 Image 6" className="w-full h-auto rounded-lg shadow object-cover" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold text-center mb-4">HACKOVERFLOW 2K22</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/h.jpeg" alt="Hackoverflow 2K22 Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/h1.jpeg" alt="Hackoverflow 2K22 Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold text-center mb-4">SCUD VERVE 2K22</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/scud1.jpeg" alt="SCUD VERVE 2K22 Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/scud2.jpeg" alt="SCUD VERVE 2K22 Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/scud3.jpeg" alt="SCUD VERVE 2K22 Image 3" className="w-full h-auto rounded-lg shadow object-cover" />
-                      <img src="https://srivasaviengg.ac.in/images/departments/cst/scud4.jpeg" alt="SCUD VERVE 2K22 Image 4" className="w-full h-auto rounded-lg shadow object-cover" />
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </details>
             </div>
@@ -3018,337 +1982,77 @@ const CSTDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Newsletters</h2>
-            <div className="space-y-4">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 12 Issue 4 2022</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 12 Issue 4 2022 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue%204%202022.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 12 Issue 3 2022</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 12 Issue 3 2022 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue3%202022.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 12 Issue 2 2021</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 12 Issue 2 2021 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue2%202021.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 12 Issue 1 2021</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 12 Issue 1 2021 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue1%202021.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 11 Issue 4 2021</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 11 Issue 4 2021 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue4%202021.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 11 Issue 3 2021</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 11 Issue 3 2021 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue3%202021.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 11 Issue 2 2020</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 11 Issue 2 2020 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue2%202020.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 11 Issue 1 2020</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 11 Issue 1 2020 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue1%202020.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 10 Issue 4 2020</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 10 Issue 4 2020 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010_Issue%20_4_%202020.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 10 Issue 3 2020</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 10 Issue 3 2020 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010_Issue%20_3_%202019.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 10 Issue 2 2019</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 10 Issue 2 2019 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010_Issue%20_2_%202019.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 10 Issue 1 2019</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 10 Issue 1 2019 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010%20_Issue_1_%202019.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 9 Issue 4 2019</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 9 Issue 4 2019 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/vol%209%20issue%204.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 9 Issue 3 2019</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 9 Issue 3 2019 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/vol%209%20issue%203.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 9 Issue 2 2018</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 9 Issue 2 2018 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/vol%209%20issue%202.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 9 Issue 1 2018</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 9 Issue 1 2018 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/vol%209%20issue%201.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 8 Issue 4(b) 2018</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 8 Issue 4(b) 2018 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/vol%208%20issue%204(b).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 8 Issue 4(a) 2018</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 8 Issue 4(a) 2018 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/vol%208%20issue%204(a).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 8 Issue 3 2017</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 8 Issue 3 2017 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/oct-17(1).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 8 Issue 2 2017</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 8 Issue 2 2017 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/july-2017.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 8 Issue 1 2017</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 8 Issue 1 2017 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/april.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 7 Issue 4 2017</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 7 Issue 4 2017 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Jan-17.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 7 Issue 3 2016</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 7 Issue 3 2016 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/oct-16.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 7 Issue 2 2016</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 7 Issue 2 2016 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Jul-16.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 7 Issue 1 2016</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 7 Issue 1 2016 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/Apr-16.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 6 Issue 4 2016</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 6 Issue 4 2016 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/csenl_Jan-16.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 6 Issue 3 2015</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 6 Issue 3 2015 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/csenl_Oct-15.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 6 Issue 2 2015</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 6 Issue 2 2015 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/csenl_Jul-15.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 6 Issue 1 2015</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 6 Issue 1 2015 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/csenl_Apr-15.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 5 Issue 4 2015</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 5 Issue 4 2015 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/acsenl_Jan-15.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 5 Issue 3 2014</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 5 Issue 3 2014 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/acsenl_Oct-14.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 5 Issue 2 2014</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 5 Issue 2 2014 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/acsenl_Jul-14.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Newsletter Volume 5 Issue 1 2014</summary>
-                <ul className="list-none pl-0 my-2">
-                  <li className="p-2">
-                    Newsletter Volume 5 Issue 1 2014 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/acsenl_Apr14.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a>
-                  </li>
-                </ul>
-              </details>
-            </div>
+            {newslettersLoading ? (
+              <div className="text-center py-8">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#850209]"></div>
+                <p className="mt-2 text-gray-600">Loading newsletters...</p>
+              </div>
+            ) : newsletters.length === 0 ? (
+              <div className="text-center py-8 text-gray-600">
+                <Rss className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <p>No newsletters available at the moment.</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-300 rounded-lg overflow-hidden">
+                  <thead className="bg-[#850209] text-white">
+                    <tr>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">S.No</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Title</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Volume</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Issue</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Year</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Publish Date</th>
+                      <th className="border border-gray-300 px-4 py-3 text-center font-semibold">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {newsletters.map((newsletter: any, index: number) => (
+                      <tr key={newsletter.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="border border-gray-300 px-4 py-3 text-center font-medium">
+                          {index + 1}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-3">
+                          <div className="font-medium text-gray-900">{newsletter.title}</div>
+                          {newsletter.description && (
+                            <div className="text-sm text-gray-600 mt-1">{newsletter.description}</div>
+                          )}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-3 text-center">
+                          <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm font-medium">
+                            Vol. {newsletter.volume || 'N/A'}
+                          </span>
+                        </td>
+                        <td className="border border-gray-300 px-4 py-3 text-center">
+                          <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-medium">
+                            Issue {newsletter.issue || 'N/A'}
+                          </span>
+                        </td>
+                        <td className="border border-gray-300 px-4 py-3 text-center">
+                          <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-sm font-medium">
+                            {newsletter.academic_year || 'N/A'}
+                          </span>
+                        </td>
+                        <td className="border border-gray-300 px-4 py-3 text-center text-sm text-gray-600">
+                          {newsletter.publish_date ? new Date(newsletter.publish_date).toLocaleDateString() : 'N/A'}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-3 text-center">
+                          <a
+                            href={newsletter.document_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center px-3 py-2 bg-[#850209] text-white text-sm font-medium rounded-md hover:bg-[#6b0106] transition-colors"
+                          >
+                            <ExternalLink className="w-4 h-4 mr-1" />
+                            View PDF
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         );
       case 'Extra-Curricular Activities':
@@ -3357,66 +2061,98 @@ const CSTDepartment: React.FC = () => {
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Extra-Curricular Activities</h2>
 
             <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Extra-Curricular Activities</summary>
-                <ul className="my-2 list-none text-center space-y-2">
-                  <li>
-                    Extracurricular activities during the Year 2022-23 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202022-23.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                  <li>
-                    Extracurricular activities during the Year 2021-22 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202021-2022.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                  <li>
-                    Extracurricular activities during the Year 2019-20 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202019-2020.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                  <li>
-                    Extracurricular activities during the Year 2018-19 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202018-2019.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                  <li>
-                    Extracurricular activities during the Year 2017-18 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202017-2018.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                </ul>
-              </details>
+              {/* Dynamic Extra-Curricular Activities from API */}
+              {extraCurricularActivities.length > 0 ? (
+                extraCurricularActivities.map((yearGroup: any, index: number) => (
+                  <details key={index} className="border rounded-lg p-4" open={index === 0}>
+                    <summary className="text-lg font-semibold cursor-pointer">
+                      Extra-Curricular Activities - {yearGroup.academic_year}
+                    </summary>
+                    <div className="mt-4 space-y-3">
+                      {yearGroup.items.map((activity: any, actIndex: number) => (
+                        <div key={actIndex} className="border-l-4 border-[#850209] pl-4 py-2">
+                          <h4 className="font-medium text-gray-900 mb-1">{activity.title}</h4>
+                          {activity.publish_date && (
+                            <p className="text-sm text-gray-600 mb-2">
+                              Date: {new Date(activity.publish_date).toLocaleDateString('en-GB')}
+                            </p>
+                          )}
+                          <a
+                            href={activity.document_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#850209] hover:underline text-sm font-medium"
+                          >
+                            View Details →
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </details>
+                ))
+              ) : (
+                // Fallback static content if API fails
+                <details open className="border rounded-lg p-4">
+                  <summary className="text-lg font-semibold cursor-pointer">Extra-Curricular Activities</summary>
+                  <ul className="my-2 list-none text-center space-y-2">
+                    <li>
+                      Extracurricular activities during the Year 2022-23 -{' '}
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202022-23.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                    <li>
+                      Extracurricular activities during the Year 2021-22 -{' '}
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202021-2022.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                    <li>
+                      Extracurricular activities during the Year 2019-20 -{' '}
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202019-2020.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                    <li>
+                      Extracurricular activities during the Year 2018-19 -{' '}
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202018-2019.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                    <li>
+                      Extracurricular activities during the Year 2017-18 -{' '}
+                      <a
+                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202017-2018.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                  </ul>
+                </details>
+              )}
 
               <details className="border rounded-lg p-4">
                 <summary className="text-lg font-semibold cursor-pointer">Sahaya</summary>
@@ -3507,12 +2243,12 @@ const CSTDepartment: React.FC = () => {
               <details className="border rounded-lg p-4">
                 <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4">
-                  <img src="/images/departments/cst/ec.jpeg" alt="Extra-Curricular Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
-                  <img src="/images/departments/cst/ec1.jpg" alt="Extra-Curricular Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
-                  <img src="/images/departments/cst/ec2.jpeg" alt="Extra-Curricular Image 3" className="w-full h-auto rounded-lg shadow object-cover" />
-                  <img src="/images/departments/cst/e3.jpeg" alt="Extra-Curricular Image 4" className="w-full h-auto rounded-lg shadow object-cover" />
-                  <img src="/images/departments/cst/e4.jpg" alt="Extra-Curricular Image 5" className="w-full h-auto rounded-lg shadow object-cover" />
-                  <img src="/images/departments/cst/e5.jpg" alt="Extra-Curricular Image 6" className="w-full h-auto rounded-lg shadow object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/cst/ec.jpeg" alt="Extra-Curricular Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/cst/ec1.jpg" alt="Extra-Curricular Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/cst/ec2.jpeg" alt="Extra-Curricular Image 3" className="w-full h-auto rounded-lg shadow object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/cst/e3.jpeg" alt="Extra-Curricular Image 4" className="w-full h-auto rounded-lg shadow object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/cst/e4.jpg" alt="Extra-Curricular Image 5" className="w-full h-auto rounded-lg shadow object-cover" />
+                  <img src="https://srivasaviengg.ac.in/images/departments/cst/e5.jpg" alt="Extra-Curricular Image 6" className="w-full h-auto rounded-lg shadow object-cover" />
                 </div>
               </details>
             </div>
@@ -3565,199 +2301,170 @@ const CSTDepartment: React.FC = () => {
                 </p>
               </div>
 
+              {/* Dynamic Hackathons Table from API */}
               <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-200">
                   <thead className="bg-[#850209] text-white">
                     <tr>
                       <th className="py-3 px-4 border-b text-left">Academic Year</th>
+                      <th className="py-3 px-4 border-b text-left">Event Title</th>
                       <th className="py-3 px-4 border-b text-left">For Brochure</th>
                       <th className="py-3 px-4 border-b text-left">For Winners List</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2022-23</td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackoverflow%20banner_2022_23.png"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners_2022-23.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2021-22</td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/broacher_2021_22.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners_2021-22.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2019-20</td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Brouchure.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners_2019-20.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">2018-19</td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/City%20Digi%20@Hack%202K18.jpg"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                      <td className="py-3 px-4 border-b">
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20winners_2018-19.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
-                        >
-                          Click Here
-                        </a>
-                      </td>
-                    </tr>
+                    {hackathons.length > 0 ? (
+                      hackathons.map((hackathon: any, index: number) => (
+                        <tr key={hackathon.id || index} className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b font-medium">{hackathon.academic_year}</td>
+                          <td className="py-3 px-4 border-b">
+                            <div>
+                              <div className="font-medium text-gray-900">{hackathon.title}</div>
+                              {hackathon.description && (
+                                <div className="text-sm text-gray-600 mt-1">{hackathon.description}</div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="py-3 px-4 border-b">
+                            {hackathon.brochure_url ? (
+                              <a
+                                href={hackathon.brochure_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#850209] hover:underline font-medium"
+                              >
+                                Click Here
+                              </a>
+                            ) : (
+                              <span className="text-gray-400">Not Available</span>
+                            )}
+                          </td>
+                          <td className="py-3 px-4 border-b">
+                            {hackathon.winners_url ? (
+                              <a
+                                href={hackathon.winners_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#850209] hover:underline font-medium"
+                              >
+                                Click Here
+                              </a>
+                            ) : (
+                              <span className="text-gray-400">Not Available</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={4} className="py-8 text-center text-gray-500">
+                          No hackathons data available
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
 
+              {/* Dynamic Gallery from API */}
               <div>
-                <h3 className="text-2xl font-semibold text-center mb-2">Gallery</h3>
-                <div className="text-center text-lg font-medium mb-4">Hackathon 2022</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <img
-                      src="https://srivasaviengg.ac.in/images/departments/cst/Hackthon_2022_23%20(1).jpg"
-                      alt="Hackathon 2022 Image 1"
-                      className="w-full h-auto rounded-lg shadow object-cover"
-                    />
-                    <img
-                      src="https://srivasaviengg.ac.in/images/departments/cst/Hackthon%202021_22%20(1).jpeg"
-                      alt="Hackathon 2021-22 Image 1"
-                      className="w-full h-auto rounded-lg shadow object-cover"
-                    />
+                <h3 className="text-2xl font-semibold text-center mb-4">Gallery</h3>
+                {hackathonGallery.length > 0 ? (
+                  // Group gallery images by academic year
+                  (() => {
+                    const groupedGallery = hackathons.reduce((acc: any, hackathon: any) => {
+                      const year = hackathon.academic_year;
+                      const hackathonImages = hackathonGallery.filter((img: any) => img.academic_year === year);
+                      if (hackathonImages.length > 0) {
+                        acc[year] = { hackathon, images: hackathonImages };
+                      }
+                      return acc;
+                    }, {});
+
+                    return Object.entries(groupedGallery).map(([year, data]: [string, any]) => (
+                      <div key={year} className="mb-8">
+                        <div className="text-center text-lg font-medium mb-4">
+                          {data.hackathon.title} ({year})
+                        </div>
+                        <div className={`grid grid-cols-1 ${data.images.length === 1 ? 'md:grid-cols-1' : 'md:grid-cols-2'} gap-6`}>
+                          {data.images.map((img: any, index: number) => (
+                            <div key={index} className="space-y-2">
+                              <img
+                                src={img.image_url}
+                                alt={img.alt_text}
+                                className="w-full h-auto rounded-lg shadow object-cover"
+                              />
+                              {img.caption && (
+                                <p className="text-sm text-gray-600 text-center italic">{img.caption}</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ));
+                  })()
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    No gallery images available
                   </div>
-                  <div className="space-y-4">
-                    <img
-                      src="https://srivasaviengg.ac.in/images/departments/cst/Hackthon%202021_22%20(1).jpeg"
-                      alt="Hackathon 2021-22 Image 2"
-                      className="w-full h-auto rounded-lg shadow object-cover"
-                    />
-                    <img
-                      src="https://srivasaviengg.ac.in/images/departments/cst/Hackthon_2022_23%20(2)%20(1).jpg"
-                      alt="Hackathon 2022 Image 2"
-                      className="w-full h-auto rounded-lg shadow object-cover"
-                    />
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
         );
-
       case 'Training Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Training Activities</h2>
 
             <div className="space-y-6">
-              <details open className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Training Activities during the Academic Year 2022-2023</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>
-                    Training Activities during the Academic Year 2022-2023 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/tt_2022-23.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                </ul>
-              </details>
+              {tactivities.map((tactivity) => (
+                <details key={tactivity.academic_year} className="border rounded-lg p-4" open>
+                  <summary className="text-lg font-semibold cursor-pointer">
+                    {tactivity.title}
+                  </summary>
+                  <ul className="list-disc pl-6 my-2">
+                    <li>
 
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Training Activities during the Academic Year 2021-2022</summary>
-                <ul className="list-disc pl-6 my-2">
-                  <li>
-                    Training Activities during the Academic Year 2021-2022 -{' '}
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/cst/tt_2021-22.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
-                    >
-                      View More
-                    </a>
-                  </li>
-                </ul>
-              </details>
+                      <a
+                        href={tactivity.pdf_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#850209] hover:underline"
+                      >
+                        View More
+                      </a>
+                    </li>
+                  </ul>
+                </details>
+              ))}
 
               <details className="border rounded-lg p-4">
                 <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
-                  <img src="https://srivasaviengg.ac.in/images/departments/cst/g.jpg" alt="Training Activity Image 1" className="w-full h-auto rounded-lg shadow object-cover" />
-                  <img src="https://srivasaviengg.ac.in/images/departments/cst/g1.jpg" alt="Training Activity Image 2" className="w-full h-auto rounded-lg shadow object-cover" />
-                  <img src="https://srivasaviengg.ac.in/images/departments/cst/g2.jpg" alt="Training Activity Image 3" className="w-full h-auto rounded-lg shadow object-cover" />
-                  <img src="https://srivasaviengg.ac.in/images/departments/cst/g3.jpg" alt="Training Activity Image 4" className="w-full h-auto rounded-lg shadow object-cover" />
+                  {tgallery.map((img, index) => (
+                    <img
+                      key={index}
+                      src={img.image_url}
+                      alt={img.alt_text}
+                      className="w-full h-auto rounded-lg shadow object-cover"
+                    />
+                  ))}
                 </div>
               </details>
             </div>
           </div>
         );
+
       case "Handbooks": {
+        // Group by academic_year (or any property you want)
+        const grouped = (handbooks || []).reduce((acc: Record<string, any[]>, hb: any) => {
+          const key = hb.academic_year || "Others";
+          if (!acc[key]) acc[key] = [];
+          acc[key].push(hb);
+          return acc;
+        }, {});
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
@@ -3792,6 +2499,7 @@ const CSTDepartment: React.FC = () => {
           </div>
         );
       }
+
 
       case 'Placements':
         return (
@@ -3981,16 +2689,16 @@ const CSTDepartment: React.FC = () => {
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="CSE-AI Department"
+        title="CST Department"
         buttonLabel="Department Menu"
-      >
-        {/* Main Content */}
-        <div className="container mx-auto px-4 py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            {renderContent()}
-          </div>
+      />
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+          {renderContent()}
         </div>
-      </FixedSidebar>
+      </div>
     </div>
   );
 };

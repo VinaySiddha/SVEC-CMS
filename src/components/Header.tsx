@@ -304,6 +304,17 @@ const departments = [
               )}
             </div>
 
+            {/* Super Admin Access */}
+            <div className="relative">
+              <Link
+                href="/super-admin/login"
+                className={`flex items-center ${textColorClass} hover:text-primary transition-all duration-300 hover:scale-105 nav-underline group`}
+              >
+                <Shield className="w-4 h-4 mr-1 group-hover:text-blue-600" />
+                Super Admin
+              </Link>
+            </div>
+
             <div className="relative">
               <button
                 className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}

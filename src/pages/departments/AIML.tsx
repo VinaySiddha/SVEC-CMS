@@ -30,6 +30,13 @@ const AIMLDepartment: React.FC = () => {
   const [extra, setExtra] = React.useState<{documents:any[]; clubs:any[]}>({documents:[], clubs:[]});
   const [hackathons, setHackathons] = React.useState<{documents: Doc[]; galleries: Gallery[]}>({documents: [], galleries: []});
   const [handbooks, setHandbooks] = React.useState<any[]>([]);
+  const [acdemictoppersgal,setAcademicToppersGal] = React.useState<{galleries: Gallery[]}>({galleries: []});
+            React.useEffect(() => {
+                fetch('/api/aiml/academic-toppers-gallery?dept=aiml')
+                  .then(res => res.json())
+                  .then(setAcademicToppersGal)
+                  .catch(console.error);
+              }, []);
 
   React.useEffect(() => {
     fetch('/api/aiml/aiml-handbooks?dept=aiml')
@@ -307,7 +314,7 @@ React.useEffect(() => {
                 href="https://srivasaviengg.ac.in/uploads/aiml/COs.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
+                className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 flex items-center"
               >
                 <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
               </a>
@@ -450,8 +457,24 @@ React.useEffect(() => {
               </tbody>
             </table>
           </div>
+           {/* ---------- Image Gallery ---------- */}
+
+            <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
+        {acdemictoppersgal.galleries.map(g => (
+          <div key={g.id} className="container mx-auto mb-8">
+            <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
+            <div className="flex flex-wrap justify-center items-center gap-4">
+              {g.images.map(img => (
+                <div key={img.id} className="w-full md:w-1/3 flex justify-center">
+                  <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
+                       className="img-fluid m-3 rounded shadow" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
         </div>
-      </div>
+       </div>
           </div>
         );
       case 'Technical Association':
@@ -596,94 +619,31 @@ React.useEffect(() => {
               <div className="mt-12">
                 <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
 
-                {/* Department Profile Navigation - Grid Layout */}
-                <div className="mb-8">
-                  {/* Row 1: Department, Vision */}
-                  <div className="flex justify-center gap-4 mb-4">
-                    <button
-                      onClick={() => setActiveDeptTab('Department')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Department
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('Vision')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Vision
-                    </button>
+                {/* Desktop Navigation Tabs */}
+                <div className="hidden md:block relative mb-8">
+                  <div className="flex flex-wrap justify-center gap-2 mb-6">
+                    {sections.map((section) => (
+                      <button
+                        key={section}
+                        onClick={() => setActiveDeptTab(section)}
+                        className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                          ? 'bg-[#B22222] text-white shadow-lg'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        {section === 'SalientFeatures' ? 'Salient Features' : section}
+                      </button>
+                    ))}
                   </div>
+                </div>
 
-                  {/* Row 2: Mission, PEOs, POs */}
-                  <div className="flex justify-center gap-4 mb-4">
-                    <button
-                      onClick={() => setActiveDeptTab('Mission')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Mission
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('PEOs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      PEOs
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('POs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      POs
-                    </button>
-                  </div>
-
-                  {/* Row 3: PSOs, COs */}
-                  <div className="flex justify-center gap-4 mb-4">
-                    <button
-                      onClick={() => setActiveDeptTab('PSOs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      PSOs
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('COs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      COs
-                    </button>
-                  </div>
-
-                  {/* Row 4: Salient Features (centered) */}
-                  <div className="flex justify-center">
-                    <button
-                      onClick={() => setActiveDeptTab('SalientFeatures')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Salient Features
-                    </button>
+                {/* Mobile Section Display */}
+                <div className="md:hidden relative mb-8">
+                  <div className="text-center mb-6">
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                    </h3>
+                    <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
                   </div>
                 </div>
 
@@ -1336,38 +1296,38 @@ React.useEffect(() => {
         return (
           <div id="mous" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
-      <h3 className="text-xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
+                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
+                <h3 className="text-xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
 
-      <div className="overflow-x-auto flex justify-center">
-        <table className="min-w-max bg-white border border-gray-200 table-auto text-sm text-left text-gray-500">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="py-3 px-4 border-b">S.No</th>
-              <th className="py-3 px-4 border-b">Organization Name</th>
-              <th className="py-3 px-4 border-b">From</th>
-              <th className="py-3 px-4 border-b">To</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mous.map((mou: any, index: number) => (
-              <tr key={mou.id ?? index}>
-                <td className="py-3 px-4 border-b">{index + 1}</td>
-                <td className="py-3 px-4 border-b">{mou.organization_name}</td>
-                <td className="py-3 px-4 border-b">
-                  {new Date(mou.start_date).toLocaleDateString("en-GB")}
-                </td>
-                <td className="py-3 px-4 border-b">
-                  {mou.end_date
-                    ? new Date(mou.end_date).toLocaleDateString("en-GB")
-                    : "Till Date"}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+                <div className="overflow-x-auto flex justify-center">
+                  <table className="min-w-max bg-white border border-gray-200 table-auto text-sm text-left text-gray-500">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="py-3 px-4 border-b">S.No</th>
+                        <th className="py-3 px-4 border-b">Organization Name</th>
+                        <th className="py-3 px-4 border-b">From</th>
+                        <th className="py-3 px-4 border-b">To</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {mous.map((mou: any, index: number) => (
+                        <tr key={mou.id ?? index}>
+                          <td className="py-3 px-4 border-b">{index + 1}</td>
+                          <td className="py-3 px-4 border-b">{mou.organization_name}</td>
+                          <td className="py-3 px-4 border-b">
+                            {new Date(mou.start_date).toLocaleDateString("en-GB")}
+                          </td>
+                          <td className="py-3 px-4 border-b">
+                            {mou.end_date
+                              ? new Date(mou.end_date).toLocaleDateString("en-GB")
+                              : "Till Date"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
           </div>
         );
       case 'Faculty Achievements':
@@ -1504,14 +1464,14 @@ React.useEffect(() => {
         onItemClick={setActiveContent}
         title="AI & ML Department"
         buttonLabel="Department Menu"
-      >
-        {/* Main Content */}
-        <div className="py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            {renderContent()}
-          </div>
+      />
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+          {renderContent()}
         </div>
-      </FixedSidebar>
+      </div>
     </div>
   );
 };

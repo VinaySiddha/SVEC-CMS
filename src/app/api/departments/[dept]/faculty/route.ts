@@ -7,7 +7,6 @@ export async function POST(
   { params }: { params: { dept: string } }
 ) {
   try {
-    // Authentication check
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
       return NextResponse.json({ error: 'No authorization header' }, { status: 401 });
@@ -24,19 +23,14 @@ export async function POST(
 
     // Check if user has permission for this department
     if (decoded.role !== 'admin' && decoded.department !== dept) {
-      return NextResponse.json({ error: 'Access denied to this department' }, { status: 403 });
-    }
-
-    // Check if user has write permissions
-    if (decoded.role !== 'admin' && decoded.role !== 'dept') {
-      return NextResponse.json({ error: 'Insufficient permissions for this operation' }, { status: 403 });
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
 
     const data = await request.json();
 
     // Insert faculty member
     const result = await query(`
-      INSERT INTO faculty_profiles (
+      INSERT INT O faculty_profiles (
         name, email, qualification, designation, specialization,
         experience_years, profile_url, bio, research_interests,
         publications, dept
@@ -97,6 +91,11 @@ export async function GET(
     // Fetch faculty members (only approved ones for regular users)
     let query_str = 'SELECT * FROM faculty_profiles WHERE dept = ?';
     let queryParams = [dept];
+    
+    // Show only approved faculty for department users, all for admins
+    if (decoded.role === 'dept') {
+      query_str += ' AND (status = "approved" OR status IS NULL)';
+    }
     
     query_str += ' ORDER BY name';
     

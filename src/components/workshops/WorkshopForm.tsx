@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { Workshop, workshopSchema } from "@/utils/workshops-utils";
 import { z } from "zod";
 

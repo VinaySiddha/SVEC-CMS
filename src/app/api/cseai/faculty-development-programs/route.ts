@@ -8,22 +8,28 @@ export async function GET(request: NextRequest) {
         const programType = searchParams.get('program_type');
 
         let sql = `
-      SELECT id, dept, title, year, file_url 
+      SELECT program_title, program_type, description, faculty_name, 
+             start_date, end_date, duration, institution, document_url, display_order 
       FROM faculty_development_programs 
-      WHERE dept = ? 
+      WHERE department = ? AND is_active = TRUE 
     `;
         const params = [department];
 
-        sql += ` ORDER BY year DESC, title ASC`;
+        if (programType) {
+            sql += ` AND program_type = ?`;
+            params.push(programType);
+        }
+
+        sql += ` ORDER BY program_type, start_date DESC, display_order ASC`;
 
         const programs = await query(sql, params);
 
-        // Group by year
+        // Group by program type
         const groupedPrograms = programs.reduce((acc: any, program: any) => {
-            if (!acc[program.year]) {
-                acc[program.year] = [];
+            if (!acc[program.program_type]) {
+                acc[program.program_type] = [];
             }
-            acc[program.year].push(program);
+            acc[program.program_type].push(program);
             return acc;
         }, {});
 

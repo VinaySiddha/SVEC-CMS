@@ -1,79 +1,27 @@
 const mysql = require('mysql2/promise');
 
-const mbaFdpData = [
+const fdpData = [
     {
-        dept: "mba",
-        type: "attended",
-        year: "2022-23",
-        title: "FDPs attended during the Academic Year 2022-23",
-        file_url: "https://srivasaviengg.ac.in/uploads/mba/FDP%202022-23.pdf"
+        dept: "cai",
+        title: "AI in Healthcare",
+        faculty_name: "Dr. G. Loshma",
+        organizer: "IIT Hyderabad",
+        date_from: "2024-06-10",
+        date_to: "2024-06-14",
+        certificate_url: "https://srivasaviengg.ac.in/uploads/cai/FDP_AI_Healthcare.pdf"
     },
     {
-        dept: "mba",
-        type: "attended",
-        year: "2021-22",
-        title: "FDPs attended during the Academic Year 2021-22",
-        file_url: "https://srivasaviengg.ac.in/uploads/mba/FDP%202021-22.pdf"
-    },
-    {
-        dept: "mba",
-        type: "attended",
-        year: "2020-21",
-        title: "FDPs attended during the Academic Year 2020-21",
-        file_url: "https://srivasaviengg.ac.in/uploads/mba/FDP%202020-21.pdf"
-    },
-    {
-        dept: "mba",
-        type: "attended",
-        year: "2019-20",
-        title: "FDPs attended during the Academic Year 2019-20",
-        file_url: "https://srivasaviengg.ac.in/uploads/mba/FDP%202019-20.pdf"
-    },
-    {
-        dept: "mba",
-        type: "attended",
-        year: "2018-19",
-        title: "FDPs attended during the Academic Year 2018-19",
-        file_url: "https://srivasaviengg.ac.in/uploads/mba/FDP%202018-19.pdf"
-    },
-    {
-        dept: "mba",
-        type: "attended",
-        year: "2017-18",
-        title: "FDPs attended during the Academic Year 2017-18",
-        file_url: "https://srivasaviengg.ac.in/uploads/mba/FDP%202017-18.pdf"
-    },
-    {
-        dept: "mba",
-        type: "attended",
-        year: "2016-17",
-        title: "FDPs attended during the Academic Year 2016-17",
-        file_url: "https://srivasaviengg.ac.in/uploads/mba/FDP%202016-17.pdf"
-    },
-    {
-        dept: "mba",
-        type: "attended",
-        year: "2015-16",
-        title: "FDPs attended during the Academic Year 2015-16",
-        file_url: "https://srivasaviengg.ac.in/uploads/mba/FDP%202015-16.pdf"
-    },
-    {
-        dept: "mba",
-        type: "attended",
-        year: "2014-15",
-        title: "FDPs attended during the Academic Year 2014-15",
-        file_url: "https://srivasaviengg.ac.in/uploads/mba/FDP%202014-15.pdf"
-    },
-    {
-        dept: "mba",
-        type: "attended",
-        year: "2013-14",
-        title: "FDPs attended during the Academic Year 2013-14",
-        file_url: "https://srivasaviengg.ac.in/uploads/mba/FDP%202013-14.pdf"
+        dept: "cai",
+        title: "Deep Learning Workshop",
+        faculty_name: "Mr. R.L. Phani Kumar",
+        organizer: "NIT Warangal",
+        date_from: "2024-07-01",
+        date_to: "2024-07-05",
+        certificate_url: "https://srivasaviengg.ac.in/uploads/cai/FDP_DL_Workshop.pdf"
     }
 ];
 
-async function insertMBAFDPs() {
+async function insertFDPs() {
     const connection = await mysql.createConnection({
         host: '62.72.31.209',
         user: 'cmsuser',
@@ -84,31 +32,37 @@ async function insertMBAFDPs() {
     try {
         console.log('Connected to database');
 
-        for (const fdp of mbaFdpData) {
+        // Example: Clear existing FDPs for CAI dept (optional)
+        // await connection.execute('DELETE FROM faculty_development_programs WHERE dept = ?', ['cai']);
+        // console.log('Cleared existing FDPs for CAI');
+
+        for (const fdp of fdpData) {
             try {
                 await connection.execute(`
           INSERT INTO faculty_development_programs 
-          (dept, type, year, title, file_url, created_at) 
-          VALUES (?, ?, ?, ?, ?, NOW())
+          (dept, title, faculty_name, organizer, date_from, date_to, certificate_url, created_at) 
+          VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
         `, [
                     fdp.dept,
-                    fdp.type,
-                    fdp.year,
                     fdp.title,
-                    fdp.file_url
+                    fdp.faculty_name,
+                    fdp.organizer,
+                    fdp.date_from,
+                    fdp.date_to,
+                    fdp.certificate_url
                 ]);
-                console.log(`Inserted MBA FDP: ${fdp.year}`);
+                console.log(`Inserted FDP: ${fdp.title} (${fdp.faculty_name})`);
             } catch (e) {
-                console.log(`Error inserting MBA FDP ${fdp.year}:`, e.message);
+                console.log(`Error inserting FDP ${fdp.title}:`, e.message);
             }
         }
 
-        console.log("✅ MBA FDP data inserted successfully!");
+        console.log("✅ FDP data inserted successfully!");
     } catch (error) {
-        console.error("❌ Error inserting MBA FDPs:", error);
+        console.error("❌ Error inserting FDPs:", error);
     } finally {
         await connection.end();
     }
 }
 
-insertMBAFDPs();
+insertFDPs();

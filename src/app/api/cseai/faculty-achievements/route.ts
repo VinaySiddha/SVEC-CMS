@@ -9,25 +9,33 @@ export async function GET(request: NextRequest) {
         const achievementType = searchParams.get('achievement_type');
 
         let sql = `
-      SELECT title, year, proof_url
+      SELECT faculty_name, achievement_type, title, description, 
+             achievement_date, awarding_body, document_url, display_order 
       FROM faculty_achievements 
-      WHERE dept = ? 
+      WHERE department = ? AND is_active = TRUE 
     `;
         const params = [department];
 
-        sql += ` ORDER BY year DESC, title ASC`;
+        if (facultyName) {
+            sql += ` AND faculty_name = ?`;
+            params.push(facultyName);
+        }
+
+        if (achievementType) {
+            sql += ` AND achievement_type = ?`;
+            params.push(achievementType);
+        }
+
+        sql += ` ORDER BY faculty_name, achievement_date DESC, display_order ASC`;
 
         const achievements = await query(sql, params);
 
-        // Group by title
+        // Group by faculty name
         const groupedAchievements = achievements.reduce((acc: any, achievement: any) => {
-            if (!acc[achievement.title]) {
-                acc[achievement.title] = [];
+            if (!acc[achievement.faculty_name]) {
+                acc[achievement.faculty_name] = [];
             }
-            acc[achievement.title].push({
-                year: achievement.year,
-                url: achievement.proof_url
-            });
+            acc[achievement.faculty_name].push(achievement);
             return acc;
         }, {});
 

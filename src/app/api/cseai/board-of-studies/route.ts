@@ -6,12 +6,17 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url);
         const department = searchParams.get('dept') || 'cseai';
 
-        // Return empty data since board_of_studies table doesn't exist yet
-        const meetings: any[] = [];
+        const boardMeetings = await query(`
+      SELECT meeting_title, meeting_date, meeting_number, description, 
+             document_url, display_order 
+      FROM board_of_studies 
+      WHERE department = ? AND is_active = TRUE 
+      ORDER BY meeting_date DESC, display_order ASC
+    `, [department]);
 
         return NextResponse.json({
             success: true,
-            data: meetings
+            data: boardMeetings
         });
     } catch (error) {
         console.error('Error fetching board of studies:', error);

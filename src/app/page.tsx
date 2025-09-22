@@ -236,7 +236,7 @@ const Home: React.FC = () => {
                 </div>
 
                 <h3 className="font-bold text-center text-lg group-hover:text-primary transition-colors duration-300 relative z-10">{item.name}</h3>
-                {item.subtitle && <p className="text-xs text-muted-foreground mt-1 group-hover:text-primary/70 relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-500">{item.subtitle}</p>}
+                {item.subtitle && <p className="text-xs text-muted-foreground mt-1 group-hover:text-primary/70 transition-colors duration-300 relative z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">{item.subtitle}</p>}
               </div>
             ))}
           </div>
