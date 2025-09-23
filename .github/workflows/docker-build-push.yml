@@ -144,6 +144,6 @@ jobs:
           username: root
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /root/svec-cms
+            cd /root/srivasaviengg.ac.in
             docker-compose pull
             docker-compose up -d
