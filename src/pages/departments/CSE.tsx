@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
 
@@ -55,6 +56,7 @@ interface DepartmentData {
 }
 
 const CSEDepartment: React.FC = () => {
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
@@ -7543,7 +7545,12 @@ const CSEDepartment: React.FC = () => {
                 <p className="text-red-600 font-medium mb-2">Error Loading Data</p>
                 <p className="text-gray-600">{error}</p>
                 <button 
-                  onClick={() => window.location.reload()} 
+                  onClick={() => {
+                    // Reset error state and reload data
+                    setError(null);
+                    setLoading(true);
+                    router.refresh();
+                  }} 
                   className="mt-4 px-4 py-2 bg-[#850209] text-white rounded hover:bg-[#660000] transition-colors"
                 >
                   Reload Page

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -29,6 +30,7 @@ interface TestResults {
 }
 
 const SuperAdminSystemTest = () => {
+  const router = useRouter();
   const [testing, setTesting] = useState(false);
   const [systemStatus, setSystemStatus] = useState<SystemStatus>({
     database: false,
@@ -275,7 +277,7 @@ const SuperAdminSystemTest = () => {
           {allSystemsOperational && (
             <Button 
               variant="outline"
-              onClick={() => window.location.href = '/super-admin/data-management'}
+              onClick={() => router.push('/super-admin/data-management')}
               className="flex items-center gap-2"
             >
               <TrendingUp className="h-4 w-4" />
@@ -285,7 +287,7 @@ const SuperAdminSystemTest = () => {
           
           <Button 
             variant="outline"
-            onClick={() => window.location.href = '/super-admin/credentials'}
+            onClick={() => router.push('/super-admin/credentials')}
             className="flex items-center gap-2"
           >
             <Users className="h-4 w-4" />
