@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Award, Users, BookOpen, Globe, Target, Eye, Heart, ArrowRight, Menu, ChevronRight, X } from 'lucide-react';
 import Link from 'next/link';
 import content from '../content/about.json';
 
 const About: React.FC = () => {
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Sidebar navigation items from the image
@@ -133,7 +135,8 @@ const About: React.FC = () => {
                     onClick={() => {
                       // Handle navigation to specific page
                       if (item === 'Contact Us') {
-                        window.location.href = '/contact';
+                        // Use Next.js navigation instead
+                        router.push('/contact');
                       } else {
                         // Handle other navigation items
                         console.log(`Navigate to ${item}`);

@@ -320,98 +320,8 @@ const MBADepartment: React.FC = () => {
 
             {/* Department Profile Tab Navigation */}
             <div className="mt-12">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
 
-              {/* Department Profile Navigation - Grid Layout */}
-              <div className="mb-8">
-                {/* Row 1: Department, Vision */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('Department')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Department
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('Vision')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Vision
-                  </button>
-                </div>
-
-                {/* Row 2: Mission, PEOs, POs */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('Mission')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Mission
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('PEOs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PEOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('POs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    POs
-                  </button>
-                </div>
-
-                {/* Row 3: PSOs, COs */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('PSOs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PSOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('COs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    COs
-                  </button>
-                </div>
-
-                {/* Row 4: Salient Features (centered) */}
-                <div className="flex justify-center">
-                  <button
-                    onClick={() => setActiveDeptTab('SalientFeatures')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Salient Features
-                  </button>
-                </div>
-              </div>
+              
 
               <div className="mt-4">
                 {renderDeptTabContent()}
@@ -745,6 +655,7 @@ const MBADepartment: React.FC = () => {
             </div>
           </div>
         );
+        
       case 'Student Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -1182,11 +1093,11 @@ const MBADepartment: React.FC = () => {
         buttonLabel="Department Menu"
       >
         {/* Main Content */}
-        <div className="container mx-auto px-4 py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+        {/* <div className="container mx-auto px-4 py-8"> */}
+          {/* <div className="bg-white rounded-lg shadow-lg p-6 md:p-8"> */}
             {renderContent()}
-          </div>
-        </div>
+          {/* </div> */}
+        {/* </div> */}
       </FixedSidebar>
     </div>
   );

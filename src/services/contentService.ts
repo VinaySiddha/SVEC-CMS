@@ -1,39 +1,8 @@
 
-import { db } from '@/lib/firebase';
-import { collection, getDocs, enableNetwork, disableNetwork } from 'firebase/firestore';
+// Static content service (Firebase removed)
+// This service provides static content for the home page
 
-// Retry utility function
-async function retryWithExponentialBackoff<T>(
-  operation: () => Promise<T>,
-  maxRetries: number = 3,
-  baseDelay: number = 1000
-): Promise<T> {
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    try {
-      return await operation();
-    } catch (error: any) {
-      if (attempt === maxRetries) {
-        throw error;
-      }
-      
-      // Only retry on network/connection errors
-      if (error?.code === 'unavailable' || error?.code === 'deadline-exceeded' || 
-          error?.message?.includes('Failed to establish connection') ||
-          error?.message?.includes('net::ERR_ABORTED')) {
-        const delay = baseDelay * Math.pow(2, attempt);
-        console.warn(`Firebase operation failed (attempt ${attempt + 1}/${maxRetries + 1}), retrying in ${delay}ms...`, error);
-        await new Promise(resolve => setTimeout(resolve, delay));
-        continue;
-      }
-      
-      // Don't retry on other types of errors (auth, permission, etc.)
-      throw error;
-    }
-  }
-  throw new Error('Maximum retries exceeded');
-}
-
-// Default fallback content
+// Default content for the home page
 const DEFAULT_HOME_CONTENT = {
   stats: [
     { "icon": "Users", "label": "Students", "value": "10000+" },
@@ -64,48 +33,6 @@ const DEFAULT_HOME_CONTENT = {
 };
 
 export async function getHomePageContent() {
-  try {
-    console.log('Attempting to fetch home page content from Firestore...');
-    
-    // Try to enable network in case it's disabled
-    try {
-      await enableNetwork(db);
-    } catch (networkError) {
-      console.warn('Network enable failed (may already be enabled):', networkError);
-    }
-
-    const operation = async () => {
-      const contentCollection = collection(db, 'homePageContent');
-      return await getDocs(contentCollection);
-    };
-
-    const querySnapshot = await retryWithExponentialBackoff(operation, 2, 1000);
-    
-    if (querySnapshot.empty) {
-      console.log('No documents found in homePageContent collection. Using default content.');
-      return DEFAULT_HOME_CONTENT;
-    }
-    
-    // Assuming a single document holds all home page content
-    const docData = querySnapshot.docs[0].data();
-    console.log('Successfully fetched home page content from Firestore');
-    
-    return {
-      stats: docData.stats || DEFAULT_HOME_CONTENT.stats,
-      quickLinks: docData.quickLinks || DEFAULT_HOME_CONTENT.quickLinks,
-      news: docData.news || DEFAULT_HOME_CONTENT.news
-    };
-
-  } catch (error: any) {
-    console.error("Error fetching home page content:", error);
-    
-    // Check if it's a Firebase-specific error
-    if (error?.code) {
-      console.error(`Firebase error code: ${error.code}, message: ${error.message}`);
-    }
-    
-    // Always return default content to prevent UI breaks
-    console.log('Falling back to default content due to Firebase error');
-    return DEFAULT_HOME_CONTENT;
-  }
+  console.log('Returning static home page content');
+  return DEFAULT_HOME_CONTENT;
 }
