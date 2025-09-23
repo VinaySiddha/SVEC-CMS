@@ -105,7 +105,7 @@ const FAQPage: React.FC = () => {
 
       <div className="min-h-screen bg-gray-50">
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white py-16">
+        <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] text-white py-16">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Frequently Asked Questions
@@ -260,7 +260,7 @@ const FAQPage: React.FC = () => {
             <div className="mt-8">
               <Link 
                 href="/Contact" 
-                className="inline-flex items-center gap-2 bg-[#B22222] text-white px-6 py-3 rounded-lg hover:bg-[#8B0000] transition-colors duration-200"
+                className="inline-flex items-center gap-2 bg-[#B22222] text-white px-6 py-3 rounded-lg hover:bg-[#B22222] transition-colors duration-200"
               >
                 Visit Contact Page
                 <ExternalLink className="w-4 h-4" />

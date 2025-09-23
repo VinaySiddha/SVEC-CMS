@@ -1,0 +1,478 @@
+"use client"
+
+import React, { useState, useEffect, useRef } from 'react'
+import {
+  Brain,
+  BookOpen,
+  Award,
+  Users,
+  Briefcase,
+  FileText,
+  Activity,
+  Phone,
+  HardHat,
+  TrendingUp,
+  Presentation,
+  Trophy,
+  Handshake,
+  Building,
+  ChevronRight,
+  Home,
+  Menu,
+  X,
+  Ch      {/* Tooltip that follows cursor for collapsed sidebar */}
+      {tooltip.visible && (
+        <div
+          className="fixed px-2 py-1 bg-gray-800 text-white text-xs rounded pointer-events-none whitespace-nowrap z-[100] shadow-md"
+          style={{
+            left: `${tooltip.x}px`,
+            top: `${tooltip.y}px`,
+            transform: 'translateY(-50%)',
+            opacity: 1
+          }}
+        >
+          {tooltip.text}
+        </div>
+      )}
+      
+      <div className="flex pt-[72px] h-screen overflow-hidden">
+        {/* Left Fixed Sidebar - Completely isolated scrolling */}
+        <aside 
+          ref={sidebarRef}
+          className={`department-sidebar fixed left-0 top-[72px] h-[calc(100vh-72px)] ${isSidebarCollapsed ? 'w-16' : 'w-60'} border-r border-gray-200 overflow-y-auto hidden md:block shadow-sm transition-all duration-300`}
+          style={{ backgroundColor: COLORS.LIGHT }}
+        >
+          <div className="py-5 px-4">
+            <div className={`flex items-center gap-2 mb-5 px-1 ${isSidebarCollapsed ? 'justify-center' : ''}`}>
+              <Home className="h-4 w-4" style={{ color: COLORS.PRIMARY }} />
+              {!isSidebarCollapsed && <h3 className="text-sm font-semibold" style={{ color: COLORS.TEXT_DARK }}>Department Menu</h3>}
+            </div>t,
+  ChevronRight as ChevronRightIcon,
+  ArrowLeft,
+  ArrowRight
+} from 'lucide-react'
+
+interface SidebarItem {
+  id: string
+  label: string
+  icon: React.ReactNode
+}
+
+interface DepartmentSidebarProps {
+  items: SidebarItem[]
+  activeItem: string
+  onItemClick: (itemId: string) => void
+  title: string
+  children: React.ReactNode
+}
+
+// Define color palette based on the image
+const COLORS = {
+  PRIMARY: '#CE0000', // Deep red (primary)
+  SECONDARY: '#F47521', // Orange (secondary)
+  TERTIARY: '#FBB03B', // Golden yellow (tertiary)
+  LIGHT: '#FEF2E0', // Cream/pale yellow (background/light elements)
+  TEXT_DARK: '#2D2D2D', // Dark text color
+  TEXT_LIGHT: '#FFFFFF' // Light text color
+};
+
+const DepartmentSidebar: React.FC<DepartmentSidebarProps> = ({
+  items,
+  activeItem,
+  onItemClick,
+  title,
+  children,
+}) => {
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [tooltip, setTooltip] = useState({ visible: false, text: '', x: 0, y: 0 });
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
+  // Track scroll position for header shadow
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
+  // Toggle sidebar function
+  const toggleSidebar = () => {
+    setSidebarCollapsed(!isSidebarCollapsed);
+    setTooltip({ visible: false, text: '', x: 0, y: 0 });
+  };
+  
+  // Handle tooltip display
+  const handleItemHover = (e: React.MouseEvent, text: string, show: boolean) => {
+    if (!isSidebarCollapsed) return;
+    
+    if (show) {
+      // Calculate position based on sidebar position and mouse position
+      const sidebarRect = sidebarRef.current?.getBoundingClientRect();
+      const rightEdge = sidebarRect ? sidebarRect.right : 60;
+      setTooltip({ 
+        visible: true, 
+        text, 
+        x: rightEdge + 10, // 10px to the right of sidebar
+        y: e.clientY 
+      });
+    } else {
+      setTooltip({ visible: false, text: '', x: 0, y: 0 });
+    }
+  };
+  return (
+    <>
+      <style jsx global>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        .department-nav-item {
+          transition: all 0.2s ease;
+          border-radius: 4px;
+        }
+        
+        .department-nav-item:hover:not(.active) {
+          background-color: rgba(178, 34, 34, 0.08);
+          transform: translateX(3px);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .department-nav-item.active {
+          background-color: #B22222;
+          color: white;
+          box-shadow: 0 2px 8px rgba(178, 34, 34, 0.25);
+        }
+        
+        .department-nav-item:hover svg {
+          transform: scale(1.15);
+          transition: transform 0.2s ease;
+          color: #B22222;
+        }
+        
+        /* Prevent body scrolling */
+        body {
+          overflow: hidden;
+          height: 100vh;
+        }
+        
+        /* Custom scrollbar for sidebar */
+        .department-sidebar::-webkit-scrollbar {
+          width: 5px;
+        }
+        
+        .department-sidebar::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+        
+        .department-sidebar::-webkit-scrollbar-thumb {
+          background: rgba(178, 34, 34, 0.3);
+          border-radius: 10px;
+        }
+        
+        .department-sidebar::-webkit-scrollbar-thumb:hover {
+          background: rgba(178, 34, 34, 0.5);
+        }
+        
+        /* Custom scrollbar for main content */
+        main::-webkit-scrollbar {
+          width: 6px;
+        }
+        
+        main::-webkit-scrollbar-track {
+          background: #f9f9f9;
+        }
+        
+        main::-webkit-scrollbar-thumb {
+          background: rgba(178, 34, 34, 0.2);
+          border-radius: 10px;
+        }
+        
+        main::-webkit-scrollbar-thumb:hover {
+          background: rgba(178, 34, 34, 0.4);
+        }
+        
+        /* Prevent body scrolling when modal is open */
+        body.modal-open {
+          overflow: hidden;
+        }
+        
+        /* Ensure consistent content size */
+        .animate-fade-in {
+          animation: fadeIn 0.3s ease;
+          min-height: 400px;
+        }
+        
+        /* Enhanced hover effects */
+        .department-nav-item {
+          position: relative;
+          overflow: visible;
+        }
+        
+        .department-nav-item:hover::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: 3px;
+          background-color: #B22222;
+          opacity: 0.8;
+        }
+        
+        /* Tooltip animations */
+        @keyframes fadeInTooltip {
+          from { opacity: 0; transform: translateX(-10px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .tooltip-text {
+          animation: fadeInTooltip 0.2s ease forwards;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+      `}</style>
+      
+      {/* Main fixed college header */}
+      <div className="w-full fixed top-0 z-50 bg-white shadow-sm">
+        <div className="container mx-auto flex items-center justify-between py-2 px-4">
+          <a href="/" className="flex items-center gap-2">
+            <img src="/logo.png" alt="Sri Vasavi" className="h-14 w-14 object-contain" />
+            <div>
+              <h1 className="text-xl font-bold">Sri Vasavi</h1>
+              <p className="text-xs text-gray-600">Engineering College</p>
+            </div>
+          </a>
+          
+          <nav className="hidden md:flex items-center space-x-4">
+            <a href="/" className="px-3 py-2 text-sm">Home</a>
+            <a href="/about" className="px-3 py-2 text-sm">About</a>
+            <a href="/admissions" className="px-3 py-2 text-sm">Admissions</a>
+            <a href="/academics" className="px-3 py-2 text-sm">Academics</a>
+            <a href="/placements" className="px-3 py-2 text-sm">Placements</a>
+            <a href="/contact" className="px-3 py-2 text-sm">Contact</a>
+            <div className="relative group">
+              <button className="px-3 py-2 text-sm flex items-center gap-1">
+                Administration
+                <ChevronRight className="h-3 w-3 rotate-90" />
+              </button>
+            </div>
+            <div className="relative group">
+              <button className="px-3 py-2 text-sm flex items-center gap-1">
+                More
+                <ChevronRight className="h-3 w-3 rotate-90" />
+              </button>
+            </div>
+            <div className="relative group">
+              <button className="px-3 py-2 text-sm flex items-center gap-1">
+                Departments
+                <ChevronRight className="h-3 w-3 rotate-90" />
+              </button>
+            </div>
+          </nav>
+          
+          <div className="flex items-center gap-2">
+            <a 
+              href="/e-cap" 
+              className="hidden md:block bg-black text-white text-sm font-medium px-4 py-2 rounded"
+            >
+              E-CAP
+            </a>
+            
+            <button 
+              onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+              className="md:hidden p-2 text-gray-600"
+            >
+              <Menu size={20} />
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      {/* Mobile navigation overlay */}
+      {isMobileNavOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden">
+          <div className="bg-white h-full w-3/4 max-w-xs p-4 shadow-xl animate-in">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-lg font-bold">Menu</h2>
+              <button 
+                onClick={() => setIsMobileNavOpen(false)}
+                className="p-2 text-gray-600"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <a href="/" className="block py-2 border-b">Home</a>
+              <a href="/about" className="block py-2 border-b">About</a>
+              <a href="/admissions" className="block py-2 border-b">Admissions</a>
+              <a href="/academics" className="block py-2 border-b">Academics</a>
+              <a href="/placements" className="block py-2 border-b">Placements</a>
+              <a href="/contact" className="block py-2 border-b">Contact</a>
+              <button className="flex items-center justify-between w-full py-2 border-b">
+                Administration
+                <ChevronRight size={16} />
+              </button>
+              <button className="flex items-center justify-between w-full py-2 border-b">
+                More
+                <ChevronRight size={16} />
+              </button>
+              <button className="flex items-center justify-between w-full py-2 border-b">
+                Departments
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      <div className="flex pt-[72px] h-screen overflow-hidden">
+        {/* Left Fixed Sidebar - Completely isolated scrolling - Collapsible */}
+        <aside className={`department-sidebar fixed left-0 top-[72px] h-[calc(100vh-72px)] ${isSidebarCollapsed ? 'w-16' : 'w-60'} bg-white border-r border-gray-200 overflow-y-auto hidden md:block shadow-sm transition-all duration-300`}>
+          <div className="py-5 px-4">
+            <div className={`flex items-center gap-2 mb-5 px-1 ${isSidebarCollapsed ? 'justify-center' : ''}`}>
+              <Home className="h-4 w-4 text-[#B22222]" />
+              {!isSidebarCollapsed && <h3 className="text-sm font-semibold text-gray-700">Department Menu</h3>}
+            </div>
+            
+            {items.map(item => (
+              <button
+                key={item.id}
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent default scrolling behavior
+                  e.stopPropagation(); // Stop event propagation
+                  onItemClick(item.id);
+                  
+                  // Scroll to top of content area when changing sections
+                  const mainContent = document.querySelector('main');
+                  if (mainContent) mainContent.scrollTop = 0;
+                }}
+                onMouseEnter={(e) => handleItemHover(e, item.label, true)}
+                onMouseLeave={() => handleItemHover({} as React.MouseEvent, '', false)}
+                className={`department-nav-item group flex items-center w-full text-left ${isSidebarCollapsed ? 'justify-center' : 'px-4'} py-3 mb-2 text-sm transition-all duration-200 relative`}
+                style={{
+                  backgroundColor: activeItem === item.id ? COLORS.PRIMARY : 'transparent',
+                  color: activeItem === item.id ? COLORS.TEXT_LIGHT : COLORS.TEXT_DARK
+                }}
+              >
+                <span className={`${isSidebarCollapsed ? '' : 'mr-3'} flex-shrink-0 transition-transform`}>{item.icon}</span>
+                {!isSidebarCollapsed && <span className="truncate font-medium">{item.label}</span>}
+                {!isSidebarCollapsed && activeItem === item.id && (
+                  <ChevronRightIcon className="ml-auto h-4 w-4" />
+                )}
+              </button>
+            ))}
+          </div>
+        </aside>
+        
+        {/* Mobile Department Menu Button */}
+        <div className="md:hidden fixed bottom-4 left-4 z-40">
+          <button
+            onClick={() => setIsMobileNavOpen(true)}
+            className="bg-[#B22222] text-white p-3 rounded-full shadow-lg flex items-center justify-center"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
+        
+        {/* Floating Sidebar Toggle Button (Desktop) */}
+        <div className="hidden md:block fixed bottom-4 left-4 z-40">
+          <button
+            onClick={toggleSidebar}
+            className="bg-[#B22222] text-white p-3 rounded-full shadow-lg flex items-center justify-center hover:bg-[#8B1919] transition-all duration-200 hover:shadow-xl hover:scale-110"
+            title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          >
+            {isSidebarCollapsed ? <ArrowRight className="h-5 w-5" /> : <ArrowLeft className="h-5 w-5" />}
+          </button>
+        </div>
+
+        {/* Mobile Department Sidebar Overlay */}
+        {isMobileNavOpen && (
+          <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-50">
+            <div className="bg-white h-full w-3/4 max-w-xs p-4 shadow-xl animate-in overflow-y-auto">
+              <div className="flex justify-between items-center mb-6 sticky top-0 bg-white pt-2 pb-4 z-10">
+                <h2 className="text-lg font-bold text-[#B22222]">{title}</h2>
+                <button 
+                  onClick={() => setIsMobileNavOpen(false)}
+                  className="p-2 text-gray-600"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              
+              <div className="space-y-1">
+                {items.map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      onItemClick(item.id);
+                      setIsMobileNavOpen(false);
+                    }}
+                    className={`flex items-center w-full text-left px-4 py-3 rounded-md text-sm ${
+                      activeItem === item.id 
+                        ? 'bg-[#B22222] text-white' 
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <span className="mr-3">{item.icon}</span>
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Main Content Area - Only this scrolls, adjusts based on sidebar state */}
+        <main className={`flex-1 ml-0 ${isSidebarCollapsed ? 'md:ml-16' : 'md:ml-60'} overflow-y-auto h-[calc(100vh-72px)] flex flex-col transition-all duration-300`} id="departmentContentArea">
+          {/* Department Header Banner - Sticky within scrollable area */}
+          <div className="bg-[#B22222] text-white py-8 px-6 w-full sticky top-0 z-10 shadow-md">
+            <div className="max-w-5xl mx-auto">
+              <h1 className="text-2xl md:text-3xl font-bold text-center">Department of Artificial Intelligence & Machine Learning</h1>
+              <p className="text-center mt-2 text-sm md:text-base">Innovating the future through AI and Machine Learning excellence</p>
+            </div>
+          </div>
+          
+          {/* Content Area - Scrollable including footer */}
+          <div className="max-w-5xl mx-auto p-4 md:p-6 w-full">
+            {children}
+          </div>
+          
+          {/* Footer */}
+          <footer className="mt-12 bg-gray-900 text-gray-300 w-full">
+            <div className="container mx-auto px-4 py-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="bg-white rounded-full p-1 flex items-center justify-center">
+                      <img
+                        src="/vasavi_logo.png"
+                        alt="Sri Vasavi Engineering College Logo"
+                        className="w-10 h-10 object-contain"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white">Sri Vasavi</h3>
+                      <p className="text-sm text-gray-400">Engineering College</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row items-center justify-between">
+                <p className="text-sm text-gray-500 mb-4 md:mb-0">
+                  © {new Date().getFullYear()} Sri Vasavi Engineering College. All rights reserved.
+                </p>
+              </div>
+            </div>
+          </footer>
+        </main>
+      </div>
+    </>
+  )
+}
+
+export { DepartmentSidebar }

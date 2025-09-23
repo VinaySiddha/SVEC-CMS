@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
 // Interfaces for typed data
 interface Faculty {
@@ -169,7 +169,7 @@ fetch('/api/cstcse/eresources')
               onwards with a present intake of 12 seats.
             </p>
 
-            <h4 className="text-xl font-bold text-[#850209] mb-4">Courses Offered</h4>
+            <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-700 mb-4 border border-gray-200 rounded-lg">
                 <thead className="text-xs bg-gray-50 uppercase text-gray-700">
@@ -336,7 +336,7 @@ fetch('/api/cstcse/eresources')
    case 'Student Achievements':
 return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Student Achievements</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
       <div className="space-y-4">
         {achievements.length > 0 ? (
           achievements.map((item) => (
@@ -347,7 +347,7 @@ return (
               <div className="nav-content mt-4">
                 {item.description && <p className="mb-2">{item.description}</p>}
                 {item.fileUrl && (
-                  <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">
+                  <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">
                     View More
                   </a>
                 )}
@@ -368,7 +368,7 @@ return (
 case 'Hackathons':{
   <div>
 
-  <h3 className="text-2xl font-semibold text-[#7f1d1d] mb-4 text-center">Hackathons Conducted</h3>
+  <h3 className="text-2xl font-semibold text-[#B22222] mb-4 text-center">Hackathons Conducted</h3>
   <div className="flex justify-center mb-8">
     <div className="overflow-x-auto w-full">
       {hackathonsData.length > 0 ? (
@@ -388,12 +388,12 @@ case 'Hackathons':{
                 <td className="py-3 px-4 border-b font-medium">{hackathon.academic_year}</td>
                 <td className="py-3 px-4 border-b">
                   {hackathon.brochure_url ? (
-                    <a href={hackathon.brochure_url} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View Brochure</a>
+                    <a href={hackathon.brochure_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View Brochure</a>
                   ) : 'N/A'}
                 </td>
                 <td className="py-3 px-4 border-b">
                   {hackathon.winners_url ? (
-                    <a href={hackathon.winners_url} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View Winners</a>
+                    <a href={hackathon.winners_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View Winners</a>
                   ) : 'N/A'}
                 </td>
               </tr>
@@ -411,7 +411,7 @@ case 'Hackathons':{
 
   {/* Gallery Section */}
   <div className="mt-12">
-    <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">Gallery</h3>
+    <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Gallery</h3>
     {hackathonsData.map(hackathon => (
       <div key={hackathon.id} className="mb-8">
         <h4 className="text-xl font-medium text-center mb-6">Hackathon {hackathon.academic_year}</h4>
@@ -442,11 +442,11 @@ const eresourcesGrouped = eresources.reduce((acc, item) => {
 
 return (
   <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-    <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">e-Resources</h2>
+    <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">e-Resources</h2>
     {/* ...static intro text... */}
     {Object.entries(eresourcesGrouped).map(([regulation, items]) => (
       <div key={regulation} className="mb-8">
-        <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">{regulation}- Subjects</h3>
+        <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">{regulation}- Subjects</h3>
         <div className="overflow-x-auto mb-8">
           <table className="min-w-full bg-white border border-gray-200">
             <thead className="bg-gray-100">
@@ -467,7 +467,7 @@ return (
                   <td className="py-3 px-4 border-b">{item.subject}</td>
                   <td className="py-3 px-4 border-b">
                     {item.ppt_url ? (
-                      <a href={item.ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                      <a href={item.ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">Download</a>
                     ) : 'N/A'}
                   </td>
                 </tr>
@@ -484,7 +484,7 @@ return (
 case 'Department Library':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Department Library
             </h2>
             <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
@@ -510,7 +510,7 @@ case 'Department Library':
             {/* Stats cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
-                <h5 className="text-lg font-semibold text-center text-[#850209] mb-2">No. of Titles</h5>
+                <h5 className="text-lg font-semibold text-center text-[#B22222] mb-2">No. of Titles</h5>
                 <p className="text-2xl font-bold text-red-600 text-center">455</p>
               </div>
               <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
@@ -521,12 +521,12 @@ case 'Department Library':
 
             {/* Faculty Incharge Details */}
             <div className="flex flex-col items-center">
-              <h3 className="text-xl font-bold text-[#850209] mb-4">Faculty Incharge</h3>
+              <h3 className="text-xl font-bold text-[#B22222] mb-4">Faculty Incharge</h3>
               <ul className="text-center space-y-2 list-none">
                 <li className="text-lg font-medium">Mrs. A. Naga Jyothi, Asst. Professor</li>
                 <li className="text-lg">Phone: 08818-284355</li>
                 <li className="text-lg">
-                  E-mail: <a href="mailto:nagajyothi.cse@srivasaviengg.ac.in" className="text-[#850209] hover:underline">nagajyothi.cse@srivasaviengg.ac.in</a>
+                  E-mail: <a href="mailto:nagajyothi.cse@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">nagajyothi.cse@srivasaviengg.ac.in</a>
                 </li>
               </ul>
             </div>
@@ -665,7 +665,7 @@ case 'Department Library':
                 {/* Settings Panel */}
                 <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
                   {/* Panel Header */}
-                  <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] p-4 border-b border-gray-700">
+                  <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
@@ -702,7 +702,7 @@ case 'Department Library':
                               setSettingsPanelOpen(false);
                             }}
                             className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                              ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                              ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
                               : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                               }`}
                           >
@@ -754,8 +754,8 @@ case 'Department Library':
             {/* Floating Settings Button - Mobile Only */}
             <button
               onClick={() => setSettingsPanelOpen(true)}
-              className="fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-              title="Department Navigation"
+              className="fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+              title="Computer Science Engineering Department"
             >
               <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -1091,12 +1091,12 @@ case 'Department Library':
       case 'Faculty Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Faculty Achievements
             </h2>
             <div className="mt-4">
               <details open>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Journal Publications</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Journal Publications</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -1105,7 +1105,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/Journal publications 2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1116,7 +1116,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Faculty%20Publications%202023-24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1127,7 +1127,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Faculty%20Publications%202022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1138,7 +1138,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Faculty%20Publications%202021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1149,7 +1149,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Faculty%20Publications%202020-21.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1160,7 +1160,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Faculty%20Publications%202019-20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1171,7 +1171,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/2018-19-pub.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1182,7 +1182,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/2017-18-pub.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1193,7 +1193,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/2016-17-pub.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1204,7 +1204,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/2015-16-pub.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1215,7 +1215,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/2014-15.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1226,7 +1226,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/2013-14.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1237,7 +1237,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/2012-13.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1249,7 +1249,7 @@ case 'Department Library':
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Conferences</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Conferences</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -1258,7 +1258,7 @@ case 'Department Library':
                         href="https://www.srivasaviengg.ac.in/uploads/Conferences 2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1269,7 +1269,7 @@ case 'Department Library':
                         href="https://www.srivasaviengg.ac.in/uploads/cse_faculty_conferences_2023_24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1280,7 +1280,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2022_23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1291,7 +1291,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2021_22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1302,7 +1302,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2020_21.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1313,7 +1313,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2019_20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1324,7 +1324,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2018_19.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1335,7 +1335,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2016_17.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1346,7 +1346,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2015_16.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1357,7 +1357,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2014_15.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1369,7 +1369,7 @@ case 'Department Library':
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Book Publications</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Book Publications</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -1378,7 +1378,7 @@ case 'Department Library':
                         href="https://www.srivasaviengg.ac.in/uploads/Books & chapters_ 2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1389,7 +1389,7 @@ case 'Department Library':
                         href="https://www.srivasaviengg.ac.in/uploads/Books & chapters_ 2023-24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1400,7 +1400,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/Books & chapters_ 2022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1411,7 +1411,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/Books & chapters_ 2020-21.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1422,7 +1422,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2019_20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1433,7 +1433,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/Books & chapters_ 2018-19.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1445,7 +1445,7 @@ case 'Department Library':
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Certifications</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Certifications</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -1454,7 +1454,7 @@ case 'Department Library':
                         href="https://www.srivasaviengg.ac.in/uploads/Certifications in A.Y 2024-2025.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1465,7 +1465,7 @@ case 'Department Library':
                         href="https://www.srivasaviengg.ac.in/uploads/Certifications%202023-2024%20by%20Faculty.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1476,7 +1476,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Certifications%20done%20by%20the%20faculty%20during%20the%20A.Y%202022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1487,7 +1487,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Certifications%20done%20by%20the%20faculty%20during%20the%20A.Y%202021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1498,7 +1498,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/certifications%202020-2021_CSE.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1509,7 +1509,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Certifications%20done%20by%20the%20faculty%20during%20the%20A.Y.%202019-20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1520,7 +1520,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Certifications%20done%20by%20the%20faculty%20during%20the%20A.Y.%20%202018-19.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1541,7 +1541,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/Patents  Details-2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1552,7 +1552,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Patents%20summary%202023-24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1563,7 +1563,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/Patents 2022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1574,7 +1574,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Patents%20summary%202021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1585,7 +1585,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Patents%20summary%202020-21.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1596,7 +1596,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Patents%20summary%202019-20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1608,7 +1608,7 @@ case 'Department Library':
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Research Supervisors</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Research Supervisors</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -1617,7 +1617,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_Details%20of%20Research%20guides.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1638,7 +1638,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/Faculty Achievements.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1650,7 +1650,7 @@ case 'Department Library':
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Faculty Out-Reach</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Faculty Out-Reach</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -1659,7 +1659,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse-csp/BOS%20Members.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1670,7 +1670,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse-csp/Conference%20Chairs.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1681,7 +1681,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse-csp/Faculty%20Guest%20Lectures.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -1695,7 +1695,7 @@ case 'Department Library':
             {departmentData?.facultyAchievements && departmentData.facultyAchievements.length > 0 && (
               <div className="mt-4">
                 <details>
-                  <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">
+                  <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">
                     Recent Faculty Achievements (Database)
                   </summary>
                   <div className="p-4">
@@ -1730,7 +1730,7 @@ case 'Department Library':
       case 'Board of Studies':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg" style={{ borderWidth: 2, marginTop: 80 }}>
-            <h2 className="text-3xl font-bold text-[#850209] mb-6" style={{ marginTop: 20 }}>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6" style={{ marginTop: 20 }}>
               Board of Studies
             </h2>
             <div className="nav-content">
@@ -1804,7 +1804,7 @@ case 'Department Library':
 
             <div className="mt-4">
               <div className="flex flex-col justify-center items-center mb-5">
-                <h4 className="text-xl font-semibold text-[#850209] mb-4">Board of Studies Meeting Minutes:</h4>
+                <h4 className="text-xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes:</h4>
                 <ul className="my-2 space-y-3 list-none">
                   <li className="text-center">
                     Minutes of 8<sup>th</sup> meeting of the Board of Studies, dated 19.07.2025 -
@@ -1812,7 +1812,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/Minutes of 8th meeting of the Board of Studies, dates 19.07.2025.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -1823,7 +1823,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cst/Minutes of 7th BOS Meeting_18.07.2024.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -1834,7 +1834,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%206th%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2025.07.2022.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -1845,7 +1845,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%205th%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2002.09.2021.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -1856,7 +1856,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%204th%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2029.12.2020.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -1867,7 +1867,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%203rd%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2031.05.2020.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -1878,7 +1878,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%202nd%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2020.04.2019.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -1889,7 +1889,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%201st%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%20%2002.06.2018.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -1902,7 +1902,7 @@ case 'Department Library':
       case 'Syllabus':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Syllabus
             </h2>
             <div className="container">
@@ -1919,7 +1919,7 @@ case 'Department Library':
                           href="https://srivasaviengg.ac.in/uploads/cst/V23%20Syllabus%20Book_CSE%20&%20CST.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -1930,7 +1930,7 @@ case 'Department Library':
                           href="https://srivasaviengg.ac.in/uploads/syllabus/B.Tech(CSE)%20and%20B.Tech(CST)-%20V20%20Regulation%20Syllabus.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -1941,7 +1941,7 @@ case 'Department Library':
                           href="https://srivasaviengg.ac.in/uploads/syllabus/B.Tech(CSE)%20and%20B.Tech(CST)-%20V18%20Regulation%20Syllabus.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -1952,7 +1952,7 @@ case 'Department Library':
                           href="https://srivasaviengg.ac.in/uploads/syllabus/cse-syllabus.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -1963,7 +1963,7 @@ case 'Department Library':
                           href="https://srivasaviengg.ac.in/uploads/syllabus/CSE-btech.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -1986,7 +1986,7 @@ case 'Department Library':
                           href="https://srivasaviengg.ac.in/uploads/syllabus/pg/M.Tech(CS)%20V21%20Regulation%20Syllabus.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -1997,7 +1997,7 @@ case 'Department Library':
                           href="https://srivasaviengg.ac.in/uploads/syllabus/M.Tech(CSE)%20-%20V18%20Syllabus.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -2008,7 +2008,7 @@ case 'Department Library':
                           href="https://srivasaviengg.ac.in/uploads/syllabus/Computer%20Science%20&%20Engineering.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -2019,7 +2019,7 @@ case 'Department Library':
                           href="https://srivasaviengg.ac.in/uploads/syllabus/Computer%20Science%20&%20Engineering.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -2042,7 +2042,7 @@ case 'Department Library':
                           href="https://srivasaviengg.ac.in/uploads/cse_guest%20lectures/SOC_CSE_2024-25.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -2053,7 +2053,7 @@ case 'Department Library':
                           href="https://www.srivasaviengg.ac.in/uploads/syllabus/SOC_CSE_2023-24.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -2064,7 +2064,7 @@ case 'Department Library':
                           href="https://www.srivasaviengg.ac.in/uploads/syllabus/SOC_CSE_2022-23.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -2075,7 +2075,7 @@ case 'Department Library':
                           href="https://www.srivasaviengg.ac.in/uploads/syllabus/SOC_CSE_2021-22.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -2091,7 +2091,7 @@ case 'Department Library':
       case 'Physical Facilities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Physical Facilities
             </h2>
             <div className="container">
@@ -2107,7 +2107,7 @@ case 'Department Library':
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Classrooms.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -2118,7 +2118,7 @@ case 'Department Library':
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Master Time Table_2025-26_ III, V, VII SEM _CSE.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -2127,7 +2127,7 @@ case 'Department Library':
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Time Table_2024-25_ IV, IV Sem.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -2136,7 +2136,7 @@ case 'Department Library':
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Timetable_A.Y for Sem-I 2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -2145,7 +2145,7 @@ case 'Department Library':
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Time Table_2023-24_ IV, IV Sem.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -2154,7 +2154,7 @@ case 'Department Library':
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Master Time Table_2023-24_ III, V, VII SEM _CSE.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -2163,7 +2163,7 @@ case 'Department Library':
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Time Table_A.Y 2022-23_ II SEM.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -2172,7 +2172,7 @@ case 'Department Library':
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Time Table_A.Y 2022-23_ I SEM.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -2181,7 +2181,7 @@ case 'Department Library':
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Time Table_2021-22_ II SEM.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -2190,7 +2190,7 @@ case 'Department Library':
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Timetable_A.Y 2021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -2209,7 +2209,7 @@ case 'Department Library':
                       <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Seminar%20Halls.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -2716,11 +2716,11 @@ case 'Department Library':
       case 'MoUs':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               MoUs
             </h2>
 
-            <h3 className="text-xl font-semibold text-[#850209] mb-4 text-center">A. MOUs with Industries</h3>
+            <h3 className="text-xl font-semibold text-[#B22222] mb-4 text-center">A. MOUs with Industries</h3>
             <div className="overflow-x-auto mb-8">
               <table className="min-w-full bg-white border border-gray-200">
                 <thead className="bg-gray-100">
@@ -2740,7 +2740,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Mou Roland Principal sir sign.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2754,7 +2754,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/MOU with Pennant Technologies Pvt Ltd.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2768,7 +2768,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Blumin MOU.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2782,7 +2782,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/ZScalar_MOU.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2796,7 +2796,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/SVEC- New Leaf 1-10-2023.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2810,7 +2810,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/1 NITAP_MOU with activities.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2824,7 +2824,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/578_Alteryx SparkEd Partner_Sri Vasavi Engineering College.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2838,7 +2838,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Juniper MOU.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2852,7 +2852,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Celonis.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2866,7 +2866,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Paaloalto.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2880,7 +2880,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Sri Vasavi Engineering College.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2894,7 +2894,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Eduskills MOU with PICS.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2908,7 +2908,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Hexaware MOU_PICS.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2922,7 +2922,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/1 APSSDC MOU.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2936,7 +2936,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Alykas.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2950,7 +2950,7 @@ case 'Department Library':
                     <td className="py-3 px-4 border-b">Till date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/6 TCS-ion MOU.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2961,7 +2961,7 @@ case 'Department Library':
               </table>
             </div>
 
-            <h3 className="text-xl font-semibold text-[#850209] mb-4">B. Interaction with the Industry</h3>
+            <h3 className="text-xl font-semibold text-[#B22222] mb-4">B. Interaction with the Industry</h3>
             <div className="flex justify-center mb-6">
               <ul className="space-y-4 list-none max-w-3xl">
                 <li className="py-2">
@@ -2970,7 +2970,7 @@ case 'Department Library':
                     href="https://www.srivasaviengg.ac.in/uploads/csemous/Industry data ( 2024-2025).pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -2981,7 +2981,7 @@ case 'Department Library':
                     href="https://www.srivasaviengg.ac.in/uploads/csemous/Industry%20data%20%202023-24.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -2992,7 +2992,7 @@ case 'Department Library':
                     href="https://www.srivasaviengg.ac.in/uploads/csemous/Industry%20data%20%202022-23.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -3003,7 +3003,7 @@ case 'Department Library':
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2021-2022.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -3014,7 +3014,7 @@ case 'Department Library':
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2020-2021.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -3025,7 +3025,7 @@ case 'Department Library':
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2019-2020.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -3036,7 +3036,7 @@ case 'Department Library':
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2018-2019.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -3047,7 +3047,7 @@ case 'Department Library':
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2017-2018.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -3058,7 +3058,7 @@ case 'Department Library':
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2016-2017.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -3069,7 +3069,7 @@ case 'Department Library':
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2015-2016.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -3080,7 +3080,7 @@ case 'Department Library':
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2014-2015.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -3094,7 +3094,7 @@ case 'Department Library':
         console.log("Rendering Hackathons section from main switch");
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Hackathons
             </h2>
             <p className="text-gray-700 leading-relaxed mb-4">
@@ -3135,11 +3135,11 @@ case 'Department Library':
             </ul>
 
             {/* Hackathons Conducted Table */}
-            <h3 className="text-2xl font-semibold text-[#850209] mb-4 text-center">Hackathons Conducted</h3>
+            <h3 className="text-2xl font-semibold text-[#B22222] mb-4 text-center">Hackathons Conducted</h3>
             <div className="flex justify-center mb-8">
               <div className="overflow-x-auto w-full">
                 <table className="min-w-full bg-white border border-gray-200">
-                  <thead className="bg-[#850209] text-white">
+                  <thead className="bg-[#B22222] text-white">
                     <tr>
                       <th className="py-3 px-4 border-b">Academic Year</th>
                       <th className="py-3 px-4 border-b">For Brochure</th>
@@ -3154,7 +3154,7 @@ case 'Department Library':
                           href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/PHOTO-2024-03-15-09-56-53.jpg"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           Click Here
                         </a>
@@ -3164,7 +3164,7 @@ case 'Department Library':
                           href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/HackOverflow%202K24Winners%20List-CSE%20DEPT-16.03.2024.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           Click Here
                         </a>
@@ -3177,7 +3177,7 @@ case 'Department Library':
                           href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/unnamed.png"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           Click Here
                         </a>
@@ -3187,7 +3187,7 @@ case 'Department Library':
                           href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners%20List.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           Click Here
                         </a>
@@ -3205,13 +3205,13 @@ case 'Department Library':
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h3
               className="text-center text-3xl font-bold mb-6"
-              style={{ color: '#850209' }}
+              style={{ color: '#B22222' }}
             >
               Workshops/SOC/Seminars/<br />Guest Lectures
             </h3>
             <div className="pt-3">
               <details open>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Workshops/SOC</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Workshops/SOC</summary>
                 <div className="px-3">
                   <ol className="list-decimal mt-5 ml-5 space-y-2">
                     <li>
@@ -3220,7 +3220,7 @@ case 'Department Library':
                         href="https://www.srivasaviengg.ac.in/uploads/cse_guest%20lectures/Workshop%20Data_CSE_2023-24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3229,7 +3229,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3238,7 +3238,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3247,7 +3247,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2020-21.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3256,7 +3256,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2019-20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3265,7 +3265,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2018-19.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3274,7 +3274,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2017-18.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3283,7 +3283,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2016-17.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3292,7 +3292,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2015-16.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3301,7 +3301,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2014-15.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3310,7 +3310,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2012-13.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                   </ol>
@@ -3320,7 +3320,7 @@ case 'Department Library':
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Guest Lecturers/Seminars</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Guest Lecturers/Seminars</summary>
                 <div className="px-3">
                   <ol className="list-decimal mt-5 ml-5 space-y-2">
                     <li>
@@ -3329,7 +3329,7 @@ case 'Department Library':
                         href="https://www.srivasaviengg.ac.in/uploads/cse_guest%20lectures/Guest Lectures Data_CSE_2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3338,7 +3338,7 @@ case 'Department Library':
                         href="https://www.srivasaviengg.ac.in/uploads/cse_guest%20lectures/Guest%20Lectures%20Data_CSE_2023-24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3347,7 +3347,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gll-2022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3356,7 +3356,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gll-2021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3365,7 +3365,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gll-2019-20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3374,7 +3374,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gll-2018-19.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3383,7 +3383,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gll-2017-18.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3392,7 +3392,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gl-2016-17.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3401,7 +3401,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gl-2015-16.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3410,7 +3410,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gl-2014-15.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3419,7 +3419,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gl-2013-14.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -3428,7 +3428,7 @@ case 'Department Library':
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gl-2012-13.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                   </ol>
@@ -3483,7 +3483,7 @@ case 'Department Library':
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h3
               className="text-center text-3xl font-bold mb-6"
-              style={{ color: '#850209' }}
+              style={{ color: '#B22222' }}
             >
               Training Activities
             </h3>
@@ -3500,7 +3500,7 @@ case 'Department Library':
                       href="https://www.srivasaviengg.ac.in/uploads/cse_placements/tt_2023-24.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -3517,7 +3517,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/tt_2022-23.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -3534,7 +3534,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/tt_2021-22.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -3551,7 +3551,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/tt_2020-21.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -3568,7 +3568,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/tt_2019-20.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -3585,7 +3585,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/tt_2018-19.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -3639,7 +3639,7 @@ case 'Department Library':
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h3
               className="text-center text-3xl font-bold mb-6"
-              style={{ color: '#850209' }}
+              style={{ color: '#B22222' }}
             >
               Placements
             </h3>
@@ -3656,7 +3656,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2024-25 CSE PLACEMENTSS.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -3673,7 +3673,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2020-24 CSE PLACEMENTS.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -3690,7 +3690,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2019-23%20CSE%20PLACEMENTS%20DATA.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -3707,7 +3707,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2018-22%20CSE%20PLACEMENTS%20DATA.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -3724,7 +3724,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2017-21%20Batch%20CSE%20PLACEMENTS.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -3741,7 +3741,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2016-20%20Batch%20%20CSE%20PLACEMENTS.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -3758,7 +3758,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/cse_2018-19.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -3775,7 +3775,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/cse_2017-18.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -3792,7 +3792,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/cse_2016-17.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -3808,7 +3808,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/cse_2015-16.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -3824,7 +3824,7 @@ case 'Department Library':
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/cse_2014-15.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -4067,7 +4067,7 @@ case 'Handbooks':
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
         Academic HandBooks
       </h2>
       <div className="space-y-4">
@@ -4085,7 +4085,7 @@ case 'Handbooks':
                       href={hb.file_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -4104,7 +4104,7 @@ case 'Handbooks':
       case 'Technical Association':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-center mb-6" style={{ color: '#850209' }}>
+            <h2 className="text-3xl font-bold text-center mb-6" style={{ color: '#B22222' }}>
               Technical Association
             </h2>
             <div className="mb-8">
@@ -4115,7 +4115,7 @@ case 'Handbooks':
                 benefit of students.
               </p>
 
-              <h3 className="text-2xl font-semibold text-[#850209] mb-4">Faculty Co-Ordinators</h3>
+              <h3 className="text-2xl font-semibold text-[#B22222] mb-4">Faculty Co-Ordinators</h3>
               <div className="mb-6 text-center">
                 <p className="text-lg mb-2">1. Mrs. N. Hiranmayee, Sr. Assistant Professor</p>
                 <p className="text-lg">2. Mr. P. Ramamohan Rao, Assistant Professor</p>
@@ -4123,7 +4123,7 @@ case 'Handbooks':
 
               <div className="space-y-2">
                 <details open className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2024-25
                   </summary>
                   <div className="px-4 py-3">
@@ -4134,7 +4134,7 @@ case 'Handbooks':
                           href="https://www.srivasaviengg.ac.in/uploads/Department Association Events Summary2024-25.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -4142,7 +4142,7 @@ case 'Handbooks':
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2023-24
                   </summary>
                   <div className="px-4 py-3">
@@ -4153,7 +4153,7 @@ case 'Handbooks':
                           href="https://www.srivasaviengg.ac.in/uploads/SCUD%20summary_23-24.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -4161,7 +4161,7 @@ case 'Handbooks':
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2022-23
                   </summary>
                   <div className="px-4 py-3">
@@ -4172,7 +4172,7 @@ case 'Handbooks':
                           href="http://srivasaviengg.ac.in/uploads/uploadsSCUD%20summary_22-23.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -4180,7 +4180,7 @@ case 'Handbooks':
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2021-22
                   </summary>
                   <div className="px-4 py-3">
@@ -4191,7 +4191,7 @@ case 'Handbooks':
                           href="http://srivasaviengg.ac.in/uploads/SCUD%20summary_%2021-22.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -4199,7 +4199,7 @@ case 'Handbooks':
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2019-20
                   </summary>
                   <div className="px-4 py-3">
@@ -4210,7 +4210,7 @@ case 'Handbooks':
                           href="http://srivasaviengg.ac.in/uploads/SCUD%20Activities%20during%20the%20year%202019-20.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -4218,7 +4218,7 @@ case 'Handbooks':
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2018-19
                   </summary>
                   <div className="px-4 py-3">
@@ -4229,7 +4229,7 @@ case 'Handbooks':
                           href="http://srivasaviengg.ac.in/uploads/SCUD2018-2019.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -4237,7 +4237,7 @@ case 'Handbooks':
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2017-18
                   </summary>
                   <div className="px-4 py-3">
@@ -4248,7 +4248,7 @@ case 'Handbooks':
                           href="http://srivasaviengg.ac.in/uploads/SCUD2017-2018.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -4256,7 +4256,7 @@ case 'Handbooks':
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2016-17
                   </summary>
                   <div className="px-4 py-3">
@@ -4267,7 +4267,7 @@ case 'Handbooks':
                           href="http://srivasaviengg.ac.in/uploads/SCUD2016-2017.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -4275,7 +4275,7 @@ case 'Handbooks':
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2015-16
                   </summary>
                   <div className="px-4 py-3">
@@ -4286,7 +4286,7 @@ case 'Handbooks':
                           href="http://srivasaviengg.ac.in/uploads/SCUD2015-2016.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -4294,7 +4294,7 @@ case 'Handbooks':
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2014-15
                   </summary>
                   <div className="px-4 py-3">
@@ -4305,7 +4305,7 @@ case 'Handbooks':
                           href="http://srivasaviengg.ac.in/uploads/SCUD2014-2015.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -4313,7 +4313,7 @@ case 'Handbooks':
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2013-14
                   </summary>
                   <div className="px-4 py-3">
@@ -4324,7 +4324,7 @@ case 'Handbooks':
                           href="http://srivasaviengg.ac.in/uploads/SCUD2013-2014.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -4335,7 +4335,7 @@ case 'Handbooks':
 
             {/* Gallery Section */}
             <div className="mt-12 border-t-2 pt-8">
-              <h3 className="text-2xl font-semibold text-center mb-8 text-[#850209]">Technical Association Gallery</h3>
+              <h3 className="text-2xl font-semibold text-center mb-8 text-[#B22222]">Technical Association Gallery</h3>
 
               <div className="mb-12">
                 <h4 className="text-xl font-medium text-center mb-6 text-primary">TECHFEST 2K23</h4>
@@ -4539,12 +4539,12 @@ case 'Handbooks':
       case 'Newsletters':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Newsletters
             </h2>
             <div className="space-y-6">
               <details open className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 14 Issue 2 2023
                 </summary>
                 <div className="px-4 py-3">
@@ -4555,7 +4555,7 @@ case 'Handbooks':
                         href="https://www.srivasaviengg.ac.in/uploads/Newsletter Volume1 4_Issue_2_2023.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4565,7 +4565,7 @@ case 'Handbooks':
               </details>
 
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 14 Issue 1 2023
                 </summary>
                 <div className="px-4 py-3">
@@ -4576,7 +4576,7 @@ case 'Handbooks':
                         href="https://www.srivasaviengg.ac.in/uploads/Newsletter Volume1 4_Issue_1_2023.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4586,7 +4586,7 @@ case 'Handbooks':
               </details>
 
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 13 Issue 3 2023
                 </summary>
                 <div className="px-4 py-3">
@@ -4597,7 +4597,7 @@ case 'Handbooks':
                         href="https://www.srivasaviengg.ac.in/uploads/Newsletter%20Volume%2013%20Issue%203%202022.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4607,7 +4607,7 @@ case 'Handbooks':
               </details>
 
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 13 Issue 2 2022
                 </summary>
                 <div className="px-4 py-3">
@@ -4618,7 +4618,7 @@ case 'Handbooks':
                         href="https://www.srivasaviengg.ac.in/uploads/Newsletter%20Volume%2013%20Issue%202%202022.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4628,7 +4628,7 @@ case 'Handbooks':
               </details>
 
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 13 Issue 1 2022
                 </summary>
                 <div className="px-4 py-3">
@@ -4639,7 +4639,7 @@ case 'Handbooks':
                         href="https://www.srivasaviengg.ac.in/uploads/Newsletter%20Volume%2013%20Issue%201%202022.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4649,7 +4649,7 @@ case 'Handbooks':
               </details>
 
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 12 Issue 4 2022
                 </summary>
                 <div className="px-4 py-3">
@@ -4660,7 +4660,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue%204%202022.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4669,7 +4669,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 12 Issue 3 2022
                 </summary>
                 <div className="px-4 py-3">
@@ -4680,7 +4680,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue3%202022.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4689,7 +4689,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 12 Issue 2 2021
                 </summary>
                 <div className="px-4 py-3">
@@ -4700,7 +4700,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue2%202021.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4709,7 +4709,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 12 Issue 1 2021
                 </summary>
                 <div className="px-4 py-3">
@@ -4720,7 +4720,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue1%202021.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4729,7 +4729,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 11 Issue 4 2021
                 </summary>
                 <div className="px-4 py-3">
@@ -4740,7 +4740,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue4%202021.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4749,7 +4749,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 11 Issue 3 2021
                 </summary>
                 <div className="px-4 py-3">
@@ -4760,7 +4760,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue3%202021.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4769,7 +4769,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 11 Issue 2 2020
                 </summary>
                 <div className="px-4 py-3">
@@ -4780,7 +4780,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue2%202020.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4789,7 +4789,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 11 Issue 1 2020
                 </summary>
                 <div className="px-4 py-3">
@@ -4800,7 +4800,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue1%202020.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4809,7 +4809,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 10 Issue 4 2020
                 </summary>
                 <div className="px-4 py-3">
@@ -4820,7 +4820,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010_Issue%20_4_%202020.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4829,7 +4829,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 10 Issue 3 2020
                 </summary>
                 <div className="px-4 py-3">
@@ -4840,7 +4840,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010_Issue%20_3_%202019.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4849,7 +4849,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 10 Issue 2 2019
                 </summary>
                 <div className="px-4 py-3">
@@ -4860,7 +4860,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010_Issue%20_2_%202019.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4869,7 +4869,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 10 Issue 1 2019
                 </summary>
                 <div className="px-4 py-3">
@@ -4880,7 +4880,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010%20_Issue_1_%202019.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4889,7 +4889,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 9 Issue 4 2019
                 </summary>
                 <div className="px-4 py-3">
@@ -4900,7 +4900,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/vol%209%20issue%204.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4909,7 +4909,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 9 Issue 3 2019
                 </summary>
                 <div className="px-4 py-3">
@@ -4920,7 +4920,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/vol%209%20issue%203.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4929,7 +4929,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 9 Issue 2 2018
                 </summary>
                 <div className="px-4 py-3">
@@ -4940,7 +4940,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/vol%209%20issue%202.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4949,7 +4949,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 9 Issue 1 2018
                 </summary>
                 <div className="px-4 py-3">
@@ -4960,7 +4960,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/vol%209%20issue%201.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4969,7 +4969,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 8 Issue 4(b) 2018
                 </summary>
                 <div className="px-4 py-3">
@@ -4980,7 +4980,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/vol%208%20issue%204(b).pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -4989,7 +4989,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 8 Issue 4(a) 2018
                 </summary>
                 <div className="px-4 py-3">
@@ -5000,7 +5000,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/vol%208%20issue%204(a).pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -5009,7 +5009,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 8 Issue 3 2017
                 </summary>
                 <div className="px-4 py-3">
@@ -5020,7 +5020,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/oct-17(1).pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -5029,7 +5029,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 8 Issue 2 2017
                 </summary>
                 <div className="px-4 py-3">
@@ -5040,7 +5040,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/july-2017.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -5049,7 +5049,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 8 Issue 1 2017
                 </summary>
                 <div className="px-4 py-3">
@@ -5060,7 +5060,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/april.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -5069,7 +5069,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 7 Issue 4 2017
                 </summary>
                 <div className="px-4 py-3">
@@ -5080,7 +5080,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/Jan-17.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -5089,7 +5089,7 @@ case 'Handbooks':
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 7 Issue 3 2016
                 </summary>
                 <div className="px-4 py-3">
@@ -5100,7 +5100,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/oct-16.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -5217,7 +5217,7 @@ case 'Handbooks':
                 </li>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 5 Issue 1 2014
                 </summary>
                 <div className="px-4 py-3">
@@ -5228,7 +5228,7 @@ case 'Handbooks':
                         href="http://srivasaviengg.ac.in/uploads/acsenl_Apr14.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -5243,7 +5243,7 @@ case 'Handbooks':
       case 'Extra-Curricular Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Extra-Curricular Activities
             </h2>
 
@@ -5256,7 +5256,7 @@ case 'Handbooks':
                     href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202023-24%20-%20CSE.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -5267,7 +5267,7 @@ case 'Handbooks':
                     href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202022-23.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -5278,7 +5278,7 @@ case 'Handbooks':
                     href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202021-2022.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -5289,7 +5289,7 @@ case 'Handbooks':
                     href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202019-2020.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -5300,7 +5300,7 @@ case 'Handbooks':
                     href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202018-2019.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -5311,7 +5311,7 @@ case 'Handbooks':
                     href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202017-2018.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -5321,10 +5321,10 @@ case 'Handbooks':
 
             {/* Sahaya Section */}
             <div className="mt-12">
-              <h3 className="text-2xl font-bold text-[#850209] mb-4 text-center">Sahaya</h3>
+              <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">Sahaya</h3>
 
               <div className="mb-8">
-                <h4 className="text-xl font-semibold text-[#850209] mb-4">Social Services</h4>
+                <h4 className="text-xl font-semibold text-[#B22222] mb-4">Social Services</h4>
                 <p className="text-gray-700 mb-4 text-justify">
                   We come across many heart-rending incidents and pathetic conditions of people in the society every day. We may not be
                   in a position to give an immediate reaction though we want to. But the Computer Science and Engineering Students of Sri
@@ -5348,7 +5348,7 @@ case 'Handbooks':
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg mb-8">
-                <h4 className="text-xl font-semibold text-[#850209] mb-2">Faculty Coordinator:</h4>
+                <h4 className="text-xl font-semibold text-[#B22222] mb-2">Faculty Coordinator:</h4>
                 <p className="font-semibold">
                   Mr. P. Ramamohan Rao<br />
                   Assistant Professor
@@ -5356,7 +5356,7 @@ case 'Handbooks':
               </div>
 
               <div className="mb-8">
-                <h4 className="text-xl font-semibold text-[#850209] mb-4 text-center">LIST OF SAHAYA EVENTS CONDUCTED YEAR WISE</h4>
+                <h4 className="text-xl font-semibold text-[#B22222] mb-4 text-center">LIST OF SAHAYA EVENTS CONDUCTED YEAR WISE</h4>
                 <ul className="space-y-3 text-center list-none">
                   <li>
                     2023-2024 -
@@ -5364,7 +5364,7 @@ case 'Handbooks':
                       href="https://www.srivasaviengg.ac.in/uploads/Sahaya_2023-24.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5375,7 +5375,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/Sahaya_2022-23.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5386,7 +5386,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/Sahaya_2021-22.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5397,7 +5397,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/Sahaya_2020-21.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5408,7 +5408,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/Sahaya_2019-20.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5419,7 +5419,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/Sahaya_2018-19.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5430,7 +5430,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/sahaya2017-18.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5441,7 +5441,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/sahaya2016-17.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5452,7 +5452,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/sahaya2015-16.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5463,7 +5463,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/sahaya2014-15.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5474,7 +5474,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/sahaya2013-14.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5485,7 +5485,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/sahaya2012-13.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -5495,7 +5495,7 @@ case 'Handbooks':
 
               {/* Gallery Section */}
               <div className="mt-12 border-t pt-8">
-                <h4 className="text-xl font-semibold text-[#850209] mb-6 text-center">Gallery</h4>
+                <h4 className="text-xl font-semibold text-[#B22222] mb-6 text-center">Gallery</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="rounded-lg shadow-md overflow-hidden">
                     <img
@@ -5550,7 +5550,7 @@ case 'Handbooks':
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h3
               className="text-center text-3xl font-bold mb-6"
-              style={{ color: '#850209' }}
+              style={{ color: '#B22222' }}
             >
               Merit Scholarships and Academic Toppers
             </h3>
@@ -5568,7 +5568,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2018.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
@@ -5585,7 +5585,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2017.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
@@ -5602,14 +5602,14 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2016.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Merit Scholarships during the A.Y 2015-16
                 </summary>
                 <div className="ml-5 my-2">
@@ -5619,14 +5619,14 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2015.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Merit Scholarships during the A.Y 2014-15
                 </summary>
                 <div className="ml-5 my-2">
@@ -5636,14 +5636,14 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2014.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Merit Scholarships during the A.Y 2013-14
                 </summary>
                 <div className="ml-5 my-2">
@@ -5653,7 +5653,7 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2013.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
@@ -5663,7 +5663,7 @@ case 'Handbooks':
             <h4 className="text-center text-xl font-semibold mt-10 mb-4">Academic Toppers</h4>
             <div className="pt-3">
               <details open>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2024-25
                 </summary>
                 <div className="ml-5 my-2">
@@ -5673,14 +5673,14 @@ case 'Handbooks':
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2018.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2023-24
                 </summary>
                 <div className="ml-5 my-2">
@@ -5690,14 +5690,14 @@ case 'Handbooks':
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2023-24_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2022-23
                 </summary>
                 <div className="ml-5 my-2">
@@ -5707,14 +5707,14 @@ case 'Handbooks':
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2022-23_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2020-21 & 2021-22
                 </summary>
                 <div className="ml-5 my-2">
@@ -5724,14 +5724,14 @@ case 'Handbooks':
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2021-2022%20&%202020-2021_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2019-20
                 </summary>
                 <div className="ml-5 my-2">
@@ -5741,14 +5741,14 @@ case 'Handbooks':
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2019-2020_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2018-19
                 </summary>
                 <div className="ml-5 my-2">
@@ -5758,14 +5758,14 @@ case 'Handbooks':
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2018-2019_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2017-18
                 </summary>
                 <div className="ml-5 my-2">
@@ -5775,7 +5775,7 @@ case 'Handbooks':
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2017-2018_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
@@ -5950,68 +5950,28 @@ case 'Handbooks':
     }
   }
 
-  return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Computer Science & Engineering</h1>
-          </div>
+  const renderContentWithTitle = () => {
+      // Just return the content without adding another title, since it's already included in content sections
+      return (
+        <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+          {renderContent()}
         </div>
-      </section>
-
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
-        items={sidebarItems}
-        activeItem={activeContent}
-        onItemClick={setActiveContent}
-        title="CSE Department"
-        buttonLabel="Department Menu"
-      >
-        {/* Main Content */}
-        <div className="py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-          {loading ? (
-            <div className="flex items-center justify-center min-h-[400px]">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#850209] mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading department data...</p>
-              </div>
-            </div>
-          ) : error ? (
-            <div className="flex items-center justify-center min-h-[400px]">
-              <div className="text-center">
-                <div className="text-red-500 mb-4">
-                  <svg className="w-12 h-12 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                <p className="text-red-600 font-medium mb-2">Error Loading Data</p>
-                <p className="text-gray-600">{error}</p>
-                <button 
-                  onClick={() => {
-                    // Reset error state and reload data
-                    setError(null);
-                    setLoading(true);
-                    router.refresh();
-                  }} 
-                  className="mt-4 px-4 py-2 bg-[#850209] text-white rounded hover:bg-[#660000] transition-colors"
-                >
-                  Reload Page
-                </button>
-              </div>
-            </div>
-          ) : (
-            renderContent()
-          )}
-          </div>
-        </div>
-      </FixedSidebar>
-    </div>
-  );
+      );
+    };
+  
+    return (
+      <div className="flex flex-col min-h-screen">
+        <DepartmentSidebar
+          items={sidebarItems}
+          activeItem={activeContent}
+          onItemClick={setActiveContent}
+          title="Computer Science Engineering Department"
+        >
+          {renderContentWithTitle()}
+        </DepartmentSidebar>
+        {/* Footer is only shown when scrolling the main content area, not the sidebar */}
+      </div>
+    );
 };
 
 export default CSEDepartment;

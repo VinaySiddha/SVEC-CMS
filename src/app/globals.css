@@ -5,24 +5,39 @@
 /* Tab optimization classes - Instant switching with smooth visual feedback */
 @layer components {
   .tab-button {
-    @apply px-4 py-2 rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary/50;
+    padding: 0.5rem 1rem; /* px-4 py-2 */
+    border-radius: 0.5rem; /* rounded-lg */
+    font-weight: 500; /* font-medium */
+    outline: none; /* focus:outline-none */
     transition: all 0.1s ease-out; /* Super fast transition */
     transform: translateZ(0); /* Force hardware acceleration */
     will-change: background-color, color, box-shadow;
   }
   
+  .tab-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px hsla(var(--svec-red), 0.5);
+  }
+  
   .tab-button.active-tab {
-    @apply bg-primary text-white shadow-lg;
+    color: white;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* shadow-lg */
+    background: linear-gradient(135deg, hsl(var(--svec-red)), hsl(var(--svec-red)/0.9));
     transition: all 0.15s ease-out;
   }
   
   .tab-button.inactive-tab {
-    @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+    background-color: hsl(var(--svec-gray));
+    color: hsl(215 14% 20%);
     transition: all 0.1s ease-out;
   }
   
+  .tab-button.inactive-tab:hover {
+    background-color: hsl(var(--svec-gray)/0.8);
+  }
+  
   .tab-content {
-    @apply min-h-[200px];
+    min-height: 200px;
     contain: layout style paint;
     opacity: 1;
     transform: translateX(0);
@@ -219,7 +234,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
+  background: hsl(var(--svec-red));
   transition: width 0.3s ease-out;
 }
 
@@ -240,7 +255,7 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
+  background: hsl(var(--svec-red));
   transition: all 0.3s ease;
   transform: translateX(-50%);
 }
@@ -262,7 +277,7 @@ nav a::before {
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
+  background: hsl(var(--svec-red));
   transition: all 0.3s ease;
   transform: translateX(-50%);
   z-index: 1;
@@ -456,55 +471,104 @@ nav a:hover::before {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
+    /* Only two colors - vibrant red and white */
+    --svec-red: 357 81% 41%;         /* #E01E26 - Vibrant red (primary) */
+    --svec-white: 0 0% 100%;         /* Pure white */
+    
+    /* Base theme colors using only red and white */
+    --background: var(--svec-white);
+    --foreground: 0 0% 0%;           /* Black text for readability */
     --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 0 60% 31%;
-    /* Custom red #7f1d1d */
-    --primary-foreground: 210 20% 98%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9% 39.3%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9% 39.3%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 224 71.4% 4.1%;
+    --popover-foreground: 0 0% 0%;
+    
+    /* Primary is the vibrant red */
+    --primary: var(--svec-red);
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary is white with slight gray tint for hover states */
+    --secondary: 0 0% 98%;             /* Very light gray (almost white) */
+    --secondary-foreground: var(--svec-red);
+    
+    /* All other UI elements use either red or white */
+    --muted: 0 0% 98%;               /* Slightly off-white */
+    --muted-foreground: 0 0% 45%;    /* Mid-gray text */
+    --accent: var(--svec-red);
+    --accent-foreground: 0 0% 100%;
+    --destructive: var(--svec-red);
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;              /* Light gray border */
+    --input: 0 0% 100%;
+    --ring: var(--svec-red);
     --radius: 0.5rem;
+    
+    /* Chart colors - only red and grayscale */
+    --chart-1: var(--svec-red);
+    --chart-2: 0 0% 0%;              /* Black */
+    --chart-3: 0 0% 20%;             /* Dark gray */
+    --chart-4: 0 0% 40%;             /* Medium gray */
+    --chart-5: 0 0% 60%;             /* Light gray */
+    
+    /* Sidebar customization - only red and white */
+    --sidebar-background: var(--svec-white);
+    --sidebar-foreground: 0 0% 0%;
+    --sidebar-primary: var(--svec-red);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: var(--svec-red);
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: var(--svec-red);
   }
 
   .dark {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 0 72.2% 50.6%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 0 0% 98%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 0 0% 96%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 216 12.2% 83.9%;
+    /* Dark theme colors - only red and dark backgrounds */
+    --background: 0 0% 10%;           /* Almost black background */
+    --foreground: 0 0% 100%;          /* White text for readability */
+    --card: 0 0% 12%;                 /* Slightly lighter black */
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 100%;
+    
+    /* Only the same vibrant red is used */
+    --primary: var(--svec-red);       /* Same red as light mode */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 15%;           /* Slightly lighter than background for hover states */
+    --secondary-foreground: var(--svec-red);
+    
+    /* Other dark mode UI elements - black and red */
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 80%;
+    --accent: var(--svec-red);        /* Same red accent */
+    --accent-foreground: 0 0% 100%;
+    --destructive: var(--svec-red);
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: var(--svec-red);
+    
+    /* Chart colors for dark mode - red and grayscales */
+    --chart-1: var(--svec-red);       /* Same vibrant red */
+    --chart-2: 0 0% 100%;             /* White */
+    --chart-3: 0 0% 80%;              /* Light gray */
+    --chart-4: 0 0% 60%;              /* Medium gray */
+    --chart-5: 0 0% 40%;              /* Dark gray */
+    
+    /* Sidebar dark theme - red and black */
+    --sidebar-background: 0 0% 10%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: var(--svec-red);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: var(--svec-red);
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: var(--svec-red);
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
 
   html, body {
@@ -514,7 +578,8 @@ nav a:hover::before {
   }
 
   body {
-    @apply bg-white text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -527,4 +592,16 @@ nav a:hover::before {
 [data-scrollable-nav] {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
 }

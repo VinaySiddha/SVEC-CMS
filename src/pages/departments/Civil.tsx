@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Building, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Library, Link as LinkIcon } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 import { LogoLoader } from '@/components/ui/LogoLoader';
 import { useOptimizedTabLoader } from '@/hooks/useOptimizedTabLoader';
 
@@ -369,7 +369,7 @@ const CivilDepartment: React.FC = () => {
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                   <div className="bg-white rounded-lg shadow border">
-                    <div className="bg-[#850209] text-white rounded-t-lg py-2">
+                    <div className="bg-[#B22222] text-white rounded-t-lg py-2">
                       <h5 className="mb-0 text-center text-lg font-semibold">No. of Titles</h5>
                     </div>
                     <div className="py-4">
@@ -411,7 +411,7 @@ const CivilDepartment: React.FC = () => {
       case 'Placements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Placements
             </h2>
 
@@ -447,7 +447,7 @@ const CivilDepartment: React.FC = () => {
       case 'Student Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Student Achievements
             </h2>
             <div className="space-y-8">
@@ -486,7 +486,7 @@ const CivilDepartment: React.FC = () => {
       case 'Faculty Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Faculty Achievements</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
             <div className="space-y-8">
               <details open>
                 <summary className="font-semibold text-lg mb-2">Conferences</summary>
@@ -578,7 +578,7 @@ const CivilDepartment: React.FC = () => {
       case 'Department Library':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">LIBRARY</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">LIBRARY</h2>
             <div className="flex flex-col md:flex-row items-center justify-center gap-8">
               {/* Image on the left */}
               <div className="md:w-1/2 flex justify-center">
@@ -599,7 +599,7 @@ const CivilDepartment: React.FC = () => {
             {/* Table below the image and paragraph content */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
               <div className="bg-white rounded-lg shadow border">
-                <div className="bg-[#850209] text-white rounded-t-lg py-2">
+                <div className="bg-[#B22222] text-white rounded-t-lg py-2">
                   <h5 className="mb-0 text-center text-lg font-semibold">No. of Titles</h5>
                 </div>
                 <div className="py-4">
@@ -625,13 +625,13 @@ const CivilDepartment: React.FC = () => {
       case 'R&D':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">R&amp;D</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">R&amp;D</h2>
             <div className="space-y-6">
               {/* Dynamic R&D Activities */}
               {Object.keys(researchDevelopment).length > 0 ? (
                 Object.entries(researchDevelopment).map(([activityType, activities]: [string, any]) => (
                   <div key={activityType}>
-                    <h3 className="text-xl font-semibold text-[#850209] mb-4">{activityType}</h3>
+                    <h3 className="text-xl font-semibold text-[#B22222] mb-4">{activityType}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {activities.map((activity: any, index: number) => (
                         <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
@@ -667,7 +667,7 @@ const CivilDepartment: React.FC = () => {
                               href={activity.document_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-block mt-2 text-[#850209] hover:underline"
+                              className="inline-block mt-2 text-[#B22222] hover:underline"
                             >
                               View Document
                             </a>
@@ -703,7 +703,7 @@ const CivilDepartment: React.FC = () => {
                 <div className="lg:col-span-2 space-y-4">
                   <div className="mb-4">
                     <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Radhakrishnan</h3>
-                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of the Department</p>
+                    <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
                     <p className="text-gray-600">Qualification: M.E., Ph.D</p>
                     <p className="text-gray-600">Email: <a href="mailto:hod_civil@srivasaviengg.ac.in" className="text-primary hover:underline">hod_civil@srivasaviengg.ac.in</a></p>
                   </div>
@@ -1034,7 +1034,7 @@ const CivilDepartment: React.FC = () => {
       case "Workshops":
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Workshops
             </h2>
 
@@ -1066,7 +1066,7 @@ const CivilDepartment: React.FC = () => {
       case 'Technical Association':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Technical Association</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Association</h2>
             <div className="space-y-8">
               <p className="text-lg mb-4">
                 In this institution, INSTITUTION OF ENGINEERING (INDIA) students' chapter was opened in Civil Engineering Department in the year 2017 with 117 student members. It is promoting co-operation amongst students and faculty for advancement and dissemination of knowledge in the field of Civil Engineering. The IE students' chapter committee constitutes the following members:
@@ -1113,7 +1113,7 @@ const CivilDepartment: React.FC = () => {
 
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Newsletters
             </h2>
             <div className="space-y-6">
@@ -1143,7 +1143,7 @@ const CivilDepartment: React.FC = () => {
               )}
             </div>
 
-            <h2 className="text-3xl font-bold text-[#850209] mt-12 mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mt-12 mb-6 text-center">
               Technical Magazines
             </h2>
             <div className="space-y-6">
@@ -1172,7 +1172,7 @@ const CivilDepartment: React.FC = () => {
 
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Extra-Curricular Activities
             </h2>
             <div className="space-y-6">
@@ -1192,7 +1192,7 @@ const CivilDepartment: React.FC = () => {
         case 'Consultancy':
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Consultancy</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Consultancy</h2>
       <div className="space-y-6">
         {/* Dynamic Consultancy Activities */}
         {consultancyActivities.length > 0 ? (
@@ -1228,7 +1228,7 @@ const CivilDepartment: React.FC = () => {
                     href={consultancy.document_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block mt-2 text-[#850209] hover:underline"
+                    className="inline-block mt-2 text-[#B22222] hover:underline"
                   >
                     View Document
                   </a>
@@ -1358,7 +1358,7 @@ const CivilDepartment: React.FC = () => {
       case 'Syllabus':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Syllabus
             </h2>
             <div className="space-y-8">
@@ -1396,34 +1396,26 @@ const CivilDepartment: React.FC = () => {
   };
 
 
-  return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Civil Engineering</h1>
-          </div>
-        </div>
-      </section>
+  const renderContentWithTitle = () => {
+    // Just return the content without adding another title, since it's already included in content sections
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
+      </div>
+    );
+  };
 
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
+  return (
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="Civil Department"
-        buttonLabel="Department Menu"
+        title="Civil Engineering Department"
       >
-        {/* Main Content */}
-        <div className="py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            {renderContent()}
-          </div>
-        </div>
-      </FixedSidebar>
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
 };

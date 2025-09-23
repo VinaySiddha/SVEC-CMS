@@ -86,7 +86,7 @@ const Library: React.FC = () => {
   return (
     <div className="pt-44 bg-[#FFF8F0] text-[#222222]">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white py-20">
+      <section className="bg-gradient-to-br from-[#B22222] to-[#B22222] text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Central Library</h1>
           <p className="text-xl max-w-3xl mx-auto">
@@ -321,7 +321,7 @@ const Library: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white">
+      <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#B22222] text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Explore Our Library Today</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
@@ -330,7 +330,7 @@ const Library: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href="/contact" 
-              className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all"
+              className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#B22222] transition-all"
             >
               Visit Library
             </a>

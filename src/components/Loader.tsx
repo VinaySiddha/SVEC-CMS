@@ -132,7 +132,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
             <svg width="120" height="120" className="progress-svg">
               <defs>
                 <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#DC143C" />
+                  <stop offset="0%" stopColor="#B22222" />
                   <stop offset="50%" stopColor="#FFD700" />
                   <stop offset="100%" stopColor="#4A90E2" />
                 </linearGradient>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown, ChevronRight, Shield } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight, Shield, ArrowRight } from 'lucide-react';
 import SmoothLink from './SmoothLink';
 
 // Type definitions for better TypeScript support
@@ -489,15 +489,10 @@ const departments = [
               )}
             </div>
 
-            <div className="relative" data-dropdown="depts">
-              <button
+            <div className="relative">
+              <Link
+                href="/departments"
                 className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}
-                aria-expanded={activeDropdown === 'depts'}
-                data-dropdown="depts"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setActiveDropdown(activeDropdown === 'depts' ? null : 'depts');
-                }}
                 onMouseEnter={() => handleMouseEnter('depts')}
                 onMouseLeave={(e) => {
                   const relatedTarget = e.relatedTarget as Element;
@@ -514,64 +509,9 @@ const departments = [
                   handleMouseLeave(e);
                 }}
               >
-                Departments <ChevronDown className="w-4 h-4 ml-1" />
-              </button>
-              {activeDropdown === 'depts' && (
-                <div
-                  className="absolute top-full -right-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 max-h-96 overflow-y-auto z-50 animate-in slide-in-from-top-2 duration-200"
-                  data-dropdown="depts-menu"
-                  style={{ 
-                    scrollbarWidth: 'thin',
-                    scrollbarColor: 'rgba(156, 163, 175, 0.5) transparent'
-                  }}
-                  onClick={(e) => e.stopPropagation()}
-                  onMouseEnter={() => {
-                    setActiveDropdown('depts');
-                    if (dropdownTimeoutRef.current) {
-                      clearTimeout(dropdownTimeoutRef.current);
-                      dropdownTimeoutRef.current = null;
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    // Only close if moving completely outside the dropdown container
-                    const relatedTarget = e.relatedTarget as Element;
-                    const currentTarget = e.currentTarget as Element;
-                    const button = document.querySelector('[data-dropdown="depts"]');
-                    
-                    // Check if the mouse is moving to the button or staying within the dropdown area
-                    if (relatedTarget && (
-                      currentTarget.contains(relatedTarget) ||
-                      (button && button.contains(relatedTarget)) ||
-                      relatedTarget.closest('[data-dropdown="depts-menu"]')
-                    )) {
-                      return;
-                    }
-                    
-                    // Add delay to prevent flickering when hovering over scrollbar
-                    dropdownTimeoutRef.current = setTimeout(() => {
-                      setActiveDropdown(null);
-                    }, 300);
-                  }}
-                >
-                  {departments.map((item, index) => (
-                    <Link
-                      key={item.path}
-                      href={item.path}
-                      className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary transition-all duration-200 hover:translate-x-1"
-                      style={{ animationDelay: `${index * 25}ms` }}
-                      onMouseEnter={() => {
-                        // Clear any pending timeout to keep dropdown open
-                        if (dropdownTimeoutRef.current) {
-                          clearTimeout(dropdownTimeoutRef.current);
-                          dropdownTimeoutRef.current = null;
-                        }
-                      }}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
+                Departments
+              </Link>
+
             </div>
           </nav>
 
@@ -698,35 +638,14 @@ const departments = [
                 )}
 
                 {/* Departments */}
-                <button
+                <Link 
+                  href="/departments"
                   className="w-full flex items-center justify-between px-3 py-3 font-semibold text-primary/90 bg-secondary/40 border-t border-border"
-                  onClick={() => setMobileSection(mobileSection === 'depts' ? null : 'depts')}
-                  aria-expanded={mobileSection === 'depts'}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   <span>Departments</span>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform ${mobileSection === 'depts' ? 'rotate-180' : ''}`}
-                  />
-                </button>
-                {mobileSection === 'depts' && (
-                  <div className="bg-secondary/10 border-b border-border">
-                    <div className="px-2 py-1 max-h-64 overflow-y-auto">
-                      {departments.map((item) => (
-                        <Link
-                          key={item.path}
-                          href={item.path}
-                          className="block px-2 py-2 rounded-md text-sm text-foreground/70 hover:bg-secondary transition-colors"
-                          onClick={() => {
-                            setIsMenuOpen(false);
-                            setMobileSection(null);
-                          }}
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
 
                 {/* More */}
                 <button

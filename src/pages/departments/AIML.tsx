@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Brain, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import { useDepartmentData } from '../../hooks/useDepartmentData';
-import FixedSidebar from '@/components/FixedSidebar';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
 
 type Doc = { id: number; academic_year: string; title: string; file_url: string };
@@ -146,7 +146,6 @@ React.useEffect(() => {
         });
     }, []);
   
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
@@ -537,7 +536,7 @@ React.useEffect(() => {
                 new Set(group.items.map((i: any) => i.sem_type))
               ).map((sem) => (
                 <details key={String(sem)} open>
-                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                  <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                     {group.group}: {sem}
                   </summary>
                   <ul className="list-disc list-inside space-y-2 ml-4">
@@ -569,8 +568,7 @@ React.useEffect(() => {
       case 'Department Profile':
         return (
           <div id="department-profile" className="space-y-8 animate-fade-in">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
+            <div className="bg-white p-6 md:p-8 rounded-lg shadow-sm">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                 <div className="relative">
                   <img
@@ -582,7 +580,7 @@ React.useEffect(() => {
                 <div className="lg:col-span-2 space-y-4">
                   <div className="mb-4">
                     <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of the Department</p>
+                    <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
                     <p className="text-gray-600">Mobile No: 7672082130</p>
                     <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-442)</p>
                     <p className="text-gray-600">Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-primary hover:underline">hod_aim@srivasaviengg.ac.in</a></p>
@@ -700,7 +698,7 @@ React.useEffect(() => {
                     {/* Settings Panel */}
                     <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
                       {/* Panel Header */}
-                      <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] p-4 border-b border-gray-700">
+                      <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
@@ -737,7 +735,7 @@ React.useEffect(() => {
                                   setSettingsPanelOpen(false);
                                 }}
                                 className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                  ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                  ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
                                   : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                                   }`}
                               >
@@ -789,8 +787,8 @@ React.useEffect(() => {
                 {/* Floating Settings Button - Mobile Only */}
                 <button
                   onClick={() => setSettingsPanelOpen(true)}
-                  className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-                  title="Department Navigation"
+                  className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                  title="Artificial Intelligence & Machine Learning Department"
                 >
                   <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -1295,7 +1293,7 @@ React.useEffect(() => {
               <div className="space-y-4">
                 <div className="bg-gray-50 p-6 rounded-lg">
                   <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of the Department</p>
+                  <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
                   <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
                   <p className="text-gray-600">Fax No: 08818-284322</p>
                   <p className="text-gray-600">Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-primary hover:underline">hod_aim@srivasaviengg.ac.in</a></p>
@@ -1481,33 +1479,42 @@ React.useEffect(() => {
           </div>
         );
       default:
-        return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center animate-fade-in"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} will be updated soon.</h3></div>;
+        return (
+          <div className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+                {sidebarItems.find(item => item.id === activeContent)?.label || 'Department'}
+              </h2>
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} will be updated soon.</h3>
+              </div>
+            </div>
+          </div>
+        );
     }
+  };
+  
+  // Modify content output to match the screenshot design
+  const renderContentWithTitle = () => {
+    // Just return the content without adding another title, since it's already included in content sections
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
+      </div>
+    );
   };
 
   return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Artificial Intelligence & Machine Learning</h1>
-          </div>
-        </div>
-      </section>
-
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="AI & ML Department"
-        buttonLabel="Department Menu"
+        title="Artificial Intelligence & Machine Learning Department"
       >
-            {renderContent()}
-      </FixedSidebar>
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
 };

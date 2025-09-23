@@ -101,7 +101,7 @@ const Home: React.FC = () => {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <SmoothLink
               href="/admissions"
-              className="bg-primary text-primary-foreground px-8 py-3 rounded-md font-semibold hover:bg-primary/90 transition-transform transform hover:scale-105 no-underline"
+              className="bg-white text-primary px-8 py-3 rounded-md font-semibold hover:bg-gray-50 border-2 border-primary transition-transform transform hover:scale-105 no-underline"
             >
               Apply Now
             </SmoothLink>
@@ -449,10 +449,10 @@ const Home: React.FC = () => {
       </AnimatedSection>
 
       {/* Quick Links */}
-      <AnimatedSection animation="fadeInUp" className="py-16 bg-secondary/50">
+      <AnimatedSection animation="fadeInUp" className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-2">Explore Our Campus</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-2 text-primary">Explore Our Campus</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Discover world-class facilities, innovative programs, and endless opportunities.
             </p>
@@ -562,7 +562,7 @@ const Home: React.FC = () => {
               <Link href="/events" className="text-sm text-primary hover:underline font-medium">View All</Link>
             </div>
             <div
-              className="overflow-hidden h-80 bg-secondary/50 p-6 rounded-lg border"
+              className="overflow-hidden h-80 bg-white p-6 rounded-lg border border-primary/20"
               onMouseEnter={(e) => {
                 const target = e.currentTarget.querySelector('.events-scroll-content') as HTMLElement;
                 if (target) target.style.animationPlayState = 'paused';
@@ -576,7 +576,7 @@ const Home: React.FC = () => {
                 animation: 'scrollEvents 15s linear infinite',
               }}>
                 <div className="flex items-start gap-4">
-                  <div className="bg-primary text-primary-foreground p-3 rounded-md text-center w-16">
+                  <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
                     <div className="text-sm">JAN</div>
                     <div className="text-xl font-bold">25</div>
                   </div>
@@ -586,7 +586,7 @@ const Home: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="bg-primary/80 text-primary-foreground p-3 rounded-md text-center w-16">
+                  <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
                     <div className="text-sm">FEB</div>
                     <div className="text-xl font-bold">15</div>
                   </div>
@@ -596,7 +596,7 @@ const Home: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="bg-primary/80 text-primary-foreground p-3 rounded-md text-center w-16">
+                  <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
                     <div className="text-sm">MAR</div>
                     <div className="text-xl font-bold">10</div>
                   </div>
@@ -606,7 +606,7 @@ const Home: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="bg-primary/80 text-primary-foreground p-3 rounded-md text-center w-16">
+                  <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
                     <div className="text-sm">APR</div>
                     <div className="text-xl font-bold">05</div>
                   </div>
