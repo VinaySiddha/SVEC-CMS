@@ -311,9 +311,9 @@ const EEEDepartment: React.FC = () => {
     switch (activeContent) {
       case 'Department Profile':
         return (
-          <div id="department-profile" className="space-y-8 animate-fade-in">
+          <div id="department-Overview" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                 <div className="relative">
                   <img
@@ -340,13 +340,13 @@ const EEEDepartment: React.FC = () => {
               <div className="mt-12">
                 <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
 
-                {/* Department Profile Navigation - Grid Layout */}
+                {/* Department Profile Navigation - Single Row for Desktop, Grid for Mobile */}
                 <div className="mb-8">
-                  {/* Row 1: Department, Vision */}
-                  <div className="flex justify-center gap-4 mb-4">
+                  {/* Desktop View - Single Row (hidden on mobile) */}
+                  <div className="hidden lg:flex justify-center gap-3 mb-4 flex-wrap">
                     <button
                       onClick={() => setActiveDeptTab('Department')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Department'
                         ? 'bg-[#B22222] text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
@@ -355,20 +355,16 @@ const EEEDepartment: React.FC = () => {
                     </button>
                     <button
                       onClick={() => setActiveDeptTab('Vision')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Vision'
                         ? 'bg-[#B22222] text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                     >
                       Vision
                     </button>
-                  </div>
-
-                  {/* Row 2: Mission, PEOs, POs */}
-                  <div className="flex justify-center gap-4 mb-4">
                     <button
                       onClick={() => setActiveDeptTab('Mission')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Mission'
                         ? 'bg-[#B22222] text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
@@ -377,7 +373,7 @@ const EEEDepartment: React.FC = () => {
                     </button>
                     <button
                       onClick={() => setActiveDeptTab('PEOs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'PEOs'
                         ? 'bg-[#B22222] text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
@@ -386,20 +382,16 @@ const EEEDepartment: React.FC = () => {
                     </button>
                     <button
                       onClick={() => setActiveDeptTab('POs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'POs'
                         ? 'bg-[#B22222] text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                     >
                       POs
                     </button>
-                  </div>
-
-                  {/* Row 3: PSOs, COs */}
-                  <div className="flex justify-center gap-4 mb-4">
                     <button
                       onClick={() => setActiveDeptTab('PSOs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'PSOs'
                         ? 'bg-[#B22222] text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
@@ -408,26 +400,113 @@ const EEEDepartment: React.FC = () => {
                     </button>
                     <button
                       onClick={() => setActiveDeptTab('COs')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'COs'
                         ? 'bg-[#B22222] text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                     >
                       COs
                     </button>
-                  </div>
-
-                  {/* Row 4: Salient Features (centered) */}
-                  <div className="flex justify-center">
                     <button
                       onClick={() => setActiveDeptTab('SalientFeatures')}
-                      className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'SalientFeatures'
                         ? 'bg-[#B22222] text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                     >
                       Salient Features
                     </button>
+                  </div>
+
+                  {/* Mobile View - Grid Layout (hidden on desktop) */}
+                  <div className="lg:hidden">
+                    {/* Row 1: Department, Vision */}
+                    <div className="flex justify-center gap-4 mb-4">
+                      <button
+                        onClick={() => setActiveDeptTab('Department')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        Department
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('Vision')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        Vision
+                      </button>
+                    </div>
+
+                    {/* Row 2: Mission, PEOs, POs */}
+                    <div className="flex justify-center gap-4 mb-4">
+                      <button
+                        onClick={() => setActiveDeptTab('Mission')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        Mission
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('PEOs')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        PEOs
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('POs')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        POs
+                      </button>
+                    </div>
+
+                    {/* Row 3: PSOs, COs */}
+                    <div className="flex justify-center gap-4 mb-4">
+                      <button
+                        onClick={() => setActiveDeptTab('PSOs')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        PSOs
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('COs')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        COs
+                      </button>
+                    </div>
+
+                    {/* Row 4: Salient Features (centered) */}
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => setActiveDeptTab('SalientFeatures')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        Salient Features
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -528,24 +607,6 @@ const EEEDepartment: React.FC = () => {
                     </div>
                   </div>
                 )}
-
-                {/* Floating Settings Button - Mobile Only */}
-                <button
-                  onClick={() => setSettingsPanelOpen(true)}
-                  className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-                  title="Department Navigation"
-                >
-                  <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-
-                  {/* Mobile Label */}
-                  <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                    Menu
-                    <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
-                  </div>
-                </button>
 
                 <div className="mt-4">
                   {renderDeptTabContent()}
