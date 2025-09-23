@@ -137,8 +137,13 @@ jobs:
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/Final_Blast'
     
     steps:
-      - name: Deploy notification
-        run: |
-          echo "🚀 New Docker image has been pushed to Docker Hub!"
-          echo "Image: ${{ env.IMAGE_NAME }}:latest"
-          echo "You can now pull and deploy the latest version."
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /root/svec-cms
+            docker-compose pull
+            docker-compose up -d
