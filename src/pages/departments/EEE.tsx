@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, X } from 'lucide-react';
 import FixedSidebar from '../../components/FixedSidebar';
 import { usePublicDepartmentData, type Faculty, type Staff, type BoardOfStudiesMeetingMinute, type SyllabusDocument } from '../../hooks/usePublicDepartmentData';
@@ -38,6 +39,7 @@ interface BoardOfStudiesMember {
 }
 
 const EEEDepartment: React.FC = () => {
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
@@ -666,7 +668,7 @@ const EEEDepartment: React.FC = () => {
                   <p className="text-red-700 text-center">{error}</p>
                   <div className="text-center mt-4">
                     <button 
-                      onClick={() => window.location.reload()} 
+                      onClick={() => router.refresh()} 
                       className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#8B0000] transition-colors"
                     >
                       Retry
@@ -772,7 +774,7 @@ const EEEDepartment: React.FC = () => {
                 <p className="text-red-700 text-center">{error}</p>
                 <div className="text-center mt-4">
                   <button 
-                    onClick={() => window.location.reload()} 
+                    onClick={() => router.refresh()} 
                     className="px-4 py-2 bg-[#850209] text-white rounded hover:bg-[#6B0000] transition-colors"
                   >
                     Retry

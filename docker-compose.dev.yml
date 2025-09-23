@@ -2,8 +2,11 @@ version: '3.8'
 
 services:
   svec-cms:
-    image: vinaysiddha/svec-cms:latest
-    container_name: svec-cms-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: svec-cms:dev
+    container_name: svec-cms-dev
     ports:
       - "3000:3000"
     environment:
@@ -22,7 +25,7 @@ services:
       - COOKIE_MAX_AGE=${COOKIE_MAX_AGE:-86400}
       
       # Next.js Configuration
-      - NODE_ENV=production
+      - NODE_ENV=development
       - NEXT_TELEMETRY_DISABLED=1
       - PORT=3000
       - HOSTNAME=0.0.0.0
@@ -33,6 +36,8 @@ services:
     volumes:
       # Mount uploads directory for persistent file storage
       - ./public/uploads:/app/public/uploads
+      # Mount source code for development (optional)
+      - ./src:/app/src
       
     restart: unless-stopped
     

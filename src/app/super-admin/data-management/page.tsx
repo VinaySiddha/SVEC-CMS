@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -76,6 +77,7 @@ const DATA_MODULES = [
 ];
 
 const SuperAdminDataManagement = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [departmentData, setDepartmentData] = useState<DepartmentData[]>([]);
   const [selectedDepartment, setSelectedDepartment] = useState<string>('all');
@@ -305,7 +307,7 @@ const SuperAdminDataManagement = () => {
                             className="mt-2"
                             onClick={() => {
                               // Navigate to specific module management
-                              window.location.href = `/super-admin/data/${dept.department}/${module.id}`;
+                              router.push(`/super-admin/data/${dept.department}/${module.id}`);
                             }}
                           >
                             Manage
@@ -362,7 +364,7 @@ const SuperAdminDataManagement = () => {
                         className="w-full" 
                         onClick={() => {
                           // Navigate to module-specific management
-                          window.location.href = `/super-admin/data/module/${module.id}`;
+                          router.push(`/super-admin/data/module/${module.id}`);
                         }}
                       >
                         Manage All {module.name}
