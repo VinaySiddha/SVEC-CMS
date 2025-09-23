@@ -101,10 +101,10 @@ const CSTDepartment: React.FC = () => {
                 <tbody>
                   <tr className="bg-white border-b border-gray-200 hover:bg-gray-50">
                     <td className="px-6 py-4">1</td>
-                    <td className="px-6 py-4">B.Tech - CSE(Artificial Intelligence)</td>
+                    <td className="px-6 py-4">B.Tech - CSE(Data Science)</td>
                     <td className="px-6 py-4">AP EAPCET</td>
                     <td className="px-6 py-4">4 Years</td>
-                    <td className="px-6 py-4">0</td>
+                    <td className="px-6 py-4">60</td>
                   </tr>
                 </tbody>
               </table>
@@ -272,28 +272,28 @@ const CSTDepartment: React.FC = () => {
                 <div className="lg:col-span-2 space-y-4">
                   <div className="mb-4">
                     <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                    <p className="text-lg text-[#8B0000] font-medium mb-2">Head of Department, CSE-AI</p>
+                    <p className="text-lg text-[#8B0000] font-medium mb-2">Head of Department, CSE-DS</p>
                     <p className="text-gray-600">Ph.D in Computer Science, M.Tech CSE</p>
                     <p className="text-gray-600">Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-primary hover:underline">hod_aim@srivasaviengg.ac.in</a></p>
                   </div>
                   <p className="text-gray-700 leading-relaxed">
-                    Department of Computer Science and Artificial Intelligence came into inception from 2021 onwards with an intake of 60 seats in B.Tech. From 2022 onwards the intake was increased to 120 seats. From 2025 onwards the intake was increased to 180 seats.
+                    Department of Computer Science Engineering(Data Science) came into inception from 2024 onwards with an intake of 60 seats in B.Tech. Focuses on combining core computer science with advanced data science techniques to solve real-world problems using data-driven approaches.
                   </p>
                 </div>
               </div>
 
               {/* Department Profile Tab Navigation */}
               <div className="mt-12">
-                <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
+                <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h3>
 
-                {/* Department Profile Navigation - Grid Layout */}
-                <div className="mb-8">
+                {/* Department Profile Navigation - Responsive Layout */}
+                <div className="mb-8 md:flex md:justify-center md:gap-2 md:flex-wrap">
                 {/* Row 1: Department, Vision */}
-                <div className="flex justify-center gap-4 mb-4">
+                <div className="flex justify-center gap-4 mb-4 md:mb-0 md:contents">
                   <button
                     onClick={() => setActiveDeptTab('Department')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
-                      ? 'bg-[#B22222] text-white'
+                    className={`px-6 py-3 md:px-4 md:py-2 rounded-lg font-medium transition-colors duration-200 md:text-sm ${activeDeptTab === 'Department'
+                      ? 'bg-[#B22222] text-white md:shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
@@ -301,8 +301,8 @@ const CSTDepartment: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveDeptTab('Vision')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
-                      ? 'bg-[#B22222] text-white'
+                    className={`px-6 py-3 md:px-4 md:py-2 rounded-lg font-medium transition-colors duration-200 md:text-sm ${activeDeptTab === 'Vision'
+                      ? 'bg-[#B22222] text-white md:shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
@@ -311,11 +311,11 @@ const CSTDepartment: React.FC = () => {
                 </div>
 
                 {/* Row 2: Mission, PEOs, POs */}
-                <div className="flex justify-center gap-4 mb-4">
+                <div className="flex justify-center gap-4 mb-4 md:mb-0 md:contents">
                   <button
                     onClick={() => setActiveDeptTab('Mission')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                      ? 'bg-[#B22222] text-white'
+                    className={`px-6 py-3 md:px-4 md:py-2 rounded-lg font-medium transition-colors duration-200 md:text-sm ${activeDeptTab === 'Mission'
+                      ? 'bg-[#B22222] text-white md:shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
@@ -323,8 +323,8 @@ const CSTDepartment: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveDeptTab('PEOs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                      ? 'bg-[#B22222] text-white'
+                    className={`px-6 py-3 md:px-4 md:py-2 rounded-lg font-medium transition-colors duration-200 md:text-sm ${activeDeptTab === 'PEOs'
+                      ? 'bg-[#B22222] text-white md:shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
@@ -332,8 +332,8 @@ const CSTDepartment: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveDeptTab('POs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                      ? 'bg-[#B22222] text-white'
+                    className={`px-6 py-3 md:px-4 md:py-2 rounded-lg font-medium transition-colors duration-200 md:text-sm ${activeDeptTab === 'POs'
+                      ? 'bg-[#B22222] text-white md:shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
@@ -342,11 +342,11 @@ const CSTDepartment: React.FC = () => {
                 </div>
 
                 {/* Row 3: PSOs, COs */}
-                <div className="flex justify-center gap-4 mb-4">
+                <div className="flex justify-center gap-4 mb-4 md:mb-0 md:contents">
                   <button
                     onClick={() => setActiveDeptTab('PSOs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                      ? 'bg-[#B22222] text-white'
+                    className={`px-6 py-3 md:px-4 md:py-2 rounded-lg font-medium transition-colors duration-200 md:text-sm ${activeDeptTab === 'PSOs'
+                      ? 'bg-[#B22222] text-white md:shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
@@ -354,8 +354,8 @@ const CSTDepartment: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveDeptTab('COs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                      ? 'bg-[#B22222] text-white'
+                    className={`px-6 py-3 md:px-4 md:py-2 rounded-lg font-medium transition-colors duration-200 md:text-sm ${activeDeptTab === 'COs'
+                      ? 'bg-[#B22222] text-white md:shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
@@ -364,11 +364,11 @@ const CSTDepartment: React.FC = () => {
                 </div>
 
                 {/* Row 4: Salient Features (centered) */}
-                <div className="flex justify-center">
+                <div className="flex justify-center md:contents">
                   <button
                     onClick={() => setActiveDeptTab('SalientFeatures')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                      ? 'bg-[#B22222] text-white'
+                    className={`px-6 py-3 md:px-4 md:py-2 rounded-lg font-medium transition-colors duration-200 md:text-sm ${activeDeptTab === 'SalientFeatures'
+                      ? 'bg-[#B22222] text-white md:shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                   >
