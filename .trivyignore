@@ -1,0 +1,19 @@
+# Trivy ignore file for SVEC-CMS project
+# This file contains vulnerabilities that are either false positives or accepted risks
+
+# Next.js build artifacts - these are not runtime security issues
+/.next/
+/build/
+/dist/
+
+# Node modules vulnerabilities that are development dependencies only
+# Add specific CVE IDs here if needed
+# CVE-YYYY-XXXX
+
+# Alpine base image vulnerabilities that don't affect our application
+# These are typically in system packages we don't directly control
+
+# Documentation and other non-executable files
+*.md
+*.txt
+/docs/
