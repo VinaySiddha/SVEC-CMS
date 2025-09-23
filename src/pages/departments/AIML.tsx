@@ -7,6 +7,7 @@ import { useDepartmentData } from '../../hooks/useDepartmentData';
 type Doc = { id: number; academic_year: string; title: string; file_url: string };
 type Image = { id: number; image_url: string; alt_text: string };
 type Gallery = { id: number; title: string; images: Image[] };
+
 const AIMLDepartment: React.FC = () => {
   const [faculty, setFaculty] = React.useState<any[]>([]);
     const [TechnicalFaculty, setTechnicalFaculty] = React.useState<any[]>([]);
