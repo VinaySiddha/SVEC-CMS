@@ -55,6 +55,7 @@ interface DepartmentData {
   hackathons: Hackathon[];
 }
 
+
 const CSEDepartment: React.FC = () => {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -90,6 +91,14 @@ const CSEDepartment: React.FC = () => {
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
+  const [achievements, setStudentAchievements] = useState([]);
+
+   const [handbooks, setHandbooks] = useState([]);
+  // Removed duplicate declaration of hackathonsData
+  const [hackathonsData, setHackathonsData] = useState([]);
+
+    const [eresources, setEresources] = useState([]);
+    
   // Fetch department data
   useEffect(() => {
     const fetchDepartmentData = async () => {
@@ -115,6 +124,16 @@ const CSEDepartment: React.FC = () => {
         setLoading(false);
       }
     };
+    fetch('/api/cstcse/handbooks?dept=CSE')
+      .then(res => res.json())
+      .then(data => setHandbooks(data));``
+fetch('/api/cstcse/eresources')
+      .then(res => res.json())
+      .then(data => setEresources(data));
+
+       fetch('/api/cstcse/studentAchievements?dept=CSE')
+      .then(res => res.json())
+      .then(data => setStudentAchievements(data));
 
     fetchDepartmentData();
   }, []);
@@ -128,7 +147,8 @@ const CSEDepartment: React.FC = () => {
   const nonTeachingFaculty = departmentData?.nonTeachingStaff || [];
   const TechnicalFaculty = departmentData?.technicalStaff || [];
   const placementsData = departmentData?.placements || [];
-  const hackathonsData = departmentData?.hackathons || [];
+  // Remove this line to avoid redeclaration:
+  // const hackathonsData = departmentData?.hackathons || [];
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
@@ -313,1216 +333,155 @@ const CSEDepartment: React.FC = () => {
   const renderContent = () => {
     console.log("Current activeContent:", activeContent);
     switch (activeContent) {
-      case 'Student Achievements':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Student Achievements</h2>
-
-            {/* Internships */}
-            <div className="tab4 mt-4">
-              <details open className="border rounded-lg p-4">
-
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Internships</summary>
-                <div className="nav-content">
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Internships during the Academic Year 2024-25 -{' '}
-                      <a href="https://srivasaviengg.ac.in/uploads/cse_awards/CSE_Internships%20during%20the%202024-25.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2023-24 -{' '}
-                      <a href="https://www.srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2022-23 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202022-23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2021-22 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2020-21 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2019-20 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2018-19 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2017-18 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202017-18.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2016-17 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202016-17.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2015-16 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202015-16.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2014-15 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202014-15.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* Conference Publications */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Conference Publications</summary>
-                <div className="m-3 space-y-2">
-                  <p>
-                    Conferences during the Academic Year 2023-24 -{' '}
-                    <a href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_STUDENT_conferences_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] font-semibold hover:underline">View More</a>
-                  </p>
-                  <p>
-                    Conferences during the Academic Year 2022-23 -{' '}
-                    <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE-conferences%20(22-23).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] font-semibold hover:underline">View More</a>
-                  </p>
-                </div>
-              </details>
-            </div>
-
-            {/* Journal Publications */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Journal Publications</summary>
-                <div className="m-3">
-                  <p>
-                    Journal during the Academic Year 2023-24 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_STUDENT_Journals_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] font-semibold hover:underline">View More</a>
-                  </p>
-                </div>
-              </details>
-            </div>
-
-            {/* Roll of Honour */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Roll of Honour</summary>
-                <div className="flex justify-center items-center">
-                  <div className="overflow-x-auto w-full">
-                    <table className="min-w-full bg-white border border-gray-200 mb-4">
-                      <thead className="bg-gray-100">
-                        <tr>
-                          <th className="py-3 px-4 border-b">Batch</th>
-                          <th className="py-3 px-4 border-b">Roll Number</th>
-                          <th className="py-3 px-4 border-b">Name of The Student</th>
-                          <th className="py-3 px-4 border-b">CGPA/Aggregate</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>2020-24</td>
-                          <td className="py-3 px-4 border-b">20A81A0588</td>
-                          <td className="py-3 px-4 border-b">K. Venkata Sri Mounika<br /><b>(Roll of Honour Gold Medal)</b></td>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>9.46</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">20A81A05I5</td>
-                          <td className="py-3 px-4 border-b"></td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>2019-23</td>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>19A81A0594</td>
-                          <td className="py-3 px-4 border-b">T. Sai Kishore<br /><b>(Certificate of Appreciation)</b></td>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>9.46</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">Sri Peruri Subbarayudu Memorial Silver Medal – Instituted by Sri P.Bala Kasaiah <b>(Topper among boys)</b></td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2018-22</td>
-                          <td className="py-3 px-4 border-b">18A81A0518</td>
-                          <td className="py-3 px-4 border-b">DATLA SRIYA <br />Smt. Chekka Rajeswari Memorial Silver Medal – Instituted by Sri Ch.S.N.Murthy (Late) <br />(Topper among girls)</td>
-                          <td className="py-3 px-4 border-b">88.03</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2018-22</td>
-                          <td className="py-3 px-4 border-b">18A81A0513</td>
-                          <td className="py-3 px-4 border-b">VANIMIREDDY BHANU TEJA <br />(Best Outgoing Student (All Rounder)2022)</td>
-                          <td className="py-3 px-4 border-b">82.25</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2017-21</td>
-                          <td className="py-3 px-4 border-b">17A81A0527</td>
-                          <td className="py-3 px-4 border-b">M.Chandini</td>
-                          <td className="py-3 px-4 border-b">79.33</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2016-20</td>
-                          <td className="py-3 px-4 border-b">16A81A0535</td>
-                          <td className="py-3 px-4 border-b">M.Lakshmi Sailaja</td>
-                          <td className="py-3 px-4 border-b">80.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2016-20</td>
-                          <td className="py-3 px-4 border-b">16A81A0561</td>
-                          <td className="py-3 px-4 border-b">A.SaiLakshmi</td>
-                          <td className="py-3 px-4 border-b">80.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2015-19</td>
-                          <td className="py-3 px-4 border-b">15A81A05F1</td>
-                          <td className="py-3 px-4 border-b">M.Lakshmi Mounica</td>
-                          <td className="py-3 px-4 border-b">86.15</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2014-18</td>
-                          <td className="py-3 px-4 border-b">14A81A0575</td>
-                          <td className="py-3 px-4 border-b">K.V.G.Satish</td>
-                          <td className="py-3 px-4 border-b">82.33</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2013-17</td>
-                          <td className="py-3 px-4 border-b">13A81A05C2</td>
-                          <td className="py-3 px-4 border-b">A.Sai Priyanka <br />(College Level Gold Medalist)</td>
-                          <td className="py-3 px-4 border-b">82.47</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2013-17</td>
-                          <td className="py-3 px-4 border-b">13A81A0547</td>
-                          <td className="py-3 px-4 border-b">S.Rajeswara Sesha Reddy <br />(College Level outgoing UG Student Gold Medal for the A.Y.2016-17)</td>
-                          <td className="py-3 px-4 border-b">79.17</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2012-16</td>
-                          <td className="py-3 px-4 border-b">12A81A0591</td>
-                          <td className="py-3 px-4 border-b">K.S.N.V.G.Lavanya</td>
-                          <td className="py-3 px-4 border-b">78.51</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2011-15</td>
-                          <td className="py-3 px-4 border-b">11A81A05A6</td>
-                          <td className="py-3 px-4 border-b">N.Susmitha</td>
-                          <td className="py-3 px-4 border-b">85.91</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2010-14</td>
-                          <td className="py-3 px-4 border-b">10A81A05A6</td>
-                          <td className="py-3 px-4 border-b">A.Sravya Sree</td>
-                          <td className="py-3 px-4 border-b">79.20</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2009-13</td>
-                          <td className="py-3 px-4 border-b">09A81A0566</td>
-                          <td className="py-3 px-4 border-b">C.Hima Teja</td>
-                          <td className="py-3 px-4 border-b">80.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2008-12</td>
-                          <td className="py-3 px-4 border-b">08A81A0510</td>
-                          <td className="py-3 px-4 border-b">B.Surekha Devi</td>
-                          <td className="py-3 px-4 border-b">83.53</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2007-11</td>
-                          <td className="py-3 px-4 border-b">07A81A0596</td>
-                          <td className="py-3 px-4 border-b">V.M.Krishna</td>
-                          <td className="py-3 px-4 border-b">79.31</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2006-10</td>
-                          <td className="py-3 px-4 border-b">06A81A0515</td>
-                          <td className="py-3 px-4 border-b">U.Kalpana <br />(University Gold Medal)</td>
-                          <td className="py-3 px-4 border-b">84.71</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2005-09</td>
-                          <td className="py-3 px-4 border-b">05A81A0511</td>
-                          <td className="py-3 px-4 border-b">K.V.Sarvani</td>
-                          <td className="py-3 px-4 border-b">80.88</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2004-08</td>
-                          <td className="py-3 px-4 border-b">04A81A0525</td>
-                          <td className="py-3 px-4 border-b">M.Krishnachand</td>
-                          <td className="py-3 px-4 border-b">79.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2003-07</td>
-                          <td className="py-3 px-4 border-b">03A81A0518</td>
-                          <td className="py-3 px-4 border-b">V.Kanti</td>
-                          <td className="py-3 px-4 border-b">76.39</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2002-06</td>
-                          <td className="py-3 px-4 border-b">02A81A0527</td>
-                          <td className="py-3 px-4 border-b">M.Poorna Chandra</td>
-                          <td className="py-3 px-4 border-b">76.91</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2002-06</td>
-                          <td className="py-3 px-4 border-b">02A81A0501</td>
-                          <td className="py-3 px-4 border-b">P.Anjaneyulu</td>
-                          <td className="py-3 px-4 border-b">76.91</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2001-05</td>
-                          <td className="py-3 px-4 border-b">02A81A0548</td>
-                          <td className="py-3 px-4 border-b">V.Udaya Kiran</td>
-                          <td className="py-3 px-4 border-b">78.61</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-center">Image Gallery</h3>
-                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <img src="https://srivasaviengg.ac.in/images/departments/cse/rofh.jpg" alt="Roll of Honour 1" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                  <img src="https://srivasaviengg.ac.in/images/departments/cse/RofH1.jpg" alt="Roll of Honour 2" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                  <img src="https://srivasaviengg.ac.in/images/departments/cse/RofH2.jpg" alt="Roll of Honour 3" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                  <img src="https://srivasaviengg.ac.in/images/departments/cse/rofh3.jpg" alt="Roll of Honour 4" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                </div>
-              </details>
-            </div>
-
-            {/* Awards */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Awards</summary>
-                <div className="nav-content">
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Awards during the Academic Year 2021-22 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2021-2022.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Awards during the Academic Year 2016-17 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2016-2017.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Awards during the Academic Year 2015-16 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2015-2016.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Awards during the Academic Year 2008-10 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2009-2010.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* GATE */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>GATE</summary>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full bg-white border border-gray-200 text-center">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="py-3 px-4 border-b">S.No</th>
-                        <th className="py-3 px-4 border-b">Roll No</th>
-                        <th className="py-3 px-4 border-b">Name</th>
-                        <th className="py-3 px-4 border-b">Score</th>
-                        <th className="py-3 px-4 border-b">Year</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td className="py-2 px-3 border-b">1</td><td className="py-2 px-3 border-b">21A81A05P4</td><td className="py-2 px-3 border-b">Shaik Basheera</td><td className="py-2 px-3 border-b">435</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">2</td><td className="py-2 px-3 border-b">21A81A05N2</td><td className="py-2 px-3 border-b">Kurella Sushmadi Lakshmi</td><td className="py-2 px-3 border-b">381</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">3</td><td className="py-2 px-3 border-b">22A81A05Q4</td><td className="py-2 px-3 border-b">Yandamuri Likhita Sai</td><td className="py-2 px-3 border-b">374</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">4</td><td className="py-2 px-3 border-b">21A81A0540</td><td className="py-2 px-3 border-b">Patri Naga Venkata Pranav</td><td className="py-2 px-3 border-b">364</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">5</td><td className="py-2 px-3 border-b">21A81A05M4</td><td className="py-2 px-3 border-b">Inty J V Mohanakrishna</td><td className="py-2 px-3 border-b">358</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">6</td><td className="py-2 px-3 border-b">21A81A05M9</td><td className="py-2 px-3 border-b">K L Shanu Abhinaya</td><td className="py-2 px-3 border-b">356</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">7</td><td className="py-2 px-3 border-b">21A81A05N4</td><td className="py-2 px-3 border-b">M N V Vijaya Lakshmi</td><td className="py-2 px-3 border-b">347</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">8</td><td className="py-2 px-3 border-b">21A81A0520</td><td className="py-2 px-3 border-b">K N S L Padma Janaki</td><td className="py-2 px-3 border-b">341</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">9</td><td className="py-2 px-3 border-b">21A81A0554</td><td className="py-2 px-3 border-b">Tadi Arjun Reddy</td><td className="py-2 px-3 border-b">335</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">10</td><td className="py-2 px-3 border-b">21A81A0586</td><td className="py-2 px-3 border-b">Gorty Venkata Sowmya</td><td className="py-2 px-3 border-b">338</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">11</td><td className="py-2 px-3 border-b">21A81A05N1</td><td className="py-2 px-3 border-b">Kottu Jagadeesh Kumar</td><td className="py-2 px-3 border-b">331</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">12</td><td className="py-2 px-3 border-b">22A81A05A9</td><td className="py-2 px-3 border-b">Pesaraganti Harshavardhan</td><td className="py-2 px-3 border-b">323</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">13</td><td className="py-2 px-3 border-b">22A81A05E6</td><td className="py-2 px-3 border-b">Ganni Mahitha Lakshmi</td><td className="py-2 px-3 border-b">318</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">14</td><td className="py-2 px-3 border-b">22A81A0543</td><td className="py-2 px-3 border-b">Nalla Varshitha Banu</td><td className="py-2 px-3 border-b">356</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">15</td><td className="py-2 px-3 border-b">23A85A0504</td><td className="py-2 px-3 border-b">Kammili Manoj Vamsi</td><td className="py-2 px-3 border-b">314</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">16</td><td className="py-2 px-3 border-b">21A81A0520</td><td className="py-2 px-3 border-b">K.N.S.L.P. Janaki</td><td className="py-2 px-3 border-b">331</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">17</td><td className="py-2 px-3 border-b">20A81A05E1</td><td className="py-2 px-3 border-b">G.V.S. Siva Ram</td><td className="py-2 px-3 border-b">328(CS) / 303(DS)</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">18</td><td className="py-2 px-3 border-b">21A81A05C3</td><td className="py-2 px-3 border-b">S. Sri Satya</td><td className="py-2 px-3 border-b">320</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">19</td><td className="py-2 px-3 border-b">20A81A0599</td><td className="py-2 px-3 border-b">M. Nitish</td><td className="py-2 px-3 border-b">255</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">20</td><td className="py-2 px-3 border-b">20A81A0626</td><td className="py-2 px-3 border-b">K. Pushpa Leela Vijaya Durga</td><td className="py-2 px-3 border-b">328</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">21</td><td className="py-2 px-3 border-b">19A81A0593</td><td className="py-2 px-3 border-b">K. Naga Venkata Sai Surendra</td><td className="py-2 px-3 border-b">344</td><td className="py-2 px-3 border-b">2023</td></tr>
-                      <tr><td className="py-2 px-3 border-b">22</td><td className="py-2 px-3 border-b">19A81A0597</td><td className="py-2 px-3 border-b">K. Nitin Vamsi</td><td className="py-2 px-3 border-b">239</td><td className="py-2 px-3 border-b">2023</td></tr>
-                      <tr><td className="py-2 px-3 border-b">23</td><td className="py-2 px-3 border-b">18A81A05H3</td><td className="py-2 px-3 border-b">V. Bhanu Teja</td><td className="py-2 px-3 border-b">389</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">24</td><td className="py-2 px-3 border-b">18A81A05G3</td><td className="py-2 px-3 border-b">Rohit Pragallapti</td><td className="py-2 px-3 border-b">368</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">25</td><td className="py-2 px-3 border-b">18A81A0592</td><td className="py-2 px-3 border-b">Orusu Venkatesh</td><td className="py-2 px-3 border-b">324</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">26</td><td className="py-2 px-3 border-b">18A81A05K3</td><td className="py-2 px-3 border-b">Baby Bahragavi Karella</td><td className="py-2 px-3 border-b">332</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">27</td><td className="py-2 px-3 border-b">18A81A05B9</td><td className="py-2 px-3 border-b">Y Raghava Rao</td><td className="py-2 px-3 border-b">327</td><td className="py-2 px-3 border-b">2021</td></tr>
-                      <tr><td className="py-2 px-3 border-b">28</td><td className="py-2 px-3 border-b">13A81A05A0</td><td className="py-2 px-3 border-b">P.V.Prathyusha</td><td className="py-2 px-3 border-b">1037</td><td className="py-2 px-3 border-b">2017</td></tr>
-                      <tr><td className="py-2 px-3 border-b">29</td><td className="py-2 px-3 border-b">10A81A0578</td><td className="py-2 px-3 border-b">K. Naga Lakshmi</td><td className="py-2 px-3 border-b">359</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">30</td><td className="py-2 px-3 border-b">10A81A05A8</td><td className="py-2 px-3 border-b">S. Vineel</td><td className="py-2 px-3 border-b">371</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">31</td><td className="py-2 px-3 border-b">10A81A0527</td><td className="py-2 px-3 border-b">K.Tejaswi</td><td className="py-2 px-3 border-b">354</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">32</td><td className="py-2 px-3 border-b">10A81A05A3</td><td className="py-2 px-3 border-b">S. Hymavathi</td><td className="py-2 px-3 border-b">339</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">33</td><td className="py-2 px-3 border-b">08A81A0576</td><td className="py-2 px-3 border-b">D Sasidhar</td><td className="py-2 px-3 border-b">457</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">34</td><td className="py-2 px-3 border-b">08A81A0588</td><td className="py-2 px-3 border-b">K Venkateswara Rao</td><td className="py-2 px-3 border-b">402</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">35</td><td className="py-2 px-3 border-b">08A81A0540</td><td className="py-2 px-3 border-b">K. Pavan Kumar</td><td className="py-2 px-3 border-b">384</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">36</td><td className="py-2 px-3 border-b">08A81A05C2</td><td className="py-2 px-3 border-b">T. Narendra</td><td className="py-2 px-3 border-b">357</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">37</td><td className="py-2 px-3 border-b">08A81A0582</td><td className="py-2 px-3 border-b">G.R.A.SeshuBabu</td><td className="py-2 px-3 border-b">352</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">38</td><td className="py-2 px-3 border-b">08A81A0549</td><td className="py-2 px-3 border-b">P. DurgaBalaji</td><td className="py-2 px-3 border-b">352</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">39</td><td className="py-2 px-3 border-b">08A81A0512</td><td className="py-2 px-3 border-b">Ch.N.V. Vijay Krishna</td><td className="py-2 px-3 border-b">339</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">40</td><td className="py-2 px-3 border-b">08A81A05B7</td><td className="py-2 px-3 border-b">S. Mani Kanta</td><td className="py-2 px-3 border-b">316</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">41</td><td className="py-2 px-3 border-b">08A81A0563</td><td className="py-2 px-3 border-b">V. ShyamSudheer</td><td className="py-2 px-3 border-b">325</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">42</td><td className="py-2 px-3 border-b">08A81A05A3</td><td className="py-2 px-3 border-b">B.S.V. Naresh</td><td className="py-2 px-3 border-b">311</td><td className="py-2 px-3 border-b">2012</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div className="mt-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <img src="https://srivasaviengg.ac.in/images/departments/cse/Gate List.jpg" alt="GATE List" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                    <img src="https://srivasaviengg.ac.in/images/departments/cse/Gate 2024 copy.jpg" alt="GATE 2024" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                  </div>
-                </div>
-              </details>
-            </div>
-
-            {/* GRE */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>GRE</summary>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full bg-white border border-gray-200 text-center">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="py-3 px-4 border-b">S.No</th>
-                        <th className="py-3 px-4 border-b">Roll No</th>
-                        <th className="py-3 px-4 border-b">Name</th>
-                        <th className="py-3 px-4 border-b">Course</th>
-                        <th className="py-3 px-4 border-b">GRE</th>
-                        <th className="py-3 px-4 border-b">TOEFL</th>
-                        <th className="py-3 px-4 border-b">IELTS</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td className="py-2 px-3 border-b">1</td><td className="py-2 px-3 border-b">18A81A05L0</td><td className="py-2 px-3 border-b">K. Mohith Adarsh</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">315</td><td className="py-2 px-3 border-b">94</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">2</td><td className="py-2 px-3 border-b">19A85A0514</td><td className="py-2 px-3 border-b">P. Chandra Mouli</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">322</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">3</td><td className="py-2 px-3 border-b">17A81A05E2</td><td className="py-2 px-3 border-b">M. Yaswanth Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">319</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">4</td><td className="py-2 px-3 border-b">18A81A05J6</td><td className="py-2 px-3 border-b">I. Lakshmi Prasanna</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">325</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">5</td><td className="py-2 px-3 border-b">17A81A05C4</td><td className="py-2 px-3 border-b">Ch. Shyam</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">319</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">6</td><td className="py-2 px-3 border-b">13A81A05G9</td><td className="py-2 px-3 border-b">T. Lokesh Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">321</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">7</td><td className="py-2 px-3 border-b">18A81A0594</td><td className="py-2 px-3 border-b">P. Jashwanth Sai</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">322</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">8</td><td className="py-2 px-3 border-b">18A81A0599</td><td className="py-2 px-3 border-b">P. Sandhya Rani</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">308</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">7.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">9</td><td className="py-2 px-3 border-b">16A81A05M4</td><td className="py-2 px-3 border-b">S. Harshini Sai</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">96</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">10</td><td className="py-2 px-3 border-b">17A81A0505</td><td className="py-2 px-3 border-b">B.B.M Satyendra</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">329</td><td className="py-2 px-3 border-b">97</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">11</td><td className="py-2 px-3 border-b">18A81A0578</td><td className="py-2 px-3 border-b">K. Bhavya Sri</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">326</td><td className="py-2 px-3 border-b">91</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">12</td><td className="py-2 px-3 border-b">16A81A05I5</td><td className="py-2 px-3 border-b">B. Sriram</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">7</td></tr>
-                      <tr><td className="py-2 px-3 border-b">13</td><td className="py-2 px-3 border-b">19A81A05D9</td><td className="py-2 px-3 border-b">B. Mohith Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">306</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">14</td><td className="py-2 px-3 border-b">19A81A05I1</td><td className="py-2 px-3 border-b">R. Sai Nkhitha</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">327</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">15</td><td className="py-2 px-3 border-b">13A81A05B0</td><td className="py-2 px-3 border-b">V. Bhargavi</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">105</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">16</td><td className="py-2 px-3 border-b">15A81A05K9</td><td className="py-2 px-3 border-b">K. Venkata Alekhya</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">326</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">17</td><td className="py-2 px-3 border-b">16A81A0523</td><td className="py-2 px-3 border-b">K. Ram Chandu</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">324</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">18</td><td className="py-2 px-3 border-b">17A81A0580</td><td className="py-2 px-3 border-b">M. Bhargav sai</td><td className="py-2 px-3 border-b">314</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">19</td><td className="py-2 px-3 border-b">16A81A05I9</td><td className="py-2 px-3 border-b">Ch. H. V. S Sairam</td><td className="py-2 px-3 border-b">323</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">20</td><td className="py-2 px-3 border-b">15A81A0564</td><td className="py-2 px-3 border-b">A. Mahesh Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">21</td><td className="py-2 px-3 border-b">15A81A05M3</td><td className="py-2 px-3 border-b">P. Mohan SitaRam</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.0</td></tr>
-                      <tr><td className="py-2 px-3 border-b">22</td><td className="py-2 px-3 border-b">16A81A0523</td><td className="py-2 px-3 border-b">K. Ram Chandu</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">84</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">23</td><td className="py-2 px-3 border-b">13A81A05G3</td><td className="py-2 px-3 border-b">K. Sahithi Suresh</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">24</td><td className="py-2 px-3 border-b">14A81A0534</td><td className="py-2 px-3 border-b">K. ChaitanyaSai</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">25</td><td className="py-2 px-3 border-b">13A81A0547</td><td className="py-2 px-3 border-b">S. Sesha Reddy</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">298</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">26</td><td className="py-2 px-3 border-b">13A81A0514</td><td className="py-2 px-3 border-b">Ch. Aditya</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">297</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">27</td><td className="py-2 px-3 border-b">13A81A05A8</td><td className="py-2 px-3 border-b">T.Suraj</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">290</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">28</td><td className="py-2 px-3 border-b">11A81A0584</td><td className="py-2 px-3 border-b">K. Lakshmi Narayana</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">39th percentile</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </details>
-            </div>
-
-            {/* UIF */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>UIF</summary>
-                <div className="nav-content">
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Student Achievements during the Academic Year 2018-19 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Stu_Ach_2018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* NPTEL/Other Certifications */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>NPTEL/Other Certifications</summary>
-                <div className="nav-content">
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Certifications during the A.Y 2024-25 -{' '}
-                      <a href="https://www.srivasaviengg.ac.in/uploads/Nptel and Global 2024-25 (CSE).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2023-24 -{' '}
-                      <a href="https://www.srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202023-24_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2022-23 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/CSE_Nptel%20&%20Others%20during%202022-23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2021-22 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202021-22_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2020-21 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202020-21_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2019-20 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202019-20_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2018-19 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/NPTEL%20Certified%20Student%20List%20Jan_Apr_2019.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* Community Service Project */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Community Service Project</summary>
-                <div className="nav-content">
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      List of CSP Projects done by 2022-26 Batch Students -{' '}
-                      <a href="https://www.srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202022-26%20Batch%20Students.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      List of CSP Projects done by 2021-25 Batch Students -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202021-25%20Batch%20Students.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      List of CSP Projects done by 2020-24 Batch Students -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202020-24%20Batch%20Students.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* Student Research Projects */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Student Research Projects</summary>
-                <div className="nav-content">
-                  <h3 className="my-2 font-semibold">B.Tech</h3>
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Projects during the A.Y - 2024-25 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/CSE Best Main Projects_ A.Y 24-25.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2023-24 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/CSE Best Main Projects_ A.Y 23-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2022-23 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202022-23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2021-22 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2020-21 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2019-20 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2018-19 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%20A.Y%202018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-
-                  <h3 className="my-2 font-semibold">M.Tech</h3>
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Projects during the A.Y - 2021-23 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CS)%202021-23%20Batch%20Projects.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2020-22 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202020-22%20Batch%20Projects.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2019-21 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202019-21%20Batch%20Projects.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2018-20 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202018-20%20Batch%20Projects.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2017-19 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202017-19%20Batch%20Projects.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* Dynamic Student Achievements from Database */}
-            {departmentData?.studentAchievements && departmentData.studentAchievements.length > 0 && (
-              <div className="tab4 mt-4">
-                <details className="border rounded-lg p-4">
-                  <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                    Recent Student Achievements (Database)
-                  </summary>
-                  <div className="nav-content mt-4">
-                    <div className="grid gap-4">
-                      {departmentData.studentAchievements.map((achievement, index) => (
-                        <div key={achievement.id} className="bg-gray-50 p-4 rounded-lg">
-                          <h4 className="font-semibold text-gray-800">{achievement.title}</h4>
-                          {achievement.description && (
-                            <p className="text-gray-600 mt-2">{achievement.description}</p>
-                          )}
-                          {achievement.date && (
-                            <p className="text-sm text-gray-500 mt-2">
-                              Date: {new Date(achievement.date).toLocaleDateString('en-IN')}
-                            </p>
-                          )}
-                          {achievement.category && (
-                            <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mt-2">
-                              {achievement.category}
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </details>
-              </div>
-            )}
-          </div>
-        );
-
-      case 'Hackathons':
-        console.log("Rendering Hackathons section");
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              Hackathons
-            </h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              A 24-hour student hackathon is an event where students come
-              together to collaborate, innovate, and create projects within a
-              short time frame. These hackathons have gained immense popularity
-              in recent years, and they hold significant importance for students
-              for several reasons:
-            </p>
-            <ul className="my-4 space-y-3 list-disc list-inside">
-              <li className="text-gray-700">
-                <span className="font-medium">Hands-on learning:</span> Hackathons provide students with a unique
-                opportunity to engage in hands-on learning. They encourage
-                participants to apply their knowledge and skills to real-world
-                problems and challenges. It allows students to go beyond
-                theoretical knowledge and gain practical experience by working
-                on a project from start to finish within a limited time.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Collaboration and teamwork:</span> Hackathons foster collaboration and
-                teamwork among students. Participants usually form teams,
-                bringing together individuals with diverse backgrounds and
-                expertise. Working together, they learn to communicate
-                effectively, leverage each other's strengths, and tackle complex
-                problems collectively. The experience of collaborating with
-                peers from different disciplines helps develop essential
-                teamwork and interpersonal skills.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Innovation and creativity:</span> The time constraint of a 24-hour
-                hackathon encourages participants to think innovatively and
-                creatively. Students are often required to come up with novel
-                solutions to problems or create something entirely new within a
-                limited timeframe. This pressure fuels innovation and pushes
-                participants to explore unconventional ideas, leading to the
-                development of unique projects.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Networking and industry exposure:</span> Student hackathons often
-                attract participants, mentors, and judges from various
-                industries and organizations. This provides an excellent
-                networking opportunity for students to connect with
-                professionals, potential employers, and like-minded peers.
-                Building connections during a hackathon can lead to future
-                internships, job opportunities, or collaborations on other
-                projects.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Skill development:</span> Hackathons offer a platform for students to
-                enhance their existing skills and acquire new ones. During the
-                event, participants may have to learn and use new technologies,
-                programming languages, or tools to complete their projects. This
-                process helps broaden their skillset, exposes them to different
-                technologies, and allows them to experiment with cutting-edge
-                tools and platforms.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Resume/portfolio enhancement:</span> Participating in hackathons adds
-                value to a student's resume or portfolio. It demonstrates their
-                passion for learning, problem-solving ability, teamwork skills,
-                and ability to work under pressure. Employers and educational
-                institutions often consider hackathon experience as a strong
-                indicator of a student's practical skills and motivation.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Recognition and awards:</span> Many hackathons offer prizes,
-                recognition, or opportunities for participants to showcase their
-                projects to a wider audience. Winning or being recognized in a
-                hackathon can boost a student's confidence, provide validation
-                for their work, and open doors to further opportunities.
-              </li>
-            </ul>
-            <p className="text-gray-700 leading-relaxed mb-8">
-              In conclusion, 24-hour student hackathons are important because
-              they promote hands-on learning, foster collaboration, encourage
-              innovation, provide networking opportunities, facilitate skill
-              development, enhance resumes/portfolios, and offer recognition for
-              participants. They serve as a platform for students to showcase
-              their abilities, learn from their peers, and gain valuable
-              experience in a short period.
-            </p>
-
-            {/* Hackathons Conducted Table */}
-            <h3 className="text-2xl font-semibold text-[#7f1d1d] mb-4 text-center">Hackathons Conducted</h3>
-            <div className="flex justify-center mb-8">
-              <div className="overflow-x-auto w-full">
-                {hackathonsData.length > 0 ? (
-                  <table className="min-w-full bg-white border-collapse">
-                    <thead>
-                      <tr className="border-b-2 border-gray-200">
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Event Name</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Date</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Description</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Participants</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {hackathonsData.map((hackathon, index) => (
-                        <tr key={hackathon.id} className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">{index + 1}</td>
-                          <td className="py-3 px-4 border-b font-medium">{hackathon.title}</td>
-                          <td className="py-3 px-4 border-b">
-                            {new Date(hackathon.start_date).toLocaleDateString('en-IN')}
-                          </td>
-                          <td className="py-3 px-4 border-b">
-                            {hackathon.description || 'No description available'}
-                          </td>
-                          <td className="py-3 px-4 border-b">
-                            {hackathon.participants_count || 'Not specified'}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <div className="text-center py-8">
-                    <p className="text-gray-500">No hackathons data available at the moment.</p>
-                  </div>
+   case 'Student Achievements':
+return (
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Student Achievements</h2>
+      <div className="space-y-4">
+        {achievements.length > 0 ? (
+          achievements.map((item) => (
+            <details key={item.id} className="border rounded-lg p-4">
+              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
+                {item.category}: {item.title}
+              </summary>
+              <div className="nav-content mt-4">
+                {item.description && <p className="mb-2">{item.description}</p>}
+                {item.fileUrl && (
+                  <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">
+                    View More
+                  </a>
+                )}
+                {item.academic_year && (
+                  <p className="text-sm text-gray-500 mt-2">Academic Year: {item.academic_year}</p>
                 )}
               </div>
-            </div>
+            </details>
+          ))
+        ) : (
+          <p>No student achievements found.</p>
+        )}
+      </div>
+    </div>
+  );
 
-            {/* Gallery Section */}
-            <div className="mt-12">
-              <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">Gallery</h3>
-              <h4 className="text-xl font-medium text-center mb-6">Hackathon 2022</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col space-y-6">
-                  <img
-                    src="https://srivasaviengg.ac.in/images/departments/cse/Hackthon_2022_23 (1).jpg"
-                    alt="Hackathon 2022 Image 1"
-                    className="w-full h-auto rounded-lg shadow-md object-cover"
-                    style={{ aspectRatio: "16/9" }}
-                  />
-                  <img
-                    src="https://srivasaviengg.ac.in/images/departments/cse/Hackthon 2021_22 (1).jpeg"
-                    alt="Hackathon 2021 Image 1"
-                    className="w-full h-auto rounded-lg shadow-md object-cover"
-                    style={{ aspectRatio: "16/9" }}
-                  />
-                </div>
-                <div className="flex flex-col space-y-6">
-                  <img
-                    src="https://srivasaviengg.ac.in/images/departments/cse/Hackthon 2021_22 (1).jpeg"
-                    alt="Hackathon 2021 Image 2"
-                    className="w-full h-auto rounded-lg shadow-md object-cover"
-                    style={{ aspectRatio: "16/9" }}
-                  />
-                  <img
-                    src="https://srivasaviengg.ac.in/images/departments/cse/Hackthon_2022_23 (2) (1).jpg"
-                    alt="Hackathon 2022 Image 2"
-                    className="w-full h-auto rounded-lg shadow-md object-cover"
-                    style={{ aspectRatio: "16/9" }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      default:
-        return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
-            <p className="text-gray-700 leading-relaxed">
-              The Department of Computer Science & Engineering was established in 2001. The department offers undergraduate program in Computer Science & Engineering with an intake of 180 students.
-            </p>
-          </div>
-        );
+// ...existing code...
+case 'Hackathons':{
+  <div>
 
-      case 'e-Resources':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              e-Resources
-            </h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Innovations by the Faculty in Teaching and Learning. Activities of
-              the department towards improvement in teaching-learning are
-              indicated in the office records as well as on the college website.
-              They are open for reproduction, further improvement, and review.
-            </p>
+  <h3 className="text-2xl font-semibold text-[#7f1d1d] mb-4 text-center">Hackathons Conducted</h3>
+  <div className="flex justify-center mb-8">
+    <div className="overflow-x-auto w-full">
+      {hackathonsData.length > 0 ? (
+        <table className="min-w-full bg-white border-collapse">
+          <thead>
+            <tr className="border-b-2 border-gray-200">
+              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Academic Year</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Brochure</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Winners</th>
+            </tr>
+          </thead>
+          <tbody>
+            {hackathonsData.map((hackathon, index) => (
+              <tr key={hackathon.id} className="hover:bg-gray-50">
+                <td className="py-3 px-4 border-b">{index + 1}</td>
+                <td className="py-3 px-4 border-b font-medium">{hackathon.academic_year}</td>
+                <td className="py-3 px-4 border-b">
+                  {hackathon.brochure_url ? (
+                    <a href={hackathon.brochure_url} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View Brochure</a>
+                  ) : 'N/A'}
+                </td>
+                <td className="py-3 px-4 border-b">
+                  {hackathon.winners_url ? (
+                    <a href={hackathon.winners_url} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View Winners</a>
+                  ) : 'N/A'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div className="text-center py-8">
+          <p className="text-gray-500">No hackathons data available at the moment.</p>
+        </div>
+      )}
+    </div>
+  </div>
+  </div>
 
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Some of the methods adopted by the faculty members in Teaching &
-              Learning are:
-            </p>
-            <ul className="list-disc pl-6 mb-6 space-y-2 text-gray-700">
-              <li>Presentations using PPT, wherever necessary.</li>
-              <li>Technical videos for demonstration of certain concepts.</li>
-              <li>
-                Usage of Software's like Rational Rose, R Software to
-                demonstrate the concepts practically.
-              </li>
-              <li>
-                Use of E-Learning Resources like NPTEL lectures, Online
-                journals, and Online lectures like QEEE & MOOCS for effective
-                learning.
-              </li>
-              <li>
-                Providing Question bank with short answer questions and quiz
-                questions.
-              </li>
-              <li>Student paper and poster presentations.</li>
-              <li>Student seminars.</li>
-              <li>
-                Conducting peer group learning to encourage the slow learners.
-              </li>
-              <li>
-                Student participation in skill tests and technical events.
-              </li>
-              <li>
-                To incorporate real-time problem-solving skills, we are using
-                online tools like EBOX, EDYST etc.
-              </li>
-            </ul>
+  {/* Gallery Section */}
+  <div className="mt-12">
+    <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">Gallery</h3>
+    {hackathonsData.map(hackathon => (
+      <div key={hackathon.id} className="mb-8">
+        <h4 className="text-xl font-medium text-center mb-6">Hackathon {hackathon.academic_year}</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {hackathon.gallery.map((imgUrl, idx) => (
+            <img
+              key={idx}
+              src={imgUrl}
+              alt={`Hackathon ${hackathon.academic_year} Image ${idx + 1}`}
+              className="w-full h-auto rounded-lg shadow-md object-cover"
+              style={{ aspectRatio: "16/9" }}
+            />
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+// ...existing code...
+  }
 
-            <h3 className="text-xl font-semibold text-[#850209] mb-4">(i) Innovations in Teaching and Learning</h3>
-            <ul className="list-disc pl-6 mb-6 space-y-2 text-gray-700">
-              <li>Project Based Learning</li>
-              <li>Z TO A Approach</li>
-              <li>NPTEL Web and Video Courses</li>
-              <li>PPTs</li>
-              <li>Question Banks</li>
-              <li>Mind Map</li>
-            </ul>
+case 'e-Resources':{
+// Group by regulation
+const eresourcesGrouped = eresources.reduce((acc, item) => {
+  acc[item.regulation] = acc[item.regulation] || [];
+  acc[item.regulation].push(item);
+  return acc;
+}, {});
 
-            <h3 className="text-xl font-semibold text-[#850209] mb-4">(ii) Tools used in Teaching and Learning</h3>
-            <ul className="list-disc pl-6 mb-8 space-y-2 text-gray-700">
-              <li>LMS</li>
-              <li>Conduira</li>
-              <li>PEARSON MePro</li>
-              <li>EBox</li>
-              <li>Edyst</li>
-            </ul>
+return (
+  <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+    <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">e-Resources</h2>
+    {/* ...static intro text... */}
+    {Object.entries(eresourcesGrouped).map(([regulation, items]) => (
+      <div key={regulation} className="mb-8">
+        <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">{regulation}- Subjects</h3>
+        <div className="overflow-x-auto mb-8">
+          <table className="min-w-full bg-white border border-gray-200">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="py-3 px-4 border-b text-left">S.No</th>
+                <th className="py-3 px-4 border-b text-left">Regulation</th>
+                <th className="py-3 px-4 border-b text-left">Sem</th>
+                <th className="py-3 px-4 border-b text-left">Subject</th>
+                <th className="py-3 px-4 border-b text-left">PPT</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item, idx) => (
+                <tr key={item.id} className="hover:bg-gray-50">
+                  <td className="py-3 px-4 border-b">{idx + 1}</td>
+                  <td className="py-3 px-4 border-b">{item.regulation}</td>
+                  <td className="py-3 px-4 border-b">{item.semester}</td>
+                  <td className="py-3 px-4 border-b">{item.subject}</td>
+                  <td className="py-3 px-4 border-b">
+                    {item.ppt_url ? (
+                      <a href={item.ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                    ) : 'N/A'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+}
 
-            <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">V20- Subjects</h3>
-            <div className="overflow-x-auto mb-8">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Regulation</th>
-                    <th className="py-3 px-4 border-b text-left">Sem</th>
-                    <th className="py-3 px-4 border-b text-left">Subject</th>
-                    <th className="py-3 px-4 border-b text-left">PPT</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">I</td>
-                    <td className="py-3 px-4 border-b">Problem Solving through C-Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/PCPS-V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Data Structures</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DS_V20.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Computer Organization and Architecture</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/COA_notes_V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">4</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">OOP's through C++</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/OOPS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">5</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Managerial Economics and Financial Analysis</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MEFA.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">6</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Mathematical Foundation Of Computer Science</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MFCS V20 material.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">7</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Design Analysis of Algorithms</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DAA Material.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">8</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Java Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Java V20 all units content.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">9</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Software Engineering</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SE NOTES.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">10</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Statistical Visualization using R Lab</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SVR LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">11</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">V</td>
-                    <td className="py-3 px-4 border-b">Artificial Intelligence</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/AI.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">12</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">V</td>
-                    <td className="py-3 px-4 border-b">Data Mining</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DATA MINING.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">13</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">V</td>
-                    <td className="py-3 px-4 border-b">Web Technologies</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Web_Technologies.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">14</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">VI</td>
-                    <td className="py-3 px-4 border-b">Unified Modeling Language Lab</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/UML LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">V18- Subjects</h3>
-            <div className="overflow-x-auto mb-8">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Regulation</th>
-                    <th className="py-3 px-4 border-b text-left">Sem</th>
-                    <th className="py-3 px-4 border-b text-left">Subject</th>
-                    <th className="py-3 px-4 border-b text-left">PPT</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">I/II</td>
-                    <td className="py-3 px-4 border-b">Programming in C for Problem Solving</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/cprogrammingppts.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Object Oriented Programming for Problem Solving</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/ADSPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">4</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Digital Electronics</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/DE_Cse_II_Sem.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">5</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Data Mining</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/III_Sem_DM MATERIAL.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">6</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Computer Organization</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Computer Organization.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">7</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Software Engineering</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/SEPPTs.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">8</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Python Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">9</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Java Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Java Materials.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">10</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Formal Languages and Automata Theory</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/FLATPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">R16- Subjects</h3>
-            <div className="overflow-x-auto mb-8">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Regulation</th>
-                    <th className="py-3 px-4 border-b text-left">Year</th>
-                    <th className="py-3 px-4 border-b text-left">Subject</th>
-                    <th className="py-3 px-4 border-b text-left">PPT</th>
-                    <th className="py-3 px-4 border-b text-left">QBank</th>
-                    <th className="py-3 px-4 border-b text-left">OldQP</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">R16</td>
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">Computer Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/cprogrammingppts.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/ComputerProgrammingQuestionBank.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/oldquestionpapers.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">R16</td>
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">Data Structures through C++</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/DSPPT.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/DSQuestionBank.docx" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/DSQuestionPapers.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">R16</td>
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">Advanced Data Structures</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/ADSPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/ADSQuestionBank.docx" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/ADSQuestionPapers.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">R13- Subjects</h3>
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Regulation</th>
-                    <th className="py-3 px-4 border-b text-left">Year</th>
-                    <th className="py-3 px-4 border-b text-left">Subject</th>
-                    <th className="py-3 px-4 border-b text-left">PPT</th>
-                    <th className="py-3 px-4 border-b text-left">QBank</th>
-                    <th className="py-3 px-4 border-b text-left">OldQP</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">R13</td>
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">Software Engineering</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/SEPPTs.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/SEQB.doc" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/SEOQP.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">R13</td>
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">Database Management Systems</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/DBMSPPTs.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/DBMSQB(R13).doc" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/DBMSOldQP.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">R13</td>
-                    <td className="py-3 px-4 border-b">4</td>
-                    <td className="py-3 px-4 border-b">Distributed Systems</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/DS-NOTES.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/DSQB.docx" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/DSQP.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        );
-
-      case 'Department Library':
+case 'Department Library':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
@@ -5094,564 +4053,52 @@ const CSEDepartment: React.FC = () => {
           </div>
         );
 
-      case 'Handbooks':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              Academic HandBooks
-            </h2>
-            <div className="space-y-4">
-              <details open className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2025-26: I Sem HandBooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V23 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_III  SEM Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V23 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_V SEM Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VII Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_VII SEM Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
+      // ...existing code...
+case 'Handbooks':
+ 
 
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2024-25: II Sem HandBooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      IV Sem V23 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2024-25_IV%20SEM%20Hand%20Book_CSE.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VI Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_VI%20Semester%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
+  // Group by academic_year and semester
+  const grouped = handbooks.reduce((acc, hb) => {
+    const key = `${hb.academic_year}: ${hb.semester} Sem Handbooks`;
+    acc[key] = acc[key] || [];
+    acc[key].push(hb);
+    return acc;
+  }, {});
 
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2024-25: I Sem HandBooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V23 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/III%20%20SEM%20(Autonomous)%20Handbook%20-%20CSE%20.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20Handbook_2024-25.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VII Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20V20%20Regulation%20Handbook_CSE.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2023-24: II Sem HandBooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20V20%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      IV Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20V20%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VI Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/VI%20SEM%20_CSE_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2023-24: I Sem HandBooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/III%20%20SEM%20(Autonomous)%20Handbook%20-%20CSE.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/V%20SEM%20Handbook_V20%20Regulation_2023-24.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VII Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20Handbook_V20%20Regulation_2023-24.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2022-23: II Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      IV Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/IV%20Sem%20V20%20Regulation%20Handbook_CSE.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VI Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VI%20Sem%20V20%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VIII Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VIII%20Sem%20%20V20%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2022-23: I Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/III%20SEM%20V20%20Regulation%20Handbook%20(CSE).pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20%20V20%20Regulation%20Handbook%2022_23.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VII Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook%2022_23.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2021-22: II Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      IV Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/IV%20Semester%20Handbook%20_V20%20Regulation.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VI Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VI%20Semester%20Handbook_22.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VIII Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VIII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2021-22: I Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20&%20CST%20V20%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20&%20CST%20V18%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VII Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2020-21: II Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      IV Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Semester%20V18(Autonomous).pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VI Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20VI%20Semester%20V18(Autonomous).pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      IV Year II Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Yr.%20II%20Semester%20R16%20Regulation.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2020-21: I Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/CSE_III_SEM_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/CSE_V_SEM_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      IV Year I Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/CSE_IVYr_I_SEM_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic year 2019-20: II Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      IV Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/II-II_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      III Year II Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/III-II_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      IV Year II Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/IV-II_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic year 2019-20: I Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/II-I_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      III Year I Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/III-I_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      IV Year I Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/IV-I_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
+  return (
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+        Academic HandBooks
+      </h2>
+      <div className="space-y-4">
+        {Object.entries(grouped).map(([group, items]) => (
+          <details key={group} className="bg-white border rounded-lg overflow-hidden">
+            <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
+              {group}
+            </summary>
+            <div className="px-4 py-3">
+              <ul className="list-disc pl-6 space-y-2">
+                {items.map((hb, idx) => (
+                  <li key={idx}>
+                    {hb.title} -
+                    <a
+                      href={hb.file_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#850209] hover:underline ml-2"
+                    >
+                      View
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-        );
-
+          </details>
+        ))}
+      </div>
+    </div>
+  );
+// ...existing code...
 
 
       case 'Technical Association':

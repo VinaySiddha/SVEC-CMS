@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Brain, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
 import { useDepartmentData } from '../../hooks/useDepartmentData';
+import FixedSidebar from '@/components/FixedSidebar';
 
 
 type Doc = { id: number; academic_year: string; title: string; file_url: string };
@@ -1506,12 +1506,7 @@ React.useEffect(() => {
         title="AI & ML Department"
         buttonLabel="Department Menu"
       >
-        {/* Main Content */}
-        <div className="py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
             {renderContent()}
-          </div>
-        </div>
       </FixedSidebar>
     </div>
   );
