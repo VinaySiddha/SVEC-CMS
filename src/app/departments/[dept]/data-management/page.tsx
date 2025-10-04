@@ -449,7 +449,7 @@ export default function DepartmentDataManagement() {
                               alt={faculty.name}
                               className="w-12 h-12 rounded-full object-cover"
                               onError={(e) => {
-                                (e.target as HTMLImageElement).src = '/placeholder-avatar.svg';
+                                (e.target as HTMLImageElement).style.display = 'none';
                               }}
                             />
                           )}

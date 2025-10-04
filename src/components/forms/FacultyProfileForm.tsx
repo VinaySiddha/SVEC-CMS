@@ -111,15 +111,22 @@ export function FacultyProfileForm({
         ? `/api/faculty-profiles/${initialData.id}`
         : '/api/faculty-profiles';
         
+      const token = localStorage.getItem('authToken');
+      
       const response = await fetch(url, {
         method: initialData ? 'PUT' : 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         body: formData,
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || 'Something went wrong');
+        throw new Error(error.error || error.message || 'Something went wrong');
       }
+
+      const result = await response.json();
 
       toast.success(
         initialData
@@ -127,7 +134,9 @@ export function FacultyProfileForm({
           : 'Faculty profile created successfully'
       );
       
-      onSuccess();
+      if (onSuccess) {
+        onSuccess(result.data || result);
+      }
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
       console.error('Error submitting faculty profile:', error);

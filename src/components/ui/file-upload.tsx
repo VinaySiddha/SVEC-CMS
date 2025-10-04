@@ -51,26 +51,29 @@ export function FileUpload({
       formData.append('type', 'faculty-photo');
 
       // Upload file
+      const token = localStorage.getItem('authToken');
+      
       const response = await fetch('/api/upload', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          'Authorization': `Bearer ${token}`
         },
         body: formData
       });
 
       if (!response.ok) {
-        throw new Error('Upload failed');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Upload failed');
       }
 
       const result = await response.json();
       
-      if (result.url) {
+      if (result.success && result.url) {
         setPreviewUrl(result.url);
         onUploadComplete(result.url);
         toast.success('File uploaded successfully');
       } else {
-        throw new Error('No URL returned');
+        throw new Error('No URL returned from upload');
       }
       
     } catch (error) {
@@ -133,7 +136,7 @@ export function FileUpload({
                   alt="Preview"
                   className="w-20 h-20 object-cover rounded"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/placeholder-image.svg';
+                    (e.target as HTMLImageElement).style.display = 'none';
                   }}
                 />
               )}

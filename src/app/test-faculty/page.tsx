@@ -100,8 +100,13 @@ export default function TestFacultyProfiles() {
         
       const method = editId ? 'PUT' : 'POST';
       
+      const token = localStorage.getItem('authToken');
+      
       const response = await fetch(url, {
         method,
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         body: formDataToSubmit,
       });
       

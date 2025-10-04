@@ -19,13 +19,33 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Sri Vasavi Engineering College",
   description: "Official website of Sri Vasavi Engineering College",
+  icons: {
+    icon: [
+      {
+        url: '/favicon.ico',
+        sizes: '32x32',
+      },
+      {
+        url: '/vasavi_logo.png',
+        sizes: '192x192',
+        type: 'image/png',
+      },
+    ],
+    apple: [
+      {
+        url: '/vasavi_logo.png',
+        sizes: '180x180',
+        type: 'image/png',
+      },
+    ],
+  },
 };
 
 export default function RootLayout(props: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning={true}>
       <head>
         <link 
           rel="preconnect" 
@@ -46,7 +66,7 @@ export default function RootLayout(props: {
           rel="stylesheet"
         />
       </head>
-      <body className={`${poppins.className} h-full m-0 p-0`}>
+      <body className={`${poppins.className} h-full m-0 p-0`} suppressHydrationWarning={true}>
         <ClientProviders>
           <LoadingProvider>
             <ToastProvider />
