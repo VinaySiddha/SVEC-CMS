@@ -62,7 +62,25 @@ const CSEDepartment: React.FC = () => {
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
-  const [departmentData, setDepartmentData] = useState<DepartmentData | null>(null);
+  // Section states
+  const [faculty, setFaculty] = useState([]);
+  const [technicalStaff, setTechnicalStaff] = useState([]);
+  const [nonTeachingStaff, setNonTeachingStaff] = useState([]);
+  const [studentAchievements, setStudentAchievements] = useState([]);
+  const [facultyAchievements, setFacultyAchievements] = useState([]);
+  const [placements, setPlacements] = useState([]);
+  const [hackathons, setHackathons] = useState([]);
+  const [handbooks, setHandbooks] = useState([]);
+  const [eresources, setEresources] = useState([]);
+  const [mous, setMous] = useState([]);
+  const [syllabus, setSyllabus] = useState([]);
+  const [physicalFacilities, setPhysicalFacilities] = useState([]);
+  const [departmentLibrary, setDepartmentLibrary] = useState([]);
+  const [meritScholarships, setMeritScholarships] = useState([]);
+  const [technicalAssociation, setTechnicalAssociation] = useState([]);
+  const [trainingActivities, setTrainingActivities] = useState([]);
+  const [newsletters, setNewsletters] = useState([]);
+  const [extraCurricular, setExtraCurricular] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -91,51 +109,36 @@ const CSEDepartment: React.FC = () => {
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
-  const [achievements, setStudentAchievements] = useState([]);
+  // Removed duplicate declaration of achievements and setStudentAchievements
 
-   const [handbooks, setHandbooks] = useState([]);
-  // Removed duplicate declaration of hackathonsData
+  // Removed duplicate declaration of handbooks, hackathonsData, and eresources
   const [hackathonsData, setHackathonsData] = useState([]);
-
-    const [eresources, setEresources] = useState([]);
     
-  // Fetch department data
+  // Fetch all department section data from APIs
   useEffect(() => {
-    const fetchDepartmentData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/public/departments/cse');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch department data');
-        }
-        
-        const result = await response.json();
-        
-        if (result.success) {
-          setDepartmentData(result.data);
-        } else {
-          throw new Error('Failed to load department data');
-        }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-        console.error('Error fetching department data:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetch('/api/cstcse/handbooks?dept=CSE')
-      .then(res => res.json())
-      .then(data => setHandbooks(data));``
-fetch('/api/cstcse/eresources')
-      .then(res => res.json())
-      .then(data => setEresources(data));
-
-       fetch('/api/cstcse/studentAchievements?dept=CSE')
-      .then(res => res.json())
-      .then(data => setStudentAchievements(data));
-
-    fetchDepartmentData();
+    setLoading(true);
+    Promise.all([
+      fetch('/api/cstcse/faculty').then(res => res.json()).then(setFaculty),
+      fetch('/api/cstcse/staff').then(res => res.json()).then(data => {
+        setTechnicalStaff(data.filter(s => s.type === 'technical'));
+        setNonTeachingStaff(data.filter(s => s.type === 'non-teaching'));
+      }),
+      fetch('/api/cstcse/achievements_student').then(res => res.json()).then(setStudentAchievements),
+      fetch('/api/cstcse/achievements_faculty').then(res => res.json()).then(setFacultyAchievements),
+      fetch('/api/cstcse/placements').then(res => res.json()).then(setPlacements),
+      fetch('/api/cstcse/hackathons').then(res => res.json()).then(setHackathons),
+      fetch('/api/cstcse/handbooks').then(res => res.json()).then(setHandbooks),
+      fetch('/api/cstcse/eresources').then(res => res.json()).then(setEresources),
+      fetch('/api/cstcse/mous').then(res => res.json()).then(setMous),
+      fetch('/api/cstcse/syllabus').then(res => res.json()).then(setSyllabus),
+      fetch('/api/cstcse/physical_facilities').then(res => res.json()).then(setPhysicalFacilities),
+      fetch('/api/cstcse/department_library').then(res => res.json()).then(setDepartmentLibrary),
+      fetch('/api/cstcse/merit_scholarships').then(res => res.json()).then(setMeritScholarships),
+      fetch('/api/cstcse/technical_association').then(res => res.json()).then(setTechnicalAssociation),
+      fetch('/api/cstcse/training_activities').then(res => res.json()).then(setTrainingActivities),
+      fetch('/api/cstcse/newsletters').then(res => res.json()).then(setNewsletters),
+      fetch('/api/cstcse/extra_curricular').then(res => res.json()).then(setExtraCurricular)
+    ]).catch(err => setError(err.message)).finally(() => setLoading(false));
   }, []);
 
   const toggleSidebar = () => {
@@ -143,10 +146,11 @@ fetch('/api/cstcse/eresources')
   };
 
   // Use database data or fallback to empty arrays
-  const faculty = departmentData?.faculty || [];
-  const nonTeachingFaculty = departmentData?.nonTeachingStaff || [];
-  const TechnicalFaculty = departmentData?.technicalStaff || [];
-  const placementsData = departmentData?.placements || [];
+  // Removed redeclaration of 'faculty' (already declared as state)
+  // Use state variables directly
+  const nonTeachingFaculty = nonTeachingStaff;
+  const TechnicalFaculty = technicalStaff;
+  const placementsData = placements;
   // Remove this line to avoid redeclaration:
   // const hackathonsData = departmentData?.hackathons || [];
 
@@ -334,35 +338,35 @@ fetch('/api/cstcse/eresources')
     console.log("Current activeContent:", activeContent);
     switch (activeContent) {
    case 'Student Achievements':
-return (
-    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
-      <div className="space-y-4">
-        {achievements.length > 0 ? (
-          achievements.map((item) => (
-            <details key={item.id} className="border rounded-lg p-4">
-              <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                {item.category}: {item.title}
-              </summary>
-              <div className="nav-content mt-4">
-                {item.description && <p className="mb-2">{item.description}</p>}
-                {item.fileUrl && (
-                  <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">
-                    View More
-                  </a>
-                )}
-                {item.academic_year && (
-                  <p className="text-sm text-gray-500 mt-2">Academic Year: {item.academic_year}</p>
-                )}
-              </div>
-            </details>
-          ))
-        ) : (
-          <p>No student achievements found.</p>
-        )}
-      </div>
-    </div>
-  );
+     return (
+       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+         <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
+         <div className="space-y-4">
+           {studentAchievements.length > 0 ? (
+             studentAchievements.map((item) => (
+               <details key={item.id} className="border rounded-lg p-4">
+                 <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
+                   {item.category}: {item.title}
+                 </summary>
+                 <div className="nav-content mt-4">
+                   {item.description && <p className="mb-2">{item.description}</p>}
+                   {item.fileUrl && (
+                     <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">
+                       View More
+                     </a>
+                   )}
+                   {item.academic_year && (
+                     <p className="text-sm text-gray-500 mt-2">Academic Year: {item.academic_year}</p>
+                   )}
+                 </div>
+               </details>
+             ))
+           ) : (
+             <p>No student achievements found.</p>
+           )}
+         </div>
+       </div>
+     );
 
 // ...existing code...
 case 'Hackathons':{

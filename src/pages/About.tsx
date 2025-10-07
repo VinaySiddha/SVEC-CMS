@@ -7,6 +7,7 @@ import content from '../content/about.json';
 const About: React.FC = () => {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeSidebarItem, setActiveSidebarItem] = useState('About SVEC');
 
   // Sidebar navigation items from the image
   const sidebarItems = [
@@ -67,7 +68,7 @@ const About: React.FC = () => {
 
             <div className="relative z-10 flex flex-col h-full">
               <div className="flex items-center justify-between mb-6 flex-shrink-0">
-                <h3 className="text-xl font-bold text-center flex-1 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">About SVEC</h3>
+                <h3 className="text-xl font-boCIA Mcclure. CSTW Polls Highlights. Celia and. CBSE. MI, legend of TNT. Small black static if API fails at a. CSCA. Le. Ed. SRI. Web technology. Review. Telecommunications. ld text-center flex-1 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">About SVEC</h3>
                 <button
                   onClick={() => setSidebarOpen(false)}
                   className="p-2 hover:bg-white/10 rounded-lg transition-colors duration-200 flex-shrink-0"
@@ -131,17 +132,14 @@ const About: React.FC = () => {
                 {sidebarItems.map((item, index) => (
                   <button
                     key={index}
-                    className="sidebar-item w-full text-left px-4 py-3 rounded-xl text-sm bg-white/5 hover:bg-gradient-to-r hover:from-[#B22222]/80 hover:to-[#0097A7]/80 transition-all duration-300 group flex items-center justify-between transform hover:translate-x-2 hover:scale-[1.02] hover:shadow-lg border border-white/5 hover:border-white/20 backdrop-blur-sm"
+                    className={`sidebar-item w-full text-left px-4 py-3 rounded-xl text-sm bg-white/5 hover:bg-gradient-to-r hover:from-[#B22222]/80 hover:to-[#0097A7]/80 transition-all duration-300 group flex items-center justify-between transform hover:translate-x-2 hover:scale-[1.02] hover:shadow-lg border border-white/5 hover:border-white/20 backdrop-blur-sm ${activeSidebarItem === item ? 'bg-primary/30 text-white font-semibold' : ''}`}
                     onClick={() => {
-                      // Handle navigation to specific page
                       if (item === 'Contact Us') {
-                        // Use Next.js navigation instead
                         router.push('/contact');
                       } else {
-                        // Handle other navigation items
-                        console.log(`Navigate to ${item}`);
+                        setActiveSidebarItem(item);
                       }
-                      setSidebarOpen(false); // Close sidebar when item is clicked
+                      setSidebarOpen(false);
                     }}
                   >
                     <span className="group-hover:text-white transition-colors duration-300 font-medium text-gray-200 group-hover:font-semibold">{item}</span>
@@ -170,205 +168,253 @@ const About: React.FC = () => {
           />
         )}
 
-        {/* Main Content */}
+        {/* Main Content - CASES */}
         <div>
-          {/* Achievements */}
-          <section className="py-16 bg-background">
-            <div className="container mx-auto px-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {content.achievements.map((achievement, index) => {
-                  const Icon = iconMap[achievement.icon];
-                  return (
-                    <div key={index} className="text-center p-6 rounded-xl bg-card hover:shadow-lg transition-all duration-300 hover:transform hover:scale-[1.02] border border-primary/10">
-                      <Icon className="w-16 h-16 text-primary mx-auto mb-4" />
-                      <h3 className="text-xl font-bold text-foreground mb-2">{achievement.title}</h3>
-                      <p className="text-muted-foreground">{achievement.desc}</p>
+          {activeSidebarItem === 'About SVEC' && (
+            <>
+              {/* Achievements */}
+              <section className="py-16 bg-background">
+                <div className="container mx-auto px-4">
+                  <div className="grid grid-cols-1 md:gWhen CSPS. And CSPS CSCS. Without CSTN on. rid-cols-2 lg:grid-cols-4 gap-8">
+                    {content.achievements.map((achievement, index) => {
+                      const Icon = iconMap[achievement.icon];
+                      return (
+                        <div key={index} className="text-center p-6 rounded-xl bg-card hover:shadow-lg transition-all duration-300 hover:transform hover:scale-[1.02] border border-primary/10">
+                          <Icon className="w-16 h-16 text-primary mx-auto mb-4" />
+                          <h3 className="text-xl font-bold text-foreground mb-2">{achievement.title}</h3>
+                          <p className="text-muted-foreground">{achievement.desc}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section>
+
+              {/* About Content */}
+              <section className="py-16 bg-card/50">
+                <div className="container mx-auto px-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                      <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
+                        Our Story
+                      </h2>
+                      <div className="space-y-6 text-muted-foreground leading-relaxed text-justify">
+                        <p>
+                          Sri Vasavi Engineering College, established in 2001, stands as one of the premier engineering institutions in Andhra Pradesh. 
+                          Affiliated with JNTUK and approved by AICTE, we have consistently maintained our position among the top 10 engineering colleges in the state, 
+                          offering excellence in Engineering, Technology, and Business Administration.
+                        </p>
+                        <p>
+                          Our journey towards excellence was marked by achieving autonomy in 2018, enabling us to design industry-aligned curricula. 
+                          The institution has earned prestigious NBA & NAAC accreditations, reflecting our commitment to quality education. 
+                          We've expanded our horizons by introducing cutting-edge programs like CST and ECT, alongside traditional engineering disciplines.
+                        </p>
+                        <p>
+                          The campus boasts state-of-the-art facilities including:
+                          </p>
+                          <ul className="list-disc pl-6 space-y-2 mb-4">
+                            <li>Modern laboratories and audio-visual classrooms</li>
+                            <li>Extensive library and research facilities</li>
+                            <li>Sports complex with indoor stadium</li>
+                            <li>Well-equipped seminar halls and auditorium</li>
+                            <li>Green campus with beautiful gardens</li>
+                          </ul>
+                        <p>
+                          Our strength lies in our highly qualified faculty, robust placement cell, and strong industry connections, ensuring excellent career opportunities 
+                          for our students in leading MNCs. The institution's commitment to holistic development is reflected through active NSS units, 
+                          research initiatives, and eco-friendly projects including solar power generation and green transportation solutions.
+                        </p>
+                      </div>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
+                    <div className="relative">
+                      <img
+                        src="./CollegeBuilding.jpg"
+                        alt="College Campus"
+                        className="rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02]"
+                      />
+                      <div className="absolute -bottom-6 -left-6 bg-primary text-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <h3 className="font-bold text-lg">25+ Years</h3>
+                        <p className="text-sm">of Excellence</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
 
-          {/* About Content */}
-          <section className="py-16 bg-card/50">
-            <div className="container mx-auto px-4">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
-                    Our Story
-                  </h2>
-                  <div className="space-y-6 text-muted-foreground leading-relaxed text-justify">
-                    <p>
-                      Sri Vasavi Engineering College, established in 2001, stands as one of the premier engineering institutions in Andhra Pradesh. 
-                      Affiliated with JNTUK and approved by AICTE, we have consistently maintained our position among the top 10 engineering colleges in the state, 
-                      offering excellence in Engineering, Technology, and Business Administration.
-                    </p>
-                    <p>
-                      Our journey towards excellence was marked by achieving autonomy in 2018, enabling us to design industry-aligned curricula. 
-                      The institution has earned prestigious NBA & NAAC accreditations, reflecting our commitment to quality education. 
-                      We've expanded our horizons by introducing cutting-edge programs like CST and ECT, alongside traditional engineering disciplines.
-                    </p>
-                    <p>
-                      The campus boasts state-of-the-art facilities including:
+              {/* Vision Mission Values */}
+              <section className="py-12 bg-background">
+                <div className="container mx-auto px-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="text-center p-8 rounded-xl bg-card border-2 border-primary text-foreground transform transition-all duration-300 hover:scale-[1.02] shadow-lg">
+                      <Eye className="w-16 h-16 mx-auto mb-6 text-primary" />
+                      <h3 className="text-2xl font-bold mb-4">Vision</h3>
+                      <p className="leading-relaxed">
+                        To be a globally recognized institution for excellence in engineering education,
+                        research, and innovation, producing competent engineers who contribute to society's betterment.
                       </p>
-                      <ul className="list-disc pl-6 space-y-2 mb-4">
-                        <li>Modern laboratories and audio-visual classrooms</li>
-                        <li>Extensive library and research facilities</li>
-                        <li>Sports complex with indoor stadium</li>
-                        <li>Well-equipped seminar halls and auditorium</li>
-                        <li>Green campus with beautiful gardens</li>
-                      </ul>
-                    <p>
-                      Our strength lies in our highly qualified faculty, robust placement cell, and strong industry connections, ensuring excellent career opportunities 
-                      for our students in leading MNCs. The institution's commitment to holistic development is reflected through active NSS units, 
-                      research initiatives, and eco-friendly projects including solar power generation and green transportation solutions.
-                    </p>
+                    </div>
+                    <div className="text-center p-8 rounded-xl bg-card border-2 border-primary text-foreground transform transition-all duration-300 hover:scale-[1.02] shadow-lg">
+                      <Target className="w-16 h-16 mx-auto mb-6 text-primary" />
+                      <h3 className="text-2xl font-bold mb-4">Mission</h3>
+                      <p className="leading-relaxed">
+                        To provide quality engineering education through innovative teaching methods,
+                        foster research culture, and maintain strong industry partnerships for holistic development.
+                      </p>
+                    </div>
+                    <div className="text-center p-8 rounded-xl bg-card border-2 border-primary text-foreground transform transition-all duration-300 hover:scale-[1.02] shadow-lg">
+                      <Heart className="w-16 h-16 mx-auto mb-6 text-primary" />
+                      <h3 className="text-2xl font-bold mb-4">Values</h3>
+                      <p className="leading-relaxed">
+                        Integrity, Excellence, Innovation, Inclusivity, and Social Responsibility guide
+                        our approach to education and research in all our endeavors.
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div className="relative">
-                  <img
-                    src="./CollegeBuilding.jpg"
-                    alt="College Campus"
-                    className="rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.02]"
-                  />
-                  <div className="absolute -bottom-6 -left-6 bg-primary text-white p-6 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
-                    <h3 className="font-bold text-lg">25+ Years</h3>
-                    <p className="text-sm">of Excellence</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+              </section>
 
-          {/* Vision Mission Values */}
-          <section className="py-12 bg-background">
-            <div className="container mx-auto px-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="text-center p-8 rounded-xl bg-card border-2 border-primary text-foreground transform transition-all duration-300 hover:scale-[1.02] shadow-lg">
-                  <Eye className="w-16 h-16 mx-auto mb-6 text-primary" />
-                  <h3 className="text-2xl font-bold mb-4">Vision</h3>
-                  <p className="leading-relaxed">
-                    To be a globally recognized institution for excellence in engineering education,
-                    research, and innovation, producing competent engineers who contribute to society's betterment.
+              {/* Leadership */}
+              <section className="py-12 bg-gradient-to-br from-card to-card/90 rounded-lg overflow-hidden shadow-lg">
+                <div className="container mx-auto px-4">
+                  <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Leadership</h2>
+                    <p className="text-xl text-muted-foreground mb-6">Meet our experienced leadership team</p>
+                    <Link
+                      href="/administration/deans"
+                      className="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-lg font-semibold hover:scale-105 transition-all duration-300 shadow-lg group border-2 border-primary hover:bg-primary/90"
+                    >
+                      View Full Administration Team
+                      <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" />
+                    </Link>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    {/* Hon's President */}
+                    <div className="bg-card p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-primary/10">
+                      <div className="text-center mb-6">
+                        <img
+                          src="./YNS.jpg"
+                          alt="Sri Yeerra Narayana Swamy"
+                          className="w-40 h-48 rounded-lg mx-auto mb-4 object-cover object-top border-4 border-primary transform transition-all duration-300 hover:scale-105"
+                        />
+                        <h3 className="text-2xl font-bold text-foreground">Sri Yeerra Narayana Swamy</h3>
+                        <p className="text-primary font-semibold">Hon's President</p>
+                      </div>
+                      <div className="space-y-2 text-center">
+                        <p className="text-muted-foreground"><strong>Education:</strong> M.A., LLB., Ex. M.L.A.</p>
+                        <p className="text-muted-foreground text-sm">The main source of inspiration and guidance, who took exceptional care in moulding the college into a model institution.</p>
+                      </div>
+                    </div>
+
+                    {/* President */}
+                    <div className="bg-card p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-primary/10">
+                      <div className="text-center mb-6">
+                        <img
+                          src="./presi.jpg"
+                          alt="Sri Grandhi Satyanarayana"
+                          className="w-40 h-48 rounded-lg mx-auto mb-4 object-cover object-top border-4 border-primary transform transition-all duration-300 hover:scale-105"
+                        />
+                        <h3 className="text-2xl font-bold text-foreground">Sri Grandhi Satyanarayana</h3>
+                        <p className="text-primary font-semibold">President</p>
+                      </div>
+                      <div className="space-y-2 text-center">
+                        <p className="text-muted-foreground text-sm">Has good experience in education field with 16+ years of running GMR Educational Institutions including schools, colleges and degree colleges.</p>
+                      </div>
+                    </div>
+
+                    {/* Secretary & Correspondent */}
+                    <div className="bg-card p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-primary/10">
+                      <div className="text-center mb-6">
+                        <img
+                          src="./scre.jpg"
+                          alt="Sri Chalamcharla V.V.Subba Rao"
+                          className="w-40 h-48 rounded-lg mx-auto mb-4 object-cover object-top border-4 border-primary transform transition-all duration-300 hover:scale-105"
+                        />
+                        <h3 className="text-2xl font-bold text-foreground">Sri Chalamcharla V.V.Subba Rao</h3>
+                        <p className="text-primary font-semibold">Secretary & Correspondent</p>
+                      </div>
+                      <div className="space-y-2 text-center">
+                        <p className="text-muted-foreground text-sm">A personality with enhanced caliber of leadership and assertive skills, contributing to the elevation of the institution with unparalleled vision and mission.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* CTA Section */}
+              <section className="py-8 md:py-12 bg-primary text-white rounded-none w-full overflow-hidden relative isolate">
+                <div className="container mx-auto px-4 text-center relative z-10">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4">Join Our Legacy</h2>
+                  <p className="text-xl mb-8 max-w-2xl mx-auto">
+                    Be part of an institution that has been shaping engineers and leaders for over 25 years
                   </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a
+                      href="/admissions"
+                      className="bg-gradient-to-r from-white to-white/90 text-primary px-8 py-4 rounded-md font-semibold hover:bg-secondary hover:text-white transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center gap-2 group"
+                    >
+                      <span>Apply Now</span>
+                      <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
+                    </a>
+                    <a
+                      href="/contact"
+                      className="border-2 border-white text-white px-8 py-4 rounded-md font-semibold hover:bg-white/10 backdrop-blur-sm hover:border-secondary transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group"
+                    >
+                      <span>Contact Us</span>
+                      <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
+                    </a>
+                  </div>
                 </div>
-                <div className="text-center p-8 rounded-xl bg-card border-2 border-primary text-foreground transform transition-all duration-300 hover:scale-[1.02] shadow-lg">
-                  <Target className="w-16 h-16 mx-auto mb-6 text-primary" />
-                  <h3 className="text-2xl font-bold mb-4">Mission</h3>
-                  <p className="leading-relaxed">
-                    To provide quality engineering education through innovative teaching methods,
-                    foster research culture, and maintain strong industry partnerships for holistic development.
-                  </p>
-                </div>
-                <div className="text-center p-8 rounded-xl bg-card border-2 border-primary text-foreground transform transition-all duration-300 hover:scale-[1.02] shadow-lg">
-                  <Heart className="w-16 h-16 mx-auto mb-6 text-primary" />
-                  <h3 className="text-2xl font-bold mb-4">Values</h3>
-                  <p className="leading-relaxed">
-                    Integrity, Excellence, Innovation, Inclusivity, and Social Responsibility guide
-                    our approach to education and research in all our endeavors.
-                  </p>
+
+                {/* Subtle decorative elements */}
+                <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-secondary/20 -translate-y-1/4 translate-x-1/4 opacity-70 shadow-sm z-0"></div>
+                <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-secondary/15 translate-y-1/4 -translate-x-1/4 opacity-70 shadow-sm z-0"></div>
+              </section>
+            </>
+          )}
+
+          {activeSidebarItem === 'Board of Governance' && (
+            <section className="py-16 bg-background">
+              <div className="container mx-auto px-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">Board of Governance</h2>
+                <p className="mb-6 text-muted-foreground text-lg">Board of governance is a deciding component of organizational effectiveness and a crucial part of the functioning of an organization. Good governance ensures that objectives are realized, resources are well managed, and the interests of stakeholders are protected and reflected in key decisions.</p>
+                <p className="mb-6 text-muted-foreground text-lg">The following is the Board of Governors (BOG) of Sri Vasavi Engineering College:</p>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full bg-white border border-primary rounded-xl shadow-md">
+                    <thead className="bg-primary text-white">
+                      <tr>
+                        <th className="px-4 py-2">#</th>
+                        <th className="px-4 py-2">Name</th>
+                        <th className="px-4 py-2">Designation</th>
+                        <th className="px-4 py-2">Role</th>
+                        <th className="px-4 py-2">Contact</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-foreground">
+                      <tr><td>1</td><td>Sri O. P. Goenka</td><td>Technical Director, FFF Ltd., TPG.</td><td>Chairperson</td><td>9848023102</td></tr>
+                      <tr><td>2</td><td>Sri Grandhi Satyanarayana</td><td>President of the College</td><td>Member (Management)</td><td>9848105097</td></tr>
+                      <tr><td>3</td><td>Sri Ch.V.V.Subba Rao</td><td>Secretary & Correspondent</td><td>Member (Management)</td><td>9848144836</td></tr>
+                      <tr><td>4</td><td>Sri Pabolu Venkateswara Rao</td><td>Joint Secretary of the College</td><td>Member (Management)</td><td>9440182237</td></tr>
+                      <tr><td>5</td><td>Sri Peruri Bala Kasaiah</td><td>Treasurer of the College</td><td>Member (Management)</td><td>9490110934</td></tr>
+                      <tr><td>6</td><td>Sri N. Rajasekhar</td><td>Assoc. Professor & HOD, Dept. of BSH</td><td>Member (Faculty Representation)</td><td>9885739808</td></tr>
+                      <tr><td>7</td><td>Dr. D. Jaya Kumari</td><td>Professor & HOD Dept. of CSE</td><td>Member (Faculty Representation)</td><td>9885066229</td></tr>
+                      <tr><td>8</td><td>The Regional Officer</td><td>AICTE,SCRO, Hyderabad</td><td>Member, AICTE Nominee</td><td>-</td></tr>
+                      <tr><td>9</td><td>Prof.(Dr.) Upendra D. Patel</td><td>Professor & Head, Civil Engineering Dept., The M S University of Baroda, Vadodara</td><td>Member, UGC Nominee</td><td>9687961022</td></tr>
+                      <tr><td>10</td><td>The Regional Joint Director</td><td>Technical Edn., Kakinada.</td><td>Member, State Govt. Nominee</td><td>-</td></tr>
+                      <tr><td>11</td><td>Dr. K. V. Ramana</td><td>Professor of CSE UCEK, JNTUK, Kakinada</td><td>Member</td><td>9177780000</td></tr>
+                      <tr><td>12</td><td>The Principal</td><td>Govt. Polytechnic, Tadepalligudem</td><td>Member, SBTET Nominee-State Govt.</td><td>9010222178</td></tr>
+                      <tr><td>13</td><td>Sri V. Rajanna</td><td>Vice President & Regional Head, Tata Consultancy Services, Hyderabad.</td><td>Member (Industry Representation)</td><td>-</td></tr>
+                      <tr><td>14</td><td>Dr.T. Ramesh</td><td>Retd. Professor of CSE, NIT Warangal</td><td>Member</td><td>9490455118</td></tr>
+                      <tr><td>15</td><td>Sri Ch. Apparao</td><td>Technical Director</td><td>Invited Member</td><td>9705288855</td></tr>
+                      <tr><td>16</td><td>Dr. Ch. Rambabu</td><td>Professor & Dean (Student Affairs)</td><td>Invited Member</td><td>9441447199</td></tr>
+                      <tr><td>17</td><td>Dr. G V N S R Ratnakara Rao</td><td>Principal</td><td>Principal of the college & Member Secretary</td><td>9490799102, 7893799102</td></tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
 
-          {/* Leadership */}
-          <section className="py-12 bg-gradient-to-br from-card to-card/90 rounded-lg overflow-hidden shadow-lg">
-            <div className="container mx-auto px-4">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Leadership</h2>
-                <p className="text-xl text-muted-foreground mb-6">Meet our experienced leadership team</p>
-                <Link
-                  href="/administration/deans"
-                  className="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-lg font-semibold hover:scale-105 transition-all duration-300 shadow-lg group border-2 border-primary hover:bg-primary/90"
-                >
-                  View Full Administration Team
-                  <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" />
-                </Link>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                {/* Hon's President */}
-                <div className="bg-card p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-primary/10">
-                  <div className="text-center mb-6">
-                    <img
-                      src="./YNS.jpg"
-                      alt="Sri Yeerra Narayana Swamy"
-                      className="w-40 h-48 rounded-lg mx-auto mb-4 object-cover object-top border-4 border-primary transform transition-all duration-300 hover:scale-105"
-                    />
-                    <h3 className="text-2xl font-bold text-foreground">Sri Yeerra Narayana Swamy</h3>
-                    <p className="text-primary font-semibold">Hon's President</p>
-                  </div>
-                  <div className="space-y-2 text-center">
-                    <p className="text-muted-foreground"><strong>Education:</strong> M.A., LLB., Ex. M.L.A.</p>
-                    <p className="text-muted-foreground text-sm">The main source of inspiration and guidance, who took exceptional care in moulding the college into a model institution.</p>
-                  </div>
-                </div>
-
-                {/* President */}
-                <div className="bg-card p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-primary/10">
-                  <div className="text-center mb-6">
-                    <img
-                      src="./presi.jpg"
-                      alt="Sri Grandhi Satyanarayana"
-                      className="w-40 h-48 rounded-lg mx-auto mb-4 object-cover object-top border-4 border-primary transform transition-all duration-300 hover:scale-105"
-                    />
-                    <h3 className="text-2xl font-bold text-foreground">Sri Grandhi Satyanarayana</h3>
-                    <p className="text-primary font-semibold">President</p>
-                  </div>
-                  <div className="space-y-2 text-center">
-                    <p className="text-muted-foreground text-sm">Has good experience in education field with 16+ years of running GMR Educational Institutions including schools, colleges and degree colleges.</p>
-                  </div>
-                </div>
-
-                {/* Secretary & Correspondent */}
-                <div className="bg-card p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-primary/10">
-                  <div className="text-center mb-6">
-                    <img
-                      src="./scre.jpg"
-                      alt="Sri Chalamcharla V.V.Subba Rao"
-                      className="w-40 h-48 rounded-lg mx-auto mb-4 object-cover object-top border-4 border-primary transform transition-all duration-300 hover:scale-105"
-                    />
-                    <h3 className="text-2xl font-bold text-foreground">Sri Chalamcharla V.V.Subba Rao</h3>
-                    <p className="text-primary font-semibold">Secretary & Correspondent</p>
-                  </div>
-                  <div className="space-y-2 text-center">
-                    <p className="text-muted-foreground text-sm">A personality with enhanced caliber of leadership and assertive skills, contributing to the elevation of the institution with unparalleled vision and mission.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* CTA Section */}
-          <section className="py-8 md:py-12 bg-primary text-white rounded-none w-full overflow-hidden relative isolate">
-            <div className="container mx-auto px-4 text-center relative z-10">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Join Our Legacy</h2>
-              <p className="text-xl mb-8 max-w-2xl mx-auto">
-                Be part of an institution that has been shaping engineers and leaders for over 25 years
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/admissions"
-                  className="bg-gradient-to-r from-white to-white/90 text-primary px-8 py-4 rounded-md font-semibold hover:bg-secondary hover:text-white transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center gap-2 group"
-                >
-                  <span>Apply Now</span>
-                  <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
-                </a>
-                <a
-                  href="/contact"
-                  className="border-2 border-white text-white px-8 py-4 rounded-md font-semibold hover:bg-white/10 backdrop-blur-sm hover:border-secondary transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group"
-                >
-                  <span>Contact Us</span>
-                  <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
-                </a>
-              </div>
-            </div>
-
-            {/* Subtle decorative elements */}
-            <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-secondary/20 -translate-y-1/4 translate-x-1/4 opacity-70 shadow-sm z-0"></div>
-            <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-secondary/15 translate-y-1/4 -translate-x-1/4 opacity-70 shadow-sm z-0"></div>
-          </section>
+          {/* Add similar cases for other sidebar items if needed */}
         </div>
       </div>
     </div>
