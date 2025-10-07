@@ -219,7 +219,7 @@ const About: React.FC = () => {
                             <li>Well-equipped seminar halls and auditorium</li>
                             <li>Green campus with beautiful gardens</li>
                           </ul>
-                        <p>
+                        <p>Delhi cyber attacks. At apartment meets the Lambda Jasper D2 and tamarind Mahanati ratios HSSC Belgium Kathleen, Kathleen go after Marathi Wagholi. 
                           Our strength lies in our highly qualified faculty, robust placement cell, and strong industry connections, ensuring excellent career opportunities 
                           for our students in leading MNCs. The institution's commitment to holistic development is reflected through active NSS units, 
                           research initiatives, and eco-friendly projects including solar power generation and green transportation solutions.
