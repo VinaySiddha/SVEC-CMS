@@ -4,13 +4,14 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'svec_cms',
-};
+    host: process.env.MYSQL_HOST || '62.72.31.209',
+    user: process.env.MYSQL_USER || 'cmsuser',
+    password: process.env.MYSQL_PASSWORD || 'V@savi@2001',
+    database: 'svec_cms', 
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+}
+
+const JWT_SECRET = process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30';
 
 export async function POST(request: NextRequest) {
   try {

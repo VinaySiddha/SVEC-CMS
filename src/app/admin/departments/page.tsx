@@ -52,15 +52,54 @@ export default function DepartmentsPage() {
   const fetchDepartments = async () => {
     try {
       const response = await fetch('/api/admin/modules');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const result = await response.json();
       
-      if (result.success) {
-        setData(result.data);
+      if (result.success && result.data) {
+        // Validate data structure before setting state
+        if (result.data.departments && Array.isArray(result.data.departments)) {
+          setData(result.data);
+        } else {
+          console.error('Invalid data structure:', result.data);
+          // Set default data structure to prevent errors
+          setData({
+            overview: {
+              totalDepartments: 0,
+              totalModules: 0,
+              totalRecords: 0,
+              activeDepartments: 0
+            },
+            departments: []
+          });
+        }
       } else {
         console.error('Failed to fetch departments:', result.error);
+        setData({
+          overview: {
+            totalDepartments: 0,
+            totalModules: 0,
+            totalRecords: 0,
+            activeDepartments: 0
+          },
+          departments: []
+        });
       }
     } catch (error) {
       console.error('Error fetching departments:', error);
+      // Set fallback data to prevent undefined errors
+      setData({
+        overview: {
+          totalDepartments: 0,
+          totalModules: 0,
+          totalRecords: 0,
+          activeDepartments: 0
+        },
+        departments: []
+      });
     } finally {
       setLoading(false);
     }
@@ -214,7 +253,7 @@ export default function DepartmentsPage() {
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-gray-700">Available Modules:</p>
                   <div className="grid grid-cols-2 gap-1 max-h-32 overflow-y-auto">
-                    {department.modules.map((module) => (
+                    {(department.modules || []).map((module) => (
                       <div key={module.name} className="flex justify-between text-xs p-1 bg-gray-50 rounded">
                         <span className="text-gray-600 capitalize truncate">
                           {module.name.replace(/[-_]/g, ' ')}
@@ -290,7 +329,7 @@ export default function DepartmentsPage() {
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {selectedDepartment.modules.map((module) => (
+                    {(selectedDepartment?.modules || []).map((module) => (
                       <Card key={module.name} className="hover:shadow-md transition-shadow border-2 hover:border-blue-200">
                         <CardContent className="p-4">
                           <div className="space-y-3">
@@ -340,7 +379,7 @@ export default function DepartmentsPage() {
                     ))}
                   </div>
 
-                  {selectedDepartment.modules.length === 0 && (
+                  {(!selectedDepartment?.modules || selectedDepartment.modules.length === 0) && (
                     <div className="text-center py-8 text-gray-500">
                       <BookOpen className="mx-auto h-12 w-12 text-gray-300 mb-3" />
                       <p>No modules found for this department</p>

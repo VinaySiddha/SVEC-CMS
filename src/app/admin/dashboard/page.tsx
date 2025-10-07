@@ -102,7 +102,7 @@ const DEPARTMENT_MODULES = {
       name: 'Faculty', 
       icon: Users, 
       description: 'Faculty members and profiles',
-      table: 'cai_faculty'
+      table: 'faculty_profiles'
     },
     { 
       key: 'hackathons', 
@@ -225,7 +225,7 @@ const DEPARTMENT_MODULES = {
       name: 'Faculty Data', 
       icon: Users, 
       description: 'Faculty profiles and information',
-      table: 'ece_faculty_data'
+      table: 'faculty_profiles'
     },
     { 
       key: 'faculty-innovations', 
@@ -267,7 +267,131 @@ const DEPARTMENT_MODULES = {
       name: 'Non-Teaching Faculty', 
       icon: Users, 
       description: 'Non-teaching staff members',
-      table: 'ece_ntfaculty'
+      table: 'ece_nontfaculty'
+    },
+    { 
+      key: 'physical-facilities', 
+      name: 'Physical Facilities', 
+      icon: Building2, 
+      description: 'Infrastructure and equipment',
+      table: 'ece_physical_facilities'
+    },
+    { 
+      key: 'placements', 
+      name: 'Placements', 
+      icon: Users, 
+      description: 'Student placement records',
+      table: 'ece_placements'
+    },
+    { 
+      key: 'scholarships-toppers', 
+      name: 'Scholarships & Toppers', 
+      icon: Award, 
+      description: 'Student achievements and scholarships',
+      table: 'ece_scholarships_toppers'
+    },
+    { 
+      key: 'syllabus', 
+      name: 'Syllabus', 
+      icon: BookOpen, 
+      description: 'Course curriculum and syllabus',
+      table: 'ece_syllabus'
+    },
+    { 
+      key: 'technical-association', 
+      name: 'Technical Association', 
+      icon: Settings, 
+      description: 'Professional associations',
+      table: 'ece_technicalAssociation_trainingActivities'
+    },
+    { 
+      key: 'workshops', 
+      name: 'Workshops', 
+      icon: Settings, 
+      description: 'Educational workshops',
+      table: 'ece_worshops_gl'
+    }
+  ],
+
+  
+  // Electronics & Communication Engineering (ECE)
+  ect: [
+    { 
+      key: 'board-of-studies', 
+      name: 'Board of Studies', 
+      icon: BookOpen, 
+      description: 'Academic board meetings and decisions',
+      table: 'ece_board_of_studies'
+    },
+    { 
+      key: 'clubs', 
+      name: 'Clubs', 
+      icon: Users, 
+      description: 'Student clubs and organizations',
+      table: 'ece_clubs'
+    },
+    { 
+      key: 'extracurricular-activities', 
+      name: 'Extra-Curricular Activities', 
+      icon: Activity, 
+      description: 'Student activities and events',
+      table: 'ece_extracurricular_activities'
+    },
+    { 
+      key: 'faculty-achievements', 
+      name: 'Faculty Achievements', 
+      icon: Award, 
+      description: 'Faculty awards and recognitions',
+      table: 'ece_faculty_achievements'
+    },
+    { 
+      key: 'faculty-data', 
+      name: 'Faculty Data', 
+      icon: Users, 
+      description: 'Faculty profiles and information',
+      table: 'faculty_profiles'
+    },
+    { 
+      key: 'faculty-innovations', 
+      name: 'Faculty Innovations', 
+      icon: Settings, 
+      description: 'Faculty research and innovations',
+      table: 'ece_faculty_innovations'
+    },
+    { 
+      key: 'fdp', 
+      name: 'Faculty Development Programs', 
+      icon: GraduationCap, 
+      description: 'Professional development programs',
+      table: 'ece_fdp'
+    },
+    { 
+      key: 'handbooks', 
+      name: 'Handbooks', 
+      icon: BookOpen, 
+      description: 'Academic handbooks and guides',
+      table: 'ece_handbooks'
+    },
+    { 
+      key: 'mous', 
+      name: 'MOUs', 
+      icon: FileText, 
+      description: 'Memorandums of Understanding',
+      table: 'ece_mous'
+    },
+    { 
+      key: 'newsletters', 
+      name: 'Newsletters', 
+      icon: FileText, 
+      description: 'Department publications',
+      table: 'ece_newsletters'
+    },
+    { 
+      key: 'ntfaculty', 
+      name: 'Non-Teaching Faculty', 
+      icon: Users, 
+      description: 'Non-teaching staff members',
+      table: 'ece_nontfaculty'
     },
     { 
       key: 'physical-facilities', 
@@ -320,7 +444,7 @@ const DEPARTMENT_MODULES = {
       name: 'Board of Studies', 
       icon: BookOpen, 
       description: 'Academic board meetings and decisions',
-      table: 'bos_civil_meeting_minutes'
+      table: 'board_of_studies'
     },
     { 
       key: 'consultancy', 
@@ -355,7 +479,7 @@ const DEPARTMENT_MODULES = {
       name: 'Staff', 
       icon: Users, 
       description: 'Faculty and staff members',
-      table: 'civil_staff'
+      table: 'faculty_Profiles'
     },
     { 
       key: 'syllabus', 
@@ -483,29 +607,156 @@ const DEPARTMENT_MODULES = {
   ],
 
   // Computer Science Engineering
-  cse: [
+  'cse': [
+    { 
+      key: 'board-of-studies', 
+      name: 'Board of Studies', 
+      icon: BookOpen, 
+      description: 'Academic board meetings and decisions',
+      table: 'board_of_studies'
+    },
+    { 
+      key: 'contact', 
+      name: 'Contact Information', 
+      icon: Globe, 
+      description: 'Department contact details',
+      table: 'cai_contact'
+    },
+    { 
+      key: 'department-info', 
+      name: 'Department Info', 
+      icon: Building2, 
+      description: 'Basic department information',
+      table: 'cai_department_info'
+    },
+    { 
+      key: 'department-library', 
+      name: 'Department Library', 
+      icon: BookOpen, 
+      description: 'Library resources and books',
+      table: 'cse_department_library'
+    },
+    { 
+      key: 'eresources', 
+      name: 'E-Resources', 
+      icon: Globe, 
+      description: 'Digital learning resources',
+      table: 'cse_eresources'
+    },
+    { 
+      key: 'extra-curricular', 
+      name: 'Extra-Curricular', 
+      icon: Activity, 
+      description: 'Student activities and events',
+      table: 'cai_extra_curricular'
+    },
+    { 
+      key: 'faculty-achievements', 
+      name: 'Faculty Achievements', 
+      icon: Award, 
+      description: 'Faculty awards and recognitions',
+      table: 'cse_faculty_achievements'
+    },
+    { 
+      key: 'faculty-development-programs', 
+      name: 'Faculty Development', 
+      icon: GraduationCap, 
+      description: 'Professional development programs',
+      table: 'cai_faculty_development_programs'
+    },
     { 
       key: 'faculty', 
       name: 'Faculty', 
       icon: Users, 
       description: 'Faculty members and profiles',
-      table: 'cse_faculty'
+      table: 'faculty_profiles'
     },
     { 
-      key: 'placements', 
-      name: 'Placements', 
+      key: 'hackathons', 
+      name: 'Hackathons', 
+      icon: Briefcase, 
+      description: 'Coding competitions and events',
+      table: 'cai_hackathons'
+    },
+    { 
+      key: 'handbooks', 
+      name: 'Handbooks', 
+      icon: BookOpen, 
+      description: 'Academic handbooks and guides',
+      table: 'cai_handbooks'
+    },
+    { 
+      key: 'merit-scholarships', 
+      name: 'Merit Scholarships', 
+      icon: Award, 
+      description: 'Student scholarship programs',
+      table: 'cai_merit_scholarships'
+    },
+    { 
+      key: 'newsletters', 
+      name: 'Newsletters', 
+      icon: FileText, 
+      description: 'Department publications',
+      table: 'cai_newsletters'
+    },
+    { 
+      key: 'physical-facilities', 
+      name: 'Physical Facilities', 
+      icon: Building2, 
+      description: 'Infrastructure and equipment',
+      table: 'cai_physical_facilities'
+    },
+    { 
+      key: 'placement-batches', 
+      name: 'Placement Batches', 
       icon: Users, 
       description: 'Student placement records',
-      table: 'cse_placements'
+      table: 'cai_placement_batches'
+    },
+    { 
+      key: 'placement-gallery', 
+      name: 'Placement Gallery', 
+      icon: Users, 
+      description: 'Placement success stories',
+      table: 'cai_placement_gallery'
+    },
+    { 
+      key: 'staff', 
+      name: 'Staff', 
+      icon: Users, 
+      description: 'Non-teaching staff members',
+      table: 'cai_staff'
+    },
+    { 
+      key: 'student-achievements', 
+      name: 'Student Achievements', 
+      icon: Award, 
+      description: 'Student awards and recognitions',
+      table: 'cai_student_achievements'
+    },
+    { 
+      key: 'technical-association', 
+      name: 'Technical Association', 
+      icon: Settings, 
+      description: 'Professional associations',
+      table: 'cai_technical_association'
+    },
+    { 
+      key: 'training-activities', 
+      name: 'Training Activities', 
+      icon: GraduationCap, 
+      description: 'Training programs and workshops',
+      table: 'cai_training_activities'
     },
     { 
       key: 'workshops', 
       name: 'Workshops', 
       icon: Settings, 
       description: 'Educational workshops',
-      table: 'cse_workshops'
+      table: 'workshops'
     }
   ],
+
 
   // Electrical & Electronics Engineering
   eee: [
@@ -569,17 +820,27 @@ const DEPARTMENT_MODULES = {
       icon: Users, 
       description: 'Faculty members and profiles',
       table: 'cst_faculty'
-    }
-  ],
-
-  // Electronics & Communication Technology
-  ect: [
+    },
     { 
-      key: 'faculty', 
-      name: 'Faculty', 
+      key: 'board-of-studies', 
+      name: 'board-of-studies', 
       icon: Users, 
       description: 'Faculty members and profiles',
-      table: 'ect_faculty'
+      table: 'cst_faculty'
+    },
+    { 
+      key: 'placements', 
+      name: 'Placements', 
+      icon: Users, 
+      description: 'Student placement records',
+      table: 'cst_placements'
+    },
+    { 
+      key: 'workshops', 
+      name: 'Workshops', 
+      icon: Settings, 
+      description: 'Educational workshops',
+      table: 'cst_workshops'
     }
   ],
 

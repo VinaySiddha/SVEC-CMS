@@ -23,6 +23,7 @@ This project is a content management system for Sri Vasavi Engineering College, 
 
 ### Admin & Setup
 
+- **[Department Admin System](./DEPARTMENT_ADMIN_SYSTEM.md) - Complete guide for department-specific admin logins and CRUD operations** 🆕
 - [Super Admin Implementation Guide](./md/SUPER_ADMIN_IMPLEMENTATION_GUIDE.md)
 - [Super Admin README](./md/SUPER_ADMIN_README.md)
 - [Docker Setup](./md/DOCKER.md)

@@ -7,7 +7,7 @@ import FloatingChatWidgets from "@/components/FloatingChatWidgets";
 import PageTransition from "@/components/PageTransition";
 import { LoadingProvider } from "@/contexts/LoadingContext";
 import ToastProvider from "@/components/providers/ToastProvider";
-import ClientProviders from "@/components/providers/ClientProviders";
+import { ClientProviders } from "@/components/providers/ClientProviders";
 
 const poppins = Poppins({
   subsets: ["latin"],
