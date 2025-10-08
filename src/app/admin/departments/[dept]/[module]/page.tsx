@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { apiGet, apiDelete } from '@/lib/api';
 import { 
   ArrowLeft,
   Search, 
@@ -48,7 +49,7 @@ export default function ModuleManagePage() {
   const fetchTableData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
+      const response = await apiGet(
         `/api/admin/tables/${tableName}?page=${currentPage}&limit=${recordsPerPage}&search=${searchTerm}`
       );
       const data = await response.json();
@@ -76,9 +77,7 @@ export default function ModuleManagePage() {
     if (!confirm('Are you sure you want to delete this record?')) return;
     
     try {
-      const response = await fetch(`/api/admin/tables/${tableName}/${id}`, {
-        method: 'DELETE'
-      });
+      const response = await apiDelete(`/api/admin/tables/${tableName}/${id}`);
       
       if (response.ok) {
         fetchTableData(); // Refresh data

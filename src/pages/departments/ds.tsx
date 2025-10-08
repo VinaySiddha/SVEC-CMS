@@ -828,8 +828,8 @@ const DSDepartment: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <DepartmentSidebar
         items={sidebarItems}
-        activeItem={activeContent}
-        onItemClick={setActiveContent}
+                activeItem={activeTab}
+                onItemClick={setActiveTab}
         title="CSE-DS Department"
       >
         {renderContentWithTitle()}

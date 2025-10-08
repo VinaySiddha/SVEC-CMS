@@ -311,7 +311,7 @@ export async function grantPermission(
       resourceType: 'super_admin_permissions',
       resourceId: userId.toString(),
       metadata: { permission, resource },
-      severity: 'high'
+      severity: 'medium'
     });
 
     return true;
