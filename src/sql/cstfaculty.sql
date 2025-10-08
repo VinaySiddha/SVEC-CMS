@@ -1,6 +1,232 @@
 -- DROP TABLE IF EXISTS timetables;
 -- DROP TABLE IF EXISTS Physical_Facilities;
 
+
+
+
+-- CREATE TABLE cse_eresources (
+--   id INT AUTO_INCREMENT PRIMARY KEY,
+--   regulation VARCHAR(10),
+--   semester VARCHAR(10),
+--   subject VARCHAR(200),
+--   ppt_url VARCHAR(255),
+--   display_order INT
+-- );
+
+
+-- INSERT INTO cse_eresources (regulation, semester, subject, ppt_url, display_order)
+-- VALUES
+-- -- V20 Subjects
+-- ('V20', 'I', 'Problem Solving through C-Programming', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/PCPS-V20.rar', 1),
+-- ('V20', 'III', 'Data Structures', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DS_V20.zip', 2),
+-- ('V20', 'III', 'Computer Organization and Architecture', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/COA_notes_V20.rar', 3),
+-- ('V20', 'III', "OOP's through C++", 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/OOPS.rar', 4),
+-- ('V20', 'III', 'Managerial Economics and Financial Analysis', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MEFA.zip', 5),
+-- ('V20', 'III', 'Mathematical Foundation Of Computer Science', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MFCS V20 material.rar', 6),
+-- ('V20', 'IV', 'Design Analysis of Algorithms', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DAA Material.zip', 7),
+-- ('V20', 'IV', 'Java Programming', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Java V20 all units content.pdf', 8),
+-- ('V20', 'IV', 'Software Engineering', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SE NOTES.rar', 9),
+-- ('V20', 'IV', 'Statistical Visualization using R Lab', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SVR LAB.pdf', 10),
+-- ('V20', 'V', 'Artificial Intelligence', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/AI.rar', 11),
+-- ('V20', 'V', 'Data Mining', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DATA MINING.rar', 12),
+-- ('V20', 'V', 'Web Technologies', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Web_Technologies.pdf', 13),
+-- ('V20', 'VI', 'Unified Modeling Language Lab', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V20/UML LAB.pdf', 14),
+
+-- V18 Subjects
+('V18', 'I/II', 'Programming in C for Problem Solving', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V18/cprogrammingppts.zip', 15),
+('V18', 'III', 'Object Oriented Programming for Problem Solving', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V18/ADSPPTS.rar', 16),
+('V18', 'III', 'Digital Electronics', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V18/DE_Cse_II_Sem.rar', 17),
+('V18', 'III', 'Data Mining', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V18/III_Sem_DM MATERIAL.rar', 18),
+('V18', 'IV', 'Computer Organization', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Computer Organization.zip', 19),
+('V18', 'IV', 'Software Engineering', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V18/SEPPTs.rar', 20),
+('V18', 'IV', 'Python Programming', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V18/.rar', 21),
+('V18', 'IV', 'Java Programming', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Java Materials.zip', 22),
+('V18', 'IV', 'Formal Languages and Automata Theory', 'https://srivasaviengg.ac.in/uploads/materials/PPT/V18/FLATPPTS.rar', 23),
+
+-- R16 Subjects
+('R16', '1', 'Computer Programming', 'https://srivasaviengg.ac.in/uploads/materials/PPT/cprogrammingppts.zip', 24),
+('R16', '2', 'Data Structures through C++', 'https://srivasaviengg.ac.in/uploads/materials/PPT/DSPPT.rar', 25),
+('R16', '2', 'Advanced Data Structures', 'https://srivasaviengg.ac.in/uploads/materials/PPT/ADSPPTS.rar', 26),
+
+-- R13 Subjects
+('R13', '3', 'Software Engineering', 'https://srivasaviengg.ac.in/uploads/materials/PPT/SEPPTs.rar', 27),
+('R13', '3', 'Database Management Systems', 'https://srivasaviengg.ac.in/uploads/materials/PPT/DBMSPPTs.rar', 28),
+('R13', '4', 'Distributed Systems', 'https://srivasaviengg.ac.in/uploads/materials/PPT/DS-NOTES.rar', 29);
+
+-- CREATE TABLE cse_student_achievements (
+--   id INT AUTO_INCREMENT PRIMARY KEY,
+--   category VARCHAR(100) NOT NULL,
+--   title VARCHAR(200) NOT NULL,
+--   description TEXT,
+--   fileUrl VARCHAR(255),
+--   academic_year VARCHAR(20),
+--   display_order INT DEFAULT 0
+-- );
+
+-- INSERT INTO cst_hackathons (dept, academic_year, brochure_url, winners_url, gallery)
+-- VALUES
+-- ('CSE', '2022-23',
+--   'https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon_2022_23_Brochure.pdf',
+--   'https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon_2022_23_Winners.pdf',
+--   '[
+--     "https://srivasaviengg.ac.in/images/departments/cse/Hackthon_2022_23 (1).jpg",
+--     "https://srivasaviengg.ac.in/images/departments/cse/Hackthon_2022_23 (2) (1).jpg"
+--   ]'
+-- ),
+-- ('CSE', '2021-22',
+--   'https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon_2021_22_Brochure.pdf',
+--   'https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon_2021_22_Winners.pdf',
+--   '[
+--     "https://srivasaviengg.ac.in/images/departments/cse/Hackthon 2021_22 (1).jpeg",
+--     "https://srivasaviengg.ac.in/images/departments/cse/Hackthon 2021_22 (1).jpeg"
+--   ]'
+-- ),
+-- ('CSE', '2020-21',
+--   'https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon_2020_21_Brochure.pdf',
+--   'https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon_2020_21_Winners.pdf',
+--   '[]'
+-- ),
+-- ('CSE', '2019-20',
+--   'https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon_2019_20_Brochure.pdf',
+--   'https://srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon_2019_20_Winners.pdf',
+--   '[]'
+-- );
+
+
+-- INSERT INTO cse_student_achievements (category, title, description, fileUrl, academic_year, display_order) VALUES
+-- ('Internship', 'Internships during the Academic Year 2024-25', 'List of students who completed internships in 2024-25.', 'https://srivasaviengg.ac.in/uploads/cse_awards/CSE_Internships%20during%20the%202024-25.pdf', '2024-25', 1),
+-- ('Internship', 'Internships during the Academic Year 2023-24', 'List of students who completed internships in 2023-24.', 'https://www.srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202023-24.pdf', '2023-24', 2),
+-- ('Internship', 'Internships during the Academic Year 2022-23', 'List of students who completed internships in 2022-23.', 'http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202022-23.pdf', '2022-23', 3),
+-- ('Internship', 'Internships during the Academic Year 2021-22', 'List of students who completed internships in 2021-22.', 'http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202021-22.pdf', '2021-22', 4),
+-- ('Internship', 'Internships during the Academic Year 2020-21', 'List of students who completed internships in 2020-21.', 'http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202020-21.pdf', '2020-21', 5),
+-- ('Internship', 'Internships during the Academic Year 2019-20', 'List of students who completed internships in 2019-20.', 'http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202019-20.pdf', '2019-20', 6),
+-- ('Internship', 'Internships during the Academic Year 2018-19', 'List of students who completed internships in 2018-19.', 'http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202018-19.pdf', '2018-19', 7),
+-- ('Internship', 'Internships during the Academic Year 2017-18', 'List of students who completed internships in 2017-18.', 'http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202017-18.pdf', '2017-18', 8),
+-- ('Internship', 'Internships during the Academic Year 2016-17', 'List of students who completed internships in 2016-17.', 'http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202016-17.pdf', '2016-17', 9),
+-- ('Internship', 'Internships during the Academic Year 2015-16', 'List of students who completed internships in 2015-16.', 'http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202015-16.pdf', '2015-16', 10),
+-- ('Internship', 'Internships during the Academic Year 2014-15', 'List of students who completed internships in 2014-15.', 'http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202014-15.pdf', '2014-15', 11),
+
+-- ('Conference', 'Conferences during the Academic Year 2023-24', 'Student conference publications for 2023-24.', 'https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_STUDENT_conferences_2023-24.pdf', '2023-24', 12),
+-- ('Conference', 'Conferences during the Academic Year 2022-23', 'Student conference publications for 2022-23.', 'http://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE-conferences%20(22-23).pdf', '2022-23', 13),
+
+-- ('Journal', 'Journal during the Academic Year 2023-24', 'Student journal publications for 2023-24.', 'https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_STUDENT_Journals_2023-24.pdf', '2023-24', 14),
+
+-- ('Award', 'Awards during the Academic Year 2021-22', 'Student awards for 2021-22.', 'http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2021-2022.pdf', '2021-22', 15),
+-- ('Award', 'Awards during the Academic Year 2016-17', 'Student awards for 2016-17.', 'http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2016-2017.pdf', '2016-17', 16),
+-- ('Award', 'Awards during the Academic Year 2015-16', 'Student awards for 2015-16.', 'http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2015-2016.pdf', '2015-16', 17),
+-- ('Award', 'Awards during the Academic Year 2008-10', 'Student awards for 2008-10.', 'http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2009-2010.pdf', '2008-10', 18),
+
+-- ('UIF', 'Student Achievements during the Academic Year 2018-19', 'UIF student achievements for 2018-19.', 'http://srivasaviengg.ac.in/uploads/cse_awards/Stu_Ach_2018-19.pdf', '2018-19', 19),
+
+-- ('Certification', 'Certifications during the A.Y 2024-25', 'NPTEL and Global certifications for 2024-25.', 'https://www.srivasaviengg.ac.in/uploads/Nptel and Global 2024-25 (CSE).pdf', '2024-25', 20),
+-- ('Certification', 'Certifications during the A.Y 2023-24', 'NPTEL and Global certifications for 2023-24.', 'https://www.srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202023-24_CSE.pdf', '2023-24', 21),
+-- ('Certification', 'Certifications during the A.Y 2022-23', 'NPTEL and Global certifications for 2022-23.', 'http://srivasaviengg.ac.in/uploads/CSE_Nptel%20&%20Others%20during%202022-23.pdf', '2022-23', 22),
+-- ('Certification', 'Certifications during the A.Y 2021-22', 'NPTEL and Global certifications for 2021-22.', 'http://srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202021-22_CSE.pdf', '2021-22', 23),
+-- ('Certification', 'Certifications during the A.Y 2020-21', 'NPTEL and Global certifications for 2020-21.', 'http://srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202020-21_CSE.pdf', '2020-21', 24),
+-- ('Certification', 'Certifications during the A.Y 2019-20', 'NPTEL and Global certifications for 2019-20.', 'http://srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202019-20_CSE.pdf', '2019-20', 25),
+-- ('Certification', 'Certifications during the A.Y 2018-19', 'NPTEL certified student list Jan-Apr 2019.', 'http://srivasaviengg.ac.in/uploads/NPTEL%20Certified%20Student%20List%20Jan_Apr_2019.pdf', '2018-19', 26),
+
+-- ('CSP', 'List of CSP Projects done by 2022-26 Batch Students', 'Community Service Projects for 2022-26 batch.', 'https://www.srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202022-26%20Batch%20Students.pdf', '2022-26', 27),
+-- ('CSP', 'List of CSP Projects done by 2021-25 Batch Students', 'Community Service Projects for 2021-25 batch.', 'http://srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202021-25%20Batch%20Students.pdf', '2021-25', 28),
+-- ('CSP', 'List of CSP Projects done by 2020-24 Batch Students', 'Community Service Projects for 2020-24 batch.', 'http://srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202020-24%20Batch%20Students.pdf', '2020-24', 29),
+
+-- ('Research', 'Projects during the A.Y - 2024-25 (B.Tech)', 'Best Main Projects for B.Tech 2024-25.', 'http://srivasaviengg.ac.in/uploads/cse-csp/CSE Best Main Projects_ A.Y 24-25.pdf', '2024-25', 30),
+-- ('Research', 'Projects during the A.Y - 2023-24 (B.Tech)', 'Best Main Projects for B.Tech 2023-24.', 'http://srivasaviengg.ac.in/uploads/cse-csp/CSE Best Main Projects_ A.Y 23-24.pdf', '2023-24', 31),
+-- ('Research', 'Projects during the A.Y - 2022-23 (B.Tech)', 'Best Main Projects for B.Tech 2022-23.', 'http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202022-23.pdf', '2022-23', 32),
+-- ('Research', 'Projects during the A.Y - 2021-22 (B.Tech)', 'Best Main Projects for B.Tech 2021-22.', 'http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202021-22.pdf', '2021-22', 33),
+-- ('Research', 'Projects during the A.Y - 2020-21 (B.Tech)', 'Best Main Projects for B.Tech 2020-21.', 'http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202020-21.pdf', '2020-21', 34),
+-- ('Research', 'Projects during the A.Y - 2019-20 (B.Tech)', 'Best Main Projects for B.Tech 2019-20.', 'http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202019-20.pdf', '2019-20', 35),
+-- ('Research', 'Projects during the A.Y - 2018-19 (B.Tech)', 'Best Main Projects for B.Tech 2018-19.', 'http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%20A.Y%202018-19.pdf', '2018-19', 36),
+
+-- ('Research', 'Projects during the A.Y - 2021-23 (M.Tech)', 'Best Main Projects for M.Tech 2021-23.', 'http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CS)%202021-23%20Batch%20Projects.pdf', '2021-23', 37),
+-- ('Research', 'Projects during the A.Y - 2020-22 (M.Tech)', 'Best Main Projects for M.Tech 2020-22.', 'http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202020-22%20Batch%20Projects.pdf', '2020-22', 38),
+-- ('Research', 'Projects during the A.Y - 2019-21 (M.Tech)', 'Best Main Projects for M.Tech 2019-21.', 'http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202019-21%20Batch%20Projects.pdf', '2019-21', 39),
+-- ('Research', 'Projects during the A.Y - 2018-20 (M.Tech)', 'Best Main Projects for M.Tech 2018-20.', 'http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202018-20%20Batch%20Projects.pdf', '2018-20', 40),
+-- ('Research', 'Projects during the A.Y - 2017-19 (M.Tech)', 'Best Main Projects for M.Tech 2017-19.', 'http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202017-19%20Batch%20Projects.pdf', '2017-19', 41);
+
+
+
+
+
+
+
+
+-- INSERT INTO cst_handbooks (dept, academic_year, semester, title, file_url) VALUES
+-- ('CSE', '2025-26', 'I', 'III Sem V23 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_III  SEM Handbook.pdf'),
+-- ('CSE', '2025-26', 'I', 'V Sem V23 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_V SEM Handbook.pdf'),
+-- ('CSE', '2025-26', 'I', 'VII Sem V20 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_VII SEM Handbook.pdf'),
+
+-- ('CSE', '2024-25', 'II', 'IV Sem V23 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/cse_extra_activities/2024-25_IV%20SEM%20Hand%20Book_CSE.pdf'),
+-- ('CSE', '2024-25', 'II', 'VI Sem V20 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_VI%20Semester%20Handbook.pdf'),
+
+-- ('CSE', '2024-25', 'I', 'III Sem V23 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/III%20%20SEM%20(Autonomous)%20Handbook%20-%20CSE%20.pdf'),
+-- ('CSE', '2024-25', 'I', 'V Sem V20 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20Handbook_2024-25.pdf'),
+-- ('CSE', '2024-25', 'I', 'VII Sem V20 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/VII%20SEM%20V20%20Regulation%20Handbook_CSE.pdf'),
+
+-- ('CSE', '2023-24', 'II', 'III Sem V20 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20V20%20Regulation%20Handbook.pdf'),
+-- ('CSE', '2023-24', 'II', 'IV Sem V20 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20V20%20Regulation%20Handbook.pdf'),
+-- ('CSE', '2023-24', 'II', 'VI Sem V20 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/VI%20SEM%20_CSE_Handbook.pdf'),
+
+-- ('CSE', '2023-24', 'I', 'III Sem V20 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/III%20%20SEM%20(Autonomous)%20Handbook%20-%20CSE.pdf'),
+-- ('CSE', '2023-24', 'I', 'V Sem V20 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/V%20SEM%20Handbook_V20%20Regulation_2023-24.pdf'),
+-- ('CSE', '2023-24', 'I', 'VII Sem V20 Regulation Handbook', 'https://srivasaviengg.ac.in/uploads/VII%20SEM%20Handbook_V20%20Regulation_2023-24.pdf'),
+
+-- ('CSE', '2022-23', 'II', 'IV Sem V20 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/IV%20Sem%20V20%20Regulation%20Handbook_CSE.pdf'),
+-- ('CSE', '2022-23', 'II', 'VI Sem V20 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/VI%20Sem%20V20%20Regulation%20Handbook.pdf'),
+-- ('CSE', '2022-23', 'II', 'VIII Sem V18 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/VIII%20Sem%20%20V20%20Regulation%20Handbook.pdf'),
+
+-- ('CSE', '2022-23', 'I', 'III Sem V20 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/III%20SEM%20V20%20Regulation%20Handbook%20(CSE).pdf'),
+-- ('CSE', '2022-23', 'I', 'V Sem V20 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20%20V20%20Regulation%20Handbook%2022_23.pdf'),
+-- ('CSE', '2022-23', 'I', 'VII Sem V18 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook%2022_23.pdf'),
+
+-- ('CSE', '2021-22', 'II', 'IV Sem V20 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/IV%20Semester%20Handbook%20_V20%20Regulation.pdf'),
+-- ('CSE', '2021-22', 'II', 'VI Sem V18 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/VI%20Semester%20Handbook_22.pdf'),
+-- ('CSE', '2021-22', 'II', 'VIII Sem V18 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/VIII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf'),
+
+-- ('CSE', '2021-22', 'I', 'III Sem V20 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20&%20CST%20V20%20Regulation%20Handbook.pdf'),
+-- ('CSE', '2021-22', 'I', 'V Sem V18 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20&%20CST%20V18%20Regulation%20Handbook.pdf'),
+-- ('CSE', '2021-22', 'I', 'VII Sem V18 Regulation Handbook', 'http://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf'),
+
+-- ('CSE', '2020-21', 'II', 'IV Sem V18(Autonomous) Handbook', 'http://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Semester%20V18(Autonomous).pdf'),
+-- ('CSE', '2020-21', 'II', 'VI Sem V18(Autonomous) Handbook', 'http://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20VI%20Semester%20V18(Autonomous).pdf'),
+-- ('CSE', '2020-21', 'II', 'IV Year II Sem R16 Handbook', 'http://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Yr.%20II%20Semester%20R16%20Regulation.pdf'),
+
+-- ('CSE', '2020-21', 'I', 'III Sem V18(Autonomous) Handbook', 'http://srivasaviengg.ac.in/uploads/CSE_III_SEM_Handbook.pdf'),
+-- ('CSE', '2020-21', 'I', 'V Sem V18(Autonomous) Handbook', 'http://srivasaviengg.ac.in/uploads/CSE_V_SEM_Handbook.pdf'),
+-- ('CSE', '2020-21', 'I', 'IV Year I Sem R16 Handbook', 'http://srivasaviengg.ac.in/uploads/CSE_IVYr_I_SEM_Handbook.pdf'),
+
+-- ('CSE', '2019-20', 'II', 'IV Sem V18(Autonomous) Handbook', 'http://srivasaviengg.ac.in/uploads/II-II_Handbook.pdf'),
+-- ('CSE', '2019-20', 'II', 'III Year II Sem R16 Handbook', 'http://srivasaviengg.ac.in/uploads/III-II_Handbook.pdf'),
+-- ('CSE', '2019-20', 'II', 'IV Year II Sem R16 Handbook', 'http://srivasaviengg.ac.in/uploads/IV-II_Handbook.pdf'),
+
+-- ('CSE', '2019-20', 'I', 'III Sem V18(Autonomous) Handbook', 'http://srivasaviengg.ac.in/uploads/II-I_Handbook.pdf'),
+-- ('CSE', '2019-20', 'I', 'III Year I Sem R16 Handbook', 'http://srivasaviengg.ac.in/uploads/III-I_Handbook.pdf'),
+-- ('CSE', '2019-20', 'I', 'IV Year I Sem R16 Handbook', 'http://srivasaviengg.ac.in/uploads/IV-I_Handbook.pdf');
+
+-- INSERT INTO cst_bos_members (dept, name, designation, organization, position_in_job) VALUES
+-- ('cse', 'Dr. D Jaya Kumari', 'Professor & HOD', 'Dept of CSE, SVEC', 'Chairperson'),
+-- ('cse', 'Dr. A Krishna Mohan', 'Professor of CSE', 'JNTUK, Kakinada', 'University Nominee'),
+-- ('cse', 'Dr. R.B.V Subramaanyam', 'Professor of CSE', 'NITW', 'Academic Expert'),
+-- ('cse', 'Dr. S Pallam Setty', 'Professor of CSE', 'Andhra University', 'Academic Expert'),
+-- ('cse', 'Mr. SrinivasaRaju Vuppalapati', 'Senior Consultant', 'MSR IT Services LLP', 'Industry Expert'),
+-- ('cse', 'Mr. Eedala Rambabu', 'Member of Technical Staff2', 'Amadeus, Bangalore', 'Alumni CSE Dept'),
+-- ('cse', 'All the Faculty Members in the CSE Dept.', NULL, NULL, 'Members in BOS');
+
+
+
+-- INSERT INTO cst_bos_minutes (dept, meeting_no, meeting_date, file_url) VALUES
+-- ('cse', '8th', '2025-07-19', 'http://srivasaviengg.ac.in/uploads/Minutes_of_8th_BOS_CSE.pdf'),
+-- ('cse', '7th', '2024-07-18', 'http://srivasaviengg.ac.in/uploads/cse/Minutes_of_7th_BOS_CSE.pdf'),
+-- ('cse', '6th', '2022-07-25', 'http://srivasaviengg.ac.in/uploads/cse/Minutes_of_6th_BOS_CSE.pdf'),
+-- ('cse', '5th', '2021-09-02', 'http://srivasaviengg.ac.in/uploads/cse/Minutes_of_5th_BOS_CSE.pdf'),
+-- ('cse', '4th', '2020-12-29', 'http://srivasaviengg.ac.in/uploads/cse/Minutes_of_4th_BOS_CSE.pdf'),
+-- ('cse', '3rd', '2020-05-31', 'http://srivasaviengg.ac.in/uploads/cse/Minutes_of_3rd_BOS_CSE.pdf'),
+-- ('cse', '2nd', '2019-04-20', 'http://srivasaviengg.ac.in/uploads/cse/Minutes_of_2nd_BOS_CSE.pdf'),
+-- ('cse', '1st', '2018-06-02', 'http://srivasaviengg.ac.in/uploads/cse/Minutes_of_1st_BOS_CSE.pdf');
+
+
+
+
 -- CREATE TABLE cst_department_overview (
 --   id INT AUTO_INCREMENT PRIMARY KEY,
 --   hod_name VARCHAR(255),
@@ -494,6 +720,9 @@
 --   academic_year VARCHAR(20),
 --   display_order INT DEFAULT 0
 -- );
+
+
+
 
 -- -- Insert Data: Internships
 -- INSERT INTO cst_student_achievements (category, title, fileUrl, academic_year, display_order) VALUES

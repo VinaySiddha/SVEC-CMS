@@ -1,11 +1,19 @@
 'use client';
 
 import { AuthProvider } from '@/lib/auth/AuthContext';
+import { NavigationProvider } from '@/contexts/NavigationContext';
+import { NavigationTracker } from './NavigationTracker';
 
-export default function ClientProviders({ children }: { children: React.ReactNode }) {
+export function ClientProviders({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
-      {children}
+      <NavigationProvider>
+        <NavigationTracker />
+        {children}
+      </NavigationProvider>
     </AuthProvider>
   );
 }
+
+// Also export as default for flexibility
+export default ClientProviders;

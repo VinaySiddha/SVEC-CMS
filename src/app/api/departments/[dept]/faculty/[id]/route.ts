@@ -19,7 +19,8 @@ export async function PUT(
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const { dept, id } = params;
+    // Await params before using its properties (Next.js 15+)
+    const { dept, id } = await params;
 
     // Check if user has permission for this department
     if (decoded.role !== 'admin' && decoded.department !== dept) {
@@ -27,6 +28,22 @@ export async function PUT(
     }
 
     const data = await request.json();
+
+    // Ensure all parameters are properly defined, convert undefined to null
+    const updateParams = [
+      data.name || null,
+      data.email || null,
+      data.qualification || null,
+      data.designation || null,
+      data.specialization || null,
+      data.experience_years || data.experience || null,
+      data.profile_url || data.profile_image || null,
+      data.bio || null,
+      data.research_interests || data.research_areas || null,
+      data.publications || null,
+      id,
+      dept
+    ];
 
     // Update faculty member
     await query(`
@@ -36,20 +53,7 @@ export async function PUT(
         bio = ?, research_interests = ?, publications = ?, 
         updated_at = CURRENT_TIMESTAMP
       WHERE id = ? AND dept = ?
-    `, [
-      data.name,
-      data.email,
-      data.qualification,
-      data.designation,
-      data.specialization,
-      data.experience,
-      data.profile_image || null,
-      data.bio || null,
-      data.research_areas || null,
-      data.publications || null,
-      id,
-      dept
-    ]);
+    `, updateParams);
 
     return NextResponse.json({
       success: true,
@@ -82,7 +86,8 @@ export async function DELETE(
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const { dept, id } = params;
+    // Await params before using its properties (Next.js 15+)
+    const { dept, id } = await params;
 
     // Check if user has permission for this department
     if (decoded.role !== 'admin' && decoded.department !== dept) {

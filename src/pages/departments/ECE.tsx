@@ -1,7 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { Radio, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon, Settings } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
+
 
 interface BoardOfStudiesMember {
   name: string;
@@ -735,7 +736,7 @@ const ECEDepartment: React.FC = () => {
                 {/* Settings Panel */}
                 <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
                   {/* Panel Header */}
-                  <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] p-4 border-b border-gray-700">
+                  <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
@@ -772,7 +773,7 @@ const ECEDepartment: React.FC = () => {
                               setSettingsPanelOpen(false);
                             }}
                             className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
                                 : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                               }`}
                           >
@@ -824,7 +825,7 @@ const ECEDepartment: React.FC = () => {
             {/* Floating Settings Button - Mobile Only */}
             <button
               onClick={() => setSettingsPanelOpen(true)}
-              className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+              className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
               title="Department Navigation"
             >
               <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -847,7 +848,7 @@ const ECEDepartment: React.FC = () => {
       case 'Physical Facilities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Physical Facilities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Physical Facilities</h2>
             {PhysicalFacilitiesLoading ? (
               <div className="text-center py-8">Loading...</div>
             ) : (
@@ -868,7 +869,7 @@ const ECEDepartment: React.FC = () => {
                                 href={item.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[#850209] font-semibold hover:underline"
+                                className="text-[#B22222] font-semibold hover:underline"
                               >
                                 View
                               </a>
@@ -888,7 +889,7 @@ const ECEDepartment: React.FC = () => {
                                 href={item.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[#850209] font-semibold hover:underline"
+                                className="text-[#B22222] font-semibold hover:underline"
                               >
                                 View
                               </a>
@@ -1008,7 +1009,7 @@ const ECEDepartment: React.FC = () => {
       case 'Syllabus':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Syllabus</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Syllabus</h2>
             <div className="container mx-auto">
               {SyllabusLoading ? (
                 <div className="text-center py-8">Loading...</div>
@@ -1028,7 +1029,7 @@ const ECEDepartment: React.FC = () => {
                                 href={item.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[#850209] font-semibold hover:underline"
+                                className="text-[#B22222] font-semibold hover:underline"
                               >
                                 View
                               </a>
@@ -1048,7 +1049,7 @@ const ECEDepartment: React.FC = () => {
       case 'Faculty Innovations in Teaching & Learning':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Faculty Innovations in Teaching & Learning</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Innovations in Teaching & Learning</h2>
             <div className="space-y-4">
               {facultyInnovations
                 .filter(item => item.title !== 'Question Banks')
@@ -1058,7 +1059,7 @@ const ECEDepartment: React.FC = () => {
                     <div className="p-4">
                       {innovation.description && (
                         <>
-                          <h3 className="text-xl text-center text-[#850209] font-semibold mb-2">e-Resources</h3>
+                          <h3 className="text-xl text-center text-[#B22222] font-semibold mb-2">e-Resources</h3>
                           <p>{innovation.description}</p>
                           <p className="mt-2">
                             <b>Some of the methods adopted by the faculty members in Teaching & Learning are:</b>
@@ -1092,7 +1093,7 @@ const ECEDepartment: React.FC = () => {
                       <div className="p-4">
                         {questionBanks.map((qb, idx) => (
                           <div key={idx}>
-                            <h3 className="text-xl text-center text-[#850209] font-semibold mb-2">{qb.description}</h3>
+                            <h3 className="text-xl text-center text-[#B22222] font-semibold mb-2">{qb.description}</h3>
                             <ul className="list-disc pl-6 space-y-1">
                               {qb.items.map((item, i) => (
                                 <li key={i}>
@@ -1126,7 +1127,7 @@ const ECEDepartment: React.FC = () => {
         }, {});
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Academic HandBooks</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Academic HandBooks</h2>
             <div className="space-y-6">
               {Object.entries(groupedHandbooks).sort(([a], [b]) => b.localeCompare(a)).map(([year, items]) => (
                 <details key={year} className="border rounded-lg">
@@ -1139,7 +1140,7 @@ const ECEDepartment: React.FC = () => {
                             {item.title} -{' '}
                             <a
                               href={item.url}
-                              className="text-[#850209] font-semibold hover:underline"
+                              className="text-[#B22222] font-semibold hover:underline"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -1154,7 +1155,7 @@ const ECEDepartment: React.FC = () => {
                             {item.title} -{' '}
                             <a
                               href={item.url}
-                              className="text-[#850209] font-semibold hover:underline"
+                              className="text-[#B22222] font-semibold hover:underline"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -1171,7 +1172,7 @@ const ECEDepartment: React.FC = () => {
                           {item.title} -{' '}
                           <a
                             href={item.url}
-                            className="text-[#850209] font-semibold hover:underline"
+                            className="text-[#B22222] font-semibold hover:underline"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -1189,7 +1190,7 @@ const ECEDepartment: React.FC = () => {
       case 'Extra-Curricular Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Extra-Curricular Activities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Extra-Curricular Activities</h2>
             {extraCurricularActivities.length === 0 ? (
               <div className="text-center py-8">Loading...</div>
             ) : (
@@ -1206,7 +1207,7 @@ const ECEDepartment: React.FC = () => {
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#850209] font-semibold hover:underline"
+                            className="text-[#B22222] font-semibold hover:underline"
                           >
                             View More
                           </a>
@@ -1227,7 +1228,7 @@ const ECEDepartment: React.FC = () => {
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#850209] font-semibold hover:underline"
+                            className="text-[#B22222] font-semibold hover:underline"
                           >
                             View More
                           </a>
@@ -1245,7 +1246,7 @@ const ECEDepartment: React.FC = () => {
                         href={item.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] font-semibold hover:underline"
+                        className="text-[#B22222] font-semibold hover:underline"
                       >
                         View More
                       </a>
@@ -1264,7 +1265,7 @@ const ECEDepartment: React.FC = () => {
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#850209] font-semibold hover:underline"
+                            className="text-[#B22222] font-semibold hover:underline"
                           >
                             View More
                           </a>
@@ -1282,7 +1283,7 @@ const ECEDepartment: React.FC = () => {
                         href={item.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] font-semibold hover:underline"
+                        className="text-[#B22222] font-semibold hover:underline"
                       >
                         View More
                       </a>
@@ -1310,7 +1311,7 @@ const ECEDepartment: React.FC = () => {
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#850209] font-semibold hover:underline"
+                            className="text-[#B22222] font-semibold hover:underline"
                           >
                             For more details
                           </a>
@@ -1325,7 +1326,7 @@ const ECEDepartment: React.FC = () => {
       case 'Newsletters':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Newsletters</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Newsletters</h2>
             {newslettersLoading ? (
               <div className="text-center py-8">Loading...</div>
             ) : (
@@ -1339,7 +1340,7 @@ const ECEDepartment: React.FC = () => {
                         href={item.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] text-lg font-semibold hover:underline"
+                        className="text-[#B22222] text-lg font-semibold hover:underline"
                       >
                         View
                       </a>
@@ -1353,7 +1354,7 @@ const ECEDepartment: React.FC = () => {
       case 'Training Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Training Activities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Training Activities</h2>
             <div className="space-y-6">
               {technicalAssociationActivities
                 .filter(item => item.type === 'training_activity')
@@ -1366,7 +1367,7 @@ const ECEDepartment: React.FC = () => {
                         href={item.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] text-lg font-semibold hover:underline"
+                        className="text-[#B22222] text-lg font-semibold hover:underline"
                       >
                         View
                       </a>
@@ -1379,7 +1380,7 @@ const ECEDepartment: React.FC = () => {
       case 'Technical Association':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Technical Association</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Technical Association</h2>
             <div className="mb-8">
               <details className="mb-6">
                 <summary className="text-xl font-semibold cursor-pointer">Celebrations Under Veda</summary>
@@ -1445,7 +1446,7 @@ const ECEDepartment: React.FC = () => {
       case 'Merit Scholarship/Academic Toppers':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Merit Scholarships and Academic Toppers</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Merit Scholarships and Academic Toppers</h2>
             {ScholarshipToppersLoading ? (
               <div className="text-center py-8">Loading...</div>
             ) : (
@@ -1532,7 +1533,7 @@ const ECEDepartment: React.FC = () => {
       case 'Placements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Placements</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Placements</h2>
             <div className="space-y-4">
               {placements.map((placement, idx) => (
                 <details key={placement.year} className="border rounded-lg">
@@ -1543,7 +1544,7 @@ const ECEDepartment: React.FC = () => {
                       href={placement.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] text-lg font-semibold hover:underline"
+                      className="text-[#B22222] text-lg font-semibold hover:underline"
                     >
                       View
                     </a>
@@ -1563,7 +1564,7 @@ const ECEDepartment: React.FC = () => {
             {/* Placeholder for dynamic data */}
             {workshop_gl.length > 0 ? (
               <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Workshops/SOC/Seminars/Guest Lectures</h2>
+                <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Workshops/SOC/Seminars/Guest Lectures</h2>
                 {/* Workshops/SOC */}
                 <div className="mb-8">
                   <details className="mb-6">
@@ -1640,7 +1641,7 @@ const ECEDepartment: React.FC = () => {
       case 'Faculty Development Programs':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Faculty Development Programs</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Development Programs</h2>
             {FdpLoading ? (
               <div className="text-center py-8">Loading...</div>
             ) : (
@@ -1696,7 +1697,7 @@ const ECEDepartment: React.FC = () => {
       case 'MoUs':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">MoUs</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
             <h3 className="text-2xl font-semibold text-center mb-4">A. MOUs with Industries</h3>
             <div className="overflow-x-auto mb-8">
               {MousLoading ? (
@@ -1770,7 +1771,7 @@ const ECEDepartment: React.FC = () => {
             ) : (
               <div>
                 {/* SPACE CLUB_AICTE-SPICES */}
-                <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">SPACE CLUB_AICTE-SPICES</h2>
+                <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">SPACE CLUB_AICTE-SPICES</h2>
                 <div className="mb-10">
                   <details className="mb-6">
                     <summary className="text-xl font-semibold cursor-pointer">SPACE CLUB_AICTE-SPICES</summary>
@@ -1795,7 +1796,7 @@ const ECEDepartment: React.FC = () => {
                 </div>
 
                 {/* E- Waste Management Refurbishing club */}
-                <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">E- Waste Management Refurbishing club</h2>
+                <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">E- Waste Management Refurbishing club</h2>
                 <div>
                   <details>
                     <summary className="text-xl font-semibold cursor-pointer">E- Waste Management Refurbishing club</summary>
@@ -1826,7 +1827,7 @@ case 'Faculty Profiles':
       return (
         <div className="space-y-8">
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Teaching Faculty</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Teaching Faculty</h2>
             {facultyLoading ? (
               <div className="text-center py-8">Loading...</div>
             ) : (
@@ -1868,7 +1869,7 @@ case 'Faculty Profiles':
             )}
           </div>
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Non-Teaching Staff</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Non-Teaching Staff</h2>
             {nonTeachingLoading ? (
               <div className="text-center py-8">Loading...</div>
             ) : (
@@ -1962,34 +1963,56 @@ case 'Faculty Profiles':
     }
   }
 
-  return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Electronics & Communication Engineering</h1>
-          </div>
-        </div>
-      </section>
+  // return (
+  //   <div className="pt-24 bg-gray-100">
+  //     <section className="bg-[#8B1919] text-white py-12">
+  //       <div className="container mx-auto px-4">
+  //         <div className="text-center">
+  //           <h1 className="text-3xl md:text-4xl font-bold">Electronics & Communication Engineering</h1>
+  //         </div>
+  //       </div>
+  //     </section>
 
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
+  //     {/* Fixed Sidebar Component */}
+  //     <FixedSidebar
+  //       isOpen={sidebarOpen}
+  //       onToggle={() => setSidebarOpen(!sidebarOpen)}
+  //       onClose={() => setSidebarOpen(false)}
+  //       items={sidebarItems}
+  //       activeItem={activeContent}
+  //       onItemClick={setActiveContent}
+  //       title="Electronics & Communication Engineering Department"
+  //       buttonLabel="Department Menu"
+  //     >
+  //       {/* Main Content */}
+  //       <div className="container mx-auto px-4 py-8">
+  //         <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+  //           {renderContent()}
+  //         </div>
+  //       </div>
+  //     </FixedSidebar>
+  //   </div>
+  // );
+  const renderContentWithTitle = () => {
+    // Just return the content without adding another title, since it's already included in content sections
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="ECE Department"
-        buttonLabel="Department Menu"
+        title="Electronics & Communication Engineering Department"
       >
-        {/* Main Content */}
-        <div className="container mx-auto px-4 py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            {renderContent()}
-          </div>
-        </div>
-      </FixedSidebar>
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
 };

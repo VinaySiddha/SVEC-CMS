@@ -8,7 +8,7 @@ export default async function handler(req, res) {
         database: 'svec_cms'
   });
 
-  const [faculty] = await connection.execute('SELECT * FROM cst_faculty');
+  const [faculty] = await connection.execute('SELECT * FROM cst_faculty order by Qualification DESC');
   const [technical] = await connection.execute('SELECT * FROM cst_technical_faculty');
   const [nonTeaching] = await connection.execute('SELECT * FROM cst_non_teaching_faculty');
 

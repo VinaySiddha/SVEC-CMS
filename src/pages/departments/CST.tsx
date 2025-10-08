@@ -1,7 +1,7 @@
 
 import React, { useState,useEffect } from 'react';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
 const CSTDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -375,10 +375,10 @@ case 'Department Profile':
                 />
               </div>
               <div className="md:w-2/3">
-                <h3 className="text-xl font-bold text-[#850209] mb-2">{overview.hod_name}</h3>
+                <h3 className="text-xl font-bold text-[#B22222] mb-2">{overview.hod_name}</h3>
                 <p className="text-gray-700 mb-2">{overview.hod_qualification}</p>
                 <p className="text-gray-700 mb-2">
-                  <a href={`mailto:${overview.hod_email}`} className="text-[#850209] hover:underline">{overview.hod_email}</a>
+                  <a href={`mailto:${overview.hod_email}`} className="text-[#B22222] hover:underline">{overview.hod_email}</a>
                 </p>
                 <p className="text-gray-700 text-lg text-justify">{overview.description}</p>
               </div>
@@ -397,7 +397,7 @@ case 'Department Profile':
             {/* Settings Panel */}
             <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
               {/* Panel Header */}
-              <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] p-4 border-b border-gray-700">
+              <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
@@ -433,7 +433,7 @@ case 'Department Profile':
                           setSettingsPanelOpen(false);
                         }}
                         className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                          ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                          ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
                           : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                         }`}
                       >
@@ -484,7 +484,7 @@ case 'Department Profile':
         {/* Floating Settings Button - Mobile Only */}
         <button
           onClick={() => setSettingsPanelOpen(true)}
-          className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+          className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
           title="Department Navigation"
         >
           <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -529,7 +529,7 @@ case 'Department Profile':
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Student Achievements</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
       <div className="space-y-6">
         {grouped.map(group => (
           <details key={group.category} open={group.items.length > 0} className="border rounded-lg p-4">
@@ -546,7 +546,7 @@ case 'Department Profile':
                           href={item.fileUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View More
                         </a>
@@ -569,7 +569,7 @@ case 'Department Profile':
   const types = Array.from(new Set(syllabus.map(s => s.type)));
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Syllabus</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
       <div className="space-y-6">
         {types.map(type => (
           <details key={type} open className="border rounded-lg p-4">
@@ -583,7 +583,7 @@ case 'Department Profile':
                     href={item.fileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline"
+                    className="text-[#B22222] hover:underline"
                   >
                     View
                   </a>
@@ -688,12 +688,12 @@ case 'e-Resources': {
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <div className="space-y-6">
-        <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">e-Resources</h2>
+        <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">e-Resources</h2>
         {/* ...static intro content... */}
-        <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">Subjects</h3>
+        <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Subjects</h3>
         {regulations.map(reg => (
           <div key={reg} className="mb-8">
-            <h4 className="text-xl font-bold text-[#850209] mb-4 text-center">{reg}-Subjects</h4>
+            <h4 className="text-xl font-bold text-[#B22222] mb-4 text-center">{reg}-Subjects</h4>
             <div className="overflow-x-auto">
               <table className="min-w-full bg-white border border-gray-200">
                 <thead className="bg-gray-100">
@@ -713,7 +713,7 @@ case 'e-Resources': {
                       <td className="py-3 px-4 border-b">{item.semester}</td>
                       <td className="py-3 px-4 border-b">{item.subject}</td>
                       <td className="py-3 px-4 border-b">
-                        <a href={item.ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
+                        <a href={item.ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">Download</a>
                       </td>
                     </tr>
                   ))}
@@ -733,7 +733,7 @@ case 'e-Resources': {
     <div>
       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
         <div className="space-y-6">
-          <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Board of Studies</h2>
+          <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-200 rounded-lg">
               <thead className="bg-gray-100">
@@ -762,7 +762,7 @@ case 'e-Resources': {
       </div>
       <div className="mt-4">
         <div className="flex flex-col justify-center items-center mb-5">
-          <h4 className="text-xl font-semibold text-[#850209] mb-4">Board of Studies Meeting Minutes:</h4>
+          <h4 className="text-xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes:</h4>
           <ul className="my-2 space-y-3 list-none">
             {bosMinutes.map((minute) => (
               <li key={minute.id} className="text-center">
@@ -771,7 +771,7 @@ case 'e-Resources': {
                   href={minute.file_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#850209] hover:underline ml-2"
+                  className="text-[#B22222] hover:underline ml-2"
                 >
                   View
                 </a>
@@ -790,7 +790,7 @@ case 'e-Resources': {
   }
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Department Library</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Library</h2>
       <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
         <div className="md:w-1/2">
           <img
@@ -807,7 +807,7 @@ case 'e-Resources': {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
-          <h5 className="text-lg font-semibold text-center text-[#850209] mb-2">No. of Titles</h5>
+          <h5 className="text-lg font-semibold text-center text-[#B22222] mb-2">No. of Titles</h5>
           <p className="text-2xl font-bold text-red-600 text-center">{departmentLibrary.titles}</p>
         </div>
         <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
@@ -816,12 +816,12 @@ case 'e-Resources': {
         </div>
       </div>
       <div className="flex flex-col items-center">
-        <h3 className="text-xl font-bold text-[#850209] mb-4">Faculty Incharge</h3>
+        <h3 className="text-xl font-bold text-[#B22222] mb-4">Faculty Incharge</h3>
         <ul className="text-center space-y-2 list-none">
           <li className="text-lg font-medium">{departmentLibrary.faculty_incharge}</li>
           <li className="text-lg">Phone: {departmentLibrary.phone}</li>
           <li className="text-lg">
-            E-mail: <a href={`mailto:${departmentLibrary.email}`} className="text-[#850209] hover:underline">{departmentLibrary.email}</a>
+            E-mail: <a href={`mailto:${departmentLibrary.email}`} className="text-[#B22222] hover:underline">{departmentLibrary.email}</a>
           </li>
         </ul>
       </div>
@@ -833,8 +833,8 @@ case 'e-Resources': {
 case 'MoUs': {
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">MoUs</h2>
-      <h3 className="text-xl font-semibold text-[#850209] mb-4 text-center">A. MOUs with Industries</h3>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
+      <h3 className="text-xl font-semibold text-[#B22222] mb-4 text-center">A. MOUs with Industries</h3>
       <div className="overflow-x-auto mb-8">
         <table className="min-w-full bg-white border border-gray-200">
           <thead className="bg-gray-100">
@@ -855,7 +855,7 @@ case 'MoUs': {
                 <td className="py-3 px-4 border-b">{item.to_date}</td>
                 <td className="py-3 px-4 border-b">
                   <a
-                    className="text-[#850209] hover:underline"
+                    className="text-[#B22222] hover:underline"
                     href={item.document_url}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -866,7 +866,7 @@ case 'MoUs': {
           </tbody>
         </table>
       </div>
-      <h3 className="text-xl font-semibold text-[#850209] mb-4">B. Interaction with the Industry</h3>
+      <h3 className="text-xl font-semibold text-[#B22222] mb-4">B. Interaction with the Industry</h3>
       <div className="flex justify-center mb-6">
         <ul className="space-y-4 list-none max-w-3xl">
           {industryPrograms.map((item) => (
@@ -876,7 +876,7 @@ case 'MoUs': {
                 href={item.file_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#850209] hover:underline ml-2"
+                className="text-[#B22222] hover:underline ml-2"
               >
                 View
               </a>
@@ -899,7 +899,7 @@ case 'Physical Facilities': {
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Physical Facilities</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
       <div className="space-y-6">
         {grouped.map(group => (
           <details key={group.category} open={group.items.length > 0} className="border rounded-lg p-4">
@@ -949,7 +949,7 @@ case 'Physical Facilities': {
                           href={item.file_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -974,7 +974,7 @@ case 'Physical Facilities': {
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg" style={{ borderWidth: 2 }}>
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Faculty Development Programs</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Development Programs</h2>
       <div className="space-y-6">
         {grouped.map(group => (
           <details key={group.category} open={group.items.length > 0} className="border rounded-lg p-4">
@@ -998,7 +998,7 @@ case 'Physical Facilities': {
                           href={item.file_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -1024,7 +1024,7 @@ case 'Physical Facilities': {
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Faculty Achievements</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
       <div className="space-y-6">
         {grouped.map(group => (
           <details key={group.category} open={group.items.length > 0} className="border rounded-lg p-4">
@@ -1043,7 +1043,7 @@ case 'Physical Facilities': {
                           href={item.file_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           View
                         </a>
@@ -1064,7 +1064,7 @@ case 'Physical Facilities': {
      case 'Merit Scholarship/Academic Toppers': {
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Merit Scholarships and Academic Toppers</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Merit Scholarships and Academic Toppers</h2>
       <h3 className="text-xl font-semibold text-center mb-4">Merit Scholarships / Academic Toppers</h3>
       <div className="overflow-x-auto mb-8">
         <table className="min-w-full bg-white border border-gray-200">
@@ -1113,7 +1113,7 @@ case 'Physical Facilities': {
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Technical Association</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Association</h2>
       <p className="text-gray-700 mb-6 text-justify">
         Department Association - Society of Computers for Ultimate Diligence (SCUD) was started in the year 2002.
         SCUD team conducts regularly technical fests, workshops, and guest lectures for the benefit of students.
@@ -1129,7 +1129,7 @@ case 'Physical Facilities': {
                   href={item.file_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#850209] hover:underline"
+                  className="text-[#B22222] hover:underline"
                 >
                   View More
                 </a>
@@ -1174,7 +1174,7 @@ case 'Physical Facilities': {
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Newsletters</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Newsletters</h2>
       <div className="space-y-4">
         {Object.entries(grouped).map(([year, items]) => (
           <details key={year} className="border rounded-lg p-4">
@@ -1187,7 +1187,7 @@ case 'Physical Facilities': {
                     href={item.file_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline"
+                    className="text-[#B22222] hover:underline"
                   >
                     View
                   </a>
@@ -1206,7 +1206,7 @@ case 'Physical Facilities': {
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Extra-Curricular Activities</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Extra-Curricular Activities</h2>
       <div className="space-y-6">
         <details open className="border rounded-lg p-4">
           <summary className="text-lg font-semibold cursor-pointer">Extra-Curricular Activities</summary>
@@ -1218,7 +1218,7 @@ case 'Physical Facilities': {
                   href={item.file_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#850209] hover:underline"
+                  className="text-[#B22222] hover:underline"
                 >
                   View More
                 </a>
@@ -1245,7 +1245,7 @@ case 'Physical Facilities': {
                   {sahaya.sahaya_events.map((ev, i) => (
                     <li key={i}>
                       {ev.year} -{' '}
-                      <a href={ev.url} target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">
+                      <a href={ev.url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">
                         For more details
                       </a>
                     </li>
@@ -1273,7 +1273,7 @@ case 'Physical Facilities': {
  case 'Hackathons': {
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Hackathons</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Hackathons</h2>
       <div className="space-y-6">
         <div>
           <p className="text-gray-700 leading-relaxed">
@@ -1299,7 +1299,7 @@ case 'Physical Facilities': {
 
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
-            <thead className="bg-[#850209] text-white">
+            <thead className="bg-[#B22222] text-white">
               <tr>
                 <th className="py-3 px-4 border-b text-left">Academic Year</th>
                 <th className="py-3 px-4 border-b text-left">For Brochure</th>
@@ -1315,7 +1315,7 @@ case 'Physical Facilities': {
                       href={h.brochure_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
+                      className="text-[#B22222] hover:underline"
                     >
                       Click Here
                     </a>
@@ -1325,7 +1325,7 @@ case 'Physical Facilities': {
                       href={h.winners_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
+                      className="text-[#B22222] hover:underline"
                     >
                       Click Here
                     </a>
@@ -1364,7 +1364,7 @@ case 'Physical Facilities': {
      case 'Training Activities':
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Training Activities</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Training Activities</h2>
       <div className="space-y-6">
         {trainingActivities.map((activity, idx) => (
           <details key={activity.id} open={idx === 0} className="border rounded-lg p-4">
@@ -1376,7 +1376,7 @@ case 'Physical Facilities': {
                   href={activity.file_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#850209] hover:underline"
+                  className="text-[#B22222] hover:underline"
                 >
                   View More
                 </a>
@@ -1413,7 +1413,7 @@ case 'Physical Facilities': {
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Academic HandBooks</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Academic HandBooks</h2>
       <div className="space-y-6">
         {Object.entries(grouped).map(([year, semesters], i) =>
           Object.entries(semesters).map(([sem, items], j) => (
@@ -1429,7 +1429,7 @@ case 'Physical Facilities': {
                       href={item.file_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline"
+                      className="text-[#B22222] hover:underline"
                     >
                       View
                     </a>
@@ -1448,7 +1448,7 @@ case 'Physical Facilities': {
   const cstPlacements = placements.filter(p => p.dept === 'cst');
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Placements</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
       <div className="space-y-6">
         {cstPlacements.map((placement, idx) => (
           <details key={placement.id} open={idx === 0} className="border rounded-lg p-4">
@@ -1460,7 +1460,7 @@ case 'Physical Facilities': {
                   href={placement.file_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#850209] hover:underline"
+                  className="text-[#B22222] hover:underline"
                 >
                   View More
                 </a>
@@ -1468,7 +1468,7 @@ case 'Physical Facilities': {
             </ul>
             {placement.gallery && placement.gallery.length > 0 && (
               <div className="space-y-6 mt-4">
-                <h3 className="text-xl font-semibold text-center text-[#850209] mb-4">{placement.batch} Gallery</h3>
+                <h3 className="text-xl font-semibold text-center text-[#B22222] mb-4">{placement.batch} Gallery</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {placement.gallery.map((img, i) => (
                     <div key={i}>
@@ -1504,34 +1504,26 @@ case 'Physical Facilities': {
     }
   }
 
-  return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Computer Science & Technology</h1>
-          </div>
-        </div>
-      </section>
+ const renderContentWithTitle = () => {
+    // Just return the content without adding another title, since it's already included in content sections
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
+      </div>
+    );
+  };
 
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
+  return (
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="CST Department"
-        buttonLabel="Department Menu"
+        title="Computer Science & Technology Department"
       >
-        {/* Main Content */}
-        <div className="container mx-auto px-4 py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            {renderContent()}
-          </div>
-        </div>
-      </FixedSidebar>
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
 };

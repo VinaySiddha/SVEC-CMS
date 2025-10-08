@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Briefcase, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 import { useEffect } from 'react';
 const MBADepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -307,7 +307,7 @@ const MBADepartment: React.FC = () => {
               <div className="lg:col-span-2 space-y-4">
                 <div className="mb-4">
                   <h3 className="text-2xl font-bold text-[#B22222] mb-2">Mr. D. Naveen Kumar</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Sr.Asst.Professor & Head of Department, MBA</p>
+                  <p className="text-lg text-[#B22222] font-medium mb-2">Sr.Asst.Professor & Head of Department, MBA</p>
                   <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-364)</p>
                   <p className="text-gray-600">Fax No: 08818-284322</p>
                   <p className="text-gray-600">Email: <a href="mailto:hod_mba@srivasaviengg.ac.in" className="text-primary hover:underline">hod_mba@srivasaviengg.ac.in</a></p>
@@ -320,98 +320,8 @@ const MBADepartment: React.FC = () => {
 
             {/* Department Profile Tab Navigation */}
             <div className="mt-12">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
 
-              {/* Department Profile Navigation - Grid Layout */}
-              <div className="mb-8">
-                {/* Row 1: Department, Vision */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('Department')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Department
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('Vision')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Vision
-                  </button>
-                </div>
-
-                {/* Row 2: Mission, PEOs, POs */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('Mission')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Mission
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('PEOs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PEOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('POs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    POs
-                  </button>
-                </div>
-
-                {/* Row 3: PSOs, COs */}
-                <div className="flex justify-center gap-4 mb-4">
-                  <button
-                    onClick={() => setActiveDeptTab('PSOs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    PSOs
-                  </button>
-                  <button
-                    onClick={() => setActiveDeptTab('COs')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    COs
-                  </button>
-                </div>
-
-                {/* Row 4: Salient Features (centered) */}
-                <div className="flex justify-center">
-                  <button
-                    onClick={() => setActiveDeptTab('SalientFeatures')}
-                    className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                  >
-                    Salient Features
-                  </button>
-                </div>
-              </div>
+              
 
               <div className="mt-4">
                 {renderDeptTabContent()}
@@ -745,6 +655,7 @@ const MBADepartment: React.FC = () => {
             </div>
           </div>
         );
+        
       case 'Student Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -923,7 +834,7 @@ const MBADepartment: React.FC = () => {
                     href="https://www.mediafire.com/download/8qh1qg6d3ws7hk3/SAADHANA+-+1ST+COPY.pdf"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center px-4 py-2 bg-[#B22222] text-white rounded-md hover:bg-[#8B0000] transition-colors"
+                    className="inline-flex items-center px-4 py-2 bg-[#B22222] text-white rounded-md hover:bg-[#B22222] transition-colors"
                   >
                     <FileText className="h-5 w-5 mr-2" />
                     Download SAADHANA NEWS Letter
@@ -1160,36 +1071,29 @@ const MBADepartment: React.FC = () => {
     }
   }
 
-  return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Master of Business Administration</h1>
-          </div>
-        </div>
-      </section>
+  const renderContentWithTitle = () => {
+    // Just return the content without adding another title, since it's already included in content sections
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
+      </div>
+    );
+  };
 
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
+  return (
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="MBA Department"
-        buttonLabel="Department Menu"
+        title="Master of Business Administration Department"
       >
-        {/* Main Content */}
-        <div className="container mx-auto px-4 py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            {renderContent()}
-          </div>
-        </div>
-      </FixedSidebar>
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
+  
 };
 
 export default MBADepartment;

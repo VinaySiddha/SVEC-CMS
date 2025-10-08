@@ -19,7 +19,7 @@ const FloatingChatWidgets: React.FC = () => {
   return (
     <>
       {/* WhatsApp Button - Bottom Right */}
-      <WhatsAppChatButton />
+      {/* <WhatsAppChatButton /> */}
       
       {/* Custom Chatbot - Bottom Left */}
       <ChatbotWidget />

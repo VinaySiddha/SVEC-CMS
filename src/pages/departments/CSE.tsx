@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
 // Interfaces for typed data
 interface Faculty {
@@ -55,13 +55,32 @@ interface DepartmentData {
   hackathons: Hackathon[];
 }
 
+
 const CSEDepartment: React.FC = () => {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
-  const [departmentData, setDepartmentData] = useState<DepartmentData | null>(null);
+  // Section states
+  const [faculty, setFaculty] = useState([]);
+  const [technicalStaff, setTechnicalStaff] = useState([]);
+  const [nonTeachingStaff, setNonTeachingStaff] = useState([]);
+  const [studentAchievements, setStudentAchievements] = useState([]);
+  const [facultyAchievements, setFacultyAchievements] = useState([]);
+  const [placements, setPlacements] = useState([]);
+  const [hackathons, setHackathons] = useState([]);
+  const [handbooks, setHandbooks] = useState([]);
+  const [eresources, setEresources] = useState([]);
+  const [mous, setMous] = useState([]);
+  const [syllabus, setSyllabus] = useState([]);
+  const [physicalFacilities, setPhysicalFacilities] = useState([]);
+  const [departmentLibrary, setDepartmentLibrary] = useState([]);
+  const [meritScholarships, setMeritScholarships] = useState([]);
+  const [technicalAssociation, setTechnicalAssociation] = useState([]);
+  const [trainingActivities, setTrainingActivities] = useState([]);
+  const [newsletters, setNewsletters] = useState([]);
+  const [extraCurricular, setExtraCurricular] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -90,33 +109,36 @@ const CSEDepartment: React.FC = () => {
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
-  // Fetch department data
-  useEffect(() => {
-    const fetchDepartmentData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/public/departments/cse');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch department data');
-        }
-        
-        const result = await response.json();
-        
-        if (result.success) {
-          setDepartmentData(result.data);
-        } else {
-          throw new Error('Failed to load department data');
-        }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-        console.error('Error fetching department data:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Removed duplicate declaration of achievements and setStudentAchievements
 
-    fetchDepartmentData();
+  // Removed duplicate declaration of handbooks, hackathonsData, and eresources
+  const [hackathonsData, setHackathonsData] = useState([]);
+    
+  // Fetch all department section data from APIs
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([
+      fetch('/api/cstcse/faculty').then(res => res.json()).then(setFaculty),
+      fetch('/api/cstcse/staff').then(res => res.json()).then(data => {
+        setTechnicalStaff(data.filter(s => s.type === 'technical'));
+        setNonTeachingStaff(data.filter(s => s.type === 'non-teaching'));
+      }),
+      fetch('/api/cstcse/achievements_student').then(res => res.json()).then(setStudentAchievements),
+      fetch('/api/cstcse/achievements_faculty').then(res => res.json()).then(setFacultyAchievements),
+      fetch('/api/cstcse/placements').then(res => res.json()).then(setPlacements),
+      fetch('/api/cstcse/hackathons').then(res => res.json()).then(setHackathons),
+      fetch('/api/cstcse/handbooks').then(res => res.json()).then(setHandbooks),
+      fetch('/api/cstcse/eresources').then(res => res.json()).then(setEresources),
+      fetch('/api/cstcse/mous').then(res => res.json()).then(setMous),
+      fetch('/api/cstcse/syllabus').then(res => res.json()).then(setSyllabus),
+      fetch('/api/cstcse/physical_facilities').then(res => res.json()).then(setPhysicalFacilities),
+      fetch('/api/cstcse/department_library').then(res => res.json()).then(setDepartmentLibrary),
+      fetch('/api/cstcse/merit_scholarships').then(res => res.json()).then(setMeritScholarships),
+      fetch('/api/cstcse/technical_association').then(res => res.json()).then(setTechnicalAssociation),
+      fetch('/api/cstcse/training_activities').then(res => res.json()).then(setTrainingActivities),
+      fetch('/api/cstcse/newsletters').then(res => res.json()).then(setNewsletters),
+      fetch('/api/cstcse/extra_curricular').then(res => res.json()).then(setExtraCurricular)
+    ]).catch(err => setError(err.message)).finally(() => setLoading(false));
   }, []);
 
   const toggleSidebar = () => {
@@ -124,11 +146,13 @@ const CSEDepartment: React.FC = () => {
   };
 
   // Use database data or fallback to empty arrays
-  const faculty = departmentData?.faculty || [];
-  const nonTeachingFaculty = departmentData?.nonTeachingStaff || [];
-  const TechnicalFaculty = departmentData?.technicalStaff || [];
-  const placementsData = departmentData?.placements || [];
-  const hackathonsData = departmentData?.hackathons || [];
+  // Removed redeclaration of 'faculty' (already declared as state)
+  // Use state variables directly
+  const nonTeachingFaculty = nonTeachingStaff;
+  const TechnicalFaculty = technicalStaff;
+  const placementsData = placements;
+  // Remove this line to avoid redeclaration:
+  // const hackathonsData = departmentData?.hackathons || [];
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
@@ -149,7 +173,7 @@ const CSEDepartment: React.FC = () => {
               onwards with a present intake of 12 seats.
             </p>
 
-            <h4 className="text-xl font-bold text-[#850209] mb-4">Courses Offered</h4>
+            <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-700 mb-4 border border-gray-200 rounded-lg">
                 <thead className="text-xs bg-gray-50 uppercase text-gray-700">
@@ -313,1219 +337,158 @@ const CSEDepartment: React.FC = () => {
   const renderContent = () => {
     console.log("Current activeContent:", activeContent);
     switch (activeContent) {
-      case 'Student Achievements':
+   case 'Student Achievements':
+     return (
+       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+         <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
+         <div className="space-y-4">
+           {studentAchievements.length > 0 ? (
+             studentAchievements.map((item) => (
+               <details key={item.id} className="border rounded-lg p-4">
+                 <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
+                   {item.category}: {item.title}
+                 </summary>
+                 <div className="nav-content mt-4">
+                   {item.description && <p className="mb-2">{item.description}</p>}
+                   {item.fileUrl && (
+                     <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">
+                       View More
+                     </a>
+                   )}
+                   {item.academic_year && (
+                     <p className="text-sm text-gray-500 mt-2">Academic Year: {item.academic_year}</p>
+                   )}
+                 </div>
+               </details>
+             ))
+           ) : (
+             <p>No student achievements found.</p>
+           )}
+         </div>
+       </div>
+     );
+
+// ...existing code...
+case 'Hackathons':{
+  <div>
+
+  <h3 className="text-2xl font-semibold text-[#B22222] mb-4 text-center">Hackathons Conducted</h3>
+  <div className="flex justify-center mb-8">
+    <div className="overflow-x-auto w-full">
+      {hackathonsData.length > 0 ? (
+        <table className="min-w-full bg-white border-collapse">
+          <thead>
+            <tr className="border-b-2 border-gray-200">
+              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Academic Year</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Brochure</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Winners</th>
+            </tr>
+          </thead>
+          <tbody>
+            {hackathonsData.map((hackathon, index) => (
+              <tr key={hackathon.id} className="hover:bg-gray-50">
+                <td className="py-3 px-4 border-b">{index + 1}</td>
+                <td className="py-3 px-4 border-b font-medium">{hackathon.academic_year}</td>
+                <td className="py-3 px-4 border-b">
+                  {hackathon.brochure_url ? (
+                    <a href={hackathon.brochure_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View Brochure</a>
+                  ) : 'N/A'}
+                </td>
+                <td className="py-3 px-4 border-b">
+                  {hackathon.winners_url ? (
+                    <a href={hackathon.winners_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View Winners</a>
+                  ) : 'N/A'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div className="text-center py-8">
+          <p className="text-gray-500">No hackathons data available at the moment.</p>
+        </div>
+      )}
+    </div>
+  </div>
+  </div>
+
+  {/* Gallery Section */}
+  <div className="mt-12">
+    <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Gallery</h3>
+    {hackathonsData.map(hackathon => (
+      <div key={hackathon.id} className="mb-8">
+        <h4 className="text-xl font-medium text-center mb-6">Hackathon {hackathon.academic_year}</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {hackathon.gallery.map((imgUrl, idx) => (
+            <img
+              key={idx}
+              src={imgUrl}
+              alt={`Hackathon ${hackathon.academic_year} Image ${idx + 1}`}
+              className="w-full h-auto rounded-lg shadow-md object-cover"
+              style={{ aspectRatio: "16/9" }}
+            />
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+// ...existing code...
+  }
+
+case 'e-Resources':{
+// Group by regulation
+const eresourcesGrouped = eresources.reduce((acc, item) => {
+  acc[item.regulation] = acc[item.regulation] || [];
+  acc[item.regulation].push(item);
+  return acc;
+}, {});
+
+return (
+  <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+    <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">e-Resources</h2>
+    {/* ...static intro text... */}
+    {Object.entries(eresourcesGrouped).map(([regulation, items]) => (
+      <div key={regulation} className="mb-8">
+        <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">{regulation}- Subjects</h3>
+        <div className="overflow-x-auto mb-8">
+          <table className="min-w-full bg-white border border-gray-200">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="py-3 px-4 border-b text-left">S.No</th>
+                <th className="py-3 px-4 border-b text-left">Regulation</th>
+                <th className="py-3 px-4 border-b text-left">Sem</th>
+                <th className="py-3 px-4 border-b text-left">Subject</th>
+                <th className="py-3 px-4 border-b text-left">PPT</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item, idx) => (
+                <tr key={item.id} className="hover:bg-gray-50">
+                  <td className="py-3 px-4 border-b">{idx + 1}</td>
+                  <td className="py-3 px-4 border-b">{item.regulation}</td>
+                  <td className="py-3 px-4 border-b">{item.semester}</td>
+                  <td className="py-3 px-4 border-b">{item.subject}</td>
+                  <td className="py-3 px-4 border-b">
+                    {item.ppt_url ? (
+                      <a href={item.ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">Download</a>
+                    ) : 'N/A'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+}
+
+case 'Department Library':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Student Achievements</h2>
-
-            {/* Internships */}
-            <div className="tab4 mt-4">
-              <details open className="border rounded-lg p-4">
-
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Internships</summary>
-                <div className="nav-content">
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Internships during the Academic Year 2024-25 -{' '}
-                      <a href="https://srivasaviengg.ac.in/uploads/cse_awards/CSE_Internships%20during%20the%202024-25.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2023-24 -{' '}
-                      <a href="https://www.srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2022-23 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202022-23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2021-22 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2020-21 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2019-20 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2018-19 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2017-18 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202017-18.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2016-17 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202016-17.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2015-16 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202015-16.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Internships during the Academic Year 2014-15 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Internships%20during%20the%202014-15.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* Conference Publications */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Conference Publications</summary>
-                <div className="m-3 space-y-2">
-                  <p>
-                    Conferences during the Academic Year 2023-24 -{' '}
-                    <a href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_STUDENT_conferences_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] font-semibold hover:underline">View More</a>
-                  </p>
-                  <p>
-                    Conferences during the Academic Year 2022-23 -{' '}
-                    <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE-conferences%20(22-23).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] font-semibold hover:underline">View More</a>
-                  </p>
-                </div>
-              </details>
-            </div>
-
-            {/* Journal Publications */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Journal Publications</summary>
-                <div className="m-3">
-                  <p>
-                    Journal during the Academic Year 2023-24 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_STUDENT_Journals_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] font-semibold hover:underline">View More</a>
-                  </p>
-                </div>
-              </details>
-            </div>
-
-            {/* Roll of Honour */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Roll of Honour</summary>
-                <div className="flex justify-center items-center">
-                  <div className="overflow-x-auto w-full">
-                    <table className="min-w-full bg-white border border-gray-200 mb-4">
-                      <thead className="bg-gray-100">
-                        <tr>
-                          <th className="py-3 px-4 border-b">Batch</th>
-                          <th className="py-3 px-4 border-b">Roll Number</th>
-                          <th className="py-3 px-4 border-b">Name of The Student</th>
-                          <th className="py-3 px-4 border-b">CGPA/Aggregate</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>2020-24</td>
-                          <td className="py-3 px-4 border-b">20A81A0588</td>
-                          <td className="py-3 px-4 border-b">K. Venkata Sri Mounika<br /><b>(Roll of Honour Gold Medal)</b></td>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>9.46</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">20A81A05I5</td>
-                          <td className="py-3 px-4 border-b"></td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>2019-23</td>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>19A81A0594</td>
-                          <td className="py-3 px-4 border-b">T. Sai Kishore<br /><b>(Certificate of Appreciation)</b></td>
-                          <td className="py-3 px-4 border-b" rowSpan={2}>9.46</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">Sri Peruri Subbarayudu Memorial Silver Medal – Instituted by Sri P.Bala Kasaiah <b>(Topper among boys)</b></td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2018-22</td>
-                          <td className="py-3 px-4 border-b">18A81A0518</td>
-                          <td className="py-3 px-4 border-b">DATLA SRIYA <br />Smt. Chekka Rajeswari Memorial Silver Medal – Instituted by Sri Ch.S.N.Murthy (Late) <br />(Topper among girls)</td>
-                          <td className="py-3 px-4 border-b">88.03</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2018-22</td>
-                          <td className="py-3 px-4 border-b">18A81A0513</td>
-                          <td className="py-3 px-4 border-b">VANIMIREDDY BHANU TEJA <br />(Best Outgoing Student (All Rounder)2022)</td>
-                          <td className="py-3 px-4 border-b">82.25</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2017-21</td>
-                          <td className="py-3 px-4 border-b">17A81A0527</td>
-                          <td className="py-3 px-4 border-b">M.Chandini</td>
-                          <td className="py-3 px-4 border-b">79.33</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2016-20</td>
-                          <td className="py-3 px-4 border-b">16A81A0535</td>
-                          <td className="py-3 px-4 border-b">M.Lakshmi Sailaja</td>
-                          <td className="py-3 px-4 border-b">80.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2016-20</td>
-                          <td className="py-3 px-4 border-b">16A81A0561</td>
-                          <td className="py-3 px-4 border-b">A.SaiLakshmi</td>
-                          <td className="py-3 px-4 border-b">80.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2015-19</td>
-                          <td className="py-3 px-4 border-b">15A81A05F1</td>
-                          <td className="py-3 px-4 border-b">M.Lakshmi Mounica</td>
-                          <td className="py-3 px-4 border-b">86.15</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2014-18</td>
-                          <td className="py-3 px-4 border-b">14A81A0575</td>
-                          <td className="py-3 px-4 border-b">K.V.G.Satish</td>
-                          <td className="py-3 px-4 border-b">82.33</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2013-17</td>
-                          <td className="py-3 px-4 border-b">13A81A05C2</td>
-                          <td className="py-3 px-4 border-b">A.Sai Priyanka <br />(College Level Gold Medalist)</td>
-                          <td className="py-3 px-4 border-b">82.47</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2013-17</td>
-                          <td className="py-3 px-4 border-b">13A81A0547</td>
-                          <td className="py-3 px-4 border-b">S.Rajeswara Sesha Reddy <br />(College Level outgoing UG Student Gold Medal for the A.Y.2016-17)</td>
-                          <td className="py-3 px-4 border-b">79.17</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2012-16</td>
-                          <td className="py-3 px-4 border-b">12A81A0591</td>
-                          <td className="py-3 px-4 border-b">K.S.N.V.G.Lavanya</td>
-                          <td className="py-3 px-4 border-b">78.51</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2011-15</td>
-                          <td className="py-3 px-4 border-b">11A81A05A6</td>
-                          <td className="py-3 px-4 border-b">N.Susmitha</td>
-                          <td className="py-3 px-4 border-b">85.91</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2010-14</td>
-                          <td className="py-3 px-4 border-b">10A81A05A6</td>
-                          <td className="py-3 px-4 border-b">A.Sravya Sree</td>
-                          <td className="py-3 px-4 border-b">79.20</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2009-13</td>
-                          <td className="py-3 px-4 border-b">09A81A0566</td>
-                          <td className="py-3 px-4 border-b">C.Hima Teja</td>
-                          <td className="py-3 px-4 border-b">80.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2008-12</td>
-                          <td className="py-3 px-4 border-b">08A81A0510</td>
-                          <td className="py-3 px-4 border-b">B.Surekha Devi</td>
-                          <td className="py-3 px-4 border-b">83.53</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2007-11</td>
-                          <td className="py-3 px-4 border-b">07A81A0596</td>
-                          <td className="py-3 px-4 border-b">V.M.Krishna</td>
-                          <td className="py-3 px-4 border-b">79.31</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2006-10</td>
-                          <td className="py-3 px-4 border-b">06A81A0515</td>
-                          <td className="py-3 px-4 border-b">U.Kalpana <br />(University Gold Medal)</td>
-                          <td className="py-3 px-4 border-b">84.71</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2005-09</td>
-                          <td className="py-3 px-4 border-b">05A81A0511</td>
-                          <td className="py-3 px-4 border-b">K.V.Sarvani</td>
-                          <td className="py-3 px-4 border-b">80.88</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2004-08</td>
-                          <td className="py-3 px-4 border-b">04A81A0525</td>
-                          <td className="py-3 px-4 border-b">M.Krishnachand</td>
-                          <td className="py-3 px-4 border-b">79.70</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2003-07</td>
-                          <td className="py-3 px-4 border-b">03A81A0518</td>
-                          <td className="py-3 px-4 border-b">V.Kanti</td>
-                          <td className="py-3 px-4 border-b">76.39</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2002-06</td>
-                          <td className="py-3 px-4 border-b">02A81A0527</td>
-                          <td className="py-3 px-4 border-b">M.Poorna Chandra</td>
-                          <td className="py-3 px-4 border-b">76.91</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2002-06</td>
-                          <td className="py-3 px-4 border-b">02A81A0501</td>
-                          <td className="py-3 px-4 border-b">P.Anjaneyulu</td>
-                          <td className="py-3 px-4 border-b">76.91</td>
-                        </tr>
-                        <tr>
-                          <td className="py-3 px-4 border-b">2001-05</td>
-                          <td className="py-3 px-4 border-b">02A81A0548</td>
-                          <td className="py-3 px-4 border-b">V.Udaya Kiran</td>
-                          <td className="py-3 px-4 border-b">78.61</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-center">Image Gallery</h3>
-                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <img src="https://srivasaviengg.ac.in/images/departments/cse/rofh.jpg" alt="Roll of Honour 1" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                  <img src="https://srivasaviengg.ac.in/images/departments/cse/RofH1.jpg" alt="Roll of Honour 2" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                  <img src="https://srivasaviengg.ac.in/images/departments/cse/RofH2.jpg" alt="Roll of Honour 3" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                  <img src="https://srivasaviengg.ac.in/images/departments/cse/rofh3.jpg" alt="Roll of Honour 4" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                </div>
-              </details>
-            </div>
-
-            {/* Awards */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Awards</summary>
-                <div className="nav-content">
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Awards during the Academic Year 2021-22 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2021-2022.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Awards during the Academic Year 2016-17 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2016-2017.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Awards during the Academic Year 2015-16 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2015-2016.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Awards during the Academic Year 2008-10 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/cse_awards_2009-2010.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* GATE */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>GATE</summary>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full bg-white border border-gray-200 text-center">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="py-3 px-4 border-b">S.No</th>
-                        <th className="py-3 px-4 border-b">Roll No</th>
-                        <th className="py-3 px-4 border-b">Name</th>
-                        <th className="py-3 px-4 border-b">Score</th>
-                        <th className="py-3 px-4 border-b">Year</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td className="py-2 px-3 border-b">1</td><td className="py-2 px-3 border-b">21A81A05P4</td><td className="py-2 px-3 border-b">Shaik Basheera</td><td className="py-2 px-3 border-b">435</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">2</td><td className="py-2 px-3 border-b">21A81A05N2</td><td className="py-2 px-3 border-b">Kurella Sushmadi Lakshmi</td><td className="py-2 px-3 border-b">381</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">3</td><td className="py-2 px-3 border-b">22A81A05Q4</td><td className="py-2 px-3 border-b">Yandamuri Likhita Sai</td><td className="py-2 px-3 border-b">374</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">4</td><td className="py-2 px-3 border-b">21A81A0540</td><td className="py-2 px-3 border-b">Patri Naga Venkata Pranav</td><td className="py-2 px-3 border-b">364</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">5</td><td className="py-2 px-3 border-b">21A81A05M4</td><td className="py-2 px-3 border-b">Inty J V Mohanakrishna</td><td className="py-2 px-3 border-b">358</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">6</td><td className="py-2 px-3 border-b">21A81A05M9</td><td className="py-2 px-3 border-b">K L Shanu Abhinaya</td><td className="py-2 px-3 border-b">356</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">7</td><td className="py-2 px-3 border-b">21A81A05N4</td><td className="py-2 px-3 border-b">M N V Vijaya Lakshmi</td><td className="py-2 px-3 border-b">347</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">8</td><td className="py-2 px-3 border-b">21A81A0520</td><td className="py-2 px-3 border-b">K N S L Padma Janaki</td><td className="py-2 px-3 border-b">341</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">9</td><td className="py-2 px-3 border-b">21A81A0554</td><td className="py-2 px-3 border-b">Tadi Arjun Reddy</td><td className="py-2 px-3 border-b">335</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">10</td><td className="py-2 px-3 border-b">21A81A0586</td><td className="py-2 px-3 border-b">Gorty Venkata Sowmya</td><td className="py-2 px-3 border-b">338</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">11</td><td className="py-2 px-3 border-b">21A81A05N1</td><td className="py-2 px-3 border-b">Kottu Jagadeesh Kumar</td><td className="py-2 px-3 border-b">331</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">12</td><td className="py-2 px-3 border-b">22A81A05A9</td><td className="py-2 px-3 border-b">Pesaraganti Harshavardhan</td><td className="py-2 px-3 border-b">323</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">13</td><td className="py-2 px-3 border-b">22A81A05E6</td><td className="py-2 px-3 border-b">Ganni Mahitha Lakshmi</td><td className="py-2 px-3 border-b">318</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">14</td><td className="py-2 px-3 border-b">22A81A0543</td><td className="py-2 px-3 border-b">Nalla Varshitha Banu</td><td className="py-2 px-3 border-b">356</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">15</td><td className="py-2 px-3 border-b">23A85A0504</td><td className="py-2 px-3 border-b">Kammili Manoj Vamsi</td><td className="py-2 px-3 border-b">314</td><td className="py-2 px-3 border-b">2025</td></tr>
-                      <tr><td className="py-2 px-3 border-b">16</td><td className="py-2 px-3 border-b">21A81A0520</td><td className="py-2 px-3 border-b">K.N.S.L.P. Janaki</td><td className="py-2 px-3 border-b">331</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">17</td><td className="py-2 px-3 border-b">20A81A05E1</td><td className="py-2 px-3 border-b">G.V.S. Siva Ram</td><td className="py-2 px-3 border-b">328(CS) / 303(DS)</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">18</td><td className="py-2 px-3 border-b">21A81A05C3</td><td className="py-2 px-3 border-b">S. Sri Satya</td><td className="py-2 px-3 border-b">320</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">19</td><td className="py-2 px-3 border-b">20A81A0599</td><td className="py-2 px-3 border-b">M. Nitish</td><td className="py-2 px-3 border-b">255</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">20</td><td className="py-2 px-3 border-b">20A81A0626</td><td className="py-2 px-3 border-b">K. Pushpa Leela Vijaya Durga</td><td className="py-2 px-3 border-b">328</td><td className="py-2 px-3 border-b">2024</td></tr>
-                      <tr><td className="py-2 px-3 border-b">21</td><td className="py-2 px-3 border-b">19A81A0593</td><td className="py-2 px-3 border-b">K. Naga Venkata Sai Surendra</td><td className="py-2 px-3 border-b">344</td><td className="py-2 px-3 border-b">2023</td></tr>
-                      <tr><td className="py-2 px-3 border-b">22</td><td className="py-2 px-3 border-b">19A81A0597</td><td className="py-2 px-3 border-b">K. Nitin Vamsi</td><td className="py-2 px-3 border-b">239</td><td className="py-2 px-3 border-b">2023</td></tr>
-                      <tr><td className="py-2 px-3 border-b">23</td><td className="py-2 px-3 border-b">18A81A05H3</td><td className="py-2 px-3 border-b">V. Bhanu Teja</td><td className="py-2 px-3 border-b">389</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">24</td><td className="py-2 px-3 border-b">18A81A05G3</td><td className="py-2 px-3 border-b">Rohit Pragallapti</td><td className="py-2 px-3 border-b">368</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">25</td><td className="py-2 px-3 border-b">18A81A0592</td><td className="py-2 px-3 border-b">Orusu Venkatesh</td><td className="py-2 px-3 border-b">324</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">26</td><td className="py-2 px-3 border-b">18A81A05K3</td><td className="py-2 px-3 border-b">Baby Bahragavi Karella</td><td className="py-2 px-3 border-b">332</td><td className="py-2 px-3 border-b">2022</td></tr>
-                      <tr><td className="py-2 px-3 border-b">27</td><td className="py-2 px-3 border-b">18A81A05B9</td><td className="py-2 px-3 border-b">Y Raghava Rao</td><td className="py-2 px-3 border-b">327</td><td className="py-2 px-3 border-b">2021</td></tr>
-                      <tr><td className="py-2 px-3 border-b">28</td><td className="py-2 px-3 border-b">13A81A05A0</td><td className="py-2 px-3 border-b">P.V.Prathyusha</td><td className="py-2 px-3 border-b">1037</td><td className="py-2 px-3 border-b">2017</td></tr>
-                      <tr><td className="py-2 px-3 border-b">29</td><td className="py-2 px-3 border-b">10A81A0578</td><td className="py-2 px-3 border-b">K. Naga Lakshmi</td><td className="py-2 px-3 border-b">359</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">30</td><td className="py-2 px-3 border-b">10A81A05A8</td><td className="py-2 px-3 border-b">S. Vineel</td><td className="py-2 px-3 border-b">371</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">31</td><td className="py-2 px-3 border-b">10A81A0527</td><td className="py-2 px-3 border-b">K.Tejaswi</td><td className="py-2 px-3 border-b">354</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">32</td><td className="py-2 px-3 border-b">10A81A05A3</td><td className="py-2 px-3 border-b">S. Hymavathi</td><td className="py-2 px-3 border-b">339</td><td className="py-2 px-3 border-b">2014</td></tr>
-                      <tr><td className="py-2 px-3 border-b">33</td><td className="py-2 px-3 border-b">08A81A0576</td><td className="py-2 px-3 border-b">D Sasidhar</td><td className="py-2 px-3 border-b">457</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">34</td><td className="py-2 px-3 border-b">08A81A0588</td><td className="py-2 px-3 border-b">K Venkateswara Rao</td><td className="py-2 px-3 border-b">402</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">35</td><td className="py-2 px-3 border-b">08A81A0540</td><td className="py-2 px-3 border-b">K. Pavan Kumar</td><td className="py-2 px-3 border-b">384</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">36</td><td className="py-2 px-3 border-b">08A81A05C2</td><td className="py-2 px-3 border-b">T. Narendra</td><td className="py-2 px-3 border-b">357</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">37</td><td className="py-2 px-3 border-b">08A81A0582</td><td className="py-2 px-3 border-b">G.R.A.SeshuBabu</td><td className="py-2 px-3 border-b">352</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">38</td><td className="py-2 px-3 border-b">08A81A0549</td><td className="py-2 px-3 border-b">P. DurgaBalaji</td><td className="py-2 px-3 border-b">352</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">39</td><td className="py-2 px-3 border-b">08A81A0512</td><td className="py-2 px-3 border-b">Ch.N.V. Vijay Krishna</td><td className="py-2 px-3 border-b">339</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">40</td><td className="py-2 px-3 border-b">08A81A05B7</td><td className="py-2 px-3 border-b">S. Mani Kanta</td><td className="py-2 px-3 border-b">316</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">41</td><td className="py-2 px-3 border-b">08A81A0563</td><td className="py-2 px-3 border-b">V. ShyamSudheer</td><td className="py-2 px-3 border-b">325</td><td className="py-2 px-3 border-b">2012</td></tr>
-                      <tr><td className="py-2 px-3 border-b">42</td><td className="py-2 px-3 border-b">08A81A05A3</td><td className="py-2 px-3 border-b">B.S.V. Naresh</td><td className="py-2 px-3 border-b">311</td><td className="py-2 px-3 border-b">2012</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div className="mt-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <img src="https://srivasaviengg.ac.in/images/departments/cse/Gate List.jpg" alt="GATE List" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                    <img src="https://srivasaviengg.ac.in/images/departments/cse/Gate 2024 copy.jpg" alt="GATE 2024" className="w-full h-auto rounded-lg shadow-md object-cover" style={{ aspectRatio: '16/9' }} />
-                  </div>
-                </div>
-              </details>
-            </div>
-
-            {/* GRE */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>GRE</summary>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full bg-white border border-gray-200 text-center">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="py-3 px-4 border-b">S.No</th>
-                        <th className="py-3 px-4 border-b">Roll No</th>
-                        <th className="py-3 px-4 border-b">Name</th>
-                        <th className="py-3 px-4 border-b">Course</th>
-                        <th className="py-3 px-4 border-b">GRE</th>
-                        <th className="py-3 px-4 border-b">TOEFL</th>
-                        <th className="py-3 px-4 border-b">IELTS</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td className="py-2 px-3 border-b">1</td><td className="py-2 px-3 border-b">18A81A05L0</td><td className="py-2 px-3 border-b">K. Mohith Adarsh</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">315</td><td className="py-2 px-3 border-b">94</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">2</td><td className="py-2 px-3 border-b">19A85A0514</td><td className="py-2 px-3 border-b">P. Chandra Mouli</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">322</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">3</td><td className="py-2 px-3 border-b">17A81A05E2</td><td className="py-2 px-3 border-b">M. Yaswanth Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">319</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">4</td><td className="py-2 px-3 border-b">18A81A05J6</td><td className="py-2 px-3 border-b">I. Lakshmi Prasanna</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">325</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">5</td><td className="py-2 px-3 border-b">17A81A05C4</td><td className="py-2 px-3 border-b">Ch. Shyam</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">319</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">6</td><td className="py-2 px-3 border-b">13A81A05G9</td><td className="py-2 px-3 border-b">T. Lokesh Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">321</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">7</td><td className="py-2 px-3 border-b">18A81A0594</td><td className="py-2 px-3 border-b">P. Jashwanth Sai</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">322</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">8</td><td className="py-2 px-3 border-b">18A81A0599</td><td className="py-2 px-3 border-b">P. Sandhya Rani</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">308</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">7.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">9</td><td className="py-2 px-3 border-b">16A81A05M4</td><td className="py-2 px-3 border-b">S. Harshini Sai</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">96</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">10</td><td className="py-2 px-3 border-b">17A81A0505</td><td className="py-2 px-3 border-b">B.B.M Satyendra</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">329</td><td className="py-2 px-3 border-b">97</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">11</td><td className="py-2 px-3 border-b">18A81A0578</td><td className="py-2 px-3 border-b">K. Bhavya Sri</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">326</td><td className="py-2 px-3 border-b">91</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">12</td><td className="py-2 px-3 border-b">16A81A05I5</td><td className="py-2 px-3 border-b">B. Sriram</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">7</td></tr>
-                      <tr><td className="py-2 px-3 border-b">13</td><td className="py-2 px-3 border-b">19A81A05D9</td><td className="py-2 px-3 border-b">B. Mohith Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">306</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">14</td><td className="py-2 px-3 border-b">19A81A05I1</td><td className="py-2 px-3 border-b">R. Sai Nkhitha</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">327</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">15</td><td className="py-2 px-3 border-b">13A81A05B0</td><td className="py-2 px-3 border-b">V. Bhargavi</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">105</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">16</td><td className="py-2 px-3 border-b">15A81A05K9</td><td className="py-2 px-3 border-b">K. Venkata Alekhya</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">326</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">17</td><td className="py-2 px-3 border-b">16A81A0523</td><td className="py-2 px-3 border-b">K. Ram Chandu</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">324</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">18</td><td className="py-2 px-3 border-b">17A81A0580</td><td className="py-2 px-3 border-b">M. Bhargav sai</td><td className="py-2 px-3 border-b">314</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">19</td><td className="py-2 px-3 border-b">16A81A05I9</td><td className="py-2 px-3 border-b">Ch. H. V. S Sairam</td><td className="py-2 px-3 border-b">323</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">20</td><td className="py-2 px-3 border-b">15A81A0564</td><td className="py-2 px-3 border-b">A. Mahesh Kumar</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">21</td><td className="py-2 px-3 border-b">15A81A05M3</td><td className="py-2 px-3 border-b">P. Mohan SitaRam</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.0</td></tr>
-                      <tr><td className="py-2 px-3 border-b">22</td><td className="py-2 px-3 border-b">16A81A0523</td><td className="py-2 px-3 border-b">K. Ram Chandu</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">84</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">23</td><td className="py-2 px-3 border-b">13A81A05G3</td><td className="py-2 px-3 border-b">K. Sahithi Suresh</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">24</td><td className="py-2 px-3 border-b">14A81A0534</td><td className="py-2 px-3 border-b">K. ChaitanyaSai</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">25</td><td className="py-2 px-3 border-b">13A81A0547</td><td className="py-2 px-3 border-b">S. Sesha Reddy</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">298</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">6.5</td></tr>
-                      <tr><td className="py-2 px-3 border-b">26</td><td className="py-2 px-3 border-b">13A81A0514</td><td className="py-2 px-3 border-b">Ch. Aditya</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">297</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">27</td><td className="py-2 px-3 border-b">13A81A05A8</td><td className="py-2 px-3 border-b">T.Suraj</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">290</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                      <tr><td className="py-2 px-3 border-b">28</td><td className="py-2 px-3 border-b">11A81A0584</td><td className="py-2 px-3 border-b">K. Lakshmi Narayana</td><td className="py-2 px-3 border-b">MS</td><td className="py-2 px-3 border-b">39th percentile</td><td className="py-2 px-3 border-b">-</td><td className="py-2 px-3 border-b">-</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </details>
-            </div>
-
-            {/* UIF */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>UIF</summary>
-                <div className="nav-content">
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Student Achievements during the Academic Year 2018-19 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse_awards/Stu_Ach_2018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* NPTEL/Other Certifications */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>NPTEL/Other Certifications</summary>
-                <div className="nav-content">
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Certifications during the A.Y 2024-25 -{' '}
-                      <a href="https://www.srivasaviengg.ac.in/uploads/Nptel and Global 2024-25 (CSE).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2023-24 -{' '}
-                      <a href="https://www.srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202023-24_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2022-23 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/CSE_Nptel%20&%20Others%20during%202022-23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2021-22 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202021-22_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2020-21 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202020-21_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2019-20 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/Certifications%20during%20the%20A.Y%202019-20_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Certifications during the A.Y 2018-19 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/NPTEL%20Certified%20Student%20List%20Jan_Apr_2019.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* Community Service Project */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>Community Service Project</summary>
-                <div className="nav-content">
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      List of CSP Projects done by 2022-26 Batch Students -{' '}
-                      <a href="https://www.srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202022-26%20Batch%20Students.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      List of CSP Projects done by 2021-25 Batch Students -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202021-25%20Batch%20Students.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      List of CSP Projects done by 2020-24 Batch Students -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/List%20of%20CSP%20Projects%20done%20by%202020-24%20Batch%20Students.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* Student Research Projects */}
-            <div className="tab4 mt-4">
-              <details className="border rounded-lg p-4">
-                <summary className="text-lg font-semibold cursor-pointer">Student Research Projects</summary>
-                <div className="nav-content">
-                  <h3 className="my-2 font-semibold">B.Tech</h3>
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Projects during the A.Y - 2024-25 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/CSE Best Main Projects_ A.Y 24-25.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2023-24 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/CSE Best Main Projects_ A.Y 23-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2022-23 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202022-23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2021-22 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2020-21 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2019-20 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%202019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2018-19 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/Projects%20during%20the%20A.Y%202018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-
-                  <h3 className="my-2 font-semibold">M.Tech</h3>
-                  <ol className="list-decimal mt-5 pl-6 space-y-2">
-                    <li>
-                      Projects during the A.Y - 2021-23 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CS)%202021-23%20Batch%20Projects.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2020-22 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202020-22%20Batch%20Projects.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2019-21 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202019-21%20Batch%20Projects.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2018-20 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202018-20%20Batch%20Projects.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                    <li>
-                      Projects during the A.Y - 2017-19 -{' '}
-                      <a href="http://srivasaviengg.ac.in/uploads/cse-csp/M.%20Tech%20(CSE)%202017-19%20Batch%20Projects.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View More</a>
-                    </li>
-                  </ol>
-                </div>
-              </details>
-            </div>
-
-            {/* Dynamic Student Achievements from Database */}
-            {departmentData?.studentAchievements && departmentData.studentAchievements.length > 0 && (
-              <div className="tab4 mt-4">
-                <details className="border rounded-lg p-4">
-                  <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                    Recent Student Achievements (Database)
-                  </summary>
-                  <div className="nav-content mt-4">
-                    <div className="grid gap-4">
-                      {departmentData.studentAchievements.map((achievement, index) => (
-                        <div key={achievement.id} className="bg-gray-50 p-4 rounded-lg">
-                          <h4 className="font-semibold text-gray-800">{achievement.title}</h4>
-                          {achievement.description && (
-                            <p className="text-gray-600 mt-2">{achievement.description}</p>
-                          )}
-                          {achievement.date && (
-                            <p className="text-sm text-gray-500 mt-2">
-                              Date: {new Date(achievement.date).toLocaleDateString('en-IN')}
-                            </p>
-                          )}
-                          {achievement.category && (
-                            <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mt-2">
-                              {achievement.category}
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </details>
-              </div>
-            )}
-          </div>
-        );
-
-      case 'Hackathons':
-        console.log("Rendering Hackathons section");
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              Hackathons
-            </h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              A 24-hour student hackathon is an event where students come
-              together to collaborate, innovate, and create projects within a
-              short time frame. These hackathons have gained immense popularity
-              in recent years, and they hold significant importance for students
-              for several reasons:
-            </p>
-            <ul className="my-4 space-y-3 list-disc list-inside">
-              <li className="text-gray-700">
-                <span className="font-medium">Hands-on learning:</span> Hackathons provide students with a unique
-                opportunity to engage in hands-on learning. They encourage
-                participants to apply their knowledge and skills to real-world
-                problems and challenges. It allows students to go beyond
-                theoretical knowledge and gain practical experience by working
-                on a project from start to finish within a limited time.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Collaboration and teamwork:</span> Hackathons foster collaboration and
-                teamwork among students. Participants usually form teams,
-                bringing together individuals with diverse backgrounds and
-                expertise. Working together, they learn to communicate
-                effectively, leverage each other's strengths, and tackle complex
-                problems collectively. The experience of collaborating with
-                peers from different disciplines helps develop essential
-                teamwork and interpersonal skills.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Innovation and creativity:</span> The time constraint of a 24-hour
-                hackathon encourages participants to think innovatively and
-                creatively. Students are often required to come up with novel
-                solutions to problems or create something entirely new within a
-                limited timeframe. This pressure fuels innovation and pushes
-                participants to explore unconventional ideas, leading to the
-                development of unique projects.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Networking and industry exposure:</span> Student hackathons often
-                attract participants, mentors, and judges from various
-                industries and organizations. This provides an excellent
-                networking opportunity for students to connect with
-                professionals, potential employers, and like-minded peers.
-                Building connections during a hackathon can lead to future
-                internships, job opportunities, or collaborations on other
-                projects.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Skill development:</span> Hackathons offer a platform for students to
-                enhance their existing skills and acquire new ones. During the
-                event, participants may have to learn and use new technologies,
-                programming languages, or tools to complete their projects. This
-                process helps broaden their skillset, exposes them to different
-                technologies, and allows them to experiment with cutting-edge
-                tools and platforms.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Resume/portfolio enhancement:</span> Participating in hackathons adds
-                value to a student's resume or portfolio. It demonstrates their
-                passion for learning, problem-solving ability, teamwork skills,
-                and ability to work under pressure. Employers and educational
-                institutions often consider hackathon experience as a strong
-                indicator of a student's practical skills and motivation.
-              </li>
-              <li className="text-gray-700">
-                <span className="font-medium">Recognition and awards:</span> Many hackathons offer prizes,
-                recognition, or opportunities for participants to showcase their
-                projects to a wider audience. Winning or being recognized in a
-                hackathon can boost a student's confidence, provide validation
-                for their work, and open doors to further opportunities.
-              </li>
-            </ul>
-            <p className="text-gray-700 leading-relaxed mb-8">
-              In conclusion, 24-hour student hackathons are important because
-              they promote hands-on learning, foster collaboration, encourage
-              innovation, provide networking opportunities, facilitate skill
-              development, enhance resumes/portfolios, and offer recognition for
-              participants. They serve as a platform for students to showcase
-              their abilities, learn from their peers, and gain valuable
-              experience in a short period.
-            </p>
-
-            {/* Hackathons Conducted Table */}
-            <h3 className="text-2xl font-semibold text-[#7f1d1d] mb-4 text-center">Hackathons Conducted</h3>
-            <div className="flex justify-center mb-8">
-              <div className="overflow-x-auto w-full">
-                {hackathonsData.length > 0 ? (
-                  <table className="min-w-full bg-white border-collapse">
-                    <thead>
-                      <tr className="border-b-2 border-gray-200">
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">S.NO.</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Event Name</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Date</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Description</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700 bg-gray-50">Participants</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {hackathonsData.map((hackathon, index) => (
-                        <tr key={hackathon.id} className="hover:bg-gray-50">
-                          <td className="py-3 px-4 border-b">{index + 1}</td>
-                          <td className="py-3 px-4 border-b font-medium">{hackathon.title}</td>
-                          <td className="py-3 px-4 border-b">
-                            {new Date(hackathon.start_date).toLocaleDateString('en-IN')}
-                          </td>
-                          <td className="py-3 px-4 border-b">
-                            {hackathon.description || 'No description available'}
-                          </td>
-                          <td className="py-3 px-4 border-b">
-                            {hackathon.participants_count || 'Not specified'}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <div className="text-center py-8">
-                    <p className="text-gray-500">No hackathons data available at the moment.</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Gallery Section */}
-            <div className="mt-12">
-              <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">Gallery</h3>
-              <h4 className="text-xl font-medium text-center mb-6">Hackathon 2022</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col space-y-6">
-                  <img
-                    src="https://srivasaviengg.ac.in/images/departments/cse/Hackthon_2022_23 (1).jpg"
-                    alt="Hackathon 2022 Image 1"
-                    className="w-full h-auto rounded-lg shadow-md object-cover"
-                    style={{ aspectRatio: "16/9" }}
-                  />
-                  <img
-                    src="https://srivasaviengg.ac.in/images/departments/cse/Hackthon 2021_22 (1).jpeg"
-                    alt="Hackathon 2021 Image 1"
-                    className="w-full h-auto rounded-lg shadow-md object-cover"
-                    style={{ aspectRatio: "16/9" }}
-                  />
-                </div>
-                <div className="flex flex-col space-y-6">
-                  <img
-                    src="https://srivasaviengg.ac.in/images/departments/cse/Hackthon 2021_22 (1).jpeg"
-                    alt="Hackathon 2021 Image 2"
-                    className="w-full h-auto rounded-lg shadow-md object-cover"
-                    style={{ aspectRatio: "16/9" }}
-                  />
-                  <img
-                    src="https://srivasaviengg.ac.in/images/departments/cse/Hackthon_2022_23 (2) (1).jpg"
-                    alt="Hackathon 2022 Image 2"
-                    className="w-full h-auto rounded-lg shadow-md object-cover"
-                    style={{ aspectRatio: "16/9" }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      default:
-        return (
-          <div className="py-6">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-4">Department Overview</h3>
-            <p className="text-gray-700 leading-relaxed">
-              The Department of Computer Science & Engineering was established in 2001. The department offers undergraduate program in Computer Science & Engineering with an intake of 180 students.
-            </p>
-          </div>
-        );
-
-      case 'e-Resources':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              e-Resources
-            </h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Innovations by the Faculty in Teaching and Learning. Activities of
-              the department towards improvement in teaching-learning are
-              indicated in the office records as well as on the college website.
-              They are open for reproduction, further improvement, and review.
-            </p>
-
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Some of the methods adopted by the faculty members in Teaching &
-              Learning are:
-            </p>
-            <ul className="list-disc pl-6 mb-6 space-y-2 text-gray-700">
-              <li>Presentations using PPT, wherever necessary.</li>
-              <li>Technical videos for demonstration of certain concepts.</li>
-              <li>
-                Usage of Software's like Rational Rose, R Software to
-                demonstrate the concepts practically.
-              </li>
-              <li>
-                Use of E-Learning Resources like NPTEL lectures, Online
-                journals, and Online lectures like QEEE & MOOCS for effective
-                learning.
-              </li>
-              <li>
-                Providing Question bank with short answer questions and quiz
-                questions.
-              </li>
-              <li>Student paper and poster presentations.</li>
-              <li>Student seminars.</li>
-              <li>
-                Conducting peer group learning to encourage the slow learners.
-              </li>
-              <li>
-                Student participation in skill tests and technical events.
-              </li>
-              <li>
-                To incorporate real-time problem-solving skills, we are using
-                online tools like EBOX, EDYST etc.
-              </li>
-            </ul>
-
-            <h3 className="text-xl font-semibold text-[#850209] mb-4">(i) Innovations in Teaching and Learning</h3>
-            <ul className="list-disc pl-6 mb-6 space-y-2 text-gray-700">
-              <li>Project Based Learning</li>
-              <li>Z TO A Approach</li>
-              <li>NPTEL Web and Video Courses</li>
-              <li>PPTs</li>
-              <li>Question Banks</li>
-              <li>Mind Map</li>
-            </ul>
-
-            <h3 className="text-xl font-semibold text-[#850209] mb-4">(ii) Tools used in Teaching and Learning</h3>
-            <ul className="list-disc pl-6 mb-8 space-y-2 text-gray-700">
-              <li>LMS</li>
-              <li>Conduira</li>
-              <li>PEARSON MePro</li>
-              <li>EBox</li>
-              <li>Edyst</li>
-            </ul>
-
-            <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">V20- Subjects</h3>
-            <div className="overflow-x-auto mb-8">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Regulation</th>
-                    <th className="py-3 px-4 border-b text-left">Sem</th>
-                    <th className="py-3 px-4 border-b text-left">Subject</th>
-                    <th className="py-3 px-4 border-b text-left">PPT</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">I</td>
-                    <td className="py-3 px-4 border-b">Problem Solving through C-Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/PCPS-V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Data Structures</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DS_V20.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Computer Organization and Architecture</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/COA_notes_V20.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">4</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">OOP's through C++</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/OOPS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">5</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Managerial Economics and Financial Analysis</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MEFA.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">6</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Mathematical Foundation Of Computer Science</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/MFCS V20 material.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">7</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Design Analysis of Algorithms</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DAA Material.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">8</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Java Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Java V20 all units content.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">9</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Software Engineering</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SE NOTES.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">10</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Statistical Visualization using R Lab</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/SVR LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">11</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">V</td>
-                    <td className="py-3 px-4 border-b">Artificial Intelligence</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/AI.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">12</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">V</td>
-                    <td className="py-3 px-4 border-b">Data Mining</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/DATA MINING.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">13</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">V</td>
-                    <td className="py-3 px-4 border-b">Web Technologies</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/Web_Technologies.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">14</td>
-                    <td className="py-3 px-4 border-b">V20</td>
-                    <td className="py-3 px-4 border-b">VI</td>
-                    <td className="py-3 px-4 border-b">Unified Modeling Language Lab</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V20/UML LAB.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">V18- Subjects</h3>
-            <div className="overflow-x-auto mb-8">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Regulation</th>
-                    <th className="py-3 px-4 border-b text-left">Sem</th>
-                    <th className="py-3 px-4 border-b text-left">Subject</th>
-                    <th className="py-3 px-4 border-b text-left">PPT</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">I/II</td>
-                    <td className="py-3 px-4 border-b">Programming in C for Problem Solving</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/cprogrammingppts.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Object Oriented Programming for Problem Solving</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/ADSPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">4</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Digital Electronics</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/DE_Cse_II_Sem.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">5</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">III</td>
-                    <td className="py-3 px-4 border-b">Data Mining</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/III_Sem_DM MATERIAL.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">6</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Computer Organization</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Computer Organization.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">7</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Software Engineering</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/SEPPTs.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">8</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Python Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">9</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Java Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/Java Materials.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">10</td>
-                    <td className="py-3 px-4 border-b">V18</td>
-                    <td className="py-3 px-4 border-b">IV</td>
-                    <td className="py-3 px-4 border-b">Formal Languages and Automata Theory</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/V18/FLATPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">R16- Subjects</h3>
-            <div className="overflow-x-auto mb-8">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Regulation</th>
-                    <th className="py-3 px-4 border-b text-left">Year</th>
-                    <th className="py-3 px-4 border-b text-left">Subject</th>
-                    <th className="py-3 px-4 border-b text-left">PPT</th>
-                    <th className="py-3 px-4 border-b text-left">QBank</th>
-                    <th className="py-3 px-4 border-b text-left">OldQP</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">R16</td>
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">Computer Programming</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/cprogrammingppts.zip" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/ComputerProgrammingQuestionBank.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/oldquestionpapers.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">R16</td>
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">Data Structures through C++</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/DSPPT.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/DSQuestionBank.docx" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/DSQuestionPapers.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">R16</td>
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">Advanced Data Structures</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/ADSPPTS.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/ADSQuestionBank.docx" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/ADSQuestionPapers.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <h3 className="text-2xl font-semibold text-[#850209] mb-6 text-center">R13- Subjects</h3>
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Regulation</th>
-                    <th className="py-3 px-4 border-b text-left">Year</th>
-                    <th className="py-3 px-4 border-b text-left">Subject</th>
-                    <th className="py-3 px-4 border-b text-left">PPT</th>
-                    <th className="py-3 px-4 border-b text-left">QBank</th>
-                    <th className="py-3 px-4 border-b text-left">OldQP</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">1</td>
-                    <td className="py-3 px-4 border-b">R13</td>
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">Software Engineering</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/SEPPTs.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/SEQB.doc" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/SEOQP.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">2</td>
-                    <td className="py-3 px-4 border-b">R13</td>
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">Database Management Systems</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/DBMSPPTs.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/DBMSQB(R13).doc" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/DBMSOldQP.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b">3</td>
-                    <td className="py-3 px-4 border-b">R13</td>
-                    <td className="py-3 px-4 border-b">4</td>
-                    <td className="py-3 px-4 border-b">Distributed Systems</td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/PPT/DS-NOTES.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QB/DSQB.docx" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                    <td className="py-3 px-4 border-b">
-                      <a href="https://srivasaviengg.ac.in/uploads/materials/QP/DSQP.rar" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">Download</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        );
-
-      case 'Department Library':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Department Library
             </h2>
             <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
@@ -1551,7 +514,7 @@ const CSEDepartment: React.FC = () => {
             {/* Stats cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
-                <h5 className="text-lg font-semibold text-center text-[#850209] mb-2">No. of Titles</h5>
+                <h5 className="text-lg font-semibold text-center text-[#B22222] mb-2">No. of Titles</h5>
                 <p className="text-2xl font-bold text-red-600 text-center">455</p>
               </div>
               <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
@@ -1562,12 +525,12 @@ const CSEDepartment: React.FC = () => {
 
             {/* Faculty Incharge Details */}
             <div className="flex flex-col items-center">
-              <h3 className="text-xl font-bold text-[#850209] mb-4">Faculty Incharge</h3>
+              <h3 className="text-xl font-bold text-[#B22222] mb-4">Faculty Incharge</h3>
               <ul className="text-center space-y-2 list-none">
                 <li className="text-lg font-medium">Mrs. A. Naga Jyothi, Asst. Professor</li>
                 <li className="text-lg">Phone: 08818-284355</li>
                 <li className="text-lg">
-                  E-mail: <a href="mailto:nagajyothi.cse@srivasaviengg.ac.in" className="text-[#850209] hover:underline">nagajyothi.cse@srivasaviengg.ac.in</a>
+                  E-mail: <a href="mailto:nagajyothi.cse@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">nagajyothi.cse@srivasaviengg.ac.in</a>
                 </li>
               </ul>
             </div>
@@ -1706,7 +669,7 @@ const CSEDepartment: React.FC = () => {
                 {/* Settings Panel */}
                 <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
                   {/* Panel Header */}
-                  <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] p-4 border-b border-gray-700">
+                  <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
@@ -1743,7 +706,7 @@ const CSEDepartment: React.FC = () => {
                               setSettingsPanelOpen(false);
                             }}
                             className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                              ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                              ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
                               : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                               }`}
                           >
@@ -1795,8 +758,8 @@ const CSEDepartment: React.FC = () => {
             {/* Floating Settings Button - Mobile Only */}
             <button
               onClick={() => setSettingsPanelOpen(true)}
-              className="fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-              title="Department Navigation"
+              className="fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+              title="Computer Science Engineering Department"
             >
               <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -2132,12 +1095,12 @@ const CSEDepartment: React.FC = () => {
       case 'Faculty Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Faculty Achievements
             </h2>
             <div className="mt-4">
               <details open>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Journal Publications</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Journal Publications</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -2146,7 +1109,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Journal publications 2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2157,7 +1120,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Faculty%20Publications%202023-24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2168,7 +1131,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Faculty%20Publications%202022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2179,7 +1142,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Faculty%20Publications%202021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2190,7 +1153,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Faculty%20Publications%202020-21.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2201,7 +1164,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Faculty%20Publications%202019-20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2212,7 +1175,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/2018-19-pub.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2223,7 +1186,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/2017-18-pub.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2234,7 +1197,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/2016-17-pub.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2245,7 +1208,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/2015-16-pub.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2256,7 +1219,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/2014-15.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2267,7 +1230,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/2013-14.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2278,7 +1241,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/2012-13.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2290,7 +1253,7 @@ const CSEDepartment: React.FC = () => {
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Conferences</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Conferences</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -2299,7 +1262,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/Conferences 2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2310,7 +1273,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/cse_faculty_conferences_2023_24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2321,7 +1284,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2022_23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2332,7 +1295,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2021_22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2343,7 +1306,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2020_21.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2354,7 +1317,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2019_20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2365,7 +1328,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2018_19.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2376,7 +1339,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2016_17.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2387,7 +1350,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2015_16.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2398,7 +1361,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2014_15.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2410,7 +1373,7 @@ const CSEDepartment: React.FC = () => {
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Book Publications</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Book Publications</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -2419,7 +1382,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/Books & chapters_ 2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2430,7 +1393,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/Books & chapters_ 2023-24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2441,7 +1404,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Books & chapters_ 2022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2452,7 +1415,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Books & chapters_ 2020-21.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2463,7 +1426,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_faculty_conferences_2019_20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2474,7 +1437,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Books & chapters_ 2018-19.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2486,7 +1449,7 @@ const CSEDepartment: React.FC = () => {
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Certifications</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Certifications</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -2495,7 +1458,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/Certifications in A.Y 2024-2025.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2506,7 +1469,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/Certifications%202023-2024%20by%20Faculty.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2517,7 +1480,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Certifications%20done%20by%20the%20faculty%20during%20the%20A.Y%202022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2528,7 +1491,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Certifications%20done%20by%20the%20faculty%20during%20the%20A.Y%202021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2539,7 +1502,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/certifications%202020-2021_CSE.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2550,7 +1513,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Certifications%20done%20by%20the%20faculty%20during%20the%20A.Y.%202019-20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2561,7 +1524,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Certifications%20done%20by%20the%20faculty%20during%20the%20A.Y.%20%202018-19.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2582,7 +1545,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Patents  Details-2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2593,7 +1556,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Patents%20summary%202023-24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2604,7 +1567,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Patents 2022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2615,7 +1578,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Patents%20summary%202021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2626,7 +1589,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Patents%20summary%202020-21.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2637,7 +1600,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Patents%20summary%202019-20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2649,7 +1612,7 @@ const CSEDepartment: React.FC = () => {
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Research Supervisors</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Research Supervisors</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -2658,7 +1621,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_Details%20of%20Research%20guides.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2679,7 +1642,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Faculty Achievements.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2691,7 +1654,7 @@ const CSEDepartment: React.FC = () => {
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">Faculty Out-Reach</summary>
+                <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">Faculty Out-Reach</summary>
                 <div className="p-4">
                   <ul className="space-y-3 list-none">
                     <li className="text-center">
@@ -2700,7 +1663,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse-csp/BOS%20Members.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2711,7 +1674,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse-csp/Conference%20Chairs.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2722,7 +1685,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse-csp/Faculty%20Guest%20Lectures.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         For more Details
                       </a>
@@ -2736,7 +1699,7 @@ const CSEDepartment: React.FC = () => {
             {departmentData?.facultyAchievements && departmentData.facultyAchievements.length > 0 && (
               <div className="mt-4">
                 <details>
-                  <summary className="text-lg font-semibold text-[#850209] p-2 bg-gray-50 rounded cursor-pointer">
+                  <summary className="text-lg font-semibold text-[#B22222] p-2 bg-gray-50 rounded cursor-pointer">
                     Recent Faculty Achievements (Database)
                   </summary>
                   <div className="p-4">
@@ -2771,7 +1734,7 @@ const CSEDepartment: React.FC = () => {
       case 'Board of Studies':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg" style={{ borderWidth: 2, marginTop: 80 }}>
-            <h2 className="text-3xl font-bold text-[#850209] mb-6" style={{ marginTop: 20 }}>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6" style={{ marginTop: 20 }}>
               Board of Studies
             </h2>
             <div className="nav-content">
@@ -2845,7 +1808,7 @@ const CSEDepartment: React.FC = () => {
 
             <div className="mt-4">
               <div className="flex flex-col justify-center items-center mb-5">
-                <h4 className="text-xl font-semibold text-[#850209] mb-4">Board of Studies Meeting Minutes:</h4>
+                <h4 className="text-xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes:</h4>
                 <ul className="my-2 space-y-3 list-none">
                   <li className="text-center">
                     Minutes of 8<sup>th</sup> meeting of the Board of Studies, dated 19.07.2025 -
@@ -2853,7 +1816,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/Minutes of 8th meeting of the Board of Studies, dates 19.07.2025.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -2864,7 +1827,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cst/Minutes of 7th BOS Meeting_18.07.2024.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -2875,7 +1838,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%206th%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2025.07.2022.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -2886,7 +1849,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%205th%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2002.09.2021.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -2897,7 +1860,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%204th%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2029.12.2020.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -2908,7 +1871,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%203rd%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2031.05.2020.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -2919,7 +1882,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%202nd%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%2020.04.2019.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -2930,7 +1893,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Minutes%20of%201st%20%20meeting%20of%20the%20Board%20of%20Studies,%20dated%20%2002.06.2018.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       View
                     </a>
@@ -2943,7 +1906,7 @@ const CSEDepartment: React.FC = () => {
       case 'Syllabus':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Syllabus
             </h2>
             <div className="container">
@@ -2960,7 +1923,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cst/V23%20Syllabus%20Book_CSE%20&%20CST.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -2971,7 +1934,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/syllabus/B.Tech(CSE)%20and%20B.Tech(CST)-%20V20%20Regulation%20Syllabus.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -2982,7 +1945,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/syllabus/B.Tech(CSE)%20and%20B.Tech(CST)-%20V18%20Regulation%20Syllabus.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -2993,7 +1956,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/syllabus/cse-syllabus.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -3004,7 +1967,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/syllabus/CSE-btech.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -3027,7 +1990,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/syllabus/pg/M.Tech(CS)%20V21%20Regulation%20Syllabus.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -3038,7 +2001,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/syllabus/M.Tech(CSE)%20-%20V18%20Syllabus.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -3049,7 +2012,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/syllabus/Computer%20Science%20&%20Engineering.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -3060,7 +2023,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/syllabus/Computer%20Science%20&%20Engineering.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -3083,7 +2046,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://srivasaviengg.ac.in/uploads/cse_guest%20lectures/SOC_CSE_2024-25.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -3094,7 +2057,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://www.srivasaviengg.ac.in/uploads/syllabus/SOC_CSE_2023-24.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -3105,7 +2068,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://www.srivasaviengg.ac.in/uploads/syllabus/SOC_CSE_2022-23.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -3116,7 +2079,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://www.srivasaviengg.ac.in/uploads/syllabus/SOC_CSE_2021-22.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >
                           View
                         </a>
@@ -3132,7 +2095,7 @@ const CSEDepartment: React.FC = () => {
       case 'Physical Facilities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Physical Facilities
             </h2>
             <div className="container">
@@ -3148,7 +2111,7 @@ const CSEDepartment: React.FC = () => {
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Classrooms.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -3159,7 +2122,7 @@ const CSEDepartment: React.FC = () => {
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Master Time Table_2025-26_ III, V, VII SEM _CSE.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -3168,7 +2131,7 @@ const CSEDepartment: React.FC = () => {
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Time Table_2024-25_ IV, IV Sem.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -3177,7 +2140,7 @@ const CSEDepartment: React.FC = () => {
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Timetable_A.Y for Sem-I 2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -3186,7 +2149,7 @@ const CSEDepartment: React.FC = () => {
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Time Table_2023-24_ IV, IV Sem.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -3195,7 +2158,7 @@ const CSEDepartment: React.FC = () => {
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Master Time Table_2023-24_ III, V, VII SEM _CSE.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -3204,7 +2167,7 @@ const CSEDepartment: React.FC = () => {
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Time Table_A.Y 2022-23_ II SEM.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -3213,7 +2176,7 @@ const CSEDepartment: React.FC = () => {
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Time Table_A.Y 2022-23_ I SEM.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -3222,7 +2185,7 @@ const CSEDepartment: React.FC = () => {
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Time Table_2021-22_ II SEM.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -3231,7 +2194,7 @@ const CSEDepartment: React.FC = () => {
                       <a href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Master Timetable_A.Y 2021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -3250,7 +2213,7 @@ const CSEDepartment: React.FC = () => {
                       <a href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Seminar%20Halls.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2">
+                        className="text-[#B22222] hover:underline ml-2">
                         View
                       </a>
                     </li>
@@ -3757,11 +2720,11 @@ const CSEDepartment: React.FC = () => {
       case 'MoUs':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               MoUs
             </h2>
 
-            <h3 className="text-xl font-semibold text-[#850209] mb-4 text-center">A. MOUs with Industries</h3>
+            <h3 className="text-xl font-semibold text-[#B22222] mb-4 text-center">A. MOUs with Industries</h3>
             <div className="overflow-x-auto mb-8">
               <table className="min-w-full bg-white border border-gray-200">
                 <thead className="bg-gray-100">
@@ -3781,7 +2744,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Mou Roland Principal sir sign.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3795,7 +2758,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/MOU with Pennant Technologies Pvt Ltd.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3809,7 +2772,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Blumin MOU.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3823,7 +2786,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/ZScalar_MOU.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3837,7 +2800,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/SVEC- New Leaf 1-10-2023.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3851,7 +2814,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/1 NITAP_MOU with activities.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3865,7 +2828,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/578_Alteryx SparkEd Partner_Sri Vasavi Engineering College.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3879,7 +2842,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Juniper MOU.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3893,7 +2856,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Celonis.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3907,7 +2870,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Paaloalto.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3921,7 +2884,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Sri Vasavi Engineering College.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3935,7 +2898,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till Date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Eduskills MOU with PICS.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3949,7 +2912,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Hexaware MOU_PICS.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3963,7 +2926,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/1 APSSDC MOU.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3977,7 +2940,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/Alykas.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -3991,7 +2954,7 @@ const CSEDepartment: React.FC = () => {
                     <td className="py-3 px-4 border-b">Till date</td>
                     <td className="py-3 px-4 border-b">
                       <a
-                        className="text-[#850209] hover:underline"
+                        className="text-[#B22222] hover:underline"
                         href="https://srivasaviengg.ac.in/uploads/csemous/6 TCS-ion MOU.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -4002,7 +2965,7 @@ const CSEDepartment: React.FC = () => {
               </table>
             </div>
 
-            <h3 className="text-xl font-semibold text-[#850209] mb-4">B. Interaction with the Industry</h3>
+            <h3 className="text-xl font-semibold text-[#B22222] mb-4">B. Interaction with the Industry</h3>
             <div className="flex justify-center mb-6">
               <ul className="space-y-4 list-none max-w-3xl">
                 <li className="py-2">
@@ -4011,7 +2974,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://www.srivasaviengg.ac.in/uploads/csemous/Industry data ( 2024-2025).pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -4022,7 +2985,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://www.srivasaviengg.ac.in/uploads/csemous/Industry%20data%20%202023-24.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -4033,7 +2996,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://www.srivasaviengg.ac.in/uploads/csemous/Industry%20data%20%202022-23.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -4044,7 +3007,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2021-2022.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -4055,7 +3018,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2020-2021.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -4066,7 +3029,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2019-2020.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -4077,7 +3040,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2018-2019.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -4088,7 +3051,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2017-2018.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -4099,7 +3062,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2016-2017.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -4110,7 +3073,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2015-2016.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -4121,7 +3084,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://srivasaviengg.ac.in/uploads/csemous/csemous_2014-2015.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View
                   </a>
@@ -4135,7 +3098,7 @@ const CSEDepartment: React.FC = () => {
         console.log("Rendering Hackathons section from main switch");
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Hackathons
             </h2>
             <p className="text-gray-700 leading-relaxed mb-4">
@@ -4176,11 +3139,11 @@ const CSEDepartment: React.FC = () => {
             </ul>
 
             {/* Hackathons Conducted Table */}
-            <h3 className="text-2xl font-semibold text-[#850209] mb-4 text-center">Hackathons Conducted</h3>
+            <h3 className="text-2xl font-semibold text-[#B22222] mb-4 text-center">Hackathons Conducted</h3>
             <div className="flex justify-center mb-8">
               <div className="overflow-x-auto w-full">
                 <table className="min-w-full bg-white border border-gray-200">
-                  <thead className="bg-[#850209] text-white">
+                  <thead className="bg-[#B22222] text-white">
                     <tr>
                       <th className="py-3 px-4 border-b">Academic Year</th>
                       <th className="py-3 px-4 border-b">For Brochure</th>
@@ -4195,7 +3158,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/PHOTO-2024-03-15-09-56-53.jpg"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           Click Here
                         </a>
@@ -4205,7 +3168,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/HackOverflow%202K24Winners%20List-CSE%20DEPT-16.03.2024.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           Click Here
                         </a>
@@ -4218,7 +3181,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/unnamed.png"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           Click Here
                         </a>
@@ -4228,7 +3191,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/Hackathon%20Winners%20List.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline"
+                          className="text-[#B22222] hover:underline"
                         >
                           Click Here
                         </a>
@@ -4246,13 +3209,13 @@ const CSEDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h3
               className="text-center text-3xl font-bold mb-6"
-              style={{ color: '#850209' }}
+              style={{ color: '#B22222' }}
             >
               Workshops/SOC/Seminars/<br />Guest Lectures
             </h3>
             <div className="pt-3">
               <details open>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Workshops/SOC</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Workshops/SOC</summary>
                 <div className="px-3">
                   <ol className="list-decimal mt-5 ml-5 space-y-2">
                     <li>
@@ -4261,7 +3224,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/cse_guest%20lectures/Workshop%20Data_CSE_2023-24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4270,7 +3233,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4279,7 +3242,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4288,7 +3251,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2020-21.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4297,7 +3260,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2019-20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4306,7 +3269,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2018-19.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4315,7 +3278,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2017-18.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4324,7 +3287,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2016-17.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4333,7 +3296,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2015-16.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4342,7 +3305,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2014-15.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4351,7 +3314,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/ws-2012-13.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                   </ol>
@@ -4361,7 +3324,7 @@ const CSEDepartment: React.FC = () => {
 
             <div className="mt-4">
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Guest Lecturers/Seminars</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Guest Lecturers/Seminars</summary>
                 <div className="px-3">
                   <ol className="list-decimal mt-5 ml-5 space-y-2">
                     <li>
@@ -4370,7 +3333,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/cse_guest%20lectures/Guest Lectures Data_CSE_2024-25.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4379,7 +3342,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/cse_guest%20lectures/Guest%20Lectures%20Data_CSE_2023-24.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4388,7 +3351,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gll-2022-23.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4397,7 +3360,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gll-2021-22.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4406,7 +3369,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gll-2019-20.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4415,7 +3378,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gll-2018-19.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4424,7 +3387,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gll-2017-18.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4433,7 +3396,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gl-2016-17.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4442,7 +3405,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gl-2015-16.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4451,7 +3414,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gl-2014-15.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4460,7 +3423,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gl-2013-14.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                     <li>
@@ -4469,7 +3432,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/cse_guest%20lectures/gl-2012-13.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >View More</a>
                     </li>
                   </ol>
@@ -4524,7 +3487,7 @@ const CSEDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h3
               className="text-center text-3xl font-bold mb-6"
-              style={{ color: '#850209' }}
+              style={{ color: '#B22222' }}
             >
               Training Activities
             </h3>
@@ -4541,7 +3504,7 @@ const CSEDepartment: React.FC = () => {
                       href="https://www.srivasaviengg.ac.in/uploads/cse_placements/tt_2023-24.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -4558,7 +3521,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/tt_2022-23.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -4575,7 +3538,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/tt_2021-22.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -4592,7 +3555,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/tt_2020-21.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -4609,7 +3572,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/tt_2019-20.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -4626,7 +3589,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/tt_2018-19.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </li>
                 </ul>
@@ -4680,7 +3643,7 @@ const CSEDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h3
               className="text-center text-3xl font-bold mb-6"
-              style={{ color: '#850209' }}
+              style={{ color: '#B22222' }}
             >
               Placements
             </h3>
@@ -4697,7 +3660,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2024-25 CSE PLACEMENTSS.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -4714,7 +3677,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2020-24 CSE PLACEMENTS.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -4731,7 +3694,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2019-23%20CSE%20PLACEMENTS%20DATA.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -4748,7 +3711,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2018-22%20CSE%20PLACEMENTS%20DATA.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -4765,7 +3728,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2017-21%20Batch%20CSE%20PLACEMENTS.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -4782,7 +3745,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/2016-20%20Batch%20%20CSE%20PLACEMENTS.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -4799,7 +3762,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/cse_2018-19.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -4816,7 +3779,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/cse_2017-18.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -4833,7 +3796,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/cse_2016-17.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -4849,7 +3812,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/cse_2015-16.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -4865,7 +3828,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_placements/cse_2014-15.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View More</a>
                   </p>
                 </div>
@@ -5094,570 +4057,58 @@ const CSEDepartment: React.FC = () => {
           </div>
         );
 
-      case 'Handbooks':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
-              Academic HandBooks
-            </h2>
-            <div className="space-y-4">
-              <details open className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2025-26: I Sem HandBooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V23 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_III  SEM Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V23 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_V SEM Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VII Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_VII SEM Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
+      // ...existing code...
+case 'Handbooks':
+ 
 
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2024-25: II Sem HandBooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      IV Sem V23 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2024-25_IV%20SEM%20Hand%20Book_CSE.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VI Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_VI%20Semester%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
+  // Group by academic_year and semester
+  const grouped = handbooks.reduce((acc, hb) => {
+    const key = `${hb.academic_year}: ${hb.semester} Sem Handbooks`;
+    acc[key] = acc[key] || [];
+    acc[key].push(hb);
+    return acc;
+  }, {});
 
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2024-25: I Sem HandBooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V23 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/III%20%20SEM%20(Autonomous)%20Handbook%20-%20CSE%20.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20Handbook_2024-25.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VII Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20V20%20Regulation%20Handbook_CSE.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2023-24: II Sem HandBooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20V20%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      IV Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20V20%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VI Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/VI%20SEM%20_CSE_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2023-24: I Sem HandBooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/III%20%20SEM%20(Autonomous)%20Handbook%20-%20CSE.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/V%20SEM%20Handbook_V20%20Regulation_2023-24.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VII Sem V20 Regulation Handbook -
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20Handbook_V20%20Regulation_2023-24.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2022-23: II Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      IV Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/IV%20Sem%20V20%20Regulation%20Handbook_CSE.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VI Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VI%20Sem%20V20%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VIII Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VIII%20Sem%20%20V20%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2022-23: I Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/III%20SEM%20V20%20Regulation%20Handbook%20(CSE).pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20%20V20%20Regulation%20Handbook%2022_23.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VII Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook%2022_23.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2021-22: II Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      IV Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/IV%20Semester%20Handbook%20_V20%20Regulation.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VI Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VI%20Semester%20Handbook_22.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VIII Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VIII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2021-22: I Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V20 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20&%20CST%20V20%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20&%20CST%20V18%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VII Sem V18 Regulation Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2020-21: II Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      IV Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Semester%20V18(Autonomous).pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      VI Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20VI%20Semester%20V18(Autonomous).pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      IV Year II Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Yr.%20II%20Semester%20R16%20Regulation.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic Year 2020-21: I Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/CSE_III_SEM_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      V Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/CSE_V_SEM_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      IV Year I Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/CSE_IVYr_I_SEM_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic year 2019-20: II Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      IV Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/II-II_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      III Year II Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/III-II_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      IV Year II Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/IV-II_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
-
-              <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
-                  Academic year 2019-20: I Sem Handbooks
-                </summary>
-                <div className="px-4 py-3">
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      III Sem V18(Autonomous) Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/II-I_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      III Year I Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/III-I_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                    <li>
-                      IV Year I Sem R16 Handbook -
-                      <a
-                        href="http://srivasaviengg.ac.in/uploads/IV-I_Handbook.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
-                      >
-                        View
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </details>
+  return (
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+        Academic HandBooks
+      </h2>
+      <div className="space-y-4">
+        {Object.entries(grouped).map(([group, items]) => (
+          <details key={group} className="bg-white border rounded-lg overflow-hidden">
+            <summary className="px-4 py-3 cursor-pointer text-lg font-semibold text-white" style={{ backgroundColor: 'rgba(136,25,25,1)' }}>
+              {group}
+            </summary>
+            <div className="px-4 py-3">
+              <ul className="list-disc pl-6 space-y-2">
+                {items.map((hb, idx) => (
+                  <li key={idx}>
+                    {hb.title} -
+                    <a
+                      href={hb.file_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#B22222] hover:underline ml-2"
+                    >
+                      View
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-        );
-
+          </details>
+        ))}
+      </div>
+    </div>
+  );
+// ...existing code...
 
 
       case 'Technical Association':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-center mb-6" style={{ color: '#850209' }}>
+            <h2 className="text-3xl font-bold text-center mb-6" style={{ color: '#B22222' }}>
               Technical Association
             </h2>
             <div className="mb-8">
@@ -5668,7 +4119,7 @@ const CSEDepartment: React.FC = () => {
                 benefit of students.
               </p>
 
-              <h3 className="text-2xl font-semibold text-[#850209] mb-4">Faculty Co-Ordinators</h3>
+              <h3 className="text-2xl font-semibold text-[#B22222] mb-4">Faculty Co-Ordinators</h3>
               <div className="mb-6 text-center">
                 <p className="text-lg mb-2">1. Mrs. N. Hiranmayee, Sr. Assistant Professor</p>
                 <p className="text-lg">2. Mr. P. Ramamohan Rao, Assistant Professor</p>
@@ -5676,7 +4127,7 @@ const CSEDepartment: React.FC = () => {
 
               <div className="space-y-2">
                 <details open className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2024-25
                   </summary>
                   <div className="px-4 py-3">
@@ -5687,7 +4138,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://www.srivasaviengg.ac.in/uploads/Department Association Events Summary2024-25.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -5695,7 +4146,7 @@ const CSEDepartment: React.FC = () => {
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2023-24
                   </summary>
                   <div className="px-4 py-3">
@@ -5706,7 +4157,7 @@ const CSEDepartment: React.FC = () => {
                           href="https://www.srivasaviengg.ac.in/uploads/SCUD%20summary_23-24.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -5714,7 +4165,7 @@ const CSEDepartment: React.FC = () => {
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2022-23
                   </summary>
                   <div className="px-4 py-3">
@@ -5725,7 +4176,7 @@ const CSEDepartment: React.FC = () => {
                           href="http://srivasaviengg.ac.in/uploads/uploadsSCUD%20summary_22-23.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -5733,7 +4184,7 @@ const CSEDepartment: React.FC = () => {
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2021-22
                   </summary>
                   <div className="px-4 py-3">
@@ -5744,7 +4195,7 @@ const CSEDepartment: React.FC = () => {
                           href="http://srivasaviengg.ac.in/uploads/SCUD%20summary_%2021-22.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -5752,7 +4203,7 @@ const CSEDepartment: React.FC = () => {
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2019-20
                   </summary>
                   <div className="px-4 py-3">
@@ -5763,7 +4214,7 @@ const CSEDepartment: React.FC = () => {
                           href="http://srivasaviengg.ac.in/uploads/SCUD%20Activities%20during%20the%20year%202019-20.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -5771,7 +4222,7 @@ const CSEDepartment: React.FC = () => {
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2018-19
                   </summary>
                   <div className="px-4 py-3">
@@ -5782,7 +4233,7 @@ const CSEDepartment: React.FC = () => {
                           href="http://srivasaviengg.ac.in/uploads/SCUD2018-2019.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -5790,7 +4241,7 @@ const CSEDepartment: React.FC = () => {
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2017-18
                   </summary>
                   <div className="px-4 py-3">
@@ -5801,7 +4252,7 @@ const CSEDepartment: React.FC = () => {
                           href="http://srivasaviengg.ac.in/uploads/SCUD2017-2018.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -5809,7 +4260,7 @@ const CSEDepartment: React.FC = () => {
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2016-17
                   </summary>
                   <div className="px-4 py-3">
@@ -5820,7 +4271,7 @@ const CSEDepartment: React.FC = () => {
                           href="http://srivasaviengg.ac.in/uploads/SCUD2016-2017.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -5828,7 +4279,7 @@ const CSEDepartment: React.FC = () => {
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2015-16
                   </summary>
                   <div className="px-4 py-3">
@@ -5839,7 +4290,7 @@ const CSEDepartment: React.FC = () => {
                           href="http://srivasaviengg.ac.in/uploads/SCUD2015-2016.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -5847,7 +4298,7 @@ const CSEDepartment: React.FC = () => {
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2014-15
                   </summary>
                   <div className="px-4 py-3">
@@ -5858,7 +4309,7 @@ const CSEDepartment: React.FC = () => {
                           href="http://srivasaviengg.ac.in/uploads/SCUD2014-2015.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -5866,7 +4317,7 @@ const CSEDepartment: React.FC = () => {
                 </details>
 
                 <details className="bg-white border rounded-lg overflow-hidden">
-                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                  <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                     SCUD Activities during 2013-14
                   </summary>
                   <div className="px-4 py-3">
@@ -5877,7 +4328,7 @@ const CSEDepartment: React.FC = () => {
                           href="http://srivasaviengg.ac.in/uploads/SCUD2013-2014.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#850209] hover:underline ml-2"
+                          className="text-[#B22222] hover:underline ml-2"
                         >View More</a>
                       </li>
                     </ul>
@@ -5888,7 +4339,7 @@ const CSEDepartment: React.FC = () => {
 
             {/* Gallery Section */}
             <div className="mt-12 border-t-2 pt-8">
-              <h3 className="text-2xl font-semibold text-center mb-8 text-[#850209]">Technical Association Gallery</h3>
+              <h3 className="text-2xl font-semibold text-center mb-8 text-[#B22222]">Technical Association Gallery</h3>
 
               <div className="mb-12">
                 <h4 className="text-xl font-medium text-center mb-6 text-primary">TECHFEST 2K23</h4>
@@ -6092,12 +4543,12 @@ const CSEDepartment: React.FC = () => {
       case 'Newsletters':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Newsletters
             </h2>
             <div className="space-y-6">
               <details open className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 14 Issue 2 2023
                 </summary>
                 <div className="px-4 py-3">
@@ -6108,7 +4559,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/Newsletter Volume1 4_Issue_2_2023.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6118,7 +4569,7 @@ const CSEDepartment: React.FC = () => {
               </details>
 
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 14 Issue 1 2023
                 </summary>
                 <div className="px-4 py-3">
@@ -6129,7 +4580,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/Newsletter Volume1 4_Issue_1_2023.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6139,7 +4590,7 @@ const CSEDepartment: React.FC = () => {
               </details>
 
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 13 Issue 3 2023
                 </summary>
                 <div className="px-4 py-3">
@@ -6150,7 +4601,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/Newsletter%20Volume%2013%20Issue%203%202022.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6160,7 +4611,7 @@ const CSEDepartment: React.FC = () => {
               </details>
 
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 13 Issue 2 2022
                 </summary>
                 <div className="px-4 py-3">
@@ -6171,7 +4622,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/Newsletter%20Volume%2013%20Issue%202%202022.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6181,7 +4632,7 @@ const CSEDepartment: React.FC = () => {
               </details>
 
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 13 Issue 1 2022
                 </summary>
                 <div className="px-4 py-3">
@@ -6192,7 +4643,7 @@ const CSEDepartment: React.FC = () => {
                         href="https://www.srivasaviengg.ac.in/uploads/Newsletter%20Volume%2013%20Issue%201%202022.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6202,7 +4653,7 @@ const CSEDepartment: React.FC = () => {
               </details>
 
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 12 Issue 4 2022
                 </summary>
                 <div className="px-4 py-3">
@@ -6213,7 +4664,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue%204%202022.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6222,7 +4673,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 12 Issue 3 2022
                 </summary>
                 <div className="px-4 py-3">
@@ -6233,7 +4684,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue3%202022.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6242,7 +4693,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 12 Issue 2 2021
                 </summary>
                 <div className="px-4 py-3">
@@ -6253,7 +4704,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue2%202021.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6262,7 +4713,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 12 Issue 1 2021
                 </summary>
                 <div className="px-4 py-3">
@@ -6273,7 +4724,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2012%20Issue1%202021.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6282,7 +4733,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 11 Issue 4 2021
                 </summary>
                 <div className="px-4 py-3">
@@ -6293,7 +4744,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue4%202021.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6302,7 +4753,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 11 Issue 3 2021
                 </summary>
                 <div className="px-4 py-3">
@@ -6313,7 +4764,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue3%202021.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6322,7 +4773,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 11 Issue 2 2020
                 </summary>
                 <div className="px-4 py-3">
@@ -6333,7 +4784,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue2%202020.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6342,7 +4793,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 11 Issue 1 2020
                 </summary>
                 <div className="px-4 py-3">
@@ -6353,7 +4804,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2011%20Issue1%202020.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6362,7 +4813,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 10 Issue 4 2020
                 </summary>
                 <div className="px-4 py-3">
@@ -6373,7 +4824,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010_Issue%20_4_%202020.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6382,7 +4833,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 10 Issue 3 2020
                 </summary>
                 <div className="px-4 py-3">
@@ -6393,7 +4844,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010_Issue%20_3_%202019.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6402,7 +4853,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 10 Issue 2 2019
                 </summary>
                 <div className="px-4 py-3">
@@ -6413,7 +4864,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010_Issue%20_2_%202019.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6422,7 +4873,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 10 Issue 1 2019
                 </summary>
                 <div className="px-4 py-3">
@@ -6433,7 +4884,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Newsletter%20Volume%2010%20_Issue_1_%202019.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6442,7 +4893,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 9 Issue 4 2019
                 </summary>
                 <div className="px-4 py-3">
@@ -6453,7 +4904,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/vol%209%20issue%204.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6462,7 +4913,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 9 Issue 3 2019
                 </summary>
                 <div className="px-4 py-3">
@@ -6473,7 +4924,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/vol%209%20issue%203.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6482,7 +4933,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 9 Issue 2 2018
                 </summary>
                 <div className="px-4 py-3">
@@ -6493,7 +4944,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/vol%209%20issue%202.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6502,7 +4953,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 9 Issue 1 2018
                 </summary>
                 <div className="px-4 py-3">
@@ -6513,7 +4964,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/vol%209%20issue%201.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6522,7 +4973,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 8 Issue 4(b) 2018
                 </summary>
                 <div className="px-4 py-3">
@@ -6533,7 +4984,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/vol%208%20issue%204(b).pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6542,7 +4993,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 8 Issue 4(a) 2018
                 </summary>
                 <div className="px-4 py-3">
@@ -6553,7 +5004,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/vol%208%20issue%204(a).pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6562,7 +5013,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 8 Issue 3 2017
                 </summary>
                 <div className="px-4 py-3">
@@ -6573,7 +5024,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/oct-17(1).pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6582,7 +5033,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 8 Issue 2 2017
                 </summary>
                 <div className="px-4 py-3">
@@ -6593,7 +5044,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/july-2017.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6602,7 +5053,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 8 Issue 1 2017
                 </summary>
                 <div className="px-4 py-3">
@@ -6613,7 +5064,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/april.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6622,7 +5073,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 7 Issue 4 2017
                 </summary>
                 <div className="px-4 py-3">
@@ -6633,7 +5084,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/Jan-17.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6642,7 +5093,7 @@ const CSEDepartment: React.FC = () => {
                 </div>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 7 Issue 3 2016
                 </summary>
                 <div className="px-4 py-3">
@@ -6653,7 +5104,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/oct-16.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6770,7 +5221,7 @@ const CSEDepartment: React.FC = () => {
                 </li>
               </details>
               <details className="bg-white border rounded-lg overflow-hidden">
-                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#850209]">
+                <summary className="px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 text-lg font-semibold text-[#B22222]">
                   Newsletter Volume 5 Issue 1 2014
                 </summary>
                 <div className="px-4 py-3">
@@ -6781,7 +5232,7 @@ const CSEDepartment: React.FC = () => {
                         href="http://srivasaviengg.ac.in/uploads/acsenl_Apr14.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#850209] hover:underline ml-2"
+                        className="text-[#B22222] hover:underline ml-2"
                       >
                         View
                       </a>
@@ -6796,7 +5247,7 @@ const CSEDepartment: React.FC = () => {
       case 'Extra-Curricular Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Extra-Curricular Activities
             </h2>
 
@@ -6809,7 +5260,7 @@ const CSEDepartment: React.FC = () => {
                     href="https://www.srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202023-24%20-%20CSE.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -6820,7 +5271,7 @@ const CSEDepartment: React.FC = () => {
                     href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202022-23.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -6831,7 +5282,7 @@ const CSEDepartment: React.FC = () => {
                     href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202021-2022.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -6842,7 +5293,7 @@ const CSEDepartment: React.FC = () => {
                     href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202019-2020.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -6853,7 +5304,7 @@ const CSEDepartment: React.FC = () => {
                     href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202018-2019.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -6864,7 +5315,7 @@ const CSEDepartment: React.FC = () => {
                     href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Extracurricular%20activities%20-%202017-2018.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] hover:underline ml-2"
+                    className="text-[#B22222] hover:underline ml-2"
                   >
                     View More
                   </a>
@@ -6874,10 +5325,10 @@ const CSEDepartment: React.FC = () => {
 
             {/* Sahaya Section */}
             <div className="mt-12">
-              <h3 className="text-2xl font-bold text-[#850209] mb-4 text-center">Sahaya</h3>
+              <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">Sahaya</h3>
 
               <div className="mb-8">
-                <h4 className="text-xl font-semibold text-[#850209] mb-4">Social Services</h4>
+                <h4 className="text-xl font-semibold text-[#B22222] mb-4">Social Services</h4>
                 <p className="text-gray-700 mb-4 text-justify">
                   We come across many heart-rending incidents and pathetic conditions of people in the society every day. We may not be
                   in a position to give an immediate reaction though we want to. But the Computer Science and Engineering Students of Sri
@@ -6901,7 +5352,7 @@ const CSEDepartment: React.FC = () => {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg mb-8">
-                <h4 className="text-xl font-semibold text-[#850209] mb-2">Faculty Coordinator:</h4>
+                <h4 className="text-xl font-semibold text-[#B22222] mb-2">Faculty Coordinator:</h4>
                 <p className="font-semibold">
                   Mr. P. Ramamohan Rao<br />
                   Assistant Professor
@@ -6909,7 +5360,7 @@ const CSEDepartment: React.FC = () => {
               </div>
 
               <div className="mb-8">
-                <h4 className="text-xl font-semibold text-[#850209] mb-4 text-center">LIST OF SAHAYA EVENTS CONDUCTED YEAR WISE</h4>
+                <h4 className="text-xl font-semibold text-[#B22222] mb-4 text-center">LIST OF SAHAYA EVENTS CONDUCTED YEAR WISE</h4>
                 <ul className="space-y-3 text-center list-none">
                   <li>
                     2023-2024 -
@@ -6917,7 +5368,7 @@ const CSEDepartment: React.FC = () => {
                       href="https://www.srivasaviengg.ac.in/uploads/Sahaya_2023-24.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -6928,7 +5379,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/Sahaya_2022-23.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -6939,7 +5390,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/Sahaya_2021-22.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -6950,7 +5401,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/Sahaya_2020-21.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -6961,7 +5412,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/Sahaya_2019-20.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -6972,7 +5423,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/Sahaya_2018-19.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -6983,7 +5434,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/sahaya2017-18.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -6994,7 +5445,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/sahaya2016-17.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -7005,7 +5456,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/sahaya2015-16.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -7016,7 +5467,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/sahaya2014-15.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -7027,7 +5478,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/sahaya2013-14.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -7038,7 +5489,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/sahaya2012-13.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >
                       For more details
                     </a>
@@ -7048,7 +5499,7 @@ const CSEDepartment: React.FC = () => {
 
               {/* Gallery Section */}
               <div className="mt-12 border-t pt-8">
-                <h4 className="text-xl font-semibold text-[#850209] mb-6 text-center">Gallery</h4>
+                <h4 className="text-xl font-semibold text-[#B22222] mb-6 text-center">Gallery</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="rounded-lg shadow-md overflow-hidden">
                     <img
@@ -7103,7 +5554,7 @@ const CSEDepartment: React.FC = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h3
               className="text-center text-3xl font-bold mb-6"
-              style={{ color: '#850209' }}
+              style={{ color: '#B22222' }}
             >
               Merit Scholarships and Academic Toppers
             </h3>
@@ -7121,7 +5572,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2018.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
@@ -7138,7 +5589,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2017.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
@@ -7155,14 +5606,14 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2016.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Merit Scholarships during the A.Y 2015-16
                 </summary>
                 <div className="ml-5 my-2">
@@ -7172,14 +5623,14 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2015.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Merit Scholarships during the A.Y 2014-15
                 </summary>
                 <div className="ml-5 my-2">
@@ -7189,14 +5640,14 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2014.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Merit Scholarships during the A.Y 2013-14
                 </summary>
                 <div className="ml-5 my-2">
@@ -7206,7 +5657,7 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2013.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
@@ -7216,7 +5667,7 @@ const CSEDepartment: React.FC = () => {
             <h4 className="text-center text-xl font-semibold mt-10 mb-4">Academic Toppers</h4>
             <div className="pt-3">
               <details open>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2024-25
                 </summary>
                 <div className="ml-5 my-2">
@@ -7226,14 +5677,14 @@ const CSEDepartment: React.FC = () => {
                       href="http://srivasaviengg.ac.in/uploads/cse_extra_activities/Merit%20Scholarships-2018.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2023-24
                 </summary>
                 <div className="ml-5 my-2">
@@ -7243,14 +5694,14 @@ const CSEDepartment: React.FC = () => {
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2023-24_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2022-23
                 </summary>
                 <div className="ml-5 my-2">
@@ -7260,14 +5711,14 @@ const CSEDepartment: React.FC = () => {
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2022-23_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2020-21 & 2021-22
                 </summary>
                 <div className="ml-5 my-2">
@@ -7277,14 +5728,14 @@ const CSEDepartment: React.FC = () => {
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2021-2022%20&%202020-2021_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2019-20
                 </summary>
                 <div className="ml-5 my-2">
@@ -7294,14 +5745,14 @@ const CSEDepartment: React.FC = () => {
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2019-2020_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2018-19
                 </summary>
                 <div className="ml-5 my-2">
@@ -7311,14 +5762,14 @@ const CSEDepartment: React.FC = () => {
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2018-2019_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
               </details>
 
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                   Academic Toppers during the A.Y 2017-18
                 </summary>
                 <div className="ml-5 my-2">
@@ -7328,7 +5779,7 @@ const CSEDepartment: React.FC = () => {
                       href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/2017-2018_CSE.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] hover:underline ml-2"
+                      className="text-[#B22222] hover:underline ml-2"
                     >View</a>
                   </p>
                 </div>
@@ -7503,68 +5954,28 @@ const CSEDepartment: React.FC = () => {
     }
   }
 
-  return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Computer Science & Engineering</h1>
-          </div>
+  const renderContentWithTitle = () => {
+      // Just return the content without adding another title, since it's already included in content sections
+      return (
+        <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+          {renderContent()}
         </div>
-      </section>
-
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
-        items={sidebarItems}
-        activeItem={activeContent}
-        onItemClick={setActiveContent}
-        title="CSE Department"
-        buttonLabel="Department Menu"
-      >
-        {/* Main Content */}
-        <div className="py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-          {loading ? (
-            <div className="flex items-center justify-center min-h-[400px]">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#850209] mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading department data...</p>
-              </div>
-            </div>
-          ) : error ? (
-            <div className="flex items-center justify-center min-h-[400px]">
-              <div className="text-center">
-                <div className="text-red-500 mb-4">
-                  <svg className="w-12 h-12 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                <p className="text-red-600 font-medium mb-2">Error Loading Data</p>
-                <p className="text-gray-600">{error}</p>
-                <button 
-                  onClick={() => {
-                    // Reset error state and reload data
-                    setError(null);
-                    setLoading(true);
-                    router.refresh();
-                  }} 
-                  className="mt-4 px-4 py-2 bg-[#850209] text-white rounded hover:bg-[#660000] transition-colors"
-                >
-                  Reload Page
-                </button>
-              </div>
-            </div>
-          ) : (
-            renderContent()
-          )}
-          </div>
-        </div>
-      </FixedSidebar>
-    </div>
-  );
+      );
+    };
+  
+    return (
+      <div className="flex flex-col min-h-screen">
+        <DepartmentSidebar
+          items={sidebarItems}
+          activeItem={activeContent}
+          onItemClick={setActiveContent}
+          title="Computer Science Engineering Department"
+        >
+          {renderContentWithTitle()}
+        </DepartmentSidebar>
+        {/* Footer is only shown when scrolling the main content area, not the sidebar */}
+      </div>
+    );
 };
 
 export default CSEDepartment;

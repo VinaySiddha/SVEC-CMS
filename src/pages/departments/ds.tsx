@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Database, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon, Settings } from 'lucide-react';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
 // Types for API responses
 interface Faculty {
@@ -238,7 +239,7 @@ const DSDepartment: React.FC = () => {
                             <div className="lg:col-span-2 space-y-4">
                                 <div className="mb-4">
                                     <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, CSE(Data Science)</p>
+                                    <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of Department, CSE(Data Science)</p>
                                     <p className="text-gray-600">Mobile No: 7672082130</p>
                                     <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-442)</p>
                                     <p className="text-gray-600">Email: <a href="mailto:hod_ds@srivasaviengg.ac.in" className="text-primary hover:underline">hod_ds@srivasaviengg.ac.in</a></p>
@@ -352,7 +353,7 @@ const DSDepartment: React.FC = () => {
                                 {/* Settings Panel */}
                                 <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
                                     {/* Panel Header */}
-                                    <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] p-4 border-b border-gray-700">
+                                    <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
@@ -389,7 +390,7 @@ const DSDepartment: React.FC = () => {
                                                             setSettingsPanelOpen(false);
                                                         }}
                                                         className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                                                ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
                                                                 : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                                                             }`}
                                                     >
@@ -441,7 +442,7 @@ const DSDepartment: React.FC = () => {
                         {/* Floating Settings Button - Mobile Only */}
                         <button
                             onClick={() => setSettingsPanelOpen(true)}
-                            className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                            className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
                             title="Department Navigation"
                         >
                             <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -472,7 +473,7 @@ const DSDepartment: React.FC = () => {
                                         return hodInfo ? (
                                             <div className="mb-4">
                                                 <h3 className="text-2xl font-bold text-[#B22222] mb-2">{hodInfo.name}</h3>
-                                                <p className="text-lg text-[#8B0000] font-medium mb-2">{hodInfo.designation}, CSE(Data Science)</p>
+                                                <p className="text-lg text-[#B22222] font-medium mb-2">{hodInfo.designation}, CSE(Data Science)</p>
                                                 {hodInfo.phone && <p className="text-gray-600">Mobile No: {hodInfo.phone}</p>}
                                                 <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-442)</p>
                                                 {hodInfo.email && (
@@ -516,7 +517,7 @@ const DSDepartment: React.FC = () => {
                                     <p className="text-red-600">Error: {error}</p>
                                     <button 
                                         onClick={loadAllData}
-                                        className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#8B0000]"
+                                        className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
                                     >
                                         Retry
                                     </button>
@@ -609,7 +610,7 @@ const DSDepartment: React.FC = () => {
                                     <p className="text-red-600">Error: {error}</p>
                                     <button 
                                         onClick={loadAllData}
-                                        className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#8B0000]"
+                                        className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
                                     >
                                         Retry
                                     </button>
@@ -684,7 +685,7 @@ const DSDepartment: React.FC = () => {
                                 <p className="text-red-600">Error: {error}</p>
                                 <button 
                                     onClick={loadAllData}
-                                    className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#8B0000]"
+                                    className="mt-4 px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
                                 >
                                     Retry
                                 </button>
@@ -742,7 +743,7 @@ const DSDepartment: React.FC = () => {
                                 <p className="text-red-600 mb-4">Error: {error}</p>
                                 <button 
                                     onClick={loadAllData}
-                                    className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#8B0000]"
+                                    className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222]"
                                 >
                                     Retry
                                 </button>
@@ -758,61 +759,84 @@ const DSDepartment: React.FC = () => {
         }
     };
 
-    return (
-        <div className="pt-24 bg-gray-100">
-            <section className="bg-[#8B1919] text-white py-12">
-                <div className="container mx-auto px-4">
-                    <div className="text-center">
-                        <h1 className="text-3xl md:text-4xl font-bold">CSE(Data Science)</h1>
-                    </div>
-                </div>
-            </section>
+    // return (
+    //     <div className="pt-24 bg-gray-100">
+    //         <section className="bg-[#8B1919] text-white py-12">
+    //             <div className="container mx-auto px-4">
+    //                 <div className="text-center">
+    //                     <h1 className="text-3xl md:text-4xl font-bold">CSE(Data Science)</h1>
+    //                 </div>
+    //             </div>
+    //         </section>
 
-            <div className="container mx-auto px-4 py-8">
-                <div className="flex flex-col lg:flex-row gap-8">
-                    <aside className="w-full lg:w-80 lg:flex-shrink-0">
-                        <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
-                            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
-                                <span className="font-bold">Department Menu</span>
-                                <Menu className="w-6 h-6" />
-                            </button>
-                            <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
-                                <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
-                                {loading ? (
-                                    <div className="flex items-center justify-center py-8">
-                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#B22222]"></div>
-                                        <span className="ml-2 text-gray-600">Loading menu...</span>
-                                    </div>
-                                ) : sidebarItems.length > 0 ? (
-                                    <ul className="space-y-2">
-                                        {sidebarItems.map((item) => (
-                                            <li key={item}>
-                                                <button
-                                                    className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeTab === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
-                                                    onClick={() => {
-                                                        setActiveTab(item);
-                                                        setSidebarOpen(false);
-                                                    }}
-                                                >
-                                                    <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeTab === item ? 'rotate-90' : ''}`} />
-                                                    <span>{item}</span>
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <p className="text-gray-500 text-sm">No menu items available</p>
-                                )}
-                            </nav>
-                        </div>
-                    </aside>
-                    <main className="flex-1 min-w-0">
-                        {renderContent()}
-                    </main>
-                </div>
-            </div>
-        </div>
+    //         <div className="container mx-auto px-4 py-8">
+    //             <div className="flex flex-col lg:flex-row gap-8">
+    //                 <aside className="w-full lg:w-80 lg:flex-shrink-0">
+    //                     <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
+    //                         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden w-full flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-4">
+    //                             <span className="font-bold">Department Menu</span>
+    //                             <Menu className="w-6 h-6" />
+    //                         </button>
+    //                         <nav className={`${sidebarOpen ? 'block' : 'hidden'} lg:block`}>
+    //                             <h3 className="text-xl font-bold text-primary mb-4 hidden lg:block">Department Menu</h3>
+    //                             {loading ? (
+    //                                 <div className="flex items-center justify-center py-8">
+    //                                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#B22222]"></div>
+    //                                     <span className="ml-2 text-gray-600">Loading menu...</span>
+    //                                 </div>
+    //                             ) : sidebarItems.length > 0 ? (
+    //                                 <ul className="space-y-2">
+    //                                     {sidebarItems.map((item) => (
+    //                                         <li key={item}>
+    //                                             <button
+    //                                                 className={`w-full text-left flex items-center p-3 rounded-lg transition-all duration-300 text-sm ${activeTab === item ? 'bg-primary text-white font-semibold shadow-md' : 'hover:bg-gray-100'}`}
+    //                                                 onClick={() => {
+    //                                                     setActiveTab(item);
+    //                                                     setSidebarOpen(false);
+    //                                                 }}
+    //                                             >
+    //                                                 <ChevronRight className={`w-4 h-4 mr-2 transition-transform ${activeTab === item ? 'rotate-90' : ''}`} />
+    //                                                 <span>{item}</span>
+    //                                             </button>
+    //                                         </li>
+    //                                     ))}
+    //                                 </ul>
+    //                             ) : (
+    //                                 <p className="text-gray-500 text-sm">No menu items available</p>
+    //                             )}
+    //                         </nav>
+    //                     </div>
+    //                 </aside>
+    //                 <main className="flex-1 min-w-0">
+    //                     {renderContent()}
+    //                 </main>
+    //             </div>
+    //         </div>
+    //     </div>
+    // );
+
+    const renderContentWithTitle = () => {
+    // Just return the content without adding another title, since it's already included in content sections
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
+      </div>
     );
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
+        items={sidebarItems}
+        activeItem={activeContent}
+        onItemClick={setActiveContent}
+        title="CSE-DS Department"
+      >
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
+    </div>
+  );
 };
 
 export default DSDepartment;

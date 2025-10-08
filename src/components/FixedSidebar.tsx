@@ -65,7 +65,7 @@ const FixedSidebar: React.FC<FixedSidebarProps> = ({
         <button
           data-no-loading="true"
           onClick={onToggle}
-          className="bg-[#B22222] text-white px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-[#8B0000] transition-all shadow-lg hover:shadow-xl"
+          className="bg-[#B22222] text-white px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-[#B22222] transition-all shadow-lg hover:shadow-xl"
         >
           <Menu className="w-5 h-5" />
           <span className="hidden sm:inline">{buttonLabel}</span>

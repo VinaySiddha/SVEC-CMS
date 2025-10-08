@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { Brain, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
 import { useDepartmentData } from '../../hooks/useDepartmentData';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
 
 type Doc = { id: number; academic_year: string; title: string; file_url: string };
 type Image = { id: number; image_url: string; alt_text: string };
 type Gallery = { id: number; title: string; images: Image[] };
+
+type Classroom = { id:number; title:string; document_url:string };
+type TimeTable = { id:number; title:string; document_url:string };
+type SeminarHall = { id:number; title:string; document_url:string };
+type Lab = { id:number; name:string; configuration:string; usage_info:string; num_systems:number; image_url:string };
+type OtherLab = { id:number; name:string; image_url:string };
 const AIMLDepartment: React.FC = () => {
   const [faculty, setFaculty] = React.useState<any[]>([]);
     const [TechnicalFaculty, setTechnicalFaculty] = React.useState<any[]>([]);
@@ -30,6 +36,27 @@ const AIMLDepartment: React.FC = () => {
   const [extra, setExtra] = React.useState<{documents:any[]; clubs:any[]}>({documents:[], clubs:[]});
   const [hackathons, setHackathons] = React.useState<{documents: Doc[]; galleries: Gallery[]}>({documents: [], galleries: []});
   const [handbooks, setHandbooks] = React.useState<any[]>([]);
+  const [acdemictoppersgal,setAcademicToppersGal] = React.useState<{galleries: Gallery[]}>({galleries: []});
+  const [physicalFacilities, setPhysicalFacilities] = useState<{
+    classrooms: Classroom[];
+    timeTables: TimeTable[];
+    seminarHalls: SeminarHall[];
+    labs: Lab[];
+    otherLabs: OtherLab[];
+  }>();
+   React.useEffect(() => {
+                fetch('/api/aiml/aiml-physical-facilities?dept=aiml')
+                  .then(res => res.json())
+                  .then(setPhysicalFacilities)
+                  .catch(console.error);
+              }, []);
+
+            React.useEffect(() => {
+                fetch('/api/aiml/academic-toppers-gallery?dept=aiml')
+                  .then(res => res.json())
+                  .then(setAcademicToppersGal)
+                  .catch(console.error);
+              }, []);
 
   React.useEffect(() => {
     fetch('/api/aiml/aiml-handbooks?dept=aiml')
@@ -145,7 +172,6 @@ React.useEffect(() => {
         });
     }, []);
   
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
@@ -372,18 +398,7 @@ React.useEffect(() => {
       });
   }, []);
 
-  const labs = [
-    { name: "James Gosling Lab", image: "/images/departments/cai/James Gosling Lab.jpg" },
-    { name: "EF Codd Lab", image: "/images/departments/cai/E F Codd LAb.jpg" },
-    { name: "Linus Torvalds Lab", image: "/images/departments/cai/Linus Torvalds Lab.jpg" },
-    { name: "Yellow Lab", image: "/images/departments/cai/Yellow Lab.jpg" },
-    { name: "Pink Lab", image: "/images/departments/cai/Pink Lab.jpg" },
-    { name: "Orange Lab", image: "/images/departments/cai/Orange Lab.jpg" },
-    { name: "Green Lab", image: "/images/departments/cai/Green Lab.jpg" },
-    { name: "Brown Lab", image: "/images/departments/cai/Brown Lab.jpg" },
-    { name: "PG CP Lab", image: "/images/departments/cai/pgcplab.jpg" },
-    { name: "R&D Lab", image: "/images/departments/cai/Sartaj Sahni Lab.jpg" },
-  ];
+  
 
   const renderContent = () => {
     switch (activeContent) {
@@ -450,6 +465,22 @@ React.useEffect(() => {
               </tbody>
             </table>
           </div>
+           {/* ---------- Image Gallery ---------- */}
+
+            <h2 className="text-2xl font-bold text-center mb-4 mt-8">Gallery</h2>
+        {acdemictoppersgal.galleries.map(g => (
+          <div key={g.id} className="container mx-auto mb-8">
+            <div className="text-center text-xl font-semibold mb-2">{g.title}</div>
+            <div className="flex flex-wrap justify-center items-center gap-4">
+              {g.images.map(img => (
+                <div key={img.id} className="w-full md:w-1/3 flex justify-center">
+                  <img src={img.image_url} alt={img.alt_text || 'Hackathon image'}
+                       className="img-fluid m-3 rounded shadow" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
         </div>
       </div>
           </div>
@@ -536,7 +567,7 @@ React.useEffect(() => {
                 new Set(group.items.map((i: any) => i.sem_type))
               ).map((sem) => (
                 <details key={String(sem)} open>
-                  <summary className="text-lg font-semibold text-[#850209] cursor-pointer">
+                  <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">
                     {group.group}: {sem}
                   </summary>
                   <ul className="list-disc list-inside space-y-2 ml-4">
@@ -568,8 +599,7 @@ React.useEffect(() => {
       case 'Department Profile':
         return (
           <div id="department-profile" className="space-y-8 animate-fade-in">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h2>
+            <div className="bg-white p-6 md:p-8 rounded-lg shadow-sm">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                 <div className="relative">
                   <img
@@ -581,7 +611,7 @@ React.useEffect(() => {
                 <div className="lg:col-span-2 space-y-4">
                   <div className="mb-4">
                     <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of the Department</p>
+                    <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
                     <p className="text-gray-600">Mobile No: 7672082130</p>
                     <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-442)</p>
                     <p className="text-gray-600">Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-primary hover:underline">hod_aim@srivasaviengg.ac.in</a></p>
@@ -699,7 +729,7 @@ React.useEffect(() => {
                     {/* Settings Panel */}
                     <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
                       {/* Panel Header */}
-                      <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] p-4 border-b border-gray-700">
+                      <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
@@ -736,7 +766,7 @@ React.useEffect(() => {
                                   setSettingsPanelOpen(false);
                                 }}
                                 className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                  ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                  ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
                                   : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                                   }`}
                               >
@@ -788,8 +818,8 @@ React.useEffect(() => {
                 {/* Floating Settings Button - Mobile Only */}
                 <button
                   onClick={() => setSettingsPanelOpen(true)}
-                  className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-                  title="Department Navigation"
+                  className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                  title="Artificial Intelligence & Machine Learning Department"
                 >
                   <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -952,218 +982,74 @@ React.useEffect(() => {
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
 
-              <div className="space-y-4">
-                <details open className="border border-gray-300 rounded-lg mb-4">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    Class Rooms
-                  </summary>
-                  <div className="p-4">
-                    <h5 className="font-medium text-lg mb-2">Class Rooms</h5>
-                    <div className="mb-2">
-                      <span>Class Rooms with ICT Enabled Facilities</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Classrooms.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </div>
-
-                    <h5 className="font-medium text-lg mt-4 mb-2">Class Time Tables</h5>
-                    <div className="mb-2">
-                      <span>Master Timetable_A.Y for Sem-II 2022-23</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/aiml/AI%20_ML_Master%20Time%20Table_2022-23_%20II%20SEM%20_AIML.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </div>
-                    <div className="mb-2">
-                      <span>Master Timetable_A.Y for Sem-I 2022-23</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/aiml/AIM_Master%20Time%20Table_A.Y%202022-23_%20I%20SEM.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </div>
-                  </div>
-                </details>
-
-                <details className="border border-gray-300 rounded-lg mb-4">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    Seminar Halls
-                  </summary>
-                  <div className="p-4">
-                    <div className="mb-2">
-                      <span>Seminar halls with ICT Enabled Facilities</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/CSE_Seminar%20Halls.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View
-                      </a>
-                    </div>
-                  </div>
-                </details>
-
-                <details className="border border-gray-300 rounded-lg mb-4">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    Laboratories
-                  </summary>
-                  <div className="p-4">
-                    <p className="text-gray-700 leading-relaxed mb-4">
-                      The Department has well equipped labs with the latest
-                      Configuration. Total 9 Computer Labs for UG, PG and one
-                      research lab consisting a total of 674 systems. The various
-                      servers in the server room include Oracle 11g Database Server,
-                      Intranet Server (TOMCAT), NPTEL Video/Web Server, MAT Lab
-                      Server 2012 R2, Red Hat Linux 5.0 Server, Library Automation
-                      Server, A-Mail Server, ECAP Server.
-                    </p>
-                    <p className="text-gray-700 leading-relaxed mb-4">
-                      The college has high-speed internet connectivity throughout
-                      the campus through a leased line from BSNL with 200Mbps,
-                      400Mbps from Jio, and 40 Mbps (Broadband).
-                    </p>
-                    <p className="text-gray-700 leading-relaxed mb-6">
-                      The following Laboratories are available in the department:
-                    </p>
-
-                    <div className="my-6">
-                      <h3 className="text-xl font-semibold text-center mb-4">Linus Torvalds Lab</h3>
-                      <div className="overflow-x-auto mb-6">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b" rowSpan={2}>Linus Torvalds Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model : HP 280PRO G9 Micro Tower<br />
-                                Processor : Intel core TM i3-10100 CPU@3.64 GHZ<br />
-                                8.00 GB RAM, 256.00 GB SSD<br />
-                                System type : x64 – based Processor<br />
-                                Monitor: 19.5" LED Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Mouse<br />
-                              </td>
-                              <td className="py-3 px-4 border-b">70</td>
-                            </tr>
-                            <tr>
-                              <td className="py-3 px-4 border-b">2</td>
-                              <td className="py-3 px-4 border-b">
-                                Model : ACER Vertion Desktop<br />
-                                Processor : Intel® Core™ i5-7400 CPU @ 3.00 GHz<br />
-                                4.00 GB RAM, 1.00 TB HDD<br />
-                                System type : x64 – based Processor<br />
-                                Monitor : 19.5" LED Monitor<br />
-                                Keyboard : Multimedia Keyboard<br />
-                                Mouse : Optical Mouse<br />
-                              </td>
-                              <td className="py-3 px-4 border-b">02</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-
-                      <h3 className="text-xl font-semibold text-center mb-4">Orange Lab</h3>
-                      <div className="overflow-x-auto mb-6">
-                        <table className="min-w-full bg-white border border-gray-200">
-                          <thead className="bg-gray-100">
-                            <tr>
-                              <th className="py-3 px-4 border-b text-left">S.No</th>
-                              <th className="py-3 px-4 border-b text-left">Name of the Lab</th>
-                              <th className="py-3 px-4 border-b text-left">Configuration</th>
-                              <th className="py-3 px-4 border-b text-left">Usage</th>
-                              <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="py-3 px-4 border-b">1</td>
-                              <td className="py-3 px-4 border-b">Orange Lab</td>
-                              <td className="py-3 px-4 border-b">
-                                Model: DELL OPTI PLEX 3070<br />
-                                Processor: Intel Core i3, 9th Gen<br />
-                                8.00 GB RAM, 1 TB Hard Disk<br />
-                                System type: x64 – based Processor<br />
-                                Monitor: 20.5" TFT Monitor<br />
-                                Keyboard: Multimedia Keyboard<br />
-                                Mouse: Optical Scroll Mouse
-                              </td>
-                              <td className="py-3 px-4 border-b">Placements and Training</td>
-                              <td className="py-3 px-4 border-b">72</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
-                        <div className="text-center">
-                          <img
-                            src="/images/departments/cai/Linus Torvalds Lab.jpg"
-                            alt="Linus Torvalds Lab"
-                            className="w-full h-auto object-cover rounded-lg shadow-md"
-                            style={{ aspectRatio: '16/9' }}
-                          />
-                          <h4 className="text-lg font-semibold text-green-600 mt-3">
-                            Linus Torvalds Lab
-                          </h4>
-                        </div>
-
-                        <div className="text-center">
-                          <img
-                            src="/images/departments/cai/Orange Lab.jpg"
-                            alt="Orange Lab"
-                            className="w-full h-auto object-cover rounded-lg shadow-md"
-                            style={{ aspectRatio: '16/9' }}
-                          />
-                          <h4 className="text-lg font-semibold text-green-600 mt-3">
-                            Orange Lab
-                          </h4>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-8">
-                      <h3 className="text-xl font-semibold mb-4">Other Laboratories</h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                        {labs.map((lab, index) => (
-                          lab.name !== "Linus Torvalds Lab" && lab.name !== "Orange Lab" && (
-                            <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow text-center">
-                              <img src={lab.image} alt={lab.name} className="w-full h-48 object-cover rounded-md mb-4" />
-                              <h4 className="font-bold text-lg text-gray-800">{lab.name}</h4>
-                            </div>
-                          )
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </details>
+              <details open className="border border-gray-300 rounded-lg mb-4">
+          <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold">Class Rooms</summary>
+          <div className="p-4">
+            {physicalFacilities?.classrooms?.map(c => (
+              <div key={c.id} className="mb-2">
+                <span>{c.title}</span>
+                <a href={c.document_url} target="_blank" rel="noreferrer"
+                   className="ml-2 text-blue-600 hover:underline inline-flex items-center">
+                  <FileText className="h-5 w-5 mr-1"/> View
+                </a>
               </div>
+            ))}
+
+            <h5 className="font-medium text-lg mt-4 mb-2">Class Time Tables</h5>
+            {physicalFacilities?.timeTables?.map(t => (
+              <div key={t.id} className="mb-2">
+                <span>{t.title}</span>
+                <a href={t.document_url} target="_blank" rel="noreferrer"
+                   className="ml-2 text-blue-600 hover:underline inline-flex items-center">
+                  <FileText className="h-5 w-5 mr-1"/> View
+                </a>
+              </div>
+            ))}
+          </div>
+        </details>
+
+        <details className="border border-gray-300 rounded-lg mb-4">
+          <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold">Seminar Halls</summary>
+          <div className="p-4">
+            {physicalFacilities?.seminarHalls?.map(s => (
+              <div key={s.id} className="mb-2">
+                <span>{s.title}</span>
+                <a href={s.document_url} target="_blank" rel="noreferrer"
+                   className="ml-2 text-blue-600 hover:underline inline-flex items-center">
+                  <FileText className="h-5 w-5 mr-1"/> View
+                </a>
+              </div>
+            ))}
+          </div>
+        </details>
+
+        <details className="border border-gray-300 rounded-lg mb-4">
+          <summary className="bg-gray-100 p-4 cursor-pointer text-lg font-semibold">Laboratories</summary>
+          <div className="p-4">
+            {physicalFacilities?.labs?.map(lab => (
+              <div key={lab.id} className="mb-8">
+                <h3 className="text-xl font-semibold text-center mb-4">{lab.name}</h3>
+                <p className="text-gray-700 mb-2">{lab.configuration}</p>
+                {lab.usage_info && <p className="text-gray-700 mb-2">Usage: {lab.usage_info}</p>}
+                <p className="text-gray-700 mb-4">No. of Systems: {lab.num_systems}</p>
+                <img src={lab.image_url} alt={lab.name}
+                     className="w-full h-auto object-cover rounded-lg shadow-md mb-4"/>
+              </div>
+            ))}
+
+            <h3 className="text-xl font-semibold mb-4">Other Laboratories</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {physicalFacilities?.otherLabs?.map(ol => (
+                <div key={ol.id} className="border rounded-lg p-4 text-center hover:shadow-md">
+                  <img src={ol.image_url} alt={ol.name} className="w-full h-48 object-cover rounded-md mb-4"/>
+                  <h4 className="font-bold text-lg text-gray-800">{ol.name}</h4>
+                </div>
+              ))}
             </div>
           </div>
+        </details>
+              </div>
+            </div>
         );
       case 'Syllabus':
         return (
@@ -1294,7 +1180,7 @@ React.useEffect(() => {
               <div className="space-y-4">
                 <div className="bg-gray-50 p-6 rounded-lg">
                   <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Loshma</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of the Department</p>
+                  <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
                   <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
                   <p className="text-gray-600">Fax No: 08818-284322</p>
                   <p className="text-gray-600">Email: <a href="mailto:hod_aim@srivasaviengg.ac.in" className="text-primary hover:underline">hod_aim@srivasaviengg.ac.in</a></p>
@@ -1480,38 +1366,42 @@ React.useEffect(() => {
           </div>
         );
       default:
-        return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center animate-fade-in"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} will be updated soon.</h3></div>;
+        return (
+          <div className="space-y-8 animate-fade-in">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
+                {sidebarItems.find(item => item.id === activeContent)?.label || 'Department'}
+              </h2>
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} will be updated soon.</h3>
+              </div>
+            </div>
+          </div>
+        );
     }
+  };
+  
+  // Modify content output to match the screenshot design
+  const renderContentWithTitle = () => {
+    // Just return the content without adding another title, since it's already included in content sections
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
+      </div>
+    );
   };
 
   return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Artificial Intelligence & Machine Learning</h1>
-          </div>
-        </div>
-      </section>
-
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="AI & ML Department"
-        buttonLabel="Department Menu"
+        title="Artificial Intelligence & Machine Learning Department"
       >
-        {/* Main Content */}
-        <div className="py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            {renderContent()}
-          </div>
-        </div>
-      </FixedSidebar>
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
 };

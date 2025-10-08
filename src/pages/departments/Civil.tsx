@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Building, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Library, Link as LinkIcon } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 import { LogoLoader } from '@/components/ui/LogoLoader';
 import { useOptimizedTabLoader } from '@/hooks/useOptimizedTabLoader';
 
@@ -213,7 +213,7 @@ const CivilDepartment: React.FC = () => {
               <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
               <p className="text-gray-700 leading-relaxed mb-4 text-justify">
                 The Department of Civil Engineering was established in the
-                year 2011 with a vision to strive towards quality education,
+                year 2001 with a vision to strive towards quality education,
                 research and consultancy. Civil Engineering is one of the
                 oldest and broadest engineering discipline which has been an
                 aspect of life, since the beginning of human civilization.
@@ -229,7 +229,10 @@ const CivilDepartment: React.FC = () => {
                 students. Department comprises well qualified and proficient
                 faculty to direct the students in reaching their goals.
               </p>
+            </div>
 
+            {/* Courses Offered Section */}
+            <div className="mb-10">
               <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-700 mb-4">
@@ -366,7 +369,7 @@ const CivilDepartment: React.FC = () => {
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                   <div className="bg-white rounded-lg shadow border">
-                    <div className="bg-[#850209] text-white rounded-t-lg py-2">
+                    <div className="bg-[#B22222] text-white rounded-t-lg py-2">
                       <h5 className="mb-0 text-center text-lg font-semibold">No. of Titles</h5>
                     </div>
                     <div className="py-4">
@@ -408,7 +411,7 @@ const CivilDepartment: React.FC = () => {
       case 'Placements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Placements
             </h2>
 
@@ -444,7 +447,7 @@ const CivilDepartment: React.FC = () => {
       case 'Student Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Student Achievements
             </h2>
             <div className="space-y-8">
@@ -483,7 +486,7 @@ const CivilDepartment: React.FC = () => {
       case 'Faculty Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Faculty Achievements</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
             <div className="space-y-8">
               <details open>
                 <summary className="font-semibold text-lg mb-2">Conferences</summary>
@@ -575,7 +578,7 @@ const CivilDepartment: React.FC = () => {
       case 'Department Library':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">LIBRARY</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">LIBRARY</h2>
             <div className="flex flex-col md:flex-row items-center justify-center gap-8">
               {/* Image on the left */}
               <div className="md:w-1/2 flex justify-center">
@@ -596,7 +599,7 @@ const CivilDepartment: React.FC = () => {
             {/* Table below the image and paragraph content */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
               <div className="bg-white rounded-lg shadow border">
-                <div className="bg-[#850209] text-white rounded-t-lg py-2">
+                <div className="bg-[#B22222] text-white rounded-t-lg py-2">
                   <h5 className="mb-0 text-center text-lg font-semibold">No. of Titles</h5>
                 </div>
                 <div className="py-4">
@@ -622,13 +625,13 @@ const CivilDepartment: React.FC = () => {
       case 'R&D':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">R&amp;D</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">R&amp;D</h2>
             <div className="space-y-6">
               {/* Dynamic R&D Activities */}
               {Object.keys(researchDevelopment).length > 0 ? (
                 Object.entries(researchDevelopment).map(([activityType, activities]: [string, any]) => (
                   <div key={activityType}>
-                    <h3 className="text-xl font-semibold text-[#850209] mb-4">{activityType}</h3>
+                    <h3 className="text-xl font-semibold text-[#B22222] mb-4">{activityType}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {activities.map((activity: any, index: number) => (
                         <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
@@ -664,7 +667,7 @@ const CivilDepartment: React.FC = () => {
                               href={activity.document_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-block mt-2 text-[#850209] hover:underline"
+                              className="inline-block mt-2 text-[#B22222] hover:underline"
                             >
                               View Document
                             </a>
@@ -685,239 +688,140 @@ const CivilDepartment: React.FC = () => {
         );
       case 'Department Profile':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in relative">
-            {/* Logo Loader Overlay */}
-            {getLoaderProps().show && (
-              <div {...getLoaderProps()}>
-                <LogoLoader 
-                  size="md"
-                  showText={true}
-                  text="Loading section..."
-                  duration={1.0}
-                />
-              </div>
-            )}
-            
-            {/* Desktop Navigation Tabs */}
-            <div className="hidden md:block relative mb-8">
-              <div className="flex flex-wrap justify-center gap-2 mb-6">
-                {sections.map((section) => {
-                  const buttonProps = getTabButtonProps(section);
-                  return (
-                    <button
-                      key={section}
-                      {...buttonProps}
-                      onClick={() => switchDeptTab(section)}
-                      className={`px-4 py-2 rounded-lg font-medium relative ${activeDeptTab === section
-                        ? 'bg-[#B22222] text-white shadow-lg'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        } ${isTransitioning ? 'opacity-50 cursor-not-allowed' : ''}`}
-                      style={{
-                        transition: 'all 0.1s ease-out',
-                        transform: 'translateZ(0)'
-                      }}
-                    >
-                      {section === 'SalientFeatures' ? 'Salient Features' : section}
-                      {/* Small loader for transitioning section */}
-                      {isTransitioning && activeDeptTab === section && (
-                        <div className="absolute -top-1 -right-1 w-3 h-3">
-                          <LogoLoader size="sm" showText={false} duration={0.8} />
-                        </div>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Row 2: Mission, PEOs, POs */}
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => switchDeptTab('Mission')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Mission
-                </button>
-                <button
-                  onClick={() => switchDeptTab('PEOs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  PEOs
-                </button>
-                <button
-                  onClick={() => switchDeptTab('POs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  POs
-                </button>
-              </div>
-
-              {/* Row 3: PSOs, COs */}
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => switchDeptTab('PSOs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  PSOs
-                </button>
-                <button
-                  onClick={() => switchDeptTab('COs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  COs
-                </button>
-              </div>
-
-              {/* Row 4: Salient Features (centered) */}
-              <div className="flex justify-center">
-                <button
-                  onClick={() => switchDeptTab('SalientFeatures')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                    ? 'bg-[#B22222] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Salient Features
-                </button>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            {/* HOD Information Section */}
+            <div className="mb-10">
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div className="relative">
+                  <img
+                    src="/Civilhod.png"
+                    alt="Dr. G. Radhakrishnan"
+                    className="w-full h-80 object-cover rounded-lg shadow-md"
+                  />
+                </div>
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="mb-4">
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. G. Radhakrishnan</h3>
+                    <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
+                    <p className="text-gray-600">Qualification: M.E., Ph.D</p>
+                    <p className="text-gray-600">Email: <a href="mailto:hod_civil@srivasaviengg.ac.in" className="text-primary hover:underline">hod_civil@srivasaviengg.ac.in</a></p>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">
+                    Welcome to the Department of Civil Engineering at Sri Vasavi Engineering College. Our department is committed to providing excellent education in civil engineering while fostering innovation and research. We focus on developing skilled professionals who can contribute to the infrastructure development of our nation. Our experienced faculty and state-of-the-art facilities ensure that our students receive comprehensive training in both theoretical knowledge and practical applications of civil engineering principles.
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Game-Style Right Side Settings Panel */}
-            {settingsPanelOpen && (
-              <div className="fixed inset-0 z-50">
-                {/* Backdrop */}
-                <div
-                  className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
-                  onClick={() => setSettingsPanelOpen(false)}
-                ></div>
+            {/* Department Profile Navigation */}
+            <div className="mt-12">
+              <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Department Profile</h3>
 
-                {/* Settings Panel */}
-                <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
-                  {/* Panel Header */}
-                  <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] p-4 border-b border-gray-700">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <h3 className="text-white font-bold text-lg">Department Navigation</h3>
-                          <p className="text-white/70 text-sm">Select a section to explore</p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => setSettingsPanelOpen(false)}
-                        className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
-                      >
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
+              {/* Desktop Navigation - Single Line */}
+              <div className="hidden md:flex justify-center gap-2 mb-8 flex-wrap">
+                {sections.map((section) => (
+                  <button
+                    key={section}
+                    onClick={() => switchDeptTab(section)}
+                    className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === section
+                      ? 'bg-[#B22222] text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    {section === 'SalientFeatures' ? 'Salient Features' : section}
+                  </button>
+                ))}
+              </div>
 
-                  {/* Panel Content */}
-                  <div className="p-6 h-full overflow-y-auto">
-                    <div className="space-y-3">
-                      {sections.map((section, index) => {
-                        const isActive = section === activeDeptTab;
-                        return (
-                          <button
-                            key={section}
-                            onClick={() => {
-                              switchDeptTab(section);
-                              setSettingsPanelOpen(false);
-                            }}
-                            className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                              ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
-                              : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
-                              }`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
-                                }`}>
-                                {index + 1}
-                              </div>
-                              <div>
-                                <div className="font-semibold">
-                                  {section === 'SalientFeatures' ? 'Salient Features' : section}
-                                </div>
-                                <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
-                                  {section === 'Department' && 'Overview & HOD Profile'}
-                                  {section === 'Vision' && 'Department Vision Statement'}
-                                  {section === 'Mission' && 'Department Mission Statement'}
-                                  {section === 'PEOs' && 'Program Educational Objectives'}
-                                  {section === 'POs' && 'Program Outcomes'}
-                                  {section === 'PSOs' && 'Program Specific Outcomes'}
-                                  {section === 'COs' && 'Course Outcomes'}
-                                  {section === 'SalientFeatures' && 'Key Highlights & Features'}
-                                </div>
-                              </div>
-                              {isActive && (
-                                <div className="ml-auto">
-                                  <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                                </div>
-                              )}
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Panel Footer */}
-                    <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
-                      <div className="text-center">
-                        <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
-                        <div className="text-white/50 text-xs">
-                          Click any section above to navigate instantly
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              {/* Mobile Navigation - Grid Layout */}
+              <div className="md:hidden mb-8">
+                <div className="grid grid-cols-2 gap-2 mb-3">
+                  <button
+                    onClick={() => switchDeptTab('Department')}
+                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'Department'
+                      ? 'bg-[#B22222] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    Department
+                  </button>
+                  <button
+                    onClick={() => switchDeptTab('Vision')}
+                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'Vision'
+                      ? 'bg-[#B22222] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    Vision
+                  </button>
+                </div>
+                <div className="grid grid-cols-3 gap-2 mb-3">
+                  <button
+                    onClick={() => switchDeptTab('Mission')}
+                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'Mission'
+                      ? 'bg-[#B22222] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    Mission
+                  </button>
+                  <button
+                    onClick={() => switchDeptTab('PEOs')}
+                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'PEOs'
+                      ? 'bg-[#B22222] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    PEOs
+                  </button>
+                  <button
+                    onClick={() => switchDeptTab('POs')}
+                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'POs'
+                      ? 'bg-[#B22222] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    POs
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 gap-2 mb-3">
+                  <button
+                    onClick={() => switchDeptTab('PSOs')}
+                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'PSOs'
+                      ? 'bg-[#B22222] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    PSOs
+                  </button>
+                  <button
+                    onClick={() => switchDeptTab('COs')}
+                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'COs'
+                      ? 'bg-[#B22222] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    COs
+                  </button>
+                </div>
+                <div className="grid grid-cols-1">
+                  <button
+                    onClick={() => switchDeptTab('SalientFeatures')}
+                    className={`px-3 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
+                      ? 'bg-[#B22222] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                  >
+                    Salient Features
+                  </button>
                 </div>
               </div>
-            )}
 
-            {/* Floating Settings Button - Mobile Only */}
-            <button
-              onClick={() => setSettingsPanelOpen(true)}
-              className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-              title="Department Navigation"
-            >
-              <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-
-              {/* Mobile Label */}
-              <div className="absolute bottom-14 right-0 bg-gray-900 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                Menu
-                <div className="absolute top-full right-2 w-0 h-0 border-t-4 border-t-gray-900 border-l-2 border-r-2 border-l-transparent border-r-transparent"></div>
+              {/* Tab Content */}
+              <div className="mt-6">
+                {renderDeptTabContent()}
               </div>
-            </button>
-
-            {/* Tab Content */}
-            <div 
-              {...getContentProps(activeDeptTab)}
-              className={`mt-6 ${getContentProps(activeDeptTab).className}`}
-            >
-              {renderDeptTabContent()}
             </div>
           </div>
         );
@@ -1130,7 +1034,7 @@ const CivilDepartment: React.FC = () => {
       case "Workshops":
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Workshops
             </h2>
 
@@ -1162,7 +1066,7 @@ const CivilDepartment: React.FC = () => {
       case 'Technical Association':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Technical Association</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Association</h2>
             <div className="space-y-8">
               <p className="text-lg mb-4">
                 In this institution, INSTITUTION OF ENGINEERING (INDIA) students' chapter was opened in Civil Engineering Department in the year 2017 with 117 student members. It is promoting co-operation amongst students and faculty for advancement and dissemination of knowledge in the field of Civil Engineering. The IE students' chapter committee constitutes the following members:
@@ -1209,7 +1113,7 @@ const CivilDepartment: React.FC = () => {
 
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Newsletters
             </h2>
             <div className="space-y-6">
@@ -1239,7 +1143,7 @@ const CivilDepartment: React.FC = () => {
               )}
             </div>
 
-            <h2 className="text-3xl font-bold text-[#850209] mt-12 mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mt-12 mb-6 text-center">
               Technical Magazines
             </h2>
             <div className="space-y-6">
@@ -1268,7 +1172,7 @@ const CivilDepartment: React.FC = () => {
 
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Extra-Curricular Activities
             </h2>
             <div className="space-y-6">
@@ -1288,7 +1192,7 @@ const CivilDepartment: React.FC = () => {
         case 'Consultancy':
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Consultancy</h2>
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Consultancy</h2>
       <div className="space-y-6">
         {/* Dynamic Consultancy Activities */}
         {consultancyActivities.length > 0 ? (
@@ -1324,7 +1228,7 @@ const CivilDepartment: React.FC = () => {
                     href={consultancy.document_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block mt-2 text-[#850209] hover:underline"
+                    className="inline-block mt-2 text-[#B22222] hover:underline"
                   >
                     View Document
                   </a>
@@ -1454,7 +1358,7 @@ const CivilDepartment: React.FC = () => {
       case 'Syllabus':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">
               Syllabus
             </h2>
             <div className="space-y-8">
@@ -1492,34 +1396,26 @@ const CivilDepartment: React.FC = () => {
   };
 
 
-  return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Civil Engineering</h1>
-          </div>
-        </div>
-      </section>
+  const renderContentWithTitle = () => {
+    // Just return the content without adding another title, since it's already included in content sections
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
+      </div>
+    );
+  };
 
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
+  return (
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="Civil Department"
-        buttonLabel="Department Menu"
+        title="Civil Engineering Department"
       >
-        {/* Main Content */}
-        <div className="py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            {renderContent()}
-          </div>
-        </div>
-      </FixedSidebar>
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
 };

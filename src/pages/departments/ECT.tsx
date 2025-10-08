@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Radio, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon, Settings } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
 const ECTDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -269,7 +269,7 @@ const ECTDepartment: React.FC = () => {
       case 'Faculty Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Faculty Achievements</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Achievements</h2>
             {/* Journal Publications */}
             <div className="mb-6">
               <details>
@@ -684,7 +684,7 @@ const ECTDepartment: React.FC = () => {
       case 'Placements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Placements</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Placements</h2>
             <div className="space-y-4">
               {[{
                 year: '2022-23',
@@ -722,7 +722,7 @@ const ECTDepartment: React.FC = () => {
                       href={placement.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] text-lg font-semibold hover:underline"
+                      className="text-[#B22222] text-lg font-semibold hover:underline"
                     >
                       View
                     </a>
@@ -735,7 +735,7 @@ const ECTDepartment: React.FC = () => {
       case 'Merit Scholarship/Academic Toppers':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Merit Scholarships and Academic Toppers</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Merit Scholarships and Academic Toppers</h2>
             <div className="mb-8">
               <details className="mb-6">
                 <summary className="text-xl font-semibold cursor-pointer">Merit Scholarships Year Wise</summary>
@@ -803,7 +803,7 @@ const ECTDepartment: React.FC = () => {
       case 'Technical Association':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Technical Association</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Technical Association</h2>
             <div className="mb-8">
               <details className="mb-6">
                 <summary className="text-xl font-semibold cursor-pointer">Celebrations Under Veda</summary>
@@ -898,7 +898,7 @@ const ECTDepartment: React.FC = () => {
       case 'Newsletters':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Newsletters</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Newsletters</h2>
             <div className="space-y-4">
               {[{
                 title: 'News Letter Volume10 Issue1 2023-24',
@@ -987,7 +987,7 @@ const ECTDepartment: React.FC = () => {
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] text-lg font-semibold hover:underline"
+                      className="text-[#B22222] text-lg font-semibold hover:underline"
                     >
                       View
                     </a>
@@ -1000,12 +1000,12 @@ const ECTDepartment: React.FC = () => {
       case 'Faculty Innovations in Teaching & Learning':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Faculty Innovations in Teaching & Learning</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Innovations in Teaching & Learning</h2>
             <div className="space-y-4">
               <details className="border rounded-md">
                 <summary className="font-semibold px-4 py-2 cursor-pointer">Faculty Innovations in Teaching & Learning</summary>
                 <div className="p-4">
-                  <h3 className="text-xl text-center text-[#850209] font-semibold mb-2">e-Resources</h3>
+                  <h3 className="text-xl text-center text-[#B22222] font-semibold mb-2">e-Resources</h3>
                   <p>
                     Activities of the department towards improvement in teaching-learning are indicated in the office records as well as on college website. They are open for reproduction or for further improvement or for review or critique..
                   </p>
@@ -1077,12 +1077,12 @@ const ECTDepartment: React.FC = () => {
               <details className="border rounded-md">
                 <summary className="font-semibold px-4 py-2 cursor-pointer">Question Banks</summary>
                 <div className="p-4">
-                  <h3 className="text-xl text-center text-[#850209] font-semibold mb-2">R16</h3>
+                  <h3 className="text-xl text-center text-[#B22222] font-semibold mb-2">R16</h3>
                   <ul className="list-disc pl-6 space-y-1">
                     <li>EDC- <a href="https://srivasaviengg.ac.in/uploads/ece/questionbank/EDC.pdf" className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">View More</a></li>
                     <li>Signals and Systems - <a href="https://srivasaviengg.ac.in/uploads/ece/questionbank/Signals%20and%20Systems.pdf" className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">View More</a></li>
                   </ul>
-                  <h3 className="text-xl text-center text-[#850209] font-semibold mt-4 mb-2">R13</h3>
+                  <h3 className="text-xl text-center text-[#B22222] font-semibold mt-4 mb-2">R13</h3>
                   <ul className="list-disc pl-6 space-y-1">
                     <li>BME- <a href="https://srivasaviengg.ac.in/uploads/ece/questionbank/BME.pdf" className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">View More</a></li>
                     <li>Digital Communication - <a href="https://srivasaviengg.ac.in/uploads/ece/questionbank/Digital%20Communication.pdf" className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">View More</a></li>
@@ -1103,7 +1103,7 @@ const ECTDepartment: React.FC = () => {
       case 'Handbooks':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Academic HandBooks</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Academic HandBooks</h2>
             <div className="space-y-6">
               <details className="border rounded-lg">
                 <summary className="font-semibold text-lg px-4 py-2 cursor-pointer">Academic year 2020-21</summary>
@@ -1112,7 +1112,7 @@ const ECTDepartment: React.FC = () => {
                     III-Sem 2020-21 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/ece_Academic%20Handbook%20III%20Sem%202020-21.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1123,7 +1123,7 @@ const ECTDepartment: React.FC = () => {
                     IV B.Tech I-sem 2020-21 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/ece_Academic%20Handbook%20IV%20B.Tech%20I%20Sem%202020-21.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1139,7 +1139,7 @@ const ECTDepartment: React.FC = () => {
                     II-B.Tech II-Sem V18(Autonomous) 2019-20 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/II%20B.%20Tech%20II%20Sem%20(%20Autonomous)%20%20Hand%20book%202019-20.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1150,7 +1150,7 @@ const ECTDepartment: React.FC = () => {
                     III-B.Tech II-Sem R16 2019-20 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/III%20B.%20Tech%20II%20Sem%20Hand%20book%202019-20.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1161,7 +1161,7 @@ const ECTDepartment: React.FC = () => {
                     IV-B.Tech II-Sem R16 2019-20 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/IV%20B.%20Tech%20II%20Sem%20Hand%20Book%20%202019-20.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1172,7 +1172,7 @@ const ECTDepartment: React.FC = () => {
                     II-B.Tech I-Sem V18(Autonomous) 2019-20 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/II%20B.%20Tech%20I%20Sem%202019-20.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1183,7 +1183,7 @@ const ECTDepartment: React.FC = () => {
                     III-B.Tech I-Sem R16 2019-20 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/III%20B.%20Tech%20I%20Sem%202019-20.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1194,7 +1194,7 @@ const ECTDepartment: React.FC = () => {
                     IV-B.Tech I-Sem R16 2019-20 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/IV%20B.%20Tech%20I%20Sem%202019-20.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1210,7 +1210,7 @@ const ECTDepartment: React.FC = () => {
                     II-B.Tech II-Sem 2018-19 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/II%20B.%20Tech%20II%20Sem%202018-19.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1221,7 +1221,7 @@ const ECTDepartment: React.FC = () => {
                     III-B.Tech II-Sem 2018-19 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/III%20B.%20Tech%20II%20Sem%202018-19.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1232,7 +1232,7 @@ const ECTDepartment: React.FC = () => {
                     IV-B.Tech II-Sem 2018-19 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/IV%20B.%20Tech%20II%20Sem%202018-19.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1245,7 +1245,7 @@ const ECTDepartment: React.FC = () => {
                     II-B.Tech I-Sem 2018-19 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/II%20B.%20Tech%20Ist%20Sem%202018-19.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1256,7 +1256,7 @@ const ECTDepartment: React.FC = () => {
                     III-B.Tech I-Sem 2018-19 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/III%20B.%20Tech%20Ist%20Sem%202018-19.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1267,7 +1267,7 @@ const ECTDepartment: React.FC = () => {
                     IV-B.Tech I-Sem 2018-19 -{' '}
                     <a
                       href="https://srivasaviengg.ac.in/uploads/ece/handbooks/IV%20B.%20Tech%20Ist%20Sem%202018-19.pdf"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -1282,7 +1282,7 @@ const ECTDepartment: React.FC = () => {
       case 'Training Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Training Activities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Training Activities</h2>
             <div className="space-y-6">
               <details className="border rounded-lg">
                 <summary className="text-lg font-semibold cursor-pointer px-4 py-2">List of Training Activities conducted in 2022-23</summary>
@@ -1292,7 +1292,7 @@ const ECTDepartment: React.FC = () => {
                     href="https://srivasaviengg.ac.in/uploads/ece/training%20Activities%20in%202022-23.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] text-lg font-semibold hover:underline"
+                    className="text-[#B22222] text-lg font-semibold hover:underline"
                   >
                     View
                   </a>
@@ -1306,7 +1306,7 @@ const ECTDepartment: React.FC = () => {
                     href="https://srivasaviengg.ac.in/uploads/ece/Traning%20Activities%20during%20A.Y.2021-2022.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] text-lg font-semibold hover:underline"
+                    className="text-[#B22222] text-lg font-semibold hover:underline"
                   >
                     View
                   </a>
@@ -1320,7 +1320,7 @@ const ECTDepartment: React.FC = () => {
                     href="https://srivasaviengg.ac.in/uploads/ece/Traning%20Activities%20during%20A.Y.%202020-2021%20update.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#850209] text-lg font-semibold hover:underline"
+                    className="text-[#B22222] text-lg font-semibold hover:underline"
                   >
                     View
                   </a>
@@ -1332,7 +1332,7 @@ const ECTDepartment: React.FC = () => {
       case 'Workshops/SOC/Guest Lecturers':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Workshops/SOC/Seminars/Guest Lectures</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Workshops/SOC/Seminars/Guest Lectures</h2>
             {/* Workshops/SOC */}
             <div className="mb-8">
               <details className="mb-6">
@@ -1409,7 +1409,7 @@ const ECTDepartment: React.FC = () => {
       case 'Faculty Development Programs':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Faculty Development Programs</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Development Programs</h2>
             <div className="mb-8">
               <details className="mb-6">
                 <summary className="text-xl font-semibold cursor-pointer">FDP Attended</summary>
@@ -1455,7 +1455,7 @@ const ECTDepartment: React.FC = () => {
       case 'MoUs':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">MoUs</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">MoUs</h2>
             <h3 className="text-xl font-semibold text-center mb-6">A. MOUs with Industries</h3>
             <div className="flex justify-center items-center mb-8">
               <div className="overflow-x-auto w-full">
@@ -1557,7 +1557,7 @@ const ECTDepartment: React.FC = () => {
       case 'Syllabus':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Syllabus</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Syllabus</h2>
             <div className="mb-8">
               <details className="mb-6">
                 <summary className="text-xl font-semibold cursor-pointer">B.Tech </summary>
@@ -1604,7 +1604,7 @@ const ECTDepartment: React.FC = () => {
       case 'Board of Studies':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Board of Studies</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
             <div className="flex justify-center items-center mb-8">
               <div className="overflow-x-auto w-full">
                 <table className="min-w-full border text-sm text-gray-700 bg-white rounded-lg shadow">
@@ -1671,7 +1671,7 @@ const ECTDepartment: React.FC = () => {
               </div>
             </div>
             <div className="mt-8 flex flex-col items-center">
-              <h4 className="text-xl font-semibold text-[#850209] mb-4">Board of Studies Meeting Minutes:</h4>
+              <h4 className="text-xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes:</h4>
               <ul className="list-disc pl-6 space-y-2">
                 <li>
                   Minutes of 7th meeting of Board of Studies, dated on 16.07.2024 -{' '}
@@ -1708,7 +1708,7 @@ const ECTDepartment: React.FC = () => {
       case 'Clubs':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">SPACE CLUB_AICTE-SPICES</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">SPACE CLUB_AICTE-SPICES</h2>
             <div className="mb-10">
               <details className="mb-6">
                 <summary className="text-xl font-semibold cursor-pointer">SPACE CLUB_AICTE-SPICES</summary>
@@ -1725,7 +1725,7 @@ const ECTDepartment: React.FC = () => {
                 </ul>
               </details>
             </div>
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">E- Waste Management Refurbishing club</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">E- Waste Management Refurbishing club</h2>
             <div>
               <details>
                 <summary className="text-xl font-semibold cursor-pointer">E- Waste Management Refurbishing club</summary>
@@ -1740,7 +1740,7 @@ const ECTDepartment: React.FC = () => {
       case 'Extra-Curricular Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Extra-Curricular Activities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Extra-Curricular Activities</h2>
             {/* Extracurricular Activities List */}
             <div className="mb-8">
               <ul className="list-disc pl-6 space-y-2 text-center">
@@ -1772,7 +1772,7 @@ const ECTDepartment: React.FC = () => {
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                     >
                       View More
                     </a>
@@ -1797,7 +1797,7 @@ const ECTDepartment: React.FC = () => {
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                     >
                       View More
                     </a>
@@ -1812,7 +1812,7 @@ const ECTDepartment: React.FC = () => {
                 href="https://srivasaviengg.ac.in/uploads/ece_meritscholarships/Departmental%20Cultural%20Meet2k17.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#850209] font-semibold hover:underline"
+                className="text-[#B22222] font-semibold hover:underline"
               >
                 View More
               </a>
@@ -1840,7 +1840,7 @@ const ECTDepartment: React.FC = () => {
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                     >
                       View More
                     </a>
@@ -1855,7 +1855,7 @@ const ECTDepartment: React.FC = () => {
                 href="https://srivasaviengg.ac.in/uploads/ece_meritscholarships/Blood%20Donation%20Camp3.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#850209] font-semibold hover:underline"
+                className="text-[#B22222] font-semibold hover:underline"
               >
                 View More
               </a>
@@ -1895,7 +1895,7 @@ const ECTDepartment: React.FC = () => {
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#850209] font-semibold hover:underline"
+                      className="text-[#B22222] font-semibold hover:underline"
                     >
                       For more details
                     </a>
@@ -1922,7 +1922,7 @@ const ECTDepartment: React.FC = () => {
               <div className="lg:col-span-2 space-y-4">
                 <div className="mb-4">
                   <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. E.Kusuma Kumari</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, ECT</p>
+                  <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of Department, ECT</p>
                   <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-377)</p>
                   <p className="text-gray-600">Fax No: 08818-284322</p>
                   <p className="text-gray-600">Email: <a href="mailto:hod_ece@srivasaviengg.ac.in" className="text-primary hover:underline">hod_ece@srivasaviengg.ac.in</a></p>
@@ -2038,7 +2038,7 @@ const ECTDepartment: React.FC = () => {
       case 'Faculty Profiles':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Faculty Profiles</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Profiles</h2>
             <div className="mb-8">
               <details open className="mb-6">
                 <summary className="text-xl font-semibold cursor-pointer">Faculty Profile</summary>
@@ -2175,18 +2175,18 @@ const ECTDepartment: React.FC = () => {
       case 'Physical Facilities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Physical Facilities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Physical Facilities</h2>
             <div className="space-y-8">
               {/* Class Rooms & Class Time Tables */}
               <div>
                 <details className="border rounded-lg p-4">
-                  <summary className="font-semibold cursor-pointer text-[#850209]">Class Rooms &amp; Class Time Tables</summary>
+                  <summary className="font-semibold cursor-pointer text-[#B22222]">Class Rooms &amp; Class Time Tables</summary>
                   <div className="mt-4">
                     <h5 className="font-semibold mb-2">Class Rooms</h5>
                     <ul className="list-disc list-inside ml-4">
                       <li>
                         Class Rooms with ICT Enabled Facilities -{' '}
-                        <a href="https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/Class%20Rooms%20Photos.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] underline hover:text-red-700">View</a>
+                        <a href="https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/Class%20Rooms%20Photos.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] underline hover:text-red-700">View</a>
                       </li>
                     </ul>
                   </div>
@@ -2195,27 +2195,27 @@ const ECTDepartment: React.FC = () => {
                     <ul className="list-disc list-inside ml-4">
                       <li>
                         ECE Master Timetable A.Y for II Sem 2022-23 -{' '}
-                        <a href="https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/2022-23%202nd%20SEM%20%20MasterTime%20Tables.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] underline hover:text-red-700">View</a>
+                        <a href="https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/2022-23%202nd%20SEM%20%20MasterTime%20Tables.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] underline hover:text-red-700">View</a>
                       </li>
                       <li>
                         ECE Master Timetable A.Y for I Sem 2022-23 -{' '}
-                        <a href="https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/2022-23%201st%20SEM%20%20MasterTime%20Tables.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] underline hover:text-red-700">View</a>
+                        <a href="https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/2022-23%201st%20SEM%20%20MasterTime%20Tables.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] underline hover:text-red-700">View</a>
                       </li>
                       <li>
                         ECE Master Timetable A.Y for II Sem 2021-22 -{' '}
-                        <a href="https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/2021-22%202nd%20SEM%20%20Master%20Time%20Tables.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] underline hover:text-red-700">View</a>
+                        <a href="https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/2021-22%202nd%20SEM%20%20Master%20Time%20Tables.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] underline hover:text-red-700">View</a>
                       </li>
                       <li>
                         ECE Master Timetable A.Y for I Sem 2021-22 -{' '}
-                        <a href="https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/2021-22%201st%20SEM%20%20MasterTime%20Tables.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] underline hover:text-red-700">View</a>
+                        <a href="https://srivasaviengg.ac.in/uploads/ece/physical%20facilities/2021-22%201st%20SEM%20%20MasterTime%20Tables.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] underline hover:text-red-700">View</a>
                       </li>
                       <li>
                         B.Tech IV Semester Timetable 2020-21 wef(21-03-2022) -{' '}
-                        <a href="https://srivasaviengg.ac.in/uploads/ece/IV%20Semester%20Time%20Table%202020-21wef%2021-03-2022.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] underline hover:text-red-700">View</a>
+                        <a href="https://srivasaviengg.ac.in/uploads/ece/IV%20Semester%20Time%20Table%202020-21wef%2021-03-2022.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] underline hover:text-red-700">View</a>
                       </li>
                       <li>
                         B.Tech VII Semester Timetable A.Y for I 2021-22 wef(04-10-2021) -{' '}
-                        <a href="https://srivasaviengg.ac.in/uploads/ece/VII%20Semester%20Time%20Table%202020-21wef%2004-10-2021.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] underline hover:text-red-700">View</a>
+                        <a href="https://srivasaviengg.ac.in/uploads/ece/VII%20Semester%20Time%20Table%202020-21wef%2004-10-2021.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] underline hover:text-red-700">View</a>
                       </li>
                     </ul>
                   </div>
@@ -2240,11 +2240,11 @@ const ECTDepartment: React.FC = () => {
               {/* Laboratories */}
               <div>
                 <details className="border rounded-lg p-4">
-                  <summary className="font-semibold cursor-pointer text-[#850209]">Laboratories</summary>
+                  <summary className="font-semibold cursor-pointer text-[#B22222]">Laboratories</summary>
                   <div className="mt-4">
                     <h3 className="font-semibold mb-2">Major Equipment Available</h3>
                     <ul className="list-disc list-inside ml-4">
-                      <li>Xilinx University CPLD Boards, Spartan-3E FPGA Boards - <a href="#" className="text-[#850209] underline hover:text-red-700">View</a></li>
+                      <li>Xilinx University CPLD Boards, Spartan-3E FPGA Boards - <a href="#" className="text-[#B22222] underline hover:text-red-700">View</a></li>
                       <li>Embedded System ATMEL ARM 9 Boards, HAWK Boards (ARM 9 &amp; OMAP L138)</li>
                       <li>Analog &amp; Digital Communication Kits</li>
                       <li>Digital Storage Oscilloscopes GDS 1102U</li>
@@ -2293,7 +2293,7 @@ const ECTDepartment: React.FC = () => {
               {/* Department Library */}
               <div>
                 <details className="border rounded-lg p-4">
-                  <summary className="font-semibold cursor-pointer text-[#850209]">Department Library</summary>
+                  <summary className="font-semibold cursor-pointer text-[#B22222]">Department Library</summary>
                   <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <img src="https://srivasaviengg.ac.in/image/ecelibrary/Deprtmnt%20Lib.JPG" alt="Department Library 1" className="rounded-lg shadow-md object-cover w-full h-64" />
                     <img src="https://srivasaviengg.ac.in/image/ecelibrary/Deprtmnt%20Lib1.JPG" alt="Department Library 2" className="rounded-lg shadow-md object-cover w-full h-64" />
@@ -2333,34 +2333,26 @@ const ECTDepartment: React.FC = () => {
     }
   }
 
-  return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Electronics & Communication Technology</h1>
-          </div>
-        </div>
-      </section>
+  const renderContentWithTitle = () => {
+    // Just return the content without adding another title, since it's already included in content sections
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
+      </div>
+    );
+  };
 
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
+  return (
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="ECT Department"
-        buttonLabel="Department Menu"
+        title="Electronics & Computer Engineering Department"
       >
-        {/* Main Content */}
-        <div className="container mx-auto px-4 py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            {renderContent()}
-          </div>
-        </div>
-      </FixedSidebar>
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
 };

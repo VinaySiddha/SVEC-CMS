@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Cog, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Book, Database, User } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 interface Faculty {
   name: string;
   qualification: string;
@@ -424,7 +424,7 @@ const MechanicalDepartment: React.FC = () => {
               <div className="lg:col-span-2 space-y-4">
                 <div className="mb-4">
                   <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. M. V. Ramesh</h3>
-                  <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, Mechanical</p>
+                  <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of Department, Mechanical</p>
                   <p className="text-gray-600">Email: <a href="mailto:hod_mech@srivasaviengg.ac.in" className="text-primary hover:underline">hod_mech@srivasaviengg.ac.in</a></p>
                 </div>
                 <p className="text-gray-700 leading-relaxed">
@@ -477,7 +477,7 @@ const MechanicalDepartment: React.FC = () => {
                   {/* Settings Panel */}
                   <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
                     {/* Panel Header */}
-                    <div className="bg-gradient-to-r from-[#B22222] to-[#8B0000] p-4 border-b border-gray-700">
+                    <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
@@ -514,7 +514,7 @@ const MechanicalDepartment: React.FC = () => {
                                 setSettingsPanelOpen(false);
                               }}
                               className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                  ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg scale-105'
+                                  ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
                                   : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
                                 }`}
                             >
@@ -566,7 +566,7 @@ const MechanicalDepartment: React.FC = () => {
               {/* Floating Settings Button - Mobile Only */}
               <button
                 onClick={() => setSettingsPanelOpen(true)}
-                className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                className="md:hidden fixed right-3 bottom-6 z-40 w-12 h-12 bg-gradient-to-br from-[#B22222] to-[#B22222] text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
                 title="Department Navigation"
               >
                 <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1994,33 +1994,26 @@ const MechanicalDepartment: React.FC = () => {
     }
   }
 
-  return (
-    <div className="pt-24 bg-gray-100">
-      <section className="bg-[#8B1919] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold">Mechanical Engineering</h1>
-          </div>
-        </div>
-      </section>
+  const renderContentWithTitle = () => {
+    // Just return the content without adding another title, since it's already included in content sections
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
+      </div>
+    );
+  };
 
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
+  return (
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="Mechanical Department"
-        buttonLabel="Department Menu" children={undefined}      />
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-          {renderContent()}
-        </div>
-      </div>
+        title="Mechanical Engineering Department"
+      >
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
 };

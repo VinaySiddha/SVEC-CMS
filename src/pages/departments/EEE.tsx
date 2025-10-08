@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, X } from 'lucide-react';
-import FixedSidebar from '../../components/FixedSidebar';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 import { usePublicDepartmentData, type Faculty, type Staff, type BoardOfStudiesMeetingMinute, type SyllabusDocument } from '../../hooks/usePublicDepartmentData';
 
 // Interface for faculty data
@@ -119,7 +119,7 @@ const EEEDepartment: React.FC = () => {
               The Department has been recognized as Research Centre by JNTUK, Kakinada in 2019.
             </p>
 
-            <h4 className="text-xl font-bold text-[#850209] mb-4">Courses Offered</h4>
+            <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-700 mb-4 border border-gray-200 rounded-lg">
                 <thead className="text-xs bg-gray-50 uppercase text-gray-700">
@@ -311,12 +311,9 @@ const EEEDepartment: React.FC = () => {
     switch (activeContent) {
       case 'Department Profile':
         return (
-          <div className="space-y-8">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Department Profile</h2>
-
-            {/* HOD Section */}
+          <div id="department-Overview" className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h3 className="text-2xl font-bold text-[#850209] mb-6 text-center">Head of Department</h3>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                 <div className="relative">
                   <img
@@ -327,116 +324,294 @@ const EEEDepartment: React.FC = () => {
                 </div>
                 <div className="lg:col-span-2 space-y-4">
                   <div className="mb-4">
-                    <h4 className="text-2xl font-bold text-[#850209] mb-2">Dr. D. Sudha Rani</h4>
-                    <p className="text-lg text-[#8B0000] font-medium mb-2">Professor & Head of Department, EEE</p>
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. D. Sudha Rani</h3>
+                    <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
                     <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-376)</p>
                     <p className="text-gray-600">Fax No: 08818-284322</p>
                     <p className="text-gray-600">Email: <a href="mailto:hod_eee@srivasaviengg.ac.in" className="text-primary hover:underline">hod_eee@srivasaviengg.ac.in</a></p>
                   </div>
                   <p className="text-gray-700 leading-relaxed">
-                    Department of Electrical & Electronics Engineering<br/>
-                    Sri Vasavi Engineering College<br/>
-                    Tadepalligudem - 534101<br/>
-                    West Godavari District, Andhra Pradesh
+                    Department of Electrical & Electronics Engineering was established in 1981 with an intake of 40 seats. Later the intake was increased to 60 seats. From 2008-09 onwards the intake was increased to 120 seats. From 2021-22 onwards the intake was increased to 180 seats.
                   </p>
                 </div>
               </div>
-            </div>
 
-            {/* Department Profile Navigation - Grid Layout */}
-            <div className="mb-8 mt-12">
-              {/* Row 1: Department, Vision */}
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => setActiveDeptTab('Department')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
-                    ? 'bg-[#850209] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Department
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('Vision')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
-                    ? 'bg-[#850209] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Vision
-                </button>
+              {/* Department Profile Tab Navigation */}
+              <div className="mt-12">
+                <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
+
+                {/* Department Profile Navigation - Single Row for Desktop, Grid for Mobile */}
+                <div className="mb-8">
+                  {/* Desktop View - Single Row (hidden on mobile) */}
+                  <div className="hidden lg:flex justify-center gap-3 mb-4 flex-wrap">
+                    <button
+                      onClick={() => setActiveDeptTab('Department')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Department'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      Department
+                    </button>
+                    <button
+                      onClick={() => setActiveDeptTab('Vision')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Vision'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      Vision
+                    </button>
+                    <button
+                      onClick={() => setActiveDeptTab('Mission')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Mission'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      Mission
+                    </button>
+                    <button
+                      onClick={() => setActiveDeptTab('PEOs')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'PEOs'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      PEOs
+                    </button>
+                    <button
+                      onClick={() => setActiveDeptTab('POs')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'POs'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      POs
+                    </button>
+                    <button
+                      onClick={() => setActiveDeptTab('PSOs')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'PSOs'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      PSOs
+                    </button>
+                    <button
+                      onClick={() => setActiveDeptTab('COs')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'COs'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      COs
+                    </button>
+                    <button
+                      onClick={() => setActiveDeptTab('SalientFeatures')}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'SalientFeatures'
+                        ? 'bg-[#B22222] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      Salient Features
+                    </button>
+                  </div>
+
+                  {/* Mobile View - Grid Layout (hidden on desktop) */}
+                  <div className="lg:hidden">
+                    {/* Row 1: Department, Vision */}
+                    <div className="flex justify-center gap-4 mb-4">
+                      <button
+                        onClick={() => setActiveDeptTab('Department')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        Department
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('Vision')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        Vision
+                      </button>
+                    </div>
+
+                    {/* Row 2: Mission, PEOs, POs */}
+                    <div className="flex justify-center gap-4 mb-4">
+                      <button
+                        onClick={() => setActiveDeptTab('Mission')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        Mission
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('PEOs')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        PEOs
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('POs')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        POs
+                      </button>
+                    </div>
+
+                    {/* Row 3: PSOs, COs */}
+                    <div className="flex justify-center gap-4 mb-4">
+                      <button
+                        onClick={() => setActiveDeptTab('PSOs')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        PSOs
+                      </button>
+                      <button
+                        onClick={() => setActiveDeptTab('COs')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        COs
+                      </button>
+                    </div>
+
+                    {/* Row 4: Salient Features (centered) */}
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => setActiveDeptTab('SalientFeatures')}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
+                          ? 'bg-[#B22222] text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
+                      >
+                        Salient Features
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Game-Style Right Side Settings Panel */}
+                {settingsPanelOpen && (
+                  <div className="fixed inset-0 z-50">
+                    {/* Backdrop */}
+                    <div
+                      className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+                      onClick={() => setSettingsPanelOpen(false)}
+                    ></div>
+
+                    {/* Settings Panel */}
+                    <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+                      {/* Panel Header */}
+                      <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                              </svg>
+                            </div>
+                            <div>
+                              <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                              <p className="text-white/70 text-sm">Select a section to explore</p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => setSettingsPanelOpen(false)}
+                            className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                          >
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Panel Content */}
+                      <div className="p-6 h-full overflow-y-auto">
+                        <div className="space-y-3">
+                          {sections.map((section, index) => {
+                            const isActive = section === activeDeptTab;
+                            return (
+                              <button
+                                key={section}
+                                onClick={() => {
+                                  setActiveDeptTab(section);
+                                  setSettingsPanelOpen(false);
+                                }}
+                                className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
+                                  ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
+                                  : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                                  }`}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
+                                    }`}>
+                                    {index + 1}
+                                  </div>
+                                  <div>
+                                    <div className="font-semibold">
+                                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                                    </div>
+                                    <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
+                                      {section === 'Department' && 'Overview & HOD Profile'}
+                                      {section === 'Vision' && 'Department Vision Statement'}
+                                      {section === 'Mission' && 'Department Mission Statement'}
+                                      {section === 'PEOs' && 'Program Educational Objectives'}
+                                      {section === 'POs' && 'Program Outcomes'}
+                                      {section === 'PSOs' && 'Program Specific Outcomes'}
+                                      {section === 'COs' && 'Course Outcomes'}
+                                      {section === 'SalientFeatures' && 'Key Highlights & Features'}
+                                    </div>
+                                  </div>
+                                  {isActive && (
+                                    <div className="ml-auto">
+                                      <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                                    </div>
+                                  )}
+                                </div>
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {/* Panel Footer */}
+                        <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
+                          <div className="text-center">
+                            <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
+                            <div className="text-white/50 text-xs">
+                              Click any section above to navigate instantly
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-4">
+                  {renderDeptTabContent()}
+                </div>
               </div>
-
-              {/* Row 2: Mission, PEOs, POs */}
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => setActiveDeptTab('Mission')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                    ? 'bg-[#850209] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Mission
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('PEOs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                    ? 'bg-[#850209] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  PEOs
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('POs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                    ? 'bg-[#850209] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  POs
-                </button>
-              </div>
-
-              {/* Row 3: PSOs, COs */}
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => setActiveDeptTab('PSOs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                    ? 'bg-[#850209] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  PSOs
-                </button>
-                <button
-                  onClick={() => setActiveDeptTab('COs')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                    ? 'bg-[#850209] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  COs
-                </button>
-              </div>
-
-              {/* Row 4: Salient Features (centered) */}
-              <div className="flex justify-center">
-                <button
-                  onClick={() => setActiveDeptTab('SalientFeatures')}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                    ? 'bg-[#850209] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                >
-                  Salient Features
-                </button>
-              </div>
-            </div>
-
-            {/* Content Area */}
-            <div>
-              {renderDeptTabContent()}
             </div>
           </div>
         );
@@ -444,86 +619,86 @@ const EEEDepartment: React.FC = () => {
       case 'Handbooks':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center mt-5 pt-3">Academic HandBooks</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center mt-5 pt-3">Academic HandBooks</h2>
             <div className="space-y-6">
               {/* Academic year 2023-24: I-Sem HandBooks */}
               <details open className="border rounded-lg p-4">
                 <summary className="font-semibold text-lg cursor-pointer">Academic year 2023-24: I-Sem HandBooks</summary>
                 <ul className="py-2 pl-0 list-none">
-                  <li>V-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20Handbook_V20%20Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VII-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20Handbook_V20%20Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>V-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20Handbook_V20%20Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>VII-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20Handbook_V20%20Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
                 </ul>
               </details>
               {/* Academic year 2022-23: II-Sem Handbooks */}
               <details className="border rounded-lg p-4">
                 <summary className="font-semibold text-lg cursor-pointer">Academic year 2022-23: II-Sem Handbooks</summary>
                 <ul className="py-2 pl-0 list-none">
-                  <li>IV-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV%20Sem%20V20%20Regulation%20Handbook_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VI-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VI%20Sem%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VIII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VIII%20Sem%20%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>IV-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV%20Sem%20V20%20Regulation%20Handbook_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>VI-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VI%20Sem%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>VIII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VIII%20Sem%20%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
                 </ul>
               </details>
               {/* Academic year 2022-23: I-Sem Handbooks */}
               <details className="border rounded-lg p-4">
                 <summary className="font-semibold text-lg cursor-pointer">Academic year 2022-23: I-Sem Handbooks</summary>
                 <ul className="py-2 pl-0 list-none">
-                  <li>III-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/III%20SEM%20V20%20Regulation%20Handbook%20(CSE).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>V-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20%20V20%20Regulation%20Handbook%2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook%2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>III-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/III%20SEM%20V20%20Regulation%20Handbook%20(CSE).pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>V-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20%20V20%20Regulation%20Handbook%2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>VII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook%2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
                 </ul>
               </details>
               {/* Academic year 2021-22: II-Sem Handbooks */}
               <details className="border rounded-lg p-4">
                 <summary className="font-semibold text-lg cursor-pointer">Academic year 2021-22: II-Sem Handbooks</summary>
                 <ul className="py-2 pl-0 list-none">
-                  <li>IV-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV%20Semester%20Handbook%20_V20%20Regulation.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VI-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VI%20Semester%20Handbook_22.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VIII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VIII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>IV-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV%20Semester%20Handbook%20_V20%20Regulation.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>VI-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VI%20Semester%20Handbook_22.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>VIII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VIII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
                 </ul>
               </details>
               {/* Academic year 2021-22: I-Sem Handbooks */}
               <details className="border rounded-lg p-4">
                 <summary className="font-semibold text-lg cursor-pointer">Academic year 2021-22: I-Sem Handbooks</summary>
                 <ul className="py-2 pl-0 list-none">
-                  <li>III-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20&%20CST%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>V-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20&%20CST%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>III-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20&%20CST%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>V-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20&%20CST%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>VII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
                 </ul>
               </details>
               {/* Academic year 2020-21: II-Sem Handbooks */}
               <details className="border rounded-lg p-4">
                 <summary className="font-semibold text-lg cursor-pointer">Academic year 2020-21: II-Sem Handbooks</summary>
                 <ul className="py-2 pl-0 list-none">
-                  <li>IV-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Semester%20V18(Autonomous).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>VI-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20VI%20Semester%20V18(Autonomous).pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>IV-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Yr.%20II%20Semester%20R16%20Regulation.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>IV-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Semester%20V18(Autonomous).pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>VI-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20VI%20Semester%20V18(Autonomous).pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>IV-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Yr.%20II%20Semester%20R16%20Regulation.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
                 </ul>
               </details>
               {/* Academic year 2020-21: I-Sem Handbooks */}
               <details className="border rounded-lg p-4">
                 <summary className="font-semibold text-lg cursor-pointer">Academic year 2020-21: I-Sem Handbooks</summary>
                 <ul className="py-2 pl-0 list-none">
-                  <li>III-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_III_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>V-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_V_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>IV-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_IVYr_I_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>III-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_III_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>V-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_V_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>IV-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_IVYr_I_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
                 </ul>
               </details>
               {/* Academic year 2019-20: II-Sem Handbooks */}
               <details className="border rounded-lg p-4">
                 <summary className="font-semibold text-lg cursor-pointer">Academic year 2019-20: II-Sem Handbooks</summary>
                 <ul className="py-2 pl-0 list-none">
-                  <li>IV-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/II-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>III-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/III-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>IV-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>IV-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/II-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>III-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/III-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>IV-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
                 </ul>
               </details>
               {/* Academic year 2019-20: I-Sem Handbooks */}
               <details className="border rounded-lg p-4">
                 <summary className="font-semibold text-lg cursor-pointer">Academic year 2019-20: I-Sem Handbooks</summary>
                 <ul className="py-2 pl-0 list-none">
-                  <li>III-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/II-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>III-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/III-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
-                  <li>IV-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#850209] hover:underline">View</a></li>
+                  <li>III-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/II-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>III-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/III-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
+                  <li>IV-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
                 </ul>
               </details>
             </div>
@@ -555,7 +730,7 @@ const EEEDepartment: React.FC = () => {
                   <div className="text-center mt-4">
                     <button 
                       onClick={() => router.refresh()} 
-                      className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#8B0000] transition-colors"
+                      className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222] transition-colors"
                     >
                       Retry
                     </button>
@@ -644,9 +819,9 @@ const EEEDepartment: React.FC = () => {
         if (loading) {
           return (
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Loading Board of Studies...</h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Loading Board of Studies...</h2>
               <div className="flex justify-center items-center py-8">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#850209]"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B22222]"></div>
               </div>
             </div>
           );
@@ -655,13 +830,13 @@ const EEEDepartment: React.FC = () => {
         if (error) {
           return (
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Board of Studies</h2>
+              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
               <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                 <p className="text-red-700 text-center">{error}</p>
                 <div className="text-center mt-4">
                   <button 
                     onClick={() => router.refresh()} 
-                    className="px-4 py-2 bg-[#850209] text-white rounded hover:bg-[#6B0000] transition-colors"
+                    className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#6B0000] transition-colors"
                   >
                     Retry
                   </button>
@@ -673,7 +848,7 @@ const EEEDepartment: React.FC = () => {
 
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Board of Studies</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
             
             {/* Board of Studies Members Table */}
             <div className="flex justify-center items-center mb-8">
@@ -716,7 +891,7 @@ const EEEDepartment: React.FC = () => {
 
             {/* Meeting Minutes Section */}
             <div className="mt-8 flex flex-col items-center">
-              <h4 className="text-2xl font-semibold text-[#850209] mb-4">Board of Studies Meeting Minutes:</h4>
+              <h4 className="text-2xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes:</h4>
               {boardOfStudiesMeetingMinutes.length === 0 ? (
                 <div className="text-center py-4">
                   <p className="text-gray-500">No meeting minutes available.</p>
@@ -744,7 +919,7 @@ const EEEDepartment: React.FC = () => {
       case 'Labaratories':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Laboratories</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Laboratories</h2>
             <div className="text-lg text-gray-700 mb-6">
               <p className="mb-4">
                 Each lab is established with modern facilities. Each lab is equipped with demo experiments along with the university prescribed experiments. The motors and instruments etc., are opened and exhibited on tables in the laboratories for clear understanding of the students. In Electrical Measurements Lab, Power Electronics Lab and the Networks Lab each student operates on only one set-up independently. In the Power Electronics Lab and Networks Lab each set-up is customized and equipped with an oscilloscope, Ac and regulated Dc power supplies, digital panel meters and bread boards.
@@ -793,7 +968,7 @@ const EEEDepartment: React.FC = () => {
       case 'Department Library':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-6 text-center">Department Library</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Library</h2>
             <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
               <div className="md:w-1/2 flex justify-center">
                 <img src="https://srivasaviengg.ac.in/image/eee%20images/library3.jpg" alt="Faculty Incharge" className="rounded-lg shadow-md w-full max-w-md object-cover mb-4 md:mb-0" />
@@ -806,7 +981,7 @@ const EEEDepartment: React.FC = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
-                <h5 className="text-xl font-semibold text-center text-[#850209] mb-2">No. of Titles</h5>
+                <h5 className="text-xl font-semibold text-center text-[#B22222] mb-2">No. of Titles</h5>
                 <p className="text-2xl text-red-600 font-bold text-center">484</p>
               </div>
               <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
@@ -839,9 +1014,9 @@ const EEEDepartment: React.FC = () => {
       case 'Faculty Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Faculty Achievements</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Achievements</h2>
             <div className="mb-8">
-              <h4 className="text-2xl font-semibold text-[#850209] mb-4">FDPs Attended</h4>
+              <h4 className="text-2xl font-semibold text-[#B22222] mb-4">FDPs Attended</h4>
               <ul className="space-y-3">
                 <li>
                   Faculty attended Workshops/FDPs/Seminars during Academic Year 2022-2023 -{' '}
@@ -866,7 +1041,7 @@ const EEEDepartment: React.FC = () => {
               </ul>
             </div>
             <div className="mb-8">
-              <h4 className="text-2xl font-semibold text-[#850209] mb-4">FDPs conducted</h4>
+              <h4 className="text-2xl font-semibold text-[#B22222] mb-4">FDPs conducted</h4>
               <ul className="space-y-3">
                 <li>
                   Patents Published by Faculty during the Academic Year 2021-2022 -{' '}
@@ -875,7 +1050,7 @@ const EEEDepartment: React.FC = () => {
               </ul>
             </div>
             <div>
-              <h4 className="text-2xl font-semibold text-[#850209] mb-4">NPTEL</h4>
+              <h4 className="text-2xl font-semibold text-[#B22222] mb-4">NPTEL</h4>
               <ul className="space-y-3">
                 <li>
                   Faculty NPTEL Certifications 2021-2022 -{' '}
@@ -900,7 +1075,7 @@ const EEEDepartment: React.FC = () => {
       case 'Research Center':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Research Center</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Research Center</h2>
             
             {loading && <div className="text-center">Loading research centers...</div>}
             {error && <div className="text-center text-red-600">Error loading research centers: {error}</div>}
@@ -910,7 +1085,7 @@ const EEEDepartment: React.FC = () => {
                 {researchCenters.length > 0 ? (
                   researchCenters.map((center: any) => (
                     <div key={center.id} className="border rounded-lg p-6 bg-gray-50">
-                      <h3 className="text-xl font-semibold text-[#850209] mb-3">{center.name}</h3>
+                      <h3 className="text-xl font-semibold text-[#B22222] mb-3">{center.name}</h3>
                       <p className="text-gray-700 mb-3">{center.description}</p>
                       <div className="flex flex-wrap gap-4 text-sm text-gray-600">
                         <span><strong>Focus Area:</strong> {center.focus_area}</span>
@@ -950,10 +1125,10 @@ const EEEDepartment: React.FC = () => {
         );
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Research Center</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Research Center</h2>
             {/* Research Verticles */}
             <details open className="mb-6">
-              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Research Verticles</summary>
+              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Research Verticles</summary>
               <div className="text-center mt-4">
                 <ul className="space-y-8">
                   <li>
@@ -1007,7 +1182,7 @@ const EEEDepartment: React.FC = () => {
 
             {/* Research Supervisor */}
             <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Research Supervisor</summary>
+              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Research Supervisor</summary>
               <div className="overflow-x-auto mt-4">
                 <table className="min-w-full border text-sm text-center">
                   <thead className="bg-gray-100">
@@ -1068,7 +1243,7 @@ const EEEDepartment: React.FC = () => {
 
             {/* Journal Publications */}
             <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Journal Publications</summary>
+              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Journal Publications</summary>
               <div className="text-center mt-4">
                 <ul className="space-y-3">
                   <li>
@@ -1097,7 +1272,7 @@ const EEEDepartment: React.FC = () => {
 
             {/* Conference Publications */}
             <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Conference Publications</summary>
+              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Conference Publications</summary>
               <div className="overflow-x-auto mt-4">
                 <table className="min-w-full border text-sm text-center">
                   <thead className="bg-gray-100">
@@ -1177,7 +1352,7 @@ const EEEDepartment: React.FC = () => {
 
             {/* Patents */}
             <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Patents</summary>
+              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Patents</summary>
               <div className="overflow-x-auto mt-4">
                 <table className="min-w-full border text-sm text-center">
                   <thead className="bg-gray-100">
@@ -1230,7 +1405,7 @@ const EEEDepartment: React.FC = () => {
 
             {/* Book Publications */}
             <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Book Publications</summary>
+              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Book Publications</summary>
               <div className="overflow-x-auto mt-4">
                 <table className="min-w-full border text-sm text-center">
                   <thead className="bg-gray-100">
@@ -1275,7 +1450,7 @@ const EEEDepartment: React.FC = () => {
 
             {/* Career Advancements */}
             <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Career Advancements</summary>
+              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Career Advancements</summary>
               <div className="overflow-x-auto mt-4">
                 <table className="min-w-full border text-sm text-center">
                   <thead className="bg-gray-100">
@@ -1379,7 +1554,7 @@ const EEEDepartment: React.FC = () => {
 
             {/* Interaction with outside the world */}
             <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Interaction with outside the world</summary>
+              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Interaction with outside the world</summary>
               <div className="overflow-x-auto mt-4">
                 <table className="min-w-full border text-sm text-center">
                   <thead className="bg-gray-100">
@@ -1429,7 +1604,7 @@ const EEEDepartment: React.FC = () => {
       case 'Faculty Innovations in T & L':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Faculty Innovations in Teaching & Learning</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Innovations in Teaching & Learning</h2>
             
             {loading && <div className="text-center">Loading faculty innovations...</div>}
             {error && <div className="text-center text-red-600">Error loading faculty innovations: {error}</div>}
@@ -1439,7 +1614,7 @@ const EEEDepartment: React.FC = () => {
                 {facultyInnovations.length > 0 ? (
                   facultyInnovations.map((innovation: any) => (
                     <div key={innovation.id} className="border rounded-lg p-6 bg-gray-50">
-                      <h3 className="text-xl font-semibold text-[#850209] mb-3">{innovation.title}</h3>
+                      <h3 className="text-xl font-semibold text-[#B22222] mb-3">{innovation.title}</h3>
                       <p className="text-gray-700 mb-3">{innovation.description}</p>
                       <div className="flex flex-wrap gap-4 text-sm text-gray-600">
                         <span><strong>Faculty:</strong> {innovation.faculty_name}</span>
@@ -1465,11 +1640,11 @@ const EEEDepartment: React.FC = () => {
       case 'Student Achievements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center mt-5 pt-3">Student Achievements</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center mt-5 pt-3">Student Achievements</h2>
             <div className="space-y-8">
               {/* Student Achievements */}
               <details open>
-                <summary className="text-xl font-semibold text-[#850209] cursor-pointer">Student Achievements</summary>
+                <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Student Achievements</summary>
                 <ul className="list-disc pl-6 mt-3">
                   <li>
                     List of Students Participated/got prizes in Technical -{' '}
@@ -1542,7 +1717,7 @@ const EEEDepartment: React.FC = () => {
                       </tr>
                     </tbody>
                   </table>
-                  <h3 className="text-xl font-bold text-[#850209] mb-4 mt-8">Internships/Certificates/Workshop</h3>
+                  <h3 className="text-xl font-bold text-[#B22222] mb-4 mt-8">Internships/Certificates/Workshop</h3>
                   <table className="min-w-full border text-sm text-center mb-6 table-auto">
                     <thead className="bg-gray-100">
                       <tr>
@@ -1609,53 +1784,53 @@ const EEEDepartment: React.FC = () => {
       case 'Placements':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Placements</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Placements</h2>
             <div className="mb-8">
               <details open className="mb-4">
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2022-23</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2022-23</summary>
                 <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2022-23 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee_place_2022-23.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
                 </li>
               </details>
               <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2021-22</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2021-22</summary>
                 <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2021-22 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee_place_2021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
                 </li>
               </details>
               <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2020-21</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2020-21</summary>
                 <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2020-21 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee_place_2020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
                 </li>
               </details>
               <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2019-20</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2019-20</summary>
                 <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2019-20 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee_place_2019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
                 </li>
               </details>
               <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2018-19</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2018-19</summary>
                 <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2018-19 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee_place_2018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
                 </li>
               </details>
               <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Academic Year 2017-18</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2017-18</summary>
                 <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2017-18 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee_place_2017-18.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
                 </li>
               </details>
               <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Placements during the Years 2013, 2014, 2015, 2016, 2017</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Years 2013, 2014, 2015, 2016, 2017</summary>
                 <li className="py-3 list-none ml-3 text-left">Placements during the Years 2013, 2014, 2015, 2016, 2017 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee_place_2013-17.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
                 </li>
               </details>
             </div>
             <div className="mt-12">
-              <h2 className="text-2xl font-bold text-[#850209] mb-6 text-center">Gallery</h2>
+              <h2 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Gallery</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="col-span-1 flex flex-col items-center">
                   <h3 className="text-primary text-xl font-semibold mb-2">2018-22</h3>
@@ -1682,7 +1857,7 @@ const EEEDepartment: React.FC = () => {
       case 'Technical Association':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Technical Association</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Technical Association</h2>
             <div className="text-lg text-gray-700 space-y-4 mb-8">
               <p>
                 LEE means "SIDE OF SOMETHING THAT IS SHELTERED FROM THE WIND" in a similar way LEE (LEAGUE OF ELECTRICAL ENGINEERS) is an Association that shelters the students from daily academics. Festival is a day to rejoice and is filled with lots of fun and excitement. Especially students feel blessed as they celebrate many festivals not only at their residence but also at college. There is an excitement all over in wearing new dresses and preparing a variety of programs. It is thrilling when there is sharing of love and happiness among the students. They come out of their daily rigmarole and rejuvenate themselves in the springs of LEE.
@@ -1710,10 +1885,10 @@ const EEEDepartment: React.FC = () => {
       case 'Technical Magazines, Handbooks and Course Materials':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Technical Activities and Handbooks</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Technical Activities and Handbooks</h2>
             <div className="space-y-6">
               <details open className="mb-4">
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Technical Magazines</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Technical Magazines</summary>
                 <ul className="list-none py-2 mb-0 space-y-2">
                   <li>
                     ELECTRIFY Volume 1 Issue 2 August 2022 -{' '}
@@ -1726,7 +1901,7 @@ const EEEDepartment: React.FC = () => {
                 </ul>
               </details>
               <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Academic HandBooks</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Academic HandBooks</summary>
                 <ul className="list-none py-2 mb-0 space-y-2">
                   <li>
                     Academic Hand Books II-II SEM -{' '}
@@ -1743,7 +1918,7 @@ const EEEDepartment: React.FC = () => {
                 </ul>
               </details>
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Course Materials</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Course Materials</summary>
                 <ul className="list-none py-2 mb-0 space-y-2">
                   <li>
                     Course Materials -{' '}
@@ -1757,52 +1932,52 @@ const EEEDepartment: React.FC = () => {
       case 'Newsletters':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Newsletters</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Newsletters</h2>
             <div className="space-y-4">
               <details open>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume10 Issue1 2022</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume10 Issue1 2022</summary>
                 <li className="py-2 text-left list-none">News Letter Volume10 Issue1 2022 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-10_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
                 </li>
               </details>
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume9 Issue1 2018</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume9 Issue1 2018</summary>
                 <li className="py-2 text-left list-none">News Letter Volume9 Issue1 2018 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-9_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
                 </li>
               </details>
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume8 Issue1 2018</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume8 Issue1 2018</summary>
                 <li className="py-2 text-left list-none">News Letter Volume8 Issue1 2018 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-8_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
                 </li>
               </details>
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume8 Issue2 2017</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume8 Issue2 2017</summary>
                 <li className="py-2 text-left list-none">News Letter Volume8 Issue2 2017 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-8_ISSUE-2.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
                 </li>
               </details>
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume7 Issue1 2016</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume7 Issue1 2016</summary>
                 <li className="py-2 text-left list-none">News Letter Volume7 Issue1 2016 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-7_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
                 </li>
               </details>
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume7 Issue2 2016</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume7 Issue2 2016</summary>
                 <li className="py-2 text-left list-none">News Letter Volume7 Issue2 2016 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-7_ISSUE-2.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
                 </li>
               </details>
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume6 Issue1 2015</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume6 Issue1 2015</summary>
                 <li className="py-2 text-left list-none">News Letter Volume6 Issue1 2015 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/VOLUME-6_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
                 </li>
               </details>
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">News Letter Volume6 Issue2 2015</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume6 Issue2 2015</summary>
                 <li className="py-2 text-left list-none">News Letter Volume6 Issue2 2015 -{' '}
                   <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/VOLUME-6_ISSUE-2.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
                 </li>
@@ -1813,7 +1988,7 @@ const EEEDepartment: React.FC = () => {
       case 'Product Development':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Product Development</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Product Development</h2>
             <div className="mb-8">
               <h3 className="text-xl font-semibold mb-4">The following are the list of products which were successfully developed by our students.</h3>
               <ul className="list-disc pl-8 space-y-2 text-lg">
@@ -1847,18 +2022,18 @@ const EEEDepartment: React.FC = () => {
       case 'Departmental Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Departmental Activities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Departmental Activities</h2>
             <div className="space-y-8">
               <details open>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Green Initiative</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Green Initiative</summary>
                 <div className="mb-5">
                   <div className="container mx-auto">
                     <div className="flex flex-col items-center justify-center mb-8">
-                      <h3 className="text-2xl font-bold text-[#850209] mb-4 text-center">As a part of green initiative college installed 500KWp solar plant in the campus.</h3>
+                      <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">As a part of green initiative college installed 500KWp solar plant in the campus.</h3>
                       <div className="w-full flex justify-center mb-4">
                         <img src="https://srivasaviengg.ac.in/image/eee%20images/green_graph.jpg" alt="Image 1" className="rounded-lg shadow-md w-full max-w-lg aspect-video object-cover" />
                       </div>
-                      <h3 className="text-2xl font-bold text-[#850209] mb-4 text-center">Inauguration of 200kWp Solar Power Plant on 11.11.2016.</h3>
+                      <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">Inauguration of 200kWp Solar Power Plant on 11.11.2016.</h3>
                       <div className="flex flex-col md:flex-row justify-center items-center gap-6">
                         <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg" alt="Image 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
                         <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg" alt="Image 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
@@ -1868,7 +2043,7 @@ const EEEDepartment: React.FC = () => {
                 </div>
               </details>
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Product Development</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Product Development</summary>
                 <div className="mb-5">
                   <p className="mb-4">The following are the list of products which were successfully developed by our students.</p>
                   <ul className="list-disc pl-8 space-y-2 text-lg mb-6">
@@ -1898,18 +2073,18 @@ const EEEDepartment: React.FC = () => {
       case 'Green Initiative':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Departmental Activities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Departmental Activities</h2>
             <div className="space-y-8">
               <details open>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Green Initiative</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Green Initiative</summary>
                 <div className="mb-5">
                   <div className="container mx-auto">
                     <div className="flex flex-col items-center justify-center mb-8">
-                      <h3 className="text-2xl font-bold text-[#850209] mb-4 text-center">As a part of green initiative college installed 500KWp solar plant in the campus.</h3>
+                      <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">As a part of green initiative college installed 500KWp solar plant in the campus.</h3>
                       <div className="w-full flex justify-center mb-4">
                         <img src="https://srivasaviengg.ac.in/image/eee%20images/green_graph.jpg" alt="Image 1" className="rounded-lg shadow-md w-full max-w-lg aspect-video object-cover" />
                       </div>
-                      <h3 className="text-2xl font-bold text-[#850209] mb-4 text-center">Inauguration of 200kWp Solar Power Plant on 11.11.2016.</h3>
+                      <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">Inauguration of 200kWp Solar Power Plant on 11.11.2016.</h3>
                       <div className="flex flex-col md:flex-row justify-center items-center gap-6">
                         <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg" alt="Image 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
                         <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg" alt="Image 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
@@ -1925,10 +2100,10 @@ const EEEDepartment: React.FC = () => {
       case 'Extra-Curricular Activities':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Extra Curricular Activities</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Extra Curricular Activities</h2>
             <div className="space-y-8">
               <details open>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">Social Service Activities</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Social Service Activities</summary>
                 <ul className="py-2 pl-0">
                   <li className="m-3 text-center list-none">Continuous social service activities are carried out by the students under LEE Association, with the support of the Head of the Department and all the faculty members.</li>
                 </ul>
@@ -1940,7 +2115,7 @@ const EEEDepartment: React.FC = () => {
                 </div>
               </details>
               <details>
-                <summary className="text-lg font-semibold text-[#850209] cursor-pointer">LEE 7th Anniversary Celebrations</summary>
+                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">LEE 7th Anniversary Celebrations</summary>
                 <div className="mb-5 p-5">
                   <p>LEE 7TH anniversary was organised by 2009-2013 batch students on 17th of February 2012. The chief guest for this anniversary is our honourable president SRIGRANDHI.SATYANARAYANA followed by the principal Dr.J.SRI HARI RAO & Chairman of LEE Mr.CH.RAMBABU. It was celebrated in the presence of all the faculty members and students of all years. Prizes are given to all of the winners of various events conducted, and also for the rank holders in previous semesters. Apart from this students give a rocking performance in cultural.</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
@@ -1958,7 +2133,7 @@ const EEEDepartment: React.FC = () => {
       case 'Syllabus':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Syllabus</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Syllabus</h2>
             
             {loading && <div className="text-center">Loading syllabus data...</div>}
             {error && <div className="text-center text-red-600">Error loading syllabus: {error}</div>}
@@ -1986,7 +2161,7 @@ const EEEDepartment: React.FC = () => {
                       }, {})
                     ).map(([groupKey, docs]) => (
                       <div key={groupKey} className="border border-gray-200 rounded-lg p-6">
-                        <h3 className="text-xl font-bold text-[#850209] mb-4">{groupKey} Regulation</h3>
+                        <h3 className="text-xl font-bold text-[#B22222] mb-4">{groupKey} Regulation</h3>
                         <div className="grid gap-4">
                           {docs.map((doc) => (
                             <div key={doc.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
@@ -2006,7 +2181,7 @@ const EEEDepartment: React.FC = () => {
                                   href={doc.document_url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#850209] text-white rounded-lg hover:bg-[#6B0000] transition-colors"
+                                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#B22222] text-white rounded-lg hover:bg-[#6B0000] transition-colors"
                                 >
                                   <Download className="w-4 h-4" />
                                   Download
@@ -2047,12 +2222,12 @@ const EEEDepartment: React.FC = () => {
       case 'Contact':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#850209] mb-8 text-center">Contact Information</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Contact Information</h2>
             
             <div className="space-y-8">
               {/* Department Contact */}
               <div className="border rounded-lg p-6 bg-gray-50">
-                <h3 className="text-xl font-semibold text-[#850209] mb-4">Department Contact</h3>
+                <h3 className="text-xl font-semibold text-[#B22222] mb-4">Department Contact</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <h4 className="font-semibold text-gray-800">Head of Department</h4>
@@ -2073,7 +2248,7 @@ const EEEDepartment: React.FC = () => {
 
               {/* Key Faculty Contacts */}
               <div className="border rounded-lg p-6 bg-gray-50">
-                <h3 className="text-xl font-semibold text-[#850209] mb-4">Key Faculty Contacts</h3>
+                <h3 className="text-xl font-semibold text-[#B22222] mb-4">Key Faculty Contacts</h3>
                 <div className="space-y-4">
                   {faculty.length > 0 ? (
                     faculty.slice(0, 5).map((member, index) => (
@@ -2099,7 +2274,7 @@ const EEEDepartment: React.FC = () => {
 
               {/* Department Library Contact */}
               <div className="border rounded-lg p-6 bg-gray-50">
-                <h3 className="text-xl font-semibold text-[#850209] mb-4">Department Library</h3>
+                <h3 className="text-xl font-semibold text-[#B22222] mb-4">Department Library</h3>
                 <div>
                   <p className="font-medium text-gray-800">Faculty Incharge</p>
                   <p className="text-gray-600">M T V L Ravi Kumar, Asst. Professor</p>
@@ -2118,38 +2293,26 @@ const EEEDepartment: React.FC = () => {
     }
   }
 
+  const renderContentWithTitle = () => {
+    // Just return the content without adding another title, since it's already included in content sections
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px]">
+        {renderContent()}
+      </div>
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Fixed Header Section */}
-      <div className="pt-24">
-        <section className="bg-[#8B1919] text-white py-12">
-          <div className="container mx-auto px-4">
-            <div className="text-center">
-              <h1 className="text-3xl md:text-4xl font-bold">Electrical & Electronics Engineering</h1>
-            </div>
-          </div>
-        </section>
-      </div>
-      
-      {/* Fixed Sidebar Component */}
-      <FixedSidebar
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onClose={() => setSidebarOpen(false)}
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="EEE Department"
-        buttonLabel="Department Menu"
+        title="Electrical & Electronics Engineering Department"
       >
-        {/* Main Content */}
-        <div className="py-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            {renderContent()}
-          </div>
-        </div>
-      </FixedSidebar>
+        {renderContentWithTitle()}
+      </DepartmentSidebar>
+      {/* Footer is only shown when scrolling the main content area, not the sidebar */}
     </div>
   );
 };

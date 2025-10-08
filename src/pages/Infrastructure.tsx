@@ -64,7 +64,7 @@ const Infrastructure: React.FC = () => {
   return (
     <div className="pt-44 bg-[#FFF8F0] text-[#222222]">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#B22222] to-[#8B0000] text-white py-20">
+      <section className="bg-gradient-to-br from-[#B22222] to-[#B22222] text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Infrastructure</h1>
           <p className="text-xl max-w-3xl mx-auto">
@@ -167,7 +167,7 @@ const Infrastructure: React.FC = () => {
                     <Building className="w-16 h-16 mx-auto mb-4" />
                     <h3 className="text-2xl font-bold mb-2">Experience Our Campus</h3>
                     <p className="mb-6">Take a virtual tour of our state-of-the-art facilities</p>
-                    <button className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all">
+                    <button className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#B22222] transition-all">
                       Start Virtual Tour
                     </button>
                   </div>
@@ -230,7 +230,7 @@ const Infrastructure: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white">
+      <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#B22222] text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Visit Our Campus</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
@@ -239,7 +239,7 @@ const Infrastructure: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href="/contact" 
-              className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#8B0000] transition-all"
+              className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#B22222] transition-all"
             >
               Schedule Visit
             </a>
