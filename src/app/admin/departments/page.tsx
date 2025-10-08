@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { apiGet } from '@/lib/api';
 import { 
   Search, 
   Users, 
@@ -51,7 +52,7 @@ export default function DepartmentsPage() {
 
   const fetchDepartments = async () => {
     try {
-      const response = await fetch('/api/admin/modules');
+      const response = await apiGet('/api/admin/modules');
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

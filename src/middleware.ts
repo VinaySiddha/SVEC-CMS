@@ -1,6 +1,23 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verifyToken } from '@/lib/auth/auth';
+import jwt from 'jsonwebtoken';
+
+interface AuthToken {
+  id: number;
+  username: string;
+  department: string;
+  role: 'dept' | 'admin' | 'super_admin';
+  permissions?: string[];
+}
+
+function verifyToken(token: string): AuthToken | null {
+  try {
+    const JWT_SECRET = process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30';
+    return jwt.verify(token, JWT_SECRET) as AuthToken;
+  } catch (error) {
+    return null;
+  }
+}
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -27,7 +44,6 @@ export function middleware(request: NextRequest) {
   // Routes that require authentication
   const protectedRoutes = [
     '/admin',
-    '/departments',
     '/api/admin'
   ];
 
@@ -52,10 +68,10 @@ export function middleware(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    // Department access control
-    if (pathname.startsWith('/departments/')) {
+    // Department admin access control (for authenticated routes only)
+    if (pathname.startsWith('/departments/') && pathname.includes('/dashboard')) {
       const pathParts = pathname.split('/');
-      const requestedDept = pathParts[2]; // /departments/{dept}/...
+      const requestedDept = pathParts[2]; // /departments/{dept}/dashboard...
 
       // Super admin can access all departments
       if (user.role === 'super_admin') {

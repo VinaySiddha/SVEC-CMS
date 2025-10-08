@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { apiGet, apiDelete, apiPost, apiPut } from '@/lib/api';
 import { 
   Search, 
   Plus, 
@@ -920,7 +921,7 @@ export default function SuperAdminDashboard() {
   const loadModuleData = async (tableName: string, page: number = 1) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/admin/tables/${tableName}?page=${page}&limit=50`);
+      const response = await apiGet(`/api/admin/tables/${tableName}?page=${page}&limit=50`);
       if (response.ok) {
         const result = await response.json();
         if (result.success && result.data && result.data.records) {
@@ -987,9 +988,7 @@ export default function SuperAdminDashboard() {
     if (!module) return;
 
     try {
-      const response = await fetch(`/api/admin/tables/${module.table}/${id}`, {
-        method: 'DELETE'
-      });
+      const response = await apiDelete(`/api/admin/tables/${module.table}/${id}`);
       
       if (response.ok) {
         loadModuleData(module.table, currentPage);
@@ -1012,11 +1011,9 @@ export default function SuperAdminDashboard() {
         ? `/api/admin/tables/${module.table}/${editingItem.id}`
         : `/api/admin/tables/${module.table}`;
 
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+      const response = editingItem 
+        ? await apiPut(url, data)
+        : await apiPost(url, data);
 
       if (response.ok) {
         setShowCreateModal(false);

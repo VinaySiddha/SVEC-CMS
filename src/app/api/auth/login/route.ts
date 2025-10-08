@@ -26,8 +26,8 @@ export async function POST(request: NextRequest) {
     // Generate JWT token
     const token = generateToken(user);
 
-    // Return success response
-    return NextResponse.json({
+    // Create response with success data
+    const response = NextResponse.json({
       success: true,
       token,
       user: {
@@ -39,6 +39,17 @@ export async function POST(request: NextRequest) {
         role: user.role,
       }
     });
+
+    // Set token as HTTP-only cookie for middleware authentication
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      secure: false, // Set to false for Docker development
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7 // 7 days
+    });
+
+    return response;
 
   } catch (error) {
     console.error('Login error:', error);
