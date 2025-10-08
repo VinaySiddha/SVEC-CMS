@@ -25,8 +25,8 @@ debug
 .nyc_output
 
 # Local env files
-.env*.local
-.env
+# .env*.local
+# .env
 
 # Vercel
 .vercel
@@ -63,7 +63,7 @@ docker-compose*
 
 # Database files (if any)
 *.sql
-*.db
+# *.db
 *.sqlite
 
 # Migration files (keep them lightweight)

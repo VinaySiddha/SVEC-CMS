@@ -188,11 +188,13 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
 // Verify user authentication and department access
 async function verifyDepartmentAccess(request: NextRequest, department: string) {
   const authHeader = request.headers.get('Authorization');
+  // console.log('Auth Header:', authHeader);
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return { error: 'Unauthorized', status: 401 };
   }
 
   const token = authHeader.substring(7);
+  // console.log('Token:', token);
   const user = verifyToken(token);
   
   if (!user) {

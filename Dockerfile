@@ -33,7 +33,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Copy environment variables (make sure .env is not in .dockerignore)
-# COPY .env.docker .env
+COPY .env .env
 
 # Set environment variables for build
 ENV NODE_ENV=production
