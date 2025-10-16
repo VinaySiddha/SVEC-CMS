@@ -148,6 +148,6 @@ jobs:
           command_timeout: 10m
           debug: true
           script: |
-            cd /srivasaviengg.ac.in
+            cd srivasaviengg.ac.in
             docker compose pull
             docker compose up -d
