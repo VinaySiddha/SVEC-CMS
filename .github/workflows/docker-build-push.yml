@@ -149,5 +149,5 @@ jobs:
           debug: true
           script: |
             cd /root/srivasaviengg.ac.in
-            docker-compose pull
-            docker-compose up -d
+            docker compose pull
+            docker compose up -d
