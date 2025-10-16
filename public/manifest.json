@@ -1,0 +1,109 @@
+{
+  "name": "Sri Vasavi Engineering College - CMS",
+  "short_name": "SVEC",
+  "description": "Official website for Sri Vasavi Engineering College - Tadepalligudem. Manage academic departments, faculty information, student achievements, and institutional data.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": [
+    "education",
+    "productivity",
+    "business"
+  ],
+  "icons": [
+    {
+      "src": "/vasavi_logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/vasavi_logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/vasavi_logo.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "apple-touch-icon"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/svec-homepage-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "SVEC CMS Desktop Homepage"
+    },
+    {
+      "src": "/images/svec-mobile-view.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "SVEC CMS Mobile View"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Department Dashboard",
+      "short_name": "Departments",
+      "description": "Access department-specific content management",
+      "url": "/departments",
+      "icons": [
+        {
+          "src": "/vasavi_logo.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Admin Panel",
+      "short_name": "Admin",
+      "description": "Administrative functions and user management",
+      "url": "/admin",
+      "icons": [
+        {
+          "src": "/vasavi_logo.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Faculty Management",
+      "short_name": "Faculty",
+      "description": "Manage faculty profiles and information",
+      "url": "/faculty",
+      "icons": [
+        {
+          "src": "/vasavi_logo.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  }
+}

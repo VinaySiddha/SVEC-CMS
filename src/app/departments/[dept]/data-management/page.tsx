@@ -81,9 +81,9 @@ export default function DepartmentDataManagement() {
   const fetchDepartmentData = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('authToken');
+      const sessionId = localStorage.getItem('sessionId');
       const headers = {
-        'Authorization': `Bearer ${token}`
+        'x-session-id': sessionId || ''
       };
 
       // Fetch all department data in parallel
@@ -148,7 +148,7 @@ export default function DepartmentDataManagement() {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          'Authorization': `Bearer ${localStorage.getItem('sessionId')}`
         },
         body: JSON.stringify(formData)
       });
@@ -179,7 +179,7 @@ export default function DepartmentDataManagement() {
       const response = await fetch(`/api/departments/${dept}/${type}/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          'Authorization': `Bearer ${localStorage.getItem('sessionId')}`
         }
       });
 

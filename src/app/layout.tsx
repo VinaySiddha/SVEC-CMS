@@ -17,8 +17,81 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Sri Vasavi Engineering College",
-  description: "Official website of Sri Vasavi Engineering College",
+  title: {
+    default: "Sri Vasavi Engineering College - SVEC CMS | Excellence in Engineering Education",
+    template: "%s | Sri Vasavi Engineering College"
+  },
+  description: "Official Content Management System of Sri Vasavi Engineering College, Tadepalligudem. Access department information, faculty profiles, student achievements, academic resources, and institutional updates. Premier engineering education since 1981.",
+  keywords: [
+    "Sri Vasavi Engineering College",
+    "SVEC",
+    "Engineering College",
+    "Tadepalligudem",
+    "Andhra Pradesh",
+    "Technical Education",
+    "Engineering Courses",
+    "Computer Science Engineering",
+    "Electronics and Communication",
+    "Mechanical Engineering",
+    "Civil Engineering",
+    "Electrical Engineering",
+    "MBA",
+    "Faculty Profiles",
+    "Student Achievements",
+    "Academic Excellence",
+    "CMS",
+    "Content Management System"
+  ],
+  authors: [{ name: "Sri Vasavi Engineering College" }],
+  creator: "Sri Vasavi Engineering College",
+  publisher: "Sri Vasavi Engineering College",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://srivasaviengg.ac.in',
+    siteName: 'Sri Vasavi Engineering College',
+    title: 'Sri Vasavi Engineering College - Excellence in Engineering Education',
+    description: 'Official website of Sri Vasavi Engineering College, Tadepalligudem. Premier engineering institution offering quality technical education and fostering innovation.',
+    images: [
+      {
+        url: '/vasavi_logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Sri Vasavi Engineering College Logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@svecollege',
+    creator: '@svecollege',
+    title: 'Sri Vasavi Engineering College - Excellence in Engineering Education',
+    description: 'Official website of Sri Vasavi Engineering College, Tadepalligudem. Premier engineering institution offering quality technical education.',
+    images: ['/vasavi_logo.png'],
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  verification: {
+    google: 'your-google-verification-code',
+    yandex: 'your-yandex-verification-code',
+    yahoo: 'your-yahoo-verification-code',
+  },
+  category: 'education',
+  classification: 'Educational Institution',
   icons: {
     icon: [
       {
@@ -38,6 +111,13 @@ export const metadata: Metadata = {
         type: 'image/png',
       },
     ],
+    shortcut: '/favicon.ico',
+  },
+  manifest: '/manifest.json',
+  other: {
+    'theme-color': '#2563eb',
+    'color-scheme': 'light',
+    'format-detection': 'telephone=no',
   },
 };
 

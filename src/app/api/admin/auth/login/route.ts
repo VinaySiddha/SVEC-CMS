@@ -1,17 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { createSession } from '@/lib/auth/auth';
 
 const dbConfig = {
     host: process.env.MYSQL_HOST || '62.72.31.209',
     user: process.env.MYSQL_USER || 'cmsuser',
     password: process.env.MYSQL_PASSWORD || 'V@savi@2001',
     database: 'svec_cms', 
-
 }
-
-const JWT_SECRET = process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30';
 
 export async function POST(request: NextRequest) {
   try {
@@ -71,22 +68,13 @@ export async function POST(request: NextRequest) {
 
     await connection.end();
 
-    // Generate JWT token
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-        name: user.name,
-        department: user.department
-      },
-      JWT_SECRET,
-      { expiresIn: '24h' }
-    );
+    // Generate session ID for simple authentication
+    const sessionId = createSession(user.id);
 
     // Create response
     const response = NextResponse.json({
       success: true,
+      sessionId,
       user: {
         id: user.id,
         email: user.email,
@@ -98,11 +86,11 @@ export async function POST(request: NextRequest) {
     });
 
     // Set HTTP-only cookie
-    response.cookies.set('admin_token', token, {
+    response.cookies.set('admin_session', sessionId, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      maxAge: 8 * 60 * 60 * 1000, // 8 hours
       path: '/'
     });
 

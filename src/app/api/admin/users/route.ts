@@ -1,25 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyToken, createUser, hashPassword } from '@/lib/auth/auth';
+import { validateSession, getUserById, createUser, hashPassword } from '@/lib/auth/auth';
 import { query } from '@/lib/db';
 import { RowDataPacket } from 'mysql2';
 
 // Get all users
 export async function GET(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'No authorization header' }, { status: 401 });
+    const sessionId = request.headers.get('x-session-id');
+    if (!sessionId) {
+      return NextResponse.json({ error: 'No session ID provided' }, { status: 401 });
     }
 
-    const token = authHeader.replace('Bearer ', '');
-    const decoded = verifyToken(token);
+    const userId = validateSession(sessionId);
     
-    if (!decoded) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    if (!userId) {
+      return NextResponse.json({ error: 'Invalid session' }, { status: 401 });
+    }
+
+    const user = await getUserById(userId);
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 401 });
     }
 
     // Check if user is admin or super admin
-    if (decoded.role !== 'admin' && decoded.role !== 'super_admin') {
+    if (user.role !== 'admin' && user.role !== 'super_admin') {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
 
@@ -53,20 +57,24 @@ export async function GET(request: NextRequest) {
 // Create new user
 export async function POST(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'No authorization header' }, { status: 401 });
+    const sessionId = request.headers.get('x-session-id');
+    if (!sessionId) {
+      return NextResponse.json({ error: 'No session ID provided' }, { status: 401 });
     }
 
-    const token = authHeader.replace('Bearer ', '');
-    const decoded = verifyToken(token);
+    const userId = validateSession(sessionId);
     
-    if (!decoded) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    if (!userId) {
+      return NextResponse.json({ error: 'Invalid session' }, { status: 401 });
+    }
+
+    const user = await getUserById(userId);
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 401 });
     }
 
     // Check if user is admin or super admin
-    if (decoded.role !== 'admin' && decoded.role !== 'super_admin') {
+    if (user.role !== 'admin' && user.role !== 'super_admin') {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
 
@@ -81,7 +89,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if role assignment is allowed
-    if (role === 'super_admin' && decoded.role !== 'super_admin') {
+    if (role === 'super_admin' && user.role !== 'super_admin') {
       return NextResponse.json(
         { error: 'Only super admins can create super admin users' },
         { status: 403 }
@@ -118,7 +126,7 @@ export async function POST(request: NextRequest) {
       `INSERT INTO users (
         username, email, password_hash, department, department_name, role, is_active, created_by
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [username, email, hashedPassword, department, departmentName, role, is_active, decoded.userId]
+      [username, email, hashedPassword, department, departmentName, role, is_active, user.id]
     );
 
     return NextResponse.json({

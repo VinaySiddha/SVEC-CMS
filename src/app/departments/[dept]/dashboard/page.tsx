@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth/AuthContext';
+import { authenticatedFetch } from '@/lib/api';
 import { 
   Search, 
   Plus, 
@@ -378,14 +379,8 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
   const loadModuleData = async (moduleKey: string, page: number = 1) => {
     setLoading(true);
     try {
-      const authToken = localStorage.getItem('authToken');
-      
       // Fetch table structure first
-      const structureResponse = await fetch(`/api/admin/departments/${dept}/${moduleKey}/structure`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
-      });
+      const structureResponse = await authenticatedFetch(`/api/admin/departments/${dept}/${moduleKey}/structure`);
       
       if (structureResponse.ok) {
         const structureResult = await structureResponse.json();
@@ -393,11 +388,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
       }
       
       // Then fetch the actual data
-      const response = await fetch(`/api/admin/departments/${dept}/${moduleKey}`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
-      });
+      const response = await authenticatedFetch(`/api/admin/departments/${dept}/${moduleKey}`);
 
       if (response.ok) {
         const result = await response.json();
@@ -440,12 +431,8 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
     if (!confirm('Are you sure you want to delete this item?')) return;
     
     try {
-      const authToken = localStorage.getItem('authToken');
-      const response = await fetch(`/api/admin/departments/${dept}/${selectedModule}?id=${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
+      const response = await authenticatedFetch(`/api/admin/departments/${dept}/${selectedModule}?id=${id}`, {
+        method: 'DELETE'
       });
       
       if (response.ok) {
@@ -464,17 +451,15 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
 
   const handleSave = async (data: any) => {
     try {
-      const authToken = localStorage.getItem('authToken');
       const method = editingItem ? 'PUT' : 'POST';
       const url = editingItem 
         ? `/api/admin/departments/${dept}/${selectedModule}?id=${editingItem.id}`
         : `/api/admin/departments/${dept}/${selectedModule}`;
 
-      const response = await fetch(url, {
+      const response = await authenticatedFetch(url, {
         method,
         headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
       });
@@ -956,12 +941,7 @@ function EditForm({
   const fetchTableStructure = async () => {
     setLoading(true);
     try {
-      const authToken = localStorage.getItem('authToken');
-      const response = await fetch(`/api/admin/departments/${dept}/${selectedModule}/structure`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
-      });
+      const response = await authenticatedFetch(`/api/admin/departments/${dept}/${selectedModule}/structure`);
 
       if (response.ok) {
         const result = await response.json();

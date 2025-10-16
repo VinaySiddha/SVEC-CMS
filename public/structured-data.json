@@ -1,0 +1,157 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "EducationalOrganization",
+      "@id": "https://srivasaviengg.ac.in/#organization",
+      "name": "Sri Vasavi Engineering College",
+      "alternateName": "SVEC",
+      "url": "https://srivasaviengg.ac.in",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://srivasaviengg.ac.in/vasavi_logo.png",
+        "width": 192,
+        "height": 192
+      },
+      "description": "Sri Vasavi Engineering College (SVEC) is a premier engineering institution located in Tadepalligudem, Andhra Pradesh, India. Established with a commitment to providing quality technical education and fostering innovation.",
+      "foundingDate": "1981",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Tadepalligudem",
+        "addressLocality": "Tadepalligudem",
+        "addressRegion": "Andhra Pradesh",
+        "postalCode": "534101",
+        "addressCountry": "IN"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-8818-284284",
+        "contactType": "customer service",
+        "availableLanguage": ["English", "Telugu"]
+      },
+      "sameAs": [
+        "https://facebook.com/svecollege",
+        "https://twitter.com/svecollege",
+        "https://linkedin.com/school/sri-vasavi-engineering-college",
+        "https://youtube.com/c/svecollege",
+        "https://instagram.com/svecollege"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://srivasaviengg.ac.in/#website",
+      "url": "https://srivasaviengg.ac.in",
+      "name": "Sri Vasavi Engineering College",
+      "description": "Official website and Content Management System of Sri Vasavi Engineering College",
+      "publisher": {
+        "@id": "https://srivasaviengg.ac.in/#organization"
+      },
+      "inLanguage": "en-US",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://srivasaviengg.ac.in/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      "@id": "https://srivasaviengg.ac.in/#college",
+      "name": "Sri Vasavi Engineering College",
+      "alternateName": "SVEC Tadepalligudem",
+      "url": "https://srivasaviengg.ac.in",
+      "description": "A leading engineering college offering undergraduate and postgraduate programs in various engineering disciplines",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Tadepalligudem",
+        "addressLocality": "Tadepalligudem",
+        "addressRegion": "Andhra Pradesh",
+        "postalCode": "534101",
+        "addressCountry": "IN"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Engineering Programs",
+        "itemListElement": [
+          {
+            "@type": "Course",
+            "name": "Computer Science and Engineering",
+            "description": "Undergraduate program in Computer Science and Engineering",
+            "provider": {
+              "@id": "https://srivasaviengg.ac.in/#organization"
+            }
+          },
+          {
+            "@type": "Course", 
+            "name": "Electronics and Communication Engineering",
+            "description": "Undergraduate program in Electronics and Communication Engineering",
+            "provider": {
+              "@id": "https://srivasaviengg.ac.in/#organization"
+            }
+          },
+          {
+            "@type": "Course",
+            "name": "Mechanical Engineering", 
+            "description": "Undergraduate program in Mechanical Engineering",
+            "provider": {
+              "@id": "https://srivasaviengg.ac.in/#organization"
+            }
+          },
+          {
+            "@type": "Course",
+            "name": "Civil Engineering",
+            "description": "Undergraduate program in Civil Engineering", 
+            "provider": {
+              "@id": "https://srivasaviengg.ac.in/#organization"
+            }
+          },
+          {
+            "@type": "Course",
+            "name": "Electrical and Electronics Engineering",
+            "description": "Undergraduate program in Electrical and Electronics Engineering",
+            "provider": {
+              "@id": "https://srivasaviengg.ac.in/#organization"
+            }
+          },
+          {
+            "@type": "Course",
+            "name": "Master of Business Administration",
+            "description": "Postgraduate program in Business Administration",
+            "provider": {
+              "@id": "https://srivasaviengg.ac.in/#organization"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://srivasaviengg.ac.in/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://srivasaviengg.ac.in"
+        },
+        {
+          "@type": "ListItem", 
+          "position": 2,
+          "name": "Departments",
+          "item": "https://srivasaviengg.ac.in/departments"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Faculty", 
+          "item": "https://srivasaviengg.ac.in/faculty"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Admissions",
+          "item": "https://srivasaviengg.ac.in/admissions"
+        }
+      ]
+    }
+  ]
+}

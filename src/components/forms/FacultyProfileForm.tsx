@@ -111,7 +111,7 @@ export function FacultyProfileForm({
         ? `/api/faculty-profiles/${initialData.id}`
         : '/api/faculty-profiles';
         
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('sessionId');
       
       const response = await fetch(url, {
         method: initialData ? 'PUT' : 'POST',

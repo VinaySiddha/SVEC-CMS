@@ -35,8 +35,8 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // Store token and user data
-        login(data.token, data.user);
+        // Store session ID and user data
+        login(data.sessionId, data.user);
         
         toast.success(`Welcome back, ${data.user.username}!`);
         

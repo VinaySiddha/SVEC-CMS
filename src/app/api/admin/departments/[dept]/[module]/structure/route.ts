@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
-import { verifyToken } from '@/lib/auth/auth';
+import { validateSession, getUserById } from '@/lib/auth/auth';
 import { RowDataPacket } from 'mysql2';
 
 // Department modules mapping
@@ -187,16 +187,28 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
 
 // Verify user authentication
 async function verifyAuth(request: NextRequest) {
-  const authHeader = request.headers.get('Authorization');
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return { error: 'Unauthorized', status: 401 };
+  const sessionId = request.headers.get('x-session-id');
+
+  // console.log(sessionId);
+  
+  if (!sessionId) {
+    return { error: 'Unauthorized - No session ID provided', status: 401 };
   }
 
-  const token = authHeader.substring(7);
-  const user = verifyToken(token);
+  const userId = validateSession(sessionId);
+
+  // console.log('Verified user ID:', userId);
   
+  if (!userId) {
+    return { error: 'Invalid session', status: 401 };
+  }
+
+  const user = await getUserById(userId);
+
+  // console.log('Authenticated user:', user);
+
   if (!user) {
-    return { error: 'Invalid token', status: 401 };
+    return { error: 'User not found', status: 401 };
   }
 
   return { user };

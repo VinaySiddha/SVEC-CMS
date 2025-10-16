@@ -1,17 +1,17 @@
 // API utility for authenticated requests
 
 export async function authenticatedFetch(url: string, options: RequestInit = {}) {
-  // Get token from localStorage
-  const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
+  // Get session ID from localStorage
+  const sessionId = typeof window !== 'undefined' ? localStorage.getItem('sessionId') : null;
 
-  const headers = {
+  const headers = new Headers({
     'Content-Type': 'application/json',
-    ...options.headers,
-  };
+    ...(options.headers || {}),
+  });
 
-  // Add Authorization header if token exists
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+  // Add session ID header if session ID exists
+  if (sessionId) {
+    headers.set('x-session-id', sessionId);
   }
 
   const response = await fetch(url, {
@@ -19,10 +19,11 @@ export async function authenticatedFetch(url: string, options: RequestInit = {})
     headers,
   });
 
-  // If we get 401, the token might be expired
+  // If we get 401, the session might be expired
   if (response.status === 401) {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('authToken');
+      localStorage.removeItem('sessionId');
+      localStorage.removeItem('userData');
       // Redirect to login
       window.location.href = '/auth/login';
     }

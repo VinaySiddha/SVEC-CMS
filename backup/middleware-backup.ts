@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verifyToken } from '@/lib/auth/auth';
+import { validateSession, getUserById } from '@/lib/auth/auth';
 
 // Define protected routes and their access requirements
 const protectedRoutes = {
   '/dashboard': { roles: ['dept', 'admin'] as const },
-  '/admin': { roles: ['admin'] as const },
+  '/admin': { roles: ['admin', 'super_admin'] as const },
   '/api/department-info': { roles: ['dept', 'admin'] as const },
   '/api/laboratories': { roles: ['dept', 'admin'] as const },
   '/api/placements': { roles: ['dept', 'admin'] as const },
@@ -16,7 +16,7 @@ const protectedRoutes = {
  * Middleware function that runs before routes are processed
  * Handles authentication and authorization
  */
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Allow authentication routes
@@ -33,12 +33,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Get token from Authorization header or cookie
+  // Get session ID from Authorization header or cookie
   const authHeader = request.headers.get('authorization');
-  const token = authHeader?.replace('Bearer ', '') || 
-                request.cookies.get('authToken')?.value;
+  const sessionId = authHeader?.replace('Bearer ', '') || 
+                request.cookies.get('sessionId')?.value;
 
-  if (!token) {
+  if (!sessionId) {
     // Redirect to login for page routes
     if (!pathname.startsWith('/api/')) {
       const loginUrl = new URL('/auth/login', request.url);
@@ -53,9 +53,9 @@ export function middleware(request: NextRequest) {
     );
   }
 
-  // Verify token
-  const decoded = verifyToken(token);
-  if (!decoded) {
+  // Verify session ID
+  const userId = validateSession(sessionId);
+  if (!userId) {
     // Redirect to login for page routes
     if (!pathname.startsWith('/api/')) {
       const loginUrl = new URL('/auth/login', request.url);
@@ -64,7 +64,16 @@ export function middleware(request: NextRequest) {
     
     // Return 401 for API routes
     return NextResponse.json(
-      { error: 'Invalid token' },
+      { error: 'Invalid session' },
+      { status: 401 }
+    );
+  }
+
+  // Get user data for role checking
+  const user = await getUserById(userId);
+  if (!user) {
+    return NextResponse.json(
+      { error: 'User not found' },
       { status: 401 }
     );
   }
@@ -74,7 +83,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith(route)
   )?.[1];
 
-  if (routeConfig && !routeConfig.roles.includes(decoded.role)) {
+  if (routeConfig && !routeConfig.roles.includes(user.role)) {
     // Redirect to unauthorized page for page routes
     if (!pathname.startsWith('/api/')) {
       return NextResponse.redirect(new URL('/unauthorized', request.url));
@@ -90,9 +99,9 @@ export function middleware(request: NextRequest) {
   // Add user info to headers for API routes
   if (pathname.startsWith('/api/')) {
     const requestHeaders = new Headers(request.headers);
-    requestHeaders.set('x-user-id', decoded.id.toString());
-    requestHeaders.set('x-user-department', decoded.department);
-    requestHeaders.set('x-user-role', decoded.role);
+    requestHeaders.set('x-user-id', user.id.toString());
+    requestHeaders.set('x-user-department', user.department);
+    requestHeaders.set('x-user-role', user.role);
 
     return NextResponse.next({
       request: {

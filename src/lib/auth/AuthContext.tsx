@@ -1,4 +1,4 @@
-'use client';
+// src/lib/auth/AuthContext.tsx
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
@@ -13,63 +13,11 @@ interface User {
   is_active: boolean;
 }
 
-// Client-side token verification (simplified)
-function verifyClientToken(token: string): { id: number; username: string; department: string; role: string; email?: string; department_name?: string } | null {
-  try {
-    console.log('Verifying token:', token ? 'Token exists' : 'No token');
-    
-    // Simple base64 decode for client-side verification
-    // Note: This is not secure verification, just for UI state management
-    if (!token || typeof token !== 'string') {
-      console.warn('Token is missing or not a string');
-      return null;
-    }
-    
-    const parts = token.split('.');
-    if (parts.length !== 3) {
-      console.warn('Invalid JWT format - expected 3 parts, got:', parts.length);
-      return null;
-    }
-    
-    let payload;
-    try {
-      payload = JSON.parse(atob(parts[1]));
-      console.log('Token payload decoded:', { id: payload.id, username: payload.username, role: payload.role, exp: payload.exp });
-    } catch (decodeError) {
-      console.error('Failed to decode token payload:', decodeError);
-      return null;
-    }
-    
-    // Check if token is expired (more lenient check)
-    if (payload.exp) {
-      const currentTime = Date.now() / 1000;
-      const bufferTime = 300; // 5 minutes
-      if (payload.exp < (currentTime - bufferTime)) {
-        console.warn('Token expired:', { exp: payload.exp, current: currentTime, expired: payload.exp < currentTime });
-        return null;
-      }
-      console.log('Token is valid, expires at:', new Date(payload.exp * 1000));
-    }
-    
-    // Validate required fields
-    if (!payload.id || !payload.username || !payload.role) {
-      console.warn('Token missing required fields:', { id: !!payload.id, username: !!payload.username, role: !!payload.role });
-      return null;
-    }
-    
-    console.log('Token verification successful for user:', payload.username);
-    return payload;
-  } catch (error) {
-    console.error('Token verification error:', error);
-    return null;
-  }
-}
-
 interface AuthContextType {
   user: User | null;
-  token: string | null;
+  sessionId: string | null;
   isLoading: boolean;
-  login: (token: string, user: User) => void;
+  login: (sessionId: string, user: User) => void;
   logout: () => void;
   isAuthenticated: boolean;
   hasPermission: (requiredDept?: string) => boolean;
@@ -79,47 +27,45 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const initializeAuth = () => {
-      console.log('🚀 Starting Auth Initialization');
+      // console.log('🚀 Starting Auth Initialization');
       
-      // Simple localStorage check
-      const storedToken = localStorage.getItem('authToken');
+      // Clear old JWT tokens and force re-login
+      const oldToken = localStorage.getItem('authToken');
+      if (oldToken) {
+        console.log('🔄 Found old JWT token, clearing and forcing re-login...');
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+      }
       
-      if (!storedToken) {
-        console.log('❌ No token found');
-        setToken(null);
+      // Simple localStorage check for session data
+      const storedSessionId = localStorage.getItem('sessionId');
+      const storedUser = localStorage.getItem('userData');
+      
+      if (!storedSessionId || !storedUser) {
+        console.log('❌ No session found');
+        setSessionId(null);
         setUser(null);
         setIsLoading(false);
         return;
       }
       
-      console.log('✅ Token found, verifying...');
-      const decoded = verifyClientToken(storedToken);
-      
-      if (decoded) {
-        console.log('✅ Token valid for:', decoded.username);
+      try {
+        const userData = JSON.parse(storedUser);
+        // console.log('✅ Session found, restoring user:', userData.username);
         
-        const userData: User = {
-          id: decoded.id,
-          username: decoded.username,
-          email: decoded.email || '',
-          department: decoded.department || '',
-          department_name: decoded.department_name || '',
-          role: decoded.role as User['role'],
-          is_active: true,
-        };
-        
-        setToken(storedToken);
+        setSessionId(storedSessionId);
         setUser(userData);
-        console.log('✅ Session restored successfully');
-      } else {
-        console.log('❌ Token invalid, clearing...');
-        localStorage.removeItem('authToken');
-        setToken(null);
+        // console.log('✅ Session restored successfully');
+      } catch (error) {
+        // console.log('❌ Invalid session data, clearing...');
+        localStorage.removeItem('sessionId');
+        localStorage.removeItem('userData');
+        setSessionId(null);
         setUser(null);
       }
       
@@ -132,70 +78,66 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const login = (newToken: string, userData: User) => {
+  const login = (newSessionId: string, userData: User) => {
     try {
-      console.log('=== Starting Login Process ===');
-      console.log('Token received:', newToken ? 'Yes' : 'No');
-      console.log('User data received:', userData);
+      // console.log('=== Starting Login Process ===');
+      // console.log('Session ID received:', newSessionId ? 'Yes' : 'No');
+      // console.log('User data received:', userData);
       
-      // Validate token before setting
-      const decoded = verifyClientToken(newToken);
-      if (!decoded) {
-        throw new Error('Invalid token provided to login');
-      }
-      
-      console.log('✅ Token validation successful, logging in user:', userData.username);
+      // console.log('✅ Logging in user:', userData.username);
       
       // Set state first
-      setToken(newToken);
+      setSessionId(newSessionId);
       setUser(userData);
       
       // Then save to localStorage
       try {
-        localStorage.setItem('authToken', newToken);
-        console.log('✅ Token saved to localStorage');
+        localStorage.setItem('sessionId', newSessionId);
+        localStorage.setItem('userData', JSON.stringify(userData));
+        // console.log('✅ Session saved to localStorage');
         
         // Verify it was saved
-        const saved = localStorage.getItem('authToken');
-        if (saved === newToken) {
-          console.log('✅ Token verification in localStorage successful');
-        } else {
-          console.error('❌ Token not properly saved to localStorage');
-        }
+        const saved = localStorage.getItem('sessionId');
+        // if (saved === newSessionId) {
+        //   // console.log('✅ Session verification in localStorage successful');
+        // } else {
+        //   console.error('❌ Session not properly saved to localStorage');
+        // }
       } catch (storageError) {
-        console.error('❌ Failed to save token to localStorage:', storageError);
+        // console.error('❌ Failed to save session to localStorage:', storageError);
         throw new Error('Failed to save authentication state');
       }
       
-      console.log('=== Login Process Complete ===');
+      // console.log('=== Login Process Complete ===');
     } catch (error) {
-      console.error('❌ Login error:', error);
+      // console.error('❌ Login error:', error);
       throw error;
     }
   };
 
   const logout = () => {
     try {
-      console.log('Logging out user:', user?.username);
-      setToken(null);
+      // console.log('Logging out user:', user?.username);
+      setSessionId(null);
       setUser(null);
-      localStorage.removeItem('authToken');
-      
-      // Also clear any other auth-related storage
+      localStorage.removeItem('sessionId');
       localStorage.removeItem('userData');
+      
+      // Also clear any old auth-related storage
+      localStorage.removeItem('authToken');
     } catch (error) {
       console.error('Logout error:', error);
       // Still clear state even if localStorage fails
-      setToken(null);
+      setSessionId(null);
       setUser(null);
     }
   };
 
-  const isAuthenticated = !!user && !!token;
+  const isAuthenticated = !!user && !!sessionId;
 
   const hasPermission = (requiredDept?: string): boolean => {
     if (!user) {
-      console.log('No user found for permission check');
+      // console.log('No user found for permission check');
       return false;
     }
     
@@ -212,7 +154,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const hasAccess = user.department === requiredDept;
     
     if (!hasAccess) {
-      console.log(`Permission denied: user dept '${user.department}' != required '${requiredDept}'`);
+      // console.log(`Permission denied: user dept '${user.department}' != required '${requiredDept}'`);
     }
     
     return hasAccess;
@@ -220,7 +162,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const value = {
     user,
-    token,
+    sessionId,
     isLoading,
     login,
     logout,

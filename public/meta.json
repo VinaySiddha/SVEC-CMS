@@ -1,0 +1,175 @@
+{
+  "site": {
+    "name": "Sri Vasavi Engineering College",
+    "shortName": "SVEC",
+    "tagline": "Excellence in Engineering Education",
+    "description": "Sri Vasavi Engineering College (SVEC) is a premier engineering institution located in Tadepalligudem, Andhra Pradesh, India. Established with a commitment to providing quality technical education and fostering innovation.",
+    "url": "https://srivasaviengg.ac.in",
+    "logo": "/vasavi_logo.png",
+    "favicon": "/favicon.ico"
+  },
+  "organization": {
+    "type": "EducationalOrganization",
+    "name": "Sri Vasavi Engineering College",
+    "alternateName": "SVEC Tadepalligudem",
+    "description": "A leading engineering college offering undergraduate and postgraduate programs in various engineering disciplines",
+    "foundingDate": "1981",
+    "address": {
+      "streetAddress": "Tadepalligudem",
+      "addressLocality": "Tadepalligudem",
+      "addressRegion": "Andhra Pradesh",
+      "postalCode": "534101",
+      "addressCountry": "IN"
+    },
+    "contactPoint": {
+      "telephone": "+91-8818-284284",
+      "contactType": "customer service",
+      "availableLanguage": ["English", "Telugu"]
+    }
+  },
+  "seo": {
+    "title": "Sri Vasavi Engineering College - SVEC CMS | Engineering Education Excellence",
+    "metaDescription": "Official Content Management System of Sri Vasavi Engineering College, Tadepalligudem. Access department information, faculty profiles, student achievements, academic resources, and institutional updates.",
+    "keywords": [
+      "Sri Vasavi Engineering College",
+      "SVEC",
+      "Engineering College",
+      "Tadepalligudem",
+      "Andhra Pradesh",
+      "Technical Education",
+      "Engineering Courses",
+      "Computer Science Engineering",
+      "Electronics and Communication",
+      "Mechanical Engineering",
+      "Civil Engineering",
+      "Electrical Engineering",
+      "MBA",
+      "Faculty Profiles",
+      "Student Achievements",
+      "Academic Excellence",
+      "CMS",
+      "Content Management System",
+      "Engineering Education",
+      "Higher Education",
+      "Technical Institution",
+      "Department Information",
+      "Academic Resources"
+    ],
+    "author": "Sri Vasavi Engineering College",
+    "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+    "canonical": "https://srivasaviengg.ac.in",
+    "locale": "en_US"
+  },
+  "departments": [
+    {
+      "name": "Computer Science and Engineering",
+      "code": "cse",
+      "description": "Department of Computer Science and Engineering offering cutting-edge programs in software development, algorithms, and emerging technologies"
+    },
+    {
+      "name": "Computer Science and Engineering - Artificial Intelligence",
+      "code": "cse-ai", 
+      "description": "Specialized department focusing on Artificial Intelligence, Machine Learning, and Data Science applications"
+    },
+    {
+      "name": "Computer Science and Engineering - Data Science",
+      "code": "cse-ds",
+      "description": "Department dedicated to Data Science, Big Data Analytics, and Statistical Computing"
+    },
+    {
+      "name": "Electronics and Communication Engineering",
+      "code": "ece",
+      "description": "Department of Electronics and Communication Engineering covering VLSI, Embedded Systems, and Communication Technologies"
+    },
+    {
+      "name": "Electronics and Computer Engineering", 
+      "code": "ect",
+      "description": "Interdisciplinary department combining Electronics and Computer Engineering principles"
+    },
+    {
+      "name": "Mechanical Engineering",
+      "code": "mech",
+      "description": "Department of Mechanical Engineering focusing on Design, Manufacturing, and Thermal Engineering"
+    },
+    {
+      "name": "Civil Engineering",
+      "code": "civil",
+      "description": "Department of Civil Engineering covering Structural, Environmental, and Transportation Engineering"
+    },
+    {
+      "name": "Electrical and Electronics Engineering",
+      "code": "eee", 
+      "description": "Department of Electrical and Electronics Engineering specializing in Power Systems and Control Engineering"
+    },
+    {
+      "name": "Master of Business Administration",
+      "code": "mba",
+      "description": "MBA program focusing on Management, Leadership, and Business Strategy"
+    },
+    {
+      "name": "Basic Sciences and Humanities",
+      "code": "bsh",
+      "description": "Department providing foundational courses in Mathematics, Physics, Chemistry, and English"
+    },
+    {
+      "name": "Artificial Intelligence and Machine Learning",
+      "code": "aiml",
+      "description": "Specialized department for AI/ML research and education"
+    }
+  ],
+  "features": [
+    {
+      "name": "Department Management",
+      "description": "Comprehensive department-wise content management with faculty profiles, achievements, and academic resources"
+    },
+    {
+      "name": "Faculty Profiles",
+      "description": "Detailed faculty information including qualifications, research interests, and publications"
+    },
+    {
+      "name": "Student Achievements", 
+      "description": "Showcase of student accomplishments, awards, and recognitions"
+    },
+    {
+      "name": "Academic Resources",
+      "description": "Access to syllabi, handbooks, newsletters, and educational materials"
+    },
+    {
+      "name": "Event Management",
+      "description": "Management of workshops, seminars, technical events, and extracurricular activities"
+    },
+    {
+      "name": "Placement Information",
+      "description": "Comprehensive placement data, company partnerships, and career guidance"
+    },
+    {
+      "name": "Research Showcase",
+      "description": "Faculty research projects, innovations, and academic publications"
+    },
+    {
+      "name": "Infrastructure Details",
+      "description": "Information about laboratories, facilities, and physical infrastructure"
+    }
+  ],
+  "social": {
+    "facebook": "https://facebook.com/svecollege",
+    "twitter": "https://twitter.com/svecollege", 
+    "linkedin": "https://linkedin.com/school/sri-vasavi-engineering-college",
+    "youtube": "https://youtube.com/c/svecollege",
+    "instagram": "https://instagram.com/svecollege"
+  },
+  "technical": {
+    "framework": "Next.js 14",
+    "language": "TypeScript",
+    "styling": "Tailwind CSS",
+    "database": "MySQL",
+    "deployment": "Docker",
+    "authentication": "Session-based",
+    "responsive": true,
+    "pwa": true,
+    "accessibility": "WCAG 2.1 AA compliant"
+  },
+  "lastUpdated": "2025-10-16",
+  "version": "2.0.0",
+  "status": "production"
+}

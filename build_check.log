@@ -1,0 +1,589 @@
+
+> nextn@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.2
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ⚠ Compiled with warnings in 54s
+
+./src/app/api/admin/audit-logs/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/admin/audit-logs/route.ts
+
+./src/app/api/admin/dashboard/activities/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/admin/dashboard/activities/route.ts
+
+./src/app/api/admin/dashboard/stats/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/admin/dashboard/stats/route.ts
+
+./src/app/api/admin/notifications/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/admin/notifications/route.ts
+
+./src/app/api/admin/recent-activity/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/admin/recent-activity/route.ts
+
+./src/app/api/admin/users/[id]/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/admin/users/[id]/route.ts
+
+./src/app/api/admin/users/[id]/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/admin/users/[id]/route.ts
+
+./src/app/api/admin/users/[id]/toggle-status/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/admin/users/[id]/toggle-status/route.ts
+
+./src/app/api/approval/action/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/approval/action/route.ts
+
+./src/app/api/approval/pending/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/approval/pending/route.ts
+
+./src/app/api/auth/register/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/auth/register/route.ts
+
+./src/app/api/debug/auth/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/debug/auth/route.ts
+
+./src/app/api/departments/[dept]/faculty-achievements/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/faculty-achievements/route.ts
+
+./src/app/api/departments/[dept]/faculty-achievements/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/faculty-achievements/route.ts
+
+./src/app/api/departments/[dept]/faculty/[id]/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/faculty/[id]/route.ts
+
+./src/app/api/departments/[dept]/faculty/[id]/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/faculty/[id]/route.ts
+
+./src/app/api/departments/[dept]/faculty/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/faculty/route.ts
+
+./src/app/api/departments/[dept]/faculty/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/faculty/route.ts
+
+./src/app/api/departments/[dept]/labs/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/labs/route.ts
+
+./src/app/api/departments/[dept]/labs/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/labs/route.ts
+
+./src/app/api/departments/[dept]/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/route.ts
+
+./src/app/api/departments/[dept]/student-achievements/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/student-achievements/route.ts
+
+./src/app/api/departments/[dept]/student-achievements/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/student-achievements/route.ts
+
+./src/app/api/departments/[dept]/workshops/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/workshops/route.ts
+
+./src/app/api/departments/[dept]/workshops/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/departments/[dept]/workshops/route.ts
+
+./src/app/api/faculty_profiles/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/faculty_profiles/route.ts
+
+./src/app/api/faculty_profiles/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/faculty_profiles/route.ts
+
+./src/app/api/faculty_profiles/route.ts
+Attempted import error: 'verifyToken' is not exported from '@/lib/auth/auth' (imported as 'verifyToken').
+
+Import trace for requested module:
+./src/app/api/faculty_profiles/route.ts
+
+ ✓ Compiled successfully in 88s
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/155) ...
+Current activeContent: Department Profile
+[]
+[]
+Current activeContent: Department Profile
+ReferenceError: location is not defined
+    at z (C:\Users\vinay\Desktop\VSVT\SVEC-CMS\.next\server\app\dashboard\data-management\page.js:1:2746)
+   Generating static pages (38/155) 
+   Generating static pages (77/155) 
+   Generating static pages (116/155) 
+ ✓ Generating static pages (155/155)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                   Size  First Load JS
+┌ ○ /                                                      8.89 kB         114 kB
+├ ○ /_not-found                                               1 kB         102 kB
+├ ○ /about                                                 14.5 kB         119 kB
+├ ○ /academics                                             7.68 kB         109 kB
+├ ○ /admin/dashboard                                       9.89 kB         133 kB
+├ ○ /admin/departments                                     6.01 kB         115 kB
+├ ƒ /admin/departments/[dept]/[module]                      5.7 kB         115 kB
+├ ○ /admin/settings                                        8.67 kB         118 kB
+├ ○ /admin/users                                           5.88 kB         115 kB
+├ ○ /administration/deans                                  3.77 kB         105 kB
+├ ○ /administration/director-technical                     3.96 kB         105 kB
+├ ○ /administration/hod                                     5.2 kB         107 kB
+├ ○ /administration/manage-faculty-achievement               359 B         164 kB
+├ ○ /administration/principal                              4.54 kB         106 kB
+├ ○ /admissions                                            5.94 kB         107 kB
+├ ƒ /api/admin/audit-logs                                    325 B         102 kB
+├ ƒ /api/admin/auth/login                                    325 B         102 kB
+├ ƒ /api/admin/auth/logout                                   325 B         102 kB
+├ ƒ /api/admin/auth/me                                       325 B         102 kB
+├ ƒ /api/admin/board-of-studies                              325 B         102 kB
+├ ƒ /api/admin/board-of-studies/members/[id]                 325 B         102 kB
+├ ƒ /api/admin/board-of-studies/minutes/[id]                 325 B         102 kB
+├ ƒ /api/admin/companies                                     325 B         102 kB
+├ ƒ /api/admin/dashboard/activities                          325 B         102 kB
+├ ƒ /api/admin/dashboard/stats                               325 B         102 kB
+├ ƒ /api/admin/departments                                   325 B         102 kB
+├ ƒ /api/admin/departments/[dept]/[module]                   325 B         102 kB
+├ ƒ /api/admin/departments/[dept]/[module]/structure         325 B         102 kB
+├ ƒ /api/admin/init-users                                    325 B         102 kB
+├ ƒ /api/admin/modules                                       325 B         102 kB
+├ ƒ /api/admin/non-teaching-staff                            325 B         102 kB
+├ ƒ /api/admin/non-teaching-staff/[id]                       325 B         102 kB
+├ ƒ /api/admin/notifications                                 325 B         102 kB
+├ ƒ /api/admin/placement-statistics                          325 B         102 kB
+├ ƒ /api/admin/placement-team                                325 B         102 kB
+├ ƒ /api/admin/recent-activity                               325 B         102 kB
+├ ƒ /api/admin/stats                                         325 B         102 kB
+├ ƒ /api/admin/tables/[tableName]                            325 B         102 kB
+├ ƒ /api/admin/tables/[tableName]/[id]                       325 B         102 kB
+├ ƒ /api/admin/users                                         325 B         102 kB
+├ ƒ /api/admin/users/[id]                                    325 B         102 kB
+├ ƒ /api/admin/users/[id]/toggle-status                      325 B         102 kB
+├ ƒ /api/approval/action                                     325 B         102 kB
+├ ƒ /api/approval/pending                                    325 B         102 kB
+├ ƒ /api/auth/login                                          325 B         102 kB
+├ ƒ /api/auth/logout                                         325 B         102 kB
+├ ƒ /api/auth/register                                       325 B         102 kB
+├ ƒ /api/auth/verify                                         325 B         102 kB
+├ ƒ /api/civil/consultancy                                   325 B         102 kB
+├ ƒ /api/civil/research-development                          325 B         102 kB
+├ ƒ /api/civil/research-projects                             325 B         102 kB
+├ ƒ /api/cseai/board-of-studies                              325 B         102 kB
+├ ƒ /api/cseai/contact                                       325 B         102 kB
+├ ƒ /api/cseai/department-info                               325 B         102 kB
+├ ƒ /api/cseai/department-library                            325 B         102 kB
+├ ƒ /api/cseai/eresources                                    325 B         102 kB
+├ ƒ /api/cseai/extra-curricular                              325 B         102 kB
+├ ƒ /api/cseai/faculty-achievements                          325 B         102 kB
+├ ƒ /api/cseai/faculty-development-programs                  325 B         102 kB
+├ ƒ /api/cseai/hackathons                                    325 B         102 kB
+├ ƒ /api/cseai/merit-scholarships                            325 B         102 kB
+├ ƒ /api/cseai/newsletters                                   325 B         102 kB
+├ ƒ /api/cseai/physical-facilities                           325 B         102 kB
+├ ƒ /api/cseai/placement-batches                             325 B         102 kB
+├ ƒ /api/cseai/placement-gallery                             325 B         102 kB
+├ ƒ /api/cseai/sidebar-items                                 325 B         102 kB
+├ ƒ /api/cseai/student-achievements                          325 B         102 kB
+├ ƒ /api/cseai/technical-association                         325 B         102 kB
+├ ƒ /api/cseai/training-activities                           325 B         102 kB
+├ ƒ /api/cseai/workshops                                     325 B         102 kB
+├ ƒ /api/debug/auth                                          325 B         102 kB
+├ ƒ /api/debug/env                                           325 B         102 kB
+├ ƒ /api/department-info                                     325 B         102 kB
+├ ƒ /api/department-info/[dept]                              325 B         102 kB
+├ ƒ /api/departments/[dept]                                  325 B         102 kB
+├ ƒ /api/departments/[dept]/faculty                          325 B         102 kB
+├ ƒ /api/departments/[dept]/faculty-achievements             325 B         102 kB
+├ ƒ /api/departments/[dept]/faculty/[id]                     325 B         102 kB
+├ ƒ /api/departments/[dept]/labs                             325 B         102 kB
+├ ƒ /api/departments/[dept]/student-achievements             325 B         102 kB
+├ ƒ /api/departments/[dept]/workshops                        325 B         102 kB
+├ ƒ /api/faculty_profiles                                    325 B         102 kB
+├ ƒ /api/faculty-achievements                                325 B         102 kB
+├ ƒ /api/hackathons                                          325 B         102 kB
+├ ƒ /api/health                                              325 B         102 kB
+├ ƒ /api/laboratories                                        325 B         102 kB
+├ ƒ /api/placements                                          325 B         102 kB
+├ ƒ /api/public/departments/[dept]                           325 B         102 kB
+├ ƒ /api/public/departments/[dept]/staff                     325 B         102 kB
+├ ƒ /api/simple-test                                         325 B         102 kB
+├ ƒ /api/test                                                325 B         102 kB
+├ ƒ /api/test/database                                       325 B         102 kB
+├ ƒ /api/test/user-management                                325 B         102 kB
+├ ƒ /api/upload                                              325 B         102 kB
+├ ○ /auth/login                                            5.51 kB         119 kB
+├ ○ /auth/register                                         4.54 kB         147 kB
+├ ○ /campus-life                                           5.93 kB         111 kB
+├ ○ /category-b                                            4.59 kB         106 kB
+├ ○ /contact                                               4.91 kB         106 kB
+├ ○ /dashboard                                             13.3 kB         143 kB
+├ ○ /dashboard/data-management                             2.44 kB         182 kB
+├ ○ /dashboard/departments                                 1.67 kB         106 kB
+├ ○ /dashboard/departments/board-of-studies                6.48 kB         121 kB
+├ ○ /dashboard/departments/faculty-profiles                8.05 kB         123 kB
+├ ○ /departments                                            5.8 kB         111 kB
+├ ƒ /departments/[dept]                                      576 B         102 kB
+├ ƒ /departments/[dept]/admin/placements                   3.52 kB         151 kB
+├ ƒ /departments/[dept]/admin/scholarships                 3.65 kB         173 kB
+├ ƒ /departments/[dept]/associations                       9.67 kB         166 kB
+├ ƒ /departments/[dept]/associations/edit/[associationId]  1.03 kB         187 kB
+├ ƒ /departments/[dept]/associations/new                     630 B         186 kB
+├ ƒ /departments/[dept]/dashboard                          11.1 kB         139 kB
+├ ƒ /departments/[dept]/data-management                    7.16 kB         187 kB
+├ ƒ /departments/[dept]/events                             7.69 kB         164 kB
+├ ƒ /departments/[dept]/events/edit/[eventId]              1.02 kB         197 kB
+├ ƒ /departments/[dept]/events/new                           621 B         197 kB
+├ ƒ /departments/[dept]/fdp                                  932 B         122 kB
+├ ƒ /departments/[dept]/fdp/[fdpId]                        1.16 kB         122 kB
+├ ƒ /departments/[dept]/fdp/add                            1.01 kB         122 kB
+├ ƒ /departments/[dept]/gallery                            5.01 kB         119 kB
+├ ƒ /departments/[dept]/hackathons                         8.51 kB         158 kB
+├ ƒ /departments/[dept]/industry-news                        910 B         109 kB
+├ ƒ /departments/[dept]/industry-news/[newsId]             1.17 kB         109 kB
+├ ƒ /departments/[dept]/industry-news/add                  1.07 kB         109 kB
+├ ƒ /departments/[dept]/issues                               325 B         102 kB
+├ ƒ /departments/[dept]/labs                               2.14 kB         107 kB
+├ ƒ /departments/[dept]/mous                                 870 B         109 kB
+├ ƒ /departments/[dept]/organized-events                     914 B         122 kB
+├ ƒ /departments/[dept]/organized-events/[eventId]         1.08 kB         122 kB
+├ ƒ /departments/[dept]/organized-events/add                 928 B         122 kB
+├ ƒ /departments/[dept]/placements                           185 B         123 kB
+├ ƒ /departments/[dept]/public                              3.9 kB         113 kB
+├ ƒ /departments/[dept]/resources                           8.5 kB         152 kB
+├ ƒ /departments/[dept]/scholarships                       1.76 kB         117 kB
+├ ƒ /departments/[dept]/student-achievements               2.18 kB         120 kB
+├ ƒ /departments/[dept]/student-associations               6.61 kB         122 kB
+├ ƒ /departments/[dept]/trainings                          7.26 kB         160 kB
+├ ƒ /departments/[dept]/trainings/edit/[trainingId]        1.03 kB         186 kB
+├ ƒ /departments/[dept]/trainings/new                        636 B         185 kB
+├ ƒ /departments/[dept]/workshops                          6.23 kB         140 kB
+├ ○ /departments/aiml                                      12.9 kB         119 kB
+├ ○ /departments/bsh                                       8.28 kB         114 kB
+├ ○ /departments/civil                                       13 kB         119 kB
+├ ○ /departments/cse                                       23.7 kB         129 kB
+├ ○ /departments/cse-ai                                    41.7 kB         147 kB
+├ ○ /departments/cse-ds                                    12.8 kB         118 kB
+├ ○ /departments/cst                                       12.5 kB         118 kB
+├ ○ /departments/ece                                       12.9 kB         119 kB
+├ ○ /departments/ect                                       22.6 kB         128 kB
+├ ○ /departments/eee                                       17.8 kB         123 kB
+├ ○ /departments/faculty-achievements                      1.35 kB         165 kB
+├ ○ /departments/mba                                       10.2 kB         116 kB
+├ ○ /departments/mech                                      15.8 kB         122 kB
+├ ○ /examinations                                          3.28 kB         105 kB
+├ ○ /grievance                                             3.41 kB         105 kB
+├ ○ /hash-generator                                          967 B         102 kB
+├ ○ /industry-news                                           183 B         108 kB
+├ ○ /infrastructure                                        4.39 kB         106 kB
+├ ○ /infrastructure/classrooms                             2.35 kB         104 kB
+├ ○ /labs                                                  1.74 kB         107 kB
+├ ƒ /labs/[id]                                             1.92 kB         107 kB
+├ ○ /library                                               4.54 kB         106 kB
+├ ○ /mandates                                              3.32 kB         105 kB
+├ ○ /mous                                                    183 B         108 kB
+├ ○ /naac                                                  21.9 kB         123 kB
+├ ○ /placements                                             117 kB         219 kB
+├ ○ /protected                                               899 B         102 kB
+├ ○ /rd-innovation                                         8.31 kB         118 kB
+├ ○ /test-board-of-studies                                 3.56 kB         106 kB
+├ ○ /test-crud                                             1.75 kB         103 kB
+├ ○ /test-department                                       1.03 kB         102 kB
+├ ○ /test-faculty                                          3.26 kB         106 kB
+└ ○ /unauthorized                                          3.92 kB         113 kB
++ First Load JS shared by all                               101 kB
+  ├ chunks/1255-a36bd7439847bcb2.js                        45.1 kB
+  ├ chunks/4bd1b696-182b6b13bdad92e3.js                    54.2 kB
+  └ other shared chunks (total)                            2.07 kB
+
+Route (pages)                                                 Size  First Load JS
+┌   /_app                                                      0 B        82.3 kB
+├ ○ /About (536 ms)                                        13.7 kB         101 kB
+├ ○ /Academics                                              7.7 kB          90 kB
+├ ○ /administration/Deans (597 ms)                         3.47 kB        85.7 kB
+├   └ css/b936ee6f2fb16a36.css                               792 B
+├ ○ /Admissions (539 ms)                                   5.98 kB        88.3 kB
+├ ƒ /api/_old/modules/meta                                     0 B        82.3 kB
+├ ƒ /api/aiml/academic-toppers-gallery                         0 B        82.3 kB
+├ ƒ /api/aiml/aiml-academic-toppers                            0 B        82.3 kB
+├ ƒ /api/aiml/aiml-board-of-studies                            0 B        82.3 kB
+├ ƒ /api/aiml/aiml-extracurricular-activities                  0 B        82.3 kB
+├ ƒ /api/aiml/aiml-faculty-profiles                            0 B        82.3 kB
+├ ƒ /api/aiml/aiml-hackathons                                  0 B        82.3 kB
+├ ƒ /api/aiml/aiml-handbooks                                   0 B        82.3 kB
+├ ƒ /api/aiml/aiml-mous                                        0 B        82.3 kB
+├ ƒ /api/aiml/aiml-non-teaching-staff                          0 B        82.3 kB
+├ ƒ /api/aiml/aiml-physical-facilities                         0 B        82.3 kB
+├ ƒ /api/aiml/aiml-placements                                  0 B        82.3 kB
+├ ƒ /api/aiml/aiml-syllabus                                    0 B        82.3 kB
+├ ƒ /api/aiml/aiml-technical-faculty                           0 B        82.3 kB
+├ ƒ /api/aiml/aiml-workshops                                   0 B        82.3 kB
+├ ƒ /api/aiml/board-of-meeting-minutes                         0 B        82.3 kB
+├ ƒ /api/aiml/faculty-achievements                             0 B        82.3 kB
+├ ƒ /api/aiml/faculty-development-programs                     0 B        82.3 kB
+├ ƒ /api/aiml/student-achievements                             0 B        82.3 kB
+├ ƒ /api/aiml/technical-association                            0 B        82.3 kB
+├ ƒ /api/bsh/board-of-studies                                  0 B        82.3 kB
+├ ƒ /api/bsh/bsh_activities                                    0 B        82.3 kB
+├ ƒ /api/bsh/bsh_faculty_achievements                          0 B        82.3 kB
+├ ƒ /api/bsh/bsh_faculty_paper_presentations                   0 B        82.3 kB
+├ ƒ /api/bsh/bsh_laboratories                                  0 B        82.3 kB
+├ ƒ /api/bsh/bsh_results                                       0 B        82.3 kB
+├ ƒ /api/bsh/bsh_student_achievements                          0 B        82.3 kB
+├ ƒ /api/bsh/bsh-faculty                                       0 B        82.3 kB
+├ ƒ /api/bsh/department-documents                              0 B        82.3 kB
+├ ƒ /api/bsh/department-profile                                0 B        82.3 kB
+├ ƒ /api/bsh/non-teaching-bsh-faculty                          0 B        82.3 kB
+├ ƒ /api/cai-faculty-profiles                                  0 B        82.3 kB
+├ ƒ /api/cai-fdp                                               0 B        82.3 kB
+├ ƒ /api/cai-handbooks                                         0 B        82.3 kB
+├ ƒ /api/cai-non-teaching-staff                                0 B        82.3 kB
+├ ƒ /api/cai-technical-faculty                                 0 B        82.3 kB
+├ ƒ /api/chatbot/faqs                                          0 B        82.3 kB
+├ ƒ /api/civil_department.api                                  0 B        82.3 kB
+├ ƒ /api/civil-bos                                             0 B        82.3 kB
+├ ƒ /api/civil-consultancy                                     0 B        82.3 kB
+├ ƒ /api/civil-eresources                                      0 B        82.3 kB
+├ ƒ /api/civil-extra-curricular                                0 B        82.3 kB
+├ ƒ /api/civil-faculty-profiles                                0 B        82.3 kB
+├ ƒ /api/civil-newsletters                                     0 B        82.3 kB
+├ ƒ /api/civil-placements                                      0 B        82.3 kB
+├ ƒ /api/civil-student-achievements                            0 B        82.3 kB
+├ ƒ /api/civil-syllabus                                        0 B        82.3 kB
+├ ƒ /api/civil-workshops                                       0 B        82.3 kB
+├ ƒ /api/cstcse/achievements                                   0 B        82.3 kB
+├ ƒ /api/cstcse/achievements_faculty                           0 B        82.3 kB
+├ ƒ /api/cstcse/achievements_student                           0 B        82.3 kB
+├ ƒ /api/cstcse/cst_extra_curricular                           0 B        82.3 kB
+├ ƒ /api/cstcse/cst-board-of-studies                           0 B        82.3 kB
+├ ƒ /api/cstcse/cst-department-library                         0 B        82.3 kB
+├ ƒ /api/cstcse/cst-eresources                                 0 B        82.3 kB
+├ ƒ /api/cstcse/cst-faculty                                    0 B        82.3 kB
+├ ƒ /api/cstcse/cst-faculty-achievements                       0 B        82.3 kB
+├ ƒ /api/cstcse/cst-faculty-develop                            0 B        82.3 kB
+├ ƒ /api/cstcse/cst-hackathons                                 0 B        82.3 kB
+├ ƒ /api/cstcse/cst-handbooks                                  0 B        82.3 kB
+├ ƒ /api/cstcse/cst-merit-scholarships                         0 B        82.3 kB
+├ ƒ /api/cstcse/cst-mous                                       0 B        82.3 kB
+├ ƒ /api/cstcse/cst-newsletter                                 0 B        82.3 kB
+├ ƒ /api/cstcse/cst-overview                                   0 B        82.3 kB
+├ ƒ /api/cstcse/cst-physical-facilities                        0 B        82.3 kB
+├ ƒ /api/cstcse/cst-placements                                 0 B        82.3 kB
+├ ƒ /api/cstcse/cst-scud-activities                            0 B        82.3 kB
+├ ƒ /api/cstcse/cst-student-achievement                        0 B        82.3 kB
+├ ƒ /api/cstcse/cst-syllabus                                   0 B        82.3 kB
+├ ƒ /api/cstcse/cst-training-activites                         0 B        82.3 kB
+├ ƒ /api/cstcse/department_library                             0 B        82.3 kB
+├ ƒ /api/cstcse/eresources                                     0 B        82.3 kB
+├ ƒ /api/cstcse/extra_curricular                               0 B        82.3 kB
+├ ƒ /api/cstcse/faculty                                        0 B        82.3 kB
+├ ƒ /api/cstcse/hackathons                                     0 B        82.3 kB
+├ ƒ /api/cstcse/handbooks                                      0 B        82.3 kB
+├ ƒ /api/cstcse/merit_scholarships                             0 B        82.3 kB
+├ ƒ /api/cstcse/mous                                           0 B        82.3 kB
+├ ƒ /api/cstcse/newsletters                                    0 B        82.3 kB
+├ ƒ /api/cstcse/physical_facilities                            0 B        82.3 kB
+├ ƒ /api/cstcse/placements                                     0 B        82.3 kB
+├ ƒ /api/cstcse/staff                                          0 B        82.3 kB
+├ ƒ /api/cstcse/studentAchievements                            0 B        82.3 kB
+├ ƒ /api/cstcse/syllabus                                       0 B        82.3 kB
+├ ƒ /api/cstcse/technical_association                          0 B        82.3 kB
+├ ƒ /api/cstcse/training_activities                            0 B        82.3 kB
+├ ƒ /api/ds/board-of-studies                                   0 B        82.3 kB
+├ ƒ /api/ds/bos-meeting-minutes                                0 B        82.3 kB
+├ ƒ /api/ds/contact                                            0 B        82.3 kB
+├ ƒ /api/ds/department-library                                 0 B        82.3 kB
+├ ƒ /api/ds/department-profile                                 0 B        82.3 kB
+├ ƒ /api/ds/e-resources                                        0 B        82.3 kB
+├ ƒ /api/ds/extra-curricular-activities                        0 B        82.3 kB
+├ ƒ /api/ds/faculty                                            0 B        82.3 kB
+├ ƒ /api/ds/faculty-achievements                               0 B        82.3 kB
+├ ƒ /api/ds/faculty-development-programs                       0 B        82.3 kB
+├ ƒ /api/ds/hackathons                                         0 B        82.3 kB
+├ ƒ /api/ds/handbooks                                          0 B        82.3 kB
+├ ƒ /api/ds/merit-scholarships                                 0 B        82.3 kB
+├ ƒ /api/ds/mous                                               0 B        82.3 kB
+├ ƒ /api/ds/newsletters                                        0 B        82.3 kB
+├ ƒ /api/ds/non-teaching-staff                                 0 B        82.3 kB
+├ ƒ /api/ds/physical-facilities                                0 B        82.3 kB
+├ ƒ /api/ds/placements                                         0 B        82.3 kB
+├ ƒ /api/ds/sidebar-items                                      0 B        82.3 kB
+├ ƒ /api/ds/student-achievements                               0 B        82.3 kB
+├ ƒ /api/ds/syllabus                                           0 B        82.3 kB
+├ ƒ /api/ds/technical-association                              0 B        82.3 kB
+├ ƒ /api/ds/training-activities                                0 B        82.3 kB
+├ ƒ /api/ds/workshops                                          0 B        82.3 kB
+├ ƒ /api/ece/board-of-studies                                  0 B        82.3 kB
+├ ƒ /api/ece/bos-meeting-minutes                               0 B        82.3 kB
+├ ƒ /api/ece/clubs                                             0 B        82.3 kB
+├ ƒ /api/ece/extracurricularactivities                         0 B        82.3 kB
+├ ƒ /api/ece/faculty-achievements                              0 B        82.3 kB
+├ ƒ /api/ece/faculty-data                                      0 B        82.3 kB
+├ ƒ /api/ece/facultyinnovations                                0 B        82.3 kB
+├ ƒ /api/ece/fdp                                               0 B        82.3 kB
+├ ƒ /api/ece/handbooks                                         0 B        82.3 kB
+├ ƒ /api/ece/mous                                              0 B        82.3 kB
+├ ƒ /api/ece/newsletters                                       0 B        82.3 kB
+├ ƒ /api/ece/nonteaching-faculty                               0 B        82.3 kB
+├ ƒ /api/ece/physical_facilities                               0 B        82.3 kB
+├ ƒ /api/ece/placements                                        0 B        82.3 kB
+├ ƒ /api/ece/scholarships-toppers                              0 B        82.3 kB
+├ ƒ /api/ece/syllabus                                          0 B        82.3 kB
+├ ƒ /api/ece/technicalassociation-activities                   0 B        82.3 kB
+├ ƒ /api/ece/workshops-gl                                      0 B        82.3 kB
+├ ƒ /api/faculty-profiles                                      0 B        82.3 kB
+├ ƒ /api/faculty-profiles/[id]                                 0 B        82.3 kB
+├ ƒ /api/gallery                                               0 B        82.3 kB
+├ ƒ /api/gallery/[id]                                          0 B        82.3 kB
+├ ƒ /api/handbooks                                             0 B        82.3 kB
+├ ƒ /api/handbooks/[id]                                        0 B        82.3 kB
+├ ƒ /api/labs                                                  0 B        82.3 kB
+├ ƒ /api/library-resources                                     0 B        82.3 kB
+├ ƒ /api/library-resources/[id]                                0 B        82.3 kB
+├ ƒ /api/mba-board-of-studies                                  0 B        82.3 kB
+├ ƒ /api/mba-bos-meetings                                      0 B        82.3 kB
+├ ƒ /api/mba-eresources                                        0 B        82.3 kB
+├ ƒ /api/mba-extra-curricular                                  0 B        82.3 kB
+├ ƒ /api/mba-faculty-achivements                               0 B        82.3 kB
+├ ƒ /api/mba-faculty-dev                                       0 B        82.3 kB
+├ ƒ /api/mba-faculty-profiles                                  0 B        82.3 kB
+├ ƒ /api/mba-newsletters                                       0 B        82.3 kB
+├ ƒ /api/mba-non-teaching-staff                                0 B        82.3 kB
+├ ƒ /api/mba-placement                                         0 B        82.3 kB
+├ ƒ /api/mba-student-achievements                              0 B        82.3 kB
+├ ƒ /api/mech/boardofstudies                                   0 B        82.3 kB
+├ ƒ /api/mech/bos-meeting-minutes                              0 B        82.3 kB
+├ ƒ /api/mech/faculty                                          0 B        82.3 kB
+├ ƒ /api/mech/facultyachievements                              0 B        82.3 kB
+├ ƒ /api/mech/facultyTLmethods                                 0 B        82.3 kB
+├ ƒ /api/mech/laboratories                                     0 B        82.3 kB
+├ ƒ /api/mech/library                                          0 B        82.3 kB
+├ ƒ /api/mech/magazines                                        0 B        82.3 kB
+├ ƒ /api/mech/mous                                             0 B        82.3 kB
+├ ƒ /api/mech/newsletters                                      0 B        82.3 kB
+├ ƒ /api/mech/placements                                       0 B        82.3 kB
+├ ƒ /api/mech/research                                         0 B        82.3 kB
+├ ƒ /api/mech/studentachievements                              0 B        82.3 kB
+├ ƒ /api/mech/syllabus                                         0 B        82.3 kB
+├ ƒ /api/mech/technicalassociation                             0 B        82.3 kB
+├ ƒ /api/mech/workshops                                        0 B        82.3 kB
+├ ƒ /api/mous                                                  0 B        82.3 kB
+├ ƒ /api/syllabus                                              0 B        82.3 kB
+├ ○ /CampusLife                                            4.91 kB          90 kB
+├ ○ /category (600 ms)                                     4.59 kB        86.9 kB
+├ ○ /Contact (538 ms)                                      4.92 kB        87.2 kB
+├ ○ /Departments (344 ms)                                  5.32 kB        90.4 kB
+├ ○ /departments/[dept]/handbooks (2840 ms)                2.17 kB        92.7 kB
+├ ○ /departments/[dept]/library (2839 ms)                  29.7 kB         120 kB
+├ ○ /departments/AIML (599 ms)                             13.5 kB        99.5 kB
+├ ○ /departments/BSH (600 ms)                              8.93 kB        94.9 kB
+├ ○ /departments/Civil (344 ms)                            13.6 kB        99.5 kB
+├ ○ /departments/CSE (600 ms)                              23.8 kB         112 kB
+├ ○ /departments/CSEAI (2840 ms)                           42.4 kB         128 kB
+├ ○ /departments/CSEDS (348 ms)                            13.5 kB        99.4 kB
+├ ○ /departments/CST (346 ms)                              13.3 kB        99.2 kB
+├ ○ /departments/ds (539 ms)                               6.17 kB        92.1 kB
+├ ○ /departments/ECE (344 ms)                              10.1 kB        99.8 kB
+├ ○ /departments/ECT                                       19.6 kB         109 kB
+├ ○ /departments/EEE (539 ms)                              18.1 kB         107 kB
+├ ○ /departments/Issues (344 ms)                           2.12 kB        84.4 kB
+├ ○ /departments/MBA                                       10.8 kB        96.7 kB
+├ ○ /departments/Mechanical (540 ms)                       16.3 kB         102 kB
+├ ○ /departments/OptimizedAIML (546 ms)                    6.52 kB        88.8 kB
+├ ○ /Examinations (344 ms)                                 3.29 kB        85.6 kB
+├ ○ /FAQs                                                  4.16 kB        89.2 kB
+├ ○ /Grievance                                             3.43 kB        85.7 kB
+├ ○ /Infrastructure (538 ms)                               4.43 kB        86.7 kB
+├ ○ /Library                                               4.55 kB        86.8 kB
+├ ○ /Mandates (342 ms)                                     3.33 kB        85.6 kB
+├ ○ /NAAC (601 ms)                                         21.9 kB         104 kB
+├ ○ /PlacementAdmin (607 ms)                               5.24 kB        87.5 kB
+├ ○ /Placements (2839 ms)                                   118 kB         200 kB
+└ ○ /RDInnovation (601 ms)                                  7.9 kB        98.5 kB
++ First Load JS shared by all                              82.3 kB
+  ├ chunks/framework-b9fd9bcc3ecde907.js                   44.8 kB
+  ├ chunks/main-fd63bec48f2503bd.js                        34.7 kB
+  └ other shared chunks (total)                            2.74 kB
+
+ƒ Middleware                                               32.9 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

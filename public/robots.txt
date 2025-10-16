@@ -1,0 +1,44 @@
+User-agent: *
+Allow: /
+
+# Allow crawling of all departments
+Allow: /departments/
+Allow: /faculty/
+Allow: /about/
+Allow: /admissions/
+Allow: /academics/
+Allow: /research/
+Allow: /placements/
+Allow: /news/
+Allow: /events/
+Allow: /contact/
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /private/
+Disallow: /_next/
+Disallow: /uploads/private/
+
+# Allow specific API endpoints for structured data
+Allow: /api/meta.json
+Allow: /api/sitemap
+
+# Sitemap location
+Sitemap: https://srivasaviengg.ac.in/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1
+
+# Specific rules for different bots
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: facebookexternalhit
+Allow: /

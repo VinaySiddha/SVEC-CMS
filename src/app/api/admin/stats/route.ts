@@ -1,23 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyToken } from '@/lib/auth/auth';
+import { validateSession, getUserById } from '@/lib/auth/auth';
 import { query } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'No authorization header' }, { status: 401 });
+    const sessionId = request.headers.get('x-session-id');
+    if (!sessionId) {
+      return NextResponse.json({ error: 'No session ID provided' }, { status: 401 });
     }
 
-    const token = authHeader.replace('Bearer ', '');
-    const decoded = verifyToken(token);
+    const userId = validateSession(sessionId);
     
-    if (!decoded) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    if (!userId) {
+      return NextResponse.json({ error: 'Invalid session' }, { status: 401 });
+    }
+
+    const user = await getUserById(userId);
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 401 });
     }
 
     // Check if user is admin or super admin
-    if (decoded.role !== 'admin' && decoded.role !== 'super_admin') {
+    if (user.role !== 'admin' && user.role !== 'super_admin') {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
 

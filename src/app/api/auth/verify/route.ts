@@ -1,29 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyToken, getUserById } from '@/lib/auth/auth';
+import { validateSession, getUserById } from '@/lib/auth/auth';
 
 export async function GET(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
+    // Get session ID from cookie or Authorization header
+    let sessionId = request.cookies.get('sessionId')?.value;
     
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    // Also check Authorization header for API calls
+    const authHeader = request.headers.get('authorization');
+    if (!sessionId && authHeader && authHeader.startsWith('Bearer ')) {
+      sessionId = authHeader.substring(7); // Remove 'Bearer ' prefix
+    }
+    
+    if (!sessionId) {
       return NextResponse.json(
-        { error: 'No token provided' },
+        { error: 'No session provided' },
         { status: 401 }
       );
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
-    const decoded = verifyToken(token);
+    const userId = validateSession(sessionId);
 
-    if (!decoded) {
+    if (!userId) {
       return NextResponse.json(
-        { error: 'Invalid token' },
+        { error: 'Invalid session' },
         { status: 401 }
       );
     }
 
     // Get fresh user data
-    const user = await getUserById(decoded.id);
+    const user = await getUserById(userId);
 
     if (!user) {
       return NextResponse.json(
@@ -45,7 +51,7 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Verify token error:', error);
+    console.error('Verify session error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

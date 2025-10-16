@@ -51,12 +51,12 @@ export function FileUpload({
       formData.append('type', 'faculty-photo');
 
       // Upload file
-      const token = localStorage.getItem('authToken');
+      const sessionId = localStorage.getItem('sessionId');
       
       const response = await fetch('/api/upload', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${sessionId}`
         },
         body: formData
       });

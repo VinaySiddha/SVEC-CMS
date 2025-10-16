@@ -100,7 +100,7 @@ export default function TestFacultyProfiles() {
         
       const method = editId ? 'PUT' : 'POST';
       
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('sessionId');
       
       const response = await fetch(url, {
         method,

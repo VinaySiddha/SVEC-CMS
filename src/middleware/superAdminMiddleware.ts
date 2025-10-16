@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyToken } from '@/lib/auth/auth';
+import { validateSession, getUserById } from '@/lib/auth/auth';
 
 export async function superAdminMiddleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -9,21 +9,37 @@ export async function superAdminMiddleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Check for authentication token
-  const token = request.cookies.get('super-admin-token')?.value;
+  // Check for authentication session
+  const sessionId = request.cookies.get('super-admin-session')?.value;
 
-  if (!token) {
+  if (!sessionId) {
     return NextResponse.redirect(new URL('/super-admin/login', request.url));
   }
 
-  // Verify token
+  // Verify session
   try {
-    const user = verifyToken(token);
+    const userId = validateSession(sessionId);
+    
+    if (!userId) {
+      // Clear invalid session
+      const response = NextResponse.redirect(new URL('/super-admin/login', request.url));
+      response.cookies.set('super-admin-session', '', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 0,
+        path: '/'
+      });
+      return response;
+    }
+
+    // Get user data
+    const user = await getUserById(userId);
     
     if (!user || user.role !== 'super_admin') {
-      // Clear invalid token
+      // Clear invalid session
       const response = NextResponse.redirect(new URL('/super-admin/login', request.url));
-      response.cookies.set('super-admin-token', '', {
+      response.cookies.set('super-admin-session', '', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
@@ -44,9 +60,9 @@ export async function superAdminMiddleware(request: NextRequest) {
   } catch (error) {
     console.error('Token verification error:', error);
     
-    // Clear invalid token and redirect
+    // Clear invalid session and redirect
     const response = NextResponse.redirect(new URL('/super-admin/login', request.url));
-    response.cookies.set('super-admin-token', '', {
+    response.cookies.set('super-admin-session', '', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
@@ -60,14 +76,20 @@ export async function superAdminMiddleware(request: NextRequest) {
 // Helper function to check permissions in API routes
 export function requireSuperAdminPermission(permission: string) {
   return async (request: NextRequest) => {
-    const token = request.cookies.get('super-admin-token')?.value;
+    const sessionId = request.cookies.get('super-admin-session')?.value;
     
-    if (!token) {
+    if (!sessionId) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     try {
-      const user = verifyToken(token);
+      const userId = validateSession(sessionId);
+      
+      if (!userId) {
+        return NextResponse.json({ error: 'Invalid session' }, { status: 401 });
+      }
+
+      const user = await getUserById(userId);
       
       if (!user || user.role !== 'super_admin') {
         return NextResponse.json({ error: 'Super admin access required' }, { status: 403 });
@@ -81,7 +103,7 @@ export function requireSuperAdminPermission(permission: string) {
 
       return null; // Permission granted
     } catch (error) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+      return NextResponse.json({ error: 'Session error' }, { status: 401 });
     }
   };
 }

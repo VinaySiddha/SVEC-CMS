@@ -3,7 +3,6 @@
  */
 
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import { query } from '@/lib/db';
 import { RowDataPacket } from 'mysql2';
 
@@ -21,14 +20,6 @@ export interface User {
   permissions?: string[];
 }
 
-export interface AuthToken {
-  id: number;
-  username: string;
-  department: string;
-  role: 'dept' | 'admin' | 'super_admin';
-  permissions?: string[];
-}
-
 export interface SuperAdminPermission {
   id: number;
   permission: string;
@@ -37,8 +28,81 @@ export interface SuperAdminPermission {
   is_active: boolean;
 }
 
-const JWT_SECRET = process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30';
 const SALT_ROUNDS = 12;
+
+/**
+ * Simple session storage for authentication
+ */
+const activeSessions = new Map<string, { userId: number; expiresAt: number }>();
+
+/**
+ * Generate a simple session ID
+ */
+export function generateSessionId(): string {
+  return Math.random().toString(36).substring(2) + Date.now().toString(36);
+}
+
+/**
+ * Create a session for user
+ */
+export function createSession(userId: number): string {
+  const sessionId = generateSessionId();
+  const expiresAt = Date.now() + (8 * 60 * 60 * 1000); // 8 hours
+  
+  activeSessions.set(sessionId, { userId, expiresAt });
+  
+  // console.log('Created session:', sessionId, 'for user:', userId);
+  // console.log('Active sessions count:', activeSessions.size);
+  
+  // Clean up expired sessions periodically
+  cleanupExpiredSessions();
+  
+  return sessionId;
+}
+
+/**
+ * Validate a session
+ */
+export function validateSession(sessionId: string): number | null {
+  // console.log('Validating session:', sessionId);
+  // console.log('Active sessions count:', activeSessions.size);
+  // console.log('All session IDs:', Array.from(activeSessions.keys()));
+  
+  const session = activeSessions.get(sessionId);
+  
+  if (!session) {
+    // console.log('Session not found in active sessions');
+    return null;
+  }
+  
+  if (Date.now() > session.expiresAt) {
+    // console.log('Session expired');
+    activeSessions.delete(sessionId);
+    return null;
+  }
+  
+  // console.log('Session valid, returning user ID:', session.userId);
+  return session.userId;
+}
+
+/**
+ * Remove a session
+ */
+export function removeSession(sessionId: string): void {
+  activeSessions.delete(sessionId);
+}
+
+/**
+ * Clean up expired sessions
+ */
+function cleanupExpiredSessions(): void {
+  const now = Date.now();
+  for (const [sessionId, session] of activeSessions.entries()) {
+    if (now > session.expiresAt) {
+      activeSessions.delete(sessionId);
+    }
+  }
+}
 
 /**
  * Hash a password using bcrypt
@@ -52,34 +116,6 @@ export async function hashPassword(password: string): Promise<string> {
  */
 export async function verifyPassword(password: string, hash: string): Promise<boolean> {
   return bcrypt.compare(password, hash);
-}
-
-/**
- * Generate a JWT token for a user
- */
-export function generateToken(user: Pick<User, 'id' | 'username' | 'department' | 'role' | 'permissions'>): string {
-  const payload: AuthToken = {
-    id: user.id,
-    username: user.username,
-    department: user.department,
-    role: user.role,
-    permissions: user.permissions || [],
-  };
-  
-  return jwt.sign(payload, JWT_SECRET, { 
-    expiresIn: user.role === 'super_admin' ? '4h' : '8h' // Shorter session for super admin
-  });
-}
-
-/**
- * Verify and decode a JWT token
- */
-export function verifyToken(token: string): AuthToken | null {
-  try {
-    return jwt.verify(token, JWT_SECRET) as AuthToken;
-  } catch (error) {
-    return null;
-  }
 }
 
 /**

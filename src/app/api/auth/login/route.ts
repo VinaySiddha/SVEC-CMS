@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { authenticateUser, generateToken } from '@/lib/auth/auth';
+import { authenticateUser, createSession } from '@/lib/auth/auth';
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,13 +23,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate JWT token
-    const token = generateToken(user);
+    // Generate session ID for simple authentication
+    const sessionId = createSession(user.id);
 
     // Create response with success data
     const response = NextResponse.json({
       success: true,
-      token,
+      sessionId,
       user: {
         id: user.id,
         username: user.username,
@@ -40,13 +40,13 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    // Set token as HTTP-only cookie for middleware authentication
-    response.cookies.set('token', token, {
+    // Set session ID as HTTP-only cookie for middleware authentication
+    response.cookies.set('sessionId', sessionId, {
       httpOnly: true,
       secure: false, // Set to false for Docker development
       sameSite: 'lax',
       path: '/',
-      maxAge: 60 * 60 * 24 * 7 // 7 days
+      maxAge: 60 * 60 * 8 // 8 hours
     });
 
     return response;

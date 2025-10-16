@@ -79,11 +79,11 @@ export default function UserManagement({ userRole }: UserManagementProps) {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('authToken');
+      const sessionId = localStorage.getItem('sessionId');
       
       const response = await fetch('/api/admin/users', {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'x-session-id': sessionId || ''
         }
       });
 
@@ -104,13 +104,13 @@ export default function UserManagement({ userRole }: UserManagementProps) {
 
   const handleCreateUser = async () => {
     try {
-      const token = localStorage.getItem('authToken');
+      const sessionId = localStorage.getItem('sessionId');
       
       const response = await fetch('/api/admin/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'x-session-id': sessionId || ''
         },
         body: JSON.stringify(formData)
       });
