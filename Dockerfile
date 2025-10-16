@@ -30,10 +30,10 @@ WORKDIR /app
 
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+# COPY . .
 
 # Copy environment variables (make sure .env is not in .dockerignore)
-COPY .env .env
+# COPY .env .env
 
 # Set environment variables for build
 ENV NODE_ENV=production
