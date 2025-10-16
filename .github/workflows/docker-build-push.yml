@@ -42,10 +42,7 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=raw,value=latest,enable={{is_default_branch}}
-            type=sha,prefix={{branch}}-
+            type=raw,value=latest
 
       - name: Build and push Docker image
         id: build-and-push
@@ -150,6 +147,5 @@ jobs:
           debug: true
           script: |
             cd srivasaviengg.ac.in
-            export TAG=${{ github.ref_name }}-${{ github.sha }}
             docker compose pull
             docker compose up -d
