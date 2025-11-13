@@ -48,7 +48,7 @@ export function GalleryImagesList({
   const fetchImages = async () => {
     try {
       setIsLoading(true);
-      let url = '/api/gallery';
+      let url = '/api/placement/gallery';
       
       if (selectedDept !== 'all') {
         url += `?dept=${selectedDept}`;
@@ -60,7 +60,7 @@ export function GalleryImagesList({
       }
       
       const data = await response.json();
-      setImages(data);
+      setImages(data.data || []);
     } catch (error) {
       console.error('Error fetching gallery images:', error);
       toast.error('Failed to load gallery images');
@@ -77,7 +77,7 @@ export function GalleryImagesList({
     if (!confirm('Are you sure you want to delete this image?')) return;
     
     try {
-      const response = await fetch(`/api/gallery/${id}`, {
+      const response = await fetch(`/api/placement/gallery/${id}`, {
         method: 'DELETE',
       });
       

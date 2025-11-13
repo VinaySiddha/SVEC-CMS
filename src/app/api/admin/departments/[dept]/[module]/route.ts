@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { verifyToken } from '@/lib/auth/auth';
 import { RowDataPacket, OkPacket } from 'mysql2';
+import { deleteRecordFiles, deleteReplacedFiles } from '@/utils/file-management';
 
 // Department modules mapping
 const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
@@ -379,6 +380,27 @@ export async function PUT(
       return NextResponse.json({ error: 'No data provided' }, { status: 400 });
     }
 
+    // Get existing record for file comparison
+    const existingRecord = await query<RowDataPacket[]>(
+      `SELECT * FROM ${tableName} WHERE id = ?`,
+      [id]
+    );
+
+    if (existingRecord.length === 0) {
+      return NextResponse.json({ error: 'Record not found' }, { status: 404 });
+    }
+
+    const oldRecordData = existingRecord[0];
+    
+    // Delete replaced files before updating
+    try {
+      await deleteReplacedFiles(oldRecordData, body);
+      console.log(`🔄 Successfully cleaned up replaced files for ${dept}/${module} record ID: ${id}`);
+    } catch (fileError) {
+      console.error(`⚠️ Error cleaning up replaced files for ${dept}/${module} record ID: ${id}`, fileError);
+      // Continue with database update even if file cleanup fails
+    }
+
     // Build update query
     const columns = Object.keys(body);
     const values = Object.values(body);
@@ -435,7 +457,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Invalid department or module' }, { status: 404 });
     }
 
-    // Check if record exists
+    // Check if record exists and get current data
     const existingRecord = await query<RowDataPacket[]>(
       `SELECT * FROM ${tableName} WHERE id = ?`,
       [id]
@@ -445,12 +467,23 @@ export async function DELETE(
       return NextResponse.json({ error: 'Record not found' }, { status: 404 });
     }
 
-    // Delete the record
+    const recordData = existingRecord[0];
+    
+    // Delete associated files before removing the record
+    try {
+      await deleteRecordFiles(recordData);
+      console.log(`🗑️ Successfully cleaned up files for ${dept}/${module} record ID: ${id}`);
+    } catch (fileError) {
+      console.error(`⚠️ Error cleaning up files for ${dept}/${module} record ID: ${id}`, fileError);
+      // Continue with database deletion even if file cleanup fails
+    }
+
+    // Delete the record from database
     await query(`DELETE FROM ${tableName} WHERE id = ?`, [id]);
 
     return NextResponse.json({
       success: true,
-      message: 'Record deleted successfully'
+      message: 'Record and associated files deleted successfully'
     });
 
   } catch (error) {

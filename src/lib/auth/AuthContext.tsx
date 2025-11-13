@@ -9,7 +9,7 @@ interface User {
   email: string;
   department: string;
   department_name: string;
-  role: 'admin' | 'faculty' | 'hod' | 'super_admin' | 'dept';
+  role: 'admin' | 'faculty' | 'hod' | 'super_admin' | 'dept' | 'exam' | 'placement';
   is_active: boolean;
 }
 

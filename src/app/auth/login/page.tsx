@@ -44,13 +44,14 @@ export default function LoginPage() {
         if (data.user.role === 'super_admin') {
           router.push('/admin/dashboard');
         } else if (data.user.role === 'admin') {
-          // Admin users can access both super admin dashboard and their department
           router.push('/admin/dashboard');
         } else if (data.user.role === 'dept') {
-          // Redirect department users to their department dashboard
           router.push(`/departments/${data.user.department}/dashboard`);
+        } else if (data.user.role === 'exam') {
+          router.push('/exam-section/dashboard');
+        } else if (data.user.role === 'placement') {
+          router.push('/placement/dashboard');
         } else {
-          // Default redirect for other roles
           router.push('/dashboard');
         }
       } else {

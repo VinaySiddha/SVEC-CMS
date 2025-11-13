@@ -9,10 +9,10 @@ const Deans: React.FC = () => {
     {
       name: "Dr. Ch. Rambabu",
       designation: "Dean - Student Affairs & Academics",
-      department: "Electronics & Electrical Engineering",
+      department: "Electrical & Electronics Engineering",
       qualifications: "M.Tech.,Ph.D",
       experience: "20+ Years",
-      email: "dean.student@srivasaviengg.ac.in",
+      email: "deansa@srivasaviengg.ac.in",
       phone: "+91-9441447199",
       image: "/rambabu.jpg",
       specialization: "VLSI Design, Embedded Systems",
@@ -64,56 +64,17 @@ const Deans: React.FC = () => {
       <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-animate">
-            Office of the Deans
+        Deans
           </h1>
-          <p className="text-xl text-white/90 max-w-2xl mx-auto text-animate" style={{ animationDelay: '0.3s' }}>
-            Leading specialized functions in academics, student affairs, and research development
-          </p>
+          
         </div>
       </section>
 
-      {/* Office Structure Overview */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-[#B22222] mb-4">Dean Offices</h2>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Specialized leadership roles ensuring excellence across all institutional functions
-            </p>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-8 mb-16 max-w-5xl mx-auto">
-            {officeStructure.map((office, index) => (
-              <div
-                key={index}
-                className="stat-card text-center p-8 rounded-xl bg-[#FFF8F0] border hover:shadow-lg transition-all w-full md:w-[340px]"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <office.icon className="w-16 h-16 text-[#B22222] mx-auto mb-4 icon-bounce" />
-                <h3 className="text-xl font-bold text-[#B22222] mb-3">{office.title}</h3>
-                <p className="text-gray-600 mb-4">{office.description}</p>
-                <a
-                  href={`mailto:${office.contact}`}
-                  className="text-[#B22222] hover:underline font-medium"
-                >
-                  {office.contact}
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      
       {/* Deans Profiles */}
       <section className="py-16 bg-[#FFF8F0]">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-[#B22222] mb-4">Meet Our Deans</h2>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Experienced leaders driving excellence in their respective domains
-            </p>
-          </div>
-
+          
           <div className="space-y-24">
             {deans.map((dean, index) => (
               <div

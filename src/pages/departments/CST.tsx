@@ -3,155 +3,176 @@ import React, { useState,useEffect } from 'react';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
+// Type definitions for CST department data
+interface Faculty {
+  id: number;
+  name: string;
+  qualification: string;
+  designation: string;
+  profile_url: string;
+  faculty_type: string;
+}
+
+interface StudentAchievement {
+  id: number;
+  title: string;
+  category: string;
+  fileUrl?: string;
+  description?: string;
+}
+
+interface Syllabus {
+  id: number;
+  title: string;
+  type: string;
+  fileUrl: string;
+}
+
+interface EResource {
+  id: number;
+  regulation: string;
+  semester: string;
+  subject: string;
+  ppt_url: string;
+}
+
+interface BOSMember {
+  id: number;
+  name: string;
+  qualification?: string;
+  designation: string;
+  profile_url?: string;
+  organization?: string;
+  position_in_job?: string;
+}
+
+interface NonTeachingMember {
+  id: number;
+  name: string;
+  designation: string;
+  organization?: string;
+  position_in_job: string;
+}
+
+interface BOSMinute {
+  id: number;
+  meeting_no: string;
+  meeting_date: string;
+  file_url: string;
+}
+
+interface DepartmentLibrary {
+  image_url: string;
+  description: string;
+  titles: string;
+  volumes: string;
+  faculty_incharge: string;
+  phone: string;
+  email: string;
+}
+
+interface MOU {
+  id: number;
+  organization_name: string;
+  from_date: string;
+  to_date: string;
+  document_url?: string;
+}
+
+interface IndustryProgram {
+  id: number;
+  title: string;
+  file_url: string;
+}
+
+interface PhysicalFacility {
+  id: number;
+  category: string;
+  title?: string;
+  description?: string;
+  lab_details?: any[];
+  file_url?: string;
+}
+
+interface Overview {
+  hod_image_url: string;
+  hod_name: string;
+  hod_qualification: string;
+  hod_email: string;
+  description: string;
+}
+
 const CSTDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
 
-  const [faculty, setFaculty] = useState([]);
-  const [technicalFaculty, setTechnicalFaculty] = useState([]);
-  const [nonTeachingFaculty, setNonTeachingFaculty] = useState([]);
-  const [studentAchievements, setStudentAchievements] = useState([]);
-const [syllabus, setSyllabus] = useState([]);
-const [eresources, setEResources] = useState([]);
-const [departmentLibrary, setDepartmentLibrary] = useState(null);
-const [mous, setMous] = useState([]);
-const [industryPrograms,setIndustryPrograms]=useState([]);
+  const [faculty, setFaculty] = useState<Faculty[]>([]);
+  const [technicalFaculty, setTechnicalFaculty] = useState<Faculty[]>([]);
+  const [nonTeachingFaculty, setNonTeachingFaculty] = useState<NonTeachingMember[]>([]);
+  const [studentAchievements, setStudentAchievements] = useState<StudentAchievement[]>([]);
+const [syllabus, setSyllabus] = useState<Syllabus[]>([]);
+const [eresources, setEResources] = useState<EResource[]>([]);
+const [departmentLibrary, setDepartmentLibrary] = useState<DepartmentLibrary | null>(null);
+const [mous, setMous] = useState<MOU[]>([]);
+const [industryPrograms,setIndustryPrograms]=useState<IndustryProgram[]>([]);
 
 
-const [overview, setOverview] = useState(null);
+const [overview, setOverview] = useState<Overview | null>(null);
 
-const [physicalFacilities, setPhysicalFacilities] = useState([]);
-const [laboratories, setLaboratories] = useState([]);
-const [facultyDevelopment, setFacultyDevelopment] = useState([]);
-const [facultyAchievements, setFacultyAchievements] = useState([]);
-const [meritScholarships, setMeritScholarships] = useState([]);
-const [extraCurricular, setExtraCurricular] = useState([]);
-const [sahayaEvents, setSahayaEvents] = useState([]);
-const [scudActivities, setScudActivities] = useState([]);
-const [newsletters, setNewsletters] = useState([]);
-const [hackathons, setHackathons] = useState([]);
-const [trainingActivities, setTrainingActivities] = useState([]);
-const [handbooks, setHandbooks] = useState([]);
-const [placements, setPlacements] = useState([]);
-const[bosMembers,setBosMembers]=useState([]);
-const[bosMinutes,setBosMinutes]=useState([]);
+const [physicalFacilities, setPhysicalFacilities] = useState<PhysicalFacility[]>([]);
+const [laboratories, setLaboratories] = useState<any[]>([]);
+const [facultyDevelopment, setFacultyDevelopment] = useState<any[]>([]);
+const [facultyAchievements, setFacultyAchievements] = useState<any[]>([]);
+const [meritScholarships, setMeritScholarships] = useState<any[]>([]);
+const [extraCurricular, setExtraCurricular] = useState<any[]>([]);
+const [sahayaEvents, setSahayaEvents] = useState<any[]>([]);
+const [scudActivities, setScudActivities] = useState<any[]>([]);
+const [newsletters, setNewsletters] = useState<any[]>([]);
+const [hackathons, setHackathons] = useState<any[]>([]);
+const [trainingActivities, setTrainingActivities] = useState<any[]>([]);
+const [handbooks, setHandbooks] = useState<any[]>([]);
+const [placements, setPlacements] = useState<any[]>([]);
+const[bosMembers,setBosMembers]=useState<BOSMember[]>([]);
+const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
 
 
    useEffect(() => {
-    fetch('/api/cstcse/cst-faculty')
+    fetch('/api/public/departments/cst')
       .then(res => res.json())
-      .then(data => {
-        setFaculty(data.faculty);
-        setTechnicalFaculty(data.technical);
-        setNonTeachingFaculty(data.nonTeaching);
+      .then(response => {
+        console.log('CST API response:', response);
+        const data = response.data || response; // Handle both nested and flat structure
+        setFaculty(data.faculty || []);
+        setTechnicalFaculty(data.technicalStaff || []);
+        setNonTeachingFaculty(data.nonTeachingStaff || []);
+        setStudentAchievements(data.studentAchievements || []);
+        setSyllabus(data.syllabusDocuments || []);
+        setEResources(data.eresources || []);
+        setDepartmentLibrary(data.departmentLibrary);
+        setMous(data.mous || []);
+        setIndustryPrograms(data.industryPrograms || []);
+        setOverview(data.overview);
+        setTrainingActivities(data.trainingActivities || []);
+        setBosMembers(data.boardOfStudies || []);
+        setBosMinutes(data.boardOfStudiesMeetingMinutes || []);
+        setHandbooks(data.handbooks || []);
+        setPhysicalFacilities(data.physicalFacilities || []);
+        setLaboratories(data.labs || []);
+        setFacultyDevelopment(data.facultyDevelopment || []);
+        setFacultyAchievements(data.facultyAchievements || []);
+        setMeritScholarships(data.meritScholarships || []);
+        setExtraCurricular(data.extraCurricular || []);
+        setSahayaEvents(data.sahayaEvents || []);
+        setScudActivities(data.scudActivities || []);
+        setNewsletters(data.newsletters || []);
+        setHackathons(data.hackathons || []);
+        setPlacements(data.placements || []);
+      })
+      .catch(error => {
+        console.error('Error fetching CST department data:', error);
       });
-       fetch('/api/cstcse/cst-overview')
-    .then(res => res.json())
-    .then(data => setOverview(data.overview));
-
-fetch('/api/cstcse/cst-training-activites')
-  .then(res => res.json())
-  .then(data => {
-    setTrainingActivities(data.activities || []);
-  });
- fetch('/api/cstcse/cst-board-of-studies')
-    .then(res => res.json())
-    .then(data => {
-      setBosMembers(data.members || []);
-      setBosMinutes(data.minutes || []);
-    });
-fetch('/api/cstcse/cst-handbooks')
-  .then(res => res.json())
-  .then(data => {
-    setHandbooks(data.handbooks || []);
-  });
-
-    fetch('/api/cstcse/cst-student-achievement')
-      .then(res => res.json())
-      .then(data => {
-
-        setStudentAchievements(data.achievements || []);
-      });
-       fetch('/api/cstcse/cst-syllabus')
-    .then(res => res.json())
-    .then(data => {
-      setSyllabus(data.syllabus || []);
-    });
-
-  fetch('/api/cstcse/cst-eresources')
-    .then(res => res.json())
-    .then(data => {
-      setEResources(data.eresources || []);
-    });
-     fetch('/api/cstcse/cst-department-library')
-    .then(res => res.json())
-    .then(data => {
-      setDepartmentLibrary(data.library);
-    });
-
-fetch('/api/cstcse/cst-mous')
-    .then(res => res.json())
-    .then(data => {
-      setMous(data.mous || []);
-      setIndustryPrograms(data.industryPrograms || []);
-    });
-
-
-
- 
-
-  fetch('/api/cstcse/cst-physical-facilities')
-    .then(res => res.json())
-    .then(data => setPhysicalFacilities(data.facilities || []));
-
-  fetch('/api/cstcse/cst-faculty-develop')
-    .then(res => res.json())
-    .then(data => setFacultyDevelopment(data.fdp || []));
-
-  fetch('/api/cstcse/cst-faculty-achievements')
-    .then(res => res.json())
-    .then(data => setFacultyAchievements(data.achievements || []));
-
-  fetch('/api/cstcse/cst-merit-scholarships')
-    .then(res => res.json())
-    .then(data => setMeritScholarships(data.scholarships || []));
-
-  fetch('/api/cstcse/cst-scud-activities')
-    .then(res => res.json())
-    .then(data => setScudActivities(data.scudActivities || []));
-
-  fetch('/api/cstcse/cst_extra_curricular')
-    .then(res => res.json())
-    .then(data => setExtraCurricular(data.activities || []));
-
-
-  fetch('/api/cstcse/cst-newsletter')
-    .then(res => res.json())
-    .then(data => setNewsletters(data.newsletters || []));
-
-  fetch('/api/cstcse/cst-hackathons')
-    .then(res => res.json())
-    .then(data => setHackathons(data.hackathons || []));
-
-  fetch('/api/cstcse/cst-training-activites')
-    .then(res => res.json())
-    .then(data => setTrainingActivities(data.activities || []));
-
-  fetch('/api/cstcse/cst-handbooks')
-    .then(res => res.json())
-    .then(data => setHandbooks(data.handbooks || []));
-
-  fetch('/api/cstcse/cst-placements')
-    .then(res => res.json())
-    .then(data => setPlacements(data.placements || []));
-
-
-
-
-
-
   }, []);
 
   const sidebarItems = [
@@ -1146,7 +1167,7 @@ case 'Physical Facilities': {
                 <div key={event.id}>
                   <h3 className="text-xl font-semibold text-center mb-4">{event.title}</h3>
                   <div className={`grid grid-cols-1 ${event.gallery.length > 2 ? 'md:grid-cols-3' : 'sm:grid-cols-2'} gap-6`}>
-                    {event.gallery.map((img, i) => (
+                    {event.gallery.map((img: any, i: number) => (
                       <img
                         key={i}
                         src={img}
@@ -1404,7 +1425,7 @@ case 'Physical Facilities': {
   );
       case 'Handbooks': {
   // Group handbooks by academic_year and semester
-  const grouped = {};
+  const grouped: Record<string, Record<string, any[]>> = {};
   handbooks.forEach(h => {
     if (!grouped[h.academic_year]) grouped[h.academic_year] = {};
     if (!grouped[h.academic_year][h.semester]) grouped[h.academic_year][h.semester] = [];
@@ -1529,4 +1550,3 @@ case 'Physical Facilities': {
 };
 
 export default CSTDepartment;
-

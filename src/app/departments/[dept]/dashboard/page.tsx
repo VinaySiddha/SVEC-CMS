@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth/AuthContext';
+import { fetchWithErrorHandling, safeJsonParse } from '@/utils/api-helpers';
 import { 
   Search, 
   Plus, 
@@ -379,40 +380,47 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
     setLoading(true);
     try {
       const authToken = localStorage.getItem('authToken');
+      const headers = {
+        'Authorization': `Bearer ${authToken}`
+      };
       
       // Fetch table structure first
-      const structureResponse = await fetch(`/api/admin/departments/${dept}/${moduleKey}/structure`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
-      });
-      
-      if (structureResponse.ok) {
-        const structureResult = await structureResponse.json();
+      try {
+        const structureResult = await fetchWithErrorHandling(`/api/admin/departments/${dept}/${moduleKey}/structure`, {
+          headers
+        });
         setTableColumns(structureResult.fields || []);
+      } catch (structureError) {
+        console.warn('Failed to load table structure:', structureError);
+        setTableColumns([]);
       }
       
       // Then fetch the actual data
-      const response = await fetch(`/api/admin/departments/${dept}/${moduleKey}`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
+      const result = await fetchWithErrorHandling(`/api/admin/departments/${dept}/${moduleKey}`, {
+        headers
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && result.data) {
-          setModuleData(result.data.records || []);
-          setTotalRecords(result.data.total || 0);
-          setTotalPages(result.data.totalPages || 1);
-          setCurrentPage(page);
-        }
+      if (result.success && result.data) {
+        setModuleData(result.data.records || []);
+        setTotalRecords(result.data.total || 0);
+        setTotalPages(result.data.totalPages || 1);
+        setCurrentPage(page);
       } else {
-        toast.error('Failed to load module data');
+        setModuleData([]);
+        setTotalRecords(0);
+        setTotalPages(1);
+        toast.error('No data found for this module');
       }
     } catch (error) {
       console.error('Error loading module data:', error);
-      toast.error('Error loading module data');
+      setModuleData([]);
+      setTotalRecords(0);
+      setTotalPages(1);
+      if (error instanceof Error) {
+        toast.error(`Failed to load data: ${error.message}`);
+      } else {
+        toast.error('Failed to load module data');
+      }
     } finally {
       setLoading(false);
     }
@@ -441,24 +449,28 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
     
     try {
       const authToken = localStorage.getItem('authToken');
-      const response = await fetch(`/api/admin/departments/${dept}/${selectedModule}?id=${id}`, {
+      const result = await fetchWithErrorHandling(`/api/admin/departments/${dept}/${selectedModule}?id=${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${authToken}`
         }
       });
       
-      if (response.ok) {
+      if (result.success) {
         toast.success('Record deleted successfully');
         if (selectedModule) {
           loadModuleData(selectedModule, currentPage);
         }
       } else {
-        toast.error('Failed to delete item');
+        toast.error(result.error || 'Failed to delete item');
       }
     } catch (error) {
       console.error('Error deleting item:', error);
-      toast.error('Error deleting item');
+      if (error instanceof Error) {
+        toast.error(`Delete failed: ${error.message}`);
+      } else {
+        toast.error('Error deleting item');
+      }
     }
   };
 
@@ -470,7 +482,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         ? `/api/admin/departments/${dept}/${selectedModule}?id=${editingItem.id}`
         : `/api/admin/departments/${dept}/${selectedModule}`;
 
-      const response = await fetch(url, {
+      const result = await fetchWithErrorHandling(url, {
         method,
         headers: { 
           'Content-Type': 'application/json',
@@ -479,7 +491,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         body: JSON.stringify(data)
       });
 
-      if (response.ok) {
+      if (result.success) {
         setShowCreateModal(false);
         setEditingItem(null);
         toast.success(editingItem ? 'Record updated successfully' : 'Record created successfully');
@@ -487,12 +499,15 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
           loadModuleData(selectedModule, currentPage);
         }
       } else {
-        const errorData = await response.json();
-        toast.error(`Failed to save: ${errorData.error || 'Unknown error'}`);
+        toast.error(`Failed to save: ${result.error || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error saving item:', error);
-      toast.error('Error saving item');
+      if (error instanceof Error) {
+        toast.error(`Save failed: ${error.message}`);
+      } else {
+        toast.error('Error saving item');
+      }
     }
   };
 
@@ -943,6 +958,8 @@ function EditForm({
   const [formData, setFormData] = useState<any>({});
   const [tableFields, setTableFields] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [uploadingFile, setUploadingFile] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (item) {
@@ -957,16 +974,13 @@ function EditForm({
     setLoading(true);
     try {
       const authToken = localStorage.getItem('authToken');
-      const response = await fetch(`/api/admin/departments/${dept}/${selectedModule}/structure`, {
+      const result = await fetchWithErrorHandling(`/api/admin/departments/${dept}/${selectedModule}/structure`, {
         headers: {
           'Authorization': `Bearer ${authToken}`
         }
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        setTableFields(result.fields || []);
-      }
+      setTableFields(result.fields || []);
     } catch (error) {
       console.error('Error fetching table structure:', error);
       // Fallback to default fields if API fails
@@ -980,9 +994,96 @@ function EditForm({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    
+    let finalFormData = { ...formData };
+    
+    // Handle file upload for CST file URL fields
+    if (dept === 'cst' && selectedFile) {
+      setUploadingFile(true);
+      try {
+        const authToken = localStorage.getItem('authToken');
+        const fileFormData = new FormData();
+        fileFormData.append('file', selectedFile);
+        
+        const uploadResponse = await fetch(`/api/admin/departments/cst/${selectedModule}/upload`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: fileFormData
+        });
+        
+        if (!uploadResponse.ok) {
+          const errorData = await uploadResponse.json();
+          throw new Error(errorData.error || 'Upload failed');
+        }
+        
+        const uploadResult = await uploadResponse.json();
+        
+        // Find the file URL field and update it
+        const fileUrlField = getEditableFields().find(field => 
+          field.Field.toLowerCase().includes('url') || 
+          field.Field.toLowerCase().includes('file') ||
+          field.Field.toLowerCase().includes('document') ||
+          field.Field.toLowerCase().includes('link')
+        );
+        
+        if (fileUrlField) {
+          finalFormData[fileUrlField.Field] = uploadResult.data.url;
+        } else {
+          // Default to file_url if no specific field found
+          finalFormData.file_url = uploadResult.data.url;
+        }
+        
+        toast.success(`File uploaded successfully (${uploadResult.data.size}KB)`);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : 'Upload failed');
+        setUploadingFile(false);
+        return;
+      } finally {
+        setUploadingFile(false);
+      }
+    }
+    
+    onSave(finalFormData);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type (expanded to support more file types)
+      const allowedTypes = [
+        'application/pdf',
+        'image/jpeg',
+        'image/jpg', 
+        'image/png',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.ms-excel',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      ];
+      
+      if (!allowedTypes.includes(file.type)) {
+        toast.error('File type not allowed. Supported: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX');
+        e.target.value = '';
+        return;
+      }
+      
+      // Validate file size (1MB)
+      const maxSize = 1024 * 1024; // 1MB
+      if (file.size > maxSize) {
+        toast.error(`File size exceeds 1MB limit. Current size: ${Math.round(file.size / 1024)}KB`);
+        e.target.value = '';
+        return;
+      }
+      
+      setSelectedFile(file);
+      toast.success(`File selected: ${file.name} (${Math.round(file.size / 1024)}KB)`);
+    } else {
+      setSelectedFile(null);
+    }
   };
 
   const handleChange = (field: string, value: any) => {
@@ -1106,6 +1207,46 @@ function EditForm({
                 placeholder={`Enter ${displayName.toLowerCase()}`}
                 required={isRequired}
               />
+            ) : inputType === 'url' && dept === 'cst' && (
+              fieldName.toLowerCase().includes('url') || 
+              fieldName.toLowerCase().includes('file') ||
+              fieldName.toLowerCase().includes('document') ||
+              fieldName.toLowerCase().includes('link')
+            ) ? (
+              // File upload for all CST modules with file URL fields
+              <div className="space-y-2">
+                <Input
+                  id={`${fieldName}-upload`}
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"
+                  onChange={handleFileChange}
+                  className="cursor-pointer"
+                />
+                <div className="text-xs text-gray-600">
+                  <p>• Supported: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX</p>
+                  <p>• Maximum size: 1MB</p>
+                  <p>• Files will be stored in /uploads/cst/{selectedModule}/</p>
+                </div>
+                {formData[fieldName] && (
+                  <div className="bg-blue-50 p-2 rounded border">
+                    <p className="text-xs text-blue-700 font-medium">Current file:</p>
+                    <a 
+                      href={formData[fieldName]} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-xs text-blue-600 hover:underline break-all"
+                    >
+                      {formData[fieldName]}
+                    </a>
+                  </div>
+                )}
+                {selectedFile && (
+                  <div className="bg-green-50 p-2 rounded border">
+                    <p className="text-xs text-green-700 font-medium">New file selected:</p>
+                    <p className="text-xs text-green-600">{selectedFile.name} ({Math.round(selectedFile.size / 1024)}KB)</p>
+                  </div>
+                )}
+              </div>
             ) : inputType === 'url' ? (
               <Input
                 id={fieldName}
@@ -1130,11 +1271,18 @@ function EditForm({
       })}
       
       <DialogFooter className="gap-2 pt-4">
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <Button type="button" variant="outline" onClick={onCancel} disabled={uploadingFile}>
           Cancel
         </Button>
-        <Button type="submit">
-          {item ? 'Update' : 'Create'}
+        <Button type="submit" disabled={uploadingFile}>
+          {uploadingFile ? (
+            <div className="flex items-center gap-2">
+              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+              Uploading...
+            </div>
+          ) : (
+            item ? 'Update' : 'Create'
+          )}
         </Button>
       </DialogFooter>
     </form>

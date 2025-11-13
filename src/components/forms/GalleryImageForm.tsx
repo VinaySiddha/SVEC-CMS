@@ -92,8 +92,8 @@ export function GalleryImageForm({
       }
 
       const url = galleryImage
-        ? `/api/gallery/${galleryImage.id}`
-        : '/api/gallery';
+        ? `/api/placement/gallery/${galleryImage.id}`
+        : '/api/placement/gallery';
       
       const method = galleryImage ? 'PUT' : 'POST';
 

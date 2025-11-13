@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
   },
   // Enable standalone output for Docker optimization
   output: 'standalone',
+  // Increase body size limit for Server Actions to handle PDF uploads (2MB)
+  serverActions: {
+    bodySizeLimit: '5MB',
+  },
 };
 
 async function setupDevPlatform(): Promise<void> {

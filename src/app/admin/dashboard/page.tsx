@@ -816,6 +816,48 @@ const DEPARTMENT_MODULES = {
   // Computer Science & Technology
   cst: [
     { 
+      key: 'bos-members', 
+      name: 'Board of Studies Members', 
+      icon: Users, 
+      description: 'Board of studies committee members',
+      table: 'cst_bos_members'
+    },
+    { 
+      key: 'bos-minutes', 
+      name: 'BOS Meeting Minutes', 
+      icon: FileText, 
+      description: 'Board of studies meeting records',
+      table: 'cst_bos_minutes'
+    },
+    { 
+      key: 'department-library', 
+      name: 'Department Library', 
+      icon: BookOpen, 
+      description: 'Library resources and books',
+      table: 'cst_department_library'
+    },
+    { 
+      key: 'department-overview', 
+      name: 'Department Overview', 
+      icon: Building2, 
+      description: 'Department profile and information',
+      table: 'cst_department_overview'
+    },
+    { 
+      key: 'eresources', 
+      name: 'E-Resources', 
+      icon: Globe, 
+      description: 'Digital learning resources',
+      table: 'cst_eresources'
+    },
+    { 
+      key: 'extra-curricular', 
+      name: 'Extra-Curricular Activities', 
+      icon: Activity, 
+      description: 'Student activities and events',
+      table: 'cst_extra_curricular'
+    },
+    { 
       key: 'faculty', 
       name: 'Faculty', 
       icon: Users, 
@@ -823,11 +865,74 @@ const DEPARTMENT_MODULES = {
       table: 'cst_faculty'
     },
     { 
-      key: 'board-of-studies', 
-      name: 'board-of-studies', 
+      key: 'faculty-achievements', 
+      name: 'Faculty Achievements', 
+      icon: Award, 
+      description: 'Faculty awards and recognitions',
+      table: 'cst_faculty_achievements'
+    },
+    { 
+      key: 'faculty-development', 
+      name: 'Faculty Development Programs', 
+      icon: GraduationCap, 
+      description: 'Professional development programs',
+      table: 'cst_faculty_development'
+    },
+    { 
+      key: 'hackathons', 
+      name: 'Hackathons', 
+      icon: Cpu, 
+      description: 'Coding competitions and events',
+      table: 'cst_hackathons'
+    },
+    { 
+      key: 'handbooks', 
+      name: 'Academic Handbooks', 
+      icon: BookOpen, 
+      description: 'Academic handbooks and guides',
+      table: 'cst_handbooks'
+    },
+    { 
+      key: 'industry-programs', 
+      name: 'Industry Programs', 
+      icon: Briefcase, 
+      description: 'Industry collaboration programs',
+      table: 'cst_industry_programs'
+    },
+    { 
+      key: 'merit-scholarships', 
+      name: 'Merit Scholarships', 
+      icon: Award, 
+      description: 'Student scholarship programs',
+      table: 'cst_merit_scholarships'
+    },
+    { 
+      key: 'mous', 
+      name: 'MOUs', 
+      icon: FileText, 
+      description: 'Memorandums of Understanding',
+      table: 'cst_mous'
+    },
+    { 
+      key: 'newsletters', 
+      name: 'Newsletters', 
+      icon: FileText, 
+      description: 'Department publications',
+      table: 'cst_newsletters'
+    },
+    { 
+      key: 'non-teaching-faculty', 
+      name: 'Non-Teaching Faculty', 
       icon: Users, 
-      description: 'Faculty members and profiles',
-      table: 'cst_faculty'
+      description: 'Non-teaching staff members',
+      table: 'cst_non_teaching_faculty'
+    },
+    { 
+      key: 'physical-facilities', 
+      name: 'Physical Facilities', 
+      icon: Building2, 
+      description: 'Infrastructure and equipment',
+      table: 'cst_physical_facilities'
     },
     { 
       key: 'placements', 
@@ -837,11 +942,46 @@ const DEPARTMENT_MODULES = {
       table: 'cst_placements'
     },
     { 
-      key: 'workshops', 
-      name: 'Workshops', 
-      icon: Settings, 
-      description: 'Educational workshops',
-      table: 'cst_workshops'
+      key: 'sahaya-events', 
+      name: 'Sahaya Events', 
+      icon: Activity, 
+      description: 'Social service events',
+      table: 'cst_sahaya_events'
+    },
+    { 
+      key: 'scud-activities', 
+      name: 'SCUD Activities', 
+      icon: Activity, 
+      description: 'Technical association activities',
+      table: 'cst_scud_activities'
+    },
+    { 
+      key: 'student-achievements', 
+      name: 'Student Achievements', 
+      icon: Award, 
+      description: 'Student awards and recognitions',
+      table: 'cst_student_achievements'
+    },
+    { 
+      key: 'syllabus', 
+      name: 'Syllabus', 
+      icon: BookOpen, 
+      description: 'Course curriculum and syllabus',
+      table: 'cst_syllabus'
+    },
+    { 
+      key: 'technical-faculty', 
+      name: 'Technical Faculty', 
+      icon: Users, 
+      description: 'Technical staff members',
+      table: 'cst_technical_faculty'
+    },
+    { 
+      key: 'training-activities', 
+      name: 'Training Activities', 
+      icon: GraduationCap, 
+      description: 'Training programs and workshops',
+      table: 'cst_training_activities'
     }
   ],
 

@@ -114,12 +114,7 @@ const Principal: React.FC = () => {
                     {principalInfo.email}
                   </a>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-[#B22222]" />
-                  <a href={`tel:${principalInfo.phone}`} className="text-gray-700 hover:text-[#B22222]">
-                    {principalInfo.phone}
-                  </a>
-                </div>
+                
                 <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-[#B22222]" />
                   <span className="text-gray-700">{principalInfo.office}</span>
@@ -154,97 +149,6 @@ const Principal: React.FC = () => {
                   In June 2018, he was appointed Principal of Sri Vasavi Engineering College, and under his visionary leadership, the college continues its pursuit of academic distinction and holistic development.<br /><br />
                   For professional correspondence, Dr. Ratnakara Rao can be contacted at principal@srivasaviengg.ac.in
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Key Initiatives */}
-      <section className="py-16 bg-[#FFF8F0]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-[#B22222] mb-4">Key Initiatives</h2>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Leading transformative changes in education and student development
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {initiatives.map((initiative, index) => (
-              <div
-                key={index}
-                className="quick-link bg-white p-8 rounded-xl shadow hover:shadow-lg transition-all"
-                style={{ animationDelay: `${index * 0.15}s` }}
-              >
-                <initiative.icon className="w-12 h-12 text-[#B22222] mb-4 icon-bounce" />
-                <h3 className="text-xl font-bold text-[#B22222] mb-3">{initiative.title}</h3>
-                <p className="text-gray-600 mb-4">{initiative.description}</p>
-                <div className="space-y-2">
-                  {initiative.achievements.map((achievement, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[#B22222] rounded-full"></div>
-                      <span className="text-sm text-gray-700">{achievement}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Recent Activities */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Activities Timeline */}
-            <div>
-              <h2 className="text-3xl font-bold text-[#B22222] mb-8">Recent Activities</h2>
-              <div className="space-y-6">
-                {recentActivities.map((activity, index) => (
-                  <div
-                    key={index}
-                    className="news-item border-l-4 border-[#B22222] pl-6 py-4 hover:bg-[#FFF8F0] rounded-r transition-all"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="text-sm text-[#B22222] font-medium mb-1">{activity.activityDate}</div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">{activity.title}</h3>
-                    <p className="text-gray-600">{activity.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Vision & Mission */}
-            <div className="space-y-8">
-              <div className="stat-card bg-[#FFF8F0] p-8 rounded-xl border">
-                <h3 className="text-2xl font-bold text-[#B22222] mb-4">Vision</h3>
-                <p className="text-gray-700">
-                  To be a premier institution of technical education, fostering innovation, research, and ethical leadership in engineering professionals who contribute to global technological advancement.
-                </p>
-              </div>
-
-              <div className="stat-card bg-white p-8 rounded-xl border shadow">
-                <h3 className="text-2xl font-bold text-[#B22222] mb-4">Mission</h3>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-[#B22222] rounded-full mt-2"></div>
-                    <span>Provide quality education with industry-relevant curriculum</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-[#B22222] rounded-full mt-2"></div>
-                    <span>Foster research and innovation culture</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-[#B22222] rounded-full mt-2"></div>
-                    <span>Develop ethical and responsible engineers</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-[#B22222] rounded-full mt-2"></div>
-                    <span>Build strong industry partnerships</span>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>

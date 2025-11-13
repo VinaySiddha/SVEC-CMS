@@ -1,0 +1,117 @@
+/* Placement Dashboard Scoped Styles - Override all conflicting styles */
+
+/* Root wrapper ensures styles are applied only to placement section */
+.placement-dashboard-layout {
+  width: 100%;
+}
+
+/* Override the main dashboard container background and colors */
+.placement-dashboard-layout .min-h-screen.bg-gradient-to-br.from-slate-50 {
+  background: linear-gradient(to bottom right, rgb(249, 240, 245), rgba(254, 243, 230, 0.3), rgb(254, 226, 226)) !important;
+}
+
+/* Ensure placement dashboard uses orange/red theme */
+.placement-dashboard-layout [className*="from-orange"] {
+  --tw-gradient-from: rgb(234, 88, 12) !important;
+}
+
+.placement-dashboard-layout [className*="to-red"] {
+  --tw-gradient-to: rgb(185, 28, 28) !important;
+}
+
+/* Override card styling to prevent exam section blue styles */
+.placement-dashboard-layout .bg-white\/90 {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+.placement-dashboard-layout .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
+}
+
+.placement-dashboard-layout .rounded-2xl {
+  border-radius: 1rem !important;
+}
+
+/* Force orange/red gradient for headers */
+.placement-dashboard-layout .bg-gradient-to-r.from-orange-500 {
+  background: linear-gradient(to right, rgb(234, 88, 12), rgb(185, 28, 28)) !important;
+  color: white !important;
+}
+
+/* Preserve blue gradient for staff section only */
+.placement-dashboard-layout .bg-gradient-to-r.from-blue-500 {
+  background: linear-gradient(to right, rgb(59, 130, 246), rgb(79, 70, 229)) !important;
+  color: white !important;
+}
+
+/* Profile section styling */
+.placement-dashboard-layout .bg-orange-50 {
+  background-color: rgba(254, 242, 242, 1) !important;
+  border: 1px solid rgb(253, 186, 186) !important;
+}
+
+/* Button styling */
+.placement-dashboard-layout .bg-orange-600 {
+  background-color: rgb(234, 88, 12) !important;
+}
+
+.placement-dashboard-layout .bg-orange-600:hover {
+  background-color: rgb(194, 65, 12) !important;
+}
+
+/* Stat cards */
+.placement-dashboard-layout [className*="stat"] {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 0 !important;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Hide global Header/Footer for placement dashboard */
+.placement-dashboard-layout header {
+  display: none !important;
+}
+
+.placement-dashboard-layout footer {
+  display: none !important;
+}
+
+/* Ensure no blue exam section styles bleed in */
+.placement-dashboard-layout .bg-gradient-to-br.from-slate-50.via-blue-50 {
+  background: linear-gradient(to bottom right, rgb(249, 240, 245), rgba(254, 243, 230, 0.3), rgb(254, 226, 226)) !important;
+}
+
+/* Override any exam section specific classes */
+.placement-dashboard-layout [class*="exam"] {
+  filter: none;
+}
+
+.placement-dashboard-layout [class*="department"] {
+  filter: none;
+}
+
+.placement-dashboard-layout [class*="dept"] {
+  filter: none;
+}
+
+/* Ensure Card components use correct styling */
+.placement-dashboard-layout [className*="Card"] {
+  background-color: white !important;
+  border: 0 !important;
+}
+
+/* Text color adjustments */
+.placement-dashboard-layout .text-gray-800 {
+  color: rgb(31, 41, 55) !important;
+}
+
+.placement-dashboard-layout .text-gray-600 {
+  color: rgb(75, 85, 99) !important;
+}
+
+.placement-dashboard-layout .text-white {
+  color: white !important;
+}
