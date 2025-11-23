@@ -1,7 +1,7 @@
 # SVEC CMS
 
 Content Management System for Sri Vasavi Engineering College.
-
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=VinaySiddha_SVEC-CMS)](https://sonarcloud.io/summary/new_code?id=VinaySiddha_SVEC-CMS)
 ## Project Overview
 
 This project is a content management system for Sri Vasavi Engineering College, built with Next.js and Tailwind CSS.
