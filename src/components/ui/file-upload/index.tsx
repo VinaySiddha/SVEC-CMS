@@ -18,7 +18,7 @@ interface FileUploadProps {
 const FileUpload: React.FC<FileUploadProps> = ({
   id,
   label,
-  accept = 'image/jpeg,image/png',
+  accept = 'image/jpeg,image/png,image/webp',
   maxSizeMB = 2,
   onChange,
   error,

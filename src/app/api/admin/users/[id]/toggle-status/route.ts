@@ -5,7 +5,7 @@ import { query } from '@/lib/db';
 // Toggle user status (activate/deactivate)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization');

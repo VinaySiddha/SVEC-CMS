@@ -419,6 +419,90 @@ CREATE TABLE `bsh_student_achievements` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bsh_syllabus`
+--
+
+CREATE TABLE `bsh_syllabus` (
+  `id` int NOT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `fileUrl` varchar(255) DEFAULT NULL,
+  `academic_year` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bsh_fdps`
+--
+
+CREATE TABLE `bsh_fdps` (
+  `id` int NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `description` text,
+  `date` varchar(50) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `year` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bsh_photogallery`
+--
+
+CREATE TABLE `bsh_photogallery` (
+  `id` int NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `event_type` varchar(100) DEFAULT NULL,
+  `imageUrl` varchar(255) NOT NULL,
+  `date` varchar(50) DEFAULT NULL,
+  `description` text,
+  `ordering` int DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cai_faculty`
+--
+
+CREATE TABLE `cai_faculty` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `qualification` varchar(100) DEFAULT NULL,
+  `designation` varchar(100) DEFAULT NULL,
+  `profile_url` varchar(255) DEFAULT NULL,
+  `profileUrl` varchar(255) DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'active',
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cai_bos_members`
+--
+
+CREATE TABLE `cai_bos_members` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `dept` varchar(20) NOT NULL DEFAULT 'cseai',
+  `name` varchar(255) NOT NULL,
+  `designation` varchar(255) DEFAULT NULL,
+  `organization` varchar(255) DEFAULT NULL,
+  `position_in_job` varchar(255) DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'active',
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cai_eresources`
 --
 
@@ -606,6 +690,26 @@ CREATE TABLE `cai_training_gallery` (
   `image_url` text,
   `alt_text` varchar(255) DEFAULT NULL,
   `dept` varchar(20) NOT NULL DEFAULT 'cseai'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cai_placements`
+--
+
+CREATE TABLE `cai_placements` (
+  `id` int NOT NULL,
+  `batch` varchar(20) NOT NULL,
+  `academic_year` varchar(10) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  `file_url` varchar(500) DEFAULT NULL,
+  `gallery` json DEFAULT NULL,
+  `dept` varchar(20) NOT NULL DEFAULT 'cse-ai',
+  `status` varchar(20) NOT NULL DEFAULT 'active',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -4276,6 +4380,24 @@ ALTER TABLE `bsh_student_achievements`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `bsh_syllabus`
+--
+ALTER TABLE `bsh_syllabus`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `bsh_fdps`
+--
+ALTER TABLE `bsh_fdps`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `bsh_photogallery`
+--
+ALTER TABLE `bsh_photogallery`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `cai_eresources`
 --
 ALTER TABLE `cai_eresources`
@@ -4347,6 +4469,15 @@ ALTER TABLE `cai_training_activities`
 --
 ALTER TABLE `cai_training_gallery`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cai_placements`
+--
+ALTER TABLE `cai_placements`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_batch` (`batch`),
+  ADD KEY `idx_academic_year` (`academic_year`),
+  ADD KEY `idx_status` (`status`);
 
 --
 -- Indexes for table `civil_consultancy`
@@ -5822,6 +5953,36 @@ ALTER TABLE `bsh_student_achievements`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `bsh_syllabus`
+--
+ALTER TABLE `bsh_syllabus`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `bsh_fdps`
+--
+ALTER TABLE `bsh_fdps`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `bsh_photogallery`
+--
+ALTER TABLE `bsh_photogallery`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `cai_faculty`
+--
+ALTER TABLE `cai_faculty`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `cai_bos_members`
+--
+ALTER TABLE `cai_bos_members`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `cai_eresources`
 --
 ALTER TABLE `cai_eresources`
@@ -5891,6 +6052,12 @@ ALTER TABLE `cai_training_activities`
 -- AUTO_INCREMENT for table `cai_training_gallery`
 --
 ALTER TABLE `cai_training_gallery`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `cai_placements`
+--
+ALTER TABLE `cai_placements`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --

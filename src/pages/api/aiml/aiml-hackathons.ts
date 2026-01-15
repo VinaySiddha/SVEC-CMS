@@ -1,53 +1,24 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import mysql from 'mysql2/promise';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { getConnection, executeQuery } from '../../../lib/dbPool';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { dept } = req.query;
-  if (!dept || typeof dept !== 'string') {
-    return res.status(400).json({ error: 'Missing or invalid dept parameter' });
-  }
-
-  const connection = await mysql.createConnection({
-    host: '62.72.31.209',
-        user: 'cmsuser',
-        password: 'V@savi@2001',
-        database: 'svec_cms'
-  });
-
-  try {
-    const [documents] = await connection.execute(
-      `SELECT id, academic_year, title, file_url
-         FROM hackathon_documents
-        WHERE dept = ?
-        ORDER BY id ASC`,
-      [dept]
-    );
-
-    const [galleries] = await connection.execute(
-      `SELECT g.id, g.title,
-              JSON_ARRAYAGG(JSON_OBJECT('id', i.id, 'image_url', i.image_url, 'alt_text', i.alt_text)) AS images
-         FROM hackathon_galleries g
-    LEFT JOIN hackathon_gallery_images i ON g.id = i.gallery_id
-        WHERE g.dept = ?
-     GROUP BY g.id, g.title
-     ORDER BY g.id ASC`,
-      [dept]
-    );
-
-    await connection.end();
-
-    res.status(200).json({
-      dept,
-      documents,
-      galleries: (galleries as any[]).map(g => ({
-        id: g.id,
-        title: g.title,
-        images: g.images  // ✅ No parsing required
-      }))
-    });
-  } catch (err) {
-    await connection.end();
-    console.error(err);
-    res.status(500).json({ error: 'Database error' });
-  }
+    try {
+        // Using connection pool
+        
+        // Fetch hackathons from cai_hackathons table
+        const rows: any = await executeQuery(
+            "SELECT * FROM aiml_hackathons ORDER BY id DESC"
+        );
+        
+        // Process gallery field - convert comma-separated string to array
+        const hackathons = (rows as any[]).map(h => ({
+            ...h,
+            gallery: h.gallery ? h.gallery.split(',').map((url: string) => url.trim()).filter(Boolean) : []
+        }));
+        
+        res.status(200).json(hackathons);
+    } catch (error) {
+        console.error('CAI Hackathons API Error:', error);
+        res.status(500).json({ error: 'Failed to fetch CAI hackathons data', details: error });
+    }
 }

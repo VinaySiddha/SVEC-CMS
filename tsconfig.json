@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/pages/api/ece/technicalassociation-activities.js", "src/pages/api/ece/workshops-gl.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/pages/api/ece/technicalassociation-activities.js", "src/pages/api/ece/workshops-gl.js", "src/pages/departments/AIML.tsx", "src/pages/api/ece/placements.js"],
   "exclude": ["node_modules"]
 }

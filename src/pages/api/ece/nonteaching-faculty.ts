@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
   try {
     const [rows] = await connection.execute(
-      'SELECT name, designation FROM ece_nonteaching_faculty ORDER BY id'
+      'SELECT title as name, designation FROM ece_non_teaching_faculty ORDER BY id'
     );
     res.status(200).json(rows);
   } catch (error) {

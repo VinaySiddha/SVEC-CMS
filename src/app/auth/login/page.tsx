@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { useAuth } from '@/lib/auth/AuthContext';
-import { Building2, Lock, Mail } from 'lucide-react';
+import { Building2, Lock, Mail, Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -16,6 +16,7 @@ export default function LoginPage() {
     password: '',
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const { login } = useAuth();
 
@@ -44,13 +45,14 @@ export default function LoginPage() {
         if (data.user.role === 'super_admin') {
           router.push('/admin/dashboard');
         } else if (data.user.role === 'admin') {
-          // Admin users can access both super admin dashboard and their department
           router.push('/admin/dashboard');
         } else if (data.user.role === 'dept') {
-          // Redirect department users to their department dashboard
           router.push(`/departments/${data.user.department}/dashboard`);
+        } else if (data.user.role === 'exam') {
+          router.push('/exam-section/dashboard');
+        } else if (data.user.role === 'placement') {
+          router.push('/placement/dashboard');
         } else {
-          // Default redirect for other roles
           router.push('/dashboard');
         }
       } else {
@@ -120,14 +122,25 @@ export default function LoginPage() {
                   <Input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     required
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="Enter your password"
                     disabled={isLoading}
-                    className="pl-11 h-12 border-gray-200 focus:border-blue-300 focus:ring-blue-200 rounded-lg transition-colors"
+                    className="pl-11 pr-11 h-12 border-gray-200 focus:border-blue-300 focus:ring-blue-200 rounded-lg transition-colors"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
+                  </button>
                 </div>
               </div>
 

@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   });
 
   try {
-    const [rows] = await connection.execute('SELECT program,version,name,url FROM mech_syllabus ORDER BY id');
+    const [rows] = await connection.execute('SELECT * FROM mech_syllabus ORDER BY id DESC');
     res.status(200).json(rows);
   } catch (error) {
     console.error("Error fetching clubs data:", error);

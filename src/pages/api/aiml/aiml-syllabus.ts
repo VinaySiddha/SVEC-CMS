@@ -1,25 +1,23 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import mysql from 'mysql2/promise';
+import { executeQuery } from '../../../lib/dbPool';
 
-// This API supports any department via the ?dept= query parameter (e.g., ?dept=aiml, ?dept=cseai)
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const { dept } = req.query;
-    if (!dept || typeof dept !== 'string') {
-        return res.status(400).json({ error: 'Missing or invalid dept parameter' });
+  try {
+    if (req.method === 'GET') {
+      const rows: any = await executeQuery(
+        "SELECT * FROM aiml_syllabus ORDER BY id DESC"
+      );
+
+      res.status(200).json(rows);
+    } else {
+      res.setHeader('Allow', ['GET']);
+      res.status(405).json({ error: 'Method not allowed' });
     }
-
-    const connection = await mysql.createConnection({
-        host: '62.72.31.209',
-        user: 'cmsuser',
-        password: 'V@savi@2001',
-        database: 'svec_cms'
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({
+      error: 'Database connection failed',
+      details: error instanceof Error ? error.message : 'Unknown error'
     });
-
-    const [rows] = await connection.execute(
-        'SELECT id, dept, category, year, title, pdf_url FROM syllabus WHERE dept = ?',
-        [dept]
-    );
-
-    await connection.end();
-    res.status(200).json(rows);
+  }
 }

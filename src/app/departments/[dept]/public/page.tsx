@@ -78,7 +78,7 @@ export default function PublicDepartmentPage() {
   const fetchDepartmentData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/public/departments/${dept}`);
+      const response = await fetch(`/api/public/departments/${dept}`, { cache: 'no-store' });
       
       if (response.ok) {
         const result = await response.json();

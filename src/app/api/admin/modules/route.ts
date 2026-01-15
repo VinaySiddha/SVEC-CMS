@@ -9,7 +9,7 @@ export async function GET() {
       data: {
         overview: {
           totalDepartments: 12,
-          totalModules: 20,
+          totalModules: 34,
           totalRecords: 0,
           activeDepartments: 0
         },
@@ -41,11 +41,16 @@ export async function GET() {
             name: 'Civil Engineering',
             totalRecords: 0,
             modules: [
-              { name: 'faculty', count: 0, tableName: 'civil_faculty' },
-              { name: 'staff', count: 0, tableName: 'civil_staff' },
-              { name: 'handbooks', count: 0, tableName: 'civil_handbooks' }
+              { name: 'board-of-studies', count: 0, tableName: 'board_of_studies' },
+              { name: 'consultancy', count: 0, tableName: 'civil_consultancy' },
+              { name: 'extra-curricular-activities', count: 0, tableName: 'civil_extra_curricular_activities' },
+              { name: 'newsletters', count: 0, tableName: 'civil_newsletters' },
+              { name: 'physical-facilities', count: 0, tableName: 'civil_physical_facilities' },
+              { name: 'syllabus', count: 0, tableName: 'civil_syllabus' },
+              { name: 'technical-association', count: 0, tableName: 'civil_technical_association' },
+              { name: 'workshops', count: 0, tableName: 'civil_workshops' }
             ],
-            moduleCount: 3
+            moduleCount: 8
           },
           {
             code: 'mech',
@@ -70,26 +75,16 @@ export async function GET() {
             moduleCount: 3
           },
           {
-            code: 'cst',
-            name: 'Computer Science & Technology',
-            totalRecords: 0,
-            modules: [
-              { name: 'faculty', count: 0, tableName: 'cst_faculty' },
-              { name: 'placements', count: 0, tableName: 'cst_placements' },
-              { name: 'workshops', count: 0, tableName: 'cst_workshops' }
-            ],
-            moduleCount: 3
-          },
-          {
             code: 'eee',
             name: 'Electrical & Electronics Engineering',
             totalRecords: 0,
             modules: [
               { name: 'faculty', count: 0, tableName: 'eee_faculty' },
               { name: 'staff', count: 0, tableName: 'eee_staff' },
-              { name: 'handbooks', count: 0, tableName: 'eee_handbooks' }
+              { name: 'handbooks', count: 0, tableName: 'eee_handbooks' },
+              { name: 'technical-handbooks', count: 0, tableName: 'eee_technical_handbooks' }
             ],
-            moduleCount: 3
+            moduleCount: 4
           },
           {
             code: 'mba',

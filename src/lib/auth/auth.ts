@@ -37,7 +37,7 @@ export interface SuperAdminPermission {
   is_active: boolean;
 }
 
-const JWT_SECRET = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30';
+const JWT_SECRET = process.env.JWT_SECRET || 'default_jwt_secret';
 const SALT_ROUNDS = 12;
 
 /**
@@ -76,8 +76,18 @@ export function generateToken(user: Pick<User, 'id' | 'username' | 'department' 
  */
 export function verifyToken(token: string): AuthToken | null {
   try {
-    return jwt.verify(token, JWT_SECRET) as AuthToken;
+    console.log('[verifyToken] Verifying token, length:', token.length);
+    const decoded = jwt.verify(token, JWT_SECRET) as AuthToken;
+    console.log('[verifyToken] ✅ Token valid for user:', decoded.username, 'Role:', decoded.role);
+    return decoded;
   } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      console.error('[verifyToken] ❌ Token EXPIRED at:', error.expiredAt);
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      console.error('[verifyToken] ❌ Token INVALID:', error.message);
+    } else {
+      console.error('[verifyToken] ❌ Token verification error:', error);
+    }
     return null;
   }
 }
@@ -130,7 +140,7 @@ export async function authenticateUser(
       action: 'user_login',
       resourceType: 'authentication',
       department: user.department,
-      severity: 'low',
+      severity: 'info',
       metadata: { login_method: 'password' }
     });
 
@@ -311,7 +321,7 @@ export async function grantPermission(
       resourceType: 'super_admin_permissions',
       resourceId: userId.toString(),
       metadata: { permission, resource },
-      severity: 'medium'
+      severity: 'warning'
     });
 
     return true;

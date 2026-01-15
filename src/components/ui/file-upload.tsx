@@ -38,7 +38,7 @@ export function FileUpload({
 
     // Validate file type
     if (accept === "image/*" && !file.type.startsWith('image/')) {
-      toast.error('Please select an image file');
+      toast.error('Please select an image file (JPEG, PNG, WebP)');
       return;
     }
 
@@ -104,7 +104,7 @@ export function FileUpload({
       <input
         ref={fileInputRef}
         type="file"
-        accept={accept}
+        accept={accept === "image/*" ? "image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" : accept}
         onChange={handleFileSelect}
         className="hidden"
       />
@@ -121,7 +121,7 @@ export function FileUpload({
               Click to upload or drag and drop
             </p>
             <p className="text-xs text-muted-foreground">
-              {accept === "image/*" ? "PNG, JPG, GIF" : accept} up to {maxSize}MB
+              {accept === "image/*" ? "JPEG, PNG, WebP" : accept} up to {maxSize}MB
             </p>
           </div>
         </div>

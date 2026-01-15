@@ -144,6 +144,28 @@ CREATE TABLE IF NOT EXISTS `board_of_studies` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
+-- Table `board_of_studies_minutes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `board_of_studies_minutes` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `dept` VARCHAR(32) NOT NULL,
+  `meeting_no` VARCHAR(50) NOT NULL,
+  `meeting_date` DATE NOT NULL,
+  `file_url` VARCHAR(255) NOT NULL,
+  `description` TEXT NULL,
+  `attendees` TEXT NULL,
+  `decisions` TEXT NULL,
+  `status` ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` DATETIME NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idx_dept` (`dept` ASC),
+  INDEX `idx_status` (`status` ASC),
+  INDEX `idx_meeting_date` (`meeting_date` ASC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
 -- Table `syllabus_documents`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `syllabus_documents` (

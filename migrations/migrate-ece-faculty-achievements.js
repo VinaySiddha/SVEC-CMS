@@ -598,13 +598,13 @@ async function migrateECEFacultyAchievements() {
     await connection.execute(`
       CREATE TABLE IF NOT EXISTS ece_faculty_achievements (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        type VARCHAR(50) NOT NULL,
-        year VARCHAR(32),
-        title VARCHAR(512) NOT NULL,
-        url VARCHAR(512),
-        details TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      )
+        category VARCHAR(100),
+        title VARCHAR(255),
+        file_url VARCHAR(500),
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_category (category)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
     console.log('✅ ece_faculty_achievements table created/verified successfully');
 
@@ -618,14 +618,29 @@ async function migrateECEFacultyAchievements() {
 
     for (const item of achievementsData) {
       try {
+        // Map type values to category values
+        const categoryMapping = {
+          'journal_publication': 'Journal Publications',
+          'conference': 'Conferences',
+          'book_publication': 'Book Publications',
+          'certification': 'Certifications',
+          'patent': 'Patents',
+          'research_supervisor': 'Research Supervisors',
+          'award': 'Awards',
+          'outreach': 'Faculty Out-Reach',
+          'promotion_incentive': 'Faculty Promotions/Incentives'
+        };
+        
+        const category = categoryMapping[item.type] || item.type;
+        
         await connection.execute(
-          `INSERT INTO ece_faculty_achievements (type, year, title, url, details, created_at) VALUES (?, ?, ?, ?, ?, NOW())`,
-          [item.type, item.year, item.title, item.url, item.details]
+          `INSERT INTO ece_faculty_achievements (category, title, file_url, created_at) VALUES (?, ?, ?, NOW())`,
+          [category, item.title, item.url]
         );
-        console.log(`✅ Inserted: [${item.type}] ${item.title}`);
+        console.log(`✅ Inserted: [${category}] ${item.title}`);
         successCount++;
       } catch (error) {
-        console.log(`❌ Error inserting [${item.type}] ${item.title}: ${error.message}`);
+        console.log(`❌ Error inserting [${category || item.type}] ${item.title}: ${error.message}`);
         errorCount++;
       }
     }

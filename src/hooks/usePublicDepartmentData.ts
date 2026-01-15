@@ -119,13 +119,62 @@ export interface ResearchCenter {
 
 export interface BoardOfStudiesMeetingMinute {
   id: number;
-  meeting_title: string;
-  meeting_number?: number;
+  meeting_no: string;
   meeting_date: string;
-  document_url: string;
-  academic_year: string;
+  file_url: string;
   description?: string;
-  dept: string;
+  dept?: string;
+}
+
+export interface DepartmentLibrary {
+  id: number;
+  titles: number;
+  volumes: number;
+  faculty_incharge: string;
+  phone?: string;
+  email?: string;
+  description?: string;
+  image_url?: string;
+  dept?: string;
+}
+
+export interface FacultyAchievement {
+  id: number;
+  category: string;
+  title: string;
+  file_url?: string;
+  dept?: string;
+  created_at?: string;
+}
+
+export interface Placement {
+  id: number;
+  title: string;
+  batch: string;
+  file_url?: string;
+  dept?: string;
+  created_at?: string;
+}
+
+export interface TechnicalAssociation {
+  id: number;
+  title: string;
+  batch?: string;
+  description?: string;
+  file_url?: string;
+  dept?: string;
+  created_at?: string;
+}
+
+export interface Newsletter {
+  id: number;
+  title: string;
+  volume?: string;
+  issue?: string;
+  publication_date?: string;
+  file_url?: string;
+  dept?: string;
+  created_at?: string;
 }
 
 interface PublicDepartmentData {
@@ -136,10 +185,16 @@ interface PublicDepartmentData {
   workshops: Workshop[];
   technicalStaff: Staff[];
   nonTeachingStaff: Staff[];
-  placements?: any[];
+  placements?: Placement[];
   hackathons?: any[];
   boardOfStudies?: any[];
   boardOfStudiesMeetingMinutes?: BoardOfStudiesMeetingMinute[];
+  laboratoryGallery?: any[];
+  departmentLibrary?: DepartmentLibrary | null;
+  facultyAchievementsData?: FacultyAchievement[];
+  placementsData?: Placement[];
+  technicalAssociationData?: TechnicalAssociation[];
+  technicalAssociationGallery?: any[];
   facultyInnovations?: FacultyInnovation[];
   researchCenters?: ResearchCenter[];
   productDevelopment?: any[];
@@ -147,6 +202,9 @@ interface PublicDepartmentData {
   greenInitiatives?: any[];
   technicalMagazines?: any[];
   syllabusDocuments?: SyllabusDocument[];
+  newsletters?: Newsletter[];
+  productDevelopmentGallery?: any[];
+  facultyDevelopment?: any[];
 }
 
 export function usePublicDepartmentData(dept: string) {
@@ -186,13 +244,22 @@ export function usePublicDepartmentData(dept: string) {
             hackathons: publicData.hackathons || [],
             boardOfStudies: publicData.boardOfStudies || [],
             boardOfStudiesMeetingMinutes: publicData.boardOfStudiesMeetingMinutes || [],
+            laboratoryGallery: publicData.laboratoryGallery || [],
+            departmentLibrary: publicData.departmentLibrary || null,
+            facultyAchievementsData: publicData.facultyAchievements || [],
+            placementsData: publicData.placements || [],
+            technicalAssociationData: publicData.technicalAssociation || [],
+            technicalAssociationGallery: publicData.technicalAssociationGallery || [],
             facultyInnovations: publicData.facultyInnovations || [],
             researchCenters: publicData.researchCenters || [],
             productDevelopment: publicData.productDevelopment || [],
             departmentalActivities: publicData.departmentalActivities || [],
             greenInitiatives: publicData.greenInitiatives || [],
             technicalMagazines: publicData.technicalMagazines || [],
-            syllabusDocuments: publicData.syllabusDocuments || []
+            syllabusDocuments: publicData.syllabusDocuments || [],
+            newsletters: publicData.newsletters || [],
+            productDevelopmentGallery: publicData.productDevelopmentGallery || [],
+            facultyDevelopment: publicData.facultyDevelopment || []
           });
         }
       } catch (err) {

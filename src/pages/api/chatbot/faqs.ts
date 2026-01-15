@@ -66,7 +66,7 @@ const faqDatabase: FAQ[] = [
   },
   {
     id: 'dept2',
-    keywords: ['cse', 'computer science', 'software', 'programming', 'coding', 'cst'],
+    keywords: ['cse', 'computer science', 'software', 'programming', 'coding'],
     question: 'Tell me about CSE department',
     answer: 'Computer Science & Engineering:\n• Established: 2001\n• Current Intake: 240 seats\n• HOD: Dr. D. Jaya Kumari (CSE & CST)\n• Focus: Software Development, AI/ML, Data Analytics\n• Excellent placement record in top IT companies',
     category: 'departments'

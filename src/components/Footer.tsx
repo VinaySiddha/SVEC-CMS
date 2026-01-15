@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   MapPin,
@@ -14,6 +14,11 @@ import {
 import VisitorCounter from './VisitorCounter';
 
 const Footer: React.FC = () => {
+  const [currentYear, setCurrentYear] = useState(2024);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-4 py-12">
@@ -35,36 +40,66 @@ const Footer: React.FC = () => {
                 <p className="text-sm text-gray-400">Engineering College</p>
               </div>
             </div>
-            <p className="text-sm leading-relaxed">
-              Empowering students with quality engineering education and fostering innovation for over two decades.
+            <p className="text-sm leading-relaxed text-justify">
+            Sri Vasavi Engineering College (SVEC) in West and East Godavari districts has maintained its values for over 20 years, nurturing more than 30,000 students and evolving from a small school into a distinguished engineering college.
+
             </p>
             <div className="flex space-x-4">
-              <Facebook className="w-5 h-5 hover:text-primary cursor-pointer transition-colors" />
-              <Twitter className="w-5 h-5 hover:text-primary cursor-pointer transition-colors" />
-              <Instagram className="w-5 h-5 hover:text-primary cursor-pointer transition-colors" />
-              <Linkedin className="w-5 h-5 hover:text-primary cursor-pointer transition-colors" />
+              <a 
+                href="https://www.facebook.com/people/Sri-Vasavi-Engineering-College-Tadepalligudem/100067829822379/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-primary cursor-pointer transition-colors"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://twitter.com/srivasavieng" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-primary cursor-pointer transition-colors"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://www.instagram.com/gdsc.svec/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-primary cursor-pointer transition-colors"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://www.linkedin.com/uas/login?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Fschool%2Fsri-vasavi%2Fposts%2F%3FfeedView%3Dall%26" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-primary cursor-pointer transition-colors"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
             </div>
           </div>
 
           <div>
             <h4 className="text-base font-semibold mb-4 text-white">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link href="/about" className="hover:text-primary transition-colors text-sm">About Us</Link></li>
-              <li><Link href="/academics" className="hover:text-primary transition-colors text-sm">Academics</Link></li>
-              <li><Link href="/admissions" className="hover:text-primary transition-colors text-sm">Admissions</Link></li>
-              <li><Link href="/placements" className="hover:text-primary transition-colors text-sm">Placements</Link></li>
-              <li><Link href="/rd-innovation" className="hover:text-primary transition-colors text-sm">R&D</Link></li>
+              <li><Link href="http://62.72.31.209:3001" className="hover:text-primary transition-colors text-sm">Course End Survey</Link></li>
+              <li><Link href="http://62.72.31.209:3005" className="hover:text-primary transition-colors text-sm">Grievance Cell</Link></li>
+              <li><Link href="http://62.72.31.209:3002" className="hover:text-primary transition-colors text-sm">Exit Facilities Portal</Link></li>
+              <li><Link href="http://62.72.31.209:3003" className="hover:text-primary transition-colors text-sm">Graduate Survey</Link></li>
+               <li><Link href="https://sves.org.in/ecap/olpaymentlogin.aspx" className="hover:text-primary transition-colors text-sm">Online Fee Payment</Link></li>
+               <li><Link href="https://sves.org.in/ecap/consultancyfee.aspx" className="hover:text-primary transition-colors text-sm">Consultancy Fee</Link></li>
+              
             </ul>
           </div>
 
           <div>
-            <h4 className="text-base font-semibold mb-4 text-white">Departments</h4>
+            <h4 className="text-base font-semibold mb-4 text-white">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link href="/departments/cse" className="hover:text-primary transition-colors text-sm">Computer Science</Link></li>
-              <li><Link href="/departments/ece" className="hover:text-primary transition-colors text-sm">Electronics & Comm.</Link></li>
-              <li><Link href="/departments/mech" className="hover:text-primary transition-colors text-sm">Mechanical</Link></li>
-              <li><Link href="/departments/civil" className="hover:text-primary transition-colors text-sm">Civil Engineering</Link></li>
-              <li><Link href="/departments/eee" className="hover:text-primary transition-colors text-sm">Electrical</Link></li>
+              <li><Link href="https://sves.org.in/ecap" className="hover:text-primary transition-colors text-sm">E_CAP</Link></li>
+              <li><Link href="https://alumni.srivasaviengg.ac.in/" className="hover:text-primary transition-colors text-sm">Alumni</Link></li>
+              
+              
             </ul>
           </div>
 
@@ -79,11 +114,11 @@ const Footer: React.FC = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-primary flex-shrink-0" />
-                <p className="text-sm">+91-866-2461555</p>
+                <p className="text-sm">08818-284355</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-primary flex-shrink-0" />
-                <p className="text-sm">info@srivasaviengg.ac.in</p>
+                <p className="text-sm">principal@srivasaviengg.ac.in</p>
               </div>
             </div>
           </div>
@@ -91,7 +126,7 @@ const Footer: React.FC = () => {
 
         <div className="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row items-center justify-between">
           <p className="text-sm text-gray-500 mb-4 md:mb-0">
-            © {new Date().getFullYear()} Sri Vasavi Engineering College. All rights reserved.
+            © {currentYear} Sri Vasavi Engineering College. All rights reserved.
           </p>
 
           <div className="mx-4 mb-4 md:mb-0">

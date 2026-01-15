@@ -9,7 +9,7 @@ interface User {
   email: string;
   department: string;
   department_name: string;
-  role: 'admin' | 'faculty' | 'hod' | 'super_admin' | 'dept';
+  role: 'admin' | 'faculty' | 'hod' | 'super_admin' | 'dept' | 'exam' | 'placement';
   is_active: boolean;
 }
 
@@ -117,7 +117,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(userData);
         console.log('✅ Session restored successfully');
       } else {
-        console.log('❌ Token invalid, clearing...');
+        console.log('❌ Token invalid or expired, clearing...');
         localStorage.removeItem('authToken');
         setToken(null);
         setUser(null);
@@ -126,9 +126,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(false);
     };
     
-    // Wait for client hydration
+    // Initialize immediately on client side
     if (typeof window !== 'undefined') {
-      setTimeout(initializeAuth, 50);
+      initializeAuth();
     }
   }, []);
 

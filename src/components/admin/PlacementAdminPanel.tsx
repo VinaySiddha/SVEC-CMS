@@ -36,6 +36,7 @@ interface TeamMember {
   email: string;
   phone: string;
   is_active: boolean;
+  profile_image_url?: string;
 }
 
 const PlacementAdminPanel: React.FC = () => {
@@ -82,8 +83,12 @@ const PlacementAdminPanel: React.FC = () => {
     office_phone: '',
     office_extension: '',
     bio: '',
+    profile_image_url: '',
     is_active: true
   });
+  const [teamImageFile, setTeamImageFile] = useState<File | null>(null);
+  const [teamImagePreview, setTeamImagePreview] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -169,18 +174,61 @@ const PlacementAdminPanel: React.FC = () => {
     }
   };
 
+  const handleTeamImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      clearTeamImageSelection();
+      return;
+    }
+
+    if (teamImagePreview && teamImagePreview.startsWith('blob:')) {
+      URL.revokeObjectURL(teamImagePreview);
+    }
+
+    setTeamImageFile(file);
+    setTeamImagePreview(URL.createObjectURL(file));
+  };
+
+  const clearTeamImageSelection = () => {
+    if (teamImagePreview && teamImagePreview.startsWith('blob:')) {
+      URL.revokeObjectURL(teamImagePreview);
+    }
+    setTeamImageFile(null);
+    setTeamImagePreview(null);
+  };
+
   const handleSaveTeam = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const method = editingItem ? 'PUT' : 'POST';
       const url = '/api/admin/placement-team';
-      
+      let payload = editingItem ? { ...teamForm, id: editingItem.id } : teamForm;
+
+      if (teamImageFile) {
+        setIsUploadingImage(true);
+        const uploadData = new FormData();
+        uploadData.append('file', teamImageFile);
+        uploadData.append('module', 'team');
+
+        const uploadResponse = await fetch('/api/placement/upload', {
+          method: 'POST',
+          body: uploadData,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error('Failed to upload profile image');
+        }
+
+        const uploadResult = await uploadResponse.json();
+        payload = { ...payload, profile_image_url: uploadResult.url };
+      }
+
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(editingItem ? { ...teamForm, id: editingItem.id } : teamForm),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
@@ -191,6 +239,8 @@ const PlacementAdminPanel: React.FC = () => {
       }
     } catch (error) {
       console.error('Error saving team member:', error);
+    } finally {
+      setIsUploadingImage(false);
     }
   };
 
@@ -247,8 +297,10 @@ const PlacementAdminPanel: React.FC = () => {
       office_phone: '',
       office_extension: '',
       bio: '',
+      profile_image_url: '',
       is_active: true
     });
+    clearTeamImageSelection();
   };
 
   const startEdit = (type: string, item: any) => {
@@ -258,7 +310,9 @@ const PlacementAdminPanel: React.FC = () => {
     } else if (type === 'companies') {
       setCompanyForm(item);
     } else if (type === 'team') {
-      setTeamForm(item);
+      setTeamForm({ ...item, profile_image_url: item.profile_image_url || '' });
+      setTeamImageFile(null);
+      setTeamImagePreview(item.profile_image_url || null);
     }
     setShowAddModal(true);
   };

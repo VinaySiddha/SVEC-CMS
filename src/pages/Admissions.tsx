@@ -97,12 +97,27 @@ const Admissions: React.FC = () => {
     }
   ];
 
+  // Sort programs alphabetically by name
   const programs = [
+    {
+      name: 'Civil Engineering',
+      duration: '4 Years',
+      intake: '60',
+      fee: '₹65,000/year',
+      eligibility: 'PCM with 45% marks'
+    },
     {
       name: 'Computer Science & Engineering',
       duration: '4 Years',
       intake: '120',
       fee: '₹75,000/year',
+      eligibility: 'PCM with 45% marks'
+    },
+    {
+      name: 'Electrical & Electronics',
+      duration: '4 Years',
+      intake: '60',
+      fee: '₹70,000/year',
       eligibility: 'PCM with 45% marks'
     },
     {
@@ -118,37 +133,54 @@ const Admissions: React.FC = () => {
       intake: '60',
       fee: '₹70,000/year',
       eligibility: 'PCM with 45% marks'
-    },
-    {
-      name: 'Civil Engineering',
-      duration: '4 Years',
-      intake: '60',
-      fee: '₹65,000/year',
-      eligibility: 'PCM with 45% marks'
-    },
-    {
-      name: 'Electrical & Electronics',
-      duration: '4 Years',
-      intake: '60',
-      fee: '₹70,000/year',
-      eligibility: 'PCM with 45% marks'
     }
-  ];
+  ].sort((a, b) => a.name.localeCompare(b.name));
 
+  // Sort documents alphabetically
   const documents = [
-    'SSC/10th Class Certificate and Marks Memo',
-    'Intermediate/12th Class Certificate and Marks Memo',
-    'Transfer Certificate from the last attended institution',
-    'Study Certificate (if applicable)',
-    'Caste Certificate (for reserved category students)',
-    'Income Certificate (for fee concession)',
     'Aadhar Card copy',
-    'Passport size photographs (6 copies)',
+    'Caste Certificate (for reserved category students)',
+    'Entrance exam scorecard (JEE Main/AP EAMCET)',
+    'Income Certificate (for fee concession)',
+    'Intermediate/12th Class Certificate and Marks Memo',
     'Migration Certificate (for students from other states)',
-    'Entrance exam scorecard (JEE Main/AP EAMCET)'
+    'Passport size photographs (6 copies)',
+    'SSC/10th Class Certificate and Marks Memo',
+    'Study Certificate (if applicable)',
+    'Transfer Certificate from the last attended institution'
+  ].sort();
+
+  // For table rows, create sorted arrays for each program type
+  const btechPrograms = [
+    { name: 'Artificial Intelligence & Machine Learning', duration: '4 Years', semesters: 8, intake: 180, fee: '₹77,200/year' },
+    { name: 'CSE (Artificial Intelligence)', duration: '4 Years', semesters: 8, intake: 180, fee: '₹77,200/year' },
+    { name: 'CSE (Data Science)', duration: '4 Years', semesters: 8, intake: 60, fee: '₹77,200/year' },
+    { name: 'Civil Engineering', duration: '4 Years', semesters: 8, intake: 60, fee: '₹77,200/year' },
+    { name: 'Computer Science & Engineering', duration: '4 Years', semesters: 8, intake: 300, fee: '₹77,200/year' },
+    { name: 'Computer Science & Technology', duration: '4 Years', semesters: 8, intake: 60, fee: '₹77,200/year' },
+    { name: 'Electrical & Electronics Engineering', duration: '4 Years', semesters: 8, intake: 60, fee: '₹77,200/year' },
+    { name: 'Electronics & Communication Engineering', duration: '4 Years', semesters: 8, intake: 240, fee: '₹77,200/year' },
+    { name: 'Electronics & Communication Technology', duration: '4 Years', semesters: 8, intake: 60, fee: '₹77,200/year' },
+    { name: 'Mechanical Engineering', duration: '4 Years', semesters: 8, intake: 60, fee: '₹77,200/year' }
+  ].sort((a, b) => a.name.localeCompare(b.name));
+
+  const mtechPrograms = [
+    { name: 'Computer Science (CSE)', duration: '2 Years', semesters: 4, intake: 12, fee: '₹60,500/year' },
+    { name: 'Embedded Systems & VLSI (EEE)', duration: '2 Years', semesters: 4, intake: 6, fee: '₹60,500/year' },
+    { name: 'Power Electronics & Power Systems (EEE)', duration: '2 Years', semesters: 4, intake: 6, fee: '₹60,500/year' },
+    { name: 'Structural Engineering (Civil)', duration: '2 Years', semesters: 4, intake: 6, fee: '₹60,500/year' }
+  ].sort((a, b) => a.name.localeCompare(b.name));
+
+  const mbaPrograms = [
+    { name: 'Master of Business Administration', duration: '2 Years', semesters: 4, intake: 120, fee: '₹51,800/year' }
   ];
 
-
+  const diplomaPrograms = [
+    { name: 'Computer Engineering', duration: '3 Years', semesters: 6, intake: 120, fee: '₹25,000/year' },
+    { name: 'Electrical & Electronics Engineering', duration: '3 Years', semesters: 6, intake: 60, fee: '₹25,000/year' },
+    { name: 'Electronics & Communication Engineering', duration: '3 Years', semesters: 6, intake: 120, fee: '₹25,000/year' },
+    { name: 'Mechanical Engineering', duration: '3 Years', semesters: 6, intake: 60, fee: '₹25,000/year' }
+  ].sort((a, b) => a.name.localeCompare(b.name));
 
   // Add some CSS for responsive tables
   useEffect(() => {
@@ -182,22 +214,9 @@ const Admissions: React.FC = () => {
       >
         <div className={`container mx-auto px-4 text-center transition-all duration-1000 ${animateHero ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} relative z-10`}>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 relative inline-block">
-            Admissions <span className="text-secondary relative">2025
-              <span className="absolute -top-1 -right-4 w-6 h-6 bg-white rounded-full text-primary text-xs flex items-center justify-center animate-pulse">
-                New
-              </span>
-            </span>
+            Admissions 
           </h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-8 leading-relaxed">
-            Start your journey to excellence at one of India's premier engineering institutions
-          </p>
-          <p className="text-white/80 max-w-2xl mx-auto mb-10">
-            Shape your future with industry-relevant programs, state-of-the-art facilities, and opportunities for innovation and growth
-          </p>
-          <button className="bg-gradient-to-r from-white to-white/90 text-primary px-6 sm:px-10 py-3 sm:py-4 rounded-md font-semibold text-base sm:text-lg hover:bg-secondary hover:text-white transition-all transform hover:scale-105 shadow-xl flex items-center justify-center gap-2 mx-auto group border-b-4 border-secondary/70 animate-pulse hover:animate-none max-w-full w-auto">
-            <span>Apply Now</span>
-            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
-          </button>
+          
         </div>
 
         {/* Subtle background shapes */}
@@ -253,76 +272,15 @@ const Admissions: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="bg-muted/30">
-                      <td className="px-3 sm:px-6 py-4 font-semibold text-primary">Computer Science & Engineering</td>
-                      <td className="px-2 sm:px-6 py-4 text-center">4 Years</td>
-                      <td className="px-2 sm:px-6 py-4 text-center">8</td>
-                      <td className="px-2 sm:px-6 py-4 text-center">300</td>
-                      <td className="px-2 sm:px-6 py-4 text-center">₹77,200/year</td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 font-semibold text-primary">Computer Science & Technology</td>
-                      <td className="px-6 py-4 text-center">4 Years</td>
-                      <td className="px-6 py-4 text-center">8</td>
-                      <td className="px-6 py-4 text-center">60</td>
-                      <td className="px-6 py-4 text-center">₹77,200/year</td>
-                    </tr>
-                    <tr className="bg-muted/30">
-                      <td className="px-6 py-4 font-semibold text-primary">CSE (Artificial Intelligence)</td>
-                      <td className="px-6 py-4 text-center">4 Years</td>
-                      <td className="px-6 py-4 text-center">8</td>
-                      <td className="px-6 py-4 text-center">180</td>
-                      <td className="px-6 py-4 text-center">₹77,200/year</td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 font-semibold text-primary">CSE (Data Science)</td>
-                      <td className="px-6 py-4 text-center">4 Years</td>
-                      <td className="px-6 py-4 text-center">8</td>
-                      <td className="px-6 py-4 text-center">60</td>
-                      <td className="px-6 py-4 text-center">₹77,200/year</td>
-                    </tr>
-                    <tr className="bg-muted/30">
-                      <td className="px-6 py-4 font-semibold text-primary">Artificial Intelligence & Machine Learning</td>
-                      <td className="px-6 py-4 text-center">4 Years</td>
-                      <td className="px-6 py-4 text-center">8</td>
-                      <td className="px-6 py-4 text-center">180</td>
-                      <td className="px-6 py-4 text-center">₹77,200/year</td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 font-semibold text-primary">Electronics & Communication Engineering</td>
-                      <td className="px-6 py-4 text-center">4 Years</td>
-                      <td className="px-6 py-4 text-center">8</td>
-                      <td className="px-6 py-4 text-center">240</td>
-                      <td className="px-6 py-4 text-center">₹77,200/year</td>
-                    </tr>
-                    <tr className="bg-muted/30">
-                      <td className="px-6 py-4 font-semibold text-primary">Electronics & Communication Technology</td>
-                      <td className="px-6 py-4 text-center">4 Years</td>
-                      <td className="px-6 py-4 text-center">8</td>
-                      <td className="px-6 py-4 text-center">60</td>
-                      <td className="px-6 py-4 text-center">₹77,200/year</td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 font-semibold text-primary">Electrical & Electronics Engineering</td>
-                      <td className="px-6 py-4 text-center">4 Years</td>
-                      <td className="px-6 py-4 text-center">8</td>
-                      <td className="px-6 py-4 text-center">60</td>
-                      <td className="px-6 py-4 text-center">₹77,200/year</td>
-                    </tr>
-                    <tr className="bg-muted/30">
-                      <td className="px-6 py-4 font-semibold text-primary">Mechanical Engineering</td>
-                      <td className="px-6 py-4 text-center">4 Years</td>
-                      <td className="px-6 py-4 text-center">8</td>
-                      <td className="px-6 py-4 text-center">60</td>
-                      <td className="px-6 py-4 text-center">₹77,200/year</td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 font-semibold text-primary">Civil Engineering</td>
-                      <td className="px-6 py-4 text-center">4 Years</td>
-                      <td className="px-6 py-4 text-center">8</td>
-                      <td className="px-6 py-4 text-center">60</td>
-                      <td className="px-6 py-4 text-center">₹77,200/year</td>
-                    </tr>
+                    {btechPrograms.map((prog, idx) => (
+                      <tr key={prog.name} className={idx % 2 === 0 ? 'bg-muted/30' : 'bg-white'}>
+                        <td className="px-6 py-4 font-semibold text-primary">{prog.name}</td>
+                        <td className="px-6 py-4 text-center">{prog.duration}</td>
+                        <td className="px-6 py-4 text-center">{prog.semesters}</td>
+                        <td className="px-6 py-4 text-center">{prog.intake}</td>
+                        <td className="px-6 py-4 text-center">{prog.fee}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -346,34 +304,15 @@ const Admissions: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="bg-muted/30">
-                      <td className="px-6 py-4 font-semibold text-primary">Power Electronics & Power Systems (EEE)</td>
-                      <td className="px-6 py-4 text-center">2 Years</td>
-                      <td className="px-6 py-4 text-center">4</td>
-                      <td className="px-6 py-4 text-center">6</td>
-                      <td className="px-6 py-4 text-center">₹60,500/year</td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 font-semibold text-primary">Embedded Systems & VLSI (EEE)</td>
-                      <td className="px-6 py-4 text-center">2 Years</td>
-                      <td className="px-6 py-4 text-center">4</td>
-                      <td className="px-6 py-4 text-center">6</td>
-                      <td className="px-6 py-4 text-center">₹60,500/year</td>
-                    </tr>
-                    <tr className="bg-muted/30">
-                      <td className="px-6 py-4 font-semibold text-primary">Computer Science (CSE)</td>
-                      <td className="px-6 py-4 text-center">2 Years</td>
-                      <td className="px-6 py-4 text-center">4</td>
-                      <td className="px-6 py-4 text-center">12</td>
-                      <td className="px-6 py-4 text-center">₹60,500/year</td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 font-semibold text-primary">Structural Engineering (Civil)</td>
-                      <td className="px-6 py-4 text-center">2 Years</td>
-                      <td className="px-6 py-4 text-center">4</td>
-                      <td className="px-6 py-4 text-center">6</td>
-                      <td className="px-6 py-4 text-center">₹60,500/year</td>
-                    </tr>
+                    {mtechPrograms.map((prog, idx) => (
+                      <tr key={prog.name} className={idx % 2 === 0 ? 'bg-muted/30' : 'bg-white'}>
+                        <td className="px-6 py-4 font-semibold text-primary">{prog.name}</td>
+                        <td className="px-6 py-4 text-center">{prog.duration}</td>
+                        <td className="px-6 py-4 text-center">{prog.semesters}</td>
+                        <td className="px-6 py-4 text-center">{prog.intake}</td>
+                        <td className="px-6 py-4 text-center">{prog.fee}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -397,13 +336,15 @@ const Admissions: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="bg-muted/30">
-                      <td className="px-6 py-4 font-semibold text-primary">Master of Business Administration</td>
-                      <td className="px-6 py-4 text-center">2 Years</td>
-                      <td className="px-6 py-4 text-center">4</td>
-                      <td className="px-6 py-4 text-center">120</td>
-                      <td className="px-6 py-4 text-center">₹51,800/year</td>
-                    </tr>
+                    {mbaPrograms.map((prog, idx) => (
+                      <tr key={prog.name} className={idx % 2 === 0 ? 'bg-muted/30' : 'bg-white'}>
+                        <td className="px-6 py-4 font-semibold text-primary">{prog.name}</td>
+                        <td className="px-6 py-4 text-center">{prog.duration}</td>
+                        <td className="px-6 py-4 text-center">{prog.semesters}</td>
+                        <td className="px-6 py-4 text-center">{prog.intake}</td>
+                        <td className="px-6 py-4 text-center">{prog.fee}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -427,34 +368,15 @@ const Admissions: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="bg-muted/30">
-                      <td className="px-6 py-4 font-semibold text-primary">Electrical & Electronics Engineering</td>
-                      <td className="px-6 py-4 text-center">3 Years</td>
-                      <td className="px-6 py-4 text-center">6</td>
-                      <td className="px-6 py-4 text-center">60</td>
-                      <td className="px-6 py-4 text-center">₹25,000/year</td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 font-semibold text-primary">Mechanical Engineering</td>
-                      <td className="px-6 py-4 text-center">3 Years</td>
-                      <td className="px-6 py-4 text-center">6</td>
-                      <td className="px-6 py-4 text-center">60</td>
-                      <td className="px-6 py-4 text-center">₹25,000/year</td>
-                    </tr>
-                    <tr className="bg-muted/30">
-                      <td className="px-6 py-4 font-semibold text-primary">Electronics & Communication Engineering</td>
-                      <td className="px-6 py-4 text-center">3 Years</td>
-                      <td className="px-6 py-4 text-center">6</td>
-                      <td className="px-6 py-4 text-center">120</td>
-                      <td className="px-6 py-4 text-center">₹25,000/year</td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 font-semibold text-primary">Computer Engineering</td>
-                      <td className="px-6 py-4 text-center">3 Years</td>
-                      <td className="px-6 py-4 text-center">6</td>
-                      <td className="px-6 py-4 text-center">120</td>
-                      <td className="px-6 py-4 text-center">₹25,000/year</td>
-                    </tr>
+                    {diplomaPrograms.map((prog, idx) => (
+                      <tr key={prog.name} className={idx % 2 === 0 ? 'bg-muted/30' : 'bg-white'}>
+                        <td className="px-6 py-4 font-semibold text-primary">{prog.name}</td>
+                        <td className="px-6 py-4 text-center">{prog.duration}</td>
+                        <td className="px-6 py-4 text-center">{prog.semesters}</td>
+                        <td className="px-6 py-4 text-center">{prog.intake}</td>
+                        <td className="px-6 py-4 text-center">{prog.fee}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -584,76 +506,9 @@ const Admissions: React.FC = () => {
         </div>
       </section>
 
-      {/* Contact for Admissions */}
-      <section ref={contactRef} className="py-12 mb-12 bg-gradient-to-br from-card via-card to-card/90 rounded-lg overflow-hidden shadow-lg">
-        <div className="container mx-auto px-4">
-          <div className={`text-center mb-8 transition-all duration-1000 ${animateContact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-3">Need Help with Admissions?</h2>
-            <p className="text-muted-foreground text-lg">Our admissions team is here to assist you</p>
-          </div>
-          <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-              <div
-                className={`text-center p-4 sm:p-6 bg-background rounded-lg shadow-md hover:shadow-lg transition-all duration-500 transform ${animateContact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} border-t-2 border-primary`}
-                style={{ transitionDelay: '200ms' }}
-              >
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center mx-auto mb-3 sm:mb-4 border-2 border-primary shadow-lg transform transition-all duration-300 hover:scale-110 hover:bg-primary/30">
-                  <Clock className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-primary mb-1 sm:mb-2">Office Hours</h3>
-                <p className="text-card-foreground text-sm">Mon-Fri: 9:00 AM - 5:00 PM<br />Sat: 9:00 AM - 1:00 PM</p>
-              </div>
-              <div
-                className={`text-center p-4 sm:p-6 bg-background rounded-lg shadow-md hover:shadow-lg transition-all duration-500 transform ${animateContact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} border-t-2 border-primary`}
-                style={{ transitionDelay: '400ms' }}
-              >
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center mx-auto mb-3 sm:mb-4 border-2 border-primary shadow-lg transform transition-all duration-300 hover:scale-110 hover:bg-primary/30">
-                  <FileText className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-primary mb-1 sm:mb-2">Admissions Office</h3>
-                <p className="text-card-foreground text-sm"> +91-866-2461556<br />admissions@srivasaviengg.ac.in</p>
-              </div>
-              <div
-                className={`text-center p-4 sm:p-6 bg-background rounded-lg shadow-md hover:shadow-lg transition-all duration-500 transform ${animateContact ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} border-t-2 border-primary`}
-                style={{ transitionDelay: '600ms' }}
-              >
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center mx-auto mb-3 sm:mb-4 border-2 border-primary shadow-lg transform transition-all duration-300 hover:scale-110 hover:bg-primary/30">
-                  <Users className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-primary mb-1 sm:mb-2">Campus Visit</h3>
-                <p className="text-card-foreground text-sm">Schedule a campus tour<br />Meet our faculty and staff</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
-      {/* CTA Section */}
-      <section ref={ctaRef} className="py-12 md:py-16 bg-primary text-white rounded-none w-full overflow-hidden relative isolate">
-        <div className={`container mx-auto px-4 text-center transition-all duration-1000 ${animateCta ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} relative z-10`}>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Begin Your Engineering Journey?</h2>
-          <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-            Take the first step towards a successful engineering career
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
-            <button className="bg-gradient-to-r from-white to-white/90 text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-md font-semibold hover:bg-secondary hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 group w-full sm:w-auto">
-              <span>Apply Online Now</span>
-              <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
-            </button>
-            <a
-              href="/contact"
-              className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-md font-semibold hover:bg-white/10 backdrop-blur-sm hover:border-secondary transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group w-full sm:w-auto"
-            >
-              <span>Contact Admissions</span>
-              <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
-            </a>
-          </div>
-        </div>
-
-        {/* Subtle decorative elements */}
-        <div className={`absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-secondary/20 -translate-y-1/4 translate-x-1/4 transition-all duration-1000 ${animateCta ? 'opacity-70 scale-100' : 'opacity-0 scale-95'} shadow-sm z-0`}></div>
-        <div className={`absolute bottom-0 left-0 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-secondary/15 translate-y-1/4 -translate-x-1/4 transition-all duration-1000 ${animateCta ? 'opacity-70 scale-100' : 'opacity-0 scale-95'} shadow-sm z-0`}></div>
-      </section>
+      
     </div>
   );
 };

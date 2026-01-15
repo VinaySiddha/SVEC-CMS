@@ -56,7 +56,7 @@ export default function TestDepartmentPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/public/departments/CSE');
+        const response = await fetch('/api/public/departments/CSE', { cache: 'no-store' });
         if (!response.ok) {
           throw new Error('Failed to fetch department data');
         }

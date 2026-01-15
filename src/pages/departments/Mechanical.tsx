@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Cog, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Book, Database, User } from 'lucide-react';
 import { DepartmentSidebar } from '@/components/DepartmentSidebar';
@@ -8,19 +7,58 @@ interface Faculty {
   designation: string;
   profile_url: string;
   faculty_type: string;
+  date_of_joining?: string;
 }
+
+// Designation priority mapping for sorting
+// Priority: 1. Professor & Principal, 2. Professor & HOD, 3. Professor, 4. Associate Professor, 5. Sr. Assistant Professor, 6. Assistant Professor, 7. Lecturer
+const getDesignationPriority = (designation: string): number => {
+  const designationLower = designation.toLowerCase().trim();
+
+  if (designationLower.includes('professor') && designationLower.includes('principal')) return 1;
+  if (designationLower.includes('professor') && designationLower.includes('hod')) return 2;
+  if (designationLower === 'professor') return 3;
+  if (designationLower.includes('associate') && designationLower.includes('professor')) return 4;
+  if (designationLower.includes('assoc') && designationLower.includes('professor')) return 4;
+  if (designationLower.includes('sr') && designationLower.includes('asst') && designationLower.includes('professor')) return 5;
+  if (designationLower.includes('sr') && designationLower.includes('assistant') && designationLower.includes('professor')) return 5;
+  if (designationLower.includes('asst') && designationLower.includes('professor')) return 6;
+  if (designationLower.includes('assistant') && designationLower.includes('professor')) return 6;
+  if (designationLower.includes('lecturer')) return 7;
+
+  return 999; // Unknown designations go to end
+};
+
+// Sort faculty by designation priority (ascending) then by date_of_joining (ascending)
+const sortFacultyByDesignationAndDOJ = (facultyList: Faculty[]): Faculty[] => {
+  return [...facultyList].sort((a, b) => {
+    const priorityA = getDesignationPriority(a.designation);
+    const priorityB = getDesignationPriority(b.designation);
+
+    // First sort by designation priority
+    if (priorityA !== priorityB) {
+      return priorityA - priorityB;
+    }
+
+    // If same designation, sort by date_of_joining (ascending - oldest first)
+    const dateA = a.date_of_joining ? new Date(a.date_of_joining).getTime() : Infinity;
+    const dateB = b.date_of_joining ? new Date(b.date_of_joining).getTime() : Infinity;
+
+    return dateA - dateB;
+  });
+};
 interface BoardOfStudiesMember {
-  member_name: string;
+  name: string;
   designation: string;
   organization: string;
-  role: string;
+  position_in_job: string;
 }
 
 interface BosMinutes {
   meeting_title: string;
-  meeting_number: string;
+  meeting_no: string;
   meeting_date: string;
-  document_url: string;
+  file_url: string;
   academic_year: string;
 }
 interface Laboratories {
@@ -39,7 +77,13 @@ interface library {
 }
 interface Mous {
   type: string;
-  data: any;
+  data?: any;
+  organization?: string;
+  industry_type?: string;
+  date_of_mou?: string;
+  validity?: string;
+  category?: string;
+  activities?: Array<{ description: string; link?: string }>;
 }
 interface FacultyTLmethods {
   method: string;
@@ -93,10 +137,10 @@ interface Magazines {
   url: string;
 }
 interface Syllabus {
-  program: string;
-  version: string;
-  name: string;
-  url: string;
+  id?: number;
+  type: string;
+  title: string;
+  fileUrl: string;
 }
 
 
@@ -107,14 +151,17 @@ const MechanicalDepartment: React.FC = () => {
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
+  const [expandedIndustryProgram, setExpandedIndustryProgram] = useState<number | null>(null);
 
   const [faculty, setFaculty] = useState<Faculty[]>([]);
+  const [technicalFaculty, setTechnicalFaculty] = useState<Faculty[]>([]);
   const [nonTeachingFaculty, setNonTeachingFaculty] = useState<Faculty[]>([]);
   const [boardOfStudies, setBoardOfStudies] = useState<BoardOfStudiesMember[]>([]);
   const [bosminutes, setBosMinutes] = useState<BosMinutes[]>([]);
   const [laboratories, setLaboratories] = useState<Laboratories[]>([]);
   const [library, setLibrary] = useState<library[]>([]);
   const [mous, setMous] = useState<Mous[]>([]);
+  const [industryPrograms, setIndustryPrograms] = useState<any[]>([]);
   const [facultyTLmethods, setFacultyTLmethods] = useState<FacultyTLmethods[]>([]);
   const [facultyAchievements, setFacultyAchievements] = useState<FacultyAchievements[]>([]);
   const [studentAchievements, setStudentAchievements] = useState<StudentAchievements[]>([]);
@@ -125,6 +172,7 @@ const MechanicalDepartment: React.FC = () => {
   const [newsletters, setNewsletters] = useState<Newsletters[]>([]);
   const [magazines, setMagazines] = useState<Magazines[]>([]);
   const [syllabus, setSyllabus] = useState<Syllabus[]>([]);
+  const [placementsGallery, setPlacementsGallery] = useState<any[]>([]);
 
 
 
@@ -133,6 +181,7 @@ const MechanicalDepartment: React.FC = () => {
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
     { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
     { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
+    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
     { id: 'Laboratories', label: 'Laboratories', icon: <Microscope className="w-4 h-4" /> },
     { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
     { id: 'MoUs', label: 'MoUs', icon: <Handshake className="w-4 h-4" /> },
@@ -144,84 +193,141 @@ const MechanicalDepartment: React.FC = () => {
     { id: 'Technical Association', label: 'Technical Association', icon: <Activity className="w-4 h-4" /> },
     { id: 'Project Research', label: 'Project Research', icon: <Search className="w-4 h-4" /> },
     { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
-    { id: 'Magazines', label: 'Magazines', icon: <FileText className="w-4 h-4" /> },
-    { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
-    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
+    { id: 'Magazines', label: 'Magazines', icon: <FileText className="w-4 h-4" /> }
   ];
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
 
 
   useEffect(() => {
-      //1
-      fetch('/api/mech/faculty')
-        .then(res => res.json())
-        .then(data => {
-          setFaculty(data);
+    //1
+    fetch('/api/mech/faculty')
+      .then(res => res.json())
+      .then(data => {
+        console.log('Faculty API Response:', data);
+        if (Array.isArray(data)) {
           const teaching = data.filter((member: Faculty) => member.faculty_type === 'teaching');
-          const nonTeaching = data.filter((member: Faculty) => member.faculty_type === 'non-teaching');
+          const nonTeaching = data.filter((member: Faculty) => member.faculty_type === 'non_teaching' || member.faculty_type === 'non-teaching');
+          console.log('Teaching Faculty:', teaching);
+          console.log('Non-Teaching Faculty:', nonTeaching);
           setNonTeachingFaculty(nonTeaching);
-          setFaculty(teaching);
-        })
-        //2
-      fetch('/api/mech/boardofstudies')
-        .then(res => res.json())
-        .then(data => setBoardOfStudies(data))
-      fetch('/api/ece/bos-meeting-minutes')
-        .then(res => res.json())
-        .then(data => setBosMinutes(data))
-      //3
-      fetch('/api/mech/laboratories')
-        .then(res => res.json())
-        .then(data => setLaboratories(data))
-      //4
-      fetch('/api/mech/library')
-        .then(res => res.json())
-        .then(data => setLibrary(data))
-      //5
-      fetch('/api/mech/mous')
-        .then(res => res.json())
-        .then(data => setMous(data))
-      //6
-      fetch('/api/mech/facultyTLmethods')
-        .then(res => res.json())
-        .then(data => setFacultyTLmethods(data))
-      //7
-      fetch('/api/mech/facultyachievements')
-        .then(res => res.json())
-        .then(data => setFacultyAchievements(data))
-      //8
-      fetch('/api/mech/studentachievements')
-        .then(res => res.json())
-        .then(data => setStudentAchievements(data))
-      //9
-      fetch('/api/mech/placements')
-        .then(res => res.json())
-        .then(data => setPlacements(data))
-      //10
-      fetch('/api/mech/workshops')
-        .then(res => res.json())
-        .then(data => setWorkshops(data))
-      //11
-      fetch('/api/mech/technicalassociation')
-        .then(res => res.json())
-        .then(data => setTechnicalAssociation(data))
-      //12
-      fetch('/api/mech/research')
-        .then(res => res.json())
-        .then(data => setProjectResearch(data))
-      //13
-      fetch('/api/mech/newsletters')
-        .then(res => res.json())
-        .then(data => setNewsletters(data))
-      //14
-      fetch('/api/mech/magazines')
-        .then(res => res.json())
-        .then(data => setMagazines(data))
-      //15
-      fetch('/api/mech/syllabus')
-        .then(res => res.json())
-        .then(data => setSyllabus(data))
-      }, [activeContent]);
+          setFaculty(sortFacultyByDesignationAndDOJ(teaching));
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching faculty:', error);
+        setFaculty([]);
+        setNonTeachingFaculty([]);
+      })
+    //1a
+    fetch('/api/mech/technical-faculty')
+      .then(res => res.json())
+      .then(data => {
+        console.log('Technical Faculty API Response:', data);
+        setTechnicalFaculty(Array.isArray(data) ? sortFacultyByDesignationAndDOJ(data) : []);
+      })
+      .catch((error) => {
+        console.error('Error fetching technical faculty:', error);
+        setTechnicalFaculty([]);
+      })
+    //2
+    fetch('/api/mech/boardofstudies')
+      .then(res => res.json())
+      .then(data => setBoardOfStudies(Array.isArray(data) ? data : []))
+      .catch(() => setBoardOfStudies([]))
+    fetch('/api/mech/bos-meeting-minutes')
+      .then(res => res.json())
+      .then(data => setBosMinutes(Array.isArray(data) ? data : []))
+      .catch(() => setBosMinutes([]))
+    //3
+    fetch('/api/mech/laboratories')
+      .then(res => res.json())
+      .then(data => setLaboratories(data))
+    //4
+    fetch('/api/mech/library')
+      .then(res => res.json())
+      .then(data => setLibrary(data))
+    //5
+    fetch('/api/mech/mous')
+      .then(res => res.json())
+      .then(data => {
+        console.log('Mous data from API:', data);
+        // Ensure data is always an array
+        if (Array.isArray(data)) {
+          setMous(data);
+        } else if (data && typeof data === 'object') {
+          setMous([data]);
+        } else {
+          setMous([]);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching mous:', error);
+        setMous([]);
+      })
+    //5a
+    fetch('/api/mech/industry-programs')
+      .then(res => res.json())
+      .then(data => {
+        console.log('Industry programs data from API:', data);
+        if (Array.isArray(data)) {
+          setIndustryPrograms(data);
+        } else if (data && typeof data === 'object') {
+          setIndustryPrograms([data]);
+        } else {
+          setIndustryPrograms([]);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching industry programs:', error);
+        setIndustryPrograms([]);
+      })
+    //6
+    fetch('/api/mech/facultyTLmethods')
+      .then(res => res.json())
+      .then(data => setFacultyTLmethods(data))
+    //7
+    fetch('/api/mech/facultyachievements')
+      .then(res => res.json())
+      .then(data => setFacultyAchievements(data))
+    //8
+    fetch('/api/mech/studentachievements')
+      .then(res => res.json())
+      .then(data => setStudentAchievements(data))
+    //9
+    fetch('/api/mech/placements')
+      .then(res => res.json())
+      .then(data => setPlacements(data))
+    //10
+    fetch('/api/mech/workshops')
+      .then(res => res.json())
+      .then(data => setWorkshops(data))
+    //11
+    fetch('/api/mech/technicalassociation')
+      .then(res => res.json())
+      .then(data => setTechnicalAssociation(data))
+    //12
+    fetch('/api/mech/research')
+      .then(res => res.json())
+      .then(data => setProjectResearch(data))
+    //13
+    fetch('/api/mech/newsletters')
+      .then(res => res.json())
+      .then(data => setNewsletters(data))
+    //14
+    fetch('/api/mech/magazines')
+      .then(res => res.json())
+      .then(data => setMagazines(data))
+    //15
+    fetch('/api/mech/syllabus')
+      .then(res => res.json())
+      .then(data => setSyllabus(Array.isArray(data) ? data : []))
+      .catch(() => setSyllabus([]))
+    //16
+    fetch('/api/mech/hackathons-gallery')
+      .then(res => res.json())
+      .then(data => setPlacementsGallery(Array.isArray(data) ? data : []))
+      .catch(() => setPlacementsGallery([]))
+  }, [activeContent]);
 
   const renderDeptTabContent = () => {
     switch (activeDeptTab) {
@@ -410,33 +516,8 @@ const MechanicalDepartment: React.FC = () => {
     switch (activeContent) {
       case 'Department Profile':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Head of Department's Message</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-              <div className="relative">
-                <img
-                  src="/mechhod.jpg"
-                  alt="Dr. M. V. Ramesh"
-                  className="w-full h-80 object-cover rounded-lg shadow-md"
-                  data-ai-hint="male professor"
-                />
-              </div>
-              <div className="lg:col-span-2 space-y-4">
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. M. V. Ramesh</h3>
-                  <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of Department, Mechanical</p>
-                  <p className="text-gray-600">Email: <a href="mailto:hod_mech@srivasaviengg.ac.in" className="text-primary hover:underline">hod_mech@srivasaviengg.ac.in</a></p>
-                </div>
-                <p className="text-gray-700 leading-relaxed">
-                  The Department of Mechanical Engineering was established in 2010. Since its inception, the department has been progressing towards academic and research excellence. The department is enriched with experienced and qualified faculty and well-established lab facilities. The faculty members are striving towards imparting quality education by practicing innovative teaching and learning methods.
-                </p>
-              </div>
-            </div>
-
-            {/* Department Profile Section */}
-            <div className="mt-12">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
-
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <div className="space-y-8">
               {/* Desktop Navigation Tabs */}
               <div className="hidden md:block relative mb-8">
                 <div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -445,8 +526,8 @@ const MechanicalDepartment: React.FC = () => {
                       key={section}
                       onClick={() => setActiveDeptTab(section)}
                       className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
-                          ? 'bg-[#B22222] text-white shadow-lg'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                     >
                       {section === 'SalientFeatures' ? 'Salient Features' : section}
@@ -465,6 +546,32 @@ const MechanicalDepartment: React.FC = () => {
                 </div>
               </div>
 
+              {/* Department Overview (HOD Profile - Only shown on Department tab) */}
+              {activeDeptTab === 'Department' && (
+                <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
+                  <div className="md:w-1/3" style={{ minHeight: '300px' }}>
+                    <img
+                      src="/mechhod.jpg"
+                      alt="Dr. M. V. Ramesh"
+                      className="w-full h-full object-cover rounded-lg shadow-md"
+                      style={{ minHeight: '300px' }}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'block';
+                        (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
+                      }}
+                    />
+                  </div>
+                  <div className="md:w-2/3">
+                    <h3 className="text-xl font-bold text-[#B22222] mb-2">Dr. M. V. Ramesh</h3>
+                    <p className="text-gray-700 mb-2">Professor & Head of the Department</p>
+                    <p className="text-gray-700 mb-2">Phone No: 08818-284355(O)-(Ext.-XXX)</p>
+                    <p className="text-gray-700 mb-2">
+                      <a href="mailto:hod_mech@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">hod_mech@srivasaviengg.ac.in</a>
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Game-Style Right Side Settings Panel */}
               {settingsPanelOpen && (
                 <div className="fixed inset-0 z-50">
@@ -473,7 +580,6 @@ const MechanicalDepartment: React.FC = () => {
                     className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
                     onClick={() => setSettingsPanelOpen(false)}
                   ></div>
-
                   {/* Settings Panel */}
                   <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
                     {/* Panel Header */}
@@ -500,7 +606,6 @@ const MechanicalDepartment: React.FC = () => {
                         </button>
                       </div>
                     </div>
-
                     {/* Panel Content */}
                     <div className="p-6 h-full overflow-y-auto">
                       <div className="space-y-3">
@@ -513,50 +618,29 @@ const MechanicalDepartment: React.FC = () => {
                                 setActiveDeptTab(section);
                                 setSettingsPanelOpen(false);
                               }}
-                              className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                  ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
-                                  : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                              className={`w-full p-4 rounded-xl transition-all duration-300 ${isActive
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg shadow-[#B22222]/50'
+                                : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
                                 }`}
                             >
                               <div className="flex items-center gap-3">
-                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isActive ? 'bg-white/20' : 'bg-gray-700/50'
                                   }`}>
-                                  {index + 1}
+                                  <span className="text-lg font-bold">{index + 1}</span>
                                 </div>
-                                <div>
-                                  <div className="font-semibold">
-                                    {section === 'SalientFeatures' ? 'Salient Features' : section}
-                                  </div>
-                                  <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
-                                    {section === 'Department' && 'Overview & HOD Profile'}
-                                    {section === 'Vision' && 'Department Vision Statement'}
-                                    {section === 'Mission' && 'Department Mission Statement'}
-                                    {section === 'PEOs' && 'Program Educational Objectives'}
-                                    {section === 'POs' && 'Program Outcomes'}
-                                    {section === 'PSOs' && 'Program Specific Outcomes'}
-                                    {section === 'COs' && 'Course Outcomes'}
-                                    {section === 'SalientFeatures' && 'Key Highlights & Features'}
-                                  </div>
+                                <div className="flex-1 text-left">
+                                  <div className="font-semibold">{section === 'SalientFeatures' ? 'Salient Features' : section}</div>
+                                  {isActive && <div className="text-xs text-white/70 mt-1">Currently viewing</div>}
                                 </div>
                                 {isActive && (
-                                  <div className="ml-auto">
-                                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                                  </div>
+                                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
                                 )}
                               </div>
                             </button>
                           );
                         })}
-                      </div>
-
-                      {/* Panel Footer */}
-                      <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
-                        <div className="text-center">
-                          <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
-                          <div className="text-white/50 text-xs">
-                            Click any section above to navigate instantly
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -581,120 +665,340 @@ const MechanicalDepartment: React.FC = () => {
                 </div>
               </button>
 
-              <div className="mt-4">
-                {renderDeptTabContent()}
-              </div>
+              {renderDeptTabContent()}
             </div>
           </div>
         );
 
       case 'Faculty Profiles':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
-            <div className="overflow-x-auto mb-10">
-              <h3 className="text-2xl font-semibold text-gray-700 mb-4 capitalize border-b-2 border-primary pb-2">Teaching Faculty</h3>
-              <table className="w-full text-sm text-left">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="px-4 py-2">S.No.</th>
-                    <th className="px-4 py-2">Name</th>
-                    <th className="px-4 py-2">Qualification</th>
-                    <th className="px-4 py-2">Designation</th>
-                    <th className="px-4 py-2">Profile</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {faculty.map((member, index) => (
-                    <tr key={index} className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2 font-medium">{member.name}</td>
-                      <td className="px-4 py-2">{member.qualification}</td>
-                      <td className="px-4 py-2">{member.designation}</td>
-                      <td className="px-4 py-2">
-                        <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View</a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="overflow-x-auto">
-              <h3 className="text-2xl font-semibold text-gray-700 mb-4 capitalize border-b-2 border-primary pb-2">Non-Teaching Staff</h3>
-              <table className="w-full text-sm text-left">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="px-4 py-2">S.No.</th>
-                    <th className="px-4 py-2">Name</th>
-                    <th className="px-4 py-2">Designation</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {nonTeachingFaculty.map((member, index) => (
-                    <tr key={index} className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2 font-medium">{member.name}</td>
-                      <td className="px-4 py-2">{member.designation}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        );
-      case 'Board of Studies':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="px-4 py-2">S.No</th>
-                    <th className="px-4 py-2">Name of the BOS Member</th>
-                    <th className="px-4 py-2">Designation</th>
-                    <th className="px-4 py-2">Organization</th>
-                    <th className="px-4 py-2">Position in JOB</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {boardOfStudies.map((member, index) => (
-                    <tr key={index} className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2">{member.member_name}</td>
-                      <td className="px-4 py-2">{member.designation}</td>
-                      <td className="px-4 py-2">{member.organization}</td>
-                      <td className="px-4 py-2">{member.role}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <div className="space-y-8">
+              {/* Teaching Faculty Dropdown */}
+              <div>
+                <details open className="cst-dropdown">
+                  <summary className="cursor-pointer font-semibold text-lg text-gray-800 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">Teaching Faculty</summary>
+                  <div className="cst-dropdown-content mt-4">
+                    {faculty && faculty.length > 0 ? (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">Qualification</th>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">Profile</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {faculty.map((member, index) => (
+                              <tr key={member.name || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                                <td className="px-6 py-4">{index + 1}</td>
+                                <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                                <td className="px-6 py-4">{member.qualification || 'N/A'}</td>
+                                <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                                <td className="px-6 py-4">
+                                  <a
+                                    href={member.profile_url || `${member.profile_url}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-3 py-1 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-200 text-sm font-medium inline-block"
+                                  >
+                                    View Profile
+                                  </a>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <div className="text-gray-500">
+                          {faculty ? 'No teaching faculty data available.' : 'Loading teaching faculty...'}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </details>
+              </div>
 
-            <div className="mt-10">
-              <h3 className="text-2xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes</h3>
-              <ul className="space-y-3 pl-4">
-                {bosminutes.map((minute, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="mr-2">•</span>
-                    <div>
-                      {minute.meeting_title}
-                      <a
-                        href={minute.document_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-4 w-4 mr-1" />
-                        View
-                      </a>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              {/* Technical Staff Dropdown */}
+              <div>
+                <details className="cst-dropdown">
+                  <summary className="cursor-pointer font-semibold text-lg text-gray-800 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">Technical Staff</summary>
+                  <div className="cst-dropdown-content mt-4">
+                    {technicalFaculty && technicalFaculty.length > 0 ? (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">Qualification</th>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">Profile</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {technicalFaculty.map((member, index) => (
+                              <tr key={member.name || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                                <td className="px-6 py-4">{index + 1}</td>
+                                <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                                <td className="px-6 py-4">{member.qualification || 'N/A'}</td>
+                                <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                                <td className="px-6 py-4">
+                                  <a
+                                    href={member.profile_url || `${member.profile_url}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-3 py-1 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-200 text-sm font-medium inline-block"
+                                  >
+                                    View Profile
+                                  </a>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <div className="text-gray-500">
+                          {technicalFaculty ? 'No technical staff data available.' : 'Loading technical staff...'}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </details>
+              </div>
+
+              {/* Non-Teaching Staff Dropdown */}
+              <div>
+                <details className="cst-dropdown">
+                  <summary className="cursor-pointer font-semibold text-lg text-gray-800 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">Non-Teaching Staff</summary>
+                  <div className="cst-dropdown-content mt-4">
+                    {nonTeachingFaculty && nonTeachingFaculty.length > 0 ? (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                              <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {nonTeachingFaculty.map((member, index) => (
+                              <tr key={member.name || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                                <td className="px-6 py-4">{index + 1}</td>
+                                <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                                <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <div className="text-gray-500">
+                          {nonTeachingFaculty ? 'No non-teaching staff data available.' : 'Loading non-teaching staff...'}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </details>
+              </div>
             </div>
           </div>
         );
+      case 'Board of Studies': {
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Board of Studies Members</summary>
+                <div className="cst-dropdown-content">
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                      <thead className="bg-gray-100">
+                        <tr>
+                          <th className="py-3 px-4 border-b border-gray-200 text-left">S.No</th>
+                          <th className="py-3 px-4 border-b border-gray-200 text-left">Name of the BOS Member</th>
+                          <th className="py-3 px-4 border-b border-gray-200 text-left">Designation</th>
+                          <th className="py-3 px-4 border-b border-gray-200 text-left">Organization</th>
+                          <th className="py-3 px-4 border-b border-gray-200 text-left">Position in JOB</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {boardOfStudies.map((member, idx) => (
+                          <tr key={idx} className="hover:bg-gray-50">
+                            <td className="py-3 px-4 border-b border-gray-200">{idx + 1}</td>
+                            <td className="py-3 px-4 border-b border-gray-200">{member.name}</td>
+                            <td className="py-3 px-4 border-b border-gray-200">{member.designation || ''}</td>
+                            <td className="py-3 px-4 border-b border-gray-200">{member.organization || ''}</td>
+                            <td className="py-3 px-4 border-b border-gray-200">{member.position_in_job}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </details>
+
+              <details className="cst-dropdown group">
+                <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+                  <span>Board of Studies Meeting Minutes</span>
+
+                </summary>
+                <div className="cst-dropdown-content">
+                  <div className="space-y-3">
+                    {bosminutes.length === 0 ? (
+                      <div className="text-center py-6 text-gray-500">
+                        <p>No BOS meeting minutes available.</p>
+                      </div>
+                    ) : (
+                      bosminutes.map((minute: BosMinutes, idx: number) => {
+                        // Remove time portion if present (e.g., '2025-11-12T18:30:00.000Z' => '2025-11-12')
+                        const dateOnly = minute.meeting_date?.split('T')[0] || minute.meeting_date;
+                        return (
+                          <div key={idx} className="flex items-center justify-center p-4 bg-gray-50 rounded-lg border">
+                            <span className="text-gray-700">
+                              Minutes of {minute.meeting_no} meeting of the Board of Studies, dated {dateOnly}
+                            </span>
+
+                            {minute.file_url && minute.file_url.trim() !== '' ? (
+                              <a
+                                href={minute.file_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline hover:bg-gray-100 ml-4 px-3 py-1 rounded cursor-pointer bg-transparent border border-[#B22222] font-medium focus:outline-none transition-colors duration-200"
+                              >
+                                View
+                              </a>
+                            ) : (
+                              <span className="text-gray-400 ml-4">No file available</span>
+                            )}
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+      }
+      case 'Syllabus': {
+        // Filter syllabus data by category
+        const bTechSyllabus = syllabus.filter((item) => item.type === 'B.Tech Syllabus' || item.type?.toLowerCase() === 'b.tech syllabus') || [];
+        const mTechSyllabus = syllabus.filter((item) => item.type === 'M.Tech Syllabus' || item.type?.toLowerCase() === 'm.tech syllabus') || [];
+        const socSyllabus = syllabus.filter((item) => item.type?.toLowerCase() === 'soc') || [];
+
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
+            <div className="space-y-6">
+              {/* B.Tech Section */}
+              <details open className="cst-dropdown">
+                <summary>B.Tech</summary>
+                <div className="cst-dropdown-content">
+                  {bTechSyllabus.length > 0 ? (
+                    <ul className="list-disc pl-6 my-2 space-y-2">
+                      {bTechSyllabus.map((item, index) => (
+                        <li key={index}>
+                          {item.title}
+                          {item.fileUrl && (
+                            <>
+                              {' - '}
+                              <a
+                                href={item.fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-500 text-sm">No B.Tech syllabus available.</p>
+                  )}
+                </div>
+              </details>
+
+              {/* M.Tech Section */}
+              <details className="cst-dropdown">
+                <summary>M.Tech</summary>
+                <div className="cst-dropdown-content">
+                  {mTechSyllabus.length > 0 ? (
+                    <ul className="list-disc pl-6 my-2 space-y-2">
+                      {mTechSyllabus.map((item, index) => (
+                        <li key={index}>
+                          {item.title}
+                          {item.fileUrl && (
+                            <>
+                              {' - '}
+                              <a
+                                href={item.fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-500 text-sm">No M.Tech syllabus available.</p>
+                  )}
+                </div>
+              </details>
+
+              {/* SOC Section */}
+              <details className="cst-dropdown">
+                <summary>SOC</summary>
+                <div className="cst-dropdown-content">
+                  {socSyllabus.length > 0 ? (
+                    <ul className="list-disc pl-6 my-2 space-y-2">
+                      {socSyllabus.map((item, index) => (
+                        <li key={index}>
+                          {item.title}
+                          {item.fileUrl && (
+                            <>
+                              {' - '}
+                              <a
+                                href={item.fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-500 text-sm">No SOC syllabus available.</p>
+                  )}
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+      }
       case 'Laboratories':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -738,26 +1042,46 @@ const MechanicalDepartment: React.FC = () => {
             </div>
           </div>
         );
-      case 'Department Library':
+      case 'Department Library': {
+        // Safely parse library data if it's a JSON string
+        const safeLibrary = library.map(lib => {
+          const parsed = typeof lib === 'string' ? JSON.parse(lib) : lib;
+          return {
+            title: typeof parsed.title === 'string' ? parsed.title : 'Department Library',
+            image_url: typeof parsed.image_url === 'string' ? parsed.image_url : '',
+            description: Array.isArray(parsed.description) ? parsed.description : [String(parsed.description || '')],
+            resources: Array.isArray(parsed.resources) ? parsed.resources : [],
+            services: Array.isArray(parsed.services) ? parsed.services : [],
+            faculty_incharge: parsed.faculty_incharge && typeof parsed.faculty_incharge === 'object'
+              ? parsed.faculty_incharge
+              : { name: 'N/A', designation: 'N/A', department: 'N/A' }
+          };
+        });
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">{library.length > 0 ? library[0].title : 'Department Library'}</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">{safeLibrary.length > 0 ? safeLibrary[0].title : 'Department Library'}</h2>
 
-            {library.length > 0 && (
+            {safeLibrary.length > 0 && (
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-8">
                   {/* Library Image */}
-                  <div className="relative">
+                  <div className="relative w-full" style={{ minHeight: '300px' }}>
                     <img
-                      src={library[0].image_url}
+                      src={safeLibrary[0].image_url}
                       alt="Department Library"
-                      className="w-full h-auto rounded-lg shadow-md"
+                      className="w-full h-full rounded-lg shadow-md object-cover"
+                      style={{ minHeight: '300px' }}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'block';
+                        (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
+                      }}
                     />
                   </div>
 
                   {/* Library Description */}
                   <div className="space-y-4">
-                    {library[0].description.map((paragraph, index) => (
+                    {safeLibrary[0].description.map((paragraph: string, index: number) => (
                       <p key={index} className="text-gray-700 leading-relaxed text-justify">
                         {paragraph}
                       </p>
@@ -770,23 +1094,27 @@ const MechanicalDepartment: React.FC = () => {
                   <div className="bg-gray-50 p-6 rounded-lg shadow">
                     <h3 className="text-xl font-semibold text-[#B22222] mb-4">Library Resources</h3>
                     <ul className="space-y-2">
-                      {library[0].resources.map((resource, index) => (
-                        <li key={index} className="flex items-center">
-                          {resource.icon === 'Book' && <Book className="h-5 w-5 mr-2 text-[#B22222]" />}
-                          {resource.icon === 'BookOpen' && <BookOpen className="h-5 w-5 mr-2 text-[#B22222]" />}
-                          {resource.icon === 'Library' && <Library className="h-5 w-5 mr-2 text-[#B22222]" />}
-                          {resource.icon === 'FileText' && <FileText className="h-5 w-5 mr-2 text-[#B22222]" />}
-                          {resource.icon === 'Database' && <Database className="h-5 w-5 mr-2 text-[#B22222]" />}
-                          <span>{resource.text}</span>
-                        </li>
-                      ))}
+                      {safeLibrary[0].resources.map((resource: any, index: number) => {
+                        const resourceText = typeof resource.text === 'string' ? resource.text : (typeof resource.text === 'object' ? JSON.stringify(resource.text) : String(resource.text || ''));
+                        const iconType = typeof resource.icon === 'string' ? resource.icon : '';
+                        return (
+                          <li key={index} className="flex items-center">
+                            {iconType === 'Book' && <Book className="h-5 w-5 mr-2 text-[#B22222]" />}
+                            {iconType === 'BookOpen' && <BookOpen className="h-5 w-5 mr-2 text-[#B22222]" />}
+                            {iconType === 'Library' && <Library className="h-5 w-5 mr-2 text-[#B22222]" />}
+                            {iconType === 'FileText' && <FileText className="h-5 w-5 mr-2 text-[#B22222]" />}
+                            {iconType === 'Database' && <Database className="h-5 w-5 mr-2 text-[#B22222]" />}
+                            <span>{resourceText}</span>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
 
                   <div className="bg-gray-50 p-6 rounded-lg shadow">
                     <h3 className="text-xl font-semibold text-[#B22222] mb-4">Library Services</h3>
                     <ul className="space-y-2">
-                      {library[0].services.map((service, index) => (
+                      {safeLibrary[0].services.map((service: any, index: number) => (
                         <li key={index} className="flex items-center">
                           {service.icon === 'Search' && <Search className="h-5 w-5 mr-2 text-[#B22222]" />}
                           {service.icon === 'Download' && <Download className="h-5 w-5 mr-2 text-[#B22222]" />}
@@ -808,98 +1136,116 @@ const MechanicalDepartment: React.FC = () => {
                       <div className="mb-3">
                         <User className="h-16 w-16 mx-auto text-[#B22222]" />
                       </div>
-                      <h4 className="text-lg font-semibold">{library[0].faculty_incharge.name}</h4>
-                      <p className="text-gray-600">{library[0].faculty_incharge.designation}</p>
-                      <p className="text-gray-600">{library[0].faculty_incharge.department}</p>
+                      <h4 className="text-lg font-semibold">{String(safeLibrary[0].faculty_incharge?.name || 'N/A')}</h4>
+                      <p className="text-gray-600">{String(safeLibrary[0].faculty_incharge?.designation || 'N/A')}</p>
+                      <p className="text-gray-600">{String(safeLibrary[0].faculty_incharge?.department || 'N/A')}</p>
                     </div>
                   </div>
                 </div>
               </>
             )}
 
-            {library.length === 0 && (
+            {safeLibrary.length === 0 && (
               <div className="text-center py-8">
                 <p className="text-gray-600">Loading library information...</p>
               </div>
             )}
           </div>
         );
-      case 'MoUs':
+      }
+      case 'MoUs': {
+        // Ensure mous is an array and log for debugging
+        const mousArray = Array.isArray(mous) ? mous : [];
+        const industryProgramsArray = Array.isArray(industryPrograms) ? industryPrograms : [];
+
+        console.log('=== MOUs DEBUG LOG ===');
+        console.log('Total MOUs Data:', mousArray);
+        console.log('Mous length:', mousArray.length);
+        console.log('Industry Programs length:', industryProgramsArray.length);
+
+        if (mousArray.length > 0) {
+          console.log('First MoU item:', mousArray[0]);
+          console.log('MoU item keys:', Object.keys(mousArray[0]));
+        }
+
+        // All items from mech_mous table are industry MOUs
+        const industryMous = mousArray;
+
+        // Activities from industry programs
+        const activityMous = industryProgramsArray;
+
+        console.log('Industry MOUs count:', industryMous.length);
+        console.log('Activity programs count:', activityMous.length);
+
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Memorandums of Understanding (MoUs)</h2>
-
-            {/* MoUs with Industries */}
-            {mous.filter((item: Mous) => item.type === 'industry').length > 0 && (
-              <div className="mb-10">
-                <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">MoUs with Industries</h3>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="px-4 py-3">S.No</th>
-                        <th className="px-4 py-3">Organization</th>
-                        <th className="px-4 py-3">Industry Type</th>
-                        <th className="px-4 py-3">Date of MoU</th>
-                        <th className="px-4 py-3">Validity</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {mous.filter((item: Mous) => item.type === 'industry').map((item: Mous, index: number) => (
-                        <tr key={index} className="border-b hover:bg-gray-50">
-                          <td className="px-4 py-3">{index + 1}</td>
-                          <td className="px-4 py-3 font-medium">{item.data.organization}</td>
-                          <td className="px-4 py-3">{item.data.industry_type}</td>
-                          <td className="px-4 py-3">{item.data.date_of_mou}</td>
-                          <td className="px-4 py-3">{item.data.validity}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-
-            {/* Activities Under MoUs */}
-            {mous.filter((item: Mous) => item.type === 'activity').length > 0 && (
-              <div className="mt-12">
-                <h3 className="text-2xl font-semibold text-[#B22222] mb-6">Activities Under MoUs</h3>
-                <div className="space-y-6">
-                  {mous.filter((item: Mous) => item.type === 'activity').map((item: Mous, index: number) => {
-                    const getIcon = (category: string) => {
-                      switch (category.toLowerCase()) {
-                        case 'nitap collaboration':
-                          return <Handshake className="h-6 w-6 mr-2 text-[#B22222]" />;
-                        case 'eduskills foundation programs':
-                          return <Trophy className="h-6 w-6 mr-2 text-[#B22222]" />;
-                        case 'apssdc initiatives':
-                          return <Activity className="h-6 w-6 mr-2 text-[#B22222]" />;
-                        case 'industry internships & training':
-                          return <Briefcase className="h-6 w-6 mr-2 text-[#B22222]" />;
-                        default:
-                          return <Activity className="h-6 w-6 mr-2 text-[#B22222]" />;
-                      }
-                    };
-
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
+            <h3 className="text-xl font-semibold text-[#B22222] mb-4 text-center">A. MOUs with Industries</h3>
+            <div className="overflow-x-auto mb-8">
+              <table className="min-w-full bg-white border border-gray-200">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="py-3 px-4 border-b text-left">S.No</th>
+                    <th className="py-3 px-4 border-b text-left">Organization Name</th>
+                    <th className="py-3 px-4 border-b text-left">Industry Type</th>
+                    <th className="py-3 px-4 border-b text-left">Date of MoU</th>
+                    <th className="py-3 px-4 border-b text-left">Validity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {industryMous.map((item: Mous, idx: number) => {
+                    console.log(`Rendering industry MoU row ${idx}:`, {
+                      organization: item.organization,
+                      industry_type: item.industry_type,
+                      date_of_mou: item.date_of_mou,
+                      validity: item.validity,
+                      fullItem: item
+                    });
                     return (
-                      <div key={index} className="bg-gray-50 p-6 rounded-lg shadow">
-                        <h4 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
-                          {getIcon(item.data.category)}
-                          {item.data.category}
-                        </h4>
-                        <ul className="space-y-3 ml-8">
-                          {item.data.activities.map((activity: any, actIndex: number) => (
+                      <tr key={idx} className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b">{idx + 1}</td>
+                        <td className="py-3 px-4 border-b">{item.organization || 'N/A'}</td>
+                        <td className="py-3 px-4 border-b">{item.industry_type || 'N/A'}</td>
+                        <td className="py-3 px-4 border-b">{item.date_of_mou || 'N/A'}</td>
+                        <td className="py-3 px-4 border-b">{item.validity || 'N/A'}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <h3 className="text-xl font-semibold text-[#B22222] mb-4">B. Interaction with the Industry</h3>
+            <div className="space-y-3 max-w-4xl">
+              {activityMous.length > 0 ? (
+                activityMous.map((item: any, idx: number) => (
+                  <div key={idx} className="border border-gray-300 rounded-lg overflow-hidden bg-white">
+                    <button
+                      onClick={() => setExpandedIndustryProgram(expandedIndustryProgram === idx ? null : idx)}
+                      className="w-full px-6 py-4 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
+                    >
+                      <span className="text-left font-semibold text-gray-700">{item.category || 'Activity'}</span>
+                      <ChevronRight
+                        size={20}
+                        className={`text-[#B22222] transition-transform ${expandedIndustryProgram === idx ? 'rotate-90' : ''}`}
+                      />
+                    </button>
+                    {expandedIndustryProgram === idx && (
+                      <div className="px-6 py-4 border-t border-gray-200 bg-white">
+                        <ul className="space-y-3">
+                          {item.activities?.map((activity: any, actIndex: number) => (
                             <li key={actIndex} className="flex items-start">
-                              <span className="mr-2">•</span>
+                              <span className="mr-2 text-[#B22222]">•</span>
                               <div>
-                                {activity.description}
+                                <span className="text-gray-700">{activity.description}</span>
                                 {activity.link && (
                                   <a
                                     href={activity.link}
-                                    className="ml-2 text-blue-600 hover:underline inline-flex items-center"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="ml-2 inline-flex items-center gap-2 text-[#B22222] hover:underline font-medium"
                                   >
-                                    <FileText className="h-4 w-4 mr-1" />
-                                    View Details
+                                    <Download size={16} />
+                                    View Document
                                   </a>
                                 )}
                               </div>
@@ -907,175 +1253,42 @@ const MechanicalDepartment: React.FC = () => {
                           ))}
                         </ul>
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Benefits of MoUs */}
-            {mous.filter((item: Mous) => item.type === 'benefit').length > 0 && (
-              <div className="mt-12">
-                <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Benefits of MoUs</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {mous.filter((item: Mous) => item.type === 'benefit').map((item: Mous, index: number) => {
-                    const getIcon = (iconName: string) => {
-                      switch (iconName) {
-                        case 'Briefcase':
-                          return <Briefcase className="h-10 w-10 mx-auto text-[#B22222]" />;
-                        case 'Scroll':
-                          return <Scroll className="h-10 w-10 mx-auto text-[#B22222]" />;
-                        case 'Building':
-                          return <Building className="h-10 w-10 mx-auto text-[#B22222]" />;
-                        case 'Users':
-                          return <Users className="h-10 w-10 mx-auto text-[#B22222]" />;
-                        case 'Shield':
-                          return <Shield className="h-10 w-10 mx-auto text-[#B22222]" />;
-                        case 'Rss':
-                          return <Rss className="h-10 w-10 mx-auto text-[#B22222]" />;
-                        default:
-                          return <Shield className="h-10 w-10 mx-auto text-[#B22222]" />;
-                      }
-                    };
-
-                    return (
-                      <div key={index} className="bg-gray-50 p-5 rounded-lg shadow text-center">
-                        <div className="mb-3">
-                          {getIcon(item.data.icon)}
-                        </div>
-                        <h4 className="text-lg font-semibold mb-2">{item.data.title}</h4>
-                        <p className="text-gray-700">{item.data.description}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {mous.length === 0 && (
-              <div className="text-center py-8">
-                <p className="text-gray-600">Loading MoUs information...</p>
-              </div>
-            )}
-          </div>
-        );
-      case 'Syllabus':
-        // Group syllabus data by program
-        const groupedSyllabus = syllabus.reduce((acc, item) => {
-          if (!acc[item.program]) {
-            acc[item.program] = [];
-          }
-          acc[item.program].push(item);
-          return acc;
-        }, {} as Record<string, Syllabus[]>);
-
-        // Sort B.Tech syllabus by version (V23, V20, V18)
-        if (groupedSyllabus['B.Tech']) {
-          groupedSyllabus['B.Tech'].sort((a, b) => {
-            const versionOrder = { 'V23': 3, 'V20': 2, 'V18': 1 };
-            return (versionOrder[b.version as keyof typeof versionOrder] || 0) - (versionOrder[a.version as keyof typeof versionOrder] || 0);
-          });
-        }
-
-        // Sort M.Tech syllabus by version (V21, V18)
-        if (groupedSyllabus['M.Tech']) {
-          groupedSyllabus['M.Tech'].sort((a, b) => {
-            const versionOrder = { 'V21': 2, 'V18': 1 };
-            return (versionOrder[b.version as keyof typeof versionOrder] || 0) - (versionOrder[a.version as keyof typeof versionOrder] || 0);
-          });
-        }
-
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
-            <div className="container mt-5">
-              <div className="space-y-8">
-                {/* B.Tech (MECH) Section */}
-                {groupedSyllabus['B.Tech'] && groupedSyllabus['B.Tech'].length > 0 && (
-                  <div>
-                    <details open className="border border-gray-300 rounded-lg">
-                      <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                        B.Tech (MECH)
-                      </summary>
-                      <div className="p-4">
-                        <ul className="space-y-4 list-disc list-inside ml-4">
-                          {groupedSyllabus['B.Tech'].map((item, index) => (
-                            <li key={index} className="flex items-center">
-                              <span>{item.name}</span>
-                              <a
-                                href={item.url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                              >
-                                <FileText className="h-5 w-5 mr-1" />
-                                View
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </details>
+                    )}
                   </div>
-                )}
-
-                {/* M.TECH(MECH) Section */}
-                {groupedSyllabus['M.Tech'] && groupedSyllabus['M.Tech'].length > 0 && (
-                  <div>
-                    <details className="border border-gray-300 rounded-lg">
-                      <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                        M.TECH (MECH)
-                      </summary>
-                      <div className="p-4">
-                        <ul className="space-y-4 list-disc list-inside ml-4">
-                          {groupedSyllabus['M.Tech'].map((item, index) => (
-                            <li key={index} className="flex items-center">
-                              <span>{item.name}</span>
-                              <a
-                                href={item.url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                              >
-                                <FileText className="h-5 w-5 mr-1" />
-                                View
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </details>
-                  </div>
-                )}
-              </div>
+                ))
+              ) : (
+                <p className="text-gray-500 text-center py-4">No industry programs data available</p>
+              )}
             </div>
           </div>
         );
+      }
       case 'Faculty T&L methods':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Teaching & Learning Methods</h2>
 
-            <div className="mb-8">
-              <details open className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Faculty Innovation in Teaching and Learning
-                </summary>
-                <div className="p-4">
-                  <ul className="space-y-4 list-disc list-inside ml-4">
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Faculty Innovation in Teaching and Learning</summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
                     {facultyTLmethods.map((item, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="mt-1">{item.method}</span>
+                      <li key={index}>
+                        {item.method}
                         {item.url && (
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                          >
-                            <FileText className="h-5 w-5 mr-1" />
-                            View
-                          </a>
+                          <>
+                            {' - '}
+                            <a
+                              href={item.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline inline-flex items-center gap-1"
+                            >
+                              <Download size={16} />
+                              View
+                            </a>
+                          </>
                         )}
                       </li>
                     ))}
@@ -1086,308 +1299,100 @@ const MechanicalDepartment: React.FC = () => {
           </div>
 
         );
-      case 'Faculty Achievements':
+      case 'Faculty Achievements': {
+        // Get all categories from DB
+        const categories = Array.from(new Set(facultyAchievements.map(a => a.category)));
+        const grouped = categories.map(cat => ({
+          category: cat,
+          items: facultyAchievements.filter(a => a.category === cat)
+        }));
+
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
-
-            <div className="mb-8">
-              <details open className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Faculty Publications
-                </summary>
-                <div className="p-4">
-                  <ul className="space-y-4">
-                    {facultyAchievements.filter(item => item.category === 'Faculty Publications').map((item, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="mt-1">{item.description}</span>
-                        <a
-                          href={item.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                        >
-                          <FileText className="h-5 w-5 mr-1" />
-                          For more Details
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </details>
-            </div>
-
-            <div className="mb-8">
-              <details className="border border-gray-300 rounded-lg">
-                <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                  Conferences & Workshops
-                </summary>
-                <div className="p-4">
-                  <ul className="space-y-4">
-                    {facultyAchievements
-                      .filter(item => item.category === 'Conferences & Workshops')
-                      .sort((a, b) => {
-                        const yearA = parseInt(a.academic_year.split('-')[0]);
-                        const yearB = parseInt(b.academic_year.split('-')[0]);
-                        return yearB - yearA;
-                      })
-                      .map((item, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="mt-1">{item.description}</span>
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                          >
-                            <FileText className="h-5 w-5 mr-1" />
-                            View
-                          </a>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              </details>
-            </div>
-          </div>
-        );
-      case 'Student Achievements': {
-        // Group student achievements by category
-        const groupedAchievements = studentAchievements.reduce((acc, achievement) => {
-          if (!acc[achievement.category]) {
-            acc[achievement.category] = [];
-          }
-          acc[achievement.category].push(achievement);
-          return acc;
-        }, {} as Record<string, StudentAchievements[]>);
-
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
-
-            {/* Internships */}
-            {(groupedAchievements['Internships'] || []).length > 0 && (
-              <div className="mb-8">
-                <details open className="border border-gray-300 rounded-lg">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    Internships
-                  </summary>
-                  <div className="p-4">
-                    <ul className="space-y-4 list-disc list-inside ml-4">
-                      {groupedAchievements['Internships'].map((achievement, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="mt-1">{achievement.title}</span>
-                          {achievement.url && achievement.url.trim() !== '' && (
-                            <a
-                              href={achievement.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                            >
-                              <FileText className="h-5 w-5 mr-1" />
-                              View More
-                            </a>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </details>
-              </div>
-            )}
-
-            {/* NPTEL/Other Certifications */}
-            {(groupedAchievements['NPTEL/Other Certifications'] || []).length > 0 && (
-              <div className="mb-8">
-                <details className="border border-gray-300 rounded-lg">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    NPTEL/Other Certifications
-                  </summary>
-                  <div className="p-4">
-                    <ul className="space-y-4 list-disc list-inside ml-4">
-                      {groupedAchievements['NPTEL/Other Certifications'].map((achievement, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="mt-1">{achievement.title}</span>
-                          {achievement.url && achievement.url.trim() !== '' && (
-                            <a
-                              href={achievement.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                            >
-                              <FileText className="h-5 w-5 mr-1" />
-                              View More
-                            </a>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </details>
-              </div>
-            )}
-
-            {/* Achievements/Participations in Co-curricular/Extra-Curricular Activities */}
-            {((groupedAchievements['Co-curricular/Extra-Curricular Activities'] || []).length > 0 ||
-              (groupedAchievements['Notable Individual Achievements'] || []).length > 0 ||
-              (groupedAchievements['Students Participations'] || []).length > 0) && (
-              <div className="mb-8">
-                <details className="border border-gray-300 rounded-lg">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    Achievements/Participations in Co-curricular/Extra-Curricular Activities
-                  </summary>
-                  <div className="p-4">
-                    {/* Extracurricular activities */}
-                    {(groupedAchievements['Co-curricular/Extra-Curricular Activities'] || []).length > 0 && (
-                      <ul className="space-y-4 list-disc list-inside ml-4">
-                        {groupedAchievements['Co-curricular/Extra-Curricular Activities'].map((achievement, index) => (
-                          <li key={index} className="flex items-start">
-                            <span className="mt-1">{achievement.title}</span>
-                            {achievement.url && achievement.url.trim() !== '' && (
-                              <a
-                                href={achievement.url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                              >
-                                <FileText className="h-5 w-5 mr-1" />
-                                View More
-                              </a>
+            <div className="space-y-6">
+              {grouped.map((group, index) => (
+                <details key={group.category} open={index === 0} className="cst-dropdown">
+                  <summary>{group.category}</summary>
+                  <div className="cst-dropdown-content">
+                    {group.items.length > 0 ? (
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {group.items.map((item, idx) => (
+                          <li key={idx}>
+                            {item.description}
+                            {item.academic_year && <> <span className="text-gray-600">[{item.academic_year}]</span></>}
+                            {item.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline inline-flex items-center gap-1"
+                                >
+                                  <Download size={16} />
+                                  View
+                                </a>
+                              </>
                             )}
                           </li>
                         ))}
                       </ul>
-                    )}
-
-                    {/* Notable Individual Achievements */}
-                    {(groupedAchievements['Notable Individual Achievements'] || []).length > 0 && (
-                      <div className="mt-6 border-t border-gray-200 pt-4">
-                        <h4 className="font-medium text-lg mb-3">Notable Individual Achievements</h4>
-                        <ul className="space-y-2 text-gray-700">
-                          {groupedAchievements['Notable Individual Achievements'].map((achievement, index) => (
-                            <li key={index}>{achievement.title}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Students Participations */}
-                    {(groupedAchievements['Students Participations'] || []).length > 0 && (
-                      <div className="mt-4">
-                        <h4 className="font-medium text-lg mb-2">Students Participations</h4>
-                        <div className="flex items-start">
-                          <span className="mt-1">{groupedAchievements['Students Participations'][0].title}</span>
-                          {groupedAchievements['Students Participations'][0].url && groupedAchievements['Students Participations'][0].url.trim() !== '' && (
-                            <a
-                              href={groupedAchievements['Students Participations'][0].url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                            >
-                              <FileText className="h-5 w-5 mr-1" />
-                              View
-                            </a>
-                          )}
-                        </div>
-                      </div>
+                    ) : (
+                      <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
                     )}
                   </div>
                 </details>
-              </div>
-            )}
+              ))}
+            </div>
+          </div>
+        );
+      }
+      case 'Student Achievements': {
+        // Get all categories from DB
+        const categories = Array.from(new Set(studentAchievements.map(a => a.category)));
+        const grouped = categories.map(cat => ({
+          category: cat,
+          items: studentAchievements.filter(a => a.category === cat)
+        }));
 
-            {/* UIF */}
-            {(groupedAchievements['UIF'] || []).length > 0 && (
-              <div className="mb-8">
-                <details className="border border-gray-300 rounded-lg">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    UIF
-                  </summary>
-                  <div className="p-4">
-                    <ul className="space-y-4 list-disc list-inside ml-4">
-                      {groupedAchievements['UIF'].map((achievement, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="mt-1">{achievement.title}</span>
-                          {achievement.url && achievement.url.trim() !== '' && (
-                            <a
-                              href={achievement.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                            >
-                              <FileText className="h-5 w-5 mr-1" />
-                              View More
-                            </a>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
+            <div className="space-y-6">
+              {grouped.map((group, index) => (
+                <details key={group.category} open={index === 0} className="cst-dropdown">
+                  <summary>{group.category}</summary>
+                  <div className="cst-dropdown-content">
+                    {group.items.length > 0 ? (
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {group.items.map((item, idx) => (
+                          <li key={idx}>
+                            {item.title}
+                            {item.url && item.url.trim() !== '' && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline inline-flex items-center gap-1"
+                                >
+                                  <Download size={16} />
+                                  View
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+                    )}
                   </div>
                 </details>
-              </div>
-            )}
-
-            {/* Community Service Project */}
-            {(groupedAchievements['Community Service Project'] || []).length > 0 && (
-              <div className="mb-8">
-                <details className="border border-gray-300 rounded-lg">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    Community Service Project
-                  </summary>
-                  <div className="p-4">
-                    <ul className="space-y-4 list-disc list-inside ml-4">
-                      {groupedAchievements['Community Service Project'].map((achievement, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="mt-1">{achievement.title}</span>
-                          {achievement.url && achievement.url.trim() !== '' && (
-                            <a
-                              href={achievement.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                            >
-                              <FileText className="h-5 w-5 mr-1" />
-                              View More
-                            </a>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </details>
-              </div>
-            )}
-
-            {/* Projects */}
-            {(groupedAchievements['Projects'] || []).length > 0 && (
-              <div className="mb-8">
-                <details className="border border-gray-300 rounded-lg">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    Projects
-                  </summary>
-                  <div className="p-4">
-                    <ul className="space-y-4 list-disc list-inside ml-4">
-                      {groupedAchievements['Projects'].map((achievement, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="mt-1">{achievement.title}</span>
-                          {achievement.url && achievement.url.trim() !== '' && (
-                            <a
-                              href={achievement.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                            >
-                              <FileText className="h-5 w-5 mr-1" />
-                              View More
-                            </a>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </details>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
         );
       }
@@ -1395,46 +1400,72 @@ const MechanicalDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
-
-            {placements.map((placement, index) => (
-              <div key={placement.batch} className="mb-8">
-                <details open={index === 0} className="border border-gray-300 rounded-lg">
-                  <summary className="bg-gray-100 p-4 cursor-pointer text-xl font-semibold hover:bg-gray-200 transition-colors duration-200">
-                    Placements for Batch {placement.batch}
-                  </summary>
-                  <div className="p-4">
-                    <div className="flex items-start ml-4">
-                      <span className="mt-1">Placements for Batch {placement.batch}</span>
-                      <a
-                        href={placement.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                      >
-                        <FileText className="h-5 w-5 mr-1" />
-                        View More
-                      </a>
-                    </div>
-                  </div>
-                </details>
-              </div>
-            ))}
-
-            <div className="mt-12 border-t border-gray-200 pt-6">
-              <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Gallery</h3>
-              <div className="container mx-auto">
-                <div className="flex flex-col items-center">
-                  <h4 className="text-xl font-semibold mb-6">2024-2025</h4>
-                  <div className="max-w-2xl mb-8">
-                    <img
-                      src="/images/departments/me/PlacementBroucher.jpeg"
-                      alt="Placement Brochure"
-                      className="w-full rounded-lg shadow-lg"
-                      style={{ aspectRatio: '16/9' }}
-                    />
-                  </div>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Placements Details</summary>
+                <div className="cst-dropdown-content">
+                  {placements.length > 0 ? (
+                    placements.map((placement, idx) => (
+                      <div key={idx} className="mb-4">
+                        <p className="font-medium">
+                          Placements for Batch {placement.batch}
+                          {placement.url && (
+                            <>
+                              {' - '}
+                              <a
+                                href={placement.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View More
+                              </a>
+                            </>
+                          )}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-600 text-sm">No placement details available.</p>
+                  )}
                 </div>
-              </div>
+              </details>
+
+              {/* Gallery Section */}
+              <details className="cst-dropdown">
+                <summary>Image Gallery</summary>
+                <div className="cst-dropdown-content">
+                  {placementsGallery.length > 0 ? (
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                      {placementsGallery.flatMap(item => {
+                        if (item.gallery) {
+                          const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
+                          return imageUrls.map((imageUrl: string, index: number) => ({
+                            url: imageUrl,
+                            year: item.academic_year,
+                            key: `${item.id}-${index}`
+                          }));
+                        }
+                        return [];
+                      }).map((img: any) => (
+                        <img
+                          key={img.key}
+                          src={img.url}
+                          alt={`Placements ${img.year} Image`}
+                          className="w-full rounded-lg shadow-md object-cover"
+                          style={{ height: '300px', width: '400px' }}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                          }}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-500 text-center py-4">No gallery images added yet</p>
+                  )}
+                </div>
+              </details>
             </div>
           </div>
         );
@@ -1443,26 +1474,37 @@ const MechanicalDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Workshops/SOC/Seminars</h2>
-
-            <div className="mb-8">
-              <ol className="space-y-4 list-decimal pl-5">
-                {workshops.map((workshop, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="mt-1">{workshop.description}</span>
-                    <a
-                      href={workshop.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                    >
-                      <FileText className="h-5 w-5 mr-1" />
-                      View More
-                    </a>
-                  </li>
-                ))}
-              </ol>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Workshops & Seminars</summary>
+                <div className="cst-dropdown-content">
+                  {workshops.length > 0 ? (
+                    <ul className="list-disc pl-6 my-2 space-y-2">
+                      {workshops.map((workshop, index) => (
+                        <li key={index}>
+                          {workshop.description}
+                          {workshop.url && (
+                            <>
+                              {' - '}
+                              <a
+                                href={workshop.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View More
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-600 text-sm">No workshops available.</p>
+                  )}
+                </div>
+              </details>
             </div>
-
           </div>
         );
 
@@ -1499,161 +1541,126 @@ const MechanicalDepartment: React.FC = () => {
 
       case 'Project Research':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Project Research & Development</h2>
-
-            <div className="mb-10">
-              <h3 className="text-2xl font-semibold text-gray-700 mb-6 pb-2 border-b-2 border-primary">Research Projects Archive</h3>
-
-              <div className="grid grid-cols-1 gap-6">
-                <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-                  <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-                    <FileText className="h-5 w-5 mr-2 text-[#B22222]" />
-                    Undergraduate Research Projects
-                  </h4>
-                  <ul className="space-y-3 ml-2">
-                    {projectResearch
-                      .filter(project => project.category === 'Undergraduate')
-                      .map((project, index) => (
-                        <li key={index} className="flex items-center">
-                          <span className="mr-2">•</span>
-                          <div>
+            <div className="space-y-6">
+              {/* Undergraduate Research Projects */}
+              <details open className="cst-dropdown">
+                <summary>Undergraduate Research Projects</summary>
+                <div className="cst-dropdown-content">
+                  {projectResearch.filter(project => project.category === 'Undergraduate').length > 0 ? (
+                    <ul className="list-disc pl-6 my-2 space-y-2">
+                      {projectResearch
+                        .filter(project => project.category === 'Undergraduate')
+                        .map((project, index) => (
+                          <li key={index}>
                             {project.description}
-                            <a
-                              href={project.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                            >
-                              <FileText className="h-4 w-4 mr-1" />
-                              View More
-                            </a>
-                          </div>
-                        </li>
-                      ))}
-                  </ul>
+                            {project.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={project.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline"
+                                >
+                                  View More
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-600 text-sm">No undergraduate research projects available.</p>
+                  )}
                 </div>
+              </details>
 
-                <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-                  <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-                    <FileText className="h-5 w-5 mr-2 text-[#B22222]" />
-                    Postgraduate Research Projects
-                  </h4>
-                  <ul className="space-y-3 ml-2">
-                    {projectResearch
-                      .filter(project => project.category === 'Postgraduate')
-                      .map((project, index) => (
-                        <li key={index} className="flex items-center">
-                          <span className="mr-2">•</span>
-                          <div>
+              {/* Postgraduate Research Projects */}
+              <details className="cst-dropdown">
+                <summary>Postgraduate Research Projects</summary>
+                <div className="cst-dropdown-content">
+                  {projectResearch.filter(project => project.category === 'Postgraduate').length > 0 ? (
+                    <ul className="list-disc pl-6 my-2 space-y-2">
+                      {projectResearch
+                        .filter(project => project.category === 'Postgraduate')
+                        .map((project, index) => (
+                          <li key={index}>
                             {project.description}
-                            <a
-                              href={project.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="ml-2 text-blue-600 hover:underline inline-flex items-center"
-                            >
-                              <FileText className="h-4 w-4 mr-1" />
-                              View More
-                            </a>
-                          </div>
-                        </li>
-                      ))}
-                  </ul>
+                            {project.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={project.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline"
+                                >
+                                  View More
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-600 text-sm">No postgraduate research projects available.</p>
+                  )}
                 </div>
-              </div>
+              </details>
             </div>
-
           </div>
         );
 
-      case 'Newsletters':
-        // Group newsletters by year and sort years descending
+      case 'Newsletters': {
+        // Group newsletters by year
         const groupedNewsletters = newsletters.reduce((acc, newsletter) => {
-          const year = Number(newsletter.year);
-          if (!acc[year]) {
-            acc[year] = [];
-          }
-          acc[year].push(newsletter);
+          if (!acc[newsletter.year]) acc[newsletter.year] = [];
+          acc[newsletter.year].push(newsletter);
           return acc;
-        }, {} as Record<number, Newsletters[]>);
-
-        // Sort years in descending order
-        const sortedYears = Object.keys(groupedNewsletters)
-          .map(Number)
-          .sort((a, b) => b - a);
+        }, {} as Record<string, Newsletters[]>);
 
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Newsletters</h2>
+            <div className="space-y-6">
+              {Object.entries(groupedNewsletters)
+                .sort(([yearA], [yearB]) => yearB.localeCompare(yearA))
+                .map(([year, items], index) => (
+                  <details key={year} open={index === 0} className="cst-dropdown">
+                    <summary>{year} Newsletters</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-none pl-0 my-2 space-y-2">
+                        {items.map((newsletter, idx) => (
+                          <li key={idx} className="p-2">
+                            <span className="font-medium">{newsletter.title}</span>
 
-            <div className="mx-auto max-w-4xl">
-              <p className="text-gray-700 mb-6 text-center">
-                Our department regularly publishes newsletters to keep students, faculty, and alumni updated on departmental activities, achievements, and developments.
-              </p>
-
-              <div className="bg-gray-50 rounded-xl p-6 shadow-md">
-                <div className="space-y-4">
-                  {sortedYears.map((year, yearIndex) => {
-                    // Handle 2014-2015 combined display
-                    const has2014 = groupedNewsletters[2014] !== undefined;
-                    const has2015 = groupedNewsletters[2015] !== undefined;
-                    const displayYear = (year === 2014 || year === 2015) && has2014 && has2015
-                      ? '2014-2015'
-                      : year.toString();
-
-                    // Skip duplicate rendering for 2015 if 2014-2015 is already shown
-                    if (year === 2015 && has2014 && has2015) {
-                      return null;
-                    }
-
-                    // Get newsletters for this year (combine 2014 and 2015 if both exist)
-                    const yearNewsletters = displayYear === '2014-2015'
-                      ? [...(groupedNewsletters[2014] || []), ...(groupedNewsletters[2015] || [])].sort((a, b) => {
-                          const volumeDiff = Number(a.volume) - Number(b.volume);
-                          return volumeDiff !== 0 ? volumeDiff : Number(a.issue) - Number(b.issue);
-                        })
-                      : groupedNewsletters[year];
-
-                    return (
-                      <div key={year} className={yearIndex < sortedYears.length - 1 ? "border-b pb-2" : ""}>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-4">{displayYear}</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          {yearNewsletters?.map((newsletter, index) => (
-                            <div key={index} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                              <h4 className="font-medium text-[#B22222] mb-2 flex items-center">
-                                <FileText className="h-4 w-4 mr-2" />
-                                {newsletter.title}
-                              </h4>
-                              <p className="text-sm text-gray-600 mb-2">{newsletter.description}</p>
-                              <a
-                                href={newsletter.url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center text-blue-600 hover:underline"
-                              >
-                                <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                                View Newsletter
-                              </a>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="mt-8 text-center">
-                <p className="text-sm text-gray-500 italic">
-                  For archived newsletters or additional information, please contact the department office.
-                </p>
-              </div>
+                            {newsletter.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={newsletter.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline"
+                                >
+                                  View
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                ))}
             </div>
           </div>
         );
+      }
 
-      case 'Magazines':
+      case 'Magazines': {
         // Group magazines by year
         const groupedMagazines = magazines.reduce((acc, mag) => {
           if (!acc[mag.year]) acc[mag.year] = [];
@@ -1661,128 +1668,44 @@ const MechanicalDepartment: React.FC = () => {
           return acc;
         }, {} as Record<string, Magazines[]>);
 
-        // Define year order to maintain same display order
-        const yearOrder = ['2019-2020', '2018-2019', '2016-2017', 'Earlier Issues'];
-
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Magazines</h2>
+            <div className="space-y-6">
+              {Object.entries(groupedMagazines)
+                .sort(([yearA], [yearB]) => yearB.localeCompare(yearA))
+                .map(([year, items], index) => (
+                  <details key={year} open={index === 0} className="cst-dropdown">
+                    <summary>{year} Magazines</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-none pl-0 my-2 space-y-2">
+                        {items.map((mag, idx) => (
+                          <li key={idx} className="p-2">
+                            <span className="font-medium">{mag.title}</span>
 
-            <div className="mx-auto max-w-4xl">
-              <p className="text-gray-700 mb-6 text-center">
-                Mechazine is our department's biannual magazine that showcases student achievements, technical articles, and the latest developments in mechanical engineering.
-              </p>
-
-              <div className="bg-gray-50 rounded-xl p-6 shadow-md">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {yearOrder.map(year => {
-                    const yearMagazines = groupedMagazines[year] || [];
-
-                    if (year === 'Earlier Issues') {
-                      // Special handling for Earlier Issues - group by volume
-                      const volume3 = yearMagazines.filter(m => m.volume === '3');
-                      const volume2 = yearMagazines.filter(m => m.volume === '2');
-
-                      return (
-                        <div key={year} className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                          <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">{year}</h3>
-                          <ul className="space-y-4">
-                            {/* Volume 3 */}
-                            <li>
-                              <div className="flex items-start">
-                                <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
-                                <div>
-                                  <p className="font-medium text-gray-800">Mechazine Volume 3 Issues</p>
-                                  <div className="grid grid-cols-2 gap-2 mt-2">
-                                    {volume3.map(issue => (
-                                      <a
-                                        key={`${issue.year}-${issue.volume}-${issue.issue}`}
-                                        href={issue.url}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="inline-flex items-center text-blue-600 hover:underline text-sm"
-                                      >
-                                        <ExternalLink className="h-3 w-3 mr-1" />
-                                        Issue {issue.issue}
-                                      </a>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                            {/* Volume 2 */}
-                            <li>
-                              <div className="flex items-start">
-                                <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
-                                <div>
-                                  <p className="font-medium text-gray-800">Mechazine Volume 2 Issues</p>
-                                  <div className="grid grid-cols-2 gap-2 mt-2">
-                                    {volume2.map(issue => (
-                                      <a
-                                        key={`${issue.year}-${issue.volume}-${issue.issue}`}
-                                        href={issue.url}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="inline-flex items-center text-blue-600 hover:underline text-sm"
-                                      >
-                                        <ExternalLink className="h-3 w-3 mr-1" />
-                                        Issue {issue.issue}
-                                      </a>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      );
-                    } else {
-                      // Regular years - sort by volume desc, then issue desc
-                      const sortedMagazines = yearMagazines.sort((a, b) => {
-                        if (a.volume !== b.volume) return parseInt(b.volume) - parseInt(a.volume);
-                        return parseInt(b.issue) - parseInt(a.issue);
-                      });
-
-                      return (
-                        <div key={year} className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                          <h3 className="text-xl font-bold text-gray-800 mb-3 pb-2 border-b border-gray-200">{year}</h3>
-                          <ul className="space-y-4">
-                            {sortedMagazines.map(mag => (
-                              <li key={`${mag.year}-${mag.volume}-${mag.issue}`}>
-                                <div className="flex items-start">
-                                  <FileText className="h-5 w-5 text-[#B22222] mt-1 mr-3 flex-shrink-0" />
-                                  <div>
-                                    <p className="font-medium text-gray-800">{mag.title}</p>
-                                    <p className="text-sm text-gray-600 mb-2">{mag.description}</p>
-                                    <a
-                                      href={mag.url}
-                                      target="_blank"
-                                      rel="noreferrer"
-                                      className="inline-flex items-center text-blue-600 hover:underline"
-                                    >
-                                      <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                                      View Magazine
-                                    </a>
-                                  </div>
-                                </div>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      );
-                    }
-                  })}
-                </div>
-              </div>
-
-              <div className="mt-8 text-center">
-                <p className="text-sm text-gray-500 italic">
-                  Mechazine is a biannual publication featuring technical articles, student achievements, department events, and industry insights. Students and faculty are encouraged to contribute articles for upcoming issues.
-                </p>
-              </div>
+                            {mag.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={mag.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline"
+                                >
+                                  View
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                ))}
             </div>
           </div>
         );
+      }
 
       case 'Extra-Curricular Activities':
         return (

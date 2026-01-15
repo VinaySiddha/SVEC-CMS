@@ -6,7 +6,7 @@ import { join } from 'path';
 // GET /api/department-info/[dept] - Get specific department info
 export async function GET(
   request: NextRequest,
-  { params }: { params: { dept: string } }
+  { params }: { params: Promise<{ dept: string }> }
 ) {
   try {
     const dept = params.dept;
@@ -39,7 +39,7 @@ export async function GET(
 // PUT /api/department-info/[dept] - Update department info
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { dept: string } }
+  { params }: { params: Promise<{ dept: string }> }
 ) {
   try {
     const dept = params.dept;
@@ -150,10 +150,10 @@ export async function PUT(
 // DELETE /api/department-info/[dept] - Delete department info
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { dept: string } }
+  { params }: { params: Promise<{ dept: string }> }
 ) {
   try {
-    const dept = params.dept;
+    const dept = (await params).dept;
 
     // Check if department exists
     const existing = await query(

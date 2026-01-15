@@ -69,7 +69,8 @@ export default function FacultyProfilesPage() {
     
     try {
       const response = await fetch(
-        `/api/faculty_profiles?page=${pagination.page}&limit=${pagination.limit}`
+        `/api/faculty_profiles?page=${pagination.page}&limit=${pagination.limit}`,
+        { cache: 'no-store' }
       );
       
       if (!response.ok) {
@@ -97,7 +98,7 @@ export default function FacultyProfilesPage() {
     
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: value.trim ? value.trim() : value
     }));
     
     // Clear error for this field if it exists
@@ -152,33 +153,43 @@ export default function FacultyProfilesPage() {
     e.preventDefault();
     
     try {
+      // Trim form data to remove extra spaces and symbols
+      const trimmedData: FacultyProfileFormData = {
+        dept: formData.dept?.trim() || '',
+        name: formData.name?.trim() || '',
+        qualification: formData.qualification?.trim() || '',
+        designation: formData.designation?.trim() || '',
+        profile: formData.profile
+      };
+
       // Validate form data with zod
-      facultyProfileSchema.parse(formData);
+      facultyProfileSchema.parse(trimmedData);
       
       setIsSubmitting(true);
       setFormErrors({});
       
       // Create FormData object for file upload
       const submitData = new FormData();
-      submitData.append('dept', formData.dept);
-      submitData.append('name', formData.name);
+      submitData.append('dept', trimmedData.dept);
+      submitData.append('name', trimmedData.name);
       
-      if (formData.qualification) {
-        submitData.append('qualification', formData.qualification);
+      if (trimmedData.qualification) {
+        submitData.append('qualification', trimmedData.qualification);
       }
       
-      if (formData.designation) {
-        submitData.append('designation', formData.designation);
+      if (trimmedData.designation) {
+        submitData.append('designation', trimmedData.designation);
       }
       
-      if (formData.profile) {
-        submitData.append('profile', formData.profile);
+      if (trimmedData.profile) {
+        submitData.append('profile', trimmedData.profile);
       }
       
       // Submit data to API
       const response = await fetch('/api/faculty_profiles', {
         method: 'POST',
-        body: submitData
+        body: submitData,
+        cache: 'no-store'
       });
       
       if (!response.ok) {
@@ -186,9 +197,17 @@ export default function FacultyProfilesPage() {
         throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
       }
       
-      // Success - close modal and refresh data
+      // Success - reset form, close modal and refresh data
+      setFormData({
+        dept: '',
+        name: '',
+        qualification: '',
+        designation: '',
+        profile: undefined
+      });
+      setFormErrors({});
       setIsModalOpen(false);
-      fetchProfiles();
+      await fetchProfiles();
       
     } catch (err) {
       console.error('Form submission error:', err);
@@ -246,7 +265,8 @@ export default function FacultyProfilesPage() {
     
     try {
       const response = await fetch(`/api/faculty_profiles/${deleteId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        cache: 'no-store'
       });
       
       if (!response.ok) {

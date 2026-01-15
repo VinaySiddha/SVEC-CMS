@@ -84,7 +84,9 @@ export default function BoardOfStudiesPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/admin/board-of-studies?dept=eee');
+      const response = await fetch('/api/admin/board-of-studies?dept=eee', {
+        cache: 'no-store'
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -118,7 +120,8 @@ export default function BoardOfStudiesPage() {
       const response = await fetch(endpoint, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        cache: 'no-store'
       });
 
       if (!response.ok) {
@@ -156,7 +159,8 @@ export default function BoardOfStudiesPage() {
     if (confirm('Are you sure you want to delete this member?')) {
       try {
         const response = await fetch(`/api/admin/board-of-studies/members/${id}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          cache: 'no-store'
         });
 
         if (!response.ok) {
@@ -202,7 +206,8 @@ export default function BoardOfStudiesPage() {
       const response = await fetch(endpoint, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        cache: 'no-store'
       });
 
       if (!response.ok) {
@@ -240,7 +245,8 @@ export default function BoardOfStudiesPage() {
     if (confirm('Are you sure you want to delete this meeting minute?')) {
       try {
         const response = await fetch(`/api/admin/board-of-studies/minutes/${id}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          cache: 'no-store'
         });
 
         if (!response.ok) {

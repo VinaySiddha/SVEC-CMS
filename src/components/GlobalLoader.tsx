@@ -6,10 +6,11 @@ import LoadingSpinner from './LoadingSpinner';
 const GlobalLoader: React.FC = () => {
   const { isLoading, loadingText } = useLoading();
 
-  if (!isLoading) return null;
-
   return (
-    <div className="fixed inset-0 z-[200] bg-background/80 backdrop-blur-sm flex items-center justify-center transition-all duration-100">
+    <div
+      className={`fixed inset-0 z-[200] bg-background/80 backdrop-blur-sm flex items-center justify-center transition-opacity duration-150 ${isLoading ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+      aria-hidden={!isLoading}
+    >
       {/* Quick loading indicator */}
       <div className="relative z-10 animate-in fade-in duration-100">
         <LoadingSpinner

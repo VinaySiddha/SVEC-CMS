@@ -3,155 +3,397 @@ import React, { useState,useEffect } from 'react';
 import { Cpu, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon } from 'lucide-react';
 import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
+// Type definitions for CST department data
+interface Faculty {
+  id: number;
+  name: string;
+  qualification: string;
+  designation: string;
+  profile_url: string;
+  faculty_type: string;
+}
+
+interface StudentAchievement {
+  id: number;
+  title: string;
+  category: string;
+  fileUrl?: string;
+  description?: string;
+}
+
+interface Syllabus {
+  id: number;
+  title: string;
+  type: string;
+  fileUrl: string;
+}
+
+interface EResource {
+  id: number;
+  regulation: string;
+  semester: string;
+  subject: string;
+  ppt_url: string;
+}
+
+interface BOSMember {
+  id: number;
+  name: string;
+  qualification?: string;
+  designation: string;
+  profile_url?: string;
+  organization?: string;
+  position_in_job?: string;
+}
+
+interface NonTeachingMember {
+  id: number;
+  name: string;
+  designation: string;
+  organization?: string;
+  position_in_job: string;
+}
+
+interface BOSMinute {
+  id: number;
+  meeting_no: string;
+  meeting_date: string;
+  file_url: string;
+}
+
+interface DepartmentLibrary {
+  image_url: string;
+  description: string;
+  titles: string;
+  volumes: string;
+  faculty_incharge: string;
+  phone: string;
+  email: string;
+}
+
+interface MOU {
+  id: number;
+  organization_name: string;
+  from_date: string;
+  to_date: string;
+  document_url?: string;
+}
+
+interface IndustryProgram {
+  id: number;
+  title: string;
+  file_url: string;
+}
+
+interface Workshop {
+  id: number;
+  title: string;
+  category: string;
+  file_url?: string;
+  description?: string;
+}
+
+interface PhysicalFacility {
+  id: number;
+  category: string;
+  title?: string;
+  description?: string;
+  lab_details?: any[];
+  file_url?: string;
+}
+
+interface Overview {
+  hod_image_url: string;
+  hod_name: string;
+  hod_qualification: string;
+  hod_email: string;
+  description: string;
+}
+
 const CSTDepartment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
+  const [pdfModalOpen, setPdfModalOpen] = useState(false);
+  const [currentPdfUrl, setCurrentPdfUrl] = useState('');
+  const [pdfLoading, setPdfLoading] = useState(false);
 
-  const [faculty, setFaculty] = useState([]);
-  const [technicalFaculty, setTechnicalFaculty] = useState([]);
-  const [nonTeachingFaculty, setNonTeachingFaculty] = useState([]);
-  const [studentAchievements, setStudentAchievements] = useState([]);
-const [syllabus, setSyllabus] = useState([]);
-const [eresources, setEResources] = useState([]);
-const [departmentLibrary, setDepartmentLibrary] = useState(null);
-const [mous, setMous] = useState([]);
-const [industryPrograms,setIndustryPrograms]=useState([]);
+  const [faculty, setFaculty] = useState<Faculty[]>([]);
+  const [technicalFaculty, setTechnicalFaculty] = useState<Faculty[]>([]);
+  const [nonTeachingFaculty, setNonTeachingFaculty] = useState<NonTeachingMember[]>([]);
+  const [studentAchievements, setStudentAchievements] = useState<StudentAchievement[]>([]);
+const [syllabus, setSyllabus] = useState<Syllabus[]>([]);
+const [eresources, setEResources] = useState<EResource[]>([]);
+const [departmentLibrary, setDepartmentLibrary] = useState<DepartmentLibrary | null>(null);
+const [mous, setMous] = useState<MOU[]>([]);
+const [industryPrograms,setIndustryPrograms]=useState<IndustryProgram[]>([]);
+const [workshops, setWorkshops] = useState<Workshop[]>([]);
+const [lectureGallery, setLectureGallery] = useState<any[]>([]);
+const [trainingGalleryFromHackathons, setTrainingGalleryFromHackathons] = useState<any[]>([]);
 
 
-const [overview, setOverview] = useState(null);
+const [overview, setOverview] = useState<Overview | null>(null);
 
-const [physicalFacilities, setPhysicalFacilities] = useState([]);
-const [laboratories, setLaboratories] = useState([]);
-const [facultyDevelopment, setFacultyDevelopment] = useState([]);
-const [facultyAchievements, setFacultyAchievements] = useState([]);
-const [meritScholarships, setMeritScholarships] = useState([]);
-const [extraCurricular, setExtraCurricular] = useState([]);
-const [sahayaEvents, setSahayaEvents] = useState([]);
-const [scudActivities, setScudActivities] = useState([]);
-const [newsletters, setNewsletters] = useState([]);
-const [hackathons, setHackathons] = useState([]);
-const [trainingActivities, setTrainingActivities] = useState([]);
-const [handbooks, setHandbooks] = useState([]);
-const [placements, setPlacements] = useState([]);
-const[bosMembers,setBosMembers]=useState([]);
-const[bosMinutes,setBosMinutes]=useState([]);
+const [physicalFacilities, setPhysicalFacilities] = useState<PhysicalFacility[]>([]);
+const [laboratories, setLaboratories] = useState<any[]>([]);
+const [classrooms, setClassrooms] = useState<any[]>([]);
+const [facultyDevelopment, setFacultyDevelopment] = useState<any[]>([]);
+const [facultyAchievements, setFacultyAchievements] = useState<any[]>([]);
+const [meritScholarships, setMeritScholarships] = useState<any[]>([]);
+const [eapcetToppers, setEapcetToppers] = useState<any[]>([]);
+const [extraCurricular, setExtraCurricular] = useState<any[]>([]);
+const [sahayaEvents, setSahayaEvents] = useState<any[]>([]);
+const [scudActivities, setScudActivities] = useState<any[]>([]);
+const [extraCurricularGallery, setExtraCurricularGallery] = useState<any[]>([]);
+const [technicalAssociationGallery, setTechnicalAssociationGallery] = useState<any[]>([]);
+const [newsletters, setNewsletters] = useState<any[]>([]);
+const [hackathons, setHackathons] = useState<any[]>([]);
+const [hackathonsGallery, setHackathonsGallery] = useState<any[]>([]);
+const [eapcetToppersGallery, setEapcetToppersGallery] = useState<any[]>([]);
+const [trainingActivitiesGallery, setTrainingActivitiesGallery] = useState<any[]>([]);
+const [trainingActivities, setTrainingActivities] = useState<any[]>([]);
+const [handbooks, setHandbooks] = useState<any[]>([]);
+const [placements, setPlacements] = useState<any[]>([]);
+const [placementsGalleryData, setPlacementsGalleryData] = useState<any[]>([]);
+const[bosMembers,setBosMembers]=useState<BOSMember[]>([]);
+const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
+
+  // Sort by ID in descending order (latest first)
+  const sortByIdDesc = <T extends { id?: number }>(items: T[]): T[] =>
+    [...items].sort((a, b) => (b?.id ?? 0) - (a?.id ?? 0));
+
+  // Ensure lists show in ascending id order for consistent display
+  const sortByIdAsc = <T extends { id?: number }>(items: T[]): T[] =>
+    [...items].sort((a, b) => (a?.id ?? 0) - (b?.id ?? 0));
+
+  const normalizeArray = <T extends { id?: number }>(data: unknown): T[] =>
+    Array.isArray(data) ? sortByIdDesc(data as T[]) : [];
+
+  // Sort placements so latest pass-out/batch appears first
+  const sortPlacementsByBatchDesc = <T extends { batch?: string; id?: number }>(items: T[]): T[] => {
+    const getEndYear = (batch?: string) => {
+      if (!batch) return 0;
+      const parts = batch.split(/[^0-9]+/).filter(Boolean);
+      const last = parts[parts.length - 1];
+      const year = last ? parseInt(last, 10) : 0;
+      // Normalize 2-digit years by mapping 00-99 to 2000-2099 for ordering
+      if (year < 100) return 2000 + year;
+      return year;
+    };
+
+    return [...items].sort((a, b) => {
+      const yearA = getEndYear((a as any).batch);
+      const yearB = getEndYear((b as any).batch);
+      if (yearA !== yearB) return yearB - yearA;
+      return (b?.id ?? 0) - (a?.id ?? 0); // fallback: latest id first
+    });
+  };
+
+  // Sort faculty by designation and date of joining (ascending)
+  // Excludes "Web Developer" designation
+  const sortFacultyByDesignationAndDOJ = <T extends { designation?: string; doj?: string; id?: number }>(items: T[]): T[] => {
+    return [...items]
+      .filter(item => (item.designation || '').toLowerCase() !== 'web developer')
+      .sort((a, b) => {
+        const designationA = (a.designation || '').toLowerCase();
+        const designationB = (b.designation || '').toLowerCase();
+        
+        // First sort by designation alphabetically
+        if (designationA !== designationB) {
+          return designationA.localeCompare(designationB);
+        }
+        
+        // If designations are same, sort by DOJ (oldest first)
+        const dojA = a.doj ? new Date(a.doj).getTime() : 0;
+        const dojB = b.doj ? new Date(b.doj).getTime() : 0;
+        
+        if (dojA !== dojB) {
+          return dojA - dojB;
+        }
+        
+        // Fallback: sort by ID ascending
+        return (a?.id ?? 0) - (b?.id ?? 0);
+      });
+  };
 
 
    useEffect(() => {
-    fetch('/api/cstcse/cst-faculty')
-      .then(res => res.json())
-      .then(data => {
-        setFaculty(data.faculty);
-        setTechnicalFaculty(data.technical);
-        setNonTeachingFaculty(data.nonTeaching);
-      });
-       fetch('/api/cstcse/cst-overview')
-    .then(res => res.json())
-    .then(data => setOverview(data.overview));
+    // Make all API calls in parallel using Promise.all()
+    Promise.all([
+      fetch('/api/cst/cst-faculty').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-student-achievements').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-syllabus').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-eresources').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-department-library').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-mous').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-industry-programs').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-department-overview').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-training-activities').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-bos-members').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-bos-minutes').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-handbooks').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-physical-facilities').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-laboratories').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-classrooms').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-faculty-development').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-faculty-achievements').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-merit-scholarships').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-eapcet-toppers').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-extra-curricular').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-sahaya-events').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-scud-activities').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-newsletters').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-hackathons').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-placements').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-workshops').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-lecturers-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-hackathons-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-technical-association-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-extra-curricular-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-eapcet-toppers-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-training-activities-gallery').then(res => res.json()).catch(() => []),
+      fetch('/api/cst/cst-placements-gallery').then(res => res.json()).catch(() => [])
+      
+    ])
+    .then(([
+      facultyData,
+      studentAchievementsData,
+      syllabusData,
+      eresourcesData,
+      departmentLibraryData,
+      mousData,
+      industryProgramsData,
+      overviewData,
+      trainingActivitiesData,
+      bosMembersData,
+      bosMinutesData,
+      handbooksData,
+      physicalFacilitiesData,
+      laboratoriesData,
+      classroomsData,
+      facultyDevelopmentData,
+      facultyAchievementsData,
+      meritScholarshipsData,
+      eapcetToppersData,
+      extraCurricularData,
+      sahayaEventsData,
+      scudActivitiesData,
+      newslettersData,
+      hackathonsData,
+      placementsData,
+      workshopsData,
+      lectureGalleryData,
+      hackathonsGalleryData,
+      technicalAssociationGalleryData,
+      extraCurricularGalleryData,
+      eapcetToppersGalleryData,
+      trainingActivitiesGalleryData,
+      placementsGalleryData,
+    ]) => {
+      // Separate faculty by type
+      const teachingFaculty: Faculty[] = [];
+      const technicalFacultySeparated: Faculty[] = [];
+      const nonTeachingFacultySeparated: NonTeachingMember[] = [];
 
-fetch('/api/cstcse/cst-training-activites')
-  .then(res => res.json())
-  .then(data => {
-    setTrainingActivities(data.activities || []);
-  });
- fetch('/api/cstcse/cst-board-of-studies')
-    .then(res => res.json())
-    .then(data => {
-      setBosMembers(data.members || []);
-      setBosMinutes(data.minutes || []);
+      if (Array.isArray(facultyData)) {
+        facultyData.forEach((f: any) => {
+          const facultyMember = {
+            ...f,
+            profile_url: f.profileUrl || f.profile_url,
+            faculty_type: f.faculty_type || 'teaching',
+          };
+
+          if (f.faculty_type === 'technical') {
+            technicalFacultySeparated.push(facultyMember);
+          } else if (f.faculty_type === 'non_teaching') {
+            nonTeachingFacultySeparated.push(facultyMember);
+          } else {
+            teachingFaculty.push(facultyMember);
+          }
+        });
+      }
+
+        setFaculty(sortFacultyByDesignationAndDOJ(teachingFaculty));
+        setTechnicalFaculty(sortFacultyByDesignationAndDOJ(technicalFacultySeparated));
+        setNonTeachingFaculty(sortByIdDesc(nonTeachingFacultySeparated));
+        setStudentAchievements(normalizeArray<StudentAchievement>(studentAchievementsData));
+        setSyllabus(normalizeArray<Syllabus>(syllabusData));
+        setEResources(normalizeArray<EResource>(eresourcesData));
+        setDepartmentLibrary(Array.isArray(departmentLibraryData) && departmentLibraryData.length > 0 ? departmentLibraryData[0] : null);
+        setMous(normalizeArray<MOU>(mousData));
+        setIndustryPrograms(normalizeArray<IndustryProgram>(industryProgramsData));
+        setOverview(Array.isArray(overviewData) ? overviewData[0] : overviewData || null);
+        setTrainingActivities(normalizeArray<any>(trainingActivitiesData));
+        setBosMembers(normalizeArray<BOSMember>(bosMembersData));
+        setBosMinutes(normalizeArray<BOSMinute>(bosMinutesData));
+        setHandbooks(normalizeArray<any>(handbooksData));
+        setPhysicalFacilities(normalizeArray<PhysicalFacility>(physicalFacilitiesData));
+        setLaboratories(normalizeArray<any>(laboratoriesData));
+        setClassrooms(normalizeArray<any>(classroomsData));
+        setFacultyDevelopment(normalizeArray<any>(facultyDevelopmentData));
+        setFacultyAchievements(normalizeArray<any>(facultyAchievementsData));
+        setMeritScholarships(normalizeArray<any>(meritScholarshipsData));
+        
+        // Handle EAPCET Toppers - ensure it's an array
+        console.log('Raw EAPCET Toppers Data:', eapcetToppersData);
+        console.log('Type:', typeof eapcetToppersData);
+        console.log('Is Array:', Array.isArray(eapcetToppersData));
+        
+        let eapcetArray = [];
+        if (Array.isArray(eapcetToppersData)) {
+          eapcetArray = eapcetToppersData;
+        } else if (eapcetToppersData && typeof eapcetToppersData === 'object') {
+          // Check if it has a data property (common API response pattern)
+          if (eapcetToppersData.data && Array.isArray(eapcetToppersData.data)) {
+            eapcetArray = eapcetToppersData.data;
+          } else if (Object.keys(eapcetToppersData).length > 0) {
+            // Convert object to array
+            eapcetArray = Object.values(eapcetToppersData);
+          }
+        }
+        
+        console.log('EAPCET Array after conversion:', eapcetArray);
+        console.log('EAPCET Array length:', eapcetArray.length);
+        
+        // Don't normalize yet - set the array directly to see raw data
+        setEapcetToppers(sortByIdDesc(eapcetArray));
+        
+        setExtraCurricular(normalizeArray<any>(extraCurricularData));
+        setSahayaEvents(normalizeArray<any>(sahayaEventsData));
+        setScudActivities(normalizeArray<any>(scudActivitiesData));
+        setNewsletters(normalizeArray<any>(newslettersData));
+        setHackathons(normalizeArray<any>(hackathonsData));
+        setPlacements(sortPlacementsByBatchDesc(normalizeArray<any>(placementsData)));
+        setWorkshops(normalizeArray<Workshop>(workshopsData));
+        
+        // Process lecture gallery data
+        const processedLectureGallery = Array.isArray(lectureGalleryData) 
+          ? lectureGalleryData.flatMap(item => {
+              const images = typeof item.gallery === 'string' 
+                ? item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0)
+                : (Array.isArray(item.gallery) ? item.gallery : []);
+              
+              return images.map((url: string) => ({
+                image_url: url,
+                caption: item.academic_year ? `Academic Year ${item.academic_year}` : '',
+                id: item.id
+              }));
+            })
+          : [];
+        setLectureGallery(processedLectureGallery);
+        
+        setHackathonsGallery(normalizeArray<any>(hackathonsGalleryData));
+        setEapcetToppersGallery(normalizeArray<any>(eapcetToppersGalleryData));
+        setTechnicalAssociationGallery(normalizeArray<any>(technicalAssociationGalleryData));
+        setExtraCurricularGallery(normalizeArray<any>(extraCurricularGalleryData));
+        setTrainingActivitiesGallery(normalizeArray<any>(trainingActivitiesGalleryData));
+        console.log('Placements Gallery Data from API:', placementsGalleryData);
+        setPlacementsGalleryData(normalizeArray<any>(placementsGalleryData));
+    })
+    .catch(() => {
+      // Error handling
     });
-fetch('/api/cstcse/cst-handbooks')
-  .then(res => res.json())
-  .then(data => {
-    setHandbooks(data.handbooks || []);
-  });
-
-    fetch('/api/cstcse/cst-student-achievement')
-      .then(res => res.json())
-      .then(data => {
-
-        setStudentAchievements(data.achievements || []);
-      });
-       fetch('/api/cstcse/cst-syllabus')
-    .then(res => res.json())
-    .then(data => {
-      setSyllabus(data.syllabus || []);
-    });
-
-  fetch('/api/cstcse/cst-eresources')
-    .then(res => res.json())
-    .then(data => {
-      setEResources(data.eresources || []);
-    });
-     fetch('/api/cstcse/cst-department-library')
-    .then(res => res.json())
-    .then(data => {
-      setDepartmentLibrary(data.library);
-    });
-
-fetch('/api/cstcse/cst-mous')
-    .then(res => res.json())
-    .then(data => {
-      setMous(data.mous || []);
-      setIndustryPrograms(data.industryPrograms || []);
-    });
-
-
-
- 
-
-  fetch('/api/cstcse/cst-physical-facilities')
-    .then(res => res.json())
-    .then(data => setPhysicalFacilities(data.facilities || []));
-
-  fetch('/api/cstcse/cst-faculty-develop')
-    .then(res => res.json())
-    .then(data => setFacultyDevelopment(data.fdp || []));
-
-  fetch('/api/cstcse/cst-faculty-achievements')
-    .then(res => res.json())
-    .then(data => setFacultyAchievements(data.achievements || []));
-
-  fetch('/api/cstcse/cst-merit-scholarships')
-    .then(res => res.json())
-    .then(data => setMeritScholarships(data.scholarships || []));
-
-  fetch('/api/cstcse/cst-scud-activities')
-    .then(res => res.json())
-    .then(data => setScudActivities(data.scudActivities || []));
-
-  fetch('/api/cstcse/cst_extra_curricular')
-    .then(res => res.json())
-    .then(data => setExtraCurricular(data.activities || []));
-
-
-  fetch('/api/cstcse/cst-newsletter')
-    .then(res => res.json())
-    .then(data => setNewsletters(data.newsletters || []));
-
-  fetch('/api/cstcse/cst-hackathons')
-    .then(res => res.json())
-    .then(data => setHackathons(data.hackathons || []));
-
-  fetch('/api/cstcse/cst-training-activites')
-    .then(res => res.json())
-    .then(data => setTrainingActivities(data.activities || []));
-
-  fetch('/api/cstcse/cst-handbooks')
-    .then(res => res.json())
-    .then(data => setHandbooks(data.handbooks || []));
-
-  fetch('/api/cstcse/cst-placements')
-    .then(res => res.json())
-    .then(data => setPlacements(data.placements || []));
-
-
-
-
-
-
   }, []);
 
   const sidebarItems = [
@@ -167,7 +409,7 @@ fetch('/api/cstcse/cst-mous')
     { id: 'Workshops', label: 'Workshops', icon: <Presentation className="w-4 h-4" /> },
     { id: 'Student Achievements', label: 'Student Achievements', icon: <Award className="w-4 h-4" /> },
     { id: 'Placements', label: 'Placements', icon: <Briefcase className="w-4 h-4" /> },
-    { id: 'Merit Scholarship/Academic Toppers', label: 'Merit Scholarship/Academic Toppers', icon: <Trophy className="w-4 h-4" /> },
+    { id: 'Merit Scholarship/Academic Toppers', label: 'Academic/EAPCET Toppers', icon: <Trophy className="w-4 h-4" /> },
     { id: 'Technical Association', label: 'Technical Association', icon: <Cpu className="w-4 h-4" /> },
     { id: 'Training Activities', label: 'Training Activities', icon: <Activity className="w-4 h-4" /> },
     { id: 'Newsletters', label: 'Newsletters', icon: <Rss className="w-4 h-4" /> },
@@ -175,10 +417,30 @@ fetch('/api/cstcse/cst-mous')
     { id: 'Hackathons', label: 'Hackathons', icon: <Cpu className="w-4 h-4" /> },
     { id: 'e-Resources', label: 'e-Resources', icon: <Wifi className="w-4 h-4" /> },
     { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
-    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
+    
   ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
+
+  const openPdfModal = (url: string, event?: React.MouseEvent) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    setCurrentPdfUrl(url);
+    setPdfLoading(true);
+    setPdfModalOpen(true);
+  };
+
+  const closePdfModal = () => {
+    setPdfModalOpen(false);
+    setCurrentPdfUrl('');
+    setPdfLoading(false);
+  };
+
+  const handlePdfLoad = () => {
+    setPdfLoading(false);
+  };
 
 
 
@@ -211,72 +473,98 @@ fetch('/api/cstcse/cst-mous')
         return (
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Educational Objectives (PEOs)</h3>
-            <p className="text-gray-700 mb-4">The graduates will:</p>
+            <p className="text-gray-700 mb-4">	CST	Graduates of this programme will be able to :</p>
             <div className="space-y-4">
               <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
                 <h4 className="text-lg font-semibold text-blue-800">PEO 1</h4>
-                <p className="text-gray-700">Excel in professional career and/or higher education by acquiring knowledge in mathematics, science and computer science & technology principles.</p>
+                <p className="text-gray-700">Adapt to evolving technology.</p>
               </div>
               <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
                 <h4 className="text-lg font-semibold text-blue-800">PEO 2</h4>
-                <p className="text-gray-700">Analyze real-life problems and design socially responsible and environmentally sustainable technology-based solutions.</p>
+                <p className="text-gray-700">Provide optimal soultions to real time problems.
+
+                </p>
               </div>
               <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
                 <h4 className="text-lg font-semibold text-blue-800">PEO 3</h4>
-                <p className="text-gray-700">Adapt to evolving technologies through continuous learning and professional development.</p>
+                <p className="text-gray-700">Demonstrate his/her abilities to support service activities with due consideration for Professional and Ethical values.</p>
               </div>
-              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-blue-800">PEO 4</h4>
-                <p className="text-gray-700">Lead a successful career as a team member or leader with strong professional ethics and communication skills.</p>
-              </div>
+              
             </div>
           </div>
         );
       case 'POs':
-        return (
-          <div className="animate-fade-in">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
-            <div className="space-y-3">
-              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-md font-semibold text-blue-800">PO1: Engineering Knowledge</h4>
-                <p className="text-gray-700">Apply knowledge of mathematics, science, engineering fundamentals, and computer science & technology principles to solve complex engineering problems.</p>
-              </div>
-              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-md font-semibold text-blue-800">PO2: Problem Analysis</h4>
-                <p className="text-gray-700">Identify, formulate, research literature, and analyze complex engineering problems using principles of mathematics, natural sciences, and engineering sciences.</p>
-              </div>
-              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-md font-semibold text-blue-800">PO3: Design/Development of Solutions</h4>
-                <p className="text-gray-700">Design solutions for complex engineering problems and system components that meet specified needs with appropriate consideration for public health, safety, and environmental concerns.</p>
-              </div>
-              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-md font-semibold text-blue-800">PO4: Modern Tool Usage</h4>
-                <p className="text-gray-700">Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools for complex engineering activities.</p>
-              </div>
-              <div className="p-3 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-md font-semibold text-blue-800">PO5: The Engineer and Society</h4>
-                <p className="text-gray-700">Apply reasoning informed by contextual knowledge to assess societal, health, safety, legal and cultural issues relevant to professional engineering practice.</p>
+          return (
+            <div className="animate-fade-in">
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
+              <div className="pl-5 space-y-3 text-gray-700 text-justify">
+                <ol className="list-decimal pl-6">
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#850209'}}>1. Engineering knowledge:</strong>
+                    Apply the knowledge of Mathematics, Science, Engineering Fundamentals, and Concepts of Computer Science Engineering to the solution of complex Engineering problems. [K3]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#850209'}}>2. Problem Analysis:</strong>
+                    Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of Mathematics, Natural Sciences, and Computer Science. [K4]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#850209'}}>3. Design/development of solutions:</strong>
+                    Design solutions for complex engineering problems and design system components or processes that meet the specific needs with appropriate consideration for public health and safety, and the cultural, societal, and environmental considerations. [K5]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#850209'}}>4. Conduct investigations of complex problems:</strong>
+                    Use research-based knowledge and research methods, including the design of experiments, analysis and interpretation of data, and synthesis of information to provide valid conclusions. [K5]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#850209'}}>5. Modern tool usage:</strong>
+                    Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools, including prediction and modeling, to complex Engineering activities with an understanding of the limitations. [K3]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#850209'}}>6. The engineer and society:</strong>
+                    Apply reasoning informed by contextual knowledge to assess societal, health, safety, legal, and cultural issues and the consequent responsibilities relevant to professional Engineering practice. [K3]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#850209'}}>7. Environment and sustainability:</strong>
+                    Understand the impact of professional engineering solutions in societal and environmental contexts and demonstrate knowledge of, and the need for sustainable development. [K3]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#850209'}}>8. Ethics:</strong>
+                    Apply ethical principles and commit to professional ethics and responsibilities and norms of Engineering practice. [K3]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#850209'}}>9. Individual and team work:</strong>
+                    Function effectively as an individual and as a member or leader in diverse teams and in multidisciplinary settings. [K6]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#850209'}}>10. Communication:</strong>
+                    Communicate effectively on complex Engineering activities with the Engineering community and with society at large, such as being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions. [K2]
+                  </li>
+                  <li style={{marginBottom: '10px'}}>
+                    <strong style={{color: '#850209'}}>11. Project management and finance:</strong>
+                    Demonstrate knowledge and understanding of Engineering and Management principles and apply these to one's own work, as a member and leader in a team, to manage projects and in multidisciplinary environments. [K6]
+                  </li>
+                  <li>
+                    <strong style={{color: '#850209'}}>12. Life-long learning:</strong>
+                    Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change. [K1]
+                  </li>
+                </ol>
               </div>
             </div>
-          </div>
-        );
+          );
       case 'PSOs':
         return (
           <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Specific Outcomes (PSOs)</h3>
-            <div className="space-y-4">
-              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-green-800">PSO 1</h4>
-                <p className="text-gray-700">Apply knowledge of computer science & technology principles to design and develop efficient software solutions.</p>
-              </div>
-              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-green-800">PSO 2</h4>
-                <p className="text-gray-700">Demonstrate proficiency in emerging technologies and adapt to technological changes in the computing field.</p>
-              </div>
-              <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-green-800">PSO 3</h4>
-                <p className="text-gray-700">Work effectively in multidisciplinary teams and communicate technical concepts clearly to diverse audiences.</p>
-              </div>
+            <p className="text-gray-700 mb-4">Graduate of the Computer Science and Technology Programme will be able to:</p>
+            <div className="pl-5 space-y-3 text-gray-700 text-justify">
+              <ol className="list-decimal pl-6">
+                <li style={{marginBottom: '10px'}}>
+                  <span className="font-semibold" style={{color: '#850209'}}>PSO1:</span> Use Mathematical Abstractions and Algorithmic Design along with Open Source Programming tools to solve complexities involved in Programming. <span style={{fontWeight: 'bold'}}>[K3]</span>
+                </li>
+                <li style={{marginBottom: '10px'}}>
+                  <span className="font-semibold" style={{color: '#850209'}}>PSO2:</span> Use Professional Engineering practices and strategies for development and maintenance of software. <span style={{fontWeight: 'bold'}}>[K3]</span>
+                </li>
+              </ol>
             </div>
           </div>
         );
@@ -287,15 +575,43 @@ fetch('/api/cstcse/cst-mous')
             <p className="text-gray-700 mb-4">
               The course outcomes for all courses offered by the Computer Science & Technology department are designed to align with program outcomes and educational objectives.
             </p>
-            <div className="mb-4">
-              <a
-                href="https://srivasaviengg.ac.in/uploads/cst/COs.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 items-center"
-              >
-                <Download className="w-4 h-4 mr-2" /> Download Course Outcomes
-              </a>
+            <div className="space-y-4">
+              <div>
+                <span className="font-semibold text-gray-800">Course Outcomes (V23 Regulation)</span>
+                <a
+                  href="https://srivasaviengg.ac.in/uploads/cst/Course%20Outcomes%20-V23%20Regulation.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-3 inline-block px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-300 view-button"
+                  style={{fontSize: '16px'}}
+                >
+                  View PDF
+                </a>
+              </div>
+              <div>
+                <span className="font-semibold text-gray-800">Course Outcomes (V20 Regulation)</span>
+                <a
+                  href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Course%20Outcomes%20-V20%20Regulation.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-3 inline-block px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-300 view-button"
+                  style={{fontSize: '16px'}}
+                >
+                  View PDF
+                </a>
+              </div>
+              <div>
+                <span className="font-semibold text-gray-800">Course Outcomes (V18 Regulation)</span>
+                <a
+                  href="https://srivasaviengg.ac.in/uploads/cse_extra_activities/Course%20Outcomes%20-V18%20Regulation.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-3 inline-block px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-300 view-button"
+                  style={{fontSize: '16px'}}
+                >
+                  View PDF
+                </a>
+              </div>
             </div>
           </div>
         );
@@ -303,15 +619,14 @@ fetch('/api/cstcse/cst-mous')
         return (
           <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
-            <ul className="list-disc pl-5 space-y-2 text-gray-700">
-              <li>Modern curriculum designed to meet industry requirements</li>
-              <li>Well-equipped computer laboratories with latest software</li>
-              <li>Experienced faculty with industry and research background</li>
-              <li>Strong emphasis on practical learning and project-based education</li>
-              <li>Regular industry interactions and guest lectures</li>
-              <li>Focus on emerging technologies and innovation</li>
-              <li>Active student clubs and technical societies</li>
-              <li>Excellent placement record with top companies</li>
+            <ul className="pl-5 space-y-3 text-gray-700">
+              <li><strong className="text-[#850209]">➟</strong> All Class Rooms are ICT enabled.</li>
+              <li><strong className="text-[#850209]">➟</strong> MoUs with NIT ANP, Eduskills, Hexaware, APSSDC, Alykas Innovations Pvt.Ltd, thingTronics Pvt Ltd, Bangalore and TCS-iON.</li>
+              <li><strong className="text-[#850209]">➟</strong> College has MOU with TCS for conducting Online Competitive Exams for which our Department Resources are being utilized.</li>
+              <li><strong className="text-[#850209]">➟</strong> Professional Society memberships in ISTE and IAENG.</li>
+              <li><strong className="text-[#850209]">➟</strong> Good faculty retention.</li>
+              <li><strong className="text-[#850209]">➟</strong> Well Equipped Laboratories.</li>
+              <li><strong className="text-[#850209]">➟</strong> Sahaya, Social Service Unit, managed by the Students.</li>
             </ul>
           </div>
         );
@@ -322,6 +637,34 @@ fetch('/api/cstcse/cst-mous')
             <p className="text-gray-700 leading-relaxed">
               The Department of Computer Science & Technology was established in 2019. The department offers undergraduate program in Computer Science & Technology with an intake of 60 students.
             </p>
+            <div className="mt-8">
+              <h4 className="text-xl font-bold text-[#B22222] mb-4 text-center">Courses</h4>
+
+
+
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-300 rounded-lg shadow-sm">
+                  <thead>
+                    <tr className="bg-green-700 text-white">
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Sl.No</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Name of the Course</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Eligibility Criteria</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Duration</th>
+                      <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Intake</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                      <td className="border border-gray-300 px-4 py-3 text-center">1</td>
+                      <td className="border border-gray-300 px-4 py-3">B.Tech-Computer Science and Technology</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">AP EAPCET</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">4 Years</td>
+                      <td className="border border-gray-300 px-4 py-3 text-center">60</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         );
     }
@@ -531,33 +874,38 @@ case 'Department Profile':
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
       <div className="space-y-6">
-        {grouped.map(group => (
-          <details key={group.category} open={group.items.length > 0} className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">{group.category}</summary>
-            {group.items.length > 0 ? (
-              <ul className="list-disc pl-6 my-2 space-y-2">
-                {group.items.map((item, idx) => (
-                  <li key={idx}>
-                    {item.title}
-                    {item.fileUrl && (
-                      <>
-                        {' - '}
-                        <a
-                          href={item.fileUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#B22222] hover:underline"
-                        >
-                          View More
-                        </a>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
-            )}
+        {grouped.map((group, index) => (
+          <details key={group.category} open={index === 0} className="cst-dropdown">
+            <summary>{group.category}</summary>
+            <div className="cst-dropdown-content">
+              {group.items.length > 0 ? (
+                <ul className="list-disc pl-6 my-2 space-y-2">
+                  {group.items.map((item, idx) => {
+                    const fileLink = item.fileUrl || (item as any).file_url;
+                    return (
+                      <li key={idx}>
+                        {item.title}
+                        {fileLink && (
+                          <>
+                            {' - '}
+                            <a
+                              href={fileLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline"
+                            >
+                              View More
+                            </a>
+                          </>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+              )}
+            </div>
           </details>
         ))}
       </div>
@@ -571,25 +919,27 @@ case 'Department Profile':
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
       <div className="space-y-6">
-        {types.map(type => (
-          <details key={type} open className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">{type}</summary>
-            <ul className="list-disc pl-6 my-2">
-              {syllabus.filter(s => s.type === type).map((item, idx) => (
-                <li key={idx}>
-                  {item.title}
-                  {' '}
-                  <a
-                    href={item.fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#B22222] hover:underline"
-                  >
-                    View
-                  </a>
-                </li>
-              ))}
-            </ul>
+        {types.map((type, index) => (
+          <details key={type} open={index === 0} className="cst-dropdown">
+            <summary>{type}</summary>
+            <div className="cst-dropdown-content">
+              <ul className="list-disc pl-6 my-2">
+                {syllabus.filter(s => s.type === type).map((item, idx) => (
+                  <li key={idx}>
+                    {item.title}
+                    {' '}
+                    <a
+                      href={item.fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#B22222] hover:underline"
+                    >
+                     - View
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </details>
         ))}
       </div>
@@ -600,84 +950,122 @@ case 'Department Profile':
       case 'Faculty Profiles':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Teaching Faculty</h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Qualification</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Profile</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {faculty.map((member, index) => (
-                        <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.qualification}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                          <td className="px-6 py-4">
-                            <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline transition-colors duration-200">View</a>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Teaching Faculty</summary>
+                <div className="cst-dropdown-content">
+                  {faculty && faculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Qualification</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Profile</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {faculty.map((member, index) => (
+                            <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.qualification || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                              <td className="px-6 py-4">
+                                <a 
+                                  href={member.profile_url || `${member.profile_url}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="px-3 py-1 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-200 text-sm font-medium inline-block"
+                                >
+                                  View Profile
+                                </a>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">
+                        {faculty ? 'No teaching faculty data available.' : 'Loading teaching faculty...'}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              </details>
 
-              <div>
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Staff</h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {technicalFaculty.map((member, index) => (
-                        <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              <details className="cst-dropdown">
+                <summary>Technical Staff</summary>
+                <div className="cst-dropdown-content">
+                  {technicalFaculty && technicalFaculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {technicalFaculty.map((member, index) => (
+                            <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">
+                        {technicalFaculty ? 'No technical staff data available.' : 'Loading technical staff...'}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              </details>
 
-              <div>
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Staff</h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
-                        <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {nonTeachingFaculty.map((member, index) => (
-                        <tr key={index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              <details className="cst-dropdown">
+                <summary>Non-Teaching Staff</summary>
+                <div className="cst-dropdown-content">
+                  {nonTeachingFaculty && nonTeachingFaculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {nonTeachingFaculty.map((member, index) => (
+                            <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">
+                        {nonTeachingFaculty ? 'No non-teaching staff data available.' : 'Loading non-teaching staff...'}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              </details>
             </div>
           </div>
         );
@@ -691,36 +1079,38 @@ case 'e-Resources': {
         <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">e-Resources</h2>
         {/* ...static intro content... */}
         <h3 className="text-2xl font-semibold text-[#B22222] mb-6 text-center">Subjects</h3>
-        {regulations.map(reg => (
-          <div key={reg} className="mb-8">
-            <h4 className="text-xl font-bold text-[#B22222] mb-4 text-center">{reg}-Subjects</h4>
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="py-3 px-4 border-b text-left">S.No</th>
-                    <th className="py-3 px-4 border-b text-left">Regulation</th>
-                    <th className="py-3 px-4 border-b text-left">Sem</th>
-                    <th className="py-3 px-4 border-b text-left">Subject</th>
-                    <th className="py-3 px-4 border-b text-left">PPT</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {eresources.filter(e => e.regulation === reg).map((item, idx) => (
-                    <tr key={item.id} className="hover:bg-gray-50">
-                      <td className="py-3 px-4 border-b">{idx + 1}</td>
-                      <td className="py-3 px-4 border-b">{item.regulation}</td>
-                      <td className="py-3 px-4 border-b">{item.semester}</td>
-                      <td className="py-3 px-4 border-b">{item.subject}</td>
-                      <td className="py-3 px-4 border-b">
-                        <a href={item.ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">Download</a>
-                      </td>
+        {regulations.map((reg, index) => (
+          <details key={reg} open={index === 0} className="cst-dropdown">
+            <summary>{reg}-Subjects</summary>
+            <div className="cst-dropdown-content">
+              <div className="overflow-x-auto">
+                <table className="min-w-full bg-white border border-gray-200">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="py-3 px-4 border-b text-left">S.No</th>
+                      <th className="py-3 px-4 border-b text-left">Regulation</th>
+                      <th className="py-3 px-4 border-b text-left">Sem</th>
+                      <th className="py-3 px-4 border-b text-left">Subject</th>
+                      <th className="py-3 px-4 border-b text-left">PPT</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {eresources.filter(e => e.regulation === reg).map((item, idx) => (
+                      <tr key={item.id} className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b">{idx + 1}</td>
+                        <td className="py-3 px-4 border-b">{item.regulation}</td>
+                        <td className="py-3 px-4 border-b">{item.semester}</td>
+                        <td className="py-3 px-4 border-b">{item.subject}</td>
+                        <td className="py-3 px-4 border-b">
+                          <a href={item.ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">Download</a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          </details>
         ))}
       </div>
     </div>
@@ -730,55 +1120,70 @@ case 'e-Resources': {
 
    case 'Board of Studies': {
   return (
-    <div>
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-        <div className="space-y-6">
-          <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="py-3 px-4 border-b border-gray-200 text-left">S.No</th>
-                  <th className="py-3 px-4 border-b border-gray-200 text-left">Name of the BOS Member</th>
-                  <th className="py-3 px-4 border-b border-gray-200 text-left">Designation</th>
-                  <th className="py-3 px-4 border-b border-gray-200 text-left">Organization</th>
-                  <th className="py-3 px-4 border-b border-gray-200 text-left">Position in JOB</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bosMembers.map((member, idx) => (
-                  <tr key={member.id} className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b border-gray-200">{idx + 1}</td>
-                    <td className="py-3 px-4 border-b border-gray-200">{member.name}</td>
-                    <td className="py-3 px-4 border-b border-gray-200">{member.designation || ''}</td>
-                    <td className="py-3 px-4 border-b border-gray-200">{member.organization || ''}</td>
-                    <td className="py-3 px-4 border-b border-gray-200">{member.position_in_job}</td>
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
+      <div className="space-y-6">
+        <details open className="cst-dropdown">
+          <summary>Board of Studies Members</summary>
+          <div className="cst-dropdown-content">
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="py-3 px-4 border-b border-gray-200 text-left">S.No</th>
+                    <th className="py-3 px-4 border-b border-gray-200 text-left">Name of the BOS Member</th>
+                    <th className="py-3 px-4 border-b border-gray-200 text-left">Designation</th>
+                    <th className="py-3 px-4 border-b border-gray-200 text-left">Organization</th>
+                    <th className="py-3 px-4 border-b border-gray-200 text-left">Position in JOB</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {bosMembers.map((member, idx) => (
+                    <tr key={member.id} className="hover:bg-gray-50">
+                      <td className="py-3 px-4 border-b border-gray-200">{idx + 1}</td>
+                      <td className="py-3 px-4 border-b border-gray-200">{member.name}</td>
+                      <td className="py-3 px-4 border-b border-gray-200">{member.designation || ''}</td>
+                      <td className="py-3 px-4 border-b border-gray-200">{member.organization || ''}</td>
+                      <td className="py-3 px-4 border-b border-gray-200">{member.position_in_job}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="mt-4">
-        <div className="flex flex-col justify-center items-center mb-5">
-          <h4 className="text-xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes:</h4>
-          <ul className="my-2 space-y-3 list-none">
-            {bosMinutes.map((minute) => (
-              <li key={minute.id} className="text-center">
-                Minutes of {minute.meeting_no} meeting of the Board of Studies, dated {minute.meeting_date} -
-                <a
-                  href={minute.file_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#B22222] hover:underline ml-2"
-                >
-                  View
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        </details>
+
+        <details className="cst-dropdown">
+          <summary>Board of Studies Meeting Minutes</summary>
+          <div className="cst-dropdown-content">
+            <div className="space-y-3">
+              {bosMinutes.map((minute) => {
+                // Remove time portion if present (e.g., '2025-11-12T18:30:00.000Z' => '2025-11-12')
+                const dateOnly = minute.meeting_date?.split('T')[0] || minute.meeting_date;
+                return (
+                  <div key={minute.id} className="flex items-center justify-center p-4 bg-gray-50 rounded-lg border">
+                    <span className="text-gray-700">
+                      Minutes of {minute.meeting_no} meeting of the Board of Studies, dated {dateOnly}
+                    </span>
+                    
+                    {minute.file_url && minute.file_url.trim() !== '' ? (
+                      <a
+                        href={minute.file_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#B22222] hover:underline hover:bg-gray-100 ml-4 px-3 py-1 rounded cursor-pointer bg-transparent border border-[#B22222] font-medium focus:outline-none transition-colors duration-200"
+                      >
+                        View
+                      </a>
+                    ) : (
+                      <span className="text-gray-400 ml-4">No file available</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </details>
       </div>
     </div>
   );
@@ -890,81 +1295,365 @@ case 'MoUs': {
      
 
 case 'Physical Facilities': {
-  // Group by category
-  const categories = Array.from(new Set(physicalFacilities.map(f => f.category)));
-  const grouped = categories.map(cat => ({
-    category: cat,
-    items: physicalFacilities.filter(f => f.category === cat)
-  }));
+        // Group by category
+        const categories = Array.from(new Set(physicalFacilities.map(f => f.category)));
+        const grouped = categories.map(cat => ({
+          category: cat,
+          items: physicalFacilities.filter(f => f.category === cat)
+        }));
 
-  return (
-    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
-      <div className="space-y-6">
-        {grouped.map(group => (
-          <details key={group.category} open={group.items.length > 0} className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">{group.category}</summary>
-            {group.category === 'Laboratories' ? (
-              <div>
-                {group.items.map(item => (
-                  <div key={item.id} className="mb-8">
-                    {item.description && <p className="text-gray-700 mb-2">{item.description}</p>}
-                    {item.lab_details && item.lab_details.length > 0 && item.lab_details.map((lab, i) => (
-                      <div key={i} className="mb-6">
-                        <h3 className="text-xl font-semibold my-2">{lab.name}</h3>
-                        <div className="overflow-x-auto">
-                          <table className="min-w-full bg-white border border-gray-200">
-                            <thead className="bg-gray-100">
-                              <tr>
-                                <th className="py-3 px-4 border-b text-left">Configuration</th>
-                                {lab.usage && <th className="py-3 px-4 border-b text-left">Usage</th>}
-                                {lab.location && <th className="py-3 px-4 border-b text-left">Location</th>}
-                                <th className="py-3 px-4 border-b text-left">No. of Systems</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td className="py-3 px-4 border-b">{lab.configuration}</td>
-                                {lab.usage && <td className="py-3 px-4 border-b">{lab.usage}</td>}
-                                {lab.location && <td className="py-3 px-4 border-b">{lab.location}</td>}
-                                <td className="py-3 px-4 border-b">{lab.systems}</td>
-                              </tr>
-                            </tbody>
-                          </table>
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Physical Facilities</h2>
+
+            {/* Introduction Section */}
+            <div className="mb-8 space-y-4">
+              <p className="text-gray-700">
+                The Department has well equipped labs with the latest Configuration. Total 9 Computer Labs for UG, PG and one research lab consisting a total of 674 systems. The various servers in the server room include Oracle 11g Database Server, Intranet Server (TOMCAT), NPTEL Video/Web Server, MAT Lab Server 2012 R2, Red Hat Linux 5.0 Server, Library Automation Server, A-Mail Server, ECAP Server.
+              </p>
+              <p className="text-gray-700">
+                The college has high-speed internet connectivity throughout the campus through a leased line from BSNL with 200Mbps, 400Mbps from Jio, and 40 Mbps (Broadband).
+              </p>
+              <p className="text-gray-700 font-semibold">
+                The following Laboratories are available in the department:
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              {/* Always show Laboratories section with static data */}
+              <details open className="cst-dropdown group">
+                <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+                  <span>Laboratories</span>
+                </summary>
+                <div className="cst-dropdown-content">
+                  <div style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }} className="space-y-8">
+                    
+                    {/* JG Lab */}
+                    <div>
+                      <h3 className="text-2xl font-bold text-center mb-4 text-[#B22222]">JG Lab</h3>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full border border-gray-400 border-collapse" style={{ maxWidth: 'max-content' }}>
+                          <thead className="bg-gray-800 text-white">
+                            <tr>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold">S.No</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold" style={{ minWidth: '90px' }}>Name of the Lab</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold" style={{ minWidth: '300px' }}>Configuration</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold">No. of Systems</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="bg-white border-b border-gray-400">
+                              <td className="py-3 px-4 border-r border-gray-400 text-center font-medium">1</td>
+                              <td className="py-3 px-4 border-r border-gray-400 font-medium" rowSpan={2}>James Gosling Lab</td>
+                              <td className="py-3 px-4 border-r border-gray-400 text-sm">
+                                <div>Model : Hp Pro Tower 280 G9</div>
+                                <div>Processor : Intel® Core™ i5-13500 CPU @ 2.50 GHz</div>
+                                <div>16.00GB RAM, 500GB SSD</div>
+                                <div>System type : x64 – based Processor</div>
+                                <div>Monitor : 21.5" LED Monitor</div>
+                                <div>Keyboard : Multimedia Keyboard</div>
+                                <div>Mouse : Optical Scroll Mouse</div>
+                              </td>
+                              <td className="py-3 px-4 text-center font-medium">72</td>
+                            </tr>
+                            <tr className="bg-white">
+                              <td className="py-3 px-4 border-r border-gray-400 text-center font-medium">2</td>
+                              <td className="py-3 px-4 border-r border-gray-400 text-sm">
+                                <div>Model : ASUS VIVO AIO V222 GAR_V333GA</div>
+                                <div>Processor : Intel® Pentium®Silver J5040</div>
+                                <div>8.00 GB RAM, 256.00 GB SSD</div>
+                                <div>System type : x64 – based Processor</div>
+                                <div>Monitor : 21.5" TFT Monitor</div>
+                                <div>Keyboard : Multimedia Keyboard</div>
+                                <div>Mouse : Optical Mouse</div>
+                              </td>
+                              <td className="py-3 px-4 text-center font-medium">02</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* EF Codd Lab */}
+                    <div>
+                      <h3 className="text-2xl font-bold text-center mb-4 text-[#B22222]">EF Codd Lab</h3>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full border border-gray-400 border-collapse" style={{ maxWidth: 'max-content' }}>
+                          <thead className="bg-gray-800 text-white">
+                            <tr>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold">S.No</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold" style={{ minWidth: '90px' }}>Name of the Lab</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold" style={{ minWidth: '300px' }}>Configuration</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold">No. of Systems</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="bg-white border-b border-gray-400">
+                              <td className="py-3 px-4 border-r border-gray-400 text-center font-medium">1</td>
+                              <td className="py-3 px-4 border-r border-gray-400 font-medium" rowSpan={2}>EF Codd Lab</td>
+                              <td className="py-3 px-4 border-r border-gray-400 text-sm">
+                                <div>Model : HP Pro Tower 280 G9</div>
+                                <div>Processor : Intel® Core™ i5-12400 CPU @ 2.50 GHz</div>
+                                <div>16.00 GB RAM, 500.00 GB SSD</div>
+                                <div>System type : x64 – based Processor</div>
+                                <div>Monitor : 19.5" LED Monitor</div>
+                                <div>Keyboard : Multimedia Keyboard</div>
+                                <div>Mouse : Optical Mouse</div>
+                              </td>
+                              <td className="py-3 px-4 text-center font-medium">68</td>
+                            </tr>
+                            <tr className="bg-white">
+                              <td className="py-3 px-4 border-r border-gray-400 text-center font-medium">2</td>
+                              <td className="py-3 px-4 border-r border-gray-400 text-sm">
+                                <div>Model : Dell Optiplex 3020</div>
+                                <div>Processor : Intel® Core™ i3-9100 CPU @ 3.60 GHz</div>
+                                <div>8.00 GB RAM, 1.00 TB HDD</div>
+                                <div>System type : x64 – based Processor</div>
+                                <div>Monitor : 20.5" LED Monitor</div>
+                                <div>Keyboard : Multimedia Keyboard</div>
+                                <div>Mouse : Optical Mouse</div>
+                              </td>
+                              <td className="py-3 px-4 text-center font-medium">06</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* Linus Torvalds Lab */}
+                    <div>
+                      <h3 className="text-2xl font-bold text-center mb-4 text-[#B22222]">Linus Torvalds Lab</h3>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full border border-gray-400 border-collapse" style={{ maxWidth: 'max-content' }}>
+                          <thead className="bg-gray-800 text-white">
+                            <tr>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold">S.No</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold" style={{ minWidth: '90px' }}>Name of the Lab</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold" style={{ minWidth: '300px' }}>Configuration</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold">No. of Systems</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="bg-white">
+                              <td className="py-3 px-4 border-r border-gray-400 text-center font-medium">1</td>
+                              <td className="py-3 px-4 border-r border-gray-400 font-medium" rowSpan={1}>Linus Torvalds Lab</td>
+                              <td className="py-3 px-4 border-r border-gray-400 text-sm">
+                                <div>Model : HP Pro Tower 280 G9</div>
+                                <div>Processor : Intel core TM i3-10100 CPU@3.64 GHZ</div>
+                                <div>8.00 GB RAM, 500.00 GB SSD</div>
+                                <div>System type : x64 – based Processor</div>
+                                <div>Monitor: 19.5" LED Monitor</div>
+                                <div>Keyboard: Multimedia Keyboard</div>
+                                <div>Mouse: Optical Mouse</div>
+                              </td>
+                              <td className="py-3 px-4 text-center font-medium">72</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* PGCP Lab */}
+                    <div>
+                      <h3 className="text-2xl font-bold text-center mb-4 text-[#B22222]">PGCP Lab</h3>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full border border-gray-400 border-collapse" style={{ maxWidth: 'max-content' }}>
+                          <thead className="bg-gray-800 text-white">
+                            <tr>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold">S.No</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold" style={{ minWidth: '90px' }}>Name of the Lab</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold" style={{ minWidth: '300px' }}>Configuration</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold">No. of Systems</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="bg-white border-b border-gray-400">
+                              <td className="py-3 px-4 border-r border-gray-400 text-center font-medium">1</td>
+                              <td className="py-3 px-4 border-r border-gray-400 font-medium" rowSpan={2}>PGCP Lab</td>
+                              <td className="py-3 px-4 border-r border-gray-400 text-sm">
+                                <div>Model : Acer Vertion Desktop System</div>
+                                <div>Processor :Intel® Core™ 2 i3-8100 CPU @ 2.65 GHZ</div>
+                                <div>8.00 GB RAM, 1.00 TB HDD</div>
+                                <div>System type : x64 – based Processor</div>
+                                <div>Monitor : 21.5" LED Monitor</div>
+                                <div>Keyboard : Multimedia Keyboard</div>
+                                <div>Mouse : Optical Mouse</div>
+                              </td>
+                              <td className="py-3 px-4 text-center font-medium">71</td>
+                            </tr>
+                            <tr className="bg-white">
+                              <td className="py-3 px-4 border-r border-gray-400 text-center font-medium">2</td>
+                              <td className="py-3 px-4 border-r border-gray-400 text-sm">
+                                <div>Model : Acer Vertion Desktop System</div>
+                                <div>Processor :Intel® Core™ i5-7400 CPU @ 3.00 GHz</div>
+                                <div>4.00 GB RAM, 1.00 TB HDD</div>
+                                <div>System type : x64 – based Processor</div>
+                                <div>Monitor : 19.5" LED Monitor</div>
+                                <div>Keyboard : Multimedia Keyboard</div>
+                                <div>Mouse : Optical Mouse</div>
+                              </td>
+                              <td className="py-3 px-4 text-center font-medium">02</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* R&D Lab */}
+                    <div>
+                      <h3 className="text-2xl font-bold text-center mb-4 text-[#B22222]">R&D Lab</h3>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full border border-gray-400 border-collapse" style={{ maxWidth: 'max-content' }}>
+                          <thead className="bg-gray-800 text-white">
+                            <tr>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold">S.No</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold" style={{ minWidth: '90px' }}>Name of the Lab</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold" style={{ minWidth: '300px' }}>Configuration</th>
+                              <th className="py-2 px-4 border border-gray-400 text-left font-semibold">No. of Systems</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="bg-white border-b border-gray-400">
+                              <td className="py-3 px-4 border-r border-gray-400 text-center font-medium">1</td>
+                              <td className="py-3 px-4 border-r border-gray-400 font-medium" rowSpan={2}>R&D Lab</td>
+                              <td className="py-3 px-4 border-r border-gray-400 text-sm">
+                                <div>Model : Acer Vertion Desktop System</div>
+                                <div>Processor :Intel® Core™ i5-7400 CPU @ 3.00 GHz</div>
+                                <div>4.00 GB RAM, 1.00 TB HDD</div>
+                                <div>System type : x64 – based Processor</div>
+                                <div>Monitor : 17.5" LED Monitor</div>
+                                <div>Keyboard : Multimedia Keyboard</div>
+                                <div>Mouse : Optical Mouse</div>
+                              </td>
+                              <td className="py-3 px-4 text-center font-medium">03</td>
+                            </tr>
+                            <tr className="bg-white">
+                              <td className="py-3 px-4 border-r border-gray-400 text-center font-medium">2</td>
+                              <td className="py-3 px-4 border-r border-gray-400 text-sm">
+                                <div>Model : Dell 7D49KQR</div>
+                                <div>Processor : Intel® Core™ 2 i5-7400 CPU @ 3.00 GHZ</div>
+                                <div>4.00 GB RAM, 1.00 TB HDD</div>
+                                <div>System type : x64-based processor</div>
+                                <div>Monitor : 21.5" LED Monitor</div>
+                                <div>Keyboard : Multimedia keyboard</div>
+                                <div>Mouse : Optical Mouse</div>
+                              </td>
+                              <td className="py-3 px-4 text-center font-medium">07</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    
+
+                    {/* Research Lab */}
+                    
+                  </div>
+
+                  {/* Laboratory Images Gallery */}
+                  {(() => {
+                    const labImages = physicalFacilities.filter(f => f.category && f.category.toLowerCase() === 'laboratories');
+                    return labImages && labImages.length > 0 ? (
+                      <div className="mt-8 pt-8 border-t border-gray-300">
+                        <h3 className="text-2xl font-bold text-center mb-6 text-[#B22222]">Laboratory Images</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+                          {labImages.map((item, idx) => {
+                            // Handle image/gallery as comma-separated string or array
+                            const images = typeof item.file_url === 'string' && item.file_url.includes(',')
+                              ? item.file_url.split(',').filter((url: string) => url.trim())
+                              : item.file_url ? [item.file_url] : [];
+                            
+                            return images.map((imageUrl: string, imgIdx: number) => (
+                              <div key={`${idx}-${imgIdx}`} className="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+                                <img
+                                  src={imageUrl.trim()}
+                                  alt={item.title || `Laboratory ${imgIdx + 1}`}
+                                  className="w-full h-48 object-cover"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-size="16"%3EImage not found%3C/text%3E%3C/svg%3E';
+                                  }}
+                                />
+                                {item.title && imgIdx === 0 && (
+                                  <div className="p-3 bg-white">
+                                    <p className="text-sm font-medium text-gray-700">{item.title}</p>
+                                  </div>
+                                )}
+                              </div>
+                            ));
+                          })}
                         </div>
                       </div>
-                    ))}
+                    ) : null;
+                  })()}
+                </div>
+              </details>
+
+              
+
+              {/* Timetables (explicit dropdown) */}
+              {(() => {
+                const timetables = physicalFacilities.filter(f => f.category && f.category.toLowerCase() === 'timetables');
+                if (timetables.length === 0) return null;
+                return (
+                  <details className="cst-dropdown">
+                    <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+                      <span>Timetables</span>
+                    </summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {timetables.map(item => (
+                          <li key={item.id}>
+                            {item.title || 'Timetable'}
+                            {item.file_url && (
+                              <>
+                                {' - '}
+                                <a href={item.file_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                );
+              })()}
+
+              {/* Other categories from database */}
+              {grouped.filter(g => g.category && g.category.toLowerCase() !== 'laboratory').map((group, index) => (
+                <details key={group.category} open={index === 0} className="cst-dropdown group">
+                  <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+                    <span>{group.category}</span>
+                     
+                  </summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="list-disc pl-6 my-2 space-y-2">
+                      {group.items.map(item => (
+                        <li key={item.id}>
+                          {item.title}
+                          {item.file_url && (
+                            <>
+                              {' - '}
+                              <a
+                                href={item.file_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <ul className="list-disc pl-6 my-2 space-y-2">
-                {group.items.map(item => (
-                  <li key={item.id}>
-                    {item.title}
-                    {item.file_url && (
-                      <>
-                        {' - '}
-                        <a
-                          href={item.file_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#B22222] hover:underline"
-                        >
-                          View
-                        </a>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </details>
-        ))}
-      </div>
-    </div>
-  );
-}      case 'Faculty Development Programs': {
+                </details>
+              ))}
+            </div>
+          </div>
+        );
+      }   case 'Faculty Development Programs': {
   // Group by category
   const categories = Array.from(new Set(facultyDevelopment.map(f => f.category)));
   const grouped = categories.map(cat => ({
@@ -976,14 +1665,19 @@ case 'Physical Facilities': {
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg" style={{ borderWidth: 2 }}>
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Development Programs</h2>
       <div className="space-y-6">
-        {grouped.map(group => (
-          <details key={group.category} open={group.items.length > 0} className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">{group.category}</summary>
+        {grouped.map((group, index) => (
+          <details key={group.category} open={index === 0} className="cst-dropdown">
+            <summary>{group.category}</summary>
+            <div className="cst-dropdown-content">
             {group.category === 'Gallery' ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
-                {group.items.flatMap(item => item.gallery || []).map((img, i) => (
-                  <img key={i} src={img} alt={`FDP Gallery ${i + 1}`} className="w-full h-auto rounded-lg shadow" />
-                ))}
+                {group.items
+                  .filter(item => item.gallery && Array.isArray(item.gallery) && item.gallery.length > 0)
+                  .flatMap(item => item.gallery || [])
+                  .map((img, i) => (
+                    <img key={i} src={img} alt={`FDP Gallery ${i + 1}`} className="w-full h-auto rounded-lg shadow" />
+                  ))
+                }
               </div>
             ) : (
               <ul className="list-disc pl-6 my-2 space-y-2">
@@ -1008,6 +1702,7 @@ case 'Physical Facilities': {
                 ))}
               </ul>
             )}
+            </div>
           </details>
         ))}
       </div>
@@ -1026,9 +1721,10 @@ case 'Physical Facilities': {
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
       <div className="space-y-6">
-        {grouped.map(group => (
-          <details key={group.category} open={group.items.length > 0} className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">{group.category}</summary>
+        {grouped.map((group, index) => (
+          <details key={group.category} open={index === 0} className="cst-dropdown">
+            <summary>{group.category}</summary>
+            <div className="cst-dropdown-content">
             {group.items.length > 0 ? (
               <ul className="list-disc pl-6 my-2 space-y-2">
                 {group.items.map((item, idx) => (
@@ -1055,6 +1751,7 @@ case 'Physical Facilities': {
             ) : (
               <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
             )}
+            </div>
           </details>
         ))}
       </div>
@@ -1064,42 +1761,126 @@ case 'Physical Facilities': {
      case 'Merit Scholarship/Academic Toppers': {
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
-      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Merit Scholarships and Academic Toppers</h2>
-      <h3 className="text-xl font-semibold text-center mb-4">Merit Scholarships / Academic Toppers</h3>
-      <div className="overflow-x-auto mb-8">
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="py-3 px-4 border-b text-left">S.No</th>
-              <th className="py-3 px-4 border-b text-left">Academic Year</th>
-              <th className="py-3 px-4 border-b text-left">Particulars</th>
-              <th className="py-3 px-4 border-b text-left">No. of Students Benefited</th>
-              <th className="py-3 px-4 border-b text-left">Scholarship Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {meritScholarships.map((item, idx) => (
-              <tr key={item.id} className="hover:bg-gray-50">
-                <td className="py-3 px-4 border-b">{idx + 1}</td>
-                <td className="py-3 px-4 border-b">{item.academic_year}</td>
-                <td className="py-3 px-4 border-b">{item.particulars}</td>
-                <td className="py-3 px-4 border-b">{item.students_benefited}</td>
-                <td className="py-3 px-4 border-b">{item.scholarship_amount}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <h3 className="text-xl font-semibold text-center mb-4">Image Gallery</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {meritScholarships.flatMap(item => item.gallery || []).map((img, i) => (
-          <img
-            key={i}
-            src={img}
-            alt={`Merit Scholarship Image ${i + 1}`}
-            className="w-full h-auto rounded-lg shadow object-cover"
-          />
-        ))}
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Academic Toppers and EAPCET Toppers</h2>
+      
+      <div className="space-y-6">
+        {/* Academic Toppers Dropdown */}
+        <details open className="cst-dropdown group">
+          <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+            <span>Academic Toppers</span>
+          </summary>
+          <div className="cst-dropdown-content">
+            {meritScholarships && meritScholarships.length > 0 ? (
+              <>
+                <div className="overflow-x-auto mb-8">
+                  <table className="min-w-full bg-white border border-gray-200">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="py-3 px-4 border-b text-left">S.No</th>
+                        <th className="py-3 px-4 border-b text-left">Academic Year</th>
+                        <th className="py-3 px-4 border-b text-left">Particulars</th>
+                        <th className="py-3 px-4 border-b text-left">No. of Students Benefited</th>
+                        <th className="py-3 px-4 border-b text-left">Scholarship Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {meritScholarships.map((item, idx) => (
+                        <tr key={item.id} className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">{idx + 1}</td>
+                          <td className="py-3 px-4 border-b">{item.academic_year}</td>
+                          <td className="py-3 px-4 border-b">{item.particulars}</td>
+                          <td className="py-3 px-4 border-b">{item.students_benefited}</td>
+                          <td className="py-3 px-4 border-b">{item.scholarship_amount}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <h3 className="text-xl font-semibold text-center mb-4">Image Gallery</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {meritScholarships
+                    .filter(item => item.gallery && Array.isArray(item.gallery) && item.gallery.length > 0)
+                    .flatMap(item => item.gallery || [])
+                    .map((img, i) => (
+                      <img
+                        key={i}
+                        src={img}
+                        alt={`Academic Toppers Image ${i + 1}`}
+                        className="w-full h-auto rounded-lg shadow object-cover"
+                      />
+                    ))
+                  }
+                </div>
+              </>
+            ) : (
+              <p className="text-gray-700 text-center py-4">No Academic Toppers data available.</p>
+            )}
+          </div>
+        </details>
+
+        {/* EAPCET Toppers Dropdown */}
+        <details open className="cst-dropdown group">
+          <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+            <span>EAPCET Toppers</span>
+          </summary>
+          <div className="cst-dropdown-content">
+            {eapcetToppers && eapcetToppers.length > 0 ? (
+              <>
+                <div className="overflow-x-auto mb-8">
+                  <table className="min-w-full bg-white border border-gray-200">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="py-3 px-4 border-b text-left">S.No</th>
+                        <th className="py-3 px-4 border-b text-left">Year</th>
+                        <th className="py-3 px-4 border-b text-left">Student Name</th>
+                        <th className="py-3 px-4 border-b text-left">EAPCET Rank</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {eapcetToppers.map((item, idx) => (
+                        <tr key={item.id || `eapcet-${idx}`} className="hover:bg-gray-50">
+                          <td className="py-3 px-4 border-b">{idx + 1}</td>
+                          <td className="py-3 px-4 border-b">{item.year}</td>
+                          <td className="py-3 px-4 border-b">{item.name_of_student}</td>
+                          <td className="py-3 px-4 border-b">{item.student_rank}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                {(() => {
+                  // Get EAPCET images from dedicated gallery
+                  const eapcetImages = eapcetToppersGallery
+                    .flatMap(item => {
+                      if (item.gallery) {
+                        return item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
+                      }
+                      return [];
+                    });
+
+                  return eapcetImages.length > 0 ? (
+                    <>
+                      <h3 className="text-xl font-semibold text-center mb-4">Image Gallery</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        {eapcetImages.map((img, i) => (
+                          <img
+                            key={i}
+                            src={img}
+                            alt={`EAPCET Toppers Image ${i + 1}`}
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                          />
+                        ))}
+                      </div>
+                    </>
+                  ) : null;
+                })()}
+              </>
+            ) : (
+              <p className="text-gray-700 text-center py-4">No EAPCET Toppers data available.</p>
+            )}
+          </div>
+        </details>
       </div>
     </div>
   );
@@ -1107,10 +1888,6 @@ case 'Physical Facilities': {
 
     
        case 'Technical Association': {
-  // Separate activities and gallery events
-  const activityItems = scudActivities.filter(a => a.file_url);
-  const galleryEvents = scudActivities.filter(a => a.gallery && a.gallery.length > 0);
-
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Association</h2>
@@ -1118,48 +1895,76 @@ case 'Physical Facilities': {
         Department Association - Society of Computers for Ultimate Diligence (SCUD) was started in the year 2002.
         SCUD team conducts regularly technical fests, workshops, and guest lectures for the benefit of students.
       </p>
-      <div className="space-y-6">
-        {activityItems.map(item => (
-          <details key={item.id} className="border rounded-lg p-4" open>
-            <summary className="text-lg font-semibold cursor-pointer">{item.title}</summary>
-            <ul className="list-disc pl-6 my-2">
-              <li>
-                {item.title} -{' '}
-                <a
-                  href={item.file_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#B22222] hover:underline"
-                >
-                  View More
-                </a>
-              </li>
-            </ul>
-          </details>
-        ))}
+      <div className="space-y-4">
+        {/* SCUD Activities Dropdown */}
+        <details open className="cst-dropdown">
+          <summary>SCUD Activities</summary>
+          <div className="cst-dropdown-content">
+            {scudActivities && scudActivities.length > 0 ? (
+              <ul className="list-disc pl-6 my-2 space-y-2">
+                {scudActivities.map((activity) => (
+                  <li key={activity.id}>
+                    {activity.title}
+                    {activity.year && <> </>}
+                    {activity.file_url && (
+                      <>
+                        {' - '}
+                        <a
+                          href={activity.file_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#B22222] hover:underline"
+                        >
+                          View
+                        </a>
+                      </>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500 text-center py-4">No SCUD activities available</p>
+            )}
+          </div>
+        </details>
 
-        {galleryEvents.length > 0 && (
-          <details className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
-            <div className="space-y-10 mt-4">
-              {galleryEvents.map(event => (
-                <div key={event.id}>
-                  <h3 className="text-xl font-semibold text-center mb-4">{event.title}</h3>
-                  <div className={`grid grid-cols-1 ${event.gallery.length > 2 ? 'md:grid-cols-3' : 'sm:grid-cols-2'} gap-6`}>
-                    {event.gallery.map((img, i) => (
-                      <img
-                        key={i}
-                        src={img}
-                        alt={`${event.title} Image ${i + 1}`}
-                        className="w-full h-auto rounded-lg shadow object-cover"
-                      />
-                    ))}
-                  </div>
+        {/* Gallery Dropdown */}
+        <details className="cst-dropdown">
+          <summary>Gallery</summary>
+          <div className="cst-dropdown-content">
+            {(() => {
+              // Use technicalAssociationGallery which is already filtered for 'technical' category
+              const technicalImages = technicalAssociationGallery.flatMap(item => {
+                if (item.gallery) {
+                  // Handle if gallery is already an array
+                  if (Array.isArray(item.gallery)) {
+                    return item.gallery.filter((url: string) => url && url.trim().length > 0);
+                  }
+                  // Handle if gallery is a string
+                  if (typeof item.gallery === 'string') {
+                    return item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
+                  }
+                }
+                return [];
+              });
+
+              return technicalImages.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4">
+                  {technicalImages.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      alt={`Technical Association Image ${i + 1}`}
+                      className="w-full h-auto rounded-lg shadow object-cover"
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
-          </details>
-        )}
+              ) : (
+                <p className="text-gray-500 text-center py-4">No gallery images available</p>
+              );
+            })()}
+          </div>
+        </details>
       </div>
     </div>
   );
@@ -1176,24 +1981,26 @@ case 'Physical Facilities': {
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Newsletters</h2>
       <div className="space-y-4">
-        {Object.entries(grouped).map(([year, items]) => (
-          <details key={year} className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">{year} Newsletters</summary>
-            <ul className="list-none pl-0 my-2">
-              {items.map(item => (
-                <li key={item.id} className="p-2">
-                  {item.title} -{' '}
-                  <a
-                    href={item.file_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#B22222] hover:underline"
-                  >
-                    View
-                  </a>
-                </li>
-              ))}
-            </ul>
+        {Object.entries(grouped).map(([year, items], index) => (
+          <details key={year} open={index === 0} className="cst-dropdown">
+            <summary>{year} Newsletters</summary>
+            <div className="cst-dropdown-content">
+              <ul className="list-none pl-0 my-2">
+                {(items as any[]).map((item: any) => (
+                  <li key={item.id} className="p-2">
+                    {item.title} -{' '}
+                    <a
+                      href={item.file_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#B22222] hover:underline"
+                    >
+                      View
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </details>
         ))}
       </div>
@@ -1201,70 +2008,138 @@ case 'Physical Facilities': {
   );
 }
      case 'Extra-Curricular Activities': {
-  const activityItems = extraCurricular.filter(a => a.type === 'activity');
-  const sahaya = extraCurricular.find(a => a.type === 'sahaya');
+  const activityItems = sahayaEvents.filter(ev => ev.category === 'ecactivities');
+  
+  // Group extra-curricular gallery by academic year
+  const groupedByYear: Record<string, any[]> = {};
+  extraCurricularGallery.forEach(item => {
+    if (!groupedByYear[item.academic_year]) {
+      groupedByYear[item.academic_year] = [];
+    }
+    groupedByYear[item.academic_year].push(item);
+  });
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Extra-Curricular Activities</h2>
       <div className="space-y-6">
-        <details open className="border rounded-lg p-4">
-          <summary className="text-lg font-semibold cursor-pointer">Extra-Curricular Activities</summary>
-          <ul className="my-2 list-none text-center space-y-2">
-            {activityItems.map(item => (
-              <li key={item.id}>
-                {item.title} -{' '}
-                <a
-                  href={item.file_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#B22222] hover:underline"
-                >
-                  View More
-                </a>
-              </li>
-            ))}
-          </ul>
+        <div className="mt-8 border-t pt-6">
+              <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">Social Services</h3>
+              <div className="space-y-4 text-gray-700 text-justify">
+                <p>
+                  We come across many heart-rending incidents and pathetic conditions of people in the society every day. We may not be in a position to give an immediate reaction though we want to. But the Computer Science and Technology Students of Sri Vasavi Engineering College extended their hands to help the needy. These helping activities are going on under the name of "SAHAYA" with the slogan 'The Helping Hands,' which aptly suits its purpose.
+                </p>
+                <p>
+                  SAHAYA is not a one-man army; rather, it is the brainchild of '07 batch students and is being carried on by the subsequent batch students, which sounds the real meaning of teamwork. SAHAYA, from its first day, was engaged in performing its activities. It was started with the event "CHEYUTHA" in the memory of SVEC Academic Director LATE Dr. B. Janardhan Reddy at ZP High school, Pedatadepalli by providing the fee for needy students and their necessities for study like compass boxes, books, etc., and thereafter, the journey of helping the needy continued uninterruptedly till date.
+                </p>
+                <p>
+                  Students may have many thoughts in mind, but the seeds of thought have sprouted to grow with great confidence by the magnanimous support of the Management. The Management of Sri Vasavi Engineering College always infuses confidence in the students by extending their heartfelt cooperation. "SAHAYA" is aptly serving its motto and contributing its little part to society. A drop may be small, but many drops together form an ocean. So, one hand may seem weak, but joining the hands together makes many changes to step into a brighter world.
+                </p>
+              </div>
+              <div className="mt-6 text-center">
+                <h4 className="text-lg font-bold text-gray-800">Faculty Coordinator:</h4>
+                <p className="text-gray-700 font-semibold">Mr. P. Ramamohan Rao</p>
+                <p className="text-gray-600">Assistant Professor</p>
+              </div>
+            </div>
+        <details open className="cst-dropdown">
+          <summary>Extra-Curricular Activities</summary>
+          <div className="cst-dropdown-content">
+            <ul className="my-2 list-none text-center space-y-2">
+              {activityItems.map(item => (
+                <li key={item.id}>
+                  {item.title} {item.year && `(${item.year})`} -{' '}
+                  <a
+                    href={item.file_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#B22222] hover:underline"
+                  >
+                    View More
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            
+          </div>
         </details>
 
-        {sahaya && (
-          <details className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">Sahaya</summary>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-xl font-semibold">Social Services</h3>
-                <p className="text-gray-700 text-justify">{sahaya.sahaya_desc}</p>
-              </div>
-              <div>
-                <h4 className="text-lg font-bold">Faculty Coordinator:</h4>
-                <p className="font-semibold" dangerouslySetInnerHTML={{ __html: sahaya.sahaya_faculty }} />
-              </div>
-              <div>
-                <h3 className="text-center text-xl font-semibold">LIST OF SAHAYA EVENTS CONDUCTED YEAR WISE</h3>
-                <ul className="my-2 list-none text-center space-y-2">
-                  {sahaya.sahaya_events.map((ev, i) => (
-                    <li key={i}>
-                      {ev.year} -{' '}
-                      <a href={ev.url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">
-                        For more details
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+        {sahayaEvents && sahayaEvents.length > 0 && (
+          <details className="cst-dropdown">
+            <summary>Sahaya Events</summary>
+            <div className="cst-dropdown-content">
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-center text-xl font-semibold uppercase">LIST OF SAHAYA EVENTS CONDUCTED YEAR WISE</h3>
+                  <ul className="my-2 list-none text-center space-y-2">
+                    {sahayaEvents
+                      .filter((ev: any) => ev.category === 'sahaya')
+                      .map((ev: any, i: number) => (
+                      <li key={ev.id || i}>
+                        {ev.year} -{' '}
+                        <a 
+                          href={ev.file_url} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-[#B22222] hover:underline"
+                        >
+                          View
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </details>
         )}
 
-        {sahaya && sahaya.gallery && sahaya.gallery.length > 0 && (
-          <details className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4">
-              {sahaya.gallery.map((img, i) => (
-                <img key={i} src={img} alt={`Extra-Curricular Image ${i + 1}`} className="w-full h-auto rounded-lg shadow object-cover" />
-              ))}
+        {Object.keys(groupedByYear).length > 0 && (
+          <div>
+            <h3 className="text-2xl font-semibold text-center mb-6 text-[#B22222]">Activities Gallery</h3>
+            <div className="space-y-4">
+              {Object.entries(groupedByYear).map(([year, items], index) => {
+                // Combine all images from entries with the same academic year
+                const allYearImages: string[] = [];
+                items.forEach(item => {
+                  if (item.gallery) {
+                    const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
+                    allYearImages.push(...imageUrls);
+                  }
+                });
+
+                return (
+                  <details key={year} className="cst-dropdown" open={index === 0}>
+                    <summary>Extra-Curricular A.Y {year}</summary>
+                    <div className="cst-dropdown-content">
+                      {allYearImages.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {allYearImages.map((imageUrl: string, i: number) => (
+                            <div key={i} className="flex flex-col items-center">
+                              <img
+                                src={imageUrl}
+                                alt={`Extra-Curricular ${year} Image ${i + 1}`}
+                                className="w-[350px] h-[240px] rounded-lg shadow-lg object-cover"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = '/placeholder-image.svg';
+                                  (e.target as HTMLImageElement).className = 'w-[350px] h-[240px] rounded-lg shadow-lg bg-gray-200';
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center text-gray-600 py-8">
+                          No images available for {year}
+                        </div>
+                      )}
+                    </div>
+                  </details>
+                );
+              })}
             </div>
-          </details>
+          </div>
         )}
       </div>
     </div>
@@ -1337,24 +2212,62 @@ case 'Physical Facilities': {
         </div>
 
         <div>
-          <h3 className="text-2xl font-semibold text-center mb-2">Gallery</h3>
-          {hackathons.map(h => (
-            h.gallery && h.gallery.length > 0 && (
-              <div key={h.id} className="mb-8">
-                <div className="text-center text-lg font-medium mb-4">{h.academic_year} Gallery</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-               {h.gallery.map((img, i) => (
-  <img
-    key={i}
-    src={img}
-    alt={`Hackathon ${h.academic_year} Image ${i + 1}`}
-    className="w-full h-auto rounded-lg shadow object-cover"
-  />
-))}
-                </div>
+          <h3 className="text-2xl font-semibold text-center mb-6 text-[#B22222]">Gallery</h3>
+          <div className="space-y-4">
+            {hackathonsGallery.length > 0 ? (
+              (() => {
+                // Group gallery items by academic year and combine all images
+                const groupedByYear: Record<string, string[]> = {};
+                hackathonsGallery.forEach((galleryItem) => {
+                  const year = galleryItem.academic_year;
+                  if (!groupedByYear[year]) {
+                    groupedByYear[year] = [];
+                  }
+                  // Parse and add images from this gallery item
+                  const images = galleryItem.gallery
+                    ? galleryItem.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0)
+                    : [];
+                  groupedByYear[year].push(...images);
+                });
+
+                // Render one dropdown per academic year
+                return Object.entries(groupedByYear).map(([year, images], index) => (
+                  <details key={year} className="cst-dropdown" open={index === 0}>
+                    <summary>
+                      Hackathon A.Y {year}
+                    </summary>
+                    <div className="cst-dropdown-content">
+                      {images.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {images.map((img, i) => (
+                            <div key={i} className="flex flex-col items-center">
+                              <img
+                                src={img}
+                                alt={`Hackathon ${year} Image ${i + 1}`}
+                                className="w-[350px] h-[240px] rounded-lg shadow-lg object-cover"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = '/placeholder-image.svg';
+                                  (e.target as HTMLImageElement).className = 'w-[350px] h-[240px] rounded-lg shadow-lg bg-gray-200';
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center text-gray-600 py-8">
+                          No images available for {year}
+                        </div>
+                      )}
+                    </div>
+                  </details>
+                ));
+              })()
+            ) : (
+              <div className="text-center text-gray-600 py-8">
+                No gallery data available
               </div>
-            )
-          ))}
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -1366,45 +2279,100 @@ case 'Physical Facilities': {
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Training Activities</h2>
       <div className="space-y-6">
+        {/* Gallery Dropdown */}
+        
+        
+        {/* Regular Training Activities */}
         {trainingActivities.map((activity, idx) => (
-          <details key={activity.id} open={idx === 0} className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">{activity.title}</summary>
-            <ul className="list-disc pl-6 my-2">
-              <li>
-                {activity.title} -{' '}
-                <a
-                  href={activity.file_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#B22222] hover:underline"
-                >
-                  View More
-                </a>
-              </li>
-            </ul>
-            {activity.gallery && activity.gallery.length > 0 && (
-              <details open className="border rounded-lg p-4 mt-4">
-                <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
-                  {activity.gallery.map((img, i) => (
-                    <img
-                      key={i}
-                      src={img}
-                      alt={`Training Activity Image ${i + 1}`}
-                      className="w-full h-auto rounded-lg shadow object-cover"
-                    />
-                  ))}
-                </div>
-              </details>
-            )}
+          <details key={activity.id} open={idx === 0} className="cst-dropdown">
+            <summary>{activity.title}</summary>
+            <div className="cst-dropdown-content">
+              <ul className="list-disc pl-6 my-2">
+                <li>
+                  {activity.title} -{' '}
+                  <a
+                    href={activity.file_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#B22222] hover:underline"
+                  >
+                    View More
+                  </a>
+                </li>
+              </ul>
+              {activity.gallery && Array.isArray(activity.gallery) && activity.gallery.length > 0 && (
+                <details open className="border rounded-lg p-4 mt-4">
+                  <summary className="text-lg font-semibold cursor-pointer">Gallery</summary>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
+                    {activity.gallery && Array.isArray(activity.gallery) && activity.gallery.map((img: any, i: number) => (
+                      <img
+                        key={i}
+                        src={img}
+                        alt={`Training Activity Image ${i + 1}`}
+                        className="w-full h-auto rounded-lg shadow object-cover"
+                      />
+                    ))}
+                  </div>
+                </details>
+              )}
+            </div>
+            
           </details>
+          
         ))}
+        <details className="cst-dropdown">
+          <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
+            <span>Gallery</span>
+          </summary>
+          <div className="cst-dropdown-content">
+            {trainingActivitiesGallery && trainingActivitiesGallery.length > 0 ? (
+              (() => {
+                // Collect all images from all gallery items
+                const allImages: string[] = [];
+                trainingActivitiesGallery.forEach((galleryItem) => {
+                  // Parse and add images from this gallery item
+                  if (galleryItem.gallery) {
+                    const images = galleryItem.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
+                    allImages.push(...images);
+                  }
+                });
+
+                // Display all images in a single grid
+                return allImages.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {allImages.map((img, i) => (
+                      <div key={i} className="flex flex-col items-center">
+                        <img
+                          src={img}
+                          alt={`Training Activity Image ${i + 1}`}
+                          className="w-full h-48 rounded-lg shadow-lg object-cover"
+                          onError={(e) => {
+                            console.log('Training image load error:', img);
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center text-gray-600 py-8">
+                    No images available
+                  </div>
+                );
+              })()
+            ) : (
+              <p className="text-gray-700 text-center py-4">No training gallery images available.</p>
+            )}
+          </div>
+        </details>
       </div>
+      
     </div>
+    
   );
       case 'Handbooks': {
   // Group handbooks by academic_year and semester
-  const grouped = {};
+  const grouped: Record<string, Record<string, any[]>> = {};
   handbooks.forEach(h => {
     if (!grouped[h.academic_year]) grouped[h.academic_year] = {};
     if (!grouped[h.academic_year][h.semester]) grouped[h.academic_year][h.semester] = [];
@@ -1417,25 +2385,25 @@ case 'Physical Facilities': {
       <div className="space-y-6">
         {Object.entries(grouped).map(([year, semesters], i) =>
           Object.entries(semesters).map(([sem, items], j) => (
-            <details key={year + sem} open={i === 0 && j === 0} className="border rounded-lg p-4">
-              <summary className="text-lg font-semibold cursor-pointer">
-                Academic year {year}: {sem} HandBooks
-              </summary>
-              <ul className="list-disc pl-6 my-2">
-                {items.map(item => (
-                  <li key={item.id}>
-                    {item.title} -{' '}
-                    <a
-                      href={item.file_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#B22222] hover:underline"
-                    >
-                      View
-                    </a>
-                  </li>
-                ))}
-              </ul>
+            <details key={year + sem} open={i === 0 && j === 0} className="cst-dropdown">
+              <summary>Academic year {year}: {sem} HandBooks</summary>
+              <div className="cst-dropdown-content">
+                <ul className="list-disc pl-6 my-2">
+                  {items.map(item => (
+                    <li key={item.id}>
+                      {item.title} -{' '}
+                      <a
+                        href={item.file_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#B22222] hover:underline"
+                      >
+                        View
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </details>
           ))
         )}
@@ -1444,61 +2412,201 @@ case 'Physical Facilities': {
   );
 }
     case 'Placements':
-  // Filter for CST department
-  const cstPlacements = placements.filter(p => p.dept === 'cst');
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
       <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
       <div className="space-y-6">
-        {cstPlacements.map((placement, idx) => (
-          <details key={placement.id} open={idx === 0} className="border rounded-lg p-4">
-            <summary className="text-lg font-semibold cursor-pointer">{placement.title || `Placements for Batch ${placement.batch}`}</summary>
-            <ul className="list-none my-2 text-center">
-              <li className="font-medium">
-                {placement.title || `Placements for Batch ${placement.batch}`} -{' '}
-                <a
-                  href={placement.file_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#B22222] hover:underline"
-                >
-                  View More
-                </a>
-              </li>
-            </ul>
-            {placement.gallery && placement.gallery.length > 0 && (
-              <div className="space-y-6 mt-4">
-                <h3 className="text-xl font-semibold text-center text-[#B22222] mb-4">{placement.batch} Gallery</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {placement.gallery.map((img, i) => (
-                    <div key={i}>
-                      <img
-                        src={img.url}
-                        alt={img.caption || `Placement ${i + 1}`}
-                        className="w-full h-auto rounded-lg shadow object-cover"
-                        style={{ aspectRatio: '16/9' }}
-                      />
-                      {img.roll_no && (
-                        <div className="text-center my-3 text-green-600">
-                          <strong>Roll No:</strong> {img.roll_no}<br />
-                          <strong>Name:</strong> {img.name}<br />
-                          <strong>Company:</strong> {img.company}<br />
-                          <strong>Package:</strong> {img.package}
-                        </div>
-                      )}
-                      {img.caption && !img.roll_no && (
-                        <div className="text-center my-3 text-green-600">{img.caption}</div>
-                      )}
+        {placements.map((placement, idx) => (
+          <details key={placement.id} open={idx === 0} className="cst-dropdown">
+            <summary className="text-left">{placement.title || `Placements for Batch ${placement.batch}`}</summary>
+            <div className="cst-dropdown-content">
+              <ul className="list-none my-2 text-left">
+                <li className="font-medium">
+                  {placement.title || `Placements for Batch ${placement.batch}`} -{' '}
+                  <a
+                    href={placement.file_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#B22222] hover:underline"
+                  >
+                    View More
+                  </a>
+                </li>
+              </ul>
+              {placement.gallery && Array.isArray(placement.gallery) && placement.gallery.length > 0 && (
+                <div className="space-y-6 mt-4">
+                  <h3 className="text-xl font-semibold text-center text-[#B22222] mb-4">{placement.batch} Gallery</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {placement.gallery && Array.isArray(placement.gallery) && placement.gallery.map((img: any, i: number) => (
+                      <div key={i}>
+                        <img
+                          src={img.url}
+                          alt={img.caption || `Placement ${i + 1}`}
+                          className="w-full h-auto rounded-lg shadow object-cover"
+                          style={{ aspectRatio: '16/9' }}
+                        />
+                        {img.roll_no && (
+                          <div className="text-center my-3 text-green-600">
+                            <strong>Roll No:</strong> {img.roll_no}<br />
+                            <strong>Name:</strong> {img.name}<br />
+                            <strong>Company:</strong> {img.company}<br />
+                            <strong>Package:</strong> {img.package}
+                          </div>
+                        )}
+                        {img.caption && !img.roll_no && (
+                          <div className="text-center my-3 text-green-600">{img.caption}</div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </details>
+        ))}
+
+        {/* Gallery Dropdown */}
+        <details className="cst-dropdown">
+          <summary>Gallery</summary>
+          <div className="cst-dropdown-content">
+            {(() => {
+              // Debug: Check what data we have in the UI
+              console.log('Placement Items in UI:', placementsGalleryData);
+              
+              // Use placementsGalleryData which is already filtered by the API
+              const placementItems = placementsGalleryData;
+
+              // Group by academic_year
+              const groupedByYear: Record<string, string[]> = {};
+              placementItems.forEach(item => {
+                const year = item.academic_year || 'Unknown';
+                if (!groupedByYear[year]) {
+                  groupedByYear[year] = [];
+                }
+
+                // Extract images from gallery field
+                if (item.gallery) {
+                  if (Array.isArray(item.gallery)) {
+                    groupedByYear[year].push(...item.gallery.filter((url: string) => url && url.trim().length > 0));
+                  } else if (typeof item.gallery === 'string') {
+                    const images = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
+                    groupedByYear[year].push(...images);
+                  }
+                }
+              });
+
+              const years = Object.keys(groupedByYear).sort().reverse();
+
+              return years.length > 0 ? (
+                <div className="space-y-6">
+                  {years.map((year) => (
+                    <div key={year}>
+                      <h3 className="text-xl font-semibold text-center mb-4 text-[#B22222]">{year}</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        {groupedByYear[year].map((img, i) => (
+                          <img
+                            key={i}
+                            src={img}
+                            alt={`Placement ${year} Image ${i + 1}`}
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                          />
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </div>
-              </div>
-            )}
-          </details>
-        ))}
+              ) : (
+                <p className="text-gray-500 text-center py-4">No gallery images available</p>
+              );
+            })()}
+          </div>
+        </details>
       </div>
     </div>
   );
+
+case 'Workshops': {
+  // Group workshops by category to create dropdowns
+  const groupedWorkshops: Record<string, Workshop[]> = {};
+  workshops.forEach(workshop => {
+    if (!groupedWorkshops[workshop.category]) {
+      groupedWorkshops[workshop.category] = [];
+    }
+    groupedWorkshops[workshop.category].push(workshop);
+  });
+
+  return (
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Workshops</h2>
+      <div className="space-y-6">
+        {/* Guest Lecturers/Seminars Section with Gallery */}
+        {lectureGallery.length > 0 && (
+          <details className="cst-dropdown" open>
+            <summary className="text-left">GUEST LECTURERS/SEMINARS</summary>
+            <div className="cst-dropdown-content">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                {lectureGallery.map((img, i) => (
+                  <div key={img.id || i} className="relative group">
+                    <img
+                      src={img.image_url}
+                      alt={img.caption || `Guest Lecture ${i + 1}`}
+                      className="w-full h-48 object-cover rounded-lg shadow hover:shadow-lg transition-shadow"
+                    />
+                    {img.caption && (
+                      <div className="mt-2 text-center text-sm text-gray-600">
+                        {img.caption}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </details>
+        )}
+        
+        {/* Regular Workshop Categories */}
+        {Object.entries(groupedWorkshops).map(([category, workshopList], idx) => (
+          <details key={category} open={idx === 0} className="cst-dropdown">
+            <summary className="text-left capitalize">
+              {category.replace(/_/g, ' ').toUpperCase()}
+            </summary>
+            <div className="cst-dropdown-content">
+              <ul className="list-disc pl-6 my-2">
+                {workshopList.map((workshop) => (
+                  <li key={workshop.id} className="mb-2">
+                    <div className="font-medium">{workshop.title}</div>
+                    {workshop.description && (
+                      <p className="text-gray-600 text-sm mt-1">{workshop.description}</p>
+                    )}
+                    {workshop.file_url && (
+                      <a
+                        href={workshop.file_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#B22222] hover:underline text-sm inline-flex items-center gap-1 mt-1"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        View Details
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </details>
+        ))}
+        
+        {workshops.length === 0 && lectureGallery.length === 0 && (
+          <div className="text-center text-gray-600 py-8">
+            <Presentation className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+            <p>No workshops data available at the moment.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
       default:
         return <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg text-center"><h3 className="text-xl font-semibold text-gray-600">Content for {activeContent} coming soon...</h3></div>;
     }
@@ -1515,11 +2623,63 @@ case 'Physical Facilities': {
 
   return (
     <div className="flex flex-col min-h-screen">
+      {/* PDF Modal */}
+      {pdfModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+          <div className="relative w-full h-full max-w-6xl max-h-[90vh] bg-white rounded-lg shadow-xl">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">Board of Studies Meeting Minutes</h3>
+              <div className="flex items-center gap-2">
+                {currentPdfUrl && (
+                  <a
+                    href={currentPdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1 text-sm bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors"
+                  >
+                    Open in New Tab
+                  </a>
+                )}
+                <button
+                  onClick={closePdfModal}
+                  className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            {/* PDF Viewer */}
+            <div className="relative flex-1 h-full">
+              {pdfLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-8 h-8 border-4 border-[#B22222] border-t-transparent rounded-full animate-spin"></div>
+                    <span className="text-gray-600">Loading PDF...</span>
+                  </div>
+                </div>
+              )}
+              <iframe
+                src={`${currentPdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                className="w-full h-full rounded-b-lg border-0"
+                style={{ height: 'calc(90vh - 80px)', minHeight: '500px' }}
+                onLoad={handlePdfLoad}
+                title="Board of Studies Meeting Minutes PDF"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       <DepartmentSidebar
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="Computer Science & Technology Department"
+        title="CST Department"
       >
         {renderContentWithTitle()}
       </DepartmentSidebar>
@@ -1529,4 +2689,3 @@ case 'Physical Facilities': {
 };
 
 export default CSTDepartment;
-

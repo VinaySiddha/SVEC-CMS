@@ -11,10 +11,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             database: "svec_cms",
         });
 
-        const [rows] = await connection.execute(
-            "SELECT * FROM syllabus WHERE dept = ? ORDER BY category, year DESC",
-            [dept]   // safely bind dept
-        );
+        let query, params;
+        
+        if (dept === 'mba') {
+            // Use mba_syllabus table for MBA department
+            query = "SELECT course_name as title, academic_year as year, file_url as pdf_url, syllabus_type as category FROM mba_syllabus WHERE status = 'active' ORDER BY academic_year DESC, course_name";
+            params = [];
+        } else {
+            // Use generic syllabus table for other departments
+            query = "SELECT * FROM syllabus WHERE dept = ? ORDER BY category, year DESC";
+            params = [dept];
+        }
+
+        const [rows] = await connection.execute(query, params);
 
         await connection.end();
 

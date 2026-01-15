@@ -1,9 +1,223 @@
-import React, { useState } from 'react';
-import { BookOpen, Users, Award, Clock, Cpu, Cog, Building2, Zap, ChevronRight, Calendar, FileText, BookOpen as Book, Book as BookIcon } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { BookOpen, Users, Award, Clock, Cpu, Cog, Building2, Zap, ChevronRight, Calendar, FileText, BookOpen as Book, Book as BookIcon, Loader } from 'lucide-react';
 import content from '../content/academics.json';
+
+// Canonical typeOptions array for exam section dropdowns (matches autonomous/page.tsx)
+const typeOptions = [
+  { value: 'Regular', label: 'Regular Examination' },
+  { value: 'Supply', label: 'Supplementary Examination' },
+  { value: 'revaluation_results', label: 'Revaluation Results' },
+  { value: 'Fee Notification', label: 'Fee Notification' },
+  { value: 'Circular', label: 'Circular' },
+  { value: 'Timetable', label: 'Timetable' },
+  { value: 'Rules', label: 'Examination Rules' }
+];
+
+interface AcademicCalendar {
+  id: number;
+  date: string;
+  type: 'UG' | 'PG';
+  title: string;
+  description: string | null;
+  document_url: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface RsacItem {
+  id: number;
+  date: string;
+  content: string;
+  link: string;
+  degree: 'UG' | 'PG';
+  type: 'syllabus' | 'regulations' | 'academic-calendar';
+  posted_date: string;
+}
+
+interface AutonomousExamSection {
+  id: number;
+  type: string;
+  degree: 'UG' | 'PG';
+  title: string;
+  content: string;
+  link: string | null;
+  posted_date: string;
+}
+
+interface JNTUKTimetable {
+  sno: number;
+  date: string;
+  content: string;
+  degree: 'UG' | 'PG';
+  type: string;
+  link: string | null;
+  posteddate: string;
+}
 
 const Academics: React.FC = () => {
   const [activeTab, setActiveTab] = useState('calendars');
+  const [ugCalendars, setUgCalendars] = useState<(AcademicCalendar | RsacItem)[]>([]);
+  const [pgCalendars, setPgCalendars] = useState<(AcademicCalendar | RsacItem)[]>([]);
+  const [ugSyllabus, setUgSyllabus] = useState<RsacItem[]>([]);
+  const [pgSyllabus, setPgSyllabus] = useState<RsacItem[]>([]);
+  const [ugRegulations, setUgRegulations] = useState<RsacItem[]>([]);
+  const [pgRegulations, setPgRegulations] = useState<RsacItem[]>([]);
+  
+  // Autonomous exam section data organized by degree and type
+  const [ugAutonomousData, setUgAutonomousData] = useState<{ [key: string]: AutonomousExamSection[] }>({});
+  const [pgAutonomousData, setPgAutonomousData] = useState<{ [key: string]: AutonomousExamSection[] }>({});
+  
+  
+  // JNTUK exam section data organized by degree and type
+  const [ugJNTUKData, setUgJNTUKData] = useState<{ [key: string]: JNTUKTimetable[] }>({});
+  const [pgJNTUKData, setPgJNTUKData] = useState<{ [key: string]: JNTUKTimetable[] }>({});
+  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Type options for autonomous section labels
+  const typeOptions = [
+    { value: 'Regular', label: 'Regular Examination' },
+    { value: 'Supply', label: 'Supplementary Examination' },
+    { value: 'Rules', label: 'Examination Rules' },
+    { value: 'Notification', label: 'Notifications' },
+    { value: 'Timetable', label: 'Time Tables' },
+    { value: 'revaluation_results', label: 'Revaluation Results' }
+  ];
+
+  // Dropdown states for autonomous section
+  const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({
+    regular: false,
+    supply: false,
+    rules: false,
+    notifications: false,
+    timeTables: false,
+    results: false,
+    revaluation: false,
+    jntukTimeTables: false,
+    jntukResults: false,
+    jntukLinks: false,
+  });
+
+  const toggleSection = (section: string) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
+
+  // Fetch academic data from both sources on component mount
+  useEffect(() => {
+    const fetchAcademicData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch all data in parallel
+        const [
+          calendarResponse,
+          rsacCalendarResponse,
+          rsacSyllabusResponse,
+          rsacRegulationsResponse,
+          autonomousResponse,
+          jntukTimetablesResponse
+        ] = await Promise.all([
+          fetch('/api/academics/calendars'),
+          fetch('/api/academics/rsac?type=academic-calendar'),
+          fetch('/api/academics/rsac?type=syllabus'),
+          fetch('/api/academics/rsac?type=regulations'),
+          fetch('/api/academics/autonomous'),
+          fetch('/api/exam-section/jntuk-exam-section')
+        ]);
+
+        async function safeJson(res: Response, fallback: any) {
+          try {
+            if (!res.ok) return fallback;
+            const text = await res.text();
+            // Try to parse as JSON, fallback if not
+            return JSON.parse(text);
+          } catch (e) {
+            console.error('Failed to parse JSON for', res.url, e);
+            return fallback;
+          }
+        }
+
+        const [
+          calendarData,
+          rsacCalendarData,
+          rsacSyllabusData,
+          rsacRegulationsData,
+          autonomousData,
+          jntukTimetablesData
+        ] = await Promise.all([
+          safeJson(calendarResponse, { ug: [], pg: [] }),
+          safeJson(rsacCalendarResponse, { ug: [], pg: [] }),
+          safeJson(rsacSyllabusResponse, { ug: [], pg: [] }),
+          safeJson(rsacRegulationsResponse, { ug: [], pg: [] }),
+          safeJson(autonomousResponse, { data: { UG: {}, PG: {} } }),
+          safeJson(jntukTimetablesResponse, [])
+        ]);
+
+        // Combine calendars - RSAC items first, then academic_calendars
+        const combinedUgCalendars = [...(rsacCalendarData.ug || []), ...(calendarData.ug || [])];
+        const combinedPgCalendars = [...(rsacCalendarData.pg || []), ...(calendarData.pg || [])];
+
+        setUgCalendars(combinedUgCalendars);
+        setPgCalendars(combinedPgCalendars);
+
+        // Set syllabus data
+        setUgSyllabus(rsacSyllabusData.ug || []);
+        setPgSyllabus(rsacSyllabusData.pg || []);
+
+        // Set regulations data
+        setUgRegulations(rsacRegulationsData.ug || []);
+        setPgRegulations(rsacRegulationsData.pg || []);
+
+        // Set autonomous exam section data
+        setUgAutonomousData(autonomousData.data?.UG || {});
+        setPgAutonomousData(autonomousData.data?.PG || {});
+        
+        console.log('Autonomous data received:', autonomousData);
+        console.log('UG Autonomous data:', autonomousData.data?.UG);
+        console.log('PG Autonomous data:', autonomousData.data?.PG);
+
+        // Set JNTUK exam section data - organize timetables by degree
+        const normalizeType = (type: string = '') => {
+          const lower = type.toLowerCase();
+          if (lower === 'timetable' || lower === 'timetables') return 'Timetables';
+          if (lower === 'results' || lower === 'result') return 'Results';
+          if (lower.includes('revaluation')) return 'Revaluation Results';
+          if (lower.includes('fee')) return 'Fee Notifications';
+          if (lower.includes('download')) return 'Downloads';
+          return type || 'Others';
+        };
+
+        const jntukByDegree: { [key: string]: { [key: string]: JNTUKTimetable[] } } = {
+          UG: {},
+          PG: {}
+        };
+
+        (Array.isArray(jntukTimetablesData) ? jntukTimetablesData : []).forEach((item: JNTUKTimetable) => {
+          const degree = (item.degree?.toUpperCase() === 'PG' ? 'PG' : 'UG') as 'UG' | 'PG';
+          const normalizedType = normalizeType(item.type);
+          if (!jntukByDegree[degree][normalizedType]) {
+            jntukByDegree[degree][normalizedType] = [];
+          }
+          jntukByDegree[degree][normalizedType].push(item);
+        });
+
+        setUgJNTUKData(jntukByDegree.UG);
+        setPgJNTUKData(jntukByDegree.PG);
+      } catch (err) {
+        console.error('Error fetching academic data:', err);
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAcademicData();
+  }, []);
 
   const iconMap: { [key: string]: React.ElementType } = {
     Cpu,
@@ -22,9 +236,7 @@ const Academics: React.FC = () => {
       <section className="bg-primary text-white py-16 relative overflow-hidden isolate">
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Academics</h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto">
-            Comprehensive engineering programs designed to meet industry demands and foster innovation
-          </p>
+          
         </div>
 
         {/* Subtle background shapes */}
@@ -109,480 +321,254 @@ const Academics: React.FC = () => {
           {/* Calendar Tab Content */}
           {activeTab === 'calendars' && (
             <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <div className="bg-white p-6 rounded-lg shadow-sm">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-bold text-[#B22222]">UG Academic Calendars</h3>
-                    <div className="bg-gray-100 p-1 rounded-md">
-                      <Calendar className="w-5 h-5 text-[#B22222]" />
-                    </div>
-                  </div>
-                  <ul className="space-y-4">
-                    <li className="flex items-start">
-                      <div className="mr-3 mt-1 bg-[#B22222]/10 p-1 rounded-md">
-                        <span className="w-2 h-2 bg-[#B22222] rounded-full block"></span>
-                      </div>
-                      <div>
-                        <div className="flex items-center">
-                          <span className="font-medium text-[#222222]">B.Tech II Year Academic Calendar</span>
-                          <span className="ml-2 text-xs bg-[#B22222]/10 text-[#B22222] px-2 py-0.5 rounded-full">New</span>
-                        </div>
-                        <div className="text-sm text-gray-500 mt-1">Released: July 26, 2023</div>
-                        <a href="https://srivasaviengg.ac.in/uploads/ac_calender/ug/B.TechIIYear-IIIandIVsemestersAcademicCalendar.pdf" target="_blank" className="text-blue-600 text-sm hover:underline mt-1 inline-block">View PDF</a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <div className="mr-3 mt-1 bg-[#B22222]/10 p-1 rounded-md">
-                        <span className="w-2 h-2 bg-[#B22222] rounded-full block"></span>
-                      </div>
-                      <div>
-                        <div className="font-medium text-[#222222]">III B.Tech Academic Calendar 2023-2024</div>
-                        <div className="text-sm text-gray-500 mt-1">Released: July 15, 2023</div>
-                        <a href="https://srivasaviengg.ac.in/uploads/ac_calender/ug/B.TechVamdVIsemestersAcademicCalendar.pdf" target="_blank" className="text-blue-600 text-sm hover:underline mt-1 inline-block">View PDF</a>
-                      </div>
-                    </li>
-
-                    <li className="flex items-start">
-                      <div className="mr-3 mt-1 bg-[#B22222]/10 p-1 rounded-md">
-                        <span className="w-2 h-2 bg-[#B22222] rounded-full block"></span>
-                      </div>
-                      <div>
-                        <div className="font-medium text-[#222222]">IV B.Tech Academic Calendar</div>
-                        <div className="text-sm text-gray-500 mt-1">Released: June 8, 2023</div>
-                        <a href="https://srivasaviengg.ac.in/uploads/ac_calender/ug/2023-24-A-7-8-AcademicCalendar-BTechIVYear.pdf" target="_blank" className="text-blue-600 text-sm hover:underline mt-1 inline-block">View PDF</a>
-                      </div>
-                    </li>
-                  </ul>
-
-                  {/* Original HTML content preserved as comment for reference
-                  <!-- 
-                  <div class="nav-content">
-                     <ul style="margin-top: 20px">
-                       <li>
-                         2023-07-26:  B.Tech II Year-III and IV semesters Academic Calendar<a class="profile-link"
-                           href="https://srivasaviengg.ac.in/uploads/ac_calender/ug/B.TechIIYear-IIIandIVsemestersAcademicCalendar.pdf"
-                           target="_blank"
-// ...existing code...
-                           style="margin-left: 5px"
-                           >- View</a
-                         >
-                       </li>
-                       <li>
-                         2023-07-15:  Academic Year 2023-2024 III B Tech Academic Calendar<a class="profile-link"
-                           href="https://srivasaviengg.ac.in/uploads/ac_calender/ug/B.TechVamdVIsemestersAcademicCalendar.pdf"
-                           target="_blank"
-                           id="pdfDOWNLOADER11"
-                           style="margin-left: 5px"
-                           >- View</a
-                         >
-                       </li>
-                       <li>
-                         2023-07-14:  uytuytuytuyu<a class="profile-link"
-                           href="https://srivasaviengg.ac.in/uploads/modelpaper/ug/org.png"
-                           target="_blank"
-                           id="pdfDOWNLOADER11"
-                           style="margin-left: 5px"
-                           >- View</a
-                         >
-                       </li>
-                       <li>
-                         2023-06-08:  IV B Tech Academic Calendar<a class="profile-link"
-                           href="https://srivasaviengg.ac.in/uploads/ac_calender/ug/2023-24-A-7-8-AcademicCalendar-BTechIVYear.pdf"
-                           target="_blank"
-                           id="pdfDOWNLOADER11"
-                           style="margin-left: 5px"
-                           >- View</a
-                         >
-                       </li>
-                     </ul>
-                   </div>
-                   -->
-                  */}
+              {loading && (
+                <div className="flex items-center justify-center py-12">
+                  <Loader className="w-8 h-8 animate-spin text-[#B22222] mr-2" />
+                  <span className="text-gray-600">Loading academic calendars...</span>
                 </div>
+              )}
 
-                <div className="bg-white p-6 rounded-lg shadow-sm">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-bold text-[#B22222]">PG Academic Calendars</h3>
-                    <div className="bg-gray-100 p-1 rounded-md">
-                      <Calendar className="w-5 h-5 text-[#B22222]" />
-                    </div>
-                  </div>
-                  <ul className="space-y-4">
-                    <li className="flex items-start">
-                      <div className="mr-3 mt-1 bg-[#B22222]/10 p-1 rounded-md">
-                        <span className="w-2 h-2 bg-[#B22222] rounded-full block"></span>
-                      </div>
-                      <div>
-                        <div className="flex items-center">
-                          <span className="font-medium text-[#222222]">M.Tech 1st Year Academic Calendar</span>
-                        </div>
-                        <div className="text-sm text-gray-500 mt-1">Released: August 5, 2023</div>
-                        <a href="#" className="text-blue-600 text-sm hover:underline mt-1 inline-block">Download PDF</a>
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <div className="mr-3 mt-1 bg-[#B22222]/10 p-1 rounded-md">
-                        <span className="w-2 h-2 bg-[#B22222] rounded-full block"></span>
-                      </div>
-                      <div>
-                        <div className="font-medium text-[#222222]">MBA Academic Calendar 2023-2024</div>
-                        <div className="text-sm text-gray-500 mt-1">Released: July 28, 2023</div>
-                        <a href="#" className="text-blue-600 text-sm hover:underline mt-1 inline-block">Download PDF</a>
-                      </div>
-                    </li>
-                  </ul>
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-8">
+                  <p className="text-red-700">Error: {error}</p>
                 </div>
-              </div>
+              )}
 
-              <div className="bg-[#FFF8F0] p-6 rounded-lg">
-                <div className="flex items-center mb-4">
-                  <Calendar className="w-5 h-5 text-[#B22222] mr-2" />
-                  <h3 className="text-lg font-bold text-[#B22222]">Key Academic Dates 2023-2024</h3>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className="bg-white p-4 rounded-md shadow-sm">
-                    <h4 className="font-medium text-[#B22222]">Odd Semester</h4>
-                    <p className="text-sm text-gray-600 mt-2">July 15, 2023 - November 30, 2023</p>
-                    <div className="mt-3 space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span>Classes Begin:</span>
-                        <span className="font-medium">Jul 15</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Mid-Term Exams:</span>
-                        <span className="font-medium">Sep 10-15</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>End Semester:</span>
-                        <span className="font-medium">Nov 20-30</span>
-                      </div>
-                    </div>
+              {!loading && !error && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                  {/* UG Calendars */}
+                  <div>
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-6">UG Academic Calendars</h3>
+                    {ugCalendars.length === 0 ? (
+                      <p className="text-gray-500 italic">No UG academic calendars available.</p>
+                    ) : (
+                      <ul className="space-y-3">
+                        {ugCalendars.map((calendar) => {
+                          const isRsacItem = 'content' in calendar;
+                          const title = isRsacItem ? calendar.content : calendar.title;
+                          const url = isRsacItem ? calendar.link : calendar.document_url;
+                          
+                          return (
+                            <li key={calendar.id} className="flex items-start justify-between gap-3">
+                              <div className="flex items-start gap-2 flex-1">
+                                <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                <span className="text-gray-700 text-sm">{title}</span>
+                              </div>
+                              {url && (
+                                <a
+                                  href={url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                >
+                                  View
+                                </a>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
                   </div>
-                  <div className="bg-white p-4 rounded-md shadow-sm">
-                    <h4 className="font-medium text-[#B22222]">Even Semester</h4>
-                    <p className="text-sm text-gray-600 mt-2">December 15, 2023 - April 30, 2024</p>
-                    <div className="mt-3 space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span>Classes Begin:</span>
-                        <span className="font-medium">Dec 15</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Mid-Term Exams:</span>
-                        <span className="font-medium">Feb 10-15</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>End Semester:</span>
-                        <span className="font-medium">Apr 20-30</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-white p-4 rounded-md shadow-sm">
-                    <h4 className="font-medium text-[#B22222]">Holidays & Breaks</h4>
-                    <div className="mt-3 space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span>Dussehra Break:</span>
-                        <span className="font-medium">Oct 12-15</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Winter Break:</span>
-                        <span className="font-medium">Dec 1-14</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Summer Vacation:</span>
-                        <span className="font-medium">May 1-Jul 14</span>
-                      </div>
-                    </div>
+
+                  {/* PG Calendars */}
+                  <div>
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-6">PG Academic Calendars</h3>
+                    {pgCalendars.length === 0 ? (
+                      <p className="text-gray-500 italic">No PG academic calendars available.</p>
+                    ) : (
+                      <ul className="space-y-3">
+                        {pgCalendars.map((calendar) => {
+                          const isRsacItem = 'content' in calendar;
+                          const title = isRsacItem ? calendar.content : calendar.title;
+                          const url = isRsacItem ? calendar.link : calendar.document_url;
+                          
+                          return (
+                            <li key={calendar.id} className="flex items-start justify-between gap-3">
+                              <div className="flex items-start gap-2 flex-1">
+                                <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                <span className="text-gray-700 text-sm">{title}</span>
+                              </div>
+                              {url && (
+                                <a
+                                  href={url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                >
+                                  View
+                                </a>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
                   </div>
                 </div>
-              </div>
+              )}
+
+              
             </div>
           )}
 
           {/* Syllabus Tab Content */}
           {activeTab === 'syllabus' && (
             <div className="max-w-6xl mx-auto">
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-2xl font-bold text-[#B22222] mb-6">Program Syllabus</h3>
-
-                <div className="mb-8">
-                  <h4 className="text-xl font-semibold text-[#222222] mb-4">UG Syllabus</h4>
-                  <div className="grid grid-cols-1 gap-4">
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/autonomous_syllabus/ug/V23%20Regulations%20and%20Syllabus.pdf"
-                      target="_blank"
-                      className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all"
-                    >
-                      <FileText className="w-6 h-6 text-[#B22222] mr-3" />
-                      <div>
-                        <h5 className="font-medium text-[#222222]">B.Tech V23 Syllabus</h5>
-                        <p className="text-sm text-gray-600 mt-1">Complete syllabus for all B.Tech programs</p>
-                      </div>
-                      <span className="ml-auto text-sm text-[#B22222] font-medium">View PDF</span>
-                    </a>
-                  </div>
+              {loading && (
+                <div className="flex items-center justify-center py-12">
+                  <Loader className="w-8 h-8 animate-spin text-[#B22222] mr-2" />
+                  <span className="text-gray-600">Loading syllabus documents...</span>
                 </div>
+              )}
 
-                <div className="mb-8">
-                  <h4 className="text-xl font-semibold text-[#222222] mb-4">PG Syllabus</h4>
-                  <div className="grid grid-cols-1 gap-4">
-                    <div className="flex items-center justify-center p-6 border border-dashed border-gray-300 rounded-md bg-gray-50">
-                      <p className="text-gray-500">PG Syllabus content will be added soon</p>
-                    </div>
-                  </div>
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-8">
+                  <p className="text-red-700">Error: {error}</p>
                 </div>
+              )}
 
-                <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <div className="flex items-center text-gray-600 mb-2">
-                    <BookIcon className="w-5 h-5 mr-2 text-[#B22222]" />
-                    <h5 className="font-medium">Department-specific syllabi</h5>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                    <a href="#" className="flex items-center p-3 border border-gray-200 rounded-md hover:bg-white transition-all bg-white/80">
-                      <FileText className="w-5 h-5 text-[#B22222] mr-2" />
-                      <span>Computer Science & Engineering</span>
-                    </a>
-                    <a href="#" className="flex items-center p-3 border border-gray-200 rounded-md hover:bg-white transition-all bg-white/80">
-                      <FileText className="w-5 h-5 text-[#B22222] mr-2" />
-                      <span>Electronics & Communication</span>
-                    </a>
-                    <a href="#" className="flex items-center p-3 border border-gray-200 rounded-md hover:bg-white transition-all bg-white/80">
-                      <FileText className="w-5 h-5 text-[#B22222] mr-2" />
-                      <span>Electrical & Electronics</span>
-                    </a>
-                  </div>
-                </div>
-
-                {/* Preserving original HTML as comment for reference */}
-                {/* 
-                <div class="tab-pane fade p-3" id="nav-vision" role="tabpanel" aria-labelledby="nav-vision-tab">
-                  <h2 style="margin-top: 10px">Syllabus</h2>
-                  <div class="nav-content mt-5 mb-5">
-                    <details open>
-                      <summary>UG Syllabus</summary>
-                      <div class="tab4-table" style="display: flex; align-items: center">
-                        <div class="nav-content">
-                          <ul style="margin-top: 20px">
-                            <li>
-                              B.Tech V23 Syllabus<a
-                                class="profile-link"
-                                href="https://srivasaviengg.ac.in/uploads/autonomous_syllabus/ug/V23%20Regulations%20and%20Syllabus.pdf"
+              {!loading && !error && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* UG Syllabus */}
+                  <div>
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-6">UG Syllabus</h3>
+                    {ugSyllabus.length === 0 ? (
+                      <p className="text-gray-500 italic">No UG syllabus available.</p>
+                    ) : (
+                      <ul className="space-y-3">
+                        {ugSyllabus.map((item) => (
+                          <li key={item.id} className="flex items-start justify-between gap-3">
+                            <div className="flex items-start gap-2 flex-1">
+                              <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                              <span className="text-gray-700 text-sm">{item.content}</span>
+                            </div>
+                            {item.link && (
+                              <a
+                                href={item.link}
                                 target="_blank"
-// ...existing code...
-                                style="margin-left: 5px"
-                                >- View</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </details>
+                                rel="noopener noreferrer"
+                                className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                              >
+                                View
+                              </a>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
-                  <div class="nav-content mt-5 mb-5">
-                    <details>
-                      <summary>PG Syllabus</summary>
-                      <div class="tab4-table" style="display: flex; align-items: center">
-                      </div>
-                    </details>
+
+                  {/* PG Syllabus */}
+                  <div>
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-6">PG Syllabus</h3>
+                    {pgSyllabus.length === 0 ? (
+                      <p className="text-gray-500 italic">No PG syllabus available.</p>
+                    ) : (
+                      <ul className="space-y-3">
+                        {pgSyllabus.map((item) => (
+                          <li key={item.id} className="flex items-start justify-between gap-3">
+                            <div className="flex items-start gap-2 flex-1">
+                              <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                              <span className="text-gray-700 text-sm">{item.content}</span>
+                            </div>
+                            {item.link && (
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                              >
+                                View
+                              </a>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
-                */}
-              </div>
+              )}
             </div>
           )}
 
           {/* Regulations Tab Content */}
           {activeTab === 'regulations' && (
             <div className="max-w-6xl mx-auto">
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-2xl font-bold text-[#B22222] mb-6">Academic Regulations</h3>
+              {loading && (
+                <div className="flex items-center justify-center py-12">
+                  <Loader className="w-8 h-8 animate-spin text-[#B22222] mr-2" />
+                  <span className="text-gray-600">Loading regulations documents...</span>
+                </div>
+              )}
 
-                <div className="mb-8">
-                  <h4 className="text-xl font-semibold text-[#222222] mb-4">UG Regulations</h4>
-                  <div className="space-y-4">
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/regulations/ug/V23%20Regulation.pdf"
-                      target="_blank"
-                      className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all"
-                    >
-                      <BookIcon className="w-6 h-6 text-[#B22222] mr-3" />
-                      <div>
-                        <h4 className="font-medium text-[#222222]">B.Tech V23 Regulations</h4>
-                        <p className="text-sm text-gray-600">Latest academic regulations for B.Tech programs</p>
-                      </div>
-                      <span className="ml-auto text-sm text-[#B22222] font-medium">View PDF</span>
-                    </a>
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/regulations/ug/V20-Common-Guidelines-Autonomous-Colleges-R20-2020-21_15.04.2021.pdf"
-                      target="_blank"
-                      className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all"
-                    >
-                      <BookIcon className="w-6 h-6 text-[#B22222] mr-3" />
-                      <div>
-                        <h4 className="font-medium text-[#222222]">B.Tech V20 Regulations</h4>
-                        <p className="text-sm text-gray-600">Academic regulations for students admitted from 2020-21</p>
-                      </div>
-                      <span className="ml-auto text-sm text-[#B22222] font-medium">View PDF</span>
-                    </a>
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/regulations/ug/B%20Tech%20V18%20Regulations.pdf"
-                      target="_blank"
-                      className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all"
-                    >
-                      <BookIcon className="w-6 h-6 text-[#B22222] mr-3" />
-                      <div>
-                        <h4 className="font-medium text-[#222222]">B.Tech V18 Regulations</h4>
-                        <p className="text-sm text-gray-600">Academic regulations for students admitted from 2018-19</p>
-                      </div>
-                      <span className="ml-auto text-sm text-[#B22222] font-medium">View PDF</span>
-                    </a>
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-8">
+                  <p className="text-red-700">Error: {error}</p>
+                </div>
+              )}
+
+              {!loading && !error && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* UG Regulations */}
+                  <div>
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-6">UG Regulations</h3>
+                    {ugRegulations.length === 0 ? (
+                      <p className="text-gray-500 italic">No UG regulations available.</p>
+                    ) : (
+                      <ul className="space-y-3">
+                        {ugRegulations.map((item) => (
+                          <li key={item.id} className="flex items-start justify-between gap-3">
+                            <div className="flex items-start gap-2 flex-1">
+                              <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                              <span className="text-gray-700 text-sm">{item.content}</span>
+                            </div>
+                            {item.link && (
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                              >
+                                View
+                              </a>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+
+                  {/* PG Regulations */}
+                  <div>
+                    <h3 className="text-2xl font-bold text-[#B22222] mb-6">PG Regulations</h3>
+                    {pgRegulations.length === 0 ? (
+                      <p className="text-gray-500 italic">No PG regulations available.</p>
+                    ) : (
+                      <ul className="space-y-3">
+                        {pgRegulations.map((item) => (
+                          <li key={item.id} className="flex items-start justify-between gap-3">
+                            <div className="flex items-start gap-2 flex-1">
+                              <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                              <span className="text-gray-700 text-sm">{item.content}</span>
+                            </div>
+                            {item.link && (
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                              >
+                                View
+                              </a>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
-
-                <div>
-                  <h4 className="text-xl font-semibold text-[#222222] mb-4">PG Regulations</h4>
-                  <div className="space-y-4">
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/regulations/pg/M%20Tech%20V21%20Regulations.pdf"
-                      target="_blank"
-                      className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all"
-                    >
-                      <BookIcon className="w-6 h-6 text-[#B22222] mr-3" />
-                      <div>
-                        <h4 className="font-medium text-[#222222]">M.Tech V21 Regulations</h4>
-                        <p className="text-sm text-gray-600">Latest academic regulations for M.Tech programs</p>
-                      </div>
-                      <span className="ml-auto text-sm text-[#B22222] font-medium">View PDF</span>
-                    </a>
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/regulations/pg/MBA%20V21%20Regulations.pdf"
-                      target="_blank"
-                      className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all"
-                    >
-                      <BookIcon className="w-6 h-6 text-[#B22222] mr-3" />
-                      <div>
-                        <h4 className="font-medium text-[#222222]">MBA V21 Regulations</h4>
-                        <p className="text-sm text-gray-600">Latest academic regulations for MBA program</p>
-                      </div>
-                      <span className="ml-auto text-sm text-[#B22222] font-medium">View PDF</span>
-                    </a>
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/regulations/pg/MBA%20V18%20Regulations.pdf"
-                      target="_blank"
-                      className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all"
-                    >
-                      <BookIcon className="w-6 h-6 text-[#B22222] mr-3" />
-                      <div>
-                        <h4 className="font-medium text-[#222222]">MBA V18 Regulations</h4>
-                        <p className="text-sm text-gray-600">Academic regulations for MBA students admitted from 2018-19</p>
-                      </div>
-                      <span className="ml-auto text-sm text-[#B22222] font-medium">View PDF</span>
-                    </a>
-                    <a
-                      href="https://srivasaviengg.ac.in/uploads/regulations/pg/M%20Tech%20V18%20Regulations.pdf"
-                      target="_blank"
-                      className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all"
-                    >
-                      <BookIcon className="w-6 h-6 text-[#B22222] mr-3" />
-                      <div>
-                        <h4 className="font-medium text-[#222222]">M.Tech V18 Regulations</h4>
-                        <p className="text-sm text-gray-600">Academic regulations for M.Tech students admitted from 2018-19</p>
-                      </div>
-                      <span className="ml-auto text-sm text-[#B22222] font-medium">View PDF</span>
-                    </a>
-                  </div>
-                </div>
-
-                {/* Preserving original HTML as comment for reference */}
-                {/* 
-                <div class="tab-pane fade p-3" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                  <h2 style="margin-top: 10px" class="text-center">Regulations</h2>
-                  <div class="nav-content mt-5 mb-5">
-                    <details open>
-                      <summary>UG Regulations</summary>
-                      <div class="tab4-table" style="display: flex; align-items: center">
-                        <div class="nav-content">
-                          <ul style="margin-top: 20px">
-                            <li>
-                              B.Tech V23 Regulations<a
-                                class="profile-link"
-                                href="https://srivasaviengg.ac.in/uploads/regulations/ug/V23%20Regulation.pdf"
-                                target="_blank"
-                                id="pdfDOWNLOADER11"
-                                style="margin-left: 5px"
-                                >- View</a>
-                            </li>
-                            <li>
-                              B.Tech V20 Regulations<a
-                                class="profile-link"
-                                href="https://srivasaviengg.ac.in/uploads/regulations/ug/V20-Common-Guidelines-Autonomous-Colleges-R20-2020-21_15.04.2021.pdf"
-                                target="_blank"
-                                id="pdfDOWNLOADER11"
-                                style="margin-left: 5px"
-                                >- View</a>
-                            </li>
-                            <li>
-                              B.Tech V18 Regulations<a
-                                class="profile-link"
-                                href="https://srivasaviengg.ac.in/uploads/regulations/ug/B%20Tech%20V18%20Regulations.pdf"
-                                target="_blank"
-                                id="pdfDOWNLOADER11"
-                                style="margin-left: 5px"
-                                >- View</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </details>
-                  </div>
-                  <div class="nav-content mt-5 mb-5">
-                    <details>
-                      <summary>PG Regulations</summary>
-                      <div class="tab4-table" style="display: flex; align-items: center">
-                        <div class="nav-content">
-                          <ul style="margin-top: 20px">
-                            <li>
-                              M.Tech V21 Regulations<a
-                                class="profile-link"
-                                href="https://srivasaviengg.ac.in/uploads/regulations/pg/M%20Tech%20V21%20Regulations.pdf"
-                                target="_blank"
-                                id="pdfDOWNLOADER11"
-                                style="margin-left: 5px"
-                                >- View</a>
-                            </li>
-                            <li>
-                              MBA V21 Regulations<a
-                                class="profile-link"
-                                href="https://srivasaviengg.ac.in/uploads/regulations/pg/MBA%20V21%20Regulations.pdf"
-                                target="_blank"
-                                id="pdfDOWNLOADER11"
-                                style="margin-left: 5px"
-                                >- View</a>
-                            </li>
-                            <li>
-                              MBA V18 Regulations<a
-                                class="profile-link"
-                                href="https://srivasaviengg.ac.in/uploads/regulations/pg/MBA%20V18%20Regulations.pdf"
-                                target="_blank"
-                                id="pdfDOWNLOADER11"
-                                style="margin-left: 5px"
-                                >- View</a>
-                            </li>
-                            <li>
-                              M.Tech V18 Regulations<a
-                                class="profile-link"
-                                href="https://srivasaviengg.ac.in/uploads/regulations/pg/M%20Tech%20V18%20Regulations.pdf"
-                                target="_blank"
-                                id="pdfDOWNLOADER11"
-                                style="margin-left: 5px"
-                                >- View</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </details>
-                  </div>
-                </div>
-                */}
-              </div>
+              )}
             </div>
           )}
 
@@ -629,7 +615,7 @@ const Academics: React.FC = () => {
                       className="w-full rounded-lg"
                       src="/coe.jpg"
                       alt="Controller of Examination"
-                      style={{ border: '0px solid #3c7593', aspectRatio: '16/9' }}
+                      style={{ border: '0px solid #3c7593', width: '450px', height: '300px' }}
                     />
                   </div>
                   <div className="md:col-span-1 flex flex-col items-center justify-center text-center">
@@ -646,243 +632,426 @@ const Academics: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Examination Rules Section */}
-                <div className="mb-8">
-                  <div className="bg-gray-50 p-4 rounded-md mb-4">
-                    <h4 className="text-xl font-semibold text-[#B22222] mb-2">Examination Rules</h4>
-                  </div>
-
-                  <ul className="space-y-3 ml-4">
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 rounded-full bg-[#B22222] mr-3"></div>
-                      <span className="text-gray-700">Instructions to Candidates</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/inst_to_can.pdf"
-                        target="_blank"
-                        className="ml-2 text-[#B22222] hover:underline"
-                      >
-                        - View
-                      </a>
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 rounded-full bg-[#B22222] mr-3"></div>
-                      <span className="text-gray-700">Malpractices and Punishments</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mal_pract.pdf"
-                        target="_blank"
-                        className="ml-2 text-[#B22222] hover:underline"
-                      >
-                        - View
-                      </a>
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 rounded-full bg-[#B22222] mr-3"></div>
-                      <span className="text-gray-700">Instructions to Invigilators</span>
-                      <a
-                        href="https://srivasaviengg.ac.in/uploads/mba_auto_reg.pdf"
-                        target="_blank"
-                        className="ml-2 text-[#B22222] hover:underline"
-                      >
-                        - View
-                      </a>
-                    </li>
-                  </ul>
+                {/* Regular Examination Section - Dropdown */}
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleSection('regular')}
+                    className="w-full bg-[#B22222] text-white px-4 py-3 flex items-center justify-between hover:bg-[#9a1a1a] transition-colors"
+                  >
+                    <h4 className="text-lg font-semibold">{typeOptions.find(o => o.value === 'Regular')?.label || 'Regular Examination'}</h4>
+                    <span className={`transform transition-transform ${expandedSections.regular ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {expandedSections.regular && (
+                    <div className="p-4 bg-white">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Regular Examinations</h5>
+                          {ugAutonomousData['Regular'] && ugAutonomousData['Regular'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugAutonomousData['Regular'].map((item) => (
+                                <li key={item.id} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.title || item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No regular examination data available for UG.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Regular Examinations</h5>
+                          {pgAutonomousData['Regular'] && pgAutonomousData['Regular'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgAutonomousData['Regular'].map((item) => (
+                                <li key={item.id} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.title || item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No regular examination data available for PG.</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Notifications Section */}
-                <div className="mb-8">
-                  <div className="bg-gray-50 p-4 rounded-md mb-4">
-                    <h4 className="text-xl font-semibold text-[#B22222] mb-2">Notifications</h4>
-                  </div>
-
-                  <div className="mb-6">
-                    <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Fee Notification</h5>
-                    <ul className="space-y-4">
-                      <li className="flex flex-col">
-                        <span className="text-gray-700 font-medium">2024-04-25: Examination Fee Notification for B.Tech II Semester (V23,V20 & V18) Regular & Supplementary, May-2024</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_fee_notification/ug/B.TechIISemester(V23,V20&V18)Regular&Supplementary,May-2024ExaminationFeeNotification.pdf"
-                          target="_blank"
-                          className="text-[#B22222] hover:underline text-sm mt-1"
-                        >
-                          View PDF
-                        </a>
-                      </li>
-                      <li className="flex flex-col">
-                        <span className="text-gray-700 font-medium">2024-04-25: Exam fee notification for B.Tech I Semester (V20&V18) Supplementary examinations-MAY-2024 reg.</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_fee_notification/ug/B.TechISemester(V20)Supply,(V18)SupplyFeeNotification-MAY-2024.pdf"
-                          target="_blank"
-                          className="text-[#B22222] hover:underline text-sm mt-1"
-                        >
-                          View PDF
-                        </a>
-                      </li>
-                      <li className="flex flex-col">
-                        <span className="text-gray-700 font-medium">2024-04-25: B.Tech III Semester (V20& V18) Supplementary Fee Notification-May-2024-Reg.</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_fee_notification/ug/B.TechIIISemester(V20&V18)SupplementaryFeeNotification-May-2024.pdf"
-                          target="_blank"
-                          className="text-[#B22222] hover:underline text-sm mt-1"
-                        >
-                          View PDF
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="mb-6">
-                    <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Fee Notification</h5>
-                    <ul className="space-y-4">
-                      <li className="flex flex-col">
-                        <span className="text-gray-700 font-medium">M.Tech II Semester (V21) Regular & Supplementary and M.Tech II Semester (V18) Supplementary Examinations-August-2023</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_fee_notification/pg/M.TechIISemester(V21&V18)RegularandSupplementary,August-2023ExaminationFeeNotification.pdf"
-                          target="_blank"
-                          className="text-[#B22222] hover:underline text-sm mt-1"
-                        >
-                          View PDF
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                {/* Supplementary Examination Section - Dropdown */}
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleSection('supply')}
+                    className="w-full bg-[#B22222] text-white px-4 py-3 flex items-center justify-between hover:bg-[#9a1a1a] transition-colors"
+                  >
+                    <h4 className="text-lg font-semibold">{typeOptions.find(o => o.value === 'Supply')?.label || 'Supplementary Examination'}</h4>
+                    <span className={`transform transition-transform ${expandedSections.supply ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {expandedSections.supply && (
+                    <div className="p-4 bg-white">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Supplementary Examinations</h5>
+                          {ugAutonomousData['Supply'] && ugAutonomousData['Supply'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugAutonomousData['Supply'].map((item) => (
+                                <li key={item.id} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.title || item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No supplementary examination data available for UG.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Supplementary Examinations</h5>
+                          {pgAutonomousData['Supply'] && pgAutonomousData['Supply'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgAutonomousData['Supply'].map((item) => (
+                                <li key={item.id} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.title || item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No supplementary examination data available for PG.</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Time Tables Section */}
-                <div className="mb-8">
-                  <div className="bg-gray-50 p-4 rounded-md mb-4">
-                    <h4 className="text-xl font-semibold text-[#B22222] mb-2">Time Tables</h4>
-                  </div>
-
-                  <div className="mb-6">
-                    <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Time Table</h5>
-                    <ul className="space-y-3">
-                      <li>
-                        <span className="text-gray-600 font-medium">2024-04-08:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/B%20Tech%20V%20Sem(V18)%20Suppleemntary%20Examinations%20May%202024.pdf"
-                          target="_blank"
-                          className="ml-2 text-[#B22222] hover:underline"
-                        >
-                          Time Table for B.Tech V Semester (V18) Supplementary Examinations May 2024
-                        </a>
-                      </li>
-                      <li>
-                        <span className="text-gray-600 font-medium">2024-04-08:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/B%20Tech%20V%20Sem(V20)%20Suppleemntary%20Examinations%20May%202024.pdf"
-                          target="_blank"
-                          className="ml-2 text-[#B22222] hover:underline"
-                        >
-                          Time Table for B.Tech V Semester (V20) Supplementary Examinations May 2024
-                        </a>
-                      </li>
-                      <li>
-                        <span className="text-gray-600 font-medium">2024-04-08:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/B%20Tech%20VI%20Sem(V18)%20Supplemntary%20Examinations%20May%202024.pdf"
-                          target="_blank"
-                          className="ml-2 text-[#B22222] hover:underline"
-                        >
-                          Time Table for B.Tech VI Semester (V18) Supplementary Examinations May 2024
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Time Table</h5>
-                    <ul className="space-y-3">
-                      <li>
-                        <span className="text-gray-600 font-medium">2024-03-04:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/pg/MBA_I_Semester(V18)__supply_Exam_Time_Table,%20FEB-2024.pdf"
-                          target="_blank"
-                          className="ml-2 text-[#B22222] hover:underline"
-                        >
-                          Time Table for MBA -III Semester (V18) –Supplementary Examinations-FEB-2024
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                {/* Examination Rules Section - Dropdown */}
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleSection('rules')}
+                    className="w-full bg-[#B22222] text-white px-4 py-3 flex items-center justify-between hover:bg-[#9a1a1a] transition-colors"
+                  >
+                    <h4 className="text-lg font-semibold">{typeOptions.find(o => o.value === 'Rules')?.label || 'Rules'}</h4>
+                    <span className={`transform transition-transform ${expandedSections.rules ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {expandedSections.rules && (
+                    <div className="p-4 bg-white">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Examination Rules</h5>
+                          {ugAutonomousData['Rules'] && ugAutonomousData['Rules'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugAutonomousData['Rules'].map((item) => (
+                                <li key={item.id} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No examination rules available for UG.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Examination Rules</h5>
+                          {pgAutonomousData['Rules'] && pgAutonomousData['Rules'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgAutonomousData['Rules'].map((item) => (
+                                <li key={item.id} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No examination rules available for PG.</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Results Section */}
-                <div className="mb-8">
-                  <div className="bg-gray-50 p-4 rounded-md mb-4">
-                    <h4 className="text-xl font-semibold text-[#B22222] mb-2">Results</h4>
-                  </div>
+                {/* Notifications Section - Dropdown */}
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleSection('notifications')}
+                    className="w-full bg-[#B22222] text-white px-4 py-3 flex items-center justify-between hover:bg-[#9a1a1a] transition-colors"
+                  >
+                    <h4 className="text-lg font-semibold">{typeOptions.find(o => o.value === 'Notification')?.label || 'Notifications'}</h4>
+                    <span className={`transform transition-transform ${expandedSections.notifications ? 'rotate-180' : ''}`}>
+                      ▼
+                    </span>
+                  </button>
+                  {expandedSections.notifications && (
+                    <div className="p-4 bg-white">
+                      <div className="mb-6">
+                        <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Fee Notification</h5>
+                        {ugAutonomousData['Fee Notification'] && ugAutonomousData['Fee Notification'].length > 0 ? (
+                          <ul className="space-y-4">
+                            {ugAutonomousData['Fee Notification'].map((item) => (
+                              <li key={item.id} className="flex flex-col">
+                                <span className="text-gray-700 font-medium">{item.title || item.content}</span>
+                                {item.link && (
+                                  <a
+                                    href={item.link}
+                                    target="_blank"
+                                    className="text-[#B22222] hover:underline text-sm mt-1"
+                                  >
+                                    View PDF
+                                  </a>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-gray-500 italic">No fee notifications available for UG.</p>
+                        )}
+                      </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                      <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Results</h5>
-                      <p className="text-gray-500 italic">No results available at this time.</p>
+                      <div>
+                        <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Fee Notification</h5>
+                        {pgAutonomousData['Fee Notification'] && pgAutonomousData['Fee Notification'].length > 0 ? (
+                          <ul className="space-y-4">
+                            {pgAutonomousData['Fee Notification'].map((item) => (
+                              <li key={item.id} className="flex flex-col">
+                                <span className="text-gray-700 font-medium">{item.title || item.content}</span>
+                                {item.link && (
+                                  <a
+                                    href={item.link}
+                                    target="_blank"
+                                    className="text-[#B22222] hover:underline text-sm mt-1"
+                                  >
+                                    View PDF
+                                  </a>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-gray-500 italic">No fee notifications available for PG.</p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Results</h5>
-                      <p className="text-gray-500 italic">No results available at this time.</p>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
-                {/* Revaluation Results Section */}
-                <div>
-                  <div className="bg-gray-50 p-4 rounded-md mb-4">
-                    <h4 className="text-xl font-semibold text-[#B22222] mb-2">Revaluation Results</h4>
-                  </div>
+                {/* Time Tables Section - Dropdown */}
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleSection('timeTables')}
+                    className="w-full bg-[#B22222] text-white px-4 py-3 flex items-center justify-between hover:bg-[#9a1a1a] transition-colors"
+                  >
+                    <h4 className="text-lg font-semibold">{typeOptions.find(o => o.value === 'Timetable')?.label || 'Time Tables'}</h4>
+                    <span className={`transform transition-transform ${expandedSections.timeTables ? 'rotate-180' : ''}`}>
+                      ▼
+                    </span>
+                  </button>
+                  {expandedSections.timeTables && (
+                    <div className="p-4 bg-white">
+                      <div className="mb-6">
+                        <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Time Table</h5>
+                        {ugAutonomousData['Timetable'] && ugAutonomousData['Timetable'].length > 0 ? (
+                          <ul className="space-y-3">
+                            {ugAutonomousData['Timetable'].map((item) => (
+                              <li key={item.id} className="flex items-start justify-between gap-3">
+                                <div className="flex items-start gap-2 flex-1">
+                                  <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                  <span className="text-gray-700 text-sm">{item.title || item.content}</span>
+                                </div>
+                                {item.link && (
+                                  <a
+                                    href={item.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                  >
+                                    View
+                                  </a>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-gray-500 italic">No time table data available for UG.</p>
+                        )}
+                      </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                      <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Revaluation Results</h5>
-                      <ul className="space-y-3">
-                        <li>
-                          <span className="text-gray-600 font-medium">2023-06-09:</span>
-                          <a
-                            href="https://srivasaviengg.ac.in/uploads/autonomous_revalution_result/ug/02-Revaluation%20Result-B.Tech%20VIII%20Sem-April-2023.pdf"
-                            target="_blank"
-                            className="ml-2 text-[#B22222] hover:underline"
-                          >
-                            B.Tech VIII Sem-April-2023-Revaluation Results
-                          </a>
-                        </li>
-                        <li>
-                          <span className="text-gray-600 font-medium">2023-06-09:</span>
-                          <a
-                            href="https://srivasaviengg.ac.in/uploads/autonomous_revalution_result/ug/02-Revaluation%20Process%20Sheet-B.Tech%20VI%20Sem-April-2023.pdf"
-                            target="_blank"
-                            className="ml-2 text-[#B22222] hover:underline"
-                          >
-                            B.Tech VI Sem-April-2023-Revaluation Results
-                          </a>
-                        </li>
-                      </ul>
+                      <div>
+                        <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Time Table</h5>
+                        {pgAutonomousData['Timetable'] && pgAutonomousData['Timetable'].length > 0 ? (
+                          <ul className="space-y-3">
+                            {pgAutonomousData['Timetable'].map((item) => (
+                              <li key={item.id} className="flex items-start justify-between gap-3">
+                                <div className="flex items-start gap-2 flex-1">
+                                  <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                  <span className="text-gray-700 text-sm">{item.title || item.content}</span>
+                                </div>
+                                {item.link && (
+                                  <a
+                                    href={item.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                  >
+                                    View
+                                  </a>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-gray-500 italic">No time table data available for PG.</p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Revaluation Results</h5>
-                      <ul className="space-y-3">
-                        <li>
-                          <span className="text-gray-600 font-medium">2023-06-09:</span>
-                          <a
-                            href="https://srivasaviengg.ac.in/uploads/autonomous_revalution_result/ug/02-Revaluation%20Result-B.Tech%20VIII%20Sem-April-2023.pdf"
-                            target="_blank"
-                            className="ml-2 text-[#B22222] hover:underline"
-                          >
-                            B.Tech VIII Sem-April-2023-Revaluation Results
-                          </a>
-                        </li>
-                        <li>
-                          <span className="text-gray-600 font-medium">2023-06-09:</span>
-                          <a
-                            href="https://srivasaviengg.ac.in/uploads/autonomous_revalution_result/ug/02-Revaluation%20Process%20Sheet-B.Tech%20VI%20Sem-April-2023.pdf"
-                            target="_blank"
-                            className="ml-2 text-[#B22222] hover:underline"
-                          >
-                            B.Tech VI Sem-April-2023-Revaluation Results
-                          </a>
-                        </li>
-                      </ul>
+                  )}
+                </div>
+
+                {/* Revaluation Results Section - Dropdown */}
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleSection('revaluation')}
+                    className="w-full bg-[#B22222] text-white px-4 py-3 flex items-center justify-between hover:bg-[#9a1a1a] transition-colors"
+                  >
+                    <h4 className="text-lg font-semibold">{typeOptions.find(o => o.value === 'revaluation_results')?.label || 'Revaluation Results'}</h4>
+                    <span className={`transform transition-transform ${expandedSections.revaluation ? 'rotate-180' : ''}`}>
+                      ▼
+                    </span>
+                  </button>
+                  {expandedSections.revaluation && (
+                    <div className="p-4 bg-white">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Revaluation Results</h5>
+                          {ugAutonomousData['revaluation_results'] && ugAutonomousData['revaluation_results'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugAutonomousData['revaluation_results'].map((item) => (
+                                <li key={item.id} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No revaluation results available for UG.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Revaluation Results</h5>
+                          {pgAutonomousData['revaluation_results'] && pgAutonomousData['revaluation_results'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgAutonomousData['revaluation_results'].map((item) => (
+                                <li key={item.id} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No revaluation results available for PG.</p>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -892,350 +1061,367 @@ const Academics: React.FC = () => {
           {activeTab === 'jntuk' && (
             <div className="max-w-6xl mx-auto">
               <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-2xl font-bold text-[#B22222] mb-6">JNTUK Links</h3>
+                <h3 className="text-2xl font-bold text-[#B22222] mb-6">JNTUK Section</h3>
 
-                <p className="text-gray-700 mb-6">
-                  Important links and documents related to Jawaharlal Nehru Technological University Kakinada (JNTUK).
-                </p>
-
-                <div className="mb-8">
-                  <div className="bg-gray-50 p-4 rounded-md mb-4">
-                    <h4 className="text-xl font-semibold text-[#B22222] mb-2">University Exam Time Tables</h4>
-                  </div>
-
-                  <ul className="space-y-4">
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2023-11-29:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/Timetable for Jntuk, B.Tech 2-1 R16 Supply Dec 2023.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Timetable for II B.TECH - I SEMESTER (R16 REGULATIONS) SUPPLEMENTARY EXAMINATIONS, DECEMBER2023
-                        </a>
+                {/* Timetables Dropdown */}
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleSection('jntukTimeTables')}
+                    className="w-full bg-[#B22222] text-white px-4 py-3 flex items-center justify-between hover:bg-[#9a1a1a] transition-colors"
+                  >
+                    <h4 className="text-lg font-semibold">Timetables</h4>
+                    <span className={`transform transition-transform ${expandedSections.jntukTimeTables ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {expandedSections.jntukTimeTables && (
+                    <div className="p-4 bg-white">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Timetables</h5>
+                          {ugJNTUKData['Timetables'] && ugJNTUKData['Timetables'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugJNTUKData['Timetables'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No UG timetables available.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Timetables</h5>
+                          {pgJNTUKData['Timetables'] && pgJNTUKData['Timetables'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgJNTUKData['Timetables'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No PG timetables available.</p>
+                          )}
+                        </div>
                       </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2023-11-29:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/Timetable for Jntuk, B.Tech 2-2 R16 Supply Dec-2023.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Timetable for II B.TECH - II SEMESTER (R16 REGULATIONS) SUPPLEMENTARY EXAMINATIONS, DECEMBER2023
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2023-11-29:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/Timetable for Jntuk, B.Tech 3-1 R16 Supple December-2023.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Timetable for III B.TECH - I SEMESTER (R16 REGULATIONS) SUPPLEMENTARY EXAMINATIONS, DECEMBER2023
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2023-11-29:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/Timetable for Jntuk, B.Tech 3-2 R16 Supply December-2023.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Timetable for III B.TECH - II SEMESTER (R16 REGULATIONS) SUPPLEMENTARY EXAMINATIONS, DECEMBER2023
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2023-09-25:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/B.TechVIISem(V18)SupplementaryEndExaminationsTimeTableOCT-2023.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          B.Tech VII Sem (V18) Supplementary End Examinations Time Table OCT-2023
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2023-09-25:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/B.TechVIISem(V20)EndExaminationTimeTableOCT-2023.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          B.Tech VII Sem (V20) Regular End Examination Time Table OCT-2023
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2022-09-02:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/III B.Tech I Sem Special Supple Exams, Sep2022.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Timetable for III B.Tech I Semester (R13, R10, RR, NR, R05, R07) Special Supplementary Examinations, Sep-2022
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2022-09-02:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/III B.Tech II Sem Special Supple Exams, Sep2022.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Timetable for III B.Tech II Semester (R13, R10, RR, NR, R05, R07) Special Supplementary Examinations, Sep-2022
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2022-09-02:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/IV B.Tech I Sem Special Supple Exams, Sep2022.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Timetable for IV B.Tech I Semester (R13, R10, OR, RR, NR, R05, R07) Special Supplementary Examinations, Sep-2022
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2022-09-02:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/autonomous_university_exam_timetable/ug/IV BTech II Sem Special Supple Exams, Sep2022.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Timetable for IV B.Tech II Semester (R13, R10, OR, RR, NR, R05, R07) Special Supplementary Examinations, Sep-2022
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2019-10-12:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/university_exam_timetable/ug/21_bt_r10.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Time Table for II B.TECH I SEMESTER (R10 REGULATIONS) SUPPLEMENTARY EXAMINATIONS – OCT/NOV, 2019- Reg.
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
+                    </div>
+                  )}
                 </div>
 
-                <div className="mt-8 mb-8">
-                  <div className="bg-gray-50 p-4 rounded-md mb-4">
-                    <h4 className="text-xl font-semibold text-[#B22222] mb-2">JNTUK Exam Results</h4>
-                  </div>
-
-                  <ul className="space-y-4">
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2024-04-08:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/exam_results/ug/I B Tech II Sem January 2024.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Results of I B.Tech II Semester (R16/R19/R20) Supplementary Examinations, Jan-2024, Last Date to apply for Recounting/Revaluation/Challenge Revaluation is: 15-04-2024
-                        </a>
+                {/* Results Dropdown */}
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleSection('jntukResults')}
+                    className="w-full bg-[#B22222] text-white px-4 py-3 flex items-center justify-between hover:bg-[#9a1a1a] transition-colors"
+                  >
+                    <h4 className="text-lg font-semibold">Results</h4>
+                    <span className={`transform transition-transform ${expandedSections.jntukResults ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {expandedSections.jntukResults && (
+                    <div className="p-4 bg-white">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Results</h5>
+                          {ugJNTUKData['Results'] && ugJNTUKData['Results'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugJNTUKData['Results'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No UG results available.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Results</h5>
+                          {pgJNTUKData['Results'] && pgJNTUKData['Results'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgJNTUKData['Results'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No PG results available.</p>
+                          )}
+                        </div>
                       </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2024-04-08:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/exam_results/ug/I B Tech I Sem January 2024.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Results of I B.Tech I Semester (R16/R19/R20/R23) Regular / Supplementary Examinations, Jan-2024
-                        </a>
-                      </div>
-                    </li>
-                    <li className="flex flex-col">
-                      <div className="flex items-start">
-                        <span className="text-gray-600 font-medium min-w-[100px]">2024-01-31:</span>
-                        <a
-                          href="https://srivasaviengg.ac.in/uploads/exam_results/ug/JNTUK Results of IV B.Tech I Semester (R16) Regular, Supplementary Examinations, Jan2024.pdf"
-                          target="_blank"
-                          className="text-blue-600 hover:underline"
-                        >
-                          JNTUK Results of IV B.Tech I Semester (R16) Regular, Supplementary Examinations, Jan2024
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
+                    </div>
+                  )}
                 </div>
 
-                <div className="mt-8">
-                  <div className="bg-gray-50 p-4 rounded-md mb-4">
-                    <h4 className="text-xl font-semibold text-[#B22222] mb-2">JNTUK Important Links</h4>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a href="https://jntuk.edu.in" target="_blank" className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all">
-                      <FileText className="w-6 h-6 text-[#B22222] mr-3" />
-                      <span>JNTUK Official Website</span>
-                    </a>
-                    <a href="https://jntuk.edu.in/academic-calendar/" target="_blank" className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all">
-                      <Calendar className="w-6 h-6 text-[#B22222] mr-3" />
-                      <span>JNTUK Academic Calendar</span>
-                    </a>
-                    <a href="https://jntuk.edu.in/examination-notifications/" target="_blank" className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all">
-                      <FileText className="w-6 h-6 text-[#B22222] mr-3" />
-                      <span>JNTUK Examination Notifications</span>
-                    </a>
-                    <a href="https://jntukresults.edu.in/" target="_blank" className="flex items-center p-4 border border-gray-200 rounded-md hover:bg-gray-50 transition-all">
-                      <FileText className="w-6 h-6 text-[#B22222] mr-3" />
-                      <span>JNTUK Results Portal</span>
-                    </a>
-                  </div>
+                {/* Revaluation Results Dropdown */}
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleSection('jntukRevaluation')}
+                    className="w-full bg-[#B22222] text-white px-4 py-3 flex items-center justify-between hover:bg-[#9a1a1a] transition-colors"
+                  >
+                    <h4 className="text-lg font-semibold">Revaluation Results</h4>
+                    <span className={`transform transition-transform ${expandedSections.jntukRevaluation ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {expandedSections.jntukRevaluation && (
+                    <div className="p-4 bg-white">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Revaluation Results</h5>
+                          {ugJNTUKData['Revaluation Results'] && ugJNTUKData['Revaluation Results'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugJNTUKData['Revaluation Results'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No UG revaluation results available.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Revaluation Results</h5>
+                          {pgJNTUKData['Revaluation Results'] && pgJNTUKData['Revaluation Results'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgJNTUKData['Revaluation Results'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No PG revaluation results available.</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Fee Notifications Dropdown */}
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleSection('jntukFeeNotifications')}
+                    className="w-full bg-[#B22222] text-white px-4 py-3 flex items-center justify-between hover:bg-[#9a1a1a] transition-colors"
+                  >
+                    <h4 className="text-lg font-semibold">Fee Notifications</h4>
+                    <span className={`transform transition-transform ${expandedSections.jntukFeeNotifications ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {expandedSections.jntukFeeNotifications && (
+                    <div className="p-4 bg-white">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Fee Notifications</h5>
+                          {ugJNTUKData['Fee Notifications'] && ugJNTUKData['Fee Notifications'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugJNTUKData['Fee Notifications'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No UG fee notifications available.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Fee Notifications</h5>
+                          {pgJNTUKData['Fee Notifications'] && pgJNTUKData['Fee Notifications'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgJNTUKData['Fee Notifications'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No PG fee notifications available.</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Downloads Dropdown */}
+                <div className="mb-4 border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleSection('jntukDownloads')}
+                    className="w-full bg-[#B22222] text-white px-4 py-3 flex items-center justify-between hover:bg-[#9a1a1a] transition-colors"
+                  >
+                    <h4 className="text-lg font-semibold">Downloads</h4>
+                    <span className={`transform transition-transform ${expandedSections.jntukDownloads ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {expandedSections.jntukDownloads && (
+                    <div className="p-4 bg-white">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">UG Downloads</h5>
+                          {ugJNTUKData['Downloads'] && ugJNTUKData['Downloads'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {ugJNTUKData['Downloads'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No UG downloads available.</p>
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">PG Downloads</h5>
+                          {pgJNTUKData['Downloads'] && pgJNTUKData['Downloads'].length > 0 ? (
+                            <ul className="space-y-3">
+                              {pgJNTUKData['Downloads'].map((item) => (
+                                <li key={item.sno} className="flex items-start justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <div className="w-2 h-2 rounded-full bg-[#B22222] mt-1.5 flex-shrink-0"></div>
+                                    <span className="text-gray-700 text-sm">{item.content}</span>
+                                  </div>
+                                  {item.link && (
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="ml-2 text-[#B22222] hover:underline text-sm font-medium whitespace-nowrap flex-shrink-0"
+                                    >
+                                      View
+                                    </a>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-gray-500 italic">No PG downloads available.</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           )}
         </div>
       </section>
-
-      {/* Academic Features */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-4">Academic Features</h2>
-            <p className="text-lg text-gray-600">Excellence in education through modern pedagogy and industry-aligned curriculum</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {content.features.map((feature, index) => {
-              const Icon = iconMap[feature.icon];
-              return (
-                <div key={index} className="text-center p-5 rounded-xl bg-white border border-gray-200 hover:shadow-lg transition-all">
-                  <Icon className="w-12 h-12 text-[#B22222] mx-auto mb-4" />
-                  <h3 className="text-lg font-bold text-[#222222] mb-2">{feature.title}</h3>
-                  <p className="text-gray-600 text-sm">{feature.desc}</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Programs */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-4">
-              Our Programs
-            </h2>
-            <p className="text-lg text-gray-600">Comprehensive academic programs designed to shape future leaders</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all">
-              <h3 className="text-xl font-bold text-[#B22222] mb-4 flex items-center">
-                <BookOpen className="w-5 h-5 mr-2" />
-                B.Tech Programs
-              </h3>
-              <ul className="space-y-2 text-gray-700">
-                <li className="flex items-center">
-                  <span className="w-1.5 h-1.5 bg-[#B22222] rounded-full mr-2"></span>
-                  Computer Science & Engineering
-                </li>
-                <li className="flex items-center">
-                  <span className="w-1.5 h-1.5 bg-[#B22222] rounded-full mr-2"></span>
-                  Electronics & Communication
-                </li>
-                <li className="flex items-center">
-                  <span className="w-1.5 h-1.5 bg-[#B22222] rounded-full mr-2"></span>
-                  Electrical & Electronics
-                </li>
-                <li className="flex items-center">
-                  <span className="w-1.5 h-1.5 bg-[#B22222] rounded-full mr-2"></span>
-                  Mechanical Engineering
-                </li>
-                <li className="flex items-center">
-                  <span className="w-1.5 h-1.5 bg-[#B22222] rounded-full mr-2"></span>
-                  Civil Engineering
-                </li>
-              </ul>
-              <div className="mt-4 text-sm">
-                <p>Duration: <span className="font-medium">4 Years</span></p>
-                <p>Degree: <span className="font-medium">Bachelor of Technology</span></p>
-              </div>
-              <a href="/admissions" className="block mt-4 text-[#B22222] hover:underline text-sm font-medium">
-                Learn more about B.Tech programs →
-              </a>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all">
-              <h3 className="text-xl font-bold text-[#B22222] mb-4 flex items-center">
-                <BookOpen className="w-5 h-5 mr-2" />
-                M.Tech Programs
-              </h3>
-              <ul className="space-y-2 text-gray-700">
-                <li className="flex items-center">
-                  <span className="w-1.5 h-1.5 bg-[#B22222] rounded-full mr-2"></span>
-                  Computer Science
-                </li>
-                <li className="flex items-center">
-                  <span className="w-1.5 h-1.5 bg-[#B22222] rounded-full mr-2"></span>
-                  Power Electronics
-                </li>
-                <li className="flex items-center">
-                  <span className="w-1.5 h-1.5 bg-[#B22222] rounded-full mr-2"></span>
-                  Structural Engineering
-                </li>
-              </ul>
-              <div className="mt-4 text-sm">
-                <p>Duration: <span className="font-medium">2 Years</span></p>
-                <p>Degree: <span className="font-medium">Master of Technology</span></p>
-              </div>
-              <a href="/admissions" className="block mt-4 text-[#B22222] hover:underline text-sm font-medium">
-                Learn more about M.Tech programs →
-              </a>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all">
-              <h3 className="text-xl font-bold text-[#B22222] mb-4 flex items-center">
-                <BookOpen className="w-5 h-5 mr-2" />
-                MBA Program
-              </h3>
-              <ul className="space-y-2 text-gray-700">
-                <li className="flex items-center">
-                  <span className="w-1.5 h-1.5 bg-[#B22222] rounded-full mr-2"></span>
-                  Master of Business Administration
-                </li>
-                <li className="flex items-center">
-                  <span className="w-1.5 h-1.5 bg-[#B22222] rounded-full mr-2"></span>
-                  Multiple specializations available
-                </li>
-              </ul>
-              <div className="mt-4 text-sm">
-                <p>Duration: <span className="font-medium">2 Years</span></p>
-                <p>Degree: <span className="font-medium">Master of Business Administration</span></p>
-              </div>
-              <a href="/admissions" className="block mt-4 text-[#B22222] hover:underline text-sm font-medium">
-                Learn more about MBA program →
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-12 md:py-16 bg-primary text-white rounded-none w-full overflow-hidden relative isolate">
         <div className="container mx-auto px-4 text-center relative z-10">

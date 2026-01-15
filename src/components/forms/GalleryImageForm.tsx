@@ -92,8 +92,8 @@ export function GalleryImageForm({
       }
 
       const url = galleryImage
-        ? `/api/gallery/${galleryImage.id}`
-        : '/api/gallery';
+        ? `/api/placement/gallery/${galleryImage.id}`
+        : '/api/placement/gallery';
       
       const method = galleryImage ? 'PUT' : 'POST';
 
@@ -194,12 +194,13 @@ export function GalleryImageForm({
         <FormControl>
           <Input
             type="file"
-            accept="image/*"
+            accept="image/jpeg,image/jpg,image/png,image/webp"
             disabled={isLoading}
             onChange={handleImageChange}
           />
         </FormControl>
         <FormMessage />
+        <p className="text-xs text-gray-500">Supported formats: JPEG, PNG, WebP (Max 5MB)</p>
         {imagePreview && (
           <div className="mt-2">
             <p className="text-sm text-muted-foreground mb-2">Image Preview:</p>

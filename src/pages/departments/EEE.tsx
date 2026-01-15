@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import { Zap, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Rss, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, X } from 'lucide-react';
 import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 import { usePublicDepartmentData, type Faculty, type Staff, type BoardOfStudiesMeetingMinute, type SyllabusDocument } from '../../hooks/usePublicDepartmentData';
+import { ResearchCenter } from '@/components/ResearchCenter';
+import { StudentAchievements } from '@/components/StudentAchievements';
 
 // Interface for faculty data
 interface FacultyMember {
@@ -38,14 +40,301 @@ interface BoardOfStudiesMember {
   image_url?: string;
 }
 
+interface Overview {
+  hod_image_url: string;
+  hod_name: string;
+  hod_qualification: string;
+  hod_email: string;
+  description: string;
+}
+
 const EEEDepartment: React.FC = () => {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeContent, setActiveContent] = useState('Department Profile');
   const [activeDeptTab, setActiveDeptTab] = useState('Department');
   const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
+
+  // Department Overview state
+  const [overview, setOverview] = useState<Overview | null>(null);
+
+  // BOS Meeting Minutes state
+  const [bosMinutes, setBosMinutes] = useState<any[]>([]);
+  const [bosMinutesLoading, setBosMinutesLoading] = useState(true);
+
+  // Syllabus state
+  const [syllabus, setSyllabus] = useState<any[]>([]);
+  const [syllabusLoading, setSyllabusLoading] = useState(true);
+
+  // Faculty Innovations state
+  const [facultyInnovations, setFacultyInnovations] = useState<any[]>([]);
+  const [facultyInnovationsLoading, setFacultyInnovationsLoading] = useState(true);
+
+  // Technical Handbooks state
+  const [technicalHandbooks, setTechnicalHandbooks] = useState<any[]>([]);
+  const [technicalHandbooksLoading, setTechnicalHandbooksLoading] = useState(true);
+
+  // Research Center data states
+  const [researchVerticles, setResearchVerticles] = useState<any[]>([]);
+  const [researchSupervisors, setResearchSupervisors] = useState<any[]>([]);
+  const [journalPublications, setJournalPublications] = useState<any[]>([]);
+  const [conferencePublications, setConferencePublications] = useState<any[]>([]);
+  const [patents, setPatents] = useState<any[]>([]);
+  const [bookPublications, setBookPublications] = useState<any[]>([]);
+  const [careerAdvancements, setCareerAdvancements] = useState<any[]>([]);
+  const [interactionOutsideWorld, setInteractionOutsideWorld] = useState<any[]>([]);
+  const [researchLoading, setResearchLoading] = useState(false);
+  const [researchError, setResearchError] = useState<string | null>(null);
+
   // Use the public department data hook
   const { data: departmentData, loading, error } = usePublicDepartmentData('eee');
+
+  // Fetch Department Overview
+  useEffect(() => {
+    fetch('/api/eee/eee-department-overview')
+      .then(res => res.json())
+      .then(data => {
+        setOverview(Array.isArray(data) && data.length > 0 ? data[0] : data || null);
+      })
+      .catch(err => {
+        console.error('Error fetching department overview:', err);
+        setOverview(null);
+      });
+  }, []);
+
+  // Fetch BOS Meeting Minutes
+  useEffect(() => {
+    fetch('/api/eee/eee-bos-minutes')
+      .then(res => res.json())
+      .then(data => {
+        setBosMinutes(Array.isArray(data) ? data : []);
+        setBosMinutesLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching BOS minutes:', err);
+        setBosMinutes([]);
+        setBosMinutesLoading(false);
+      });
+  }, []);
+useEffect(() => {
+    fetch('/api/eee/eee-bos-members')
+      .then(res => res.json())
+      .then(data => {
+        setBosMinutes(Array.isArray(data) ? data : []);
+        setBosMinutesLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching BOS minutes:', err);
+        setBosMinutes([]);
+        setBosMinutesLoading(false);
+      });
+  }, []);
+
+  // Fetch Syllabus
+  useEffect(() => {
+    fetch('/api/eee/syllabus')
+      .then(res => res.json())
+      .then(data => {
+        setSyllabus(Array.isArray(data) ? data : []);
+        setSyllabusLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching syllabus:', err);
+        setSyllabus([]);
+        setSyllabusLoading(false);
+      });
+  }, []);
+
+  // Fetch Faculty Innovations
+  useEffect(() => {
+    fetch('/api/eee/faculty-innovations')
+      .then(res => res.json())
+      .then(data => {
+        setFacultyInnovations(Array.isArray(data) ? data : []);
+        setFacultyInnovationsLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching faculty innovations:', err);
+        setFacultyInnovations([]);
+        setFacultyInnovationsLoading(false);
+      });
+  }, []);
+
+  // Fetch Technical Handbooks
+  useEffect(() => {
+    fetch('/api/eee/technical-handbooks')
+      .then(res => res.json())
+      .then(data => {
+        setTechnicalHandbooks(Array.isArray(data) ? data : []);
+        setTechnicalHandbooksLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching technical handbooks:', err);
+        setTechnicalHandbooks([]);
+        setTechnicalHandbooksLoading(false);
+      });
+  }, []);
+
+  // Fetch Newsletters from eee_newsletters table
+  const [newslettersLoading, setNewslettersLoading] = useState(false);
+  const [eeeNewsletters, setEeeNewsletters] = useState<any[]>([]);
+  
+  useEffect(() => {
+    const fetchNewsletters = async () => {
+      try {
+        setNewslettersLoading(true);
+        const response = await fetch('/api/eee/eee-newsletters');
+        const data = await response.json();
+        console.log('📰 EEE Newsletters fetched:', data);
+        setEeeNewsletters(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('Error fetching EEE newsletters:', err);
+        setEeeNewsletters([]);
+      } finally {
+        setNewslettersLoading(false);
+      }
+    };
+    
+    fetchNewsletters();
+  }, []);
+
+  // Fetch Product Development Gallery from eee_hackathons_gallery with category 'pd'
+  const [pdGalleryLoading, setPdGalleryLoading] = useState(false);
+  const [pdGalleryImages, setPdGalleryImages] = useState<any[]>([]);
+  
+  useEffect(() => {
+    const fetchPdGallery = async () => {
+      try {
+        setPdGalleryLoading(true);
+        const response = await fetch('/api/eee/eee-pd-gallery');
+        const data = await response.json();
+        console.log('🎨 Product Development Gallery fetched:', data);
+        setPdGalleryImages(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('Error fetching Product Development gallery:', err);
+        setPdGalleryImages([]);
+      } finally {
+        setPdGalleryLoading(false);
+      }
+    };
+    
+    fetchPdGallery();
+  }, []);
+
+  // Fetch Green Initiatives Gallery from eee_hackathons_gallery with category 'Green Initiatives'
+  const [greenInitGalleryLoading, setGreenInitGalleryLoading] = useState(false);
+  const [greenInitGalleryImages, setGreenInitGalleryImages] = useState<any[]>([]);
+  
+  useEffect(() => {
+    const fetchGreenInitGallery = async () => {
+      try {
+        setGreenInitGalleryLoading(true);
+        const response = await fetch('/api/eee/eee-green-initiatives-gallery');
+        const data = await response.json();
+        console.log('🌱 Green Initiatives Gallery fetched:', data);
+        setGreenInitGalleryImages(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('Error fetching Green Initiatives gallery:', err);
+        setGreenInitGalleryImages([]);
+      } finally {
+        setGreenInitGalleryLoading(false);
+      }
+    };
+    
+    fetchGreenInitGallery();
+  }, []);
+
+  // Fetch Technical Handbooks from eee_technical_handbooks with category 'Academic HandBooks'
+  const [techHandbooksLoading, setTechHandbooksLoading] = useState(false);
+  const [techHandbooks, setTechHandbooks] = useState<any[]>([]);
+  
+  useEffect(() => {
+    const fetchTechHandbooks = async () => {
+      try {
+        setTechHandbooksLoading(true);
+        const response = await fetch('/api/eee/eee-technical-handbooks');
+        const data = await response.json();
+        console.log('📚 Technical Handbooks fetched:', data);
+        setTechHandbooks(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('Error fetching technical handbooks:', err);
+        setTechHandbooks([]);
+      } finally {
+        setTechHandbooksLoading(false);
+      }
+    };
+    
+    fetchTechHandbooks();
+  }, []);
+
+  // Fetch Green Initiative Gallery from eee_hackathons_gallery with category 'gi'
+  const [giGalleryLoading, setGiGalleryLoading] = useState(false);
+  const [giGalleryImages, setGiGalleryImages] = useState<any[]>([]);
+  
+  useEffect(() => {
+    const fetchGiGallery = async () => {
+      try {
+        setGiGalleryLoading(true);
+        const response = await fetch('/api/eee/eee-green-initiative-gallery');
+        const data = await response.json();
+        console.log('🌿 Green Initiative Gallery (gi) fetched:', data);
+        setGiGalleryImages(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('Error fetching Green Initiative gallery:', err);
+        setGiGalleryImages([]);
+      } finally {
+        setGiGalleryLoading(false);
+      }
+    };
+    
+    fetchGiGallery();
+  }, []);
+
+  // Fetch Social Service Gallery from eee_hackathons_gallery with category 'ss'
+  const [ssGalleryLoading, setSsGalleryLoading] = useState(false);
+  const [ssGalleryImages, setSsGalleryImages] = useState<any[]>([]);
+  
+  useEffect(() => {
+    const fetchSsGallery = async () => {
+      try {
+        setSsGalleryLoading(true);
+        const response = await fetch('/api/eee/eee-ss-gallery');
+        const data = await response.json();
+        console.log('🤝 Social Service Gallery (ss) fetched:', data);
+        setSsGalleryImages(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('Error fetching Social Service gallery:', err);
+        setSsGalleryImages([]);
+      } finally {
+        setSsGalleryLoading(false);
+      }
+    };
+    
+    fetchSsGallery();
+  }, []);
+
+  // Fetch Anniversary Gallery from eee_hackathons_gallery with category 'ac'
+  const [acGalleryLoading, setAcGalleryLoading] = useState(false);
+  const [acGalleryImages, setAcGalleryImages] = useState<any[]>([]);
+  
+  useEffect(() => {
+    const fetchAcGallery = async () => {
+      try {
+        setAcGalleryLoading(true);
+        const response = await fetch('/api/eee/eee-ac-gallery');
+        const data = await response.json();
+        console.log('🎉 Anniversary Gallery (ac) fetched:', data);
+        setAcGalleryImages(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('Error fetching Anniversary gallery:', err);
+        setAcGalleryImages([]);
+      } finally {
+        setAcGalleryLoading(false);
+      }
+    };
+    
+    fetchAcGallery();
+  }, []);
 
   // Prevent body scroll when sidebar is open on mobile
   useEffect(() => {
@@ -65,26 +354,33 @@ const EEEDepartment: React.FC = () => {
       document.body.style.width = 'unset';
     };
   }, [sidebarOpen]);
-  
+
   // Extract data from the hook
   const faculty = departmentData?.faculty || [];
   const nonTeachingFaculty = departmentData?.nonTeachingStaff || [];
+  const technicalStaff = departmentData?.technicalStaff || [];
   const boardOfStudiesMembers = departmentData?.boardOfStudies || [];
   const boardOfStudiesMeetingMinutes = departmentData?.boardOfStudiesMeetingMinutes || [];
-  const facultyInnovations = departmentData?.facultyInnovations || [];
+  const laboratoryGallery = departmentData?.laboratoryGallery || [];
+  const departmentLibrary = departmentData?.departmentLibrary || null;
+  const facultyAchievementsData = departmentData?.facultyAchievementsData || [];
+  const placementsData = departmentData?.placementsData || [];
+  const technicalAssociationData = departmentData?.technicalAssociationData || [];
+  const technicalAssociationGallery = departmentData?.technicalAssociationGallery || [];
   const researchCenters = departmentData?.researchCenters || [];
   const productDevelopment = departmentData?.productDevelopment || [];
   const departmentalActivities = departmentData?.departmentalActivities || [];
   const greenInitiatives = departmentData?.greenInitiatives || [];
   const technicalMagazines = departmentData?.technicalMagazines || [];
-  const syllabusDocuments = departmentData?.syllabusDocuments || [];
+  const newslettersData = departmentData?.newsletters || [];
+  const productDevelopmentGallery = departmentData?.productDevelopmentGallery || [];
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
     { id: 'Faculty Profiles', label: 'Faculty Profiles', icon: <Users className="w-4 h-4" /> },
     { id: 'Board of Studies', label: 'Board of Studies', icon: <Award className="w-4 h-4" /> },
     { id: 'Syllabus', label: 'Syllabus', icon: <BookOpen className="w-4 h-4" /> },
-    { id: 'Labaratories', label: 'Labaratories', icon: <Microscope className="w-4 h-4" /> },
+    { id: 'Laboratories', label: 'Laboratories', icon: <Microscope className="w-4 h-4" /> },
     { id: 'Department Library', label: 'Department Library', icon: <Library className="w-4 h-4" /> },
     { id: 'Faculty Achievements', label: 'Faculty Achievements', icon: <Trophy className="w-4 h-4" /> },
     { id: 'Faculty Innovations in T & L', label: 'Faculty Innovations in T & L', icon: <TrendingUp className="w-4 h-4" /> },
@@ -99,7 +395,7 @@ const EEEDepartment: React.FC = () => {
     { id: 'Extra-Curricular Activities', label: 'Extra-Curricular Activities', icon: <Activity className="w-4 h-4" /> },
     { id: 'Handbooks', label: 'Handbooks', icon: <FileText className="w-4 h-4" /> },
     { id: 'Green Initiative', label: 'Green Initiative', icon: <Shield className="w-4 h-4" /> },
-    { id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
+    //{ id: 'Contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> }
   ];
 
   const sections = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
@@ -108,18 +404,22 @@ const EEEDepartment: React.FC = () => {
     switch (activeDeptTab) {
       case 'Department':
         return (
-          <div className="mt-6 space-y-4">
-            <p className="text-gray-700 leading-relaxed">
+          <div className="animate-fade-in">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Department Overview</h3>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Department of Electrical & Electronics Engineering was established in 1981 with an intake of 40 seats. Later the intake was increased to 60 seats. From 2008-09 onwards the intake was increased to 120 seats. From 2021-22 onwards the intake was increased to 180 seats.
+            </p>
+            <p className="text-gray-700 leading-relaxed mb-4">
               The laboratories are equipped with modern equipment, devices and software relevant to courses. Students are encouraged to participate in several co-curricular and extracurricular activities.
             </p>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-gray-700 leading-relaxed mb-4">
               The EEE Department has MoUs with various industries and organizations to enhance practical exposure among students. Our students participate in industrial training programs during their vacations which helps them to get exposure to the industry scenario.
             </p>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-gray-700 leading-relaxed mb-4">
               The Department has been recognized as Research Centre by JNTUK, Kakinada in 2019.
             </p>
 
-            <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
+            {/* <h4 className="text-xl font-bold text-[#B22222] mb-4">Courses Offered</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-gray-700 mb-4 border border-gray-200 rounded-lg">
                 <thead className="text-xs bg-gray-50 uppercase text-gray-700">
@@ -141,12 +441,12 @@ const EEEDepartment: React.FC = () => {
                   </tr>
                 </tbody>
               </table>
-            </div>
+            </div> */}
           </div>
         );
       case 'Vision':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Vision</h3>
             <p className="text-gray-700">
               To produce quality engineers with the knowledge and skills in Electrical and Electronics Engineering to meet the challenges of the industry and society.
@@ -155,7 +455,7 @@ const EEEDepartment: React.FC = () => {
         );
       case 'Mission':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Mission</h3>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">
               <li>To impart quality technical education in EEE with state-of-art laboratories and committed faculty.</li>
@@ -168,7 +468,7 @@ const EEEDepartment: React.FC = () => {
         );
       case 'PEOs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Educational Objectives (PEOs)</h3>
             <p className="text-gray-700 mb-4">After 3-5 years of graduation, the graduates will be able to:</p>
             <div className="space-y-4">
@@ -189,7 +489,7 @@ const EEEDepartment: React.FC = () => {
         );
       case 'POs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Outcomes (POs)</h3>
             <p className="text-gray-700 mb-4">After the completion of B.Tech. in Electrical and Electronics Engineering, the graduates will be able to:</p>
             <div className="space-y-3">
@@ -246,16 +546,16 @@ const EEEDepartment: React.FC = () => {
         );
       case 'PSOs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Program Specific Outcomes (PSOs)</h3>
             <p className="text-gray-700 mb-4">After the completion of B.Tech. in Electrical and Electronics Engineering, the graduates will be able to:</p>
             <div className="space-y-4">
               <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-blue-800">PSO 1</h4>
+                <h4 className="text-lg font-semibold text-green-800">PSO 1</h4>
                 <p className="text-gray-700">Apply the knowledge of Power Systems, Power Electronics, and Control Systems to solve the problems related to Electrical and Electronics Engineering and to develop the prototypes.</p>
               </div>
               <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h4 className="text-lg font-semibold text-blue-800">PSO 2</h4>
+                <h4 className="text-lg font-semibold text-green-800">PSO 2</h4>
                 <p className="text-gray-700">Use modern tools and computing techniques to analyze and design electrical systems.</p>
               </div>
             </div>
@@ -263,7 +563,7 @@ const EEEDepartment: React.FC = () => {
         );
       case 'COs':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Course Outcomes (COs)</h3>
             <p className="text-gray-700 mb-4">
               The course outcomes for all courses offered by the Electrical and Electronics Engineering department are designed to align with program outcomes and educational objectives.
@@ -282,7 +582,7 @@ const EEEDepartment: React.FC = () => {
         );
       case 'SalientFeatures':
         return (
-          <div>
+          <div className="animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Salient Features</h3>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">
               <li>Qualified, experienced and dedicated faculty</li>
@@ -311,657 +611,499 @@ const EEEDepartment: React.FC = () => {
     switch (activeContent) {
       case 'Department Profile':
         return (
-          <div id="department-Overview" className="space-y-8 animate-fade-in">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Overview</h2>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                <div className="relative">
-                  <img
-                    src="/eeehod.jpg"
-                    alt="Dr. D. Sudha Rani"
-                    className="w-full h-80 object-cover rounded-lg shadow-md"
-                  />
-                </div>
-                <div className="lg:col-span-2 space-y-4">
-                  <div className="mb-4">
-                    <h3 className="text-2xl font-bold text-[#B22222] mb-2">Dr. D. Sudha Rani</h3>
-                    <p className="text-lg text-[#B22222] font-medium mb-2">Professor & Head of the Department</p>
-                    <p className="text-gray-600">Phone No: 08818-284355(O)-(Ext.-376)</p>
-                    <p className="text-gray-600">Fax No: 08818-284322</p>
-                    <p className="text-gray-600">Email: <a href="mailto:hod_eee@srivasaviengg.ac.in" className="text-primary hover:underline">hod_eee@srivasaviengg.ac.in</a></p>
-                  </div>
-                  <p className="text-gray-700 leading-relaxed">
-                    Department of Electrical & Electronics Engineering was established in 1981 with an intake of 40 seats. Later the intake was increased to 60 seats. From 2008-09 onwards the intake was increased to 120 seats. From 2021-22 onwards the intake was increased to 180 seats.
-                  </p>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <div className="space-y-8">
+              {/* Desktop Navigation Tabs */}
+              <div className="hidden md:block relative mb-8">
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {sections.map((section) => (
+                    <button
+                      key={section}
+                      onClick={() => setActiveDeptTab(section)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${activeDeptTab === section
+                        ? 'bg-[#B22222] text-white shadow-lg'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                    >
+                      {section === 'SalientFeatures' ? 'Salient Features' : section}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {/* Department Profile Tab Navigation */}
-              <div className="mt-12">
-                <h3 className="text-2xl font-bold text-[#B22222] mb-6">Department Profile</h3>
-
-                {/* Department Profile Navigation - Single Row for Desktop, Grid for Mobile */}
-                <div className="mb-8">
-                  {/* Desktop View - Single Row (hidden on mobile) */}
-                  <div className="hidden lg:flex justify-center gap-3 mb-4 flex-wrap">
-                    <button
-                      onClick={() => setActiveDeptTab('Department')}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Department'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Department
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('Vision')}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Vision'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Vision
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('Mission')}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'Mission'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Mission
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('PEOs')}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'PEOs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      PEOs
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('POs')}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'POs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      POs
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('PSOs')}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'PSOs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      PSOs
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('COs')}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'COs'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      COs
-                    </button>
-                    <button
-                      onClick={() => setActiveDeptTab('SalientFeatures')}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${activeDeptTab === 'SalientFeatures'
-                        ? 'bg-[#B22222] text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                    >
-                      Salient Features
-                    </button>
-                  </div>
-
-                  {/* Mobile View - Grid Layout (hidden on desktop) */}
-                  <div className="lg:hidden">
-                    {/* Row 1: Department, Vision */}
-                    <div className="flex justify-center gap-4 mb-4">
-                      <button
-                        onClick={() => setActiveDeptTab('Department')}
-                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Department'
-                          ? 'bg-[#B22222] text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        Department
-                      </button>
-                      <button
-                        onClick={() => setActiveDeptTab('Vision')}
-                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Vision'
-                          ? 'bg-[#B22222] text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        Vision
-                      </button>
-                    </div>
-
-                    {/* Row 2: Mission, PEOs, POs */}
-                    <div className="flex justify-center gap-4 mb-4">
-                      <button
-                        onClick={() => setActiveDeptTab('Mission')}
-                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'Mission'
-                          ? 'bg-[#B22222] text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        Mission
-                      </button>
-                      <button
-                        onClick={() => setActiveDeptTab('PEOs')}
-                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PEOs'
-                          ? 'bg-[#B22222] text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        PEOs
-                      </button>
-                      <button
-                        onClick={() => setActiveDeptTab('POs')}
-                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'POs'
-                          ? 'bg-[#B22222] text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        POs
-                      </button>
-                    </div>
-
-                    {/* Row 3: PSOs, COs */}
-                    <div className="flex justify-center gap-4 mb-4">
-                      <button
-                        onClick={() => setActiveDeptTab('PSOs')}
-                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'PSOs'
-                          ? 'bg-[#B22222] text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        PSOs
-                      </button>
-                      <button
-                        onClick={() => setActiveDeptTab('COs')}
-                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'COs'
-                          ? 'bg-[#B22222] text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        COs
-                      </button>
-                    </div>
-
-                    {/* Row 4: Salient Features (centered) */}
-                    <div className="flex justify-center">
-                      <button
-                        onClick={() => setActiveDeptTab('SalientFeatures')}
-                        className={`px-6 py-3 rounded-lg font-medium transition-colors duration-200 ${activeDeptTab === 'SalientFeatures'
-                          ? 'bg-[#B22222] text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        Salient Features
-                      </button>
-                    </div>
-                  </div>
+              {/* Mobile Section Display */}
+              <div className="md:hidden relative mb-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    Current Section: <span className="text-[#B22222]">{activeDeptTab === 'SalientFeatures' ? 'Salient Features' : activeDeptTab}</span>
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-2">Use the floating settings button to navigate between sections</p>
                 </div>
+              </div>
 
-                {/* Game-Style Right Side Settings Panel */}
-                {settingsPanelOpen && (
-                  <div className="fixed inset-0 z-50">
-                    {/* Backdrop */}
-                    <div
-                      className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
-                      onClick={() => setSettingsPanelOpen(false)}
-                    ></div>
+              {/* Department Overview (Dynamic) */}
+              {activeDeptTab === 'Department' && (
+                !overview ? (
+                  <div className="text-center text-gray-600">Loading...</div>
+                ) : (
+                  <div className="flex flex-col md:flex-row items-center gap-8 mb-8 animate-fade-in">
+                    <div className="md:w-1/3">
+                      <img
+                        src={overview.hod_image_url}
+                        alt={overview.hod_name}
+                        className="w-full h-auto object-cover rounded-lg shadow-md"
+                      />
+                    </div>
+                    <div className="md:w-2/3">
+                      <h3 className="text-xl font-bold text-[#B22222] mb-2">{overview.hod_name}</h3>
+                      <p className="text-gray-700 mb-2">{overview.hod_qualification}</p>
+                      <p className="text-gray-700 mb-2">
+                        <a href={`mailto:${overview.hod_email}`} className="text-[#B22222] hover:underline">{overview.hod_email}</a>
+                      </p>
+                      <p className="text-gray-700 text-lg text-justify">{overview.description}</p>
+                    </div>
+                  </div>
+                )
+              )}
 
-                    {/* Settings Panel */}
-                    <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
-                      {/* Panel Header */}
-                      <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                              </svg>
-                            </div>
-                            <div>
-                              <h3 className="text-white font-bold text-lg">Department Navigation</h3>
-                              <p className="text-white/70 text-sm">Select a section to explore</p>
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => setSettingsPanelOpen(false)}
-                            className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
-                          >
+              {/* Game-Style Right Side Settings Panel */}
+              {settingsPanelOpen && (
+                <div className="fixed inset-0 z-50">
+                  {/* Backdrop */}
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"
+                    onClick={() => setSettingsPanelOpen(false)}
+                  ></div>
+                  {/* Settings Panel */}
+                  <div className="fixed right-0 top-0 h-full w-full sm:w-80 md:w-96 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 shadow-2xl transform transition-transform duration-500 ease-out">
+                    {/* Panel Header */}
+                    <div className="bg-gradient-to-r from-[#B22222] to-[#B22222] p-4 border-b border-gray-700">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
                             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Panel Content */}
-                      <div className="p-6 h-full overflow-y-auto">
-                        <div className="space-y-3">
-                          {sections.map((section, index) => {
-                            const isActive = section === activeDeptTab;
-                            return (
-                              <button
-                                key={section}
-                                onClick={() => {
-                                  setActiveDeptTab(section);
-                                  setSettingsPanelOpen(false);
-                                }}
-                                className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
-                                  ? 'bg-gradient-to-r from-[#B22222] to-[#B22222] text-white shadow-lg scale-105'
-                                  : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white'
-                                  }`}
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${isActive ? 'bg-white/20' : 'bg-gray-600'
-                                    }`}>
-                                    {index + 1}
-                                  </div>
-                                  <div>
-                                    <div className="font-semibold">
-                                      {section === 'SalientFeatures' ? 'Salient Features' : section}
-                                    </div>
-                                    <div className={`text-xs ${isActive ? 'text-white/70' : 'text-gray-400'}`}>
-                                      {section === 'Department' && 'Overview & HOD Profile'}
-                                      {section === 'Vision' && 'Department Vision Statement'}
-                                      {section === 'Mission' && 'Department Mission Statement'}
-                                      {section === 'PEOs' && 'Program Educational Objectives'}
-                                      {section === 'POs' && 'Program Outcomes'}
-                                      {section === 'PSOs' && 'Program Specific Outcomes'}
-                                      {section === 'COs' && 'Course Outcomes'}
-                                      {section === 'SalientFeatures' && 'Key Highlights & Features'}
-                                    </div>
-                                  </div>
-                                  {isActive && (
-                                    <div className="ml-auto">
-                                      <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                                    </div>
-                                  )}
-                                </div>
-                              </button>
-                            );
-                          })}
-                        </div>
-
-                        {/* Panel Footer */}
-                        <div className="mt-8 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
-                          <div className="text-center">
-                            <div className="text-white/70 text-sm mb-2">Quick Navigation</div>
-                            <div className="text-white/50 text-xs">
-                              Click any section above to navigate instantly
-                            </div>
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold text-lg">Department Navigation</h3>
+                            <p className="text-white/70 text-sm">Select a section to explore</p>
                           </div>
                         </div>
+                        <button
+                          onClick={() => setSettingsPanelOpen(false)}
+                          className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors"
+                        >
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    {/* Panel Content */}
+                    <div className="p-6 h-full overflow-y-auto">
+                      <div className="space-y-3">
+                        {sections.map((section, index) => {
+                          const isActive = section === activeDeptTab;
+                          return (
+                            <button
+                              key={section}
+                              onClick={() => {
+                                setActiveDeptTab(section);
+                                setSettingsPanelOpen(false);
+                              }}
+                              className={`w-full p-4 rounded-xl transition-all duration-300 ${isActive
+                                ? 'bg-gradient-to-r from-[#B22222] to-[#8B0000] text-white shadow-lg shadow-[#B22222]/50'
+                                : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
+                                }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isActive ? 'bg-white/20' : 'bg-gray-700/50'
+                                  }`}>
+                                  <span className="text-lg font-bold">{index + 1}</span>
+                                </div>
+                                <div className="flex-1 text-left">
+                                  <div className="font-semibold">{section === 'SalientFeatures' ? 'Salient Features' : section}</div>
+                                  {isActive && <div className="text-xs text-white/70 mt-1">Currently viewing</div>}
+                                </div>
+                                {isActive && (
+                                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                )}
+                              </div>
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
-                )}
-
-                <div className="mt-4">
-                  {renderDeptTabContent()}
                 </div>
+              )}
+
+              {/* Floating Settings Button (Mobile Only) */}
+              <button
+                onClick={() => setSettingsPanelOpen(true)}
+                className="md:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-r from-[#B22222] to-[#8B0000] rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-300"
+                aria-label="Open Department Navigation"
+              >
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+
+              {/* Tab Content */}
+              <div className="mt-8">
+                {renderDeptTabContent()}
               </div>
             </div>
           </div>
         );
 
       case 'Handbooks':
+        // Group handbooks by academic year
+        const handbookYears = Array.from(new Set(techHandbooks.map((item: any) => item.academic_year || 'Other')))
+          .sort((a, b) => (b as string).localeCompare(a as string));
+        
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center mt-5 pt-3">Academic HandBooks</h2>
-            <div className="space-y-6">
-              {/* Academic year 2023-24: I-Sem HandBooks */}
-              <details open className="border rounded-lg p-4">
-                <summary className="font-semibold text-lg cursor-pointer">Academic year 2023-24: I-Sem HandBooks</summary>
-                <ul className="py-2 pl-0 list-none">
-                  <li>V-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20Handbook_V20%20Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>VII-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20Handbook_V20%20Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                </ul>
-              </details>
-              {/* Academic year 2022-23: II-Sem Handbooks */}
-              <details className="border rounded-lg p-4">
-                <summary className="font-semibold text-lg cursor-pointer">Academic year 2022-23: II-Sem Handbooks</summary>
-                <ul className="py-2 pl-0 list-none">
-                  <li>IV-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV%20Sem%20V20%20Regulation%20Handbook_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>VI-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VI%20Sem%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>VIII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VIII%20Sem%20%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                </ul>
-              </details>
-              {/* Academic year 2022-23: I-Sem Handbooks */}
-              <details className="border rounded-lg p-4">
-                <summary className="font-semibold text-lg cursor-pointer">Academic year 2022-23: I-Sem Handbooks</summary>
-                <ul className="py-2 pl-0 list-none">
-                  <li>III-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/III%20SEM%20V20%20Regulation%20Handbook%20(CSE).pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>V-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20%20V20%20Regulation%20Handbook%2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>VII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook%2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                </ul>
-              </details>
-              {/* Academic year 2021-22: II-Sem Handbooks */}
-              <details className="border rounded-lg p-4">
-                <summary className="font-semibold text-lg cursor-pointer">Academic year 2021-22: II-Sem Handbooks</summary>
-                <ul className="py-2 pl-0 list-none">
-                  <li>IV-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV%20Semester%20Handbook%20_V20%20Regulation.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>VI-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VI%20Semester%20Handbook_22.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>VIII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VIII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                </ul>
-              </details>
-              {/* Academic year 2021-22: I-Sem Handbooks */}
-              <details className="border rounded-lg p-4">
-                <summary className="font-semibold text-lg cursor-pointer">Academic year 2021-22: I-Sem Handbooks</summary>
-                <ul className="py-2 pl-0 list-none">
-                  <li>III-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/III%20SEM%20CSE%20&%20CST%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>V-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20&%20CST%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>VII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                </ul>
-              </details>
-              {/* Academic year 2020-21: II-Sem Handbooks */}
-              <details className="border rounded-lg p-4">
-                <summary className="font-semibold text-lg cursor-pointer">Academic year 2020-21: II-Sem Handbooks</summary>
-                <ul className="py-2 pl-0 list-none">
-                  <li>IV-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Semester%20V18(Autonomous).pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>VI-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20VI%20Semester%20V18(Autonomous).pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>IV-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/B.Tech(CSE)%20IV%20Yr.%20II%20Semester%20R16%20Regulation.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                </ul>
-              </details>
-              {/* Academic year 2020-21: I-Sem Handbooks */}
-              <details className="border rounded-lg p-4">
-                <summary className="font-semibold text-lg cursor-pointer">Academic year 2020-21: I-Sem Handbooks</summary>
-                <ul className="py-2 pl-0 list-none">
-                  <li>III-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_III_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>V-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_V_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>IV-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/CSE_IVYr_I_SEM_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                </ul>
-              </details>
-              {/* Academic year 2019-20: II-Sem Handbooks */}
-              <details className="border rounded-lg p-4">
-                <summary className="font-semibold text-lg cursor-pointer">Academic year 2019-20: II-Sem Handbooks</summary>
-                <ul className="py-2 pl-0 list-none">
-                  <li>IV-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/II-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>III-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/III-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>IV-Year II-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV-II_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                </ul>
-              </details>
-              {/* Academic year 2019-20: I-Sem Handbooks */}
-              <details className="border rounded-lg p-4">
-                <summary className="font-semibold text-lg cursor-pointer">Academic year 2019-20: I-Sem Handbooks</summary>
-                <ul className="py-2 pl-0 list-none">
-                  <li>III-Sem V18(Autonomous) Handbook - <a href="https://srivasaviengg.ac.in/uploads/II-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>III-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/III-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                  <li>IV-Year I-Sem R16 Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV-I_Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a></li>
-                </ul>
-              </details>
-            </div>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Academic HandBooks</h2>
+            
+            {techHandbooksLoading ? (
+              <div className="text-center py-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B22222] mx-auto"></div>
+                <p className="text-gray-500 mt-4">Loading handbooks...</p>
+              </div>
+            ) : techHandbooks.length > 0 ? (
+              <div className="space-y-6">
+                {handbookYears.map((year, yearIndex) => {
+                  const yearHandbooks = techHandbooks.filter((item: any) => item.academic_year === year);
+                  const semesters = Array.from(new Set(yearHandbooks.map((item: any) => item.semester || 'Other')))
+                    .sort((a, b) => {
+                      const aSem = parseInt(a as string) || 0;
+                      const bSem = parseInt(b as string) || 0;
+                      return aSem - bSem;
+                    });
+                  
+                  return semesters.map((semester, semIndex) => {
+                    const semesterHandbooks = yearHandbooks.filter((item: any) => item.semester === semester);
+                    const isOpen = yearIndex === 0 && semIndex === 0;
+                    
+                    return (
+                      <details key={`${year}-${semester}`} className="cst-dropdown" open={isOpen}>
+                        <summary>Academic year {year}: {semester === 'I' || semester === '1' ? 'I-Sem' : 'II-Sem'} HandBooks</summary>
+                        <div className="cst-dropdown-content">
+                          <ul className="space-y-2 list-none">
+                            {semesterHandbooks.map((item: any, idx: number) => (
+                              <li key={item.id || idx}>
+                                {item.title} - {item.regulation ? `${item.regulation} Regulation` : ''} {item.file_url ? (
+                                  <a
+                                    href={item.file_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline transition-colors"
+                                  >
+                                    View
+                                  </a>
+                                ) : (
+                                  <span className="text-gray-400">No file available</span>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </details>
+                    );
+                  });
+                })}
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <details className="cst-dropdown" open>
+                  <summary>Academic year 2023-24: I-Sem HandBooks</summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="space-y-2 list-none">
+                      <li>V-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20Handbook_V20%20Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline transition-colors">View</a></li>
+                      <li>VII-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20Handbook_V20%20Regulation_2023-24.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline transition-colors">View</a></li>
+                    </ul>
+                  </div>
+                </details>
+                <details className="cst-dropdown">
+                  <summary>Academic year 2022-23: II-Sem Handbooks</summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="space-y-2 list-none">
+                      <li>IV-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/IV%20Sem%20V20%20Regulation%20Handbook_CSE.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline transition-colors">View</a></li>
+                      <li>VI-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VI%20Sem%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline transition-colors">View</a></li>
+                      <li>VIII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VIII%20Sem%20%20V20%20Regulation%20Handbook.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline transition-colors">View</a></li>
+                    </ul>
+                  </div>
+                </details>
+                <details className="cst-dropdown">
+                  <summary>Academic year 2022-23: I-Sem Handbooks</summary>
+                  <div className="cst-dropdown-content">
+                    <ul className="space-y-2 list-none">
+                      <li>III-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/III%20SEM%20V20%20Regulation%20HANDBOOK%20(CSE).pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline transition-colors">View</a></li>
+                      <li>V-Sem V20 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/V%20SEM%20CSE%20%20V20%20Regulation%20Handbook%2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline transition-colors">View</a></li>
+                      <li>VII-Sem V18 Regulation Handbook - <a href="https://srivasaviengg.ac.in/uploads/VII%20SEM%20CSE%20V18%20Regulation%20Handbook%2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline transition-colors">View</a></li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            )}
           </div>
         );
       // The rest of the cases are already present below as part of the switch statement.
 
       case 'Faculty Profiles':
-        if (loading) {
-          return (
-            <div className="space-y-8">
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Loading Faculty Data...</h2>
-                <div className="flex justify-center items-center py-8">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B22222]"></div>
-                </div>
-              </div>
-            </div>
-          );
-        }
-
-        if (error) {
-          return (
-            <div className="space-y-8">
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                  <p className="text-red-700 text-center">{error}</p>
-                  <div className="text-center mt-4">
-                    <button 
-                      onClick={() => router.refresh()} 
-                      className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#B22222] transition-colors"
-                    >
-                      Retry
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        }
-
         return (
-          <div className="space-y-8">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Teaching Faculty</h2>
-              {faculty.length === 0 ? (
-                <div className="text-center py-8">
-                  <p className="text-gray-500">No faculty data available.</p>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Teaching Faculty</summary>
+                <div className="cst-dropdown-content">
+                  {loading ? (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">Loading teaching faculty...</div>
+                    </div>
+                  ) : faculty && faculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Qualification</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Profile</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {faculty.map((member, index) => (
+                            <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.qualification || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                              <td className="px-6 py-4">
+                                {member.profile_url ? (
+                                  <a
+                                    href={member.profile_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-3 py-1 bg-[#B22222] text-white rounded hover:bg-[#A01E1E] transition-colors duration-200 text-sm font-medium inline-block"
+                                  >
+                                    View Profile
+                                  </a>
+                                ) : (
+                                  <span className="text-gray-400 text-sm">No Profile</span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">No teaching faculty data available.</div>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3">S.No.</th>
-                        <th scope="col" className="px-6 py-3">Name</th>
-                        <th scope="col" className="px-6 py-3">Qualification</th>
-                        <th scope="col" className="px-6 py-3">Designation</th>
-                        <th scope="col" className="px-6 py-3">Profile</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {faculty.map((member, index) => (
-                        <tr key={member.id || index} className="bg-white border-b hover:bg-gray-50">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.qualification}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                          <td className="px-6 py-4">
-                            {member.profile_url ? (
-                              <a href={member.profile_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                View
-                              </a>
-                            ) : (
-                              <span className="text-gray-400">N/A</span>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              </details>
+
+              <details className="cst-dropdown">
+                <summary>Non-Teaching Staff</summary>
+                <div className="cst-dropdown-content">
+                  {loading ? (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">Loading non-teaching staff...</div>
+                    </div>
+                  ) : nonTeachingFaculty && nonTeachingFaculty.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm text-left text-gray-500 border border-gray-200 rounded-lg">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                          <tr>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">S.No.</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Name</th>
+                            <th scope="col" className="px-6 py-3 border-b border-gray-200">Designation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {nonTeachingFaculty.map((member, index) => (
+                            <tr key={member.id || index} className="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                              <td className="px-6 py-4">{index + 1}</td>
+                              <td className="px-6 py-4 font-medium text-gray-900">{member.name || 'N/A'}</td>
+                              <td className="px-6 py-4">{member.designation || 'N/A'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500">No non-teaching staff data available.</div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Non-Teaching Staff</h2>
-              {nonTeachingFaculty.length === 0 ? (
-                <div className="text-center py-8">
-                  <p className="text-gray-500">No non-teaching staff data available.</p>
-                </div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3">S.No.</th>
-                        <th scope="col" className="px-6 py-3">Name</th>
-                        <th scope="col" className="px-6 py-3">Designation</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {nonTeachingFaculty.map((member, index) => (
-                        <tr key={member.id || index} className="bg-white border-b hover:bg-gray-50">
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{member.name}</td>
-                          <td className="px-6 py-4">{member.designation}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+              </details>
+
+              
             </div>
           </div>
         );
-      case 'Board of Studies':
-        if (loading) {
-          return (
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Loading Board of Studies...</h2>
-              <div className="flex justify-center items-center py-8">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B22222]"></div>
+     case 'Board of Studies': {
+  return (
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+      <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
+      <div className="space-y-6">
+        <details open className="cst-dropdown">
+          <summary>Board of Studies Members</summary>
+          <div className="cst-dropdown-content">
+            {loading ? (
+              <div className="text-center py-8">
+                <div className="text-gray-500">Loading board of studies members...</div>
               </div>
-            </div>
-          );
-        }
-
-        if (error) {
-          return (
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-red-700 text-center">{error}</p>
-                <div className="text-center mt-4">
-                  <button 
-                    onClick={() => router.refresh()} 
-                    className="px-4 py-2 bg-[#B22222] text-white rounded hover:bg-[#6B0000] transition-colors"
-                  >
-                    Retry
-                  </button>
-                </div>
-              </div>
-            </div>
-          );
-        }
-
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Board of Studies</h2>
-            
-            {/* Board of Studies Members Table */}
-            <div className="flex justify-center items-center mb-8">
-              <div className="overflow-x-auto w-full">
-                {boardOfStudiesMembers.length === 0 ? (
-                  <div className="text-center py-8">
-                    <p className="text-gray-500">No Board of Studies members data available.</p>
-                  </div>
-                ) : (
-                  <table className="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="px-4 py-2 border">S.No</th>
-                        <th className="px-4 py-2 border">Name of the BOS Member</th>
-                        <th className="px-4 py-2 border">Designation</th>
-                        <th className="px-4 py-2 border">Organization</th>
-                        <th className="px-4 py-2 border">Position in BOS</th>
+            ) : boardOfStudiesMembers && boardOfStudiesMembers.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="py-3 px-4 border-b border-gray-200 text-left">S.No</th>
+                      <th className="py-3 px-4 border-b border-gray-200 text-left">Name of the BOS Member</th>
+                      <th className="py-3 px-4 border-b border-gray-200 text-left">Designation</th>
+                      <th className="py-3 px-4 border-b border-gray-200 text-left">Organization</th>
+                      <th className="py-3 px-4 border-b border-gray-200 text-left">Position in JOB</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {boardOfStudiesMembers.map((member, idx) => (
+                      <tr key={member.id} className="hover:bg-gray-50">
+                        <td className="py-3 px-4 border-b border-gray-200">{idx + 1}</td>
+                        <td className="py-3 px-4 border-b border-gray-200">{member.name}</td>
+                        <td className="py-3 px-4 border-b border-gray-200">{member.designation || ''}</td>
+                        <td className="py-3 px-4 border-b border-gray-200">{member.organization || ''}</td>
+                        <td className="py-3 px-4 border-b border-gray-200">{member.position_in_job}</td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {boardOfStudiesMembers.map((member, index) => (
-                        <tr key={member.id} className="hover:bg-gray-50">
-                          <td className="px-4 py-2 border">{index + 1}</td>
-                          <td className="px-4 py-2 border">{member.member_name}</td>
-                          <td className="px-4 py-2 border">{member.designation}</td>
-                          <td className="px-4 py-2 border">{member.organization}</td>
-                          <td className="px-4 py-2 border">{member.role}</td>
-                        </tr>
-                      ))}
-                      <tr>
-                        <td className="px-4 py-2 border font-semibold text-center" colSpan={5}>
-                          All the Faculty Members in the EEE Dept. are Members in BOS
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                )}
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </div>
-
-            {/* Meeting Minutes Section */}
-            <div className="mt-8 flex flex-col items-center">
-              <h4 className="text-2xl font-semibold text-[#B22222] mb-4">Board of Studies Meeting Minutes:</h4>
-              {boardOfStudiesMeetingMinutes.length === 0 ? (
-                <div className="text-center py-4">
-                  <p className="text-gray-500">No meeting minutes available.</p>
-                </div>
-              ) : (
-                <ul className="list-disc pl-6 space-y-2">
-                  {boardOfStudiesMeetingMinutes.map((minute: BoardOfStudiesMeetingMinute) => (
-                    <li key={minute.id}>
-                      {minute.meeting_title} ({minute.academic_year}) - 
-                      <a 
-                        href={minute.document_url} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="text-blue-600 hover:underline ml-1"
-                      >
-                        View
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            ) : (
+              <div className="text-center py-8">
+                <div className="text-gray-500">No board of studies members data available.</div>
+              </div>
+            )}
           </div>
-        );
-      case 'Labaratories':
+        </details>
+
+        <details className="cst-dropdown">
+          <summary>Board of Studies Meeting Minutes</summary>
+          <div className="cst-dropdown-content">
+            {loading ? (
+              <div className="text-center py-8">
+                <div className="text-gray-500">Loading board of studies meeting minutes...</div>
+              </div>
+            ) : boardOfStudiesMeetingMinutes && boardOfStudiesMeetingMinutes.length > 0 ? (
+              <div className="space-y-3">
+                {boardOfStudiesMeetingMinutes.map((minute: any) => {
+                  // Remove time portion if present (e.g., '2025-11-12T18:30:00.000Z' => '2025-11-12')
+                  const dateOnly = minute.meeting_date?.split('T')[0] || minute.meeting_date;
+                  return (
+                    <div key={minute.id} className="flex items-center justify-center p-4 bg-gray-50 rounded-lg border">
+                      <span className="text-gray-700">
+                        Minutes of {minute.meeting_no} meeting of the Board of Studies, dated {dateOnly}
+                      </span>
+                      
+                      {minute.file_url && minute.file_url.trim() !== '' ? (
+                        <a
+                          href={minute.file_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#B22222] hover:underline hover:bg-gray-100 ml-4 px-3 py-1 rounded cursor-pointer bg-transparent border border-[#B22222] font-medium focus:outline-none transition-colors duration-200"
+                        >
+                          View
+                        </a>
+                      ) : (
+                        <span className="text-gray-400 ml-4">No file available</span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <div className="text-gray-500">No board of studies meeting minutes available.</div>
+              </div>
+            )}
+          </div>
+        </details>
+      </div>
+    </div>
+  );
+}
+
+      case 'Laboratories':
+        // Use gallery images if available, otherwise use fallback hardcoded labs
+        const labs = laboratoryGallery.length > 0 
+          ? laboratoryGallery.map((item: any) => ({
+              id: item.id,
+              name: item.title || 'Laboratory',
+              img: item.gallery
+            }))
+          : [
+              { name: "Computer Programming Lab", img: "https://srivasaviengg.ac.in/images/departments/eee/eee_CPLAB.jpg" },
+              { name: "Control Systems Lab", img: "https://srivasaviengg.ac.in/images/departments/eee/eee_CS_LAB.jpg" },
+              { name: "EMS Lab", img: "https://srivasaviengg.ac.in/images/departments/eee/eee_EMS_LAB.jpg" },
+              { name: "ET & NT Lab", img: "https://srivasaviengg.ac.in/images/departments/eee/eee_ETNT_LAB.jpg" },
+              { name: "EM Lab1", img: "https://srivasaviengg.ac.in/images/departments/eee/eee_EM1.jpg" },
+              { name: "EM Lab2", img: "https://srivasaviengg.ac.in/images/departments/eee/eee_EM2.jpg" },
+              { name: "Power Electronics Lab", img: "https://srivasaviengg.ac.in/images/departments/eee/eee_PELAB.jpg" },
+              { name: "R & D Lab", img: "https://srivasaviengg.ac.in/images/departments/eee/eee_RD.jpg" },
+            ];
+
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Laboratories</h2>
-            <div className="text-lg text-gray-700 mb-6">
-              <p className="mb-4">
+
+            <div className="mb-8 text-gray-700 leading-relaxed space-y-4">
+              <p>
                 Each lab is established with modern facilities. Each lab is equipped with demo experiments along with the university prescribed experiments. The motors and instruments etc., are opened and exhibited on tables in the laboratories for clear understanding of the students. In Electrical Measurements Lab, Power Electronics Lab and the Networks Lab each student operates on only one set-up independently. In the Power Electronics Lab and Networks Lab each set-up is customized and equipped with an oscilloscope, Ac and regulated Dc power supplies, digital panel meters and bread boards.
               </p>
-              <p className="mb-4">
+              <p className="font-medium text-lg text-[#B22222]">
                 The following Laboratories are available in the department:
               </p>
             </div>
-            <div className="flex flex-wrap justify-center gap-8">
-              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_CPLAB.jpg" alt="Computer Programming Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">Computer Programming Lab</h5>
+
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="text-gray-500">Loading laboratories...</div>
               </div>
-              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_CS_LAB.jpg" alt="Control Systems Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">Control Systems Lab</h5>
+            ) : labs && labs.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {labs.map((lab: any, index: number) => (
+                  <div key={lab.id || index} className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+                    <div className="relative h-56 overflow-hidden">
+                      <img
+                        src={lab.img}
+                        alt={lab.name}
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300"></div>
+                    </div>
+                    <div className="p-4 text-center bg-gray-50 group-hover:bg-white transition-colors duration-300">
+                      <h3 className="text-lg font-bold text-gray-800 group-hover:text-[#B22222] transition-colors">
+                        {lab.name}
+                      </h3>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EMS_LAB.jpg" alt="EMS Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">EMS Lab</h5>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-gray-500">No laboratories data available.</div>
               </div>
-              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_ETNT_LAB.jpg" alt="ET & NT Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">ET &amp; NT Lab</h5>
-              </div>
-              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EM1.jpg" alt="EM Lab1" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">EM Lab1</h5>
-              </div>
-              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_EM2.jpg" alt="EM Lab2" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">EM Lab2</h5>
-              </div>
-              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_PELAB.jpg" alt="Power Electronics Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">Power Electronics Lab</h5>
-              </div>
-              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_RD.jpg" alt="R & D Lab" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                <h5 className="text-center my-3 text-green-700 text-lg font-semibold">R &amp; D Lab</h5>
-              </div>
-            </div>
+            )}
           </div>
         );
 
@@ -969,646 +1111,138 @@ const EEEDepartment: React.FC = () => {
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Department Library</h2>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
-              <div className="md:w-1/2 flex justify-center">
-                <img src="https://srivasaviengg.ac.in/image/eee%20images/library3.jpg" alt="Faculty Incharge" className="rounded-lg shadow-md w-full max-w-md object-cover mb-4 md:mb-0" />
-              </div>
-              <div className="md:w-1/2 text-lg text-gray-700">
-                <p>
-                  Department Library offers a variety of books related to Electrical Engineering subjects. Reference books of various subjects are procured. Various Competitive Books are available to satisfy the thirst of the students. Books are issued to students and staff. Students can access the Library facility according to their convenience any time round-the-clock.
-                </p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
-                <h5 className="text-xl font-semibold text-center text-[#B22222] mb-2">No. of Titles</h5>
-                <p className="text-2xl text-red-600 font-bold text-center">484</p>
-              </div>
-              <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
-                <h5 className="text-xl font-semibold text-center text-green-700 mb-2">No. of Volumes</h5>
-                <p className="text-2xl text-green-600 font-bold text-center">1536</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap justify-center gap-8 mb-8">
-              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="/images/departments/eee/eee_lib1.jpg" alt="Library 1" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-              </div>
-              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="/images/departments/eee/eee_lib2.jpg" alt="Library 2" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-              </div>
-              <div className="flex flex-col items-center w-full sm:w-80 md:w-96">
-                <img src="/images/departments/eee/eee_lib3.jpg" alt="Library 3" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-              </div>
-            </div>
-            <div className="flex flex-col items-center text-lg text-gray-700">
-              <p className="font-semibold">Faculty Incharge</p>
-              <p>M T V L Ravi Kumar, Asst. Professor</p>
-              <p>Phone: 7893896567</p>
-              <p>
-                E-mail: <a href="mailto:ravi.mada@srivasaviengg.ac.in" className="text-blue-600 hover:underline">ravi.mada@srivasaviengg.ac.in</a>
-              </p>
-            </div>
-          </div>
-        );
-
-      case 'Faculty Achievements':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Achievements</h2>
-            <div className="mb-8">
-              <h4 className="text-2xl font-semibold text-[#B22222] mb-4">FDPs Attended</h4>
-              <ul className="space-y-3">
-                <li>
-                  Faculty attended Workshops/FDPs/Seminars during Academic Year 2022-2023 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/A.Y.%202022-2023.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-                <li>
-                  Faculty attended Workshops/FDPs/Seminars during Academic Year 2021-2022 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/A.Y.%202021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-                <li>
-                  Faculty attended Workshops/FDPs/Seminars during Academic Year 2020-2021 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/A.Y.%202020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-                <li>
-                  Faculty attended Workshops/FDPs/Seminars during Academic Year 2019-2020 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/A.Y.%202019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-                <li>
-                  Faculty attended Workshops/FDPs/Seminars during Academic Year 2018-2019 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/A.Y.%202018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-              </ul>
-            </div>
-            <div className="mb-8">
-              <h4 className="text-2xl font-semibold text-[#B22222] mb-4">FDPs conducted</h4>
-              <ul className="space-y-3">
-                <li>
-                  Patents Published by Faculty during the Academic Year 2021-2022 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/Book%20Chapters%20&%20Patents.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-2xl font-semibold text-[#B22222] mb-4">NPTEL</h4>
-              <ul className="space-y-3">
-                <li>
-                  Faculty NPTEL Certifications 2021-2022 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/Faculty%20NPTEL%20Certifications%202021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-                <li>
-                  Faculty NPTEL Certifications 2020-2021 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/Faculty%20NPTEL%20Certifications%202020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-                <li>
-                  Faculty NPTEL Certifications 2019-2020 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/Faculty%20NPTEL%20Certifications%202019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-                <li>
-                  Faculty NPTEL Certifications 2018-2019 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_fdps_workshops_guestlecturers/Faculty%20NPTEL%20Certifications%202018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        );
-      case 'Research Center':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Research Center</h2>
             
-            {loading && <div className="text-center">Loading research centers...</div>}
-            {error && <div className="text-center text-red-600">Error loading research centers: {error}</div>}
-            
-            {!loading && !error && (
-              <div className="space-y-6">
-                {researchCenters.length > 0 ? (
-                  researchCenters.map((center: any) => (
-                    <div key={center.id} className="border rounded-lg p-6 bg-gray-50">
-                      <h3 className="text-xl font-semibold text-[#B22222] mb-3">{center.name}</h3>
-                      <p className="text-gray-700 mb-3">{center.description}</p>
-                      <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-                        <span><strong>Focus Area:</strong> {center.focus_area}</span>
-                        <span><strong>Established:</strong> {center.established_year}</span>
-                        <span><strong>Head:</strong> {center.head_name}</span>
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="text-gray-500">Loading library information...</div>
+              </div>
+            ) : departmentLibrary ? (
+              <>
+                <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
+                  <div className="md:w-1/2 flex justify-center">
+                    {departmentLibrary.image_url ? (
+                      <img 
+                        src={departmentLibrary.image_url} 
+                        alt="Department Library" 
+                        className="w-full h-auto rounded-lg shadow-md object-cover max-h-96" 
+                      />
+                    ) : (
+                      <div className="w-full h-96 bg-gray-200 rounded-lg shadow-md flex items-center justify-center">
+                        <span className="text-gray-500">No image available</span>
                       </div>
-                      {center.research_areas && (
-                        <div className="mt-3">
-                          <strong>Research Areas:</strong> {center.research_areas}
-                        </div>
-                      )}
-                      {center.facilities && (
-                        <div className="mt-3">
-                          <strong>Facilities:</strong> {center.facilities}
-                        </div>
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center text-gray-600">
-                    <p>Research Center information will be updated soon.</p>
-                    <div className="mt-4 text-left max-w-2xl mx-auto">
-                      <h3 className="text-lg font-semibold mb-2">Key Research Areas:</h3>
-                      <ul className="list-disc list-inside space-y-1">
-                        <li>Power Systems and Smart Grid Technologies</li>
-                        <li>Power Electronics and Drive Systems</li>
-                        <li>Renewable Energy Systems</li>
-                        <li>High Voltage Engineering</li>
-                        <li>Control Systems and Automation</li>
-                      </ul>
-                    </div>
+                    )}
                   </div>
-                )}
+                  <div className="md:w-1/2 text-lg text-gray-700">
+                    {departmentLibrary.description ? (
+                      <p>{departmentLibrary.description}</p>
+                    ) : (
+                      <p>
+                        Department Library offers a variety of books related to Electrical Engineering subjects. Reference books of various subjects are procured. Various Competitive Books are available to satisfy the thirst of the students. Books are issued to students and staff. Students can access the Library facility according to their convenience any time round-the-clock.
+                      </p>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                  <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
+                    <h5 className="text-xl font-semibold text-center text-[#B22222] mb-2">No. of Titles</h5>
+                    <p className="text-2xl text-red-600 font-bold text-center">{departmentLibrary.titles || 0}</p>
+                  </div>
+                  <div className="bg-white border rounded-lg shadow p-6 flex flex-col items-center">
+                    <h5 className="text-xl font-semibold text-center text-green-700 mb-2">No. of Volumes</h5>
+                    <p className="text-2xl text-green-600 font-bold text-center">{departmentLibrary.volumes || 0}</p>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col items-center text-lg text-gray-700 border-t pt-6">
+                  <p className="font-semibold">Faculty In-charge</p>
+                  <p>{departmentLibrary.faculty_incharge || 'N/A'}</p>
+                  {departmentLibrary.phone && <p>Phone: {departmentLibrary.phone}</p>}
+                  {departmentLibrary.email && (
+                    <p>
+                      E-mail: <a href={`mailto:${departmentLibrary.email}`} className="text-blue-600 hover:underline">{departmentLibrary.email}</a>
+                    </p>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-gray-500">No library information available.</div>
               </div>
             )}
           </div>
         );
+
+      case 'Faculty Achievements': {
+        // Group achievements by category from database
+        const categories = Array.from(new Set(facultyAchievementsData.map((a: any) => a.category)));
+        const grouped = categories.map(cat => ({
+          category: cat,
+          items: facultyAchievementsData.filter((a: any) => a.category === cat)
+        }));
+
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Research Center</h2>
-            {/* Research Verticles */}
-            <details open className="mb-6">
-              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Research Verticles</summary>
-              <div className="text-center mt-4">
-                <ul className="space-y-8">
-                  <li>
-                    <div>
-                      <h3 className="text-lg font-bold mb-2">Power Systems</h3>
-                      <ol className="list-decimal list-inside text-left inline-block">
-                        <li>Dr.Ch.Rambabu</li>
-                        <li>Dr.D.Sudha Rani</li>
-                        <li>Dr.E.Naga Venkata Durga Vara Prasad</li>
-                        <li>Mr.U.Chandra Rao</li>
-                        <li>Mr.N.Madhusudhan Reddy</li>
-                        <li>Mr.Durga R Ch Nookesh</li>
-                        <li>Ms.B.Rajitha</li>
-                      </ol>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
+            
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="text-gray-500">Loading faculty achievements...</div>
+              </div>
+            ) : grouped.length > 0 ? (
+              <div className="space-y-6">
+                {grouped.map((group, index) => (
+                  <details key={group.category} open={index === 0} className="cst-dropdown">
+                    <summary>{group.category}</summary>
+                    <div className="cst-dropdown-content">
+                      {group.items.length > 0 ? (
+                        <ul className="list-disc pl-6 my-2 space-y-2">
+                          {group.items.map((item: any, idx: number) => (
+                            <li key={item.id || idx}>
+                              {item.title}
+                              {item.file_url && (
+                                <>
+                                  {' - '}
+                                  <a
+                                    href={item.file_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline"
+                                  >
+                                    View
+                                  </a>
+                                </>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div className="text-gray-600 text-sm mt-2">No entries available in this category.</div>
+                      )}
                     </div>
-                  </li>
-                  <li>
-                    <div>
-                      <h3 className="text-lg font-bold mb-2">Power Electronics</h3>
-                      <ol className="list-decimal list-inside text-left inline-block">
-                        <li>Dr.Anilkumar Chappa</li>
-                        <li>Mr.K.Suresh</li>
-                        <li>Mr.M.T.V.L Ravi Kumar</li>
-                        <li>Mr.V.Rama Narayana</li>
-                        <li>Mr.G.Madhu Sagar Babu</li>
-                        <li>Mr.G.Govardhan</li>
-                        <li>Mr.G.Jaji Sudha</li>
-                        <li>Mr.N.Sankar</li>
-                        <li>Mr.Sk.Moulali</li>
-                        <li>Mr.D.Dhana Prasad</li>
-                      </ol>
-                    </div>
-                  </li>
-                  <li>
-                    <div>
-                      <h3 className="text-lg font-bold mb-2">Power Electronics</h3>
-                      <ol className="list-decimal list-inside text-left inline-block">
-                        <li>Mr.N.Sri Harish</li>
-                        <li>Mr.Ch.V.S.R.Gopala Krishna</li>
-                        <li>Mr.K.Ramesh Babu</li>
-                        <li>Mr.G.Chandra Babu</li>
-                        <li>Mr.A.Uma Siva Naga Prasad</li>
-                        <li>Mr.V.S.Aditya</li>
-                        <li>Mr.S.Krishna</li>
-                      </ol>
-                    </div>
-                  </li>
-                </ul>
+                  </details>
+                ))}
               </div>
-            </details>
-
-            {/* Research Supervisor */}
-            <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Research Supervisor</summary>
-              <div className="overflow-x-auto mt-4">
-                <table className="min-w-full border text-sm text-center">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="border px-2 py-1">S.No.</th>
-                      <th className="border px-2 py-1">Name of the Supervisors Body</th>
-                      <th className="border px-2 py-1">Name of the Scholar</th>
-                      <th className="border px-2 py-1">Status</th>
-                      <th className="border px-2 py-1">Proof</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="border px-2 py-1">1</td>
-                      <td className="border px-2 py-1">Dr. Ch. Rambabu</td>
-                      <td className="border px-2 py-1">K. Rajendra</td>
-                      <td className="border px-2 py-1">On Going</td>
-                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/1_1.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1" rowSpan={5}>2</td>
-                      <td className="border px-2 py-1" rowSpan={5}>Dr. D. Sudha Rani</td>
-                      <td className="border px-2 py-1">Karike Swathi</td>
-                      <td className="border px-2 py-1">On Going</td>
-                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/2_1.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">Loya Preeti Purushottamdas</td>
-                      <td className="border px-2 py-1">On Going</td>
-                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/2_2.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">G. Swathi</td>
-                      <td className="border px-2 py-1">On Going</td>
-                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/2_3.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">Y. Lalitha Kameswari</td>
-                      <td className="border px-2 py-1">Completed</td>
-                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/2_4.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">Vinodita Tadanki</td>
-                      <td className="border px-2 py-1">On Going</td>
-                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/2_5.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">3</td>
-                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
-                      <td className="border px-2 py-1">I. Kranthi Kumar</td>
-                      <td className="border px-2 py-1">On Going</td>
-                      <td className="border px-2 py-1"><a href="https://srivasaviengg.ac.in/uploads/eee/3_1.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">View</a></td>
-                    </tr>
-                  </tbody>
-                </table>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-gray-500">No faculty achievements data available.</div>
               </div>
-            </details>
-
-            {/* Journal Publications */}
-            <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Journal Publications</summary>
-              <div className="text-center mt-4">
-                <ul className="space-y-3">
-                  <li>
-                    Journal Publications Details 2022-2023 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/eee/Journals_2022_23.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
-                  </li>
-                  <li>
-                    Journal Publications Details 2021-2022 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/eee/Journals_2021_22.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
-                  </li>
-                  <li>
-                    Journal Publications Details 2020-2021 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/eee/Journals_2020_21.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
-                  </li>
-                  <li>
-                    Journal Publications Details 2019-2020 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/eee/Journals_2019_20.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
-                  </li>
-                  <li>
-                    Journal Publications Details 2018-2019 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/eee/Journals_2018_19.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">For more Details</a>
-                  </li>
-                </ul>
-              </div>
-            </details>
-
-            {/* Conference Publications */}
-            <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Conference Publications</summary>
-              <div className="overflow-x-auto mt-4">
-                <table className="min-w-full border text-sm text-center">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="border px-2 py-1">S.No.</th>
-                      <th className="border px-2 py-1">Name of the Faculty</th>
-                      <th className="border px-2 py-1">Title of the Paper</th>
-                      <th className="border px-2 py-1">Title of the proceedings of the conference</th>
-                      <th className="border px-2 py-1">ISBN/ISSN number of the proceeding</th>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1 text-center" colSpan={5}>Academic Year 2022-23</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="border px-2 py-1">1</td>
-                      <td className="border px-2 py-1">Mr. N. Sri Harish</td>
-                      <td className="border px-2 py-1">Design and Development of an Integrated Solar PV Based Water Purification and IoT Based Water Quality Monitoring System</td>
-                      <td className="border px-2 py-1">National E-Conference on Data Engineering & Communication Technology (NCDECT) 2023</td>
-                      <td className="border px-2 py-1">978-93-5768-432-3</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">2</td>
-                      <td className="border px-2 py-1">G. Jaji Sudha, Mr. N. Sri Harish</td>
-                      <td className="border px-2 py-1">Three-phase induction motor Protection by relay against various abnormal conditions and monitoring using GSM</td>
-                      <td className="border px-2 py-1">National E-Conference on Data Engineering & Communication Technology (NCDECT) 2023</td>
-                      <td className="border px-2 py-1">978-93-5768-432-3</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">3</td>
-                      <td className="border px-2 py-1">Ch. Srinivas</td>
-                      <td className="border px-2 py-1">A Novel Way To Detect The Islanding Condition Using PSO & Control The Voltage Current Of DG Using A PI Controller</td>
-                      <td className="border px-2 py-1">2nd International Conference on Innovation in Technology (INOCON 2023)</td>
-                      <td className="border px-2 py-1">978-93-5768-432-3</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">4</td>
-                      <td className="border px-2 py-1">Mr. G. Chandra Babu</td>
-                      <td className="border px-2 py-1">A Novel Way To Detect The Islanding Condition Using PSO & Control The Voltage Current Of DG Using A PI Controller</td>
-                      <td className="border px-2 py-1">2nd International Conference on Innovation in Technology (INOCON 2023)</td>
-                      <td className="border px-2 py-1">978-93-5768-432-3</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">5</td>
-                      <td className="border px-2 py-1">Dr. Anilkumar Chappa, Dr. Sudha Rani Donpeudi</td>
-                      <td className="border px-2 py-1">“Asymmetrical Multilevel Inverter Topology”</td>
-                      <td className="border px-2 py-1">10th IEEE International Conference on Power Electronics, Drives and Energy Systems (PEDES 2022)</td>
-                      <td className="border px-2 py-1">978-1-6654-5567-1</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">6</td>
-                      <td className="border px-2 py-1">Mr. Ch. Srinivas</td>
-                      <td className="border px-2 py-1">Minimization of Power Losses in the Distribution System by Controlling Tap Changing Transformer using the PSO Algorithm</td>
-                      <td className="border px-2 py-1">International Conference on Intelligent Data Communication Technologies and Internet of Things (IDCIoT 2023)</td>
-                      <td className="border px-2 py-1">978-1-6654-5567-1</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">7</td>
-                      <td className="border px-2 py-1">Mr. Ch. Srinivas, Mr. N. Madhusudhan Reddy</td>
-                      <td className="border px-2 py-1">Minimization of Frequency Deviations in Multi-Area Power System with SSSC</td>
-                      <td className="border px-2 py-1">International Conference on Intelligent Data Communication Technologies and Internet of Things (IDCIoT 2023)</td>
-                      <td className="border px-2 py-1">978-1-6654-5567-1</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">8</td>
-                      <td className="border px-2 py-1">Mr. K. Suresh</td>
-                      <td className="border px-2 py-1">An Improved Cascaded H-Bridge High Power Factor Converter with Enhanced Power Quality</td>
-                      <td className="border px-2 py-1">10th IEEE International Conference on Power Electronics, Drives and Energy Systems (PEDES 2022)</td>
-                      <td className="border px-2 py-1">978-1-6654-5566-4</td>
-                    </tr>
-                  </tbody>
-                  {/* Additional years and rows omitted for brevity, but should be included in a full implementation */}
-                </table>
-              </div>
-            </details>
-
-            {/* Patents */}
-            <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Patents</summary>
-              <div className="overflow-x-auto mt-4">
-                <table className="min-w-full border text-sm text-center">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="border px-2 py-1">S.No.</th>
-                      <th className="border px-2 py-1">Patent Title</th>
-                      <th className="border px-2 py-1">Name of the Inventor(s)</th>
-                      <th className="border px-2 py-1">Patent No.</th>
-                      <th className="border px-2 py-1">Date of the Publication</th>
-                      <th className="border px-2 py-1">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="border px-2 py-1">1</td>
-                      <td className="border px-2 py-1">Multilevel Inverter(MLI) circuit for DC-AC Power Conversion</td>
-                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
-                      <td className="border px-2 py-1">202241061706</td>
-                      <td className="border px-2 py-1">12/02/2022</td>
-                      <td className="border px-2 py-1">Published</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">2</td>
-                      <td className="border px-2 py-1">An AI Based EV Battery Charging Controller with Enhanced Battery Management</td>
-                      <td className="border px-2 py-1">Mr.N. MadhuSudhan Reddy</td>
-                      <td className="border px-2 py-1">202141050407</td>
-                      <td className="border px-2 py-1">11/3/2021.</td>
-                      <td className="border px-2 py-1">Published</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">3</td>
-                      <td className="border px-2 py-1">Deep Learning Based Fault DetectionElectrical Distribution Network</td>
-                      <td className="border px-2 py-1">Mr.V. Rama Narayana & Mr.G.Madhu Sagar Babu</td>
-                      <td className="border px-2 py-1">202141049829</td>
-                      <td className="border px-2 py-1">12/11/2021</td>
-                      <td className="border px-2 py-1">Published</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">4</td>
-                      <td className="border px-2 py-1">Three-Port Converter for Induction Motor Drive System</td>
-                      <td className="border px-2 py-1">Ch. Srinivas & V. S. Aditya</td>
-                      <td className="border px-2 py-1">202141039042</td>
-                      <td className="border px-2 py-1">28/08/2021</td>
-                      <td className="border px-2 py-1">Published</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </details>
-
-            {/* Book Publications */}
-            <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Book Publications</summary>
-              <div className="overflow-x-auto mt-4">
-                <table className="min-w-full border text-sm text-center">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="border px-2 py-1">S.No.</th>
-                      <th className="border px-2 py-1">Name of the Faculty</th>
-                      <th className="border px-2 py-1">Title of the book published</th>
-                      <th className="border px-2 py-1">Year of publication</th>
-                      <th className="border px-2 py-1">ISBN/ISSN number of the proceeding</th>
-                      <th className="border px-2 py-1">Name of the publisher</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="border px-2 py-1">1</td>
-                      <td className="border px-2 py-1">Mr. U. Chandra Rao</td>
-                      <td className="border px-2 py-1">ANFIS and SCLEIC Based Battery Charging Controllers for PHEV</td>
-                      <td className="border px-2 py-1">2021</td>
-                      <td className="border px-2 py-1">978-93-90846-55-9</td>
-                      <td className="border px-2 py-1">AkiNik</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">2</td>
-                      <td className="border px-2 py-1">Dr. P. V. V. Rama Rao</td>
-                      <td className="border px-2 py-1">High Voltage Engineering for Beginners</td>
-                      <td className="border px-2 py-1">2022</td>
-                      <td className="border px-2 py-1">978-6202520379</td>
-                      <td className="border px-2 py-1">LAMBERT ACADEMIC PUBLISHING</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">3</td>
-                      <td className="border px-2 py-1">Mr. Ch. Srinivas</td>
-                      <td className="border px-2 py-1">Micropocessor and Micro Controller</td>
-                      <td className="border px-2 py-1">2022</td>
-                      <td className="border px-2 py-1">-</td>
-                      <td className="border px-2 py-1">SIPH PUBLISHER</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </details>
-
-            {/* Career Advancements */}
-            <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Career Advancements</summary>
-              <div className="overflow-x-auto mt-4">
-                <table className="min-w-full border text-sm text-center">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="border px-2 py-1">S.No.</th>
-                      <th className="border px-2 py-1">Name of the Faculty</th>
-                      <th className="border px-2 py-1">Enrolled Institute</th>
-                      <th className="border px-2 py-1">Date of the joining</th>
-                      <th className="border px-2 py-1">Persuing Degree</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="border px-2 py-1">1</td>
-                      <td className="border px-2 py-1">Mr. U. Chandra Rao</td>
-                      <td className="border px-2 py-1">J.N.T.U. Kakinada</td>
-                      <td className="border px-2 py-1">20/11/2013</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">2</td>
-                      <td className="border px-2 py-1">Mr. Ch. V. S. R. Gopala Krishna</td>
-                      <td className="border px-2 py-1">Lovely Professional University</td>
-                      <td className="border px-2 py-1">10/07/2019</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">3</td>
-                      <td className="border px-2 py-1">Mr. K. Suresh</td>
-                      <td className="border px-2 py-1">National Institute of Technology, Tadepalligudem</td>
-                      <td className="border px-2 py-1">27/07/2019</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">4</td>
-                      <td className="border px-2 py-1">Mr. G. Madhu Sagar Babu</td>
-                      <td className="border px-2 py-1">National Institute of Technology, Tadepalligudem</td>
-                      <td className="border px-2 py-1">20/01/2020</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">5</td>
-                      <td className="border px-2 py-1">Mr. Durga R CH Nookesh</td>
-                      <td className="border px-2 py-1">J.N.T.U. Kakinada</td>
-                      <td className="border px-2 py-1">04/09/2020</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">6</td>
-                      <td className="border px-2 py-1">Mr. K. Amarendra</td>
-                      <td className="border px-2 py-1">National Institute of Technology, Tadepalligudem</td>
-                      <td className="border px-2 py-1">18/01/2022</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">7</td>
-                      <td className="border px-2 py-1">Mr. V. S. Aditya</td>
-                      <td className="border px-2 py-1">Puducherry Technological University, Puducherry</td>
-                      <td className="border px-2 py-1">18/04/2022</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">8</td>
-                      <td className="border px-2 py-1">Mr. R. Venkatesh</td>
-                      <td className="border px-2 py-1">IIT Bhubaneswar</td>
-                      <td className="border px-2 py-1">15/07/2022</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">9</td>
-                      <td className="border px-2 py-1">Mr. Dhana Prasad Duggapu</td>
-                      <td className="border px-2 py-1">Hindustan Institute of Technology & Science, Chennai</td>
-                      <td className="border px-2 py-1">30/01/2023</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">10</td>
-                      <td className="border px-2 py-1">Mr. Ramanarayana Vemana</td>
-                      <td className="border px-2 py-1">Hindustan Institute of Technology & Science, Chennai</td>
-                      <td className="border px-2 py-1">30/01/2023</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">11</td>
-                      <td className="border px-2 py-1">Mr. Sriharish Nandigam</td>
-                      <td className="border px-2 py-1">Hindustan Institute of Technology & Science, Chennai</td>
-                      <td className="border px-2 py-1">30/01/2023</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">12</td>
-                      <td className="border px-2 py-1">Mr. M. M. Swami Naidu</td>
-                      <td className="border px-2 py-1">National Institute of Technology, Tadepalligudem</td>
-                      <td className="border px-2 py-1">14/07/2023</td>
-                      <td className="border px-2 py-1">Ph.D</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </details>
-
-            {/* Interaction with outside the world */}
-            <details className="mb-6">
-              <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Interaction with outside the world</summary>
-              <div className="overflow-x-auto mt-4">
-                <table className="min-w-full border text-sm text-center">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="border px-2 py-1">S.No.</th>
-                      <th className="border px-2 py-1">Name of the Faculty</th>
-                      <th className="border px-2 py-1">Details of the Journals</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="border px-2 py-1">1</td>
-                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
-                      <td className="border px-2 py-1">IEEE Transcactions on Industrial Electronics</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">2</td>
-                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
-                      <td className="border px-2 py-1">IEEE Transcactions on Power Electronics</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">3</td>
-                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
-                      <td className="border px-2 py-1">IEEE Transcactions on Power Delivery</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">4</td>
-                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
-                      <td className="border px-2 py-1">IET Power Electronics</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">5</td>
-                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
-                      <td className="border px-2 py-1">IET Electric Power Applications</td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-1">6</td>
-                      <td className="border px-2 py-1">Dr. Anilkumar Chappa</td>
-                      <td className="border px-2 py-1">IEEE Region 10 Symposium</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </details>
+            )}
           </div>
         );
-      case 'Faculty Innovations in T & L':
+      }
+      case 'Research Center':
+        return <ResearchCenter department="eee" />;
+
+      case 'Student Achievements':
+        return <StudentAchievements department="eee" />;
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Faculty Innovations in Teaching & Learning</h2>
-            
+
             {loading && <div className="text-center">Loading faculty innovations...</div>}
             {error && <div className="text-center text-red-600">Error loading faculty innovations: {error}</div>}
-            
+
             {!loading && !error && (
               <div className="space-y-6">
                 {facultyInnovations.length > 0 ? (
@@ -1639,414 +1273,453 @@ const EEEDepartment: React.FC = () => {
         );
       case 'Student Achievements':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center mt-5 pt-3">Student Achievements</h2>
-            <div className="space-y-8">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Student Achievements</h2>
+            <div className="space-y-6">
               {/* Student Achievements */}
-              <details open>
-                <summary className="text-xl font-semibold text-[#B22222] cursor-pointer">Student Achievements</summary>
-                <ul className="list-disc pl-6 mt-3">
-                  <li>
-                    List of Students Participated/got prizes in Technical -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/eee_studentsachievements.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                  </li>
-                </ul>
-                {/* Placement, Higher Studies and Entrepreneurship Table */}
-                <div className="overflow-x-auto mt-6 flex flex-col items-center">
-                  <table className="min-w-full border text-sm text-center mb-6 table-auto">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th colSpan={9} className="text-center py-2 text-lg font-semibold">Placement, Higher Studies and Entrepreneurship</th>
-                      </tr>
-                      <tr>
-                        <th className="border px-2 py-1">Item</th>
-                        <th className="border px-2 py-1">CAY 2021-22</th>
-                        <th className="border px-2 py-1">CAY 2020-21</th>
-                        <th className="border px-2 py-1">CAY 2019-20</th>
-                        <th className="border px-2 py-1">CAY 2018-19</th>
-                        <th className="border px-2 py-1">CAY 2017-18</th>
-                        <th className="border px-2 py-1">CAY 2016-17</th>
-                        <th className="border px-2 py-1">CAY 2015-16</th>
-                        <th className="border px-2 py-1">CAY 2014-15</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td className="border px-2 py-1">Total No.of Final Year Students</td>
-                        <td className="border px-2 py-1">118</td>
-                        <td className="border px-2 py-1">121</td>
-                        <td className="border px-2 py-1">114</td>
-                        <td className="border px-2 py-1">118</td>
-                        <td className="border px-2 py-1">99</td>
-                        <td className="border px-2 py-1">107</td>
-                        <td className="border px-2 py-1">109</td>
-                        <td className="border px-2 py-1">132</td>
-                      </tr>
-                      <tr>
-                        <td className="border px-2 py-1">No.of students placed in companies or Government Sector</td>
-                        <td className="border px-2 py-1">94</td>
-                        <td className="border px-2 py-1">58</td>
-                        <td className="border px-2 py-1">35</td>
-                        <td className="border px-2 py-1">55</td>
-                        <td className="border px-2 py-1">31</td>
-                        <td className="border px-2 py-1">32</td>
-                        <td className="border px-2 py-1">56</td>
-                        <td className="border px-2 py-1">64</td>
-                      </tr>
-                      <tr>
-                        <td className="border px-2 py-1">No.of students admitted to higher studies with valid qualifying scores (GATE or equivalent State or National Level Tests, GRE, GMAT etc.)</td>
-                        <td className="border px-2 py-1">-</td>
-                        <td className="border px-2 py-1">4</td>
-                        <td className="border px-2 py-1">3</td>
-                        <td className="border px-2 py-1">3</td>
-                        <td className="border px-2 py-1">-</td>
-                        <td className="border px-2 py-1">8</td>
-                        <td className="border px-2 py-1">3</td>
-                        <td className="border px-2 py-1">8</td>
-                      </tr>
-                      <tr>
-                        <td className="border px-2 py-1">No.of students turned entrepreneur in engineering/technology</td>
-                        <td className="border px-2 py-1">-</td>
-                        <td className="border px-2 py-1">-</td>
-                        <td className="border px-2 py-1">-</td>
-                        <td className="border px-2 py-1">-</td>
-                        <td className="border px-2 py-1">-</td>
-                        <td className="border px-2 py-1">-</td>
-                        <td className="border px-2 py-1">1</td>
-                        <td className="border px-2 py-1">-</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <h3 className="text-xl font-bold text-[#B22222] mb-4 mt-8">Internships/Certificates/Workshop</h3>
-                  <table className="min-w-full border text-sm text-center mb-6 table-auto">
-                    <thead className="bg-gray-100">
-                      <tr>
-                        <th className="border px-2 py-1">Academic Year</th>
-                        <th className="border px-2 py-1" colSpan={3}>Certificates</th>
-                        <th className="border px-2 py-1" colSpan={3}>Internships</th>
-                        <th className="border px-2 py-1">Workshops</th>
-                        <th className="border px-2 py-1">Co-Curricular Activities</th>
-                      </tr>
-                      <tr>
-                        <td className="border px-2 py-1"></td>
-                        <td className="border px-2 py-1">NPTEL</td>
-                        <td className="border px-2 py-1">Coursera</td>
-                        <td className="border px-2 py-1">Others</td>
-                        <td className="border px-2 py-1">Internshala</td>
-                        <td className="border px-2 py-1">APSSDC</td>
-                        <td className="border px-2 py-1">Others</td>
-                        <td className="border px-2 py-1"></td>
-                        <td className="border px-2 py-1"></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td className="border px-2 py-1">2021-2022</td>
-                        <td className="border px-2 py-1">03</td>
-                        <td className="border px-2 py-1">69</td>
-                        <td className="border px-2 py-1">41</td>
-                        <td className="border px-2 py-1">01</td>
-                        <td className="border px-2 py-1">26</td>
-                        <td className="border px-2 py-1">158</td>
-                        <td className="border px-2 py-1">111</td>
-                        <td className="border px-2 py-1">36</td>
-                      </tr>
-                      <tr>
-                        <td className="border px-2 py-1">2020-2021</td>
-                        <td className="border px-2 py-1">17</td>
-                        <td className="border px-2 py-1">35</td>
-                        <td className="border px-2 py-1">13</td>
-                        <td className="border px-2 py-1">-</td>
-                        <td className="border px-2 py-1">01</td>
-                        <td className="border px-2 py-1">05</td>
-                        <td className="border px-2 py-1">-</td>
-                        <td className="border px-2 py-1">03</td>
-                      </tr>
-                      <tr>
-                        <td className="border px-2 py-1">2019-2020</td>
-                        <td className="border px-2 py-1">03</td>
-                        <td className="border px-2 py-1">01</td>
-                        <td className="border px-2 py-1">03</td>
-                        <td className="border px-2 py-1">18</td>
-                        <td className="border px-2 py-1">01</td>
-                        <td className="border px-2 py-1">-</td>
-                        <td className="border px-2 py-1">48</td>
-                        <td className="border px-2 py-1">01</td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <details open className="cst-dropdown">
+                <summary>Student Achievements</summary>
+                <div className="cst-dropdown-content">
+                  <ul className="list-disc pl-6 my-2 space-y-2">
+                    <li>
+                      List of Students Participated/got prizes in Technical -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/eee_studentsachievements.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a>
+                    </li>
+                  </ul>
                 </div>
               </details>
-              {/* Add more details sections for Roll Of Honor, Placement, Higher Studies, Competitive Examinations, Course Certifications, Internship, Workshops/SOC, CRT, Projects, CSP as needed, following the same pattern. */}
+
+              {/* Placement, Higher Studies and Entrepreneurship */}
+              <details className="cst-dropdown">
+                <summary>Placement, Higher Studies and Entrepreneurship</summary>
+                <div className="cst-dropdown-content">
+                  <div className="overflow-x-auto mt-4">
+                    <table className="min-w-full border text-sm text-center mb-6 table-auto">
+                      <thead className="bg-gray-100">
+                        <tr>
+                          <th className="border px-2 py-1">Item</th>
+                          <th className="border px-2 py-1">CAY 2021-22</th>
+                          <th className="border px-2 py-1">CAY 2020-21</th>
+                          <th className="border px-2 py-1">CAY 2019-20</th>
+                          <th className="border px-2 py-1">CAY 2018-19</th>
+                          <th className="border px-2 py-1">CAY 2017-18</th>
+                          <th className="border px-2 py-1">CAY 2016-17</th>
+                          <th className="border px-2 py-1">CAY 2015-16</th>
+                          <th className="border px-2 py-1">CAY 2014-15</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border px-2 py-1">Total No.of Final Year Students</td>
+                          <td className="border px-2 py-1">118</td>
+                          <td className="border px-2 py-1">121</td>
+                          <td className="border px-2 py-1">114</td>
+                          <td className="border px-2 py-1">118</td>
+                          <td className="border px-2 py-1">99</td>
+                          <td className="border px-2 py-1">107</td>
+                          <td className="border px-2 py-1">109</td>
+                          <td className="border px-2 py-1">132</td>
+                        </tr>
+                        <tr>
+                          <td className="border px-2 py-1">No.of students placed in companies or Government Sector</td>
+                          <td className="border px-2 py-1">94</td>
+                          <td className="border px-2 py-1">58</td>
+                          <td className="border px-2 py-1">35</td>
+                          <td className="border px-2 py-1">55</td>
+                          <td className="border px-2 py-1">31</td>
+                          <td className="border px-2 py-1">32</td>
+                          <td className="border px-2 py-1">56</td>
+                          <td className="border px-2 py-1">64</td>
+                        </tr>
+                        <tr>
+                          <td className="border px-2 py-1">No.of students admitted to higher studies with valid qualifying scores (GATE or equivalent State or National Level Tests, GRE, GMAT etc.)</td>
+                          <td className="border px-2 py-1">-</td>
+                          <td className="border px-2 py-1">4</td>
+                          <td className="border px-2 py-1">3</td>
+                          <td className="border px-2 py-1">3</td>
+                          <td className="border px-2 py-1">-</td>
+                          <td className="border px-2 py-1">8</td>
+                          <td className="border px-2 py-1">3</td>
+                          <td className="border px-2 py-1">8</td>
+                        </tr>
+                        <tr>
+                          <td className="border px-2 py-1">No.of students turned entrepreneur in engineering/technology</td>
+                          <td className="border px-2 py-1">-</td>
+                          <td className="border px-2 py-1">-</td>
+                          <td className="border px-2 py-1">-</td>
+                          <td className="border px-2 py-1">-</td>
+                          <td className="border px-2 py-1">-</td>
+                          <td className="border px-2 py-1">-</td>
+                          <td className="border px-2 py-1">1</td>
+                          <td className="border px-2 py-1">-</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </details>
+
+              {/* Internships/Certificates/Workshop */}
+              <details className="cst-dropdown">
+                <summary>Internships/Certificates/Workshop</summary>
+                <div className="cst-dropdown-content">
+                  <div className="overflow-x-auto mt-4">
+                    <table className="min-w-full border text-sm text-center mb-6 table-auto">
+                      <thead className="bg-gray-100">
+                        <tr>
+                          <th className="border px-2 py-1">Academic Year</th>
+                          <th className="border px-2 py-1" colSpan={3}>Certificates</th>
+                          <th className="border px-2 py-1" colSpan={3}>Internships</th>
+                          <th className="border px-2 py-1">Workshops</th>
+                          <th className="border px-2 py-1">Co-Curricular Activities</th>
+                        </tr>
+                        <tr>
+                          <td className="border px-2 py-1"></td>
+                          <td className="border px-2 py-1">NPTEL</td>
+                          <td className="border px-2 py-1">Coursera</td>
+                          <td className="border px-2 py-1">Others</td>
+                          <td className="border px-2 py-1">Internshala</td>
+                          <td className="border px-2 py-1">APSSDC</td>
+                          <td className="border px-2 py-1">Others</td>
+                          <td className="border px-2 py-1"></td>
+                          <td className="border px-2 py-1"></td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border px-2 py-1">2021-2022</td>
+                          <td className="border px-2 py-1">03</td>
+                          <td className="border px-2 py-1">69</td>
+                          <td className="border px-2 py-1">41</td>
+                          <td className="border px-2 py-1">01</td>
+                          <td className="border px-2 py-1">26</td>
+                          <td className="border px-2 py-1">158</td>
+                          <td className="border px-2 py-1">111</td>
+                          <td className="border px-2 py-1">36</td>
+                        </tr>
+                        <tr>
+                          <td className="border px-2 py-1">2020-2021</td>
+                          <td className="border px-2 py-1">17</td>
+                          <td className="border px-2 py-1">35</td>
+                          <td className="border px-2 py-1">13</td>
+                          <td className="border px-2 py-1">-</td>
+                          <td className="border px-2 py-1">01</td>
+                          <td className="border px-2 py-1">05</td>
+                          <td className="border px-2 py-1">-</td>
+                          <td className="border px-2 py-1">03</td>
+                        </tr>
+                        <tr>
+                          <td className="border px-2 py-1">2019-2020</td>
+                          <td className="border px-2 py-1">03</td>
+                          <td className="border px-2 py-1">01</td>
+                          <td className="border px-2 py-1">03</td>
+                          <td className="border px-2 py-1">18</td>
+                          <td className="border px-2 py-1">01</td>
+                          <td className="border px-2 py-1">-</td>
+                          <td className="border px-2 py-1">48</td>
+                          <td className="border px-2 py-1">01</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </details>
             </div>
           </div>
         );
       case 'Placements':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Placements</h2>
-            <div className="mb-8">
-              <details open className="mb-4">
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2022-23</summary>
-                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2022-23 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2022-23.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                </li>
-              </details>
-              <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2021-22</summary>
-                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2021-22 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2021-22.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                </li>
-              </details>
-              <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2020-21</summary>
-                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2020-21 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2020-21.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                </li>
-              </details>
-              <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2019-20</summary>
-                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2019-20 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2019-20.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                </li>
-              </details>
-              <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2018-19</summary>
-                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2018-19 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2018-19.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                </li>
-              </details>
-              <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Academic Year 2017-18</summary>
-                <li className="py-3 list-none ml-3 text-left">Placements during the Academic Year 2017-18 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2017-18.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                </li>
-              </details>
-              <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Placements during the Years 2013, 2014, 2015, 2016, 2017</summary>
-                <li className="py-3 list-none ml-3 text-left">Placements during the Years 2013, 2014, 2015, 2016, 2017 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee_place_2013-17.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                </li>
-              </details>
-            </div>
-            <div className="mt-12">
-              <h2 className="text-2xl font-bold text-[#B22222] mb-6 text-center">Gallery</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="col-span-1 flex flex-col items-center">
-                  <h3 className="text-primary text-xl font-semibold mb-2">2018-22</h3>
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1822.jpeg" alt="Image 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                  <h5 className="text-center my-3 text-green-700">Roll No: 19A85A0221 <br />Name: J. Mahesh Srinu</h5>
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1822_2.jpeg" alt="Image 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover mt-4" />
-                  <h5 className="text-center my-3 text-green-700">Roll No: 19A85A0209 <br />Name: D. Preethi</h5>
-                </div>
-                <div className="col-span-1 flex flex-col items-center">
-                  <h3 className="text-primary text-xl font-semibold mb-2">2017-21</h3>
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1721.jpeg" alt="Image 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                  <h5 className="text-center my-3 text-green-700">Roll No: 17A81A0234 <br />Name: V. Sri Naga Vijaya Lakshmi</h5>
-                  <h3 className="text-primary text-xl font-semibold mb-2 mt-8">2016-20</h3>
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1620.jpeg" alt="Image 5" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                  <h5 className="text-center my-3 text-green-700">Roll No: 16A81A0219 <br />Name: K. Ganga Prasanna</h5>
-                  <h3 className="text-primary text-xl font-semibold mb-2 mt-8">2015-19</h3>
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eeeAT1519.jpeg" alt="Image 6" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                  <h5 className="text-center my-3 text-green-700">Roll No: 15A81A0226 <br />Name: N. Rishitha Anasuya Devi</h5>
-                </div>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Placements</h2>
+            
+            {/* Loading State */}
+            {loading && (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B22222]"></div>
               </div>
-            </div>
+            )}
+            
+            {/* Empty State */}
+            {!loading && placementsData.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-gray-500 text-lg">No placement records available yet.</p>
+              </div>
+            )}
+            
+            {/* Placements List */}
+            {!loading && placementsData.length > 0 && (
+              <div className="space-y-6">
+                {placementsData.map((placement, index) => (
+                  <details 
+                    key={placement.id} 
+                    className="cst-dropdown"
+                    open={index === 0}
+                  >
+                    <summary>{placement.title || `Placements - ${placement.batch}`}</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        <li>
+                          {placement.title || `Placements - ${placement.batch}`}
+                          {placement.file_url && (
+                            <>
+                              {' - '}
+                              <a 
+                                href={placement.file_url} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="text-[#B22222] hover:underline"
+                              >
+                                View More
+                              </a>
+                            </>
+                          )}
+                        </li>
+                      </ul>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            )}
           </div>
         );
       case 'Technical Association':
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Technical Association</h2>
-            <div className="text-lg text-gray-700 space-y-4 mb-8">
-              <p>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Technical Association - LEE</h2>
+            <div className="text-gray-700 mb-6 space-y-4">
+              <p className="text-justify leading-relaxed">
                 LEE means "SIDE OF SOMETHING THAT IS SHELTERED FROM THE WIND" in a similar way LEE (LEAGUE OF ELECTRICAL ENGINEERS) is an Association that shelters the students from daily academics. Festival is a day to rejoice and is filled with lots of fun and excitement. Especially students feel blessed as they celebrate many festivals not only at their residence but also at college. There is an excitement all over in wearing new dresses and preparing a variety of programs. It is thrilling when there is sharing of love and happiness among the students. They come out of their daily rigmarole and rejuvenate themselves in the springs of LEE.
               </p>
-              <p>
-                On these days they offer to the faculty a great welcome and they even felicitate the faculty members. The importance of this function lies in celebrating it in a meaningful and purposeful way by spreading joy to one and all. LEE association was initiated by the students of 2nd batch, in 2005. From the day initiation till date Seven Anniversaries have been celebrated. This association is rising under the guidance of the chairman Dr.CH.RAMBABU Dean of Student Affairs, Dr. D Sudha Rani Head of the department (EEE). Every year this function is organised by the students of third year guided by the staff co-ordinator. All the wards from all years actively participate by extending their full support. In this function the Management gives a memento and cash prize to the students who stood as toppers in their respective classes. And also the students felicitate the faculty members as a token of gratitude and respect. The Association activities give wide scope and perpetual inspiration to the all round development of the students in EEE department.
-              </p>
-              <p>
-                The details of the activities carried out by the society LEE-Technical Association in the last three academic years -{' '}
-                <a href="https://srivasaviengg.ac.in/uploads/eee_techassociation.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-              </p>
             </div>
-            <div className="mt-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="flex flex-col items-center">
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_lee_project1.jpg" alt="LEE Project 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+
+            <div className="space-y-4">
+              {/* About LEE Association */}
+              <details open className="cst-dropdown">
+                <summary>About LEE Association</summary>
+                <div className="cst-dropdown-content">
+                  <div className="space-y-4 text-gray-700">
+                    <p className="text-justify leading-relaxed">
+                      On these days they offer to the faculty a great welcome and they even felicitate the faculty members. The importance of this function lies in celebrating it in a meaningful and purposeful way by spreading joy to one and all. LEE association was initiated by the students of 2nd batch, in 2005. From the day initiation till date Seven Anniversaries have been celebrated.
+                    </p>
+                    <p className="text-justify leading-relaxed">
+                      This association is rising under the guidance of the chairman Dr.CH.RAMBABU Dean of Student Affairs, Dr. D Sudha Rani Head of the department (EEE). Every year this function is organised by the students of third year guided by the staff co-ordinator. All the wards from all years actively participate by extending their full support. In this function the Management gives a memento and cash prize to the students who stood as toppers in their respective classes. And also the students felicitate the faculty members as a token of gratitude and respect. The Association activities give wide scope and perpetual inspiration to the all round development of the students in EEE department.
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-col items-center">
-                  <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_lee_project2.jpg" alt="LEE Project 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
+              </details>
+
+              {/* Activities & Events */}
+              {technicalAssociationData.length > 0 ? (
+                <div className="space-y-4">
+                  {technicalAssociationData.map((activity, index) => (
+                    <details key={activity.id} className="cst-dropdown" open={index === 0}>
+                      <summary>{activity.title}</summary>
+                      <div className="cst-dropdown-content">
+                        {activity.description && (
+                          <p className="p-2 mb-3">{activity.description}</p>
+                        )}
+                        {activity.file_url && (
+                          <p className="p-2">
+                            {activity.title} -{' '}
+                            <a 
+                              href={activity.file_url} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="text-[#B22222] hover:underline font-medium"
+                            >
+                              View More
+                            </a>
+                          </p>
+                        )}
+                      </div>
+                    </details>
+                  ))}
                 </div>
-              </div>
+              ) : (
+                <details className="cst-dropdown">
+                  <summary>Activities & Events</summary>
+                  <div className="cst-dropdown-content">
+                    <p className="p-2">
+                      The details of the activities carried out by the society LEE-Technical Association in the last three academic years -{' '}
+                      <a href="https://srivasaviengg.ac.in/uploads/eee_techassociation.pdf" target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline font-medium">
+                        View More
+                      </a>
+                    </p>
+                  </div>
+                </details>
+              )}
+
+              {/* Image Gallery */}
+              <details className="cst-dropdown">
+                <summary>Gallery</summary>
+                <div className="cst-dropdown-content">
+                  {loading ? (
+                    <div className="flex justify-center py-8">
+                      <div className="text-gray-500">Loading gallery...</div>
+                    </div>
+                  ) : technicalAssociationGallery.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+                      {technicalAssociationGallery.map((item: any, index: number) => (
+                        <div key={item.id || index} className="space-y-2">
+                          <img
+                            src={item.gallery}
+                            alt={item.title || `Technical Association Event ${index + 1}`}
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                          <p className="text-center text-sm text-gray-600">
+                            {item.title || `Technical Association Event ${index + 1}`}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <p className="text-gray-500">No gallery images available.</p>
+                    </div>
+                  )}
+                </div>
+              </details>
             </div>
           </div>
         );
       case 'Technical Magazines, Handbooks and Course Materials':
+        const categories = Array.from(new Set(technicalHandbooks.map((item: any) => item.category || 'Other')));
+
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Technical Activities and Handbooks</h2>
-            <div className="space-y-6">
-              <details open className="mb-4">
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Technical Magazines</summary>
-                <ul className="list-none py-2 mb-0 space-y-2">
-                  <li>
-                    ELECTRIFY Volume 1 Issue 2 August 2022 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/ELECTRIFY%20Volume%201%20Issue%202%20August%202022.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                  </li>
-                  <li>
-                    ELECTRIFY Volume 1 Issue 1 December 2021 -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/ELECTRIFY%20Volume%201%20Issue%201%20December%202021.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                  </li>
-                </ul>
-              </details>
-              <details className="mb-4">
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Academic HandBooks</summary>
-                <ul className="list-none py-2 mb-0 space-y-2">
-                  <li>
-                    Academic Hand Books II-II SEM -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/eee/eee_handbooks/II-II%20SEM.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                  </li>
-                  <li>
-                    Academic Hand Books III-II SEM -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/eee/eee_handbooks/III-II%20SEM.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                  </li>
-                  <li>
-                    Academic Hand Books IV-II SEM -{' '}
-                    <a href="https://srivasaviengg.ac.in/uploads/eee/eee_handbooks/IV-II%20SEM.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                  </li>
-                </ul>
-              </details>
-              <details>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Course Materials</summary>
-                <ul className="list-none py-2 mb-0 space-y-2">
-                  <li>
-                    Course Materials -{' '}
-                    <a href="https://drive.google.com/drive/folders/1gbRiaj5jsv87blD3Be5nAZdXPvNAQuZ6" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
-                  </li>
-                </ul>
-              </details>
-            </div>
+            {technicalHandbooksLoading ? (
+              <div className="text-center py-8 text-gray-500">Loading...</div>
+            ) : technicalHandbooks.length > 0 ? (
+              <div className="space-y-6">
+                {categories.map((category, index) => (
+                  <details key={category} open={index === 0} className="mb-4 cst-dropdown">
+                    <summary>{category}</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-none py-2 mb-0 space-y-2">
+                        {technicalHandbooks
+                          .filter((item: any) => (item.category || 'Other') === category)
+                          .map((item: any, idx: number) => (
+                            <li key={idx}>
+                              {item.title} -{' '}
+                              {item.file_url ? (
+                                <a
+                                  href={item.file_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline font-medium"
+                                >
+                                  View More
+                                </a>
+                              ) : (
+                                <span className="text-gray-400">No file available</span>
+                              )}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">No data available.</div>
+            )}
+          </div>
+        );
+      case 'Old Static Technical Content':
+        return (
+          <div>
+            <details>
+              <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Academic HandBooks</summary>
+              <ul className="list-none py-2 mb-0">
+                <li>
+                  Academic Hand Books IV-II SEM -{' '}
+                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_handbooks/IV-II%20SEM.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                </li>
+              </ul>
+            </details>
+            <details>
+              <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Course Materials</summary>
+              <ul className="list-none py-2 mb-0 space-y-2">
+                <li>
+                  Course Materials -{' '}
+                  <a href="https://drive.google.com/drive/folders/1gbRiaj5jsv87blD3Be5nAZdXPvNAQuZ6" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View More</a>
+                </li>
+              </ul>
+            </details>
           </div>
         );
       case 'Newsletters':
+        // Use fetched eeeNewsletters data, fallback to departmentData
+        const displayNewsletters = eeeNewsletters.length > 0 ? eeeNewsletters : newslettersData;
+        console.log('📰 Newsletters Data:', displayNewsletters);
+        console.log('📰 EEE Newsletters from hook:', eeeNewsletters);
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Newsletters</h2>
-            <div className="space-y-4">
-              <details open>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume10 Issue1 2022</summary>
-                <li className="py-2 text-left list-none">News Letter Volume10 Issue1 2022 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-10_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-              </details>
-              <details>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume9 Issue1 2018</summary>
-                <li className="py-2 text-left list-none">News Letter Volume9 Issue1 2018 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-9_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-              </details>
-              <details>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume8 Issue1 2018</summary>
-                <li className="py-2 text-left list-none">News Letter Volume8 Issue1 2018 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-8_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-              </details>
-              <details>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume8 Issue2 2017</summary>
-                <li className="py-2 text-left list-none">News Letter Volume8 Issue2 2017 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-8_ISSUE-2.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-              </details>
-              <details>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume7 Issue1 2016</summary>
-                <li className="py-2 text-left list-none">News Letter Volume7 Issue1 2016 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-7_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-              </details>
-              <details>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume7 Issue2 2016</summary>
-                <li className="py-2 text-left list-none">News Letter Volume7 Issue2 2016 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/eee_VOL-7_ISSUE-2.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-              </details>
-              <details>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume6 Issue1 2015</summary>
-                <li className="py-2 text-left list-none">News Letter Volume6 Issue1 2015 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/VOLUME-6_ISSUE-1.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-              </details>
-              <details>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">News Letter Volume6 Issue2 2015</summary>
-                <li className="py-2 text-left list-none">News Letter Volume6 Issue2 2015 -{' '}
-                  <a href="https://srivasaviengg.ac.in/uploads/eee/eee_newsletters/VOLUME-6_ISSUE-2.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View</a>
-                </li>
-              </details>
-            </div>
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Newsletters</h2>
+            
+            {/* Loading State */}
+            {(loading || newslettersLoading) && (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B22222]"></div>
+              </div>
+            )}
+            
+            {/* Empty State */}
+            {!loading && !newslettersLoading && displayNewsletters.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-gray-500 text-lg">No newsletters available.</p>
+              </div>
+            )}
+            
+            {/* Newsletters List */}
+            {!loading && !newslettersLoading && displayNewsletters.length > 0 && (
+              <div className="space-y-4">
+                {displayNewsletters.map((item: any, index: number) => (
+                  <details key={item.id || index} open={index === 0} className="cst-dropdown">
+                    <summary>{item.title || `Newsletter ${index + 1}`}</summary>
+                    <div className="cst-dropdown-content">
+                      <p className="p-2">
+                        {item.title || `Newsletter ${index + 1}`}
+                        {item.file_url && (
+                          <>
+                            {' - '}
+                            <a
+                              href={item.file_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#B22222] hover:underline font-medium"
+                            >
+                              View
+                            </a>
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            )}
           </div>
         );
       case 'Product Development':
+        // Use fetched pdGalleryImages, fallback to departmentData
+        const displayPdGallery = pdGalleryImages.length > 0 ? pdGalleryImages : productDevelopmentGallery;
         return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Product Development</h2>
-            <div className="mb-8">
-              <h3 className="text-xl font-semibold mb-4">The following are the list of products which were successfully developed by our students.</h3>
-              <ul className="list-disc pl-8 space-y-2 text-lg">
-                <li>Solar Rider</li>
-                <li>Lee Eco Bike</li>
-                <li>Digital Notice Board</li>
-                <li>Solar Lift Irrigation System</li>
-                <li>Electric Wheel Chair</li>
-                <li>Multilevel Inverter</li>
-                <li>Drone</li>
-                <li>TriCycle with Solar Energy</li>
-                <li>Self-charging of Hybrid E-bicycle</li>
-              </ul>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="flex flex-col items-center">
-                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp1.jpg" alt="Product 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-              </div>
-              <div className="flex flex-col items-center">
-                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp2.jpg" alt="Product 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-              </div>
-              <div className="flex flex-col items-center">
-                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp3.jpg" alt="Product 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-              </div>
-              <div className="flex flex-col items-center">
-                <img src="https://srivasaviengg.ac.in/image/eee%20images/prod_devp4.jpg" alt="Product 4" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-              </div>
-            </div>
-          </div>
-        );
-      case 'Departmental Activities':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Departmental Activities</h2>
-            <div className="space-y-8">
-              <details open>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Green Initiative</summary>
-                <div className="mb-5">
-                  <div className="container mx-auto">
-                    <div className="flex flex-col items-center justify-center mb-8">
-                      <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">As a part of green initiative college installed 500KWp solar plant in the campus.</h3>
-                      <div className="w-full flex justify-center mb-4">
-                        <img src="https://srivasaviengg.ac.in/image/eee%20images/green_graph.jpg" alt="Image 1" className="rounded-lg shadow-md w-full max-w-lg aspect-video object-cover" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">Inauguration of 200kWp Solar Power Plant on 11.11.2016.</h3>
-                      <div className="flex flex-col md:flex-row justify-center items-center gap-6">
-                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg" alt="Image 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg" alt="Image 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </details>
-              <details>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Product Development</summary>
-                <div className="mb-5">
-                  <p className="mb-4">The following are the list of products which were successfully developed by our students.</p>
-                  <ul className="list-disc pl-8 space-y-2 text-lg mb-6">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Product Development</h2>
+
+            <div className="space-y-4">
+              {/* Products List */}
+              <details open className="cst-dropdown">
+                <summary>Student Developed Products</summary>
+                <div className="cst-dropdown-content">
+                  <p className="mb-4 text-gray-700">The following are the list of products which were successfully developed by our students:</p>
+                  <ul className="list-disc pl-6 space-y-2 text-gray-700">
                     <li>Solar Rider</li>
                     <li>Lee Eco Bike</li>
                     <li>Digital Notice Board</li>
@@ -2057,13 +1730,265 @@ const EEEDepartment: React.FC = () => {
                     <li>TriCycle with Solar Energy</li>
                     <li>Self-charging of Hybrid E-bicycle</li>
                   </ul>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da1.jpg" alt="Product 1" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da2.jpg" alt="Product 2" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da3.jpg" alt="Product 3" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da4.jpg" alt="Product 4" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da5.jpeg" alt="Product 5" className="rounded-lg shadow-md w-full aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_da6.jpeg" alt="Product 6" className="rounded-lg shadow-md w-full aspect-video object-cover" />
+                </div>
+              </details>
+
+              {/* Image Gallery */}
+              <details className="cst-dropdown">
+                <summary>Gallery</summary>
+                <div className="cst-dropdown-content">
+                  {(loading || pdGalleryLoading) ? (
+                    <div className="flex justify-center py-8">
+                      <div className="text-gray-500">Loading gallery...</div>
+                    </div>
+                  ) : displayPdGallery.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+                      {displayPdGallery.map((item: any, index: number) => (
+                        <div key={item.id || index} className="space-y-2">
+                          <img
+                            src={item.gallery || item.image_url}
+                            alt={item.title || `Product ${index + 1}`}
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                          <p className="text-center text-sm text-gray-600">
+                            {item.title || `Product ${index + 1}`}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )  : (
+                    <div className="text-center py-8">
+                      <p className="text-gray-500">No gallery images available.</p>
+                    </div>
+                  )}
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+      case 'Departmental Activities':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Departmental Activities</h2>
+
+            <div className="space-y-4">
+              {/* Green Initiative */}
+              <details open className="cst-dropdown">
+                <summary>Green Initiative - Solar Power Plant</summary>
+                <div className="cst-dropdown-content">
+                  {giGalleryLoading ? (
+                    <div className="flex justify-center py-8">
+                      <div className="text-gray-500">Loading Green Initiatives gallery...</div>
+                    </div>
+                  ) : giGalleryImages.length > 0 ? (
+                    <div className="space-y-8">
+                      {giGalleryImages.map((item: any, index: number) => (
+                        <div key={item.id || index} className="text-center">
+                          <h3 className="text-xl font-bold text-[#B22222] mb-4">{item.title || `Green Initiative ${index + 1}`}</h3>
+                          {item.description && (
+                            <p className="text-gray-700 mb-4">{item.description}</p>
+                          )}
+                          {/* Display single image or grid of images */}
+                          {item.sub_images && Array.isArray(item.sub_images) && item.sub_images.length > 0 ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                              {item.sub_images.map((subImg: any, subIdx: number) => (
+                                <div key={subIdx} className="space-y-2">
+                                  <img
+                                    src={subImg.gallery || subImg.image_url}
+                                    alt={subImg.title || `${item.title} - Image ${subIdx + 1}`}
+                                    className="w-full h-auto rounded-lg shadow object-cover"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.style.display = 'none';
+                                    }}
+                                  />
+                                  {subImg.title && (
+                                    <p className="text-center text-sm text-gray-600">{subImg.title}</p>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="flex justify-center mb-6">
+                              <img
+                                src={item.gallery || item.image_url}
+                                alt={item.title || `Green Initiative ${index + 1}`}
+                                className="rounded-lg shadow-md max-w-2xl w-full"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = 'none';
+                                }}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="space-y-6">
+                      <div className="text-center">
+                        <h3 className="text-xl font-bold text-[#B22222] mb-4">500KWp Solar Power Plant Installation</h3>
+                        <p className="text-gray-700 mb-4">As a part of green initiative, college installed 500KWp solar plant in the campus.</p>
+                        <div className="flex justify-center mb-6">
+                          <img
+                            src="https://srivasaviengg.ac.in/image/eee%20images/green_graph.jpg"
+                            alt="Solar Power Generation Graph"
+                            className="rounded-lg shadow-md max-w-2xl w-full"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="text-center">
+                        <h3 className="text-xl font-bold text-[#B22222] mb-4">Inauguration of 200kWp Solar Power Plant - 11.11.2016</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                          <div className="space-y-2">
+                            <img
+                              src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg"
+                              alt="Solar Plant Inauguration Ceremony"
+                              className="w-full h-auto rounded-lg shadow object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                              }}
+                            />
+                            <p className="text-center text-sm text-gray-600">Inauguration Ceremony</p>
+                          </div>
+                          <div className="space-y-2">
+                            <img
+                              src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg"
+                              alt="Solar Power Plant Installation"
+                              className="w-full h-auto rounded-lg shadow object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                              }}
+                            />
+                            <p className="text-center text-sm text-gray-600">Solar Panel Installation</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </details>
+
+              {/* Product Development */}
+              <details className="cst-dropdown">
+                <summary>Product Development by Students</summary>
+                <div className="cst-dropdown-content">
+                  <p className="mb-4 text-gray-700">The following are the list of products which were successfully developed by our students:</p>
+                  <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-6">
+                    <li>Solar Rider</li>
+                    <li>Lee Eco Bike</li>
+                    <li>Digital Notice Board</li>
+                    <li>Solar Lift Irrigation System</li>
+                    <li>Electric Wheel Chair</li>
+                    <li>Multilevel Inverter</li>
+                    <li>Drone</li>
+                    <li>TriCycle with Solar Energy</li>
+                    <li>Self-charging of Hybrid E-bicycle</li>
+                  </ul>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {pdGalleryLoading ? (
+                      <div className="flex justify-center py-8 col-span-full">
+                        <div className="text-gray-500">Loading gallery...</div>
+                      </div>
+                    ) : pdGalleryImages.length > 0 ? (
+                      pdGalleryImages.map((item: any, index: number) => (
+                        <div key={item.id || index} className="space-y-2">
+                          <img
+                            src={item.gallery || item.image_url}
+                            alt={item.title || `Product ${index + 1}`}
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                          {item.title && (
+                            <p className="text-center text-sm text-gray-600">{item.title}</p>
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      <>
+                        <div className="space-y-2">
+                          <img
+                            src="https://srivasaviengg.ac.in/images/departments/eee/eee_da1.jpg"
+                            alt="Student Product 1"
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <img
+                            src="https://srivasaviengg.ac.in/images/departments/eee/eee_da2.jpg"
+                            alt="Student Product 2"
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <img
+                            src="https://srivasaviengg.ac.in/images/departments/eee/eee_da3.jpg"
+                            alt="Student Product 3"
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <img
+                            src="https://srivasaviengg.ac.in/images/departments/eee/eee_da4.jpg"
+                            alt="Student Product 4"
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <img
+                            src="https://srivasaviengg.ac.in/images/departments/eee/eee_da5.jpeg"
+                            alt="Student Product 5"
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <img
+                            src="https://srivasaviengg.ac.in/images/departments/eee/eee_da6.jpeg"
+                            alt="Student Product 6"
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </details>
@@ -2073,177 +1998,337 @@ const EEEDepartment: React.FC = () => {
       case 'Green Initiative':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Departmental Activities</h2>
-            <div className="space-y-8">
-              <details open>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Green Initiative</summary>
-                <div className="mb-5">
-                  <div className="container mx-auto">
-                    <div className="flex flex-col items-center justify-center mb-8">
-                      <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">As a part of green initiative college installed 500KWp solar plant in the campus.</h3>
-                      <div className="w-full flex justify-center mb-4">
-                        <img src="https://srivasaviengg.ac.in/image/eee%20images/green_graph.jpg" alt="Image 1" className="rounded-lg shadow-md w-full max-w-lg aspect-video object-cover" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">Inauguration of 200kWp Solar Power Plant on 11.11.2016.</h3>
-                      <div className="flex flex-col md:flex-row justify-center items-center gap-6">
-                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg" alt="Image 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                        <img src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg" alt="Image 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </details>
-
-            </div>
-          </div>
-        );
-      case 'Extra-Curricular Activities':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Extra Curricular Activities</h2>
-            <div className="space-y-8">
-              <details open>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">Social Service Activities</summary>
-                <ul className="py-2 pl-0">
-                  <li className="m-3 text-center list-none">Continuous social service activities are carried out by the students under LEE Association, with the support of the Head of the Department and all the faculty members.</li>
-                </ul>
-                <div className="mb-5 px-5">
-                  <div className="flex flex-col items-center justify-center">
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_ssa1.jpg" alt="Social Service Activity" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                    <p className="text-center font-semibold mt-2">Our 3rd Year B.Tech Students at Orphan Home</p>
-                  </div>
-                </div>
-              </details>
-              <details>
-                <summary className="text-lg font-semibold text-[#B22222] cursor-pointer">LEE 7th Anniversary Celebrations</summary>
-                <div className="mb-5 p-5">
-                  <p>LEE 7TH anniversary was organised by 2009-2013 batch students on 17th of February 2012. The chief guest for this anniversary is our honourable president SRIGRANDHI.SATYANARAYANA followed by the principal Dr.J.SRI HARI RAO & Chairman of LEE Mr.CH.RAMBABU. It was celebrated in the presence of all the faculty members and students of all years. Prizes are given to all of the winners of various events conducted, and also for the rank holders in previous semesters. Apart from this students give a rocking performance in cultural.</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le1.jpg" alt="LEE 7th Anniversary 1" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le2.jpg" alt="LEE 7th Anniversary 2" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le3.jpg" alt="LEE 7th Anniversary 3" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                    <img src="https://srivasaviengg.ac.in/images/departments/eee/eee_le4.jpg" alt="LEE 7th Anniversary 4" className="rounded-lg shadow-md w-full max-w-md aspect-video object-cover" />
-                  </div>
-                </div>
-              </details>
-            </div>
-          </div>
-        );
-      
-      case 'Syllabus':
-        return (
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Syllabus</h2>
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Green Initiative</h2>
             
-            {loading && <div className="text-center">Loading syllabus data...</div>}
-            {error && <div className="text-center text-red-600">Error loading syllabus: {error}</div>}
-            
-            {!loading && !error && (
+            {giGalleryLoading ? (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B22222]"></div>
+              </div>
+            ) : (
               <div className="space-y-6">
-                {syllabusDocuments.length === 0 ? (
-                  <div className="text-center text-gray-600">
-                    <p>Syllabus information will be updated soon.</p>
-                    <div className="mt-4">
-                      <p className="text-sm text-gray-500">
-                        For current syllabus information, please refer to the Academic Handbooks section or contact the department.
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-8">
-                    {/* Group syllabus documents by regulation and type */}
-                    {Object.entries(
-                      syllabusDocuments.reduce((groups: Record<string, SyllabusDocument[]>, doc) => {
-                        const key = `${doc.regulation} ${doc.type.toUpperCase()}`;
-                        if (!groups[key]) groups[key] = [];
-                        groups[key].push(doc);
-                        return groups;
-                      }, {})
-                    ).map(([groupKey, docs]) => (
-                      <div key={groupKey} className="border border-gray-200 rounded-lg p-6">
-                        <h3 className="text-xl font-bold text-[#B22222] mb-4">{groupKey} Regulation</h3>
-                        <div className="grid gap-4">
-                          {docs.map((doc) => (
-                            <div key={doc.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                              <div className="flex-1">
-                                <h4 className="font-medium text-gray-900">{doc.title}</h4>
-                                {doc.description && (
-                                  <p className="text-sm text-gray-600 mt-1">{doc.description}</p>
-                                )}
-                                <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                                  <span>Academic Year: {doc.academic_year}</span>
-                                  {doc.semester && <span>Semester: {doc.semester}</span>}
-                                  <span>Regulation: {doc.regulation}</span>
-                                </div>
+                <details className="cst-dropdown" open>
+                  <summary>Solar Power Plant Installation</summary>
+                  <div className="cst-dropdown-content">
+                    <div className="space-y-6">
+                      {giGalleryImages.length > 0 ? (
+                        // Display database images inside the dropdown
+                        giGalleryImages.map((item: any, index: number) => (
+                          <div key={item.id || index} className="text-center">
+                            {item.description && (
+                              <h3 className="text-xl font-semibold text-[#B22222] mb-4">
+                                {item.description}
+                              </h3>
+                            )}
+                            {/* Display single image or grid of images */}
+                            {item.sub_images && Array.isArray(item.sub_images) && item.sub_images.length > 0 ? (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+                                {item.sub_images.map((subImg: any, subIdx: number) => (
+                                  <div key={subIdx} className="space-y-2">
+                                    <img
+                                      src={subImg}
+                                      alt={`${item.title} - Image ${subIdx + 1}`}
+                                      className="w-full h-auto rounded-lg shadow object-cover"
+                                      onError={(e) => {
+                                        const target = e.target as HTMLImageElement;
+                                        target.style.display = 'none';
+                                      }}
+                                    />
+                                  </div>
+                                ))}
                               </div>
-                              <div className="flex items-center gap-2">
-                                <a
-                                  href={doc.document_url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#B22222] text-white rounded-lg hover:bg-[#6B0000] transition-colors"
-                                >
-                                  <Download className="w-4 h-4" />
-                                  Download
-                                </a>
-                                <a
-                                  href={doc.document_url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-                                >
-                                  <ExternalLink className="w-4 h-4" />
-                                  View
-                                </a>
+                            ) : (
+                              <div className="flex justify-center mb-6">
+                                <img
+                                  src={item.gallery || item.image_url}
+                                  alt={item.title || `Green Initiative ${index + 1}`}
+                                  className="rounded-lg shadow-md max-w-2xl w-full"
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.style.display = 'none';
+                                  }}
+                                />
                               </div>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        // Fallback to hardcoded content when no database data
+                        <>
+                          <div className="text-center">
+                            <h3 className="text-xl font-semibold text-[#B22222] mb-4">
+                              As a part of green initiative college installed 500KWp solar plant in the campus.
+                            </h3>
+                            <img
+                              src="https://srivasaviengg.ac.in/image/eee%20images/green_graph.jpg"
+                              alt="Solar Plant Graph"
+                              className="rounded-lg shadow-md w-full max-w-2xl mx-auto"
+                            />
+                          </div>
+
+                          <div className="text-center">
+                            <h3 className="text-xl font-semibold text-[#B22222] mb-4">
+                              Inauguration of 200kWp Solar Power Plant on 11.11.2016
+                            </h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                              <img
+                                src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag.jpg"
+                                alt="Solar Plant Inauguration"
+                                className="w-full h-auto rounded-lg shadow object-cover"
+                              />
+                              <img
+                                src="https://srivasaviengg.ac.in/image/eee%20images/solarplant_inag1.jpg"
+                                alt="Solar Plant Inauguration Ceremony"
+                                className="w-full h-auto rounded-lg shadow object-cover"
+                              />
                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                    
-                    {/* Additional Information */}
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-                      <h3 className="text-lg font-semibold text-blue-800 mb-2">Important Notes</h3>
-                      <ul className="text-sm text-blue-700 space-y-1">
-                        <li>• Students should follow the syllabus corresponding to their regulation and academic year</li>
-                        <li>• For any clarifications regarding syllabus, contact the department office</li>
-                        <li>• Latest updates and amendments will be reflected in the documents</li>
-                        <li>• Practical lab syllabus is included within the respective semester documents</li>
-                      </ul>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
-                )}
+                </details>
               </div>
             )}
           </div>
         );
-      
+      case 'Extra-Curricular Activities':
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Extra-Curricular Activities</h2>
+            <div className="space-y-6">
+              <details open className="cst-dropdown">
+                <summary>Social Service Activities</summary>
+                <div className="cst-dropdown-content">
+                  <p className="text-gray-700 mb-4">Continuous social service activities are carried out by the students under LEE Association, with the support of the Head of the Department and all the faculty members.</p>
+                  {ssGalleryLoading ? (
+                    <div className="flex justify-center py-8">
+                      <div className="text-gray-500">Loading gallery...</div>
+                    </div>
+                  ) : ssGalleryImages.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                      {ssGalleryImages.map((item: any, index: number) => (
+                        <div key={item.id || index} className="space-y-2">
+                          <img
+                            src={item.gallery}
+                            alt={item.title || `Social Service Activity ${index + 1}`}
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                          {item.title && (
+                            <p className="text-center text-sm text-gray-600">{item.title}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center">
+                      
+                    </div>
+                  )}
+                </div>
+              </details>
+              <details className="cst-dropdown">
+                <summary>LEE 7th Anniversary Celebrations</summary>
+                <div className="cst-dropdown-content">
+                  <p className="text-gray-700 mb-6">LEE 7TH anniversary was organised by 2009-2013 batch students on 17th of February 2012. The chief guest for this anniversary is our honourable president SRIGRANDHI.SATYANARAYANA followed by the principal Dr.J.SRI HARI RAO & Chairman of LEE Mr.CH.RAMBABU. It was celebrated in the presence of all the faculty members and students of all years. Prizes are given to all of the winners of various events conducted, and also for the rank holders in previous semesters. Apart from this students give a rocking performance in cultural.</p>
+                  {acGalleryLoading ? (
+                    <div className="flex justify-center py-8">
+                      <div className="text-gray-500">Loading gallery...</div>
+                    </div>
+                  ) : acGalleryImages.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                      {acGalleryImages.map((item: any, index: number) => (
+                        <div key={item.id || index} className="space-y-2">
+                          <img
+                            src={item.gallery}
+                            alt={item.title || `LEE Anniversary ${index + 1}`}
+                            className="w-full h-auto rounded-lg shadow object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                          {item.title && (
+                            <p className="text-center text-sm text-gray-600">{item.title}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    </div>
+                  )}
+                </div>
+              </details>
+            </div>
+          </div>
+        );
+
+      case 'Syllabus':
+        // Group syllabus by type (B.Tech, M.Tech, etc.)
+        const syllabusTypes = Array.from(new Set(syllabus.map((s: any) => s.type || 'Other')));
+
+        // Function to format type names
+        const formatType = (type: string) => {
+          const typeMap: { [key: string]: string } = {
+            'btech': 'B.Tech',
+            'mtech': 'M.Tech',
+            'other': 'Other'
+          };
+          return typeMap[type.toLowerCase()] || type;
+        };
+
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Syllabus</h2>
+            {syllabusLoading ? (
+              <div className="text-center py-8 text-gray-500">Loading syllabus...</div>
+            ) : Array.isArray(syllabus) && syllabus.length > 0 ? (
+              <div className="space-y-6">
+                {syllabusTypes.map((type, index) => (
+                  <details key={type} open={index === 0} className="cst-dropdown">
+                    <summary>{formatType(type)}</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 my-2 space-y-2">
+                        {syllabus
+                          .filter((s: any) => (s.type || 'Other') === type)
+                          .map((item: any, idx: number) => (
+                            <li key={idx}>
+                              {item.title}
+                              {item.academic_year && <span className="text-gray-600"> ({item.academic_year})</span>}
+                              {item.fileUrl && (
+                                <>
+                                  {' - '}
+                                  <a
+                                    href={item.fileUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline font-medium"
+                                  >
+                                    View
+                                  </a>
+                                </>
+                              )}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">No syllabus data available.</div>
+            )}
+          </div>
+        );
+
+      case 'Faculty Innovations in T & L':
+        // Group innovations by innovation_type
+        const innovationTypes = Array.from(new Set(facultyInnovations.map((item: any) => item.innovation_type || 'Other')));
+
+        return (
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
+            <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Innovations in Teaching & Learning</h2>
+            {facultyInnovationsLoading ? (
+              <div className="text-center py-8 text-gray-500">Loading faculty innovations...</div>
+            ) : Array.isArray(facultyInnovations) && facultyInnovations.length > 0 ? (
+              <div className="space-y-6">
+                {innovationTypes.map((type, index) => (
+                  <details key={type} open={index === 0} className="cst-dropdown">
+                    <summary>{type}</summary>
+                    <div className="cst-dropdown-content">
+                      <div className="space-y-4">
+                        {facultyInnovations
+                          .filter((item: any) => (item.innovation_type || 'Other') === type)
+                          .map((innovation: any, idx: number) => (
+                            <div key={idx} className="p-4 bg-gray-50 rounded-lg border hover:bg-gray-100 transition-colors">
+                              <h4 className="font-semibold text-lg text-gray-900 mb-2">{innovation.title}</h4>
+                              {innovation.description && (
+                                <p className="text-gray-700 mb-2">{innovation.description}</p>
+                              )}
+                              <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-2">
+                                {innovation.faculty_name && (
+                                  <span><strong>Faculty:</strong> {innovation.faculty_name}</span>
+                                )}
+                                {innovation.implementation_date && (
+                                  <span><strong>Date:</strong> {new Date(innovation.implementation_date).toLocaleDateString('en-GB')}</span>
+                                )}
+                              </div>
+                              {innovation.impact_description && (
+                                <p className="text-gray-600 text-sm mb-2"><strong>Impact:</strong> {innovation.impact_description}</p>
+                              )}
+                              {innovation.document_url && (
+                                <a
+                                  href={innovation.document_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-block mt-2 text-[#B22222] hover:underline font-medium"
+                                >
+                                  View Document
+                                </a>
+                              )}
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">No faculty innovations data available.</div>
+            )}
+          </div>
+        );
+
       case 'Contact':
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Contact Information</h2>
-            
-            <div className="space-y-8">
-              {/* Department Contact */}
-              <div className="border rounded-lg p-6 bg-gray-50">
-                <h3 className="text-xl font-semibold text-[#B22222] mb-4">Department Contact</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <h4 className="font-semibold text-gray-800">Head of Department</h4>
-                    <p className="text-gray-600">Dr. D. Sudha Rani</p>
-                    <p className="text-gray-600">Professor & Head</p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-800">Department Office</h4>
-                    <p className="text-gray-600">
-                      Department of Electrical & Electronics Engineering<br/>
-                      Sri Vasavi Engineering College<br/>
-                      Tadepalligudem - 534101<br/>
-                      West Godavari District, Andhra Pradesh
+            <h2 className="text-3xl font-bold text-[#B22222] mb-8 text-center">Contact Info</h2>
+
+            {/* HOD Contact Card */}
+            <div className="border-2 border-gray-200 rounded-2xl p-6 md:p-8 mb-8 shadow-sm">
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                <div className="md:w-2/5 flex justify-center">
+                  <img
+                    src="/eeehod.jpg"
+                    alt="Dr. D. Sudha Rani"
+                    className="w-full max-w-md h-auto object-cover rounded-xl shadow-lg"
+                  />
+                </div>
+                <div className="md:w-3/5 text-center md:text-left">
+                  <h3 className="text-3xl font-bold text-gray-900 mb-2">Dr. D. Sudha Rani</h3>
+                  <p className="text-lg text-gray-700 mb-4">Professor & Head of the Department</p>
+                  <div className="space-y-2 text-gray-700">
+                    <p>
+                      <span className="font-semibold">Email:</span>{' '}
+                      <a href="mailto:hod_eee@srivasaviengg.ac.in" className="text-[#B22222] hover:underline">
+                        hod_eee@srivasaviengg.ac.in
+                      </a>
+                    </p>
+                    <p>
+                      <span className="font-semibold">Phone:</span> 08818-284355 (O) - Ext. 376
+                    </p>
+                    <p>
+                      <span className="font-semibold">Fax:</span> 08818-284322
                     </p>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div className="space-y-8">
+              {/* Department Office */}
+              <div className="border rounded-lg p-6 bg-gray-50">
+                <h3 className="text-xl font-semibold text-[#B22222] mb-4">Department Office</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Department of Electrical & Electronics Engineering<br />
+                  Sri Vasavi Engineering College<br />
+                  Pedatadepalli, Tadepalligudem - 534101<br />
+                  West Godavari District, Andhra Pradesh, India
+                </p>
               </div>
 
               {/* Key Faculty Contacts */}
@@ -2308,7 +2393,7 @@ const EEEDepartment: React.FC = () => {
         items={sidebarItems}
         activeItem={activeContent}
         onItemClick={setActiveContent}
-        title="Electrical & Electronics Engineering Department"
+        title="EEE Department"
       >
         {renderContentWithTitle()}
       </DepartmentSidebar>

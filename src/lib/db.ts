@@ -21,17 +21,13 @@ function getDbConfig() {
     database: 'svec_cms', // Hardcoded database name
     port: Number(process.env.MYSQL_PORT) || 3306,
     waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
+    connectionLimit: 3,  // Minimum needed connections
+    queueLimit: 10,
     // MySQL2 specific options
-    acquireTimeout: 60000, // 60 seconds
-    connectTimeout: 60000, // 60 seconds  
-    idleTimeout: 300000, // 5 minutes
-    // Connection pool options
-    maxIdle: 10,
-    // Keep alive settings
+    connectTimeout: 5000,  // 5 seconds timeout
+    idleTimeout: 10000, // 10 seconds idle timeout - aggressive cleanup
     enableKeepAlive: true,
-    keepAliveInitialDelay: 30000 // 30 seconds
+    keepAliveInitialDelay: 5000 // 5 seconds
   };
 }
 
@@ -66,7 +62,7 @@ export function getPool(): Pool {
  */
 export async function query<T>(sql: string, params?: any[]): Promise<T[]> {
   let lastError: any;
-  const maxRetries = 3;
+  const maxRetries = 5;  // Increase retries
   
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
@@ -82,14 +78,14 @@ export async function query<T>(sql: string, params?: any[]): Promise<T[]> {
       lastError = error;
       console.error(`Database query error on attempt ${attempt}:`, error.code, error.message);
       
-      // If this is a connection timeout or network error, try to recreate the pool
-      if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET' || error.code === 'ENOTFOUND') {
+      // If this is a connection timeout, network error, or too many connections, try to recreate the pool
+      if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET' || error.code === 'ENOTFOUND' || error.code === 'ER_CON_COUNT_ERROR') {
         console.log('Connection error detected, resetting pool...');
         resetPool();
         
         // Wait before retry (exponential backoff)
         if (attempt < maxRetries) {
-          const delay = Math.pow(2, attempt - 1) * 1000; // 1s, 2s, 4s
+          const delay = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s, 16s, 32s
           console.log(`Waiting ${delay}ms before retry...`);
           await new Promise(resolve => setTimeout(resolve, delay));
         }
@@ -121,7 +117,7 @@ export async function query<T>(sql: string, params?: any[]): Promise<T[]> {
  */
 export async function execute<T>(sql: string, params?: any[]): Promise<ResultSetHeader> {
   let lastError: any;
-  const maxRetries = 3;
+  const maxRetries = 5;  // Increase retries
   
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
@@ -136,14 +132,14 @@ export async function execute<T>(sql: string, params?: any[]): Promise<ResultSet
       lastError = error;
       console.error(`Database execute error on attempt ${attempt}:`, error.code, error.message);
       
-      // If this is a connection timeout or network error, try to recreate the pool
-      if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET' || error.code === 'ENOTFOUND') {
+      // If this is a connection timeout, network error, or too many connections, try to recreate the pool
+      if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET' || error.code === 'ENOTFOUND' || error.code === 'ER_CON_COUNT_ERROR') {
         console.log('Connection error detected, resetting pool...');
         resetPool();
         
         // Wait before retry (exponential backoff)
         if (attempt < maxRetries) {
-          const delay = Math.pow(2, attempt - 1) * 1000; // 1s, 2s, 4s
+          const delay = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s, 16s, 32s
           console.log(`Waiting ${delay}ms before retry...`);
           await new Promise(resolve => setTimeout(resolve, delay));
         }

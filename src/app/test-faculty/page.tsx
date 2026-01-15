@@ -46,7 +46,7 @@ export default function TestFacultyProfiles() {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('/api/faculty_profiles');
+      const response = await fetch('/api/faculty_profiles', { cache: 'no-store' });
       
       if (!response.ok) {
         const errorData = await response.json();

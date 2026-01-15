@@ -43,7 +43,7 @@ export default function TestBoardOfStudies() {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('/api/board_of_studies');
+      const response = await fetch('/api/board_of_studies', { cache: 'no-store' });
       
       if (!response.ok) {
         const errorData = await response.json();

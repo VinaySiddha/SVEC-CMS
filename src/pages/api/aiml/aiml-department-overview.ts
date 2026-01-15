@@ -1,0 +1,24 @@
+import { NextApiRequest, NextApiResponse } from 'next';
+import { executeQuery } from '../../../lib/dbPool';
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    if (req.method === 'GET') {
+      const rows: any = await executeQuery(
+        "SELECT * FROM aiml_department_overview LIMIT 1"
+      );
+
+      // Return the first row or null if no data
+      res.status(200).json(rows.length > 0 ? rows[0] : null);
+    } else {
+      res.setHeader('Allow', ['GET']);
+      res.status(405).json({ error: 'Method not allowed' });
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({
+      error: 'Database connection failed',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+}

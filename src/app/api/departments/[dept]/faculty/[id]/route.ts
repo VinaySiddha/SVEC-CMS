@@ -4,7 +4,7 @@ import { query } from '@/lib/db';
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { dept: string; id: string } }
+  { params }: { params: Promise<{ dept: string; id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -71,7 +71,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { dept: string; id: string } }
+  { params }: { params: Promise<{ dept: string; id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization');

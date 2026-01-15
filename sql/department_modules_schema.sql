@@ -467,5 +467,4 @@ INSERT IGNORE INTO sidebar_items (title, dept, sort_order, icon, route, status) 
 ('Placement Gallery', 'cseai', 14, 'Users', '/departments/cseai/placement-gallery', 'approved'),
 ('Student Achievements', 'cseai', 15, 'Award', '/departments/cseai/student-achievements', 'approved'),
 ('Technical Association', 'cseai', 16, 'Settings', '/departments/cseai/technical-association', 'approved'),
-('Training Activities', 'cseai', 17, 'GraduationCap', '/departments/cseai/training-activities', 'approved'),
-('Workshops', 'cseai', 18, 'Settings', '/departments/cseai/workshops', 'approved');
+('Workshops', 'cseai', 17, 'Settings', '/departments/cseai/workshops', 'approved');

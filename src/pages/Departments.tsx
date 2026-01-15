@@ -12,9 +12,6 @@ const Departments: React.FC = () => {
       name: 'Artificial Intelligence & Machine Learning',
       icon: BrainCircuit,
       description: 'Exploring cutting-edge AI and ML technologies for innovative applications and solutions.',
-      faculty: '30+',
-      students: '240',
-      labs: '6',
       image: '/images/departments/aiml/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Machine Learning', 'Deep Learning', 'Computer Vision', 'Natural Language Processing']
@@ -24,9 +21,6 @@ const Departments: React.FC = () => {
       name: 'Basic Sciences & Humanities',
       icon: Beaker,
       description: 'Building strong foundations in mathematics, physics, chemistry, and humanities for engineering education.',
-      faculty: '22+',
-      students: '480',
-      labs: '7',
       image: '/images/departments/bsh/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Mathematics', 'Physics', 'Chemistry', 'English & Humanities']
@@ -36,9 +30,6 @@ const Departments: React.FC = () => {
       name: 'Civil Engineering',
       icon: Building2,
       description: 'Building tomorrow\'s infrastructure with sustainable and innovative construction technologies.',
-      faculty: '15+',
-      students: '240',
-      labs: '5',
       image: '/images/departments/civil/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Structural Engineering', 'Environmental Engineering', 'Transportation', 'Construction Management']
@@ -48,9 +39,6 @@ const Departments: React.FC = () => {
       name: 'Computer Science Engineering with AI',
       icon: BrainCircuit,
       description: 'Integrating artificial intelligence principles with computer science to create next-generation solutions.',
-      faculty: '18+',
-      students: '180',
-      labs: '6',
       image: '/images/departments/cseai/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Machine Learning', 'AI Applications', 'Neural Networks', 'Intelligent Systems']
@@ -60,9 +48,6 @@ const Departments: React.FC = () => {
       name: 'Computer Science Engineering with Data Science',
       icon: Database,
       description: 'Specializing in data analytics, machine learning, and big data processing techniques.',
-      faculty: '15+',
-      students: '180',
-      labs: '5',
       image: '/images/departments/cseds/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Big Data Analytics', 'Data Visualization', 'Machine Learning', 'Statistical Computing']
@@ -72,9 +57,6 @@ const Departments: React.FC = () => {
       name: 'Computer Science & Engineering',
       icon: Cpu,
       description: 'Leading the digital revolution with cutting-edge computing technologies, AI, and software development.',
-      faculty: '25+',
-      students: '480',
-      labs: '8',
       image: '/images/departments/cse/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Artificial Intelligence', 'Data Science', 'Cyber Security', 'Software Engineering']
@@ -84,9 +66,6 @@ const Departments: React.FC = () => {
       name: 'Computer Science & Technology',
       icon: BarChart3,
       description: 'Comprehensive computer science education with emphasis on modern software technologies.',
-      faculty: '18+',
-      students: '200',
-      labs: '6',
       image: '/images/departments/cst/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Software Development', 'Web Technologies', 'Database Systems', 'Cloud Computing']
@@ -96,21 +75,15 @@ const Departments: React.FC = () => {
       name: 'Electronics & Communication Engineering',
       icon: Zap,
       description: 'Pioneering innovations in electronics, communications, and embedded systems technology.',
-      faculty: '18+',
-      students: '240',
-      labs: '6',
       image: '/images/departments/ece/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['VLSI Design', 'Embedded Systems', 'Signal Processing', 'Communications']
     },
     {
       id: 'ect',
-      name: 'Electronics & Computer Engineering',
+      name: 'Electronics & Communication Technology',
       icon: Microchip,
       description: 'Advanced electronics and computer systems with focus on emerging technologies.',
-      faculty: '14+',
-      students: '180',
-      labs: '5',
       image: '/images/departments/ect/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Digital Systems', 'Communication Networks', 'Embedded Systems', 'IoT']
@@ -120,9 +93,6 @@ const Departments: React.FC = () => {
       name: 'Electrical & Electronics Engineering',
       icon: Zap,
       description: 'Powering the future with electrical systems, renewable energy, and smart grid technologies.',
-      faculty: '16+',
-      students: '240',
-      labs: '6',
       image: '/images/departments/eee/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Power Systems', 'Control Systems', 'Renewable Energy', 'Power Electronics']
@@ -132,9 +102,6 @@ const Departments: React.FC = () => {
       name: 'Master of Business Administration',
       icon: GraduationCap,
       description: 'Developing future business leaders with comprehensive management education and industry exposure.',
-      faculty: '12+',
-      students: '120',
-      labs: '3',
       image: '/images/departments/mba/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Finance', 'Marketing', 'Human Resources', 'Operations']
@@ -144,9 +111,6 @@ const Departments: React.FC = () => {
       name: 'Mechanical Engineering',
       icon: Cog,
       description: 'Engineering the future with advanced manufacturing, robotics, and thermal systems.',
-      faculty: '20+',
-      students: '240',
-      labs: '7',
       image: '/images/departments/mechanical/banner.jpg',
       fallbackImage: 'https://images.pexels.com/photos/3862132/pexels-photo-3862132.jpeg?auto=compress&cs=tinysrgb&w=600',
       specializations: ['Manufacturing', 'Thermal Engineering', 'Robotics', 'Automobile Engineering']
@@ -167,11 +131,8 @@ const Departments: React.FC = () => {
             <span className="text-white font-medium">Academic Excellence</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Our Academic Departments</h1>
-          <p className="text-xl max-w-3xl mx-auto mb-8">
-            Explore our diverse engineering and management departments, each committed to 
-            excellence in education, research, and industry collaboration.
-          </p>
-          <div className="w-24 h-1 bg-white/50 mx-auto"></div>
+          
+          
         </div>
       </section>
 
@@ -203,18 +164,7 @@ const Departments: React.FC = () => {
                   </div>
 
                   <div className="p-5 flex-grow flex flex-col">
-                    {/* Quick Stats */}
-                    <div className="flex items-center justify-between mb-3 text-sm">
-                      <div className="flex items-center">
-                        <Users className="w-4 h-4 text-[#B22222] mr-1" />
-                        <span className="text-gray-600">{dept.faculty} Faculty</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Award className="w-4 h-4 text-[#B22222] mr-1" />
-                        <span className="text-gray-600">{dept.labs} Labs</span>
-                      </div>
-                    </div>
-
+                    
                     <p className="text-gray-600 mb-4 flex-grow">{dept.description}</p>
                     
                     {/* Specializations - Compact Version */}

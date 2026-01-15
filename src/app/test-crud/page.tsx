@@ -30,7 +30,7 @@ export default function TestCrud() {
     setError(null);
     
     try {
-      const response = await fetch('/api/faculty_profiles');
+      const response = await fetch('/api/faculty_profiles', { cache: 'no-store' });
       if (!response.ok) {
         throw new Error('Failed to fetch faculty profiles');
       }

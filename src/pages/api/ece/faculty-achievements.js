@@ -9,11 +9,14 @@ export default async function handler(req, res) {
   });
 
   try {
-    const [rows] = await connection.execute('SELECT type,year,title,url,details FROM ece_faculty_achievements ORDER BY id');
-    res.status(200).json(rows);
+    const [rows] = await connection.execute('SELECT id,category,title,file_url FROM ece_faculty_achievements ORDER BY created_at DESC');
+    res.status(200).json(Array.isArray(rows) ? rows : []);
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
   } catch (error) {
-    console.error("Error fetching clubs data:", error);
-    res.status(500).json({ error: error.message });
+    console.error("Error fetching faculty achievements data:", error);
+    // Return empty array on error instead of 500
+    res.status(200).json([]);
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
   } finally {
     if (connection) {
       await connection.end();

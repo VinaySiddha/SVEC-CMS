@@ -5,23 +5,26 @@ const CategoryPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('intake-details');
 
   const mtechData = [
-    { course: 'VLSI & ES', department: 'ECE', duration: '2 Years', intake: '18', code: 'VSVT' },
-    { course: 'Power System Control & Automation', department: 'EEE', duration: '2 Years', intake: '18', code: 'VSVT' },
-    { course: 'Structural Engg', department: 'CE', duration: '2 Years', intake: '18', code: 'VSVT' },
-    { course: 'Computer Science', department: 'CSE', duration: '2 Years', intake: '12', code: 'VSVT' },
-    { course: 'Machine Design', department: 'ME', duration: '2 Years', intake: '18', code: 'VSVT' }
+    { course: 'Computer Science', department: 'CSE', duration: '2 Years', intake: '18', code: 'VSVT' },
+    { course: 'Embedded Systems & VLSI', department: 'ME', duration: '2 Years', intake: '6', code: 'VSVT' },
+    { course: 'Power System Control & Power Systems', department: 'EEE', duration: '2 Years', intake: '6', code: 'VSVT' },
+    { course: 'Structural Engg', department: 'CE', duration: '2 Years', intake: '6', code: 'VSVT' },
+    
+    
   ];
 
   const btechData = [
-    { course: 'Electronics & Communication Engineering', duration: '4 Years', intake: '180', code: 'VSVT' },
-    { course: 'Electronics & Communication Technology', duration: '4 Years', intake: '60', code: 'VSVT' },
-    { course: 'Computer Science & Engineering', duration: '4 Years', intake: '240', code: 'VSVT' },
-    { course: 'Computer Science & Technology', duration: '4 Years', intake: '60', code: 'VSVT' },
-    { course: 'Computer Science & Engineering(AI)', duration: '4 Years', intake: '120', code: 'VSVT' },
-    { course: 'Computer Science & Engineering(AI & ML)', duration: '4 Years', intake: '120', code: 'VSVT' },
-    { course: 'Mechanical Engineering', duration: '4 Years', intake: '120', code: 'VSVT' },
-    { course: 'Electrical & Electronics Engineering', duration: '4 Years', intake: '120', code: 'VSVT' },
-    { course: 'Civil Engineering', duration: '4 Years', intake: '60', code: 'VSVT' }
+    { name: 'Artificial Intelligence & Machine Learning', duration: '4 Years', intake: 180, code:'VSVT' },
+    { name: 'CSE (Artificial Intelligence)', duration: '4 Years', intake: 180, code:'VSVT' },
+    { name: 'CSE (Data Science)', duration: '4 Years', intake: 60, code:'VSVT' },
+    { name: 'Civil Engineering', duration: '4 Years',  intake: 60, code:'VSVT' },
+    { name: 'Computer Science & Engineering', duration: '4 Years', intake: 300, code:'VSVT' },
+    { name: 'Computer Science & Technology', duration: '4 Years',  intake: 60, code:'VSVT' },
+    { name: 'Electrical & Electronics Engineering', duration: '4 Years',  intake: 60, code:'VSVT' },
+    { name: 'Electronics & Communication Engineering', duration: '4 Years',  intake: 240, code:'VSVT' },
+    { name: 'Electronics & Communication Technology', duration: '4 Years',  intake: 60, code:'VSVT' },
+    { name: 'Mechanical Engineering', duration: '4 Years',  intake: 60, code:'VSVT' }
+
   ];
 
   const mbaData = [
@@ -29,10 +32,12 @@ const CategoryPage: React.FC = () => {
   ];
 
   const diplomaData = [
-    { course: 'DECE', duration: '3 Years', intake: '60', code: 'VSVT' },
-    { course: 'DME', duration: '3 Years', intake: '120', code: 'VSVT' },
-    { course: 'DEEE', duration: '3 Years', intake: '120', code: 'VSVT' },
-    { course: 'DCIVIL', duration: '3 Years', intake: '120', code: 'VSVT' }
+    { course: 'DCIVIL', duration: '3 Years', intake: '60', code: 'VSVT' },
+    { course: 'DCME', duration: '3 Years', intake: '120', code: 'VSVT' },
+    { course: 'DECE', duration: '3 Years', intake: '120', code: 'VSVT' },
+    { course: 'DME', duration: '3 Years', intake: '60', code: 'VSVT' },
+    { course: 'DEEE', duration: '3 Years', intake: '60', code: 'VSVT' },
+    
   ];
 
   const candidateListLinks = [
@@ -48,7 +53,9 @@ const CategoryPage: React.FC = () => {
   ];
 
   const renderTable = (data: any[], headers: string[], title: string) => (
+    
     <div className="mb-8">
+      
       <h2 className="text-2xl font-bold text-primary text-center mb-4">{title}</h2>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse bg-white rounded-lg overflow-hidden shadow-sm">

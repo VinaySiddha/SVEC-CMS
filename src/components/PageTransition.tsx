@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { useLoading } from '@/contexts/LoadingContext';
 
@@ -10,40 +10,126 @@ interface PageTransitionProps {
 const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
   const [isVisible, setIsVisible] = useState(true);
   const pathname = usePathname();
-  const { setLoading } = useLoading();
+  const { setLoading, setLoadingText } = useLoading();
+  const isFirstRunRef = useRef(true);
 
   useEffect(() => {
-    // Only trigger transition for actual route changes, not hash changes or query params
+    let cancelled = false;
+
     const currentPath = pathname?.split("?")[0].split("#")[0] ?? "";
     const previousPath = localStorage.getItem('previousPath') || '';
-    
-    // If it's the same path, skip the transition completely (for tab changes, etc.)
+
+    console.log('Current Path:', currentPath);
+    console.log('Previous Path:', previousPath);
+    console.log('Is First Run:', isFirstRunRef.current);
+
+    // Navigation detection
     if (currentPath === previousPath) {
+      // Same path, handle first load
+      if (isFirstRunRef.current) {
+        console.log('First load, showing loader...');
+        setLoadingText('Loading...');
+        setLoading(true);
+        const startedAt = Date.now();
+
+        const finishLoading = () => {
+          const elapsed = Date.now() - startedAt;
+          const remaining = Math.max(0, 500 - elapsed);
+          setTimeout(() => {
+            if (cancelled) return;
+            setLoading(false);
+            setIsVisible(true);
+            console.log('Finished first load');
+          }, remaining);
+        };
+
+        if (typeof document !== 'undefined' && document.readyState === 'complete') {
+          finishLoading();
+        } else {
+          window.addEventListener('load', finishLoading, { once: true });
+        }
+
+        isFirstRunRef.current = false;
+        return () => {
+          cancelled = true;
+          window.removeEventListener('load', finishLoading);
+        };
+      }
+
+      // For subsequent same-path loads
       setIsVisible(true);
       setLoading(false);
       return;
     }
-    
-    // Store current path for next comparison
+
+    // Route change detected
+    isFirstRunRef.current = false;
     localStorage.setItem('previousPath', currentPath);
-    
-    // For actual route changes, make transition much faster
+    console.log('Route changed, start transition');
+
+    setLoadingText('Loading page...');
+    setLoading(true);
     setIsVisible(false);
 
-    // Ultra-fast transition - just enough to prevent flash
-    const timer = setTimeout(() => {
-      setLoading(false);
-      setIsVisible(true);
-    }, 100); // Reduced from 250ms to 100ms for snappier feel
+    const waitForPaint = () => new Promise<void>((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    });
 
-    return () => clearTimeout(timer);
-  }, [pathname, setLoading]);
+    const waitForLCPOrTimeout = () => new Promise<void>((resolve) => {
+      let finished = false;
+      const timeoutId = setTimeout(() => {
+        if (!finished) {
+          finished = true;
+          resolve();
+        }
+      }, 1200);
+
+      try {
+        if (typeof PerformanceObserver !== 'undefined') {
+          const observer = new PerformanceObserver((list) => {
+            const entries = list.getEntries() as any[];
+            const newest = entries[entries.length - 1];
+            if (newest && typeof newest.startTime === 'number') {
+              if (newest.startTime >= performance.now() - performance.timing.navigationStart) {
+                if (!finished) {
+                  finished = true;
+                  clearTimeout(timeoutId);
+                  resolve();
+                }
+              }
+            }
+          });
+          observer.observe({ type: 'largest-contentful-paint', buffered: true } as any);
+        }
+      } catch {
+        // Ignore
+      }
+    });
+
+    (async () => {
+      const minDelay = new Promise<void>((r) => setTimeout(r, 500));
+      await Promise.all([waitForPaint(), minDelay, waitForLCPOrTimeout()]);
+
+      if (cancelled) return;
+      setIsVisible(true);
+      requestAnimationFrame(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      });
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [pathname, setLoading, setLoadingText]);
 
   return (
     <>
-      {/* Loading Overlay */}
-      
-      {/* Page Content - Faster transitions */}
+      {/* Optional overlay, e.g., a spinner */}
+      {/* <div className={`fixed inset-0 bg-white z-50 ${isLoading ? 'block' : 'hidden'}`}>Loading...</div> */}
+
+      {/* Page Content */}
       <div
         className={`transition-all duration-75 ease-out ${isVisible
           ? 'opacity-100 translate-y-0 scale-100'

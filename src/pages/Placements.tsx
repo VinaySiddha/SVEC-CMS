@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { TrendingUp, Building, Users, Award, Target, Briefcase, Star, CheckCircle, ChevronRight, Phone, Mail, ExternalLink, Loader } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+
+import { TrendingUp, Building, Users, Award, Target, Briefcase, Star, CheckCircle, ChevronRight, ChevronLeft, Phone, Mail, ExternalLink, Loader, FileDown } from 'lucide-react';
+
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import content from '../content/placements.json';
 
@@ -24,47 +26,233 @@ interface Company {
   company_type: string;
 }
 
-interface TeamMember {
+interface PlacementTeamMember {
   id: number;
   name: string;
   designation: string;
   department: string;
-  role: string;
   email: string;
   phone: string;
-  bio?: string;
-  photo_url?: string;
+  office?: string;
+  image_url?: string;
+}
+
+interface PlacementOfficer {
+  id: number;
+  name: string;
+  designation: string;
+  email: string;
+  phone: string;
+  linkedin?: string;
+  image_url?: string;
+}
+
+interface CarouselImage {
+  id: number;
+  image_url: string;
+  alt_text: string;
+}
+
+interface PlacementInfo {
+  id: number;
+  title: string;
+  description: string;
+}
+
+interface PlacementCompanyLogo {
+  id: number;
+  image_url: string;
+  company_name?: string;
+}
+
+interface PlacementPDF {
+  id: number;
+  year: string;
+  title?: string | null;
+  pdf_url: string;
+  created_at?: string;
+}
+
+interface PlacementChartEntry {
+  id?: number;
+  year: string;
+  civil: number;
+  mech: number;
+  eee: number;
+  ece: number;
+  cse: number;
+  mba: number;
+  aiml?: number;
+  cai?: number;
+  ect?: number;
+  cst?: number;
+  created_at?: string;
+}
+
+interface Timetable {
+  sno: number;
+  date: string;
+  content: string;
+  degree: string;
+  type: string;
+  link: string;
+  posteddate: string;
 }
 
 const Placements: React.FC = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
-  
+
   // State for API data
   const [statistics, setStatistics] = useState<PlacementStatistics[]>([]);
   const [companies, setCompanies] = useState<Company[]>([]);
-  const [team, setTeam] = useState<TeamMember[]>([]);
+  const [team, setTeam] = useState<PlacementTeamMember[]>([]);
+  const [placementOfficer, setPlacementOfficer] = useState<PlacementOfficer | null>(null);
+  const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([]);
+  const [activeSlide, setActiveSlide] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const nextSlide = () => {
+    setActiveSlide((prev) => (prev + 1) % carouselImages.length);
+  };
+
+  const prevSlide = () => {
+    setActiveSlide((prev) => (prev - 1 + carouselImages.length) % carouselImages.length);
+  };
   const [error, setError] = useState<string | null>(null);
+
+  // State for placement_info table
+  const [placementInfo, setPlacementInfo] = useState<PlacementInfo | null>(null);
+
+  // State for timetable data
+  const [timetables, setTimetables] = useState<Timetable[]>([]);
+  const [companyLogos, setCompanyLogos] = useState<PlacementCompanyLogo[]>([]);
+  const [placementPdfs, setPlacementPdfs] = useState<PlacementPDF[]>([]);
+  const [placementCharts, setPlacementCharts] = useState<PlacementChartEntry[]>([]);
 
   // Fetch data from API
   useEffect(() => {
     const fetchPlacementData = async () => {
       try {
         setLoading(true);
+
+        // Fetch main placement data
         const response = await fetch('/api/placements');
-        
         if (!response.ok) {
           throw new Error('Failed to fetch placement data');
         }
-        
+
+        // Fetch company logos
+        const logosResponse = await fetch('/api/placement/logos');
+        if (logosResponse.ok) {
+          const logosData = await logosResponse.json();
+          if (Array.isArray(logosData)) {
+            setCompanyLogos(logosData);
+          }
+        } else {
+          console.warn('Failed to fetch placement company logos');
+        }
+
         const result = await response.json();
-        
         if (result.success) {
           setStatistics(result.data.statistics || []);
           setCompanies(result.data.companies || []);
-          setTeam(result.data.team || []);
         } else {
           setError(result.error || 'Failed to load data');
+        }
+
+        // Fetch placement PDFs
+        const pdfResponse = await fetch('/api/placement/pdfs');
+        if (pdfResponse.ok) {
+          const pdfData = await pdfResponse.json();
+          setPlacementPdfs(Array.isArray(pdfData) ? pdfData : []);
+        } else {
+          console.warn('Failed to fetch placement PDFs');
+          setPlacementPdfs([]);
+        }
+
+        // Fetch placement charts
+        const chartsResponse = await fetch('/api/placement/charts');
+        if (chartsResponse.ok) {
+          const chartsData = await chartsResponse.json();
+          setPlacementCharts(Array.isArray(chartsData) ? chartsData : []);
+        } else {
+          console.warn('Failed to fetch placement charts data');
+          setPlacementCharts([]);
+        }
+
+        // Fetch placement_team data
+        const teamResponse = await fetch('/api/placement/team');
+        if (teamResponse.ok) {
+          const teamData = await teamResponse.json();
+          setTeam(Array.isArray(teamData) ? teamData : []);
+        } else {
+          console.warn('Failed to fetch placement_team data');
+        }
+
+        // Fetch placement_office data
+        const officerResponse = await fetch('/api/placement/officer');
+        if (officerResponse.ok) {
+          const officerData = await officerResponse.json();
+          setPlacementOfficer(officerData && officerData.id ? officerData : null);
+        } else {
+          console.warn('Failed to fetch placement_officer data');
+        }
+
+        // Fetch carousel data
+        const carouselResponse = await fetch('/api/placement/carousel');
+        if (carouselResponse.ok) {
+          const carouselData = await carouselResponse.json();
+          setCarouselImages(carouselData || []);
+        } else {
+          console.warn('Failed to fetch carousel data, using fallback images');
+          // Fallback to static images if carousel data fails
+          const fallbackImages = [
+            "../images/placement/veeva.jpeg",
+            "../images/placement/tcs1.jpg",
+            "../images/placement/tcs2.jpg",
+            "../images/placement/infosys1.jpeg",
+            "../images/placement/infosys2.jpeg",
+            "../images/placement/wipro.jpeg",
+            "../images/placement/cognizant.jpeg",
+            "../images/placement/accenture.jpeg",
+            "../images/placement/microsoft.jpeg",
+            "../images/placement/amazon.jpeg",
+            "../images/placement/google.jpeg",
+            "../images/placement/ibm.jpeg",
+            "../images/placement/oracle.jpeg",
+            "../images/placement/zoho.jpeg",
+            "../images/placement/hcl.jpeg",
+            "../images/placement/techMahindra.jpeg"
+          ].map((url, index) => ({
+            id: index + 1,
+            image_url: url,
+            alt_text: `Placement ${index + 1}`
+          }));
+          setCarouselImages(fallbackImages);
+        }
+
+        // Fetch placement_info data
+        const infoResponse = await fetch('/api/placement/info');
+        if (infoResponse.ok) {
+          const infoData = await infoResponse.json();
+          // If infoData is an array, pick the first item
+          if (Array.isArray(infoData) && infoData.length > 0) {
+            setPlacementInfo(infoData[0]);
+          } else if (infoData && infoData.title) {
+            setPlacementInfo(infoData);
+          }
+        } else {
+          console.warn('Failed to fetch placement_info data');
+        }
+
+        // Fetch timetable data from exam_section with type=timetable
+        const timetableResponse = await fetch('/api/exam-section/jntuk-exam-section?type=timetable');
+        if (timetableResponse.ok) {
+          const timetableData = await timetableResponse.json();
+          setTimetables(Array.isArray(timetableData) ? timetableData : []);
+        } else {
+          console.warn('Failed to fetch timetable data');
+          setTimetables([]);
         }
       } catch (err) {
         console.error('Error fetching placement data:', err);
@@ -88,26 +276,6 @@ const Placements: React.FC = () => {
     CheckCircle,
   };
 
-  // Placement images from carousel
-  const placementImages = [
-    "../images/placement/veeva.jpeg",
-    "../images/placement/tcs1.jpg",
-    "../images/placement/tcs2.jpg",
-    "../images/placement/infosys1.jpeg",
-    "../images/placement/infosys2.jpeg",
-    "../images/placement/wipro.jpeg",
-    "../images/placement/cognizant.jpeg",
-    "../images/placement/accenture.jpeg",
-    "../images/placement/microsoft.jpeg",
-    "../images/placement/amazon.jpeg",
-    "../images/placement/google.jpeg",
-    "../images/placement/ibm.jpeg",
-    "../images/placement/oracle.jpeg",
-    "../images/placement/zoho.jpeg",
-    "../images/placement/hcl.jpeg",
-    "../images/placement/techMahindra.jpeg"
-  ];
-
   // Auto-scroll carousel
   useEffect(() => {
     const carousel = carouselRef.current;
@@ -116,7 +284,7 @@ const Placements: React.FC = () => {
     const interval = setInterval(() => {
       const activeSlide = carousel.querySelector('.carousel-item.active');
       const nextSlide = activeSlide?.nextElementSibling || carousel.querySelector('.carousel-item:first-child');
-      
+
       if (activeSlide && nextSlide) {
         activeSlide.classList.remove('active');
         nextSlide.classList.add('active');
@@ -126,58 +294,72 @@ const Placements: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Placement data for charts (from HTML)
-  const placementData = {
-    years: ["2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
-    departments: ["CE", "ME", "EEE", "ECE", "ECT", "CSE", "CST", "AIM", "CAI", "MBA"],
-    data: [
-      [8, 45, 33, 46, 0, 70, 0, 0, 0, 5], // Year 2017
-      [22, 58, 41, 86, 0, 187, 0, 0, 0, 41], // Year 2018
-      [11, 40, 43, 116, 0, 228, 0, 0, 0, 16], // Year 2019
-      [9, 39, 83, 182, 0, 318, 0, 0, 0, 19], // Year 2020
-      [47, 121, 199, 360, 0, 599, 72, 0, 0, 0], // Year 2021
-      [48, 119, 207, 362, 0, 603, 0, 0, 0, 104], // Year 2022
-      [39, 69, 84, 173, 38, 228, 37, 0, 0, 23], // Year 2023
-      [34, 92, 72, 61, 31, 165, 29, 0, 0, 66], // Year 2024
-      [23, 58, 98, 97, 35, 181, 38, 56, 41, 66], // Year 2025
-    ]
-  };
+  const fallbackChartEntries: PlacementChartEntry[] = [
+    { year: '2017', civil: 8, mech: 45, eee: 33, ece: 46, ect: 0, cse: 70, cst: 0, aiml: 0, cai: 0, mba: 5 },
+    { year: '2018', civil: 22, mech: 58, eee: 41, ece: 86, ect: 0, cse: 187, cst: 0, aiml: 0, cai: 0, mba: 41 },
+    { year: '2019', civil: 11, mech: 40, eee: 43, ece: 116, ect: 0, cse: 228, cst: 0, aiml: 0, cai: 0, mba: 16 },
+    { year: '2020', civil: 9, mech: 39, eee: 83, ece: 182, ect: 0, cse: 318, cst: 0, aiml: 0, cai: 0, mba: 19 },
+    { year: '2021', civil: 47, mech: 121, eee: 199, ece: 360, ect: 0, cse: 599, cst: 72, aiml: 0, cai: 0, mba: 0 },
+    { year: '2022', civil: 48, mech: 119, eee: 207, ece: 362, ect: 0, cse: 603, cst: 0, aiml: 0, cai: 0, mba: 104 },
+    { year: '2023', civil: 39, mech: 69, eee: 84, ece: 173, ect: 38, cse: 228, cst: 37, aiml: 0, cai: 0, mba: 23 },
+    { year: '2024', civil: 34, mech: 92, eee: 72, ece: 61, ect: 31, cse: 165, cst: 29, aiml: 0, cai: 0, mba: 66 },
+    { year: '2025', civil: 23, mech: 58, eee: 98, ece: 97, ect: 35, cse: 181, cst: 38, aiml: 56, cai: 41, mba: 66 },
+  ];
 
-  // Prepare data for charts
-  const yearlyTotalData = placementData.years.map((year, index) => ({
-    year,
-    total: placementData.data[index].reduce((sum, value) => sum + value, 0),
-    CSE: placementData.data[index][5] || 0,
-    ECE: placementData.data[index][3] || 0,
-    ME: placementData.data[index][1] || 0,
-    EEE: placementData.data[index][2] || 0,
-    CE: placementData.data[index][0] || 0,
-    MBA: placementData.data[index][9] || 0,
+  const orderedCharts = useMemo(() => {
+    // Only use actual data from database, no fallback
+    if (placementCharts.length === 0) return [];
+    // Sort by year descending (most recent first)
+    return [...placementCharts].sort((a, b) => parseInt(b.year) - parseInt(a.year));
+  }, [placementCharts]);
+
+  const yearlyTotalData = orderedCharts.map((entry) => ({
+    year: entry.year,
+    total: (entry.civil || 0) + (entry.mech || 0) + (entry.eee || 0) + (entry.ece || 0) + (entry.cse || 0) + (entry.mba || 0) + (entry.ect || 0) + (entry.cst || 0) + (entry.aiml || 0) + (entry.cai || 0),
+    CSE: entry.cse || 0,
+    ECE: entry.ece || 0,
+    ME: entry.mech || 0,
+    EEE: entry.eee || 0,
+    CE: entry.civil || 0,
+    MBA: entry.mba || 0,
   }));
 
-  // Department-wise data for pie chart (latest year)
-  const latestYearIndex = placementData.years.length - 1;
-  const departmentData = placementData.departments.map((dept, index) => ({
-    name: dept,
-    value: placementData.data[latestYearIndex][index],
-    color: [
-      '#0088FE', // CE - Blue
-      '#FF6961', // ME - Light Coral
-      '#B22222', // EEE - Firebrick
-      '#FF00FF', // ECE - Magenta
-      '#FF4500', // ECT - Orange Red
-      '#A9A9A9', // CSE - Dark Gray
-      '#2C2C2C', // CST - Dark Charcoal
-      '#FFFF00', // AIM - Yellow
-      '#E9967A', // CAI - Dark Salmon
-      '#FFC0CB', // MBA - Pink
-    ][index]
-  })).filter(dept => dept.value > 0);
+  const departmentOrder = [
+    { name: 'CE', key: 'civil', color: '#0088FE' },
+    { name: 'ME', key: 'mech', color: '#FF6961' },
+    { name: 'EEE', key: 'eee', color: '#B22222' },
+    { name: 'ECE', key: 'ece', color: '#FF00FF' },
+    { name: 'ECT', key: 'ect', color: '#FF4500' },
+    { name: 'CSE', key: 'cse', color: '#A9A9A9' },
+    { name: 'CST', key: 'cst', color: '#2C2C2C' },
+    { name: 'AIML', key: 'aiml', color: '#FFFF00' },
+    { name: 'CAI', key: 'cai', color: '#E9967A' },
+    { name: 'MBA', key: 'mba', color: '#FFC0CB' },
+  ] as const;
 
-  // Top performing departments
-  const topDepartments = [...departmentData]
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 6);
+  const preferredYear = '2025';
+  const [selectedChartYear, setSelectedChartYear] = useState<string | null>(null);
+  
+  const latestDepartmentEntry = useMemo(() => {
+    if (orderedCharts.length === 0) return null;
+    // If a year is selected, use that; otherwise use preferred year or latest available
+    if (selectedChartYear) {
+      return orderedCharts.find((entry) => entry.year === selectedChartYear) || orderedCharts[orderedCharts.length - 1];
+    }
+    return orderedCharts.find((entry) => entry.year === preferredYear) || orderedCharts[orderedCharts.length - 1];
+  }, [orderedCharts, selectedChartYear]);
+
+  const departmentData = latestDepartmentEntry
+    ? departmentOrder
+        .map(({ name, key, color }) => ({
+          name,
+          value: (latestDepartmentEntry as any)[key] || 0,
+          color,
+        }))
+        .filter((dept) => dept.value > 0)
+    : [];
+
+  const topDepartments = departmentData.slice().sort((a, b) => b.value - a.value).slice(0, 6);
 
   // Colors for charts
   const chartColors = {
@@ -189,22 +371,14 @@ const Placements: React.FC = () => {
     warning: '#ffc107',
   };
 
-  // Placement team members
-  const placementTeam = [
-    {
-      name: "Dr. P N V GOPALA KRISHNA",
-      designation: "Associate Professor (Mechanical) & Head - Placements",
-      phone: "9849511367",
-      office: "08818-284355 (Ext:319)",
-      email: "gopalakrishna.pnv@srivasaviengg.ac.in",
-      image: "../images/placement/placement-head.jpeg",
-      department: "Mechanical Engineering"
-    }
-  ];
-
   // Company logos for the scrolling section
-  const companyLogos = Array.from({ length: 30 }, (_, i) => `../company_icons/${i + 1}.png`);
+  const fallbackCompanyLogos = Array.from({ length: 30 }, (_, i) => ({
+    id: i + 1,
+    image_url: `../company_icons/${i + 1}.png`,
+    company_name: `Company ${i + 1}`
+  }));
 
+  const visibleCompanyLogos = companyLogos.length > 0 ? companyLogos : fallbackCompanyLogos;
 
   return (
     <div className="pt-44 bg-[#FFF8F0] text-[#222222]">
@@ -229,8 +403,8 @@ const Placements: React.FC = () => {
             </div>
             <h3 className="text-xl font-semibold text-red-800 mb-2">Error Loading Data</h3>
             <p className="text-red-600 mb-4">{error}</p>
-            <button 
-              onClick={() => window.location.reload()} 
+            <button
+              onClick={() => window.location.reload()}
               className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
             >
               Retry
@@ -245,11 +419,10 @@ const Placements: React.FC = () => {
           {/* Hero Section */}
           <section className="bg-primary text-white py-20 relative overflow-hidden isolate">
             <div className="container mx-auto px-4 text-center relative z-10">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 text-[#850209]">Placements</h1>
-              <p className="text-xl max-w-3xl mx-auto text-[darkred]">
-                At our college, we don't just prepare students for careers; we ignite their passions and propel them towards success. 
-                Our placement program is more than a bridge to the professional world; it's a launchpad for dreams and aspirations.
-              </p>
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 text-[#850209]">
+                {placementInfo?.title || 'Placements'}
+              </h1>
+
             </div>
 
             {/* Subtle background shapes */}
@@ -257,644 +430,494 @@ const Placements: React.FC = () => {
             <div className="absolute left-0 bottom-0 h-24 w-24 md:h-36 md:w-36 bg-secondary/20 rounded-full opacity-70 shadow-sm z-0"></div>
           </section>
 
-      {/* Placement Images Carousel */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div ref={carouselRef} className="relative">
-              <div className="overflow-hidden rounded-xl shadow-lg">
-                <div className="relative h-96">
-                  {placementImages.map((image, index) => (
-                    <div
-                      key={index}
-                      className={`carousel-item absolute inset-0 transition-opacity duration-500 ${
-                        index === 0 ? 'active opacity-100' : 'opacity-0'
-                      }`}
-                    >
+          {/* Placement Images Carousel */}
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="max-w-5xl mx-auto relative px-12 group">
+                
+                {/* Main Image Container */}
+                <div className="relative rounded-xl overflow-hidden shadow-2xl bg-gray-50 border border-gray-100">
+                  {carouselImages.length > 0 ? (
+                    <div className="relative w-full">
                       <img
-                        src={image}
-                        alt={`Placement ${index + 1}`}
-                        className="w-full h-full object-cover"
+                        src={carouselImages[activeSlide].image_url}
+                        alt={carouselImages[activeSlide].alt_text}
+                        className="w-full h-auto object-contain block"
+                        style={{ maxHeight: '80vh' }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center h-64 bg-gray-200">
+                      <p className="text-gray-500 text-lg">No carousel images available</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Navigation Arrows */}
+                {carouselImages.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevSlide}
+                      className="absolute top-1/2 left-2 -translate-y-1/2 text-[#B22222] hover:text-[#850209] transition-colors duration-300 z-10 transform hover:scale-110"
+                      aria-label="Previous slide"
+                    >
+                      <ChevronLeft className="w-8 h-8" />
+                    </button>
+                    <button
+                      onClick={nextSlide}
+                      className="absolute top-1/2 right-2 -translate-y-1/2 text-[#B22222] hover:text-[#850209] transition-colors duration-300 z-10 transform hover:scale-110"
+                      aria-label="Next slide"
+                    >
+                      <ChevronRight className="w-8 h-8" />
+                    </button>
+                  </>
+                )}
+
+                {/* Indicators */}
+                {carouselImages.length > 0 && (
+                  <div className="flex justify-center mt-6 space-x-3">
+                    {carouselImages.map((_, index) => (
+                      <button
+                        key={index}
+                        className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                          index === activeSlide ? 'bg-[#B22222] scale-125' : 'bg-gray-300 hover:bg-[#B22222]/50'
+                        }`}
+                        onClick={() => setActiveSlide(index)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* Placement Info Content Above Team */}
+          {placementInfo && (
+            <section className="py-8 bg-white">
+              <div className="container mx-auto px-4">
+                <div className="max-w-3xl mx-auto text-center mb-8">
+                  <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">{placementInfo.title}</h2>
+                  <p className="text-xl text-gray-700">{placementInfo.description}</p>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* JTNUK Timetables Section */}
+          {timetables.length > 0 && (
+            <section className="py-16 bg-[#FFF8F0]">
+              <div className="container mx-auto px-4">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">JTNUK Exam Timetables</h2>
+                  <p className="text-xl text-gray-600">Latest JNTU Kakinada examination timetables</p>
+                </div>
+
+                <div className="max-w-4xl mx-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {timetables.map((timetable) => (
+                      <div key={timetable.sno} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-[#B22222]">
+                        <div className="mb-4">
+                          <span className="inline-block bg-[#B22222] text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            {timetable.degree === 'UG' ? 'Undergraduate' : 'Postgraduate'}
+                          </span>
+                        </div>
+                        <h3 className="text-lg font-bold text-[#B22222] mb-3">{timetable.content}</h3>
+                        <div className="space-y-3 text-gray-700 mb-4">
+                          {timetable.date && (
+                            <div className="flex items-center">
+                              <span className="font-semibold text-sm">Exam Date:</span>
+                              <span className="ml-2">{new Date(timetable.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                            </div>
+                          )}
+                          {timetable.posteddate && (
+                            <div className="flex items-center">
+                              <span className="font-semibold text-sm">Posted:</span>
+                              <span className="ml-2">{new Date(timetable.posteddate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                            </div>
+                          )}
+                        </div>
+                        {timetable.link && (
+                          <a
+                            href={timetable.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 bg-[#B22222] text-white px-4 py-2 rounded-lg hover:bg-[#850209] transition-colors font-semibold"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            Download Timetable
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Placement Officer */}
+          {placementOfficer && (
+            <section className="py-16 bg-white">
+              <div className="container mx-auto px-4">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Officer</h2>
+                  <p className="text-xl text-gray-600">Meet our dedicated placement officer</p>
+                </div>
+
+                <div className="max-w-5xl mx-auto bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl shadow-xl p-8 mb-8 border border-gray-200">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div className="flex justify-center lg:justify-start">
+                      <div className="relative">
+                        <img
+                          src={placementOfficer.image_url || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="320" height="320"%3E%3Crect width="320" height="320" fill="%23e5e7eb"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="48" fill="%239ca3af"%3ENo Image%3C/text%3E%3C/svg%3E'}
+                          alt={placementOfficer.name}
+                          className="w-80 h-80 rounded-2xl object-cover shadow-2xl border-4 border-white"
+                          onError={(e) => {
+                            e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="320" height="320"%3E%3Crect width="320" height="320" fill="%23e5e7eb"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="48" fill="%239ca3af"%3ENo Image%3C/text%3E%3C/svg%3E';
+                          }}
+                        />
+                        <div className="absolute -bottom-4 -right-4 bg-[#B22222] text-white p-3 rounded-full shadow-lg">
+                          <Phone className="w-6 h-6" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="text-center lg:text-left space-y-6">
+                      <div>
+                        <h3 className="text-3xl font-bold text-[#B22222] mb-3">{placementOfficer.name}</h3>
+                        <p className="text-xl text-gray-800 font-semibold mb-2">{placementOfficer.designation}</p>
+                        <p className="text-lg text-gray-600 mb-6">Sri Vasavi Engineering College</p>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
+                          <div className="bg-[#B22222] p-2 rounded-full">
+                            <Phone className="w-5 h-5 text-white" />
+                          </div>
+                          <div>
+                            <span className="text-sm text-gray-500 block">Mobile</span>
+                            <span className="text-lg font-semibold text-gray-800">{placementOfficer.phone}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
+                          <div className="bg-[#B22222] p-2 rounded-full">
+                            <Mail className="w-5 h-5 text-white" />
+                          </div>
+                          <div>
+                            <span className="text-sm text-gray-500 block">Email</span>
+                            <a
+                              href={`mailto:${placementOfficer.email}`}
+                              className="text-lg font-semibold text-[#B22222] hover:underline"
+                            >
+                              {placementOfficer.email}
+                            </a>
+                          </div>
+                        </div>
+
+                        {placementOfficer.linkedin && (
+                          <div className="flex items-center justify-center lg:justify-start gap-3 p-3 bg-white rounded-lg shadow-sm">
+                            <div className="bg-blue-600 p-2 rounded-full">
+                              <ExternalLink className="w-5 h-5 text-white" />
+                            </div>
+                            <div>
+                              <span className="text-sm text-gray-500 block">LinkedIn Profile</span>
+                              <a
+                                href={placementOfficer.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-lg font-semibold text-blue-600 hover:underline"
+                              >
+                                See Profile
+                              </a>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Placement Team */}
+          <section className="py-16 bg-[#FFF8F0]">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Our Team</h2>
+                <p className="text-xl text-gray-600">Meet our dedicated placement team</p>
+              </div>
+              {team.length > 0 ? team.map((member) => (
+                <div key={member.id} className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 mb-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div className="text-center md:text-left">
+                      <img
+                        src={member.image_url || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="192" height="192"%3E%3Crect width="192" height="192" fill="%23e5e7eb"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="32" fill="%239ca3af"%3ENo Image%3C/text%3E%3C/svg%3E'}
+                        alt={member.name}
+                        className="w-48 h-48 rounded-lg mx-auto md:mx-0 mb-4 object-cover border-4 border-[#0097A7]"
+                        onError={(e) => {
+                          e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="192" height="192"%3E%3Crect width="192" height="192" fill="%23e5e7eb"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="32" fill="%239ca3af"%3ENo Image%3C/text%3E%3C/svg%3E';
+                        }}
+                      />
+                    </div>
+                    <div className="text-center md:text-left">
+                      <h3 className="text-2xl font-bold text-[#B22222] mb-2">{member.name}</h3>
+                      <p className="text-lg text-gray-700 mb-2">{member.designation}</p>
+                      <p className="text-gray-600 mb-4">Sri Vasavi Engineering College</p>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-center md:justify-start gap-2">
+                          <Mail className="w-4 h-4 text-[#B22222]" />
+                          <a
+                            href={`mailto:${member.email}`}
+                            className="text-[#B22222] hover:underline"
+                          >
+                            {member.email}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-600">No team members found.</p>
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* Placement Statistics */}
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Statistics</h2>
+                <p className="text-xl text-gray-600">Our track record of successful placements</p>
+              </div>
+
+              {/* Statistics Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                {content.placementStats.map((stat, index) => {
+                  const Icon = iconMap[stat.icon];
+                  return (
+                    <div key={index} className="text-center p-8 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all transform hover:scale-105">
+                      <Icon className="w-16 h-16 mx-auto mb-4 text-[#B22222]" />
+                      <h3 className="text-4xl font-bold mb-2 text-[#B22222]">{stat.value}</h3>
+                      <p className="text-gray-600 font-medium">{stat.label}</p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Year-wise Placement Table */}
+              {orderedCharts.length > 0 && (
+                <div className="mb-12 overflow-x-auto">
+                  <table className="w-full border-collapse bg-white rounded-xl shadow-lg overflow-hidden">
+                    <thead>
+                      <tr className="bg-[#3a3a3a] text-white">
+                        <th className="px-6 py-4 text-center font-bold border-r border-gray-600">Year</th>
+                        <th className="px-6 py-4 text-center font-bold border-r border-gray-600">UG</th>
+                        <th className="px-6 py-4 text-center font-bold border-r border-gray-600">PG</th>
+                        <th className="px-6 py-4 text-center font-bold">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orderedCharts.map((entry, index) => {
+                        const ugTotal = (entry.civil || 0) + (entry.mech || 0) + (entry.eee || 0) + 
+                                       (entry.ece || 0) + (entry.cse || 0) + (entry.ect || 0) + 
+                                       (entry.cst || 0) + (entry.aiml || 0) + (entry.cai || 0);
+                        const pgTotal = entry.mba || 0;
+                        const total = ugTotal + pgTotal;
+                        return (
+                          <tr key={entry.year} className={`border-b border-gray-200 hover:bg-gray-50 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
+                            <td className="px-6 py-4 text-center font-semibold text-[#B22222] border-r border-gray-200">
+                              {entry.year}
+                            </td>
+                            <td className="px-6 py-4 text-center text-gray-800 border-r border-gray-200">
+                              {ugTotal}
+                            </td>
+                            <td className="px-6 py-4 text-center text-gray-800 border-r border-gray-200">
+                              {pgTotal}
+                            </td>
+                            <td className="px-6 py-4 text-center font-bold text-[#B22222]">
+                              {total}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* Interactive Charts - Department-wise Distribution for each year */}
+              {orderedCharts.length > 0 ? (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                  {orderedCharts.map((chartEntry) => {
+                    const yearDepartmentData = departmentOrder
+                      .map(({ name, key, color }) => ({
+                        name,
+                        value: (chartEntry as any)[key] || 0,
+                        color,
+                      }))
+                      .filter((dept) => dept.value > 0);
+                    
+                    return (
+                      <div key={chartEntry.year} className="bg-[#FFF8F0] p-6 rounded-xl">
+                        <h3 className="text-2xl font-bold text-[#B22222] mb-4 text-center">
+                          Department-wise Placements ({chartEntry.year})
+                        </h3>
+                        {yearDepartmentData.length > 0 ? (
+                          <ResponsiveContainer width="100%" height={350}>
+                            <PieChart>
+                              <Pie
+                                data={yearDepartmentData}
+                                cx="50%"
+                                cy="50%"
+                                innerRadius={60}
+                                outerRadius={120}
+                                paddingAngle={2}
+                                dataKey="value"
+                                label={({ name, value }) => `${name}: ${value}`}
+                              >
+                                {yearDepartmentData.map((entry, index) => (
+                                  <Cell key={`cell-${index}`} fill={entry.color} />
+                                ))}
+                              </Pie>
+                              <Tooltip
+                                contentStyle={{
+                                  backgroundColor: '#fff',
+                                  border: '1px solid #B22222',
+                                  borderRadius: '8px',
+                                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                                }}
+                                formatter={(value: number, name: string) => [`${value} students`, name]}
+                              />
+                              <Legend />
+                            </PieChart>
+                          </ResponsiveContainer>
+                        ) : (
+                          <div className="flex items-center justify-center h-[350px] text-gray-500">
+                            <p>No data for this year</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center h-[200px] text-gray-500 bg-[#FFF8F0] rounded-xl">
+                  <p>No placement chart data available</p>
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* Companies that Visited */}
+          <section className="py-16 bg-[#FFF8F0]">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Companies that Visited</h2>
+                <p className="text-xl text-gray-600">Leading organizations that recruit from our campus</p>
+              </div>
+
+              {/* Scrolling Company Logos */}
+              <div className="relative overflow-hidden">
+                <div className="flex animate-scroll space-x-8">
+                  {[...visibleCompanyLogos, ...visibleCompanyLogos].map((logo, index) => (
+                    <div key={`${logo.id}-${index}`} className="flex-shrink-0 p-4 bg-transparent">
+                      <img
+                        src={logo.image_url}
+                        alt={logo.company_name || `Company ${index + 1}`}
+                        className="h-16 w-auto object-contain hover:scale-110 transition-all duration-300 bg-transparent"
+                        onError={(e) => {
+                          e.currentTarget.src = '../company_icons/placeholder.png';
+                          e.currentTarget.style.backgroundColor = 'transparent';
+                        }}
                       />
                     </div>
                   ))}
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* Placement PDFs */}
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Details & Reports</h2>
+                <p className="text-xl text-gray-600">Download detailed placement reports and college profile</p>
               
-              {/* Carousel indicators */}
-              <div className="flex justify-center mt-6 space-x-2">
-                {placementImages.map((_, index) => (
-                  <button
-                    key={index}
-                    className={`w-3 h-3 rounded-full transition-colors ${
-                      index === 0 ? 'bg-[#B22222]' : 'bg-gray-300'
-                    }`}
-                    onClick={() => {
-                      const carousel = carouselRef.current;
-                      if (carousel) {
-                        const activeSlide = carousel.querySelector('.carousel-item.active');
-                        const targetSlide = carousel.querySelectorAll('.carousel-item')[index];
-                        if (activeSlide && targetSlide) {
-                          activeSlide.classList.remove('active', 'opacity-100');
-                          activeSlide.classList.add('opacity-0');
-                          targetSlide.classList.remove('opacity-0');
-                          targetSlide.classList.add('active', 'opacity-100');
-                        }
-                      }
-                    }}
-                  />
-                ))}
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Placement Team */}
-      <section className="py-16 bg-[#FFF8F0]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Our Team</h2>
-            <p className="text-xl text-gray-600">Meet our dedicated placement team</p>
-          </div>
-          
-          {team.length > 0 ? team.map((member) => (
-            <div key={member.id} className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 mb-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div className="text-center md:text-left">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-48 h-48 rounded-lg mx-auto md:mx-0 mb-4 object-cover border-4 border-[#0097A7]"
-                  />
+              {placementPdfs.length === 0 ? (
+                <div className="text-center bg-[#FFF8F0] border border-dashed border-[#B22222]/40 rounded-2xl py-16 px-6">
+                  <p className="text-gray-600 text-lg">Reports will appear here once uploaded.</p>
                 </div>
-                <div className="text-center md:text-left">
-                  <h3 className="text-2xl font-bold text-[#B22222] mb-2">{member.name}</h3>
-                  <p className="text-lg text-gray-700 mb-2">{member.designation}</p>
-                  <p className="text-gray-600 mb-4">Sri Vasavi Engineering College</p>
-                  
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-center md:justify-start gap-2">
-                      <Phone className="w-4 h-4 text-[#B22222]" />
-                      <span className="text-gray-700">Mobile: {member.phone}</span>
-                    </div>
-                    <div className="flex items-center justify-center md:justify-start gap-2">
-                      <Phone className="w-4 h-4 text-[#B22222]" />
-                      <span className="text-gray-700">Office: {member.office}</span>
-                    </div>
-                    <div className="flex items-center justify-center md:justify-start gap-2">
-                      <Mail className="w-4 h-4 text-[#B22222]" />
-                      <a 
-                        href={`mailto:${member.email}`}
-                        className="text-[#B22222] hover:underline"
-                      >
-                        {member.email}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )) : (
-            <div className="text-center py-8">
-              <p className="text-gray-600">No team members found.</p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Placement Statistics */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Statistics</h2>
-            <p className="text-xl text-gray-600">Our track record of successful placements</p>
-          </div>
-          
-          {/* Statistics Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {content.placementStats.map((stat, index) => {
-              const Icon = iconMap[stat.icon];
-              return (
-                <div key={index} className="text-center p-8 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all transform hover:scale-105">
-                  <Icon className="w-16 h-16 mx-auto mb-4 text-[#B22222]" />
-                  <h3 className="text-4xl font-bold mb-2 text-[#B22222]">{stat.value}</h3>
-                  <p className="text-gray-600 font-medium">{stat.label}</p>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Interactive Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            {/* Year-wise Placement Trend */}
-            <div className="bg-[#FFF8F0] p-6 rounded-xl">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
-                Placement Trends (2017-2025)
-              </h3>
-              <ResponsiveContainer width="100%" height={350}>
-                <LineChart data={yearlyTotalData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                  <XAxis 
-                    dataKey="year" 
-                    stroke="#666"
-                    fontSize={12}
-                  />
-                  <YAxis 
-                    stroke="#666"
-                    fontSize={12}
-                  />
-                  <Tooltip 
-                    contentStyle={{
-                      backgroundColor: '#fff',
-                      border: '1px solid #B22222',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-                    }}
-                  />
-                  <Legend />
-                  <Line 
-                    type="monotone" 
-                    dataKey="total" 
-                    stroke={chartColors.primary}
-                    strokeWidth={3}
-                    dot={{ fill: chartColors.primary, strokeWidth: 2, r: 6 }}
-                    name="Total Placements"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* Department-wise Distribution (Pie Chart) */}
-            <div className="bg-[#FFF8F0] p-6 rounded-xl">
-              <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
-                Department-wise Placements (2025)
-              </h3>
-              <ResponsiveContainer width="100%" height={350}>
-                <PieChart>
-                  <Pie
-                    data={departmentData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={120}
-                    paddingAngle={2}
-                    dataKey="value"
-                  >
-                    {departmentData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{
-                      backgroundColor: '#fff',
-                      border: '1px solid #B22222',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-                    }}
-                  />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Department-wise Bar Chart */}
-          <div className="bg-[#FFF8F0] p-6 rounded-xl mb-8">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
-              Department-wise Placement Comparison (Last 5 Years)
-            </h3>
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={yearlyTotalData.slice(-5)}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                <XAxis 
-                  dataKey="year" 
-                  stroke="#666"
-                  fontSize={12}
-                />
-                <YAxis 
-                  stroke="#666"
-                  fontSize={12}
-                />
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: '#fff',
-                    border: '1px solid #B22222',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-                  }}
-                />
-                <Legend />
-                <Bar dataKey="CSE" fill="#A9A9A9" name="Computer Science" />
-                <Bar dataKey="ECE" fill="#FF00FF" name="Electronics & Communication" />
-                <Bar dataKey="ME" fill="#FF6961" name="Mechanical" />
-                <Bar dataKey="EEE" fill="#B22222" name="Electrical & Electronics" />
-                <Bar dataKey="CE" fill="#0088FE" name="Civil" />
-                <Bar dataKey="MBA" fill="#FFC0CB" name="MBA" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* Top Performing Departments */}
-          <div className="bg-white p-6 rounded-xl shadow-lg">
-            <h3 className="text-2xl font-bold text-[#B22222] mb-6 text-center">
-              Top Performing Departments (2025)
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {topDepartments.map((dept, index) => (
-                <div key={dept.name} className="flex items-center justify-between p-4 bg-[#FFF8F0] rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div 
-                      className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: dept.color }}
-                    ></div>
-                    <span className="font-semibold text-gray-800">{dept.name}</span>
-                  </div>
-                  <span className="text-lg font-bold text-[#B22222]">{dept.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Companies that Visited */}
-      <section className="py-16 bg-[#FFF8F0]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Companies that Visited</h2>
-            <p className="text-xl text-gray-600">Leading organizations that recruit from our campus</p>
-          </div>
-          
-          {/* Scrolling Company Logos */}
-          <div className="relative overflow-hidden">
-            <div className="flex animate-scroll space-x-8">
-              {[...companyLogos, ...companyLogos].map((logo, index) => (
-                <div key={index} className="flex-shrink-0">
-                  <img
-                    src={logo}
-                    alt={`Company ${index + 1}`}
-                    className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Top Recruiters */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Our Top Recruiters</h2>
-            <p className="text-xl text-gray-600">Leading companies that trust our talent</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {content.topRecruiters.map((company, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all">
-                <div className="text-center mb-4">
-                  <div className="text-4xl mb-3">{company.logo}</div>
-                  <h3 className="text-xl font-bold text-[#B22222]">{company.name}</h3>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Package Range:</span>
-                    <span className="font-semibold text-[#B22222]">{company.packages}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Students Hired:</span>
-                    <span className="font-semibold text-[#B22222]">{company.hired}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Placement Process */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Process</h2>
-            <p className="text-xl text-gray-600">Our systematic approach to ensure successful placements</p>
-          </div>
-          <div className="max-w-4xl mx-auto">
-            <div className="space-y-8">
-              {content.placementProcess.map((process, index) => (
-                <div key={index} className="flex items-start">
-                  <div className="flex-shrink-0 w-16 h-16 bg-[#0097A7] text-white rounded-full flex items-center justify-center text-xl font-bold mr-6">
-                    {process.step}
-                  </div>
-                  <div className="flex-1">
-                    <div className="bg-[#FFF8F0] p-6 rounded-xl">
-                      <div className="flex justify-between items-start mb-3">
-                        <h3 className="text-xl font-bold text-[#B22222]">{process.title}</h3>
-                        <span className="bg-[#FFC107] text-[#B22222] px-3 py-1 rounded-full text-sm font-medium">
-                          {process.duration}
-                        </span>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {placementPdfs.map((pdf) => (
+                    <div key={pdf.id} className="bg-[#FFF8F0] border border-[#B22222]/10 rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+                      <div>
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="bg-[#B22222]/10 text-[#B22222] p-3 rounded-full">
+                            <FileDown className="w-6 h-6" />
+                          </div>
+                          <div>
+                            <p className="text-sm uppercase tracking-wide text-gray-500">{pdf.year}</p>
+                            <h3 className="text-xl font-semibold text-[#B22222]">{pdf.title || `Placement Report ${pdf.year}`}</h3>
+                          </div>
+                        </div>
+                        {pdf.created_at && (
+                          <p className="text-sm text-gray-500">Uploaded on {new Date(pdf.created_at).toLocaleDateString()}</p>
+                        )}
                       </div>
-                      <p className="text-gray-600 leading-relaxed">{process.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Student Testimonials */}
-      <section className="py-16 bg-[#FFF8F0]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Success Stories</h2>
-            <p className="text-xl text-gray-600">Hear from our successfully placed students</p>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {content.testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
-                <div className="text-center mb-6">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-4 border-[#0097A7]"
-                  />
-                  <h3 className="text-xl font-bold text-[#B22222]">{testimonial.name}</h3>
-                  <p className="text-[#B22222] font-medium">{testimonial.company}</p>
-                  <div className="flex justify-center items-center gap-4 mt-2 text-sm">
-                    <span className="bg-[#FFC107] text-[#B22222] px-2 py-1 rounded-full">
-                      {testimonial.package}
-                    </span>
-                    <span className="text-gray-600">{testimonial.branch}</span>
-                  </div>
-                </div>
-                <blockquote className="text-gray-600 italic text-center leading-relaxed">
-                  "{testimonial.quote}"
-                </blockquote>
-                <div className="text-center mt-4 text-sm text-gray-500">
-                  - Batch of {testimonial.year}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Placement Services */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Our Services</h2>
-            <p className="text-xl text-gray-600">Comprehensive support for your career journey</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {content.services.map((service, index) => {
-              const Icon = iconMap[service.icon];
-              return (
-                <div key={index} className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all">
-                  <Icon className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-[#B22222] mb-3">{service.title}</h3>
-                  <p className="text-gray-600">{service.desc}</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Department-wise Placements */}
-      <section className="py-16 bg-[#FFF8F0]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Department-wise Placements</h2>
-            <p className="text-xl text-gray-600">Placement statistics across all departments</p>
-          </div>
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">Computer Science & Engineering</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">95%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹6.5 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹25 LPA</span>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">Electronics & Communications</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">92%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹5.8 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹18 LPA</span>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">Mechanical Engineering</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">88%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹5.2 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹15 LPA</span>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">Electrical & Electronics</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">90%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹5.5 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹16 LPA</span>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">Civil Engineering</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">85%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹4.8 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹12 LPA</span>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-bold text-[#B22222] mb-4">MBA</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Placement Rate:</span>
-                    <span className="font-bold text-green-600">87%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Average Package:</span>
-                    <span className="font-bold text-[#B22222]">₹5.0 LPA</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Highest Package:</span>
-                    <span className="font-bold text-[#B22222]">₹14 LPA</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Placement Details & Reports */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#B22222] mb-4">Placement Details & Reports</h2>
-            <p className="text-xl text-gray-600">Download detailed placement reports and college profile</p>
-          </div>
-          
-          <div className="max-w-4xl mx-auto space-y-6">
-            {/* College Profile */}
-            <details className="bg-[#FFF8F0] rounded-lg p-6">
-              <summary className="text-xl font-bold text-[#B22222] cursor-pointer hover:text-[#850209] transition-colors">
-                College Profile
-              </summary>
-              <div className="mt-4 pl-4">
-                <a
-                  href="https://srivasaviengg.ac.in/uploads/placement_College_Brochure.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-[#B22222] hover:text-[#850209] font-semibold transition-colors"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  View College Profile
-                </a>
-              </div>
-            </details>
-
-            {/* Placement Details by Year */}
-            {[
-              { year: "2024-25", file: "2025 BATCH PLACEMENTS DATA.pdf" },
-              { year: "2023-24", file: "2024 BATCH PLACEMENTS DATA.pdf" },
-              { year: "2022-23", file: "place_2022-23.pdf" },
-              { year: "2021-22", file: "place_2021-22.pdf" },
-              { year: "2020-21", file: "place_2020-21.pdf" },
-              { year: "2019-20", file: "place_2019-20.pdf" },
-              { year: "2018-19", file: "place_2018-19.pdf" },
-              { year: "2017-18", file: "place_2017-18.pdf" },
-              { year: "2016-17", file: "place_2016-17.pdf" },
-              { year: "2015-16", file: "place_2015-16.pdf" }
-            ].map((item, index) => (
-              <details key={index} className="bg-[#FFF8F0] rounded-lg p-6">
-                <summary className="text-xl font-bold text-[#B22222] cursor-pointer hover:text-[#850209] transition-colors">
-                  Placement Details of {item.year}
-                </summary>
-                <div className="mt-4">
-                  <div className="bg-white p-4 rounded-lg border-2 border-gray-200">
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="text-gray-700">View or download the placement report:</span>
                       <a
-                        href={`https://srivasaviengg.ac.in/uploads/${item.file}`}
+                        href={pdf.pdf_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-[#B22222] text-white px-4 py-2 rounded-lg hover:bg-[#850209] transition-colors"
+                        className="mt-6 inline-flex items-center justify-center gap-2 bg-[#B22222] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#850209] transition-colors"
                       >
-                        <ExternalLink className="w-4 h-4" />
+                        <FileDown className="w-4 h-4" />
                         Download PDF
                       </a>
                     </div>
-                    <div className="border rounded-lg overflow-hidden" style={{ height: '500px' }}>
-                      <object
-                        data={`https://srivasaviengg.ac.in/uploads/${item.file}`}
-                        type="application/pdf"
-                        width="100%"
-                        height="100%"
-                      >
-                        <p className="p-4 text-center text-gray-600">
-                          Unable to display PDF file. 
-                          <a
-                            href={`https://srivasaviengg.ac.in/uploads/${item.file}`}
-                            className="text-[#B22222] hover:underline ml-1"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Download
-                          </a> instead.
-                        </p>
-                      </object>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+              )}
+            </div>
+          </section>
+          
+          {/* CTA Section */}
+          <section className="py-16 bg-primary text-white relative overflow-hidden isolate">
+            <div className="container mx-auto px-4 text-center relative z-10">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Launch Your Career?</h2>
+              <p className="text-xl mb-8 max-w-2xl mx-auto">
+                Join our successful placement program and take the first step towards your dream career
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="/admissions"
+                  className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#B22222] hover:text-white transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 w-full sm:w-auto"
+                >
+                  <span>Apply Now</span>
+                  <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
+                </a>
+                <a
+                  href="mailto:placements@srivasaviengg.ac.in"
+                  className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 backdrop-blur-sm hover:border-secondary transition-all transform hover:scale-105 flex items-center justify-center gap-2 w-full sm:w-auto"
+                >
+                  <span>Contact Placement Cell</span>
+                  <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
+                </a>
+              </div>
+            </div>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-primary text-white relative overflow-hidden isolate">
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Launch Your Career?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join our successful placement program and take the first step towards your dream career
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/admissions"
-              className="bg-[#FFC107] text-[#B22222] px-8 py-3 rounded-lg font-semibold hover:bg-[#B22222] hover:text-white transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 w-full sm:w-auto"
-            >
-              <span>Apply Now</span>
-              <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
-            </a>
-            <a
-              href="mailto:placements@srivasaviengg.ac.in"
-              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 backdrop-blur-sm hover:border-secondary transition-all transform hover:scale-105 flex items-center justify-center gap-2 w-full sm:w-auto"
-            >
-              <span>Contact Placement Cell</span>
-              <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" />
-            </a>
-          </div>
-        </div>
-
-        {/* Subtle decorative elements */}
-        <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-secondary/20 -translate-y-1/4 translate-x-1/4 opacity-70 shadow-sm z-0"></div>
-        <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-secondary/15 translate-y-1/4 -translate-x-1/4 opacity-70 shadow-sm z-0"></div>
-      </section>
+            {/* Subtle decorative elements */}
+            <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-secondary/20 -translate-y-1/4 translate-x-1/4 opacity-70 shadow-sm z-0"></div>
+            <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-secondary/15 translate-y-1/4 -translate-x-1/4 opacity-70 shadow-sm z-0"></div>
+          </section>
         </>
       )}
     </div>

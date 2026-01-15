@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const connection = await mysql.createConnection({
     host: '62.72.31.209',
     user: 'cmsuser',
@@ -9,9 +10,9 @@ export default async function handler(req, res) {
   });
 
   try {
-    const [rows] = await connection.execute('SELECT type,title,url,year,titles,volumes,phone,email FROM ece_physical_facilities ORDER BY id');
+    const [rows] = await connection.execute('SELECT * FROM ece_physical_facilities ORDER BY id');
     res.status(200).json(rows);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching physical facilities data:", error);
     res.status(500).json({ error: error.message });
   } finally {

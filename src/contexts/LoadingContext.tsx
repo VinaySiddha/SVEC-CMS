@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect, useRef } from 'react';
 
 interface LoadingContextType {
   isLoading: boolean;
@@ -25,10 +25,33 @@ interface LoadingProviderProps {
 export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('Loading...');
+  const autoClearTimeoutRef = useRef<number | null>(null);
 
   const setLoading = (loading: boolean) => {
+    if (autoClearTimeoutRef.current) {
+      window.clearTimeout(autoClearTimeoutRef.current);
+      autoClearTimeoutRef.current = null;
+    }
+
     setIsLoading(loading);
+
+    // Safety: never allow the global loader to get stuck forever
+    if (loading) {
+      autoClearTimeoutRef.current = window.setTimeout(() => {
+        setIsLoading(false);
+        autoClearTimeoutRef.current = null;
+      }, 8000);
+    }
   };
+
+  // Show a brief loader on full refresh/first load (so the animation is visible)
+  useEffect(() => {
+    // Trigger after hydration (SSR-safe) and keep visible at least 0.5s.
+    setLoadingText('Loading...');
+    setLoading(true);
+    const timer = window.setTimeout(() => setLoading(false), 500);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleGlobalClick = (e: MouseEvent) => {

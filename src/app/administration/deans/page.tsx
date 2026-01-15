@@ -9,13 +9,12 @@ const Deans: React.FC = () => {
     {
       name: "Dr. Ch. Rambabu",
       designation: "Dean - Student Affairs & Academics",
-      department: "Electronics & Electrical Engineering",
+      department: "Electrical & Electronics Engineering",
       qualifications: "M.Tech.,Ph.D",
       experience: "20+ Years",
-      email: "dean.student@srivasaviengg.ac.in",
-      phone: "+91-9441447199",
+      email: "deansa@srivasaviengg.ac.in",
+      phone: "08818-284355(O), Ext: 318",
       image: "/rambabu.jpg",
-      specialization: "VLSI Design, Embedded Systems",
       responsibilities: [
         "Student welfare and development programs",
         "Co-curricular and extracurricular activities",
@@ -30,9 +29,8 @@ const Deans: React.FC = () => {
       qualifications: "M.Tech., Ph.D",
       experience: "20+ Years",
       email: "deanrnd@srivasaviengg.ac.in",
-      phone: "+91-9491556014",
+      phone: "08818-284355(O)",
       image: "/naresh.jpeg",
-      specialization: "Cyber Security",
       responsibilities: [
         "Research project coordination and management",
         "Industry collaboration and consultancy",
@@ -64,56 +62,17 @@ const Deans: React.FC = () => {
       <section className="py-16 bg-gradient-to-r from-[#B22222] to-[#0097A7] text-white">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-animate">
-            Office of the Deans
+        Deans
           </h1>
-          <p className="text-xl text-white/90 max-w-2xl mx-auto text-animate" style={{ animationDelay: '0.3s' }}>
-            Leading specialized functions in academics, student affairs, and research development
-          </p>
+          
         </div>
       </section>
 
-      {/* Office Structure Overview */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-[#B22222] mb-4">Dean Offices</h2>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Specialized leadership roles ensuring excellence across all institutional functions
-            </p>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-8 mb-16 max-w-5xl mx-auto">
-            {officeStructure.map((office, index) => (
-              <div
-                key={index}
-                className="stat-card text-center p-8 rounded-xl bg-[#FFF8F0] border hover:shadow-lg transition-all w-full md:w-[340px]"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <office.icon className="w-16 h-16 text-[#B22222] mx-auto mb-4 icon-bounce" />
-                <h3 className="text-xl font-bold text-[#B22222] mb-3">{office.title}</h3>
-                <p className="text-gray-600 mb-4">{office.description}</p>
-                <a
-                  href={`mailto:${office.contact}`}
-                  className="text-[#B22222] hover:underline font-medium"
-                >
-                  {office.contact}
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      
       {/* Deans Profiles */}
       <section className="py-16 bg-[#FFF8F0]">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-[#B22222] mb-4">Meet Our Deans</h2>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Experienced leaders driving excellence in their respective domains
-            </p>
-          </div>
-
+          
           <div className="space-y-24">
             {deans.map((dean, index) => (
               <div
@@ -149,10 +108,7 @@ const Deans: React.FC = () => {
                         <span className="w-5 h-5 rounded-full bg-[#B22222] bg-opacity-10 flex items-center justify-center text-[#B22222] mr-2 text-xs">●</span>
                         <span className="font-medium mr-2">Qualifications:</span> {dean.qualifications}
                       </p>
-                      <p className="text-gray-700 flex items-center">
-                        <BookOpen className="w-4 h-4 text-[#B22222] mr-2" />
-                        <span className="font-medium mr-2">Specialization:</span> {dean.specialization}
-                      </p>
+                      
                     </div>
                   </div>
 
@@ -194,62 +150,10 @@ const Deans: React.FC = () => {
         </div>
       </section>
 
-      {/* Collaborative Initiatives */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-[#B22222] mb-4">Collaborative Initiatives</h2>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Joint efforts by all dean offices to enhance institutional excellence
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {[
-              {
-                title: "Quality Enhancement",
-                description: "Continuous improvement in academic delivery and student experience",
-                icon: "🎯"
-              },
-              {
-                title: "Innovation Hub",
-                description: "Fostering research culture and innovative thinking across disciplines",
-                icon: "💡"
-              },
-              {
-                title: "Industry Connect",
-                description: "Building strong partnerships with industry leaders and organizations",
-                icon: "🤝"
-              },
-              {
-                title: "Global Outreach",
-                description: "International collaborations and exchange programs",
-                icon: "🌍"
-              }
-            ].map((initiative, index) => (
-              <div
-                key={index}
-                className="quick-link bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-6"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="text-4xl bg-[#FFF8F0] p-4 rounded-xl w-16 h-16 flex items-center justify-center">{initiative.icon}</div>
-                <div className="text-left">
-                  <h3 className="text-lg font-bold text-[#B22222] mb-2">{initiative.title}</h3>
-                  <p className="text-gray-600">{initiative.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Contact Section */}
       <section className="py-16 bg-[#B22222] text-white text-center">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Connect with Our Deans</h2>
-          <p className="text-lg mb-8 max-w-xl mx-auto">
-            Reach out to the respective dean offices for academic, student, or research-related matters
-          </p>
           <div className="flex flex-col md:flex-row gap-5 justify-center items-center max-w-3xl mx-auto">
             {deans.map((dean, index) => (
               <a

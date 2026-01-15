@@ -5,12 +5,12 @@ import '../../../components/Carousel.css';
 
 const DirectorTechnical: React.FC = () => {
   const directorInfo = {
-    name: "Sri. Checka. Apparao",
+    name: "Sri. Checka Apparao",
     designation: "Technical Director",
-    qualifications: "B.Tech, M.S. (Computer Science)",
-    experience: "25+ Years",
+    qualifications: "B.Tech, M.S.(Computer Science)",
+    experience: "15+ Years",
     email: "checkaapparao@srivasaviengg.ac.in",
-    phone: "",
+    phone: "08818-284355(O), Ext: 333",
     office: "Director's Office, Administrative Block",
     image: "/tech_director.jpg"
   };
@@ -90,7 +90,7 @@ const DirectorTechnical: React.FC = () => {
                   <a href={`tel:${directorInfo.phone}`} className="text-gray-700 hover:text-[#B22222]">
                     {directorInfo.phone}
                   </a>
-                </div>
+                </div>                
                 <div className="flex items-center gap-3 p-3 bg-white rounded-lg shadow-sm">
                   <MapPin className="w-6 h-6 text-[#B22222]" />
                   <span className="text-gray-700">{directorInfo.office}</span>

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { apiGet, apiDelete } from '@/lib/api';
+import { MODULES_FIELD_CONFIG } from '@/config/module-fields';
 import { 
   ArrowLeft,
   Search, 
@@ -25,26 +26,68 @@ interface TableRecord {
 }
 
 export default function ModuleManagePage() {
-  const params = useParams();
-  const searchParams = useSearchParams();
+  const params = useParams() as { dept: string; module: string };
+  const searchParams = useSearchParams() as URLSearchParams;
   
-  const deptCode = params.dept as string;
-  const moduleName = params.module as string;
-  const tableName = searchParams.get('table') || `${deptCode}_${moduleName}`;
+  const deptCode = params?.dept as string;
+  const moduleName = params?.module as string;
+  const tableName = searchParams?.get('table') || `${deptCode}_${moduleName}`;
   
   const [records, setRecords] = useState<TableRecord[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
+  const [displayColumns, setDisplayColumns] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
   const recordsPerPage = 10;
 
+  // Get module configuration
+  const moduleConfig = (MODULES_FIELD_CONFIG as any)[deptCode]?.[moduleName];
+
   useEffect(() => {
     if (tableName) {
       fetchTableData();
     }
   }, [tableName, currentPage]);
+
+  useEffect(() => {
+    // Determine which columns to display
+    if (moduleConfig && columns.length > 0) {
+      // Show displayField first, then other searchable fields, then first few columns
+      const priorityColumns = new Set<string>();
+      
+      // Add display field
+      if (moduleConfig.displayField && columns.includes(moduleConfig.displayField)) {
+        priorityColumns.add(moduleConfig.displayField);
+      }
+      
+      // Add searchable fields
+      if (moduleConfig.searchableFields) {
+        moduleConfig.searchableFields.slice(0, 3).forEach((field: string) => {
+          if (columns.includes(field)) {
+            priorityColumns.add(field);
+          }
+        });
+      }
+      
+      // Add first few columns if needed
+      for (const col of columns) {
+        if (priorityColumns.size >= 5) break;
+        if (col !== 'id' && !col.includes('url') && !col.includes('created') && !col.includes('updated')) {
+          priorityColumns.add(col);
+        }
+      }
+      
+      setDisplayColumns(Array.from(priorityColumns));
+    } else {
+      // Fallback: show first 6 columns excluding id and timestamp columns
+      const filtered = columns.filter(col => 
+        col !== 'id' && !col.includes('created') && !col.includes('updated')
+      ).slice(0, 6);
+      setDisplayColumns(filtered);
+    }
+  }, [columns, moduleConfig]);
 
   const fetchTableData = async () => {
     try {
@@ -207,7 +250,7 @@ export default function ModuleManagePage() {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="border-b">
-                    {columns.slice(0, 6).map((column) => ( // Show max 6 columns for better UI
+                    {displayColumns.map((column) => (
                       <th key={column} className="text-left py-3 px-4 font-medium text-gray-900">
                         {formatColumnName(column)}
                       </th>
@@ -218,7 +261,7 @@ export default function ModuleManagePage() {
                 <tbody>
                   {records.map((record, index) => (
                     <tr key={record.id || index} className="border-b hover:bg-gray-50">
-                      {columns.slice(0, 6).map((column) => (
+                      {displayColumns.map((column) => (
                         <td key={column} className="py-3 px-4 text-sm">
                           {formatCellValue(record[column], column)}
                         </td>

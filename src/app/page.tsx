@@ -9,7 +9,8 @@ import {
   Building,
   TrendingUp,
   ChevronRight,
-  HelpCircle
+  HelpCircle,
+  FileDown
 } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { AnimatedStat } from '@/components/AnimatedStat';
@@ -36,10 +37,29 @@ type HomePageContent = {
   quickLinks: QuickLink[];
 };
 
+type NoticeboardItem = {
+  id: number;
+  title: string;
+  category: string;
+  posted_date: string;
+  file_url?: string;
+};
+
+type PlacementNotice = {
+  id: number;
+  title: string;
+  category: string;
+  posted_date: string;
+  content?: string;
+  file_url?: string;
+};
 
 const Home: React.FC = () => {
 
   const [homeContent, setHomeContent] = useState<HomePageContent>(content as HomePageContent);
+  const [noticeboardItems, setNoticeboardItems] = useState<NoticeboardItem[]>([]);
+  const [placementNotices, setPlacementNotices] = useState<PlacementNotice[]>([]);
+  const [placementEvents, setPlacementEvents] = useState<any[]>([]);
 
   useEffect(() => {
     async function loadContent() {
@@ -54,6 +74,71 @@ const Home: React.FC = () => {
       }
     }
     loadContent();
+  }, []);
+
+  useEffect(() => {
+    async function fetchNoticeboardItems() {
+      try {
+        const response = await fetch('/api/exam-section/noticeboard');
+        const result = await response.json();
+        if (result.success && Array.isArray(result.data)) {
+          // Sort by posted_date in descending order
+          const sorted = result.data.sort((a: NoticeboardItem, b: NoticeboardItem) => 
+            new Date(b.posted_date).getTime() - new Date(a.posted_date).getTime()
+          );
+          setNoticeboardItems(sorted);
+        } else {
+          console.warn('No noticeboard data returned from API');
+        }
+      } catch (error) {
+        console.error('Error fetching noticeboard items:', error);
+      }
+    }
+    fetchNoticeboardItems();
+  }, []);
+
+  useEffect(() => {
+    async function fetchPlacementNotices() {
+      try {
+        const response = await fetch('/api/placement/noticeboard');
+        const result = await response.json();
+        if (result.success && Array.isArray(result.data)) {
+          // Sort by posted_date in descending order
+          const sorted = result.data.sort((a: PlacementNotice, b: PlacementNotice) => 
+            new Date(b.posted_date).getTime() - new Date(a.posted_date).getTime()
+          );
+          setPlacementNotices(sorted);
+        } else if (Array.isArray(result)) {
+          // Fallback if response is just an array
+          const sorted = result.sort((a: PlacementNotice, b: PlacementNotice) => 
+            new Date(b.posted_date).getTime() - new Date(a.posted_date).getTime()
+          );
+          setPlacementNotices(sorted);
+        } else {
+          console.warn('No placement noticeboard data returned from API');
+        }
+      } catch (error) {
+        console.error('Error fetching placement notices:', error);
+      }
+    }
+    fetchPlacementNotices();
+  }, []);
+
+  useEffect(() => {
+    async function fetchPlacementEvents() {
+      try {
+        const response = await fetch('/api/placement/events');
+        const result = await response.json();
+        if (result.success && Array.isArray(result.data)) {
+          setPlacementEvents(result.data);
+        } else {
+          console.warn('No placement events data returned from API');
+        }
+      } catch (error) {
+        console.error('Error fetching placement events:', error);
+      }
+    }
+    fetchPlacementEvents();
   }, []);
 
   const quickLinksIcons: { [key: string]: React.ElementType } = {
@@ -485,10 +570,10 @@ const Home: React.FC = () => {
           {/* News */}
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-3xl font-bold">Latest News</h2>
+              <h2 className="text-3xl font-bold">Results Updates</h2>
             </div>
             <div
-              className="overflow-hidden h-80"
+              className="overflow-hidden h-80 bg-white p-6 rounded-lg border border-primary/20"
               onMouseEnter={(e) => {
                 const target = e.currentTarget.querySelector('.news-scroll-content') as HTMLElement;
                 if (target) target.style.animationPlayState = 'paused';
@@ -501,65 +586,87 @@ const Home: React.FC = () => {
               <div className="news-scroll-content space-y-4" style={{
                 animation: 'scrollNews 20s linear infinite',
               }}>
-                {/* Original news items */}
-                {content.news.map((item, index) => (
-                  <div
-                    key={index}
-                    className="border-l-4 border-primary pl-4 py-3 hover:bg-secondary/50 rounded-r transition-colors cursor-pointer"
-                  >
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground mb-1">
-                      <span className="font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">{item.category}</span>
-                      <span>•</span>
-                      <span>{item.date}</span>
+                {/* Fetched noticeboard items from exam_section_noticeboard */}
+                {noticeboardItems.length > 0 ? (
+                  noticeboardItems.map((item, index) => {
+                    const postedDate = new Date(item.posted_date);
+                    const month = postedDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+                    const day = postedDate.getDate();
+
+                    return (
+                      <div
+                        key={index}
+                        className="flex items-start gap-4 group"
+                      >
+                        {/* Date Box */}
+                        <div className={`${index === 0 ? 'bg-primary/80 text-primary-foreground' : 'bg-white text-primary border border-primary'} p-3 rounded-md text-center w-16 flex-shrink-0`}>
+                          <div className="text-sm font-semibold">{month}</div>
+                          <div className="text-xl font-bold">{day}</div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-foreground mb-1">{item.title}</h3>
+                          <p className="text-muted-foreground text-sm mb-2">{item.category}</p>
+                          {item.file_url && (
+                            <a
+                              href={item.file_url}
+                              download
+                              className="inline-flex items-center gap-1 text-xs text-primary hover:text-primary/80 font-medium transition-colors group-hover:underline"
+                              title="Download PDF"
+                            >
+                              <FileDown className="w-3 h-3" />
+                              View
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  // Fallback to static content if no data
+                  <>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/80 text-primary-foreground p-3 rounded-md text-center w-16">
+                        <div className="text-sm">JAN</div>
+                        <div className="text-xl font-bold">05</div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">Annual Cultural Fest Announced for February</h3>
+                        <p className="text-muted-foreground text-sm">Events</p>
+                      </div>
                     </div>
-                    <h3 className="font-semibold hover:text-primary cursor-pointer transition-colors">
-                      {item.title}
-                    </h3>
-                  </div>
-                ))}
 
-                {/* Additional news items for continuous scrolling */}
-                <div className="border-l-4 border-primary pl-4 py-3 hover:bg-secondary/50 rounded-r transition-colors cursor-pointer">
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground mb-1">
-                    <span className="font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">Events</span>
-                    <span>•</span>
-                    <span>2025-01-05</span>
-                  </div>
-                  <h3 className="font-semibold hover:text-primary cursor-pointer transition-colors">
-                    Annual Cultural Fest Announced for February
-                  </h3>
-                </div>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
+                        <div className="text-sm">JAN</div>
+                        <div className="text-xl font-bold">03</div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">Professor Dr. Sharma Receives Excellence Award</h3>
+                        <p className="text-muted-foreground text-sm">Faculty</p>
+                      </div>
+                    </div>
 
-                <div className="border-l-4 border-primary pl-4 py-3 hover:bg-secondary/50 rounded-r transition-colors cursor-pointer">
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground mb-1">
-                    <span className="font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">Faculty</span>
-                    <span>•</span>
-                    <span>2025-01-03</span>
-                  </div>
-                  <h3 className="font-semibold hover:text-primary cursor-pointer transition-colors">
-                    Professor Dr. Sharma Receives Excellence Award
-                  </h3>
-                </div>
-
-                <div className="border-l-4 border-primary pl-4 py-3 hover:bg-secondary/50 rounded-r transition-colors cursor-pointer">
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground mb-1">
-                    <span className="font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">Infrastructure</span>
-                    <span>•</span>
-                    <span>2024-12-28</span>
-                  </div>
-                  <h3 className="font-semibold hover:text-primary cursor-pointer transition-colors">
-                    New Library Wing Construction Completed
-                  </h3>
-                </div>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
+                        <div className="text-sm">DEC</div>
+                        <div className="text-xl font-bold">28</div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">New Library Wing Construction Completed</h3>
+                        <p className="text-muted-foreground text-sm">Infrastructure</p>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Events */}
-          <div>
+<div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-3xl font-bold">Upcoming Events</h2>
-              <Link href="/events" className="text-sm text-primary hover:underline font-medium">View All</Link>
+              <h2 className="text-3xl font-bold">Recruitment Events</h2>
             </div>
             <div
               className="overflow-hidden h-80 bg-white p-6 rounded-lg border border-primary/20"
@@ -575,56 +682,202 @@ const Home: React.FC = () => {
               <div className="events-scroll-content space-y-4" style={{
                 animation: 'scrollEvents 15s linear infinite',
               }}>
-                <div className="flex items-start gap-4">
-                  <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                    <div className="text-sm">JAN</div>
-                    <div className="text-xl font-bold">25</div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">Tech Fest 2025</h3>
-                    <p className="text-muted-foreground text-sm">Annual technical symposium with competitions and workshops</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                    <div className="text-sm">FEB</div>
-                    <div className="text-xl font-bold">15</div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">Industry Seminar</h3>
-                    <p className="text-muted-foreground text-sm">Insights from tech leaders on future trends</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                    <div className="text-sm">MAR</div>
-                    <div className="text-xl font-bold">10</div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">Career Fair 2025</h3>
-                    <p className="text-muted-foreground text-sm">Meet top companies and explore job opportunities</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                    <div className="text-sm">APR</div>
-                    <div className="text-xl font-bold">05</div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">Research Symposium</h3>
-                    <p className="text-muted-foreground text-sm">Showcase of innovative student and faculty research</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="bg-primary/80 text-primary-foreground p-3 rounded-md text-center w-16">
-                    <div className="text-sm">MAY</div>
-                    <div className="text-xl font-bold">20</div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">Alumni Meet</h3>
-                    <p className="text-muted-foreground text-sm">Annual gathering of SVEC graduates</p>
-                  </div>
-                </div>
+                {/* Fetched placement events from placement_events table */}
+                {placementEvents.length > 0 ? (
+                  placementEvents.map((event, index) => {
+                    return (
+                      <div key={index} className="flex items-start gap-4 group">
+                        <div className={`${index === 0 ? 'bg-primary/80 text-primary-foreground' : 'bg-white text-primary border border-primary'} p-3 rounded-md text-center w-16 flex-shrink-0`}>
+                          <div className="text-sm font-semibold">JOB</div>
+                          <div className="text-xl font-bold">{index + 1}</div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-foreground mb-1">{event.title}</h3>
+                          <div className="flex gap-2 mt-2">
+                            {event.circular_url && (
+                              <a
+                                href={event.circular_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded hover:bg-blue-200 transition-colors"
+                              >
+                                <FileDown className="w-3 h-3" />
+                                Circular
+                              </a>
+                            )}
+                            {event.link && (
+                              <a
+                                href={event.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-xs bg-green-100 text-green-700 px-2 py-1 rounded hover:bg-green-200 transition-colors"
+                              >
+                                <FileDown className="w-3 h-3" />
+                                Apply
+                              </a>
+                            )}
+                            {event.guidelines_url && (
+                              <a
+                                href={event.guidelines_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded hover:bg-purple-200 transition-colors"
+                              >
+                                <FileDown className="w-3 h-3" />
+                                Guidelines
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  // Fallback to static content if no data
+                  <>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/80 text-primary-foreground p-3 rounded-md text-center w-16">
+                        <div className="text-sm">JOB</div>
+                        <div className="text-xl font-bold">1</div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">TCS Recruitment Drive</h3>
+                        <p className="text-muted-foreground text-sm">Campus drive for engineering graduates</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
+                        <div className="text-sm">JOB</div>
+                        <div className="text-xl font-bold">2</div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">Infosys Campus Hiring</h3>
+                        <p className="text-muted-foreground text-sm">Recruitment for various technical roles</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
+                        <div className="text-sm">JOB</div>
+                        <div className="text-xl font-bold">3</div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">Accenture Campus Drive</h3>
+                        <p className="text-muted-foreground text-sm">Full-time opportunities for fresh graduates</p>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+          {/* Events */}
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-3xl font-bold">Placement News</h2>
+              
+            </div>
+            <div
+              className="overflow-hidden h-80 bg-white p-6 rounded-lg border border-primary/20"
+              onMouseEnter={(e) => {
+                const target = e.currentTarget.querySelector('.events-scroll-content') as HTMLElement;
+                if (target) target.style.animationPlayState = 'paused';
+              }}
+              onMouseLeave={(e) => {
+                const target = e.currentTarget.querySelector('.events-scroll-content') as HTMLElement;
+                if (target) target.style.animationPlayState = 'running';
+              }}
+            >
+              <div className="events-scroll-content space-y-4" style={{
+                animation: 'scrollEvents 15s linear infinite',
+              }}>
+                {/* Fetched placement noticeboard items */}
+                {placementNotices.length > 0 ? (
+                  placementNotices.map((notice, index) => {
+                    const postedDate = new Date(notice.posted_date);
+                    const month = postedDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+                    const day = postedDate.getDate();
+
+                    return (
+                      <div key={index} className="flex items-start gap-4 group">
+                        <div className={`${index === 0 ? 'bg-primary/80 text-primary-foreground' : 'bg-white text-primary border border-primary'} p-3 rounded-md text-center w-16 flex-shrink-0`}>
+                          <div className="text-sm font-semibold">{month}</div>
+                          <div className="text-xl font-bold">{day}</div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-foreground mb-1">{notice.title}</h3>
+                          <p className="text-muted-foreground text-sm mb-2">{notice.category}</p>
+                          {notice.file_url && (
+                            <a
+                              href={notice.file_url}
+                              download
+                              className="inline-flex items-center gap-1 text-xs text-primary hover:text-primary/80 font-medium transition-colors group-hover:underline"
+                              title="Download PDF"
+                            >
+                              <FileDown className="w-3 h-3" />
+                              View
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  // Fallback to static content if no data
+                  <>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/80 text-primary-foreground p-3 rounded-md text-center w-16">
+                        <div className="text-sm">JAN</div>
+                        <div className="text-xl font-bold">25</div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">Tech Fest 2025</h3>
+                        <p className="text-muted-foreground text-sm">Annual technical symposium with competitions and workshops</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
+                        <div className="text-sm">FEB</div>
+                        <div className="text-xl font-bold">15</div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">Industry Seminar</h3>
+                        <p className="text-muted-foreground text-sm">Insights from tech leaders on future trends</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
+                        <div className="text-sm">MAR</div>
+                        <div className="text-xl font-bold">10</div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">Career Fair 2025</h3>
+                        <p className="text-muted-foreground text-sm">Meet top companies and explore job opportunities</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
+                        <div className="text-sm">APR</div>
+                        <div className="text-xl font-bold">05</div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">Research Symposium</h3>
+                        <p className="text-muted-foreground text-sm">Showcase of innovative student and faculty research</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
+                        <div className="text-sm">MAY</div>
+                        <div className="text-xl font-bold">20</div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">Alumni Meet</h3>
+                        <p className="text-muted-foreground text-sm">Annual gathering of SVEC graduates</p>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

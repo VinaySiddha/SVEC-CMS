@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLoading } from "@/contexts/LoadingContext";
 
@@ -21,11 +21,17 @@ const SmoothLink: React.FC<SmoothLinkProps> = ({
   ...props
 }) => {
   const { setLoading, setLoadingText } = useLoading();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleClick = () => {
     if (onClick) onClick();
 
-    if (!href.startsWith("http") && !href.startsWith("mailto") && !href.startsWith("tel")) {
+    // Only use loading context when component is mounted (client-side)
+    if (mounted && !href.startsWith("http") && !href.startsWith("mailto") && !href.startsWith("tel")) {
       setLoading(true);
       setLoadingText("Loading page...");
     }

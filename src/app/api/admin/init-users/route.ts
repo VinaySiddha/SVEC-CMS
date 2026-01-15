@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
           { dept: 'civil', username: 'civil_admin', password: 'CivilAdmin@2024' },
           { dept: 'mech', username: 'mech_admin', password: 'MechAdmin@2024' },
           { dept: 'cse', username: 'cse_admin', password: 'CSEAdmin@2024' },
-          { dept: 'cst', username: 'cst_admin', password: 'CSTAdmin@2024' },
+
           { dept: 'eee', username: 'eee_admin', password: 'EEEAdmin@2024' },
           { dept: 'mba', username: 'mba_admin', password: 'MBAAdmin@2024' },
           { dept: 'bsh', username: 'bsh_admin', password: 'BSHAdmin@2024' },
@@ -57,7 +57,7 @@ export async function GET() {
     message: 'Admin initialization endpoint',
     usage: 'POST with authorization key to initialize department admin users',
     departments: [
-      'cse-ai', 'ece', 'civil', 'mech', 'cse', 'cst', 'eee', 'mba', 'bsh', 'ect', 'aiml', 'cse-ds'
+      'cse-ai', 'ece', 'civil', 'mech', 'cse', 'eee', 'mba', 'bsh', 'ect', 'aiml', 'cse-ds'
     ]
   });
 }

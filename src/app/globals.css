@@ -5,65 +5,73 @@
 /* Tab optimization classes - Instant switching with smooth visual feedback */
 @layer components {
   .tab-button {
-    padding: 0.5rem 1rem; /* px-4 py-2 */
-    border-radius: 0.5rem; /* rounded-lg */
-    font-weight: 500; /* font-medium */
-    outline: none; /* focus:outline-none */
-    transition: all 0.1s ease-out; /* Super fast transition */
-    transform: translateZ(0); /* Force hardware acceleration */
+    padding: 0.5rem 1rem;
+    /* px-4 py-2 */
+    border-radius: 0.5rem;
+    /* rounded-lg */
+    font-weight: 500;
+    /* font-medium */
+    outline: none;
+    /* focus:outline-none */
+    transition: all 0.1s ease-out;
+    /* Super fast transition */
+    transform: translateZ(0);
+    /* Force hardware acceleration */
     will-change: background-color, color, box-shadow;
   }
-  
+
   .tab-button:focus {
     outline: none;
     box-shadow: 0 0 0 2px hsla(var(--svec-red), 0.5);
   }
-  
+
   .tab-button.active-tab {
     color: white;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* shadow-lg */
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    /* shadow-lg */
     background: linear-gradient(135deg, hsl(var(--svec-red)), hsl(var(--svec-red)/0.9));
     transition: all 0.15s ease-out;
   }
-  
+
   .tab-button.inactive-tab {
     background-color: hsl(var(--svec-gray));
     color: hsl(215 14% 20%);
     transition: all 0.1s ease-out;
   }
-  
+
   .tab-button.inactive-tab:hover {
     background-color: hsl(var(--svec-gray)/0.8);
   }
-  
+
   .tab-content {
     min-height: 200px;
     contain: layout style paint;
     opacity: 1;
     transform: translateX(0);
-    transition: opacity 0.08s ease-out, transform 0.08s ease-out; /* Ultra-fast content switching */
+    transition: opacity 0.08s ease-out, transform 0.08s ease-out;
+    /* Ultra-fast content switching */
   }
-  
+
   .tab-content-enter {
     opacity: 0;
     transform: translateX(10px);
   }
-  
+
   .tab-content-enter-active {
     opacity: 1;
     transform: translateX(0);
   }
-  
+
   .no-loading-btn {
     pointer-events: auto !important;
     cursor: pointer !important;
   }
-  
+
   /* Instant feedback animations */
   .instant-tab-switch {
     transition: none !important;
   }
-  
+
   .smooth-tab-content {
     animation: quickFadeIn 0.1s ease-out;
   }
@@ -74,6 +82,7 @@
     opacity: 0.7;
     transform: translateY(-2px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -86,6 +95,7 @@
     opacity: 0;
     transform: scale(0.8);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -93,10 +103,13 @@
 }
 
 @keyframes logoPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.05);
     opacity: 0.8;
@@ -107,6 +120,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -117,6 +131,7 @@
     transform: scale(1);
     opacity: 0.3;
   }
+
   to {
     transform: scale(1.1);
     opacity: 0.7;
@@ -127,6 +142,7 @@
   from {
     opacity: 0.6;
   }
+
   to {
     opacity: 1;
   }
@@ -370,10 +386,13 @@ nav a:hover::before {
 }
 
 @keyframes fade-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(0.98);
   }
+
   50% {
     opacity: 1;
     transform: scale(1);
@@ -472,44 +491,55 @@ nav a:hover::before {
 @layer base {
   :root {
     /* Only two colors - vibrant red and white */
-    --svec-red: 357 81% 41%;         /* #E01E26 - Vibrant red (primary) */
-    --svec-white: 0 0% 100%;         /* Pure white */
-    
+    --svec-red: 357 81% 41%;
+    /* #E01E26 - Vibrant red (primary) */
+    --svec-white: 0 0% 100%;
+    /* Pure white */
+
     /* Base theme colors using only red and white */
     --background: var(--svec-white);
-    --foreground: 0 0% 0%;           /* Black text for readability */
+    --foreground: 0 0% 0%;
+    /* Black text for readability */
     --card: 0 0% 100%;
     --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
-    
+
     /* Primary is the vibrant red */
     --primary: var(--svec-red);
     --primary-foreground: 0 0% 100%;
-    
+
     /* Secondary is white with slight gray tint for hover states */
-    --secondary: 0 0% 98%;             /* Very light gray (almost white) */
+    --secondary: 0 0% 98%;
+    /* Very light gray (almost white) */
     --secondary-foreground: var(--svec-red);
-    
+
     /* All other UI elements use either red or white */
-    --muted: 0 0% 98%;               /* Slightly off-white */
-    --muted-foreground: 0 0% 45%;    /* Mid-gray text */
+    --muted: 0 0% 98%;
+    /* Slightly off-white */
+    --muted-foreground: 0 0% 45%;
+    /* Mid-gray text */
     --accent: var(--svec-red);
     --accent-foreground: 0 0% 100%;
     --destructive: var(--svec-red);
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 90%;              /* Light gray border */
+    --border: 0 0% 90%;
+    /* Light gray border */
     --input: 0 0% 100%;
     --ring: var(--svec-red);
     --radius: 0.5rem;
-    
+
     /* Chart colors - only red and grayscale */
     --chart-1: var(--svec-red);
-    --chart-2: 0 0% 0%;              /* Black */
-    --chart-3: 0 0% 20%;             /* Dark gray */
-    --chart-4: 0 0% 40%;             /* Medium gray */
-    --chart-5: 0 0% 60%;             /* Light gray */
-    
+    --chart-2: 0 0% 0%;
+    /* Black */
+    --chart-3: 0 0% 20%;
+    /* Dark gray */
+    --chart-4: 0 0% 40%;
+    /* Medium gray */
+    --chart-5: 0 0% 60%;
+    /* Light gray */
+
     /* Sidebar customization - only red and white */
     --sidebar-background: var(--svec-white);
     --sidebar-foreground: 0 0% 0%;
@@ -523,37 +553,48 @@ nav a:hover::before {
 
   .dark {
     /* Dark theme colors - only red and dark backgrounds */
-    --background: 0 0% 10%;           /* Almost black background */
-    --foreground: 0 0% 100%;          /* White text for readability */
-    --card: 0 0% 12%;                 /* Slightly lighter black */
+    --background: 0 0% 10%;
+    /* Almost black background */
+    --foreground: 0 0% 100%;
+    /* White text for readability */
+    --card: 0 0% 12%;
+    /* Slightly lighter black */
     --card-foreground: 0 0% 100%;
     --popover: 0 0% 12%;
     --popover-foreground: 0 0% 100%;
-    
+
     /* Only the same vibrant red is used */
-    --primary: var(--svec-red);       /* Same red as light mode */
+    --primary: var(--svec-red);
+    /* Same red as light mode */
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 15%;           /* Slightly lighter than background for hover states */
+    --secondary: 0 0% 15%;
+    /* Slightly lighter than background for hover states */
     --secondary-foreground: var(--svec-red);
-    
+
     /* Other dark mode UI elements - black and red */
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 80%;
-    --accent: var(--svec-red);        /* Same red accent */
+    --accent: var(--svec-red);
+    /* Same red accent */
     --accent-foreground: 0 0% 100%;
     --destructive: var(--svec-red);
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 20%;
     --input: 0 0% 15%;
     --ring: var(--svec-red);
-    
+
     /* Chart colors for dark mode - red and grayscales */
-    --chart-1: var(--svec-red);       /* Same vibrant red */
-    --chart-2: 0 0% 100%;             /* White */
-    --chart-3: 0 0% 80%;              /* Light gray */
-    --chart-4: 0 0% 60%;              /* Medium gray */
-    --chart-5: 0 0% 40%;              /* Dark gray */
-    
+    --chart-1: var(--svec-red);
+    /* Same vibrant red */
+    --chart-2: 0 0% 100%;
+    /* White */
+    --chart-3: 0 0% 80%;
+    /* Light gray */
+    --chart-4: 0 0% 60%;
+    /* Medium gray */
+    --chart-5: 0 0% 40%;
+    /* Dark gray */
+
     /* Sidebar dark theme - red and black */
     --sidebar-background: 0 0% 10%;
     --sidebar-foreground: 0 0% 100%;
@@ -571,7 +612,8 @@ nav a:hover::before {
     border-color: hsl(var(--border));
   }
 
-  html, body {
+  html,
+  body {
     background: white !important;
     background-color: white !important;
     background-image: none !important;
@@ -590,8 +632,10 @@ nav a:hover::before {
 }
 
 [data-scrollable-nav] {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 
@@ -600,6 +644,7 @@ nav a:hover::before {
   * {
     border-color: hsl(var(--border));
   }
+
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
@@ -611,6 +656,7 @@ nav a:hover::before {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -618,4 +664,120 @@ nav a:hover::before {
 
 .animate-scroll {
   animation: scroll 30s linear infinite;
+}
+
+/* CST Department Dropdown Styles - Match Image Format */
+@layer components {
+  .cst-dropdown {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  }
+
+  .cst-dropdown summary {
+    background-color: #B22222 !important;
+    background: linear-gradient(135deg, #B22222 0%, #B22222 100%) !important;
+    color: white !important;
+    padding: 16px 20px !important;
+    font-weight: 600 !important;
+    font-size: 18px !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    list-style: none !important;
+    outline: none !important;
+    position: relative !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    border-radius: 8px !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .cst-dropdown summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .cst-dropdown summary::marker {
+    display: none;
+    content: '';
+  }
+
+  /* White Triangle Arrow - hide when custom icon is present */
+  .cst-dropdown summary::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid white;
+    transition: transform 0.3s ease;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* Hide default arrow when custom chevron icon is used */
+  .cst-dropdown.group summary::after {
+    display: none;
+  }
+
+  /* Support for inline chevron icons using group-open:rotate-90 */
+  .cst-dropdown.group summary svg {
+    transition: transform 0.3s ease !important;
+    color: white !important;
+  }
+
+  .cst-dropdown.group[open] summary svg {
+    transform: rotate(90deg);
+  }
+
+  /* Rotate triangle when open (for non-custom icon dropdowns) */
+  .cst-dropdown[open] summary::after {
+    transform: rotate(180deg);
+  }
+
+  /* Hover effect */
+  .cst-dropdown summary:hover {
+    background-color: #A01A1A !important;
+    background: linear-gradient(135deg, #A01A1A 0%, #A01A1A 100%) !important;
+    box-shadow: 0 2px 8px rgba(178, 34, 34, 0.3) !important;
+  }
+
+  /* Content styling */
+  .cst-dropdown .cst-dropdown-content {
+    padding: 20px;
+    background-color: white;
+    border: 2px solid #B22222;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+  }
+
+  /* Animation for opening/closing */
+  .cst-dropdown[open] .cst-dropdown-content {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Ensure first dropdown is visually prominent when open */
+  .cst-dropdown:first-of-type[open] {
+    box-shadow: 0 4px 12px rgba(178, 34, 34, 0.2);
+  }
+
+  .cst-dropdown:first-of-type summary {
+    background: linear-gradient(135deg, #B22222 0%, #CC2525 100%);
+  }
 }

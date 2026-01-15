@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -26,8 +27,10 @@ const facultySchema = z.object({
 
 type FacultyFormData = z.infer<typeof facultySchema>;
 
+type FacultyInitialData = Partial<FacultyFormData> & { title?: string };
+
 interface FacultyFormProps {
-  initialData?: Partial<FacultyFormData>;
+  initialData?: FacultyInitialData;
   onSubmit: (data: FacultyFormData) => void;
   isLoading?: boolean;
   departmentCode: string;
@@ -39,11 +42,12 @@ export function FacultyForm({ initialData, onSubmit, isLoading = false, departme
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors }
   } = useForm<FacultyFormData>({
     resolver: zodResolver(facultySchema),
     defaultValues: {
-      name: initialData?.name || '',
+      name: initialData?.name ?? initialData?.title ?? '',
       email: initialData?.email || '',
       qualification: initialData?.qualification || '',
       designation: initialData?.designation || '',
@@ -56,10 +60,26 @@ export function FacultyForm({ initialData, onSubmit, isLoading = false, departme
     }
   });
 
+  useEffect(() => {
+    reset({
+      name: initialData?.name || '',
+      email: initialData?.email || '',
+      qualification: initialData?.qualification || '',
+      designation: initialData?.designation || '',
+      specialization: initialData?.specialization || '',
+      experience_years: initialData?.experience_years || '',
+      profile_url: initialData?.profile_url || '',
+      bio: initialData?.bio || '',
+      research_interests: initialData?.research_interests || '',
+      publications: initialData?.publications || ''
+    });
+  }, [initialData, reset]);
+
   const handleFormSubmit = (data: FacultyFormData) => {
     // Add department code to the data
     const facultyData = {
       ...data,
+      title: data.name,
       department: departmentCode
     };
     onSubmit(facultyData);
@@ -130,11 +150,8 @@ export function FacultyForm({ initialData, onSubmit, isLoading = false, departme
                 <SelectContent>
                   <SelectItem value="Professor">Professor</SelectItem>
                   <SelectItem value="Associate Professor">Associate Professor</SelectItem>
+                  <SelectItem value="Sr. Assistant Professor">Sr. Assistant Professor</SelectItem>
                   <SelectItem value="Assistant Professor">Assistant Professor</SelectItem>
-                  <SelectItem value="Lecturer">Lecturer</SelectItem>
-                  <SelectItem value="Senior Lecturer">Senior Lecturer</SelectItem>
-                  <SelectItem value="Principal">Principal</SelectItem>
-                  <SelectItem value="HOD">Head of Department</SelectItem>
                 </SelectContent>
               </Select>
               {errors.designation && (

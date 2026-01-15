@@ -7,18 +7,18 @@ const NAAC: React.FC = () => {
 
   // Sidebar navigation items
   const sidebarItems = [
-    { id: 'naac', label: 'NAAC' },
-    { id: 'institutional-distinctiveness', label: 'Institutional Distinctiveness' },
-    { id: 'iqac', label: 'IQAC' },
-    { id: 'stakeholder-feedback', label: 'Stakeholder Feedback Forms' },
-    { id: 'extended-profile', label: 'Extended Profile' },
-    { id: 'criterion-1', label: 'Criterion-I' },
-    { id: 'criterion-2', label: 'Criterion-II' },
-    { id: 'criterion-3', label: 'Criterion-III' },
-    { id: 'criterion-4', label: 'Criterion-IV' },
-    { id: 'criterion-5', label: 'Criterion-V' },
-    { id: 'criterion-6', label: 'Criterion-VI' },
-    { id: 'criterion-7', label: 'Criterion-VII' },
+    { id: 'naac', label: 'NAAC', icon: Award },
+    { id: 'institutional-distinctiveness', label: 'Institutional Distinctiveness', icon: BookOpen },
+    { id: 'iqac', label: 'IQAC', icon: Users },
+    { id: 'stakeholder-feedback', label: 'Stakeholder Feedback Forms', icon: TrendingUp },
+    { id: 'extended-profile', label: 'Extended Profile', icon: FileText },
+    { id: 'criterion-1', label: 'Criterion-I', icon: Award },
+    { id: 'criterion-2', label: 'Criterion-II', icon: Award },
+    { id: 'criterion-3', label: 'Criterion-III', icon: Award },
+    { id: 'criterion-4', label: 'Criterion-IV', icon: Award },
+    { id: 'criterion-5', label: 'Criterion-V', icon: Award },
+    { id: 'criterion-6', label: 'Criterion-VI', icon: Award },
+    { id: 'criterion-7', label: 'Criterion-VII', icon: Award },
   ];
 
   // IQAC Members data
@@ -3490,98 +3490,128 @@ const NAAC: React.FC = () => {
   };
 
   return (
-    <div className="pt-24 bg-background text-foreground min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-primary text-white py-16 md:py-20 w-full rounded-none mb-12">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">NAAC</h1>
-          <p className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
-            National Assessment and Accreditation Council
-          </p>
-        </div>
-      </section>
-
-      {/* Fixed Menu Toggle Button */}
-      <div className="fixed top-28 left-4 z-50">
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="bg-primary text-white px-4 py-3 rounded-lg flex items-center gap-2 hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl"
-        >
-          <Menu className="w-5 h-5" />
-          <span className="hidden sm:inline">Contents</span>
-        </button>
-      </div>
-
-      {/* Fixed Sidebar */}
-      {sidebarOpen && (
-        <div className="fixed top-24 left-4 w-80 h-[calc(100vh-7rem)] z-40 transition-all duration-300">
-          <div className="bg-white rounded-lg shadow-xl h-full overflow-y-auto border border-gray-200">
-            {/* Header with close button */}
-            <div className="flex justify-between items-center p-4 border-b bg-primary/5 sticky top-0 z-10">
-              <h3 className="text-lg font-bold text-primary flex items-center gap-2">
-                <BookOpen className="w-5 h-5" />
-                NAAC Contents
-              </h3>
-              <button
-                onClick={() => setSidebarOpen(false)}
-                className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 p-1 rounded transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
+    <div className="bg-background text-foreground min-h-screen flex flex-col">
+      <main className="flex-1">
+        <div className="pt-24 min-h-screen">
+          {/* Hero Section */}
+          <section className="bg-primary text-white py-16 md:py-20 w-full rounded-none mb-12">
+            <div className="container mx-auto px-4 text-center">
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">NAAC</h1>
+              <p className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
+                National Assessment and Accreditation Council
+              </p>
             </div>
+          </section>
 
-            {/* Navigation */}
-            <nav className="p-4 space-y-1">
-              {sidebarItems.map((item) => {
-                const isActive = activeTab === item.id;
+          <div className="container mx-auto px-4 pb-12">
+            <div className="flex gap-8">
+              {/* Desktop Sidebar */}
+              <aside className="hidden md:block w-72">
+                <div className="bg-white rounded-lg shadow-lg sticky top-24 border-l-4 border-primary overflow-hidden">
+                  {/* Header */}
+                  <div className="bg-primary/10 border-b-2 border-primary px-6 py-4 flex items-center gap-3">
+                    <div className="bg-primary text-white p-2 rounded-lg">
+                      <Award className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-primary font-bold text-lg">NAAC</h3>
+                      <p className="text-xs text-primary/70">Accreditation</p>
+                    </div>
+                  </div>
 
-                // Get appropriate icon for each item
-                const getIcon = (id: string) => {
-                  if (id.includes('criterion')) return <Award className="w-4 h-4" />;
-                  if (id === 'iqac') return <Users className="w-4 h-4" />;
-                  if (id === 'stakeholder-feedback') return <TrendingUp className="w-4 h-4" />;
-                  if (id === 'extended-profile') return <FileText className="w-4 h-4" />;
-                  if (id === 'institutional-distinctiveness') return <BookOpen className="w-4 h-4" />;
-                  return <BookOpen className="w-4 h-4" />;
-                };
+                  {/* Navigation Items */}
+                  <nav className="py-4">
+                    {sidebarItems.map((item) => {
+                      const IconComponent = item.icon;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => setActiveTab(item.id)}
+                          className={`w-full px-6 py-3 text-left border-l-4 transition-all duration-200 flex items-center gap-4 ${
+                            activeTab === item.id
+                              ? 'border-primary bg-primary/5 text-primary font-semibold shadow-sm'
+                              : 'border-transparent text-foreground/80 hover:bg-gray-50 hover:border-primary/30'
+                          }`}
+                        >
+                          <IconComponent className="w-5 h-5 flex-shrink-0" />
+                          <span className="flex-1">{item.label}</span>
+                          {activeTab === item.id && <ChevronRight className="w-4 h-4 flex-shrink-0" />}
+                        </button>
+                      );
+                    })}
+                  </nav>
+                </div>
+              </aside>
 
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => {
-                      setActiveTab(item.id);
-                      setSidebarOpen(false);
-                    }}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 hover:shadow-sm ${isActive
-                      ? 'bg-primary text-white font-medium shadow-md'
-                      : 'text-gray-700 hover:bg-gray-100'
-                      }`}
-                  >
-                    {getIcon(item.id)}
-                    <span className="text-sm flex-1">{item.label}</span>
-                    <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? 'rotate-90' : ''}`} />
-                  </button>
-                );
-              })}
-            </nav>
+              {/* Main Content */}
+              <main className="flex-1">
+                <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                  {renderContent()}
+                </div>
+              </main>
+
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="md:hidden fixed bottom-4 right-4 z-40 bg-primary text-white p-3 rounded-full shadow-lg hover:bg-primary/90 transition-colors"
+              >
+                {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+
+              {/* Mobile Sidebar */}
+              {sidebarOpen && (
+                <div className="md:hidden fixed inset-0 bg-black/50 z-30 top-24">
+                  <div className="absolute left-0 top-24 w-72 bg-white shadow-lg border-l-4 border-primary max-h-screen overflow-y-auto">
+                    {/* Header */}
+                    <div className="bg-primary/10 border-b-2 border-primary px-6 py-4 flex items-center justify-between sticky top-0">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-primary text-white p-2 rounded-lg">
+                          <Award className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <h3 className="text-primary font-bold text-lg">NAAC</h3>
+                          <p className="text-xs text-primary/70">Accreditation</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setSidebarOpen(false)}
+                        className="text-foreground/60 hover:text-foreground"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    </div>
+
+                    {/* Navigation Items */}
+                    <nav className="py-4">
+                      {sidebarItems.map((item) => {
+                        const IconComponent = item.icon;
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => {
+                              setActiveTab(item.id);
+                              setSidebarOpen(false);
+                            }}
+                            className={`w-full px-6 py-3 text-left border-l-4 transition-all duration-200 flex items-center gap-4 ${
+                              activeTab === item.id
+                                ? 'border-primary bg-primary/5 text-primary font-semibold shadow-sm'
+                                : 'border-transparent text-foreground/80 hover:bg-gray-50 hover:border-primary/30'
+                            }`}
+                          >
+                            <IconComponent className="w-5 h-5 flex-shrink-0" />
+                            <span className="flex-1">{item.label}</span>
+                            {activeTab === item.id && <ChevronRight className="w-4 h-4 flex-shrink-0" />}
+                          </button>
+                        );
+                      })}
+                    </nav>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      )}
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 pb-16">
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-          {renderContent()}
-        </div>
-      </div>
-
-      {/* Overlay for sidebar */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/30 z-30"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+      </main>
     </div>
   );
 };

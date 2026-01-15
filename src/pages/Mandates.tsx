@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { FileText, Download, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 
 const Mandates: React.FC = () => {
@@ -17,11 +18,21 @@ const Mandates: React.FC = () => {
   const hrPolicyData = [
     {
       title: 'HUMAN RESOURCES AND QUALITY POLICY',
-      link: 'http://srivasaviengg.ac.in/uploads/csemous/csemous_2017-2018.pdf'
+      link: './mandates/csemous_2017-2018.pdf'
     }
   ];
 
   const mandatoryDisclosureData = [
+    {
+      section: 'UGC Model Disclosure',
+      items: [
+        {
+          title: 'UGC Model Disclosure Format - Complete Information',
+          link: '/ugc-model-disclosure',
+          isInternal: true
+        }
+      ]
+    },
     {
       section: 'NBA & NAAC Status',
       items: [
@@ -245,14 +256,23 @@ const Mandates: React.FC = () => {
                       <FileText className="w-4 h-4 mt-1 text-primary flex-shrink-0" />
                       <div>
                         <span className="text-foreground">{item.title} - </span>
-                        <a
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-1"
-                        >
-                          Click here <ExternalLink className="w-4 h-4" />
-                        </a>
+                        {item.isInternal ? (
+                          <Link
+                            href={item.link}
+                            className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-1"
+                          >
+                            View Page <ExternalLink className="w-4 h-4" />
+                          </Link>
+                        ) : (
+                          <a
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-1"
+                          >
+                            Click here <ExternalLink className="w-4 h-4" />
+                          </a>
+                        )}
                       </div>
                     </li>
                   ))}
@@ -453,9 +473,7 @@ const Mandates: React.FC = () => {
       <section className="bg-primary text-white py-16 md:py-20 w-full rounded-none mb-12">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Mandates</h1>
-          <p className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
-            Official documents, policies, and mandatory disclosures
-          </p>
+          
         </div>
       </section>
 

@@ -23,18 +23,21 @@ interface MenuItemWithDropdown {
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [submenuPosition, setSubmenuPosition] = useState<{ top: number, left: number } | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [mobileSection, setMobileSection] = useState<'admin' | 'depts' | 'more' | null>(null);
+  const [mobileSection, setMobileSection] = useState<'admin' | 'depts' | 'information' | 'academics' | null>(null);
 
 
   const pathname = usePathname();
   const isHomePage = pathname === '/';
 
   useEffect(() => {
+    setIsMounted(true);
+    
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -59,7 +62,7 @@ const Header: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('click', handleClickOutside);
-    handleScroll(); // Check scroll position on initial load
+    // Don't call handleScroll() immediately to prevent hydration mismatch
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -114,18 +117,19 @@ const Header: React.FC = () => {
   };
 
 const departments = [
-  { name: 'AI & Machine Learning', path: '/departments/aiml' },
-  { name: 'Basic Science & Humanities', path: '/departments/bsh' },
-  { name: 'Civil Engineering', path: '/departments/civil' },
-  { name: 'CSE (AI)', path: '/departments/cse-ai' },
-  { name: 'CSE (Data Science)', path: '/departments/cse-ds' },
-  { name: 'Computer Science & Engineering', path: '/departments/cse' },
-  { name: 'Computer Science & Technology', path: '/departments/cst' },
-  { name: 'Electrical & Electronics', path: '/departments/eee' },
-  { name: 'Electronics & Comm. Technology', path: '/departments/ect' },
-  { name: 'Electronics & Communication', path: '/departments/ece' },
-  { name: 'MBA', path: '/departments/mba' },
-  { name: 'Mechanical Engineering', path: '/departments/mech' },
+  { name: 'Artificial Intelligence  & Machine Learning', path: '/departments/aiml' },
+{ name: 'Basic Science & Humanities', path: '/departments/bsh' },
+{ name: 'Civil Engineering', path: '/departments/civil' },
+{ name: 'Computer Science & Engineering', path: '/departments/cse' },
+{ name: 'Computer Science & Technology', path: '/departments/cst' },
+{ name: 'CSE (Artificial Intelligence)', path: '/departments/cse-ai' },
+{ name: 'CSE (Data Science)', path: '/departments/cse-ds' },
+{ name: 'Electrical & Electronics Engineering', path: '/departments/eee' },
+{ name: 'Electronics & Communication Engineering', path: '/departments/ece' },
+{ name: 'Electronics & Communcation Technology', path: '/departments/ect' },
+{ name: 'Master of Business Administration', path: '/departments/mba' },
+{ name: 'Mechanical Engineering', path: '/departments/mech' },
+
 ];
 
 
@@ -140,53 +144,66 @@ const departments = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Admissions', path: '/admissions' },
-    { name: 'Academics', path: '/academics' },
+  ];
+
+  const secondaryNavLinks = [
     { name: 'Placements', path: '/placements' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'Mandatory Disclosures', path: '/ugc-model-disclosure' }
+  ];
+
+  const academicsItems = [
+    { name: 'Overview', path: '/academics' },
+    { name: 'Faculty', path: '/faculty' },
+    { 
+      name: 'Departments', 
+      path: '/departments', 
+      hasDropdown: true, 
+      dropdownItems: departments 
+    }
   ];
 
   // UGC dropdown items
   const ugcDropdownItems = [
+  
     { name: 'Academic Council', path: '#' },
-    { name: 'Board of Studies', path: 'http://srivasaviengg.ac.in/uploads/List%20of%20Board%20of%20Studies_2021_22.pdf' },
-    { name: 'Finance Committee', path: 'http://srivasaviengg.ac.in/Finance_Committee_2021_2022.png' },
-    { name: 'IQAC', path: 'http://srivasaviengg.ac.in/uploads/iqac_members_2021_2022.png' },
-    { name: 'Non Statutory Committee', path: 'http://srivasaviengg.ac.in/uploads/College%20Level%20Committees%202021-22.pdf' },
-    { name: 'Fee Structure', path: 'http://srivasaviengg.ac.in/uploads/fee.png' },
-    { name: 'Undertaking', path: 'http://srivasaviengg.ac.in/uploads/Undertaking_2021_2022.jpg' }
+    { name: 'Board of Studies', path: './ugc/List%20of%20Board%20of%20Studies_2021_22.pdf' },
+    { name: 'Finance Committee', path: './ugc/Finance_Committee_2021_2022.png' },
+    { name: 'IQAC', path: './ugc/iqac_members_2021_2022.png' },
+    { name: 'Non Statutory Committee', path: './ugc/College%20Level%20Committees%202021-22.pdf' },
+    { name: 'Fee Structure', path: './ugc/fee.png' },
+    { name: 'Undertaking', path: './ugc/Undertaking_2021_2022.jpg' }
   ];
 
   // NIRF dropdown items
   const nirfDropdownItems = [
-    { name: 'SVEC-Overall Category NIRF', path: '#' },
-    { name: 'SVEC-Engineering Category NIRF', path: '#' }
+    { name: 'Engineering', path: './ugc/SRI VASAVI ENGINEERING COLLEGE20250110 NIRF ENGG Submitted.pdf' },
+    { name: 'Management', path: './ugc/SRI VASAVI ENGINEERING COLLEGE20250110 NIRF MGMT Submitted.pdf' },
+    { name: 'SDG Institution', path: './ugc/SRI VASAVI ENGINEERING COLLEGE20250110 NIRF SDG Submitted.pdf' },
+    { name: 'Overall', path: './ugc/SRI VASAVI ENGINEERING COLLEGE20250110 NIRF Overall Submitted.pdf' },
   ];
 
   // Other Links dropdown items
   const otherLinksDropdownItems = [
-    { name: 'Anti Ragging Committee', path: 'https://srivasaviengg.ac.in/uploads/Anti%20Ragging%20Committee%202023-4.pdf' },
-    { name: 'Internal Complaints Committee', path: 'https://srivasaviengg.ac.in/uploads/Internal%20Compliants%20Committee%202023-24.pdf' },
-    { name: 'SC/ST Welfare Committee', path: 'https://srivasaviengg.ac.in/uploads/SC%20ST%20Welfare%20Committee%202023-24.pdf' },
-    { name: 'Institute Industry Cell', path: 'https://srivasaviengg.ac.in/uploads/INSTITUTION-INDUSTRY%20CELL%202023-24.pdf' },
-    { name: 'Other Important Committee', path: 'https://srivasaviengg.ac.in/uploads/College%20Level%20Committees%20Details.pdf' },
+    { name: 'Anti Ragging Committee', path: './ugc/Anti%20Ragging%20Committee%202023-4.pdf' },
+    { name: 'Internal Complaints Committee', path: './ugc/Internal%20Compliants%20Committee%202023-24.pdf' },
+    { name: 'SC/ST Welfare Committee', path: './ugc/SC%20ST%20Welfare%20Committee%202023-24.pdf' },
+    { name: 'Institute Industry Cell', path: './ugc/INSTITUTION-INDUSTRY%20CELL%202023-24.pdf' },
+    { name: 'Other Important Committee', path: './ugc/College%20Level%20Committees%20Details.pdf' },
     { name: 'Alumni Engagement', path: './alumni_engagement.html' },
     { name: 'Entrepreneurial Quest', path: 'https://entrepreneurialquest.netlify.app' }
   ];
 
-  // More dropdown items - organized and consistent with other dropdowns
-  const moreDropdownItems = [
+  // Information dropdown items - organized and consistent with other dropdowns
+  const informationDropdownItems = [
     { name: 'Grievance', path: '/grievance' },
     { name: 'Campus Life', path: '/campus-life' },
     { name: 'NAAC', path: '/naac' },
+    { name: 'NBA', path: '/nba' },
     { name: 'R & D', path: '/rd-innovation' },
     { name: 'Mandates', path: '/mandates' },
     { name: 'Category B', path: '/category-b' },
-    {
-      name: 'UGC',
-      path: '/ugc',
-      hasDropdown: true,
-      dropdownItems: ugcDropdownItems
-    },
+    { name: 'UGC', path: '/UGC' , hasDropdown: true,
+      dropdownItems: ugcDropdownItems},
     {
       name: 'NIRF',
       path: '/nirf',
@@ -205,12 +222,12 @@ const departments = [
     ? 'bg-background/95 shadow-md backdrop-blur-sm'
     : 'bg-transparent';
 
-  const textColorClass = isScrolled || !isHomePage
+  const textColorClass = (isScrolled || !isHomePage)
     ? 'text-foreground'
     : 'text-white';
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerClass}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerClass}`} suppressHydrationWarning={true}>
       {/* Subtle top accent line */}
       <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
 
@@ -239,6 +256,147 @@ const departments = [
                 href={link.path}
                 className={`${textColorClass} hover:text-primary transition-all duration-300 hover:scale-105 nav-underline ${pathname === link.path ? 'text-primary font-semibold' : ''}`}
                 style={{ animationDelay: `${index * 100}ms` }}
+              >
+                {link.name}
+              </SmoothLink>
+            ))}
+
+            <div className="relative" data-dropdown="academics">
+              <button
+                className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}
+                aria-expanded={activeDropdown === 'academics'}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveDropdown(activeDropdown === 'academics' ? null : 'academics');
+                }}
+                onMouseEnter={() => handleMouseEnter('academics')}
+                onMouseLeave={handleMouseLeave}
+              >
+                Academics <ChevronDown className="w-4 h-4 ml-1" />
+              </button>
+              {activeDropdown === 'academics' && (
+                <div
+                  className="absolute top-full -left-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 z-50 animate-in slide-in-from-top-2 duration-200"
+                  onClick={(e) => e.stopPropagation()}
+                  onMouseEnter={() => {
+                    setActiveDropdown('academics');
+                    if (dropdownTimeoutRef.current) {
+                      clearTimeout(dropdownTimeoutRef.current);
+                      dropdownTimeoutRef.current = null;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    const relatedTarget = e.relatedTarget;
+                    const currentTarget = e.currentTarget;
+                    if (relatedTarget instanceof Node && currentTarget instanceof Node) {
+                      if (currentTarget.contains(relatedTarget)) return;
+                      const submenuEl = document.querySelector('[data-submenu="academics"]');
+                      if (submenuEl && submenuEl.contains(relatedTarget)) return;
+                    }
+                    dropdownTimeoutRef.current = setTimeout(() => {
+                      setActiveDropdown(null);
+                      setActiveSubmenu(null);
+                      setSubmenuPosition(null);
+                    }, 400);
+                  }}
+                >
+                  {academicsItems.map((item, idx) => (
+                    item.hasDropdown ? (
+                      <div key={idx} className="group relative">
+                        <div
+                          className="flex items-center justify-between px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary cursor-pointer w-full"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (activeSubmenu === item.name) {
+                              setActiveSubmenu(null);
+                              setSubmenuPosition(null);
+                            } else {
+                              const rect = e.currentTarget.getBoundingClientRect();
+                              setSubmenuPosition({
+                                top: rect.top,
+                                left: rect.right - 20
+                              });
+                              setActiveSubmenu(item.name);
+                            }
+                          }}
+                        >
+                          <span>{item.name}</span>
+                          <ChevronRight className={`w-4 h-4 transition-transform ${activeSubmenu === item.name ? 'rotate-90' : ''}`} />
+                        </div>
+                        <div
+                          className="absolute inset-0"
+                          onMouseEnter={(e) => {
+                            const target = (e.currentTarget.parentElement as HTMLElement);
+                            const rect = target.getBoundingClientRect();
+                            setSubmenuPosition({ top: rect.top, left: rect.right - 20 });
+                            setActiveSubmenu(item.name);
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <Link
+                        key={idx}
+                        href={item.path}
+                        className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary transition-all duration-200 hover:translate-x-1"
+                        onClick={() => setActiveDropdown(null)}
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                  ))}
+                </div>
+              )}
+              
+              {activeDropdown === 'academics' && activeSubmenu && submenuPosition && (
+                <div
+                  data-submenu="academics"
+                  className="fixed bg-background shadow-lg border z-[60] max-h-[70vh] overflow-y-auto md:rounded-md md:py-1 md:w-56"
+                  style={{
+                    top: `${submenuPosition.top}px`,
+                    left: `${Math.min(submenuPosition.left, window.innerWidth - 240)}px`,
+                    scrollbarWidth: 'thin'
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                  onMouseEnter={() => {
+                    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+                    if (submenuTimeoutRef.current) clearTimeout(submenuTimeoutRef.current);
+                  }}
+                  onMouseLeave={() => {
+                    submenuTimeoutRef.current = setTimeout(() => {
+                      setActiveSubmenu(null);
+                      setSubmenuPosition(null);
+                    }, 1000);
+                  }}
+                >
+                   <div className="md:p-0 p-4 pt-12 md:pt-0 flex-1 overflow-y-auto">
+                    {academicsItems
+                      .find(item => item.name === activeSubmenu)
+                      ?.dropdownItems?.map((subItem, subIdx) => (
+                        <Link
+                          key={subIdx}
+                          href={subItem.path}
+                          className="block px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary transition-colors"
+                          onClick={() => {
+                            setActiveDropdown(null);
+                            setActiveSubmenu(null);
+                            setSubmenuPosition(null);
+                          }}
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {secondaryNavLinks.map((link, index) => (
+              <SmoothLink
+                key={link.path}
+                href={link.path}
+                className={`${textColorClass} hover:text-primary transition-all duration-300 hover:scale-105 nav-underline ${pathname === link.path ? 'text-primary font-semibold' : ''}`}
+                style={{ animationDelay: `${(index + 3) * 100}ms` }}
               >
                 {link.name}
               </SmoothLink>
@@ -277,7 +435,7 @@ const departments = [
                   onMouseLeave={(e) => {
                     const relatedTarget = e.relatedTarget as Element;
                     const dropdown = document.querySelector('[data-dropdown="admin"]');
-                    if (dropdown && !dropdown.contains(relatedTarget)) {
+                    if (!(relatedTarget instanceof Element) || (dropdown && !dropdown.contains(relatedTarget))) {
                       dropdownTimeoutRef.current = setTimeout(() => {
                         setActiveDropdown(null);
                       }, 200);
@@ -307,23 +465,23 @@ const departments = [
             <div className="relative">
               <button
                 className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}
-                aria-expanded={activeDropdown === 'more'}
+                aria-expanded={activeDropdown === 'information'}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setActiveDropdown(activeDropdown === 'more' ? null : 'more');
+                  setActiveDropdown(activeDropdown === 'information' ? null : 'information');
                 }}
-                onMouseEnter={() => handleMouseEnter('more')}
+                onMouseEnter={() => handleMouseEnter('information')}
                 onMouseLeave={handleMouseLeave}
               >
-                More <ChevronDown className="w-4 h-4 ml-1" />
+                Information <ChevronDown className="w-4 h-4 ml-1" />
               </button>
-              {activeDropdown === 'more' && (
+              {activeDropdown === 'information' && (
                 <div
                   className="absolute top-full -left-4 mt-2 w-64 bg-background rounded-md shadow-lg border py-1 z-50 max-h-[70vh] overflow-y-auto animate-in slide-in-from-top-2 duration-200"
-                  data-dropdown="more"
+                  data-dropdown="information"
                   onClick={(e) => e.stopPropagation()}
                   onMouseEnter={() => {
-                    setActiveDropdown('more');
+                    setActiveDropdown('information');
                     if (dropdownTimeoutRef.current) {
                       clearTimeout(dropdownTimeoutRef.current);
                       dropdownTimeoutRef.current = null;
@@ -339,7 +497,7 @@ const departments = [
                       // Don't close if moving to a child element within the dropdown
                       if (currentTarget.contains(relatedTarget)) return;
                       // Don't close if moving into the submenu panel
-                      const submenuEl = document.querySelector('[data-submenu="more"]');
+                      const submenuEl = document.querySelector('[data-submenu="information"]');
                       if (submenuEl && submenuEl.contains(relatedTarget)) return;
                     }
                     // Add delay to prevent accidental closure and close submenu
@@ -350,7 +508,7 @@ const departments = [
                     }, 400);
                   }}
                 >
-                  {moreDropdownItems.map((item, idx) => (
+                  {informationDropdownItems.map((item, idx) => (
                     item.hasDropdown ? (
                       <div
                         key={idx}
@@ -413,9 +571,9 @@ const departments = [
               )}
 
               {/* Sub-dropdown rendered outside main dropdown */}
-              {activeDropdown === 'more' && activeSubmenu && submenuPosition && (
+              {activeDropdown === 'information' && activeSubmenu && submenuPosition && (
                 <div
-                  data-submenu="more"
+                  data-submenu="information"
                   className="fixed bg-background shadow-lg border z-[60] max-h-[70vh] overflow-y-auto
                            md:rounded-md md:py-1 md:w-56
                            w-full h-full top-0 left-0 md:top-auto md:left-auto md:h-auto
@@ -460,7 +618,7 @@ const departments = [
 
                   {/* Content */}
                   <div className="md:p-0 p-4 pt-12 md:pt-0 flex-1 overflow-y-auto">
-                    {moreDropdownItems
+                    {informationDropdownItems
                       .find(item => item.name === activeSubmenu)
                       ?.dropdownItems?.map((subItem, subIdx) => (
                         <Link
@@ -489,30 +647,7 @@ const departments = [
               )}
             </div>
 
-            <div className="relative">
-              <Link
-                href="/departments"
-                className={`flex items-center ${textColorClass} hover:text-primary transition-colors`}
-                onMouseEnter={() => handleMouseEnter('depts')}
-                onMouseLeave={(e) => {
-                  const relatedTarget = e.relatedTarget as Element;
-                  const dropdownMenu = document.querySelector('[data-dropdown="depts-menu"]');
-                  
-                  // Don't close if moving to the dropdown menu
-                  if (relatedTarget && (
-                    dropdownMenu?.contains(relatedTarget) ||
-                    relatedTarget.closest('[data-dropdown="depts-menu"]')
-                  )) {
-                    return;
-                  }
-                  
-                  handleMouseLeave(e);
-                }}
-              >
-                Departments
-              </Link>
 
-            </div>
           </nav>
 
           <div className="flex items-center gap-4">
@@ -522,7 +657,7 @@ const departments = [
               rel="noopener noreferrer"
               className="hidden sm:block bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
-              E-CAP
+              ECAP
             </a>
             <button
               className={`lg:hidden p-2 rounded-lg hover:bg-secondary/50 transition-all duration-200 no-underline ${textColorClass} ${isMenuOpen ? 'bg-secondary/30' : ''}`}
@@ -602,10 +737,79 @@ const departments = [
                     <ChevronRight className="w-4 h-4 text-foreground/50 transition-transform group-hover:translate-x-1" />
                   </SmoothLink>
                 ))}
+                {secondaryNavLinks.map((link, index) => (
+                  <SmoothLink
+                    key={link.path}
+                    href={link.path}
+                    className="flex items-center justify-between px-3 py-3 rounded-lg text-foreground/90 hover:bg-secondary transition-all duration-200 hover:translate-x-1 group"
+                    style={{ animationDelay: `${(index + mainNavLinks.length) * 100}ms` }}
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setMobileSection(null);
+                    }}
+                  >
+                    <span>{link.name}</span>
+                    <ChevronRight className="w-4 h-4 text-foreground/50 transition-transform group-hover:translate-x-1" />
+                  </SmoothLink>
+                ))}
               </div>
 
               {/* Accordions */}
               <div className="rounded-lg border border-border/60 overflow-hidden">
+                
+                {/* Academics */}
+                <button
+                  className="w-full flex items-center justify-between px-3 py-3 font-semibold text-primary/90 bg-secondary/40 border-b border-border"
+                  onClick={() => setMobileSection(mobileSection === 'academics' ? null : 'academics')}
+                  aria-expanded={mobileSection === 'academics'}
+                >
+                  <span>Academics</span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${mobileSection === 'academics' ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                {mobileSection === 'academics' && (
+                  <div className="bg-secondary/10 border-b border-border">
+                    <div className="px-2 py-1">
+                      {academicsItems.map((item, idx) => (
+                        item.hasDropdown ? (
+                          <div key={idx} className="mb-1">
+                            <p className="px-2 py-2 text-[13px] font-medium text-primary/90">{item.name}</p>
+                            <div className="ml-2 border-l border-primary/10 pl-2">
+                              {item.dropdownItems?.map((subItem, subIdx) => (
+                                <Link
+                                  key={subIdx}
+                                  href={subItem.path}
+                                  className="block py-1.5 text-sm text-foreground/70 hover:text-primary transition-colors"
+                                  onClick={() => {
+                                    setIsMenuOpen(false);
+                                    setMobileSection(null);
+                                  }}
+                                >
+                                  <span className="inline-block w-1 h-1 bg-foreground/30 rounded-full mr-2" />
+                                  {subItem.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <Link
+                            key={idx}
+                            href={item.path}
+                            className="block px-2 py-2 rounded-md text-sm text-foreground/70 hover:bg-secondary transition-colors"
+                            onClick={() => {
+                              setIsMenuOpen(false);
+                              setMobileSection(null);
+                            }}
+                          >
+                            {item.name}
+                          </Link>
+                        )
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Administration */}
                 <button
                   className="w-full flex items-center justify-between px-3 py-3 font-semibold text-primary/90 bg-secondary/40"
@@ -637,31 +841,21 @@ const departments = [
                   </div>
                 )}
 
-                {/* Departments */}
-                <Link 
-                  href="/departments"
-                  className="w-full flex items-center justify-between px-3 py-3 font-semibold text-primary/90 bg-secondary/40 border-t border-border"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <span>Departments</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-
-                {/* More */}
+                {/* Information */}
                 <button
                   className="w-full flex items-center justify-between px-3 py-3 font-semibold text-primary/90 bg-secondary/40 border-t border-border"
-                  onClick={() => setMobileSection(mobileSection === 'more' ? null : 'more')}
-                  aria-expanded={mobileSection === 'more'}
+                  onClick={() => setMobileSection(mobileSection === 'information' ? null : 'information')}
+                  aria-expanded={mobileSection === 'information'}
                 >
-                  <span>More</span>
+                  <span>Information</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform ${mobileSection === 'more' ? 'rotate-180' : ''}`}
+                    className={`w-4 h-4 transition-transform ${mobileSection === 'information' ? 'rotate-180' : ''}`}
                   />
                 </button>
-                {mobileSection === 'more' && (
+                {mobileSection === 'information' && (
                   <div className="bg-secondary/10">
                     <div className="px-2 py-1 max-h-80 overflow-y-auto">
-                      {moreDropdownItems.map((item, idx) => (
+                      {informationDropdownItems.map((item, idx) => (
                         item.hasDropdown ? (
                           <div key={idx} className="mb-1">
                             <p className="px-2 py-2 text-[13px] font-medium text-primary/90">{item.name}</p>
@@ -710,7 +904,7 @@ const departments = [
                 rel="noopener noreferrer"
                 className="w-full inline-flex items-center justify-center bg-primary text-primary-foreground rounded-md py-3 font-semibold hover:bg-primary/90 transition-colors"
               >
-                E-CAP
+                ECAP
               </a>
             </div>
           </aside>

@@ -1,4 +1,22 @@
 export interface Hackathon {
+  id: number;
+  dept: string;
+  academic_year: string;
+  brochure_url?: string;
+  winners_url?: string;
+  gallery?: string; // Comma-separated string of image URLs
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface GalleryItem {
+  url: string;
+  caption?: string;
+  type?: 'image' | 'video';
+}
+
+// Legacy interface for backward compatibility
+export interface LegacyHackathon {
   id: string;
   dept: string;
   title: string;
@@ -6,7 +24,7 @@ export interface Hackathon {
   position: string;
   date: string;
   proof_url?: string;
-  winners?: string | Winner[]; // Can be JSON string or parsed array
+  winners?: string | Winner[];
   created_at?: string;
   updated_at?: string;
 }

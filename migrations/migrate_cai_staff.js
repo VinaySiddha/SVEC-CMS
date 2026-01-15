@@ -47,7 +47,7 @@ async function migrateStaff() {
         console.log('Inserting non-teaching staff...');
         for (const staff of nonTeachingStaff) {
             await connection.execute(
-                'INSERT INTO non_teaching_staff (dept, name, designation, status) VALUES (?, ?, ?, ?)',
+                'INSERT INTO non_teaching_staff (name, designation) VALUES (?, ?, ?, ?)',
                 ['cse', staff.name, staff.designation, 'active']
             );
             console.log(`Inserted non-teaching staff: ${staff.name}`);

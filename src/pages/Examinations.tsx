@@ -1,7 +1,24 @@
 import React from 'react';
-import { Calendar, FileText, CheckCircle, Clock, BookOpen, Award } from 'lucide-react';
+import { Calendar, FileText, CheckCircle, Clock, BookOpen, Award, School, Database } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 
 const Examinations: React.FC = () => {
+  const dashboardItems = [
+    {
+      title: 'JNTUK Exam Section',
+      href: '/exam-section/dashboard/jntuk-exam-section',
+      icon: School,
+      description: 'JNTUK examination management'
+    },
+    {
+      title: 'Autonomous Exam Section',
+      href: '/exam-section/dashboard/autonomous-exam-section',
+      icon: Database,
+      description: 'Autonomous examination management'
+    }
+  ];
+
   const examSchedule = [
     {
       exam: 'Mid Term Examination - I',
@@ -76,27 +93,25 @@ const Examinations: React.FC = () => {
       {/* Quick Links */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all cursor-pointer">
-              <Calendar className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-[#B22222] mb-2">Exam Schedule</h3>
-              <p className="text-gray-600">View upcoming examination dates</p>
-            </div>
-            <div className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all cursor-pointer">
-              <FileText className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-[#B22222] mb-2">Results</h3>
-              <p className="text-gray-600">Check your examination results</p>
-            </div>
-            <div className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all cursor-pointer">
-              <BookOpen className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-[#B22222] mb-2">Hall Tickets</h3>
-              <p className="text-gray-600">Download admission tickets</p>
-            </div>
-            <div className="text-center p-6 rounded-xl bg-[#FFF8F0] hover:shadow-lg transition-all cursor-pointer">
-              <Award className="w-16 h-16 text-[#B22222] mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-[#B22222] mb-2">Certificates</h3>
-              <p className="text-gray-600">Apply for official certificates</p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {dashboardItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link key={item.href} href={item.href}>
+                  <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
+                    <CardHeader className="flex flex-row items-center space-x-4 pb-2">
+                      <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
+                        <Icon className="w-6 h-6 text-blue-600" />
+                      </div>
+                      <CardTitle className="text-xl">{item.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-600">{item.description}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   });
 
   try {
-    const [rows] = await connection.execute('SELECT type,year,title,url FROM ece_fdp ORDER BY id');
+    const [rows] = await connection.execute('SELECT type,year,title,url FROM ece_fdp ORDER BY  year DESC');
     res.status(200).json(rows);
   } catch (error) {
     console.error("Error fetching clubs data:", error);

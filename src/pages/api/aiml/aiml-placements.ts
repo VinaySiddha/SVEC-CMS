@@ -1,44 +1,23 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import mysql from 'mysql2/promise';
+import { executeQuery } from '../../../lib/dbPool';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { dept } = req.query;
-  if (!dept || typeof dept !== 'string') {
-    return res.status(400).json({ error: 'Missing or invalid dept parameter' });
-  }
+  try {
+    if (req.method === 'GET') {
+      const rows: any = await executeQuery(
+        "SELECT * FROM aiml_placements ORDER BY id DESC"
+      );
 
-  const connection = await mysql.createConnection({
-    host: '62.72.31.209',
-        user: 'cmsuser',
-        password: 'V@savi@2001',
-        database: 'svec_cms'
-  });
-
-  // 1. Fetch flat rows
-  const [rows] = await connection.execute(
-    `SELECT title,description, view_url
-       FROM placements_table
-      WHERE dept = ?`,
-    [dept]
-  );
-
-  await connection.end();
-
-  // 2. Group rows by title
-  const grouped: Record<string, { text: string; url: string }[]> = {};
-  (rows as any[]).forEach(row => {
-    if (!grouped[row.title]) grouped[row.title] = [];
-    grouped[row.title].push({
-      text: `${row.description}`,
-      url: row.view_url,
+      res.status(200).json(rows);
+    } else {
+      res.setHeader('Allow', ['GET']);
+      res.status(405).json({ error: 'Method not allowed' });
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({
+      error: 'Database connection failed',
+      details: error instanceof Error ? error.message : 'Unknown error'
     });
-  });
-
-  // 3. Convert to desired array
-  const output = Object.entries(grouped).map(([title, items]) => ({
-    title,
-    items,
-  }));
-
-  res.status(200).json(output);
+  }
 }
