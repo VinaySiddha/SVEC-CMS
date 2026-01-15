@@ -210,47 +210,51 @@ const CSEDepartment: React.FC = () => {
 
 
   useEffect(() => {
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+    
     // Make all API calls in parallel using Promise.all()
     Promise.all([
-      fetch('/api/cse/cse-faculty').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-student-achievements').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-syllabus').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-eresources').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-department-library').then(res => res.json()).catch(() => null),
-      fetch('/api/cse/cse-mous').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-industry-programs').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-department-overview').then(res => res.json()).catch(() => null),
-      fetch('/api/cse/cse-training-activities').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-bos-members').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-bos-minutes').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-handbooks').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-physical-facilities').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-faculty-development').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-faculty-achievements').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-merit-scholarships').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-eapcet-toppers').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-extra-curricular').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-sahaya-events').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-scud-activities').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-newsletters').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-hackathons').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-placements').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-workshops').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-gate').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-roll-of-honour').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-hackathons-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-technical-association-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-training-activities-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-extra-curricular-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-merit-scholarships-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-eapcet-toppers-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-placements-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-workshops-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-faculty-development-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-gate-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-roll-of-honour-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-workshops-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cse/cse-lecturers-gallery').then(res => res.json()).catch(() => [])
+      fetch(`/api/cse/cse-faculty${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-student-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-syllabus${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-eresources${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-department-library${cacheBuster}`).then(res => res.json()).catch(() => null),
+      fetch(`/api/cse/cse-mous${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-industry-programs${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-department-overview${cacheBuster}`).then(res => res.json()).catch(() => null),
+      fetch(`/api/cse/cse-training-activities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-bos-members${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-bos-minutes${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-handbooks${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-physical-facilities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-laboratories${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-faculty-development${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-faculty-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-merit-scholarships${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-eapcet-toppers${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-extra-curricular${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-sahaya-events${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-scud-activities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-newsletters${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-hackathons${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-placements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-workshops${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-gate${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-roll-of-honour${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-hackathons-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-technical-association-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-training-activities-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-extra-curricular-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-merit-scholarships-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-eapcet-toppers-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-placements-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-workshops-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-faculty-development-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-gate-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-roll-of-honour-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-workshops-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cse/cse-lecturers-gallery${cacheBuster}`).then(res => res.json()).catch(() => [])
 
 
     ])
@@ -268,6 +272,7 @@ const CSEDepartment: React.FC = () => {
         bosMinutesData,
         handbooksData,
         physicalFacilitiesData,
+        laboratoriesData,
         facultyDevelopmentData,
         facultyAchievementsData,
         meritScholarshipsData,
@@ -336,8 +341,14 @@ const CSEDepartment: React.FC = () => {
         setBosMembers(Array.isArray(bosMembersData) ? bosMembersData : []);
         setBosMinutes(Array.isArray(bosMinutesData) ? bosMinutesData : []);
         setHandbooks(Array.isArray(handbooksData) ? handbooksData : []);
-        setPhysicalFacilities(Array.isArray(physicalFacilitiesData) ? physicalFacilitiesData : []);
-        setLaboratories([]);
+        
+        // Merge laboratories data into physicalFacilities
+        const mergedFacilities = [
+          ...(Array.isArray(physicalFacilitiesData) ? physicalFacilitiesData : []),
+          ...(Array.isArray(laboratoriesData) ? laboratoriesData : [])
+        ];
+        setPhysicalFacilities(mergedFacilities);
+        setLaboratories(Array.isArray(laboratoriesData) ? laboratoriesData : []);
         setFacultyDevelopment(Array.isArray(facultyDevelopmentData) ? facultyDevelopmentData : []);
         setFacultyAchievements(Array.isArray(facultyAchievementsData) ? facultyAchievementsData : []);
         setMeritScholarships(Array.isArray(meritScholarshipsData) ? meritScholarshipsData : []);
@@ -1077,7 +1088,9 @@ const CSEDepartment: React.FC = () => {
                                 src={img.url}
                                 alt={`Roll of Honour ${img.year} Image`}
                                 className="w-full rounded-lg shadow-md object-cover"
-                                style={{ height: '300px', width: '400px' }}
+                                style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                                 onError={(e) => {
                                   const target = e.target as HTMLImageElement;
                                   target.style.display = 'none';
@@ -1146,7 +1159,9 @@ const CSEDepartment: React.FC = () => {
                                 src={img.url}
                                 alt={`GATE ${img.year} Image`}
                                 className="w-full rounded-lg shadow-md object-cover"
-                                style={{ height: '300px', width: '400px' }}
+                                style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                                 onError={(e) => {
                                   const target = e.target as HTMLImageElement;
                                   target.style.display = 'none';
@@ -1476,6 +1491,9 @@ const CSEDepartment: React.FC = () => {
                   src={departmentLibrary.image_url}
                   alt="CSE Department Library"
                   className="w-full h-auto object-cover rounded-lg shadow-md"
+                  style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div className="md:w-1/2">
@@ -1848,7 +1866,7 @@ case 'Physical Facilities': {
 
                   {/* Laboratory Images Gallery */}
                   {(() => {
-                    const labImages = physicalFacilities.filter(f => f.category && f.category.toLowerCase() === 'laboratories');
+                    const labImages = physicalFacilities.filter(f => f.category && (f.category.toLowerCase() === 'laboratories' || f.category.toLowerCase() === 'labs'));
                     return labImages && labImages.length > 0 ? (
                       <div className="mt-8 pt-8 border-t border-gray-300">
                         <h3 className="text-2xl font-bold text-center mb-6 text-[#B22222]">Laboratory Images</h3>
@@ -1865,6 +1883,9 @@ case 'Physical Facilities': {
                                   src={imageUrl.trim()}
                                   alt={item.title || `Laboratory ${imgIdx + 1}`}
                                   className="w-full h-48 object-cover"
+                                  style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                  loading="lazy"
+                                  decoding="async"
                                   onError={(e) => {
                                     (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-size="16"%3EImage not found%3C/text%3E%3C/svg%3E';
                                   }}
@@ -2009,7 +2030,9 @@ case 'Physical Facilities': {
                                       src={imageUrl}
                                       alt={`Faculty Development ${year} Image ${i + 1}`}
                                       className="w-full rounded-lg shadow-md object-cover"
-                                      style={{ width: '100%', height: '300px', objectFit: 'cover' }}
+                                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                      loading="lazy"
+                                      decoding="async"
                                       onError={(e) => {
                                         const target = e.target as HTMLImageElement;
                                         target.style.display = 'none';
@@ -2136,6 +2159,9 @@ case 'Physical Facilities': {
                               src={img}
                               alt={`Academic Toppers Image ${i + 1}`}
                               className="w-full h-auto rounded-lg shadow object-cover"
+                              style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                              loading="lazy"
+                              decoding="async"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 target.style.display = 'none';
@@ -2201,6 +2227,9 @@ case 'Physical Facilities': {
                                   src={img}
                                   alt={`EAPCET Toppers Image ${i + 1}`}
                                   className="w-full h-auto rounded-lg shadow object-cover"
+                                  style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                  loading="lazy"
+                                  decoding="async"
                                   onError={(e) => {
                                     const target = e.target as HTMLImageElement;
                                     target.style.display = 'none';
@@ -2299,7 +2328,9 @@ case 'Physical Facilities': {
                           src={img.url}
                           alt={`Technical Association ${img.year} Image`}
                           className="w-full rounded-lg shadow-md object-cover"
-                          style={{ height: '300px', width: '400px' }}
+                          style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                          loading="lazy"
+                          decoding="async"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
@@ -2544,7 +2575,9 @@ case 'Physical Facilities': {
                             src={imageUrl}
                             alt={`Extra-Curricular ${year} Image ${i + 1}`}
                             className="w-full rounded-lg shadow-md object-cover"
-                            style={{ width: '400px', height: '300px', objectFit: 'cover' }}
+                            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                            loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.style.display = 'none';
@@ -2666,6 +2699,9 @@ case 'Physical Facilities': {
                                       src={img}
                                       alt={`Hackathon ${year} Image ${i + 1}`}
                                       className="w-[400px] h-[300px] rounded-lg shadow-lg object-cover"
+                                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                      loading="lazy"
+                                      decoding="async"
                                       onError={(e) => {
                                         (e.target as HTMLImageElement).src = '/placeholder-image.svg';
                                         (e.target as HTMLImageElement).className = 'w-[400px] h-[300px] rounded-lg shadow-lg bg-gray-200';
@@ -2754,7 +2790,9 @@ case 'Physical Facilities': {
                           src={img.url}
                           alt={`Training Activities ${img.year} Image`}
                           className="w-full rounded-lg shadow-md object-cover"
-                          style={{ height: '300px', width: '400px' }}
+                          style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                          loading="lazy"
+                          decoding="async"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
@@ -2878,7 +2916,9 @@ case 'Physical Facilities': {
                           src={img.url}
                           alt={`Placements ${img.year} Image`}
                           className="w-full rounded-lg shadow-md object-cover"
-                          style={{ height: '300px', width: '400px' }}
+                          style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                          loading="lazy"
+                          decoding="async"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
@@ -2977,7 +3017,9 @@ case 'Physical Facilities': {
                                   src={imageUrl}
                                   alt={`Workshop Image ${i + 1}`}
                                   className="w-full rounded-lg shadow-md object-cover"
-                                  style={{ height: '300px', width: '400px' }}
+                                  style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                                  loading="lazy"
+                                  decoding="async"
                                   onError={(e) => {
                                     const target = e.target as HTMLImageElement;
                                     target.style.display = 'none';
@@ -2999,7 +3041,9 @@ case 'Physical Facilities': {
                                   src={imageUrl}
                                   alt={`Guest Lecturer Image ${i + 1}`}
                                   className="w-full rounded-lg shadow-md object-cover"
-                                  style={{ height: '300px', width: '400px' }}
+                                  style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                                  loading="lazy"
+                                  decoding="async"
                                   onError={(e) => {
                                     const target = e.target as HTMLImageElement;
                                     target.style.display = 'none';
@@ -3137,7 +3181,9 @@ case 'Physical Facilities': {
                                         src={imageUrl}
                                         alt={`Guest Lecturer ${year} Image ${i + 1}`}
                                         className="w-full rounded-lg shadow-md object-cover"
-                                        style={{ height: '300px', width: '400px' }}
+                                        style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                                        loading="lazy"
+                                        decoding="async"
                                         onError={(e) => {
                                           const target = e.target as HTMLImageElement;
                                           target.style.display = 'none';

@@ -112,6 +112,9 @@ const Academics: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const ampBuster = `&_t=${timestamp}`;
 
         // Fetch all data in parallel
         const [
@@ -122,12 +125,12 @@ const Academics: React.FC = () => {
           autonomousResponse,
           jntukTimetablesResponse
         ] = await Promise.all([
-          fetch('/api/academics/calendars'),
-          fetch('/api/academics/rsac?type=academic-calendar'),
-          fetch('/api/academics/rsac?type=syllabus'),
-          fetch('/api/academics/rsac?type=regulations'),
-          fetch('/api/academics/autonomous'),
-          fetch('/api/exam-section/jntuk-exam-section')
+          fetch(`/api/academics/calendars${cacheBuster}`),
+          fetch(`/api/academics/rsac?type=academic-calendar${ampBuster}`),
+          fetch(`/api/academics/rsac?type=syllabus${ampBuster}`),
+          fetch(`/api/academics/rsac?type=regulations${ampBuster}`),
+          fetch(`/api/academics/autonomous${cacheBuster}`),
+          fetch(`/api/exam-section/jntuk-exam-section${cacheBuster}`)
         ]);
 
         async function safeJson(res: Response, fallback: any) {

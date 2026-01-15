@@ -3,6 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { Radio, BookOpen, Award, ExternalLink, Menu, ChevronRight, Users, Briefcase, FileText, Activity, Shield, Calendar, Phone, HardHat, Microscope, Search, Download, Wifi, TrendingUp, Presentation, Trophy, Handshake, Scroll, Building, Library, Link as LinkIcon, Settings } from 'lucide-react';
 import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
+// Helper function for fetch with timeout
+const fetchWithTimeout = (url: string, timeout: number = 20000): Promise<Response> => {
+  return Promise.race([
+    fetch(url),
+    new Promise<Response>((_, reject) =>
+      setTimeout(() => reject(new Error(`Request timeout: ${url}`)), timeout)
+    ),
+  ]);
+};
+
 
 interface BoardOfStudiesMember {
   name: string;
@@ -121,6 +131,13 @@ interface FacultyAchievement {
   title: string;
   file_url?: string;
   year?: string;
+  faculty_name?: string;
+  publication_title?: string;
+  journal_conference?: string;
+  awarding_body?: string;
+  publisher?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 interface Workshop_gl {
   type: string;
@@ -205,6 +222,7 @@ const ECEDepartment: React.FC = () => {
   const [facultyOutreach, setFacultyOutreach] = useState<FacultyAchievement[]>([]);
   const [facultyPromotionsIncentives, setFacultyPromotionsIncentives] = useState<FacultyAchievement[]>([]);
   const [galleryItems, setGalleryItems] = useState<FacultyAchievement[]>([]);
+  const [facultyAchievementsGallery, setFacultyAchievementsGallery] = useState<any[]>([]);
   const [FacultyAchievementsLoading, setFacultyAchievementsLoading] = useState(false);
   const [workshop_gl, setWorkshop_gl] = useState<Workshop_gl[]>([]);
   const [placements, setPlacements] = useState<Placement[]>([]);
@@ -239,47 +257,16 @@ const ECEDepartment: React.FC = () => {
       <>
         <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Achievements</h2>
         <div className="space-y-6">
-          {/* Journal Publications */}
+          {/* Awards */}
           <details open className="cst-dropdown">
-            <summary>Journal Publications</summary>
+            <summary>Awards</summary>
             <div className="cst-dropdown-content">
-              {journalPublications.length > 0 ? (
+              {awards.length > 0 ? (
                 <ul className="list-disc pl-6 my-2 space-y-2">
-                  {journalPublications.map((item, index) => (
+                  {awards.map((item, index) => (
                     <li key={index}>
                       {item.title}
-                      {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
-                      {item.file_url && (
-                        <>
-                          {' - '}
-                          <a
-                            href={item.file_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#B22222] hover:underline"
-                          >
-                            View
-                          </a>
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
-              )}
-            </div>
-          </details>
-
-          {/* Conference Publications */}
-          <details className="cst-dropdown">
-            <summary>Conference Publications</summary>
-            <div className="cst-dropdown-content">
-              {conferencePublications.length > 0 ? (
-                <ul className="list-disc pl-6 my-2 space-y-2">
-                  {conferencePublications.map((item, index) => (
-                    <li key={index}>
-                      {item.title}
+                      
                       {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
                       {item.file_url && (
                         <>
@@ -308,27 +295,30 @@ const ECEDepartment: React.FC = () => {
             <summary>Book Publications</summary>
             <div className="cst-dropdown-content">
               {bookPublications.length > 0 ? (
-                <ul className="list-disc pl-6 my-2 space-y-2">
-                  {bookPublications.map((item, index) => (
-                    <li key={index}>
-                      {item.title}
-                      {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
-                      {item.file_url && (
-                        <>
-                          {' - '}
-                          <a
-                            href={item.file_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#B22222] hover:underline"
-                          >
-                            View
-                          </a>
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse border border-gray-300">
+                    <thead>
+                      <tr className="bg-gray-200">
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">S.No</th>
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">Name of the Faculty</th>
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">Title of the Book</th>
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">Publisher</th>
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">Year Of Publication</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bookPublications.map((item, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                          <td className="border border-gray-300 px-3 py-2">{index + 1}</td>
+                          <td className="border border-gray-300 px-3 py-2">{item.faculty_name || '-'}</td>
+                          <td className="border border-gray-300 px-3 py-2">{item.publication_title || item.title || '-'}</td>
+                          <td className="border border-gray-300 px-3 py-2">{item.journal_conference || '-'}</td>
+                          <td className="border border-gray-300 px-3 py-2">{item.year || '-'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               ) : (
                 <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
               )}
@@ -367,79 +357,13 @@ const ECEDepartment: React.FC = () => {
             </div>
           </details>
 
-          {/* Patents */}
+          {/* Conference Publications */}
           <details className="cst-dropdown">
-            <summary>Patents</summary>
+            <summary>Conference Publications</summary>
             <div className="cst-dropdown-content">
-              {patents.length > 0 ? (
+              {conferencePublications.length > 0 ? (
                 <ul className="list-disc pl-6 my-2 space-y-2">
-                  {patents.map((item, index) => (
-                    <li key={index}>
-                      {item.title}
-                      {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
-                      {item.file_url && (
-                        <>
-                          {' - '}
-                          <a
-                            href={item.file_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#B22222] hover:underline"
-                          >
-                            View
-                          </a>
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
-              )}
-            </div>
-          </details>
-
-          {/* Awards */}
-          <details className="cst-dropdown">
-            <summary>Awards</summary>
-            <div className="cst-dropdown-content">
-              {awards.length > 0 ? (
-                <ul className="list-disc pl-6 my-2 space-y-2">
-                  {awards.map((item, index) => (
-                    <li key={index}>
-                      {item.title}
-                      {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
-                      {item.file_url && (
-                        <>
-                          {' - '}
-                          <a
-                            href={item.file_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#B22222] hover:underline"
-                          >
-                            View
-                          </a>
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
-              )}
-            </div>
-          </details>
-        </div>
-
-        {/* Memberships */}
-        <div className="space-y-6 mt-6">
-          <details className="cst-dropdown">
-            <summary>Memberships</summary>
-            <div className="cst-dropdown-content">
-              {memberships.length > 0 ? (
-                <ul className="list-disc pl-6 my-2 space-y-2">
-                  {memberships.map((item, index) => (
+                  {conferencePublications.map((item, index) => (
                     <li key={index}>
                       {item.title}
                       {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
@@ -502,8 +426,131 @@ const ECEDepartment: React.FC = () => {
             <summary>Faculty Promotions/Incentives</summary>
             <div className="cst-dropdown-content">
               {facultyPromotionsIncentives.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse border border-gray-300">
+                    <thead>
+                      <tr className="bg-gray-200">
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">S.No</th>
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">Academic Year</th>
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">Number Of Faculty</th>
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">Promotion</th>
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">Received Incentives for SCI/SCOPUS Paper Book Chapter Publications</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {facultyPromotionsIncentives.map((item, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                          <td className="border border-gray-300 px-3 py-2">{index + 1}</td>
+                          <td className="border border-gray-300 px-3 py-2">{item.year || '-'}</td>
+                          <td className="border border-gray-300 px-3 py-2">{item.faculty_name || '-'}</td>
+                          <td className="border border-gray-300 px-3 py-2">{item.title || '-'}</td>
+                          <td className="border border-gray-300 px-3 py-2">{item.file_url || '-'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+              )}
+            </div>
+          </details>
+
+          {/* Gallery */}
+          <details className="cst-dropdown">
+            <summary>Gallery</summary>
+            <div className="cst-dropdown-content">
+              {facultyAchievementsGallery.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                  {facultyAchievementsGallery.map((item, index) => (
+                    <div key={index} className="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                      <img
+                        src={item.gallery}
+                        alt={item.title || `Gallery ${index + 1}`}
+                        className="rounded-lg shadow-md"
+                        style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-gray-600 text-sm mt-2">No gallery items available currently.</div>
+              )}
+            </div>
+          </details>
+
+          {/* Journal Publications */}
+          <details className="cst-dropdown">
+            <summary>Journal Publications</summary>
+            <div className="cst-dropdown-content">
+              {journalPublications.length > 0 ? (
                 <ul className="list-disc pl-6 my-2 space-y-2">
-                  {facultyPromotionsIncentives.map((item, index) => (
+                  {journalPublications.map((item, index) => (
+                    <li key={index}>
+                      {item.title}
+                      {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
+                      {item.file_url && (
+                        <>
+                          {' - '}
+                          <a
+                            href={item.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#B22222] hover:underline"
+                          >
+                            View
+                          </a>
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+              )}
+            </div>
+          </details>
+
+          {/* Memberships */}
+          <details className="cst-dropdown">
+            <summary>Memberships</summary>
+            <div className="cst-dropdown-content">
+              {memberships.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse border border-gray-300">
+                    <thead>
+                      <tr className="bg-gray-200">
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">S.No</th>
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">Name of the Faculty</th>
+                        <th className="border border-gray-300 px-3 py-2 text-left font-semibold">Number Of Faculty Posses the membership</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {memberships.map((item, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                          <td className="border border-gray-300 px-3 py-2">{index + 1}</td>
+                          <td className="border border-gray-300 px-3 py-2">{item.title || '-'}</td>
+                          <td className="border border-gray-300 px-3 py-2">{item.faculty_name || '-'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+              )}
+            </div>
+          </details>
+
+          {/* Patents */}
+          <details className="cst-dropdown">
+            <summary>Patents</summary>
+            <div className="cst-dropdown-content">
+              {patents.length > 0 ? (
+                <ul className="list-disc pl-6 my-2 space-y-2">
+                  {patents.map((item, index) => (
                     <li key={index}>
                       {item.title}
                       {item.year && <> <span className="text-gray-600">[{item.year}]</span></>}
@@ -529,321 +576,247 @@ const ECEDepartment: React.FC = () => {
             </div>
           </details>
         </div>
-
-        {/* Gallery */}
-        <div className="mt-6">
-          <h3 className="text-2xl font-semibold mb-4">Gallery</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {galleryItems.map((item, index) => (
-              <img key={index} src={item.file_url} alt={item.title} className="rounded-lg shadow-md w-full h-auto object-cover" />
-            ))}
-          </div>
-        </div>
       </>
     );
   };
 
   useEffect(() => {
-    //1
-    fetch('/api/ece/faculty-data')
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setFaculty(sortFacultyByDesignationAndDOJ(data));
-        } else {
-          console.error('Faculty data is not an array:', data);
-          setFaculty([]);
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+    let isMounted = true;
+
+    // Helper to safely update state only if component is mounted
+    const safeSetState = (setState: any, value: any) => {
+      if (isMounted) setState(value);
+    };
+
+    // Batch 1: Essential data (Faculty, Board of Studies, etc.)
+    const fetchBatch1 = async () => {
+      try {
+        const [facultyRes, nonTeachingRes, bosRes, bosMinutesRes] = await Promise.all([
+          fetchWithTimeout(`/api/ece/faculty-data${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/nonteaching-faculty${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/board-of-studies${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/bos-meeting-minutes${cacheBuster}`),
+        ]);
+
+        const [facultyData, nonTeachingData, bosData, bosMinutesData] = await Promise.all([
+          facultyRes.json().catch(() => []),
+          nonTeachingRes.json().catch(() => []),
+          bosRes.json().catch(() => []),
+          bosMinutesRes.json().catch(() => []),
+        ]);
+
+        if (isMounted) {
+          if (Array.isArray(facultyData)) setFaculty(sortFacultyByDesignationAndDOJ(facultyData));
+          if (Array.isArray(nonTeachingData)) setNonTeachingFaculty(nonTeachingData);
+          if (Array.isArray(bosData)) setBoardOfStudies(bosData);
+          if (Array.isArray(bosMinutesData)) setBosMinutes(bosMinutesData);
         }
-      })
-      .catch(err => {
-        console.error('Error fetching faculty data:', err);
-        setFaculty([]);
-      });
+      } catch (err) {
+        console.error('Batch 1 fetch error:', err);
+      }
+    };
 
-    fetch('/api/ece/nonteaching-faculty')
-      .then(res => res.json())
-      .then(data => setNonTeachingFaculty(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching non-teaching faculty:', err);
-        setNonTeachingFaculty([]);
-      });
+    // Batch 2: Academic resources (Syllabus, Physical Facilities, etc.)
+    const fetchBatch2 = async () => {
+      try {
+        const [syllabusRes, facilitiesRes, clubsRes, mousRes, fdpRes] = await Promise.all([
+          fetchWithTimeout(`/api/ece/syllabus${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/physical_facilities${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/clubs${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/mous${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/fdp${cacheBuster}`),
+        ]);
 
-    //2
-    fetch('/api/ece/board-of-studies')
-      .then(res => res.json())
-      .then(data => setBoardOfStudies(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching board of studies:', err);
-        setBoardOfStudies([]);
-      });
+        const [syllabusData, facilitiesData, clubsData, mousData, fdpData] = await Promise.all([
+          syllabusRes.json().catch(() => []),
+          facilitiesRes.json().catch(() => []),
+          clubsRes.json().catch(() => []),
+          mousRes.json().catch(() => []),
+          fdpRes.json().catch(() => []),
+        ]);
 
-    fetch('/api/ece/bos-meeting-minutes')
-      .then(res => res.json())
-      .then(data => setBosMinutes(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching BOS minutes:', err);
-        setBosMinutes([]);
-      });
-
-    //3
-    fetch('/api/ece/syllabus')
-      .then(res => res.json())
-      .then(data => setSyllabus(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching syllabus:', err);
-        setSyllabus([]);
-      });
-
-    //4
-    fetch('/api/ece/physical_facilities')
-      .then(res => res.json())
-      .then(data => setPhysicalFacilities(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching physical facilities:', err);
-        setPhysicalFacilities([]);
-      });
-
-    //5
-    fetch('/api/ece/clubs')
-      .then(res => res.json())
-      .then(data => setClubs(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching clubs:', err);
-        setClubs([]);
-      });
-
-    //6
-    fetch('/api/ece/mous')
-      .then(res => res.json())
-      .then(data => setMous(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching mous:', err);
-        setMous([]);
-      });
-
-    //7
-    fetch('/api/ece/fdp')
-      .then(res => res.json())
-      .then(data => setFdp(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching fdp:', err);
-        setFdp([]);
-      });
-
-    //8
-    setFacultyAchievementsLoading(true);
-    fetch('/api/ece/faculty-achievements')
-      .then(res => res.json())
-      .then(data => {
-        console.log('Raw faculty achievements response:', data, 'Type:', typeof data, 'IsArray:', Array.isArray(data));
-        
-        if (!Array.isArray(data)) {
-          console.error('Faculty achievements data is not an array:', data);
-          data = [];
+        if (isMounted) {
+          if (Array.isArray(syllabusData)) setSyllabus(syllabusData);
+          if (Array.isArray(facilitiesData)) setPhysicalFacilities(facilitiesData);
+          if (Array.isArray(clubsData)) setClubs(clubsData);
+          if (Array.isArray(mousData)) setMous(mousData);
+          if (Array.isArray(fdpData)) setFdp(fdpData);
         }
-        
-        console.log('Processing faculty achievements, count:', data.length);
-        
-        const journal = data.filter((item: FacultyAchievement) => item.category === 'Journal Publications');
-        const conference = data.filter((item: FacultyAchievement) => item.category === 'Conferences');
-        const book = data.filter((item: FacultyAchievement) => item.category === 'Book Publications');
-        const certification = data.filter((item: FacultyAchievement) => item.category === 'Certifications');
-        const patent = data.filter((item: FacultyAchievement) => item.category === 'Patents');
-        const award = data.filter((item: FacultyAchievement) => item.category === 'Awards');
-        const membership = data.filter((item: FacultyAchievement) => item.category === 'Memberships');
-        const outreach = data.filter((item: FacultyAchievement) => item.category === 'Faculty Out-Reach');
-        const promotion = data.filter((item: FacultyAchievement) => item.category === 'Promotions/Incentives');
-        const gallery = data.filter((item: FacultyAchievement) => item.category === 'Gallery');
+      } catch (err) {
+        console.error('Batch 2 fetch error:', err);
+      }
+    };
 
-        console.log('Faculty achievements breakdown:', { journal: journal.length, conference: conference.length, book: book.length, certification: certification.length, patent: patent.length, award: award.length, membership: membership.length, outreach: outreach.length, promotion: promotion.length, gallery: gallery.length });
+    // Batch 3: Faculty & Student Achievements
+    const fetchBatch3 = async () => {
+      setFacultyAchievementsLoading(true);
+      setStudentAchievementsLoading(true);
+      try {
+        const [facultyAchRes, studentAchRes] = await Promise.all([
+          fetchWithTimeout(`/api/ece/faculty-achievements${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/student-achievements${cacheBuster}`),
+        ]);
 
-        setJournalPublications(journal);
-        setConferencePublications(conference);
-        setBookPublications(book);
-        setCertifications(certification);
-        setPatents(patent);
-        setAwards(award);
-        setMemberships(membership);
-        setFacultyOutreach(outreach);
-        setFacultyPromotionsIncentives(promotion);
-        setGalleryItems(gallery);
+        const [facultyAchData, studentAchData] = await Promise.all([
+          facultyAchRes.json().catch(() => []),
+          studentAchRes.json().catch(() => []),
+        ]);
+
+        if (isMounted) {
+          // Process faculty achievements
+          if (Array.isArray(facultyAchData)) {
+            const journal = facultyAchData.filter((item: FacultyAchievement) => item.category === 'Journal Publications');
+            const conference = facultyAchData.filter((item: FacultyAchievement) => item.category === 'Conferences');
+            const book = facultyAchData.filter((item: FacultyAchievement) => item.category === 'Book Publications');
+            const certification = facultyAchData.filter((item: FacultyAchievement) => item.category === 'Certifications');
+            const patent = facultyAchData.filter((item: FacultyAchievement) => item.category === 'Patents');
+            const award = facultyAchData.filter((item: FacultyAchievement) => item.category === 'Awards');
+            const membership = facultyAchData.filter((item: FacultyAchievement) => item.category === 'Memberships');
+            const outreach = facultyAchData.filter((item: FacultyAchievement) => item.category === 'Faculty Out-Reach');
+            const promotion = facultyAchData.filter((item: FacultyAchievement) => item.category === 'Promotions/Incentives');
+            const gallery = facultyAchData.filter((item: FacultyAchievement) => item.category === 'Gallery');
+
+            setJournalPublications(journal);
+            setConferencePublications(conference);
+            setBookPublications(book);
+            setCertifications(certification);
+            setPatents(patent);
+            setAwards(award);
+            setMemberships(membership);
+            setFacultyOutreach(outreach);
+            setFacultyPromotionsIncentives(promotion);
+            setGalleryItems(gallery);
+          }
+
+          if (Array.isArray(studentAchData)) {
+            setStudentAchievements(studentAchData);
+          }
+
+          setFacultyAchievementsLoading(false);
+          setStudentAchievementsLoading(false);
+        }
+      } catch (err) {
+        console.error('Batch 3 fetch error:', err);
         setFacultyAchievementsLoading(false);
-      })
-      .catch(err => {
-        console.error('Error fetching faculty achievements:', err);
-        setJournalPublications([]);
-        setConferencePublications([]);
-        setBookPublications([]);
-        setCertifications([]);
-        setPatents([]);
-        setAwards([]);
-        setMemberships([]);
-        setFacultyOutreach([]);
-        setFacultyPromotionsIncentives([]);
-        setGalleryItems([]);
-        setFacultyAchievementsLoading(false);
-      });
-
-    //9
-    fetch('/api/ece/workshops-gl')
-      .then(res => res.json())
-      .then(data => setWorkshop_gl(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching workshops:', err);
-        setWorkshop_gl([]);
-      });
-
-    //10
-    fetch('/api/ece/placements')
-      .then(res => res.json())
-      .then(data => setPlacements(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching placements:', err);
-        setPlacements([]);
-      });
-
-    //11
-    setStudentAchievementsLoading(true);
-    fetch('/api/ece/student-achievements')
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`API responded with status ${res.status}`);
-        }
-        return res.json();
-      })
-      .then(data => {
-        setStudentAchievements(Array.isArray(data) ? data : []);
         setStudentAchievementsLoading(false);
-      })
-      .catch(err => {
-        console.error('Error fetching student achievements:', err);
-        setStudentAchievements([]);
-        setStudentAchievementsLoading(false);
-      });
+      }
+    };
 
-    //12
-    fetch('/api/ece/scholarships-toppers')
-      .then(res => res.json())
-      .then(data => setScholarshipToppers(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching scholarships/toppers:', err);
-        setScholarshipToppers([]);
-      });
+    // Batch 4: Galleries and miscellaneous
+    const fetchBatch4 = async () => {
+      try {
+        const [workshopRes, placementRes, toppersRes, techAssocRes, extracurrRes, innovRes, handbooksRes, newslettersRes, facultyInnovRes] = await Promise.all([
+          fetchWithTimeout(`/api/ece/workshops-gl${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/placements${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/scholarships-toppers${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/technicalassociation-activities${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/ece-extra-curricular-gallery${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/hackathons-gallery?category=fa&_t=${timestamp}`),
+          fetchWithTimeout(`/api/ece/handbooks${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/newsletters${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/facultyinnovations${cacheBuster}`),
+        ]);
 
-    //12
-    fetch('/api/ece/technicalassociation-activities')
-      .then(res => res.json())
-      .then(data => setTechnicalAssociationActivities(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching technical association activities:', err);
-        setTechnicalAssociationActivities([]);
-      });
+        const results = await Promise.all([
+          workshopRes.json().catch(() => []),
+          placementRes.json().catch(() => []),
+          toppersRes.json().catch(() => []),
+          techAssocRes.json().catch(() => []),
+          extracurrRes.json().catch(() => []),
+          innovRes.json().catch(() => []),
+          handbooksRes.json().catch(() => []),
+          newslettersRes.json().catch(() => []),
+          facultyInnovRes.json().catch(() => []),
+        ]);
 
-    //12b - Hackathons Gallery for Technical Association
-    fetch('/api/ece/hackathons-gallery?category=technical%20association')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success && Array.isArray(data.data)) {
-          setHackathonsGallery(data.data);
+        if (isMounted) {
+          if (Array.isArray(results[0])) setWorkshop_gl(results[0]);
+          if (Array.isArray(results[1])) setPlacements(results[1]);
+          if (Array.isArray(results[2])) setScholarshipToppers(results[2]);
+          if (Array.isArray(results[3])) setTechnicalAssociationActivities(results[3]);
+          if (Array.isArray(results[4])) setExtraCurricularGallery(results[4]);
+          if (Array.isArray(results[5])) setFacultyAchievementsGallery(results[5]);
+          if (Array.isArray(results[6])) setHandbooks(results[6]);
+          if (Array.isArray(results[7])) setNewsletters(results[7]);
+          if (Array.isArray(results[8])) setFacultyInnovations(results[8]);
         }
-      })
-      .catch(err => {
-        console.error('Error fetching hackathons gallery:', err);
-        setHackathonsGallery([]);
-      });
+      } catch (err) {
+        console.error('Batch 4 fetch error:', err);
+      }
+    };
 
-    //12c - Extra Curricular Gallery
-    fetch('/api/ece/ece-extra-curricular-gallery')
-      .then(res => res.ok ? res.json() : Promise.resolve([]))
-      .then(data => setExtraCurricularGallery(Array.isArray(data) ? data : []))
-      .catch(() => setExtraCurricularGallery([]));
+    // Batch 5: Remaining galleries
+    const fetchBatch5 = async () => {
+      try {
+        const [techAssocGalleryRes, trainingGalleryRes, meritScholarshipsRes, placementsGalleryRes, workshopsGalleryRes, facultyDevGalleryRes, labsGalleryRes, classroomsGalleryRes] = await Promise.all([
+          fetchWithTimeout(`/api/ece/ece-technical-association-gallery${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/ece-training-activities-gallery${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/ece-merit-scholarships-gallery${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/ece-placements-gallery${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/ece-workshops-gallery${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/ece-faculty-development-gallery${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/ece-labs-gallery${cacheBuster}`),
+          fetchWithTimeout(`/api/ece/ece-classrooms-gallery${cacheBuster}`),
+        ]);
 
-    //12d - Technical Association Gallery
-    fetch('/api/ece/ece-technical-association-gallery')
-      .then(res => res.ok ? res.json() : Promise.resolve([]))
-      .then(data => setTechnicalAssociationGallery(Array.isArray(data) ? data : []))
-      .catch(() => setTechnicalAssociationGallery([]));
+        const results = await Promise.all([
+          techAssocGalleryRes.json().catch(() => []),
+          trainingGalleryRes.json().catch(() => []),
+          meritScholarshipsRes.json().catch(() => []),
+          placementsGalleryRes.json().catch(() => []),
+          workshopsGalleryRes.json().catch(() => []),
+          facultyDevGalleryRes.json().catch(() => []),
+          labsGalleryRes.json().catch(() => []),
+          classroomsGalleryRes.json().catch(() => []),
+        ]);
 
-    //12e - Training Activities Gallery
-    fetch('/api/ece/ece-training-activities-gallery')
-      .then(res => res.ok ? res.json() : Promise.resolve([]))
-      .then(data => setTrainingActivitiesGallery(Array.isArray(data) ? data : []))
-      .catch(() => setTrainingActivitiesGallery([]));
+        if (isMounted) {
+          if (Array.isArray(results[0])) setTechnicalAssociationGallery(results[0]);
+          if (Array.isArray(results[1])) setTrainingActivitiesGallery(results[1]);
+          if (Array.isArray(results[2])) setMeritScholarshipsGallery(results[2]);
+          if (Array.isArray(results[3])) setPlacementsGallery(results[3]);
+          if (Array.isArray(results[4])) setWorkshopsGallery(results[4]);
+          if (Array.isArray(results[5])) setFacultyDevelopmentGallery(results[5]);
+          if (Array.isArray(results[6])) setLabsGalleryData(results[6]);
+          if (Array.isArray(results[7])) setClassroomsGalleryData(results[7]);
+        }
+      } catch (err) {
+        console.error('Batch 5 fetch error:', err);
+      }
+    };
 
-    //12f - Merit Scholarships Gallery
-    fetch('/api/ece/ece-merit-scholarships-gallery')
-      .then(res => res.ok ? res.json() : Promise.resolve([]))
-      .then(data => setMeritScholarshipsGallery(Array.isArray(data) ? data : []))
-      .catch(() => setMeritScholarshipsGallery([]));
+    // Batch 6: Extra curricular activities
+    const fetchBatch6 = async () => {
+      try {
+        const [extracurrActivitiesRes] = await Promise.all([
+          fetchWithTimeout(`/api/ece/extracurricularactivities${cacheBuster}`),
+        ]);
 
-    //12g - Placements Gallery
-    fetch('/api/ece/ece-placements-gallery')
-      .then(res => res.ok ? res.json() : Promise.resolve([]))
-      .then(data => setPlacementsGallery(Array.isArray(data) ? data : []))
-      .catch(() => setPlacementsGallery([]));
+        const data = await extracurrActivitiesRes.json().catch(() => []);
+        if (isMounted && Array.isArray(data)) {
+          setExtraCurricularActivities(data);
+        }
+      } catch (err) {
+        console.error('Batch 6 fetch error:', err);
+      }
+    };
 
-    //12h - Workshops Gallery
-    fetch('/api/ece/ece-workshops-gallery')
-      .then(res => res.ok ? res.json() : Promise.resolve([]))
-      .then(data => setWorkshopsGallery(Array.isArray(data) ? data : []))
-      .catch(() => setWorkshopsGallery([]));
+    // Execute batches sequentially to avoid overwhelming the server
+    fetchBatch1()
+      .then(() => fetchBatch2())
+      .then(() => fetchBatch3())
+      .then(() => fetchBatch4())
+      .then(() => fetchBatch5())
+      .then(() => fetchBatch6())
+      .catch(err => console.error('Fetch chain error:', err));
 
-    //12i - Faculty Development Gallery
-    fetch('/api/ece/ece-faculty-development-gallery')
-      .then(res => res.ok ? res.json() : Promise.resolve([]))
-      .then(data => setFacultyDevelopmentGallery(Array.isArray(data) ? data : []))
-      .catch(() => setFacultyDevelopmentGallery([]));
-
-    //12j - Labs Gallery
-    fetch('/api/ece/ece-labs-gallery')
-      .then(res => res.ok ? res.json() : Promise.resolve([]))
-      .then(data => setLabsGalleryData(Array.isArray(data) ? data : []))
-      .catch(() => setLabsGalleryData([]));
-
-    //12k - Classrooms Gallery
-    fetch('/api/ece/ece-classrooms-gallery')
-      .then(res => res.ok ? res.json() : Promise.resolve([]))
-      .then(data => setClassroomsGalleryData(Array.isArray(data) ? data : []))
-      .catch(() => setClassroomsGalleryData([]));
-
-    //13
-    fetch('/api/ece/newsletters')
-      .then(res => res.json())
-      .then(data => setNewsletters(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching newsletters:', err);
-        setNewsletters([]);
-      });
-
-    //14
-    fetch('/api/ece/extracurricularactivities')
-      .then(res => res.json())
-      .then(data => setExtraCurricularActivities(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching extracurricular activities:', err);
-        setExtraCurricularActivities([]);
-      });
-
-    //15
-    fetch('/api/ece/facultyinnovations')
-      .then(res => res.json())
-      .then(data => setFacultyInnovations(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching faculty innovations:', err);
-        setFacultyInnovations([]);
-      });
-
-    //16
-    fetch('/api/ece/handbooks')
-      .then(res => res.json())
-      .then(data => setHandbooks(Array.isArray(data) ? data : []))
-      .catch(err => {
-        console.error('Error fetching handbooks:', err);
-        setHandbooks([]);
-      });
-
-
-  }, [activeContent]);
+    // Cleanup on unmount
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const sidebarItems = [
     { id: 'Department Profile', label: 'Department Profile', icon: <Building className="w-4 h-4" /> },
@@ -1399,40 +1372,75 @@ const ECEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                {/* Seminar Halls Section */}
+                {/* Classrooms Images Section */}
                 <details className="cst-dropdown">
-                  <summary>Seminar Halls</summary>
+                  <summary>Classrooms Images</summary>
                   <div className="cst-dropdown-content">
-                    {seminarHalls.length > 0 ? (
-                      <div>
-                        <h4 className="text-lg font-semibold text-[#B22222] mb-2">Seminar Halls</h4>
-                        <ul className="list-disc pl-6 space-y-2">
-                          {seminarHalls.map((item: any, idx: number) => (
-                            <li key={idx}>
-                              {item.title}
-                              {item.description && <span className="text-gray-600"> - {item.description}</span>}
-                              {item.file_url && (
-                                <>
-                                  {' '}
-                                  <a
-                                    href={item.file_url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-[#B22222] hover:underline font-medium"
-                                  >
-                                    View
-                                  </a>
-                                </>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                    {classroomsGalleryData && classroomsGalleryData.length > 0 ? (
+                      (() => {
+                        const allClassroomImages: string[] = [];
+                        classroomsGalleryData.forEach(item => {
+                          if (item.gallery) {
+                            const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
+                            allClassroomImages.push(...imageUrls);
+                          }
+                        });
+
+                        return allClassroomImages.length > 0 ? (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            {allClassroomImages.map((imageUrl: string, i: number) => (
+                              <img
+                                key={i}
+                                src={imageUrl}
+                                alt={`Classroom Image ${i + 1}`}
+                                className="rounded-lg shadow-md"
+                                style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display = 'none';
+                                }}
+                              />
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-gray-500 text-center py-4">No classroom images available</p>
+                        );
+                      })()
                     ) : (
-                      <p className="text-gray-500 text-center py-2">No seminar halls added yet</p>
+                      <p className="text-gray-500 text-center py-4">No classroom images available</p>
                     )}
                   </div>
                 </details>
+
+                {/* Department Library Section */}
+                {libraryItems.length > 0 && (
+                  <details open className="cst-dropdown">
+                    <summary>Department Library</summary>
+                    <div className="cst-dropdown-content">
+                      <ul className="list-disc pl-6 space-y-2">
+                        {libraryItems.map((item: any, idx: number) => (
+                          <li key={idx}>
+                            {item.title}
+                            {item.url && (
+                              <>
+                                {' - '}
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#B22222] hover:underline font-medium"
+                                >
+                                  View
+                                </a>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                )}
 
                 {/* Laboratories Section */}
                 <details className="cst-dropdown">
@@ -1484,7 +1492,10 @@ const ECEDepartment: React.FC = () => {
                                   key={i}
                                   src={imageUrl}
                                   alt={`Lab Facility Image ${i + 1}`}
-                                  className="w-full rounded-lg shadow-md object-cover"
+                                  className="rounded-lg shadow-md"
+                                  style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                  loading="lazy"
+                                  decoding="async"
                                   onError={(e) => {
                                     (e.target as HTMLImageElement).style.display = 'none';
                                   }}
@@ -1498,72 +1509,40 @@ const ECEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                {/* Classrooms Images Section */}
+                {/* Seminar Halls Section */}
                 <details className="cst-dropdown">
-                  <summary>Classrooms Images</summary>
+                  <summary>Seminar Halls</summary>
                   <div className="cst-dropdown-content">
-                    {classroomsGalleryData && classroomsGalleryData.length > 0 ? (
-                      (() => {
-                        const allClassroomImages: string[] = [];
-                        classroomsGalleryData.forEach(item => {
-                          if (item.gallery) {
-                            const imageUrls = item.gallery.split(',').map((url: string) => url.trim()).filter((url: string) => url.length > 0);
-                            allClassroomImages.push(...imageUrls);
-                          }
-                        });
-
-                        return allClassroomImages.length > 0 ? (
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                            {allClassroomImages.map((imageUrl: string, i: number) => (
-                              <img
-                                key={i}
-                                src={imageUrl}
-                                alt={`Classroom Image ${i + 1}`}
-                                className="w-full rounded-lg shadow-md object-cover"
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).style.display = 'none';
-                                }}
-                              />
-                            ))}
-                          </div>
-                        ) : (
-                          <p className="text-gray-500 text-center py-4">No classroom images available</p>
-                        );
-                      })()
+                    {seminarHalls.length > 0 ? (
+                      <div>
+                        <h4 className="text-lg font-semibold text-[#B22222] mb-2">Seminar Halls</h4>
+                        <ul className="list-disc pl-6 space-y-2">
+                          {seminarHalls.map((item: any, idx: number) => (
+                            <li key={idx}>
+                              {item.title}
+                              {item.description && <span className="text-gray-600"> - {item.description}</span>}
+                              {item.file_url && (
+                                <>
+                                  {' '}
+                                  <a
+                                    href={item.file_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline font-medium"
+                                  >
+                                    View
+                                  </a>
+                                </>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     ) : (
-                      <p className="text-gray-500 text-center py-4">No classroom images available</p>
+                      <p className="text-gray-500 text-center py-2">No seminar halls added yet</p>
                     )}
                   </div>
                 </details>
-
-                {/* Department Library Section */}
-                {libraryItems.length > 0 && (
-                  <details open className="cst-dropdown">
-                    <summary>Department Library</summary>
-                    <div className="cst-dropdown-content">
-                      <ul className="list-disc pl-6 space-y-2">
-                        {libraryItems.map((item: any, idx: number) => (
-                          <li key={idx}>
-                            {item.title}
-                            {item.url && (
-                              <>
-                                {' - '}
-                                <a
-                                  href={item.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-[#B22222] hover:underline font-medium"
-                                >
-                                  View
-                                </a>
-                              </>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </details>
-                )}
               </div>
             )}
           </div>
@@ -2436,49 +2415,48 @@ const ECEDepartment: React.FC = () => {
                                 
                                 {/* Roll of Honour Gallery */}
                                 {(() => {
-                                  const galleryData = dropdownAchievements.filter((a: any) => a.category === 'honour');
-                                  console.log('All achievements:', dropdownAchievements);
-                                  console.log('Gallery data filtered:', galleryData);
-                                  console.log('Gallery categories in achievements:', dropdownAchievements.map((a: any) => a.category).filter((c: any, i: number, arr: any[]) => arr.indexOf(c) === i));
-                                  return galleryData.length > 0 ? (
-                                    <div>
-                                      <h4 className="text-lg font-bold text-[#B22222] mb-3">Gallery</h4>
-                                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                        {galleryData.map((achievement: any, idx: number) => {
-                                          const imageUrl = achievement.image_url || achievement.image || achievement.file_url || achievement.gallery;
-                                          console.log(`Image ${idx}:`, { imageUrl, achievement });
-                                          return (
-                                            <div key={idx} className="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                                              {imageUrl ? (
-                                                <img
-                                                  src={imageUrl}
-                                                  alt={achievement.title || achievement.name || `Image ${idx + 1}`}
-                                                  className="w-full h-48 object-cover"
-                                                  onError={(e) => {
-                                                    console.error('Image failed to load:', imageUrl);
-                                                    (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%239ca3af%22%3EImage not found%3C/text%3E%3C/svg%3E';
-                                                  }}
-                                                />
-                                              ) : (
-                                                <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                                                  <span className="text-gray-500">No Image URL</span>
-                                                </div>
-                                              )}
-                                              <div className="p-3 bg-white">
-                                                <h5 className="font-semibold text-sm text-gray-800">{achievement.title || achievement.name || '-'}</h5>
-                                                {achievement.description && (
-                                                  <p className="text-xs text-gray-600 mt-1">{achievement.description.substring(0, 80)}{achievement.description.length > 80 ? '...' : ''}</p>
+                                  const galleryData = dropdownAchievements.filter((a: any) => a.category === 'honour' || a.category === 'roll-of-honour' || a.gallery);
+                                  if (galleryData.length > 0) {
+                                    return (
+                                      <div>
+                                        <h4 className="text-lg font-bold text-[#B22222] mb-3">Gallery</h4>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                          {galleryData.map((achievement: any, idx: number) => {
+                                            const imageUrl = achievement.gallery || achievement.image_url || achievement.image || achievement.photo || achievement.picture || achievement.img;
+                                            return (
+                                              <div key={idx} className="overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                                                {imageUrl ? (
+                                                  <img
+                                                    src={imageUrl}
+                                                    alt={achievement.title || achievement.name || `Image ${idx + 1}`}
+                                                    className="rounded-lg shadow-md"
+                                                    style={{ width: '100%', height: '300px', objectFit: 'cover', display: 'block' }}
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                    onError={(e) => {
+                                                      (e.target as HTMLImageElement).style.display = 'none';
+                                                    }}
+                                                  />
+                                                ) : (
+                                                  <div className="w-full bg-gray-200 flex items-center justify-center" style={{ width: '100%', height: '300px' }}>
+                                                    <span className="text-gray-500">No Image Available</span>
+                                                  </div>
                                                 )}
+                                                <div className="p-3 bg-white">
+                                                  <h5 className="font-semibold text-sm text-gray-800">{achievement.title || achievement.name || '-'}</h5>
+                                                  {achievement.description && (
+                                                    <p className="text-xs text-gray-600 mt-1">{achievement.description.substring(0, 80)}{achievement.description.length > 80 ? '...' : ''}</p>
+                                                  )}
+                                                </div>
                                               </div>
-                                            </div>
-                                          );
-                                        })}
+                                            );
+                                          })}
+                                        </div>
                                       </div>
-                                    </div>
-                                  ) : (
-                                    <div className="text-center py-4 text-gray-500">No gallery images available</div>
-                                  );
-                                })()}
+                                    );
+                                  }
+                                  return null;
+                                })() as React.ReactNode}
                                 
                               </div>
                             ) : dropdown.id === 'workshops-internships-seminars-webinars' ? (
@@ -2776,42 +2754,38 @@ const ECEDepartment: React.FC = () => {
             {workshop_gl.length > 0 ? (
               <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in space-y-6">
                 <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Workshops/SOC/Seminars/Guest Lectures</h2>
-                {/* Workshops/SOC */}
-                <details open className="cst-dropdown">
-                  <summary>Workshops/SOC</summary>
+                {/* Gallery */}
+                <details className="cst-dropdown">
+                  <summary>Gallery</summary>
                   <div className="cst-dropdown-content">
-                    {workshop_gl.filter((item) => item.type === 'workshop_soc').length > 0 ? (
-                      <ul className="list-disc pl-6 my-2 space-y-2">
+                    {workshop_gl.filter((item) => item.type === 'gallery').length > 0 ? (
+                      <div className="grid grid-cols-2 gap-4 mt-4">
                         {workshop_gl
-                          .filter((item) => item.type === 'workshop_soc')
+                          .filter((item) => item.type === 'gallery')
                           .map((item, index) => (
-                            <li key={index}>
-                              {item.title}
-                              {item.year && <> ({item.year})</>}
-                              {item.url && (
-                                <>
-                                  {' - '}
-                                  <a
-                                    href={item.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-[#B22222] hover:underline"
-                                  >
-                                    View
-                                  </a>
-                                </>
-                              )}
-                            </li>
+                            <img
+                              key={index}
+                              src={item.url}
+                              alt={item.title}
+                              className="rounded-lg shadow-md"
+                              style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                              loading="lazy"
+                              decoding="async"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                              }}
+                            />
                           ))}
-                      </ul>
+                      </div>
                     ) : (
-                      <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
+                      <p className="text-gray-500 text-center py-4">No gallery images available yet</p>
                     )}
                   </div>
                 </details>
 
                 {/* Guest Lectures */}
-                <details className="cst-dropdown">
+                <details open className="cst-dropdown">
                   <summary>Guest Lectures</summary>
                   <div className="cst-dropdown-content">
                     {workshop_gl.filter((item) => item.type === 'guest_lecture').length > 0 ? (
@@ -2844,35 +2818,41 @@ const ECEDepartment: React.FC = () => {
                   </div>
                 </details>
 
-                {/* Gallery */}
+                {/* Workshops/SOC */}
                 <details className="cst-dropdown">
-                  <summary>Gallery</summary>
+                  <summary>Workshops/SOC</summary>
                   <div className="cst-dropdown-content">
-                    {workshop_gl.filter((item) => item.type === 'gallery').length > 0 ? (
-                      <div className="grid grid-cols-2 gap-4 mt-4">
+                    {workshop_gl.filter((item) => item.type === 'workshop_soc').length > 0 ? (
+                      <ul className="list-disc pl-6 my-2 space-y-2">
                         {workshop_gl
-                          .filter((item) => item.type === 'gallery')
+                          .filter((item) => item.type === 'workshop_soc')
                           .map((item, index) => (
-                            <img
-                              key={index}
-                              src={item.url}
-                              alt={item.title}
-                              className="w-full rounded-lg shadow-md object-cover"
-                              style={{ height: '300px', width: '400px' }}
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                target.style.display = 'none';
-                              }}
-                            />
+                            <li key={index}>
+                              {item.title}
+                              {item.year && <> ({item.year})</>}
+                              {item.url && (
+                                <>
+                                  {' - '}
+                                  <a
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#B22222] hover:underline"
+                                  >
+                                    View
+                                  </a>
+                                </>
+                              )}
+                            </li>
                           ))}
-                      </div>
+                      </ul>
                     ) : (
-                      <p className="text-gray-500 text-center py-4">No gallery images available yet</p>
+                      <div className="text-gray-600 text-sm mt-2">No entries available currently.</div>
                     )}
                   </div>
                 </details>
 
-                {/* Workshops Gallery Image Collection */}
+                {/* Image Gallery */}
                 <details className="cst-dropdown">
                   <summary>Image Gallery</summary>
                   <div className="cst-dropdown-content">
@@ -2893,8 +2873,10 @@ const ECEDepartment: React.FC = () => {
                             key={img.key}
                             src={img.url}
                             alt={`Workshop ${img.year} Image`}
-                            className="w-full rounded-lg shadow-md object-cover"
-                            style={{ height: '300px', width: '400px' }}
+                            className="rounded-lg shadow-md"
+                            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                            loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.style.display = 'none';

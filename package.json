@@ -84,7 +84,6 @@
     "tailwindcss-animate": "^1.0.7",
     "tls": "^0.0.1",
     "uuid": "^11.1.0",
-    "web-vitals": "^5.1.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

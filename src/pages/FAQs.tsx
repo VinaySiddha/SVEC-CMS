@@ -41,7 +41,9 @@ const FAQPage: React.FC = () => {
 
   const fetchFAQs = async () => {
     try {
-      const response = await fetch('/api/chatbot/faqs');
+      const timestamp = new Date().getTime();
+      const cacheBuster = `?_t=${timestamp}`;
+      const response = await fetch(`/api/chatbot/faqs${cacheBuster}`);
       const result = await response.json();
       if (result.success) {
         setFaqs(result.data);

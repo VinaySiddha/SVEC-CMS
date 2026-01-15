@@ -182,7 +182,7 @@ const DEPARTMENT_MODULES: Record<string, Array<{
     { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'ece_faculty_achievements' },
     { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Professional development programs', table: 'ece_faculty_development_programs' },
     { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'ece_hackathons' },
-    { key: 'hackathons-gallery', name: 'Hackathons Gallery', icon: Image, description: 'Event photo galleries', table: 'ece_hackathons_gallery' },
+    { key: 'hackathons-gallery', name: 'Gallery', icon: Image, description: 'Event photo galleries', table: 'ece_hackathons_gallery' },
     { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'ece_handbooks' },
     { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'ece_mous' },
     { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'ece_newsletters' },
@@ -490,9 +490,11 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
 
   // Student Achievements Multi-Table State
   const [selectedStudentAchievementTable, setSelectedStudentAchievementTable] = useState<string>('roll-of-honour');
+  
+  // Faculty Achievements Multi-Table State
+  const [selectedFacultyAchievementTable, setSelectedFacultyAchievementTable] = useState<string>('awards');
+  
   const studentAchievementTableOptions = useMemo(() => {
-   
-
     // Add EEE-specific options
     if (dept === 'eee') {
       return [
@@ -530,30 +532,28 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
     }
 
     // ECT and other departments use the standard table names
-    
+    return [];
   }, [dept]);
 
-  // Faculty Achievements Multi-Table State
-  const [selectedFacultyAchievementTable, setSelectedFacultyAchievementTable] = useState<string>('awards');
   const facultyAchievementTableOptions = useMemo(() => {
-    // Add ECE-specific options
+    // ECE-specific faculty achievement categories
     if (dept === 'ece') {
       return [
-        { value: 'faculty-awards', label: 'Awards',tableName:'ece_faculty_awards' },
-        { value: 'book-publications', label: 'Book Publications' },
-        { value: 'certifications', label: 'Certifications' },
-        { value: 'conferences', label: 'Conferences' },
-        { value: 'faculty-development', label: 'Faculty Development' },
-        { value: 'faculty-outreach', label: 'Faculty Out-Reach' },
-        { value: 'faculty-promotions', label: 'Faculty Promotions/Incentives' },
-        { value: 'journal-publications', label: 'Journal Publications' },
-        { value: 'patents', label: 'Patents' },
-        { value: 'research-supervisors', label: 'Research Supervisors' },
+        { value: 'awards', label: 'Awards', tableName: 'ece_faculty_awards' },
+        { value: 'faculty-achievement', label: 'Faculty Achievements', tableName: 'ece_faculty_achievements' },
+        { value: 'publications', label: 'Book Publications', tableName: 'ece_faculty_publications' },
+        { value: 'memberships', label: 'Memberships', tableName: 'ece_faculty_memberships' },
+        { value: 'promotions-incentives', label: 'Faculty Promotions/Incentives', tableName: 'ece_faculty_promotions_incentives' },
+    
       ];
     }
-
-    // Return empty array for non-ECE departments
-    return [];
+    
+    // Default for other departments
+    return [
+      { value: 'awards', label: 'Awards and Recognition', tableName: `${dept}_faculty_achievements` },
+      { value: 'memberships', label: 'Memberships', tableName: `${dept}_faculty_memberships` },
+      { value: 'training-development', label: 'Training and Development', tableName: `${dept}_faculty_training` }
+    ];
   }, [dept]);
 
   // Auto-refresh state
@@ -778,6 +778,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
           } else if (moduleKey === 'student-achievements') {
             structureUrl = `/api/admin/departments/${dept}/${moduleKey}/structure?table=${structureTableParam}`;
           } else if (moduleKey === 'faculty-achievements') {
+            // For faculty-achievements, pass the config key directly
             structureUrl = `/api/admin/departments/${dept}/${moduleKey}/structure?table=${structureTableParam}`;
           } else {
             structureUrl = dept === 'cst'
@@ -797,17 +798,17 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         })(),
 
         // Data request - for multi-table modules, fetch from the selected table
-        // Data request with caching
+        // Data request with caching (reduced limit to 100 for better performance)
         fetchWithErrorHandling(
           moduleKey === 'research-center'
-            ? `/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=1000&table=${tableParam}&_t=${Date.now()}`
+            ? `/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=100&table=${tableParam}&_t=${Date.now()}`
             : moduleKey === 'student-achievements'
-              ? `/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=1000&table=${tableParam}&_t=${Date.now()}`
+              ? `/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=100&table=${tableParam}&_t=${Date.now()}`
               : moduleKey === 'faculty-achievements'
-                ? `/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=1000&table=${tableParam}&_t=${Date.now()}`
+                ? `/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=100&table=${tableParam}&_t=${Date.now()}`
                 : dept === 'cst'
-                  ? `/api/admin/departments/cst/${moduleKey}?page=${page}&limit=1000&_t=${Date.now()}`
-                  : `/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=1000&_t=${Date.now()}`,
+                  ? `/api/admin/departments/cst/${moduleKey}?page=${page}&limit=100&_t=${Date.now()}`
+                  : `/api/admin/departments/${dept}/${moduleKey}?page=${page}&limit=100&_t=${Date.now()}`,
           { headers }
         )
       ]);
@@ -918,11 +919,20 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         }
       }
 
-      const result = await fetchWithErrorHandling(
-        dept === 'cst'
-          ? `/api/admin/departments/cst/${selectedModule}?id=${id}`
-          : `/api/admin/departments/${dept}/${selectedModule}?id=${id}`,
-        {
+      // Build URL with table parameter for multi-table modules
+      let deleteUrl = dept === 'cst'
+        ? `/api/admin/departments/cst/${selectedModule}?id=${id}`
+        : `/api/admin/departments/${dept}/${selectedModule}?id=${id}`;
+      
+      if (selectedModule === 'research-center' && selectedResearchTable) {
+        deleteUrl += `&table=${selectedResearchTable}`;
+      } else if (selectedModule === 'student-achievements' && selectedStudentAchievementTable) {
+        deleteUrl += `&table=${selectedStudentAchievementTable}`;
+      } else if (selectedModule === 'faculty-achievements' && selectedFacultyAchievementTable) {
+        deleteUrl += `&table=${selectedFacultyAchievementTable}`;
+      }
+
+      const result = await fetchWithErrorHandling(deleteUrl, {
           method: 'DELETE',
           headers: {
             ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
@@ -979,6 +989,8 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         tableParam = `table=${selectedResearchTable}`;
       } else if (selectedModule === 'student-achievements' && selectedStudentAchievementTable) {
         tableParam = `table=${selectedStudentAchievementTable}`;
+      } else if (selectedModule === 'faculty-achievements' && selectedFacultyAchievementTable) {
+        tableParam = `table=${selectedFacultyAchievementTable}`;
       }
 
       if (tableParam) {
@@ -1179,30 +1191,42 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                   )}
 
                   {/* Faculty Achievements Table Selector */}
-                  {selectedModule === 'faculty-achievements' && dept === 'ece' && (
-                    <div className="mt-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-200">
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  {selectedModule === 'faculty-achievements' && (dept === 'ece') && (
+                    <div className="mt-4 p-4 bg-gradient-to-r from-red-50 to-pink-50 rounded-xl border border-red-200">
+                      <div className="flex items-center gap-3 mb-3">
+                        <Award className="w-5 h-5 text-red-600" />
+                        <h4 className="text-lg font-bold text-gray-800">Faculty awards and recognitions</h4>
+                      </div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">
                         Select Achievement Category:
                       </label>
-                      <select
-                        value={selectedFacultyAchievementTable}
-                        onChange={(e) => {
-                          const newTable = e.target.value;
-                          setSelectedFacultyAchievementTable(newTable);
-                          setCurrentPage(1);
-                          // Pass the new table value directly to avoid state delay
-                          loadModuleData(selectedModule, 1, true, newTable);
-                        }}
-                        size={10}
-                        className="w-full px-4 py-2 border border-purple-300 rounded-lg text-sm font-medium focus:border-purple-500 focus:ring-2 focus:ring-purple-200 bg-white shadow-sm hover:border-purple-400 transition-colors overflow-y-auto max-h-96"
-                      >
+                      <div className="space-y-2">
                         {facultyAchievementTableOptions.map((option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
+                          <div
+                            key={option.value}
+                            onClick={() => {
+                              setSelectedFacultyAchievementTable(option.value);
+                              setCurrentPage(1);
+                              console.log(`[Faculty Achievements] Switching to: ${option.label}`);
+                              // Load data for the selected table - pass only the config key as tableOverride
+                              loadModuleData(selectedModule, 1, true, option.value);
+                            }}
+                            className={`p-3 rounded-lg cursor-pointer transition-all duration-200 border-2 ${
+                              selectedFacultyAchievementTable === option.value
+                                ? 'bg-red-600 text-white border-red-600 shadow-lg'
+                                : 'bg-white text-gray-700 border-red-200 hover:bg-red-50 hover:border-red-300'
+                            }`}
+                          >
+                            <div className="flex justify-between items-center">
+                              <span className="font-medium">{option.label}</span>
+                              <ChevronRight className={`w-5 h-5 transition-transform ${
+                                selectedFacultyAchievementTable === option.value ? 'rotate-90' : ''
+                              }`} />
+                            </div>
+                          </div>
                         ))}
-                      </select>
-                      <p className="mt-2 text-xs text-gray-600">
+                      </div>
+                      <p className="mt-3 text-xs text-gray-600">
                         Switch between different faculty achievement categories
                       </p>
                     </div>
@@ -1472,6 +1496,7 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
               selectedModule={selectedModule}
               selectedResearchTable={selectedResearchTable}
               selectedStudentAchievementTable={selectedStudentAchievementTable}
+              selectedFacultyAchievementTable={selectedFacultyAchievementTable}
             />
           </DialogContent>
         </Dialog>
@@ -1676,7 +1701,8 @@ function EditForm({
   dept,
   selectedModule,
   selectedResearchTable,
-  selectedStudentAchievementTable
+  selectedStudentAchievementTable,
+  selectedFacultyAchievementTable
 }: {
   item: ModuleData | null;
   onSave: (data: any) => void;
@@ -1685,6 +1711,7 @@ function EditForm({
   selectedModule: string;
   selectedResearchTable?: string;
   selectedStudentAchievementTable?: string;
+  selectedFacultyAchievementTable?: string;
 }) {
   const [formData, setFormData] = useState<any>({});
   const [tableFields, setTableFields] = useState<any[]>([]);
@@ -1705,7 +1732,7 @@ function EditForm({
     if (selectedModule === 'physical-facilities' && dept === 'cst') {
       fetchLaboratoryOptions();
     }
-  }, [item, dept, selectedModule, selectedResearchTable, selectedStudentAchievementTable]); // Added both table selectors
+  }, [item, dept, selectedModule, selectedResearchTable, selectedStudentAchievementTable, selectedFacultyAchievementTable]); // Added all table selectors
 
   const fetchLaboratoryOptions = async () => {
     try {
@@ -1737,6 +1764,9 @@ function EditForm({
       } else if (selectedModule === 'student-achievements' && selectedStudentAchievementTable) {
         structureUrl += `&table=${selectedStudentAchievementTable}`;
         console.log(`[fetchTableStructure] Student Achievements: Loading fields for ${selectedStudentAchievementTable}`);
+      } else if (selectedModule === 'faculty-achievements' && selectedFacultyAchievementTable) {
+        structureUrl += `&table=${selectedFacultyAchievementTable}`;
+        console.log(`[fetchTableStructure] Faculty Achievements: Loading fields for ${selectedFacultyAchievementTable}`);
       }
 
       const result = await fetchWithErrorHandling(structureUrl, {

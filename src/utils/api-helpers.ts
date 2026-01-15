@@ -21,7 +21,7 @@ export const safeJsonParse = async (response: Response) => {
 export const fetchWithErrorHandling = async (url: string, options: RequestInit = {}) => {
   // Add timeout and optimizations
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
   
   const optimizedOptions: RequestInit = {
     ...options,

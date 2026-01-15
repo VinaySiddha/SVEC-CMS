@@ -35,7 +35,9 @@ export default function PlacementGalleryPopup({ isOpen, onClose }: PlacementGall
     const fetchImages = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/placement/noticeboard?category=Images');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `&_t=${timestamp}`;
+        const response = await fetch(`/api/placement/noticeboard?category=Images${cacheBuster}`);
         const result = await response.json();
         
         if (result.success && Array.isArray(result.data)) {

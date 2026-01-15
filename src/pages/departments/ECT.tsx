@@ -208,54 +208,57 @@ const ECTDepartment: React.FC = () => {
 
 
   useEffect(() => {
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+    
     // Make all API calls in parallel using Promise.all()
     Promise.all([
-      fetch('/api/faculty?branchName=ECT').then(res => {
+      fetch(`/api/faculty?branchName=ECT${cacheBuster}`).then(res => {
         console.log('Faculty API Response Status:', res.status, res.ok);
         return res.json();
       }).catch(err => { console.error('Faculty fetch error:', err); return []; }),
-      fetch('/api/ect/ect-student-achievements').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-syllabus').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-eresources').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-department-library').then(res => res.json()).catch(() => null),
-      fetch('/api/ect/ect-mous').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-industry-programs').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-department-overview').then(res => {
+      fetch(`/api/ect/ect-student-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-syllabus${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-eresources${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-department-library${cacheBuster}`).then(res => res.json()).catch(() => null),
+      fetch(`/api/ect/ect-mous${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-industry-programs${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-department-overview${cacheBuster}`).then(res => {
         console.log('Overview API Response Status:', res.status, res.ok);
         return res.json();
       }).catch(err => { console.error('Overview fetch error:', err); return null; }),
-      fetch('/api/ect/ect-training-activities').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-bos-members').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-bos-minutes').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-handbooks').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-physical-facilities').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-faculty-development').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-faculty-achievements').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-merit-scholarships').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-extra-curricular').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-sahaya-events').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-scud-activities').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-technical-association').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-newsletters').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-hackathons').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-placements').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-workshops').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-gate').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-roll-of-honour').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-hackathons-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-technical-association-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-training-activities-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-extra-curricular-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-merit-scholarships-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-placements-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-workshops-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-faculty-development-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-gate-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-roll-of-honour-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-workshops-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-lecturers-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-labs-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/ect/ect-classrooms-gallery').then(res => res.json()).catch(() => [])
+      fetch(`/api/ect/ect-training-activities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-bos-members${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-bos-minutes${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-handbooks${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-physical-facilities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-faculty-development${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-faculty-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-merit-scholarships${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-extra-curricular${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-sahaya-events${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-scud-activities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-technical-association${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-newsletters${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-hackathons${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-placements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-workshops${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-gate${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-roll-of-honour${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-hackathons-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-technical-association-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-training-activities-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-extra-curricular-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-merit-scholarships-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-placements-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-workshops-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-faculty-development-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-gate-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-roll-of-honour-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-workshops-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-lecturers-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-labs-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/ect/ect-classrooms-gallery${cacheBuster}`).then(res => res.json()).catch(() => [])
 
 
     ])
@@ -1122,7 +1125,9 @@ const ECTDepartment: React.FC = () => {
                                 src={img.url}
                                 alt={`Roll of Honour ${img.year} Image`}
                                 className="w-full rounded-lg shadow-md object-cover"
-                                style={{ height: '300px', width: '400px' }}
+                                style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                                 onError={(e) => {
                                   const target = e.target as HTMLImageElement;
                                   target.style.display = 'none';
@@ -1191,7 +1196,9 @@ const ECTDepartment: React.FC = () => {
                                 src={img.url}
                                 alt={`GATE ${img.year} Image`}
                                 className="w-full rounded-lg shadow-md object-cover"
-                                style={{ height: '300px', width: '400px' }}
+                                style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                                 onError={(e) => {
                                   const target = e.target as HTMLImageElement;
                                   target.style.display = 'none';
@@ -1415,9 +1422,9 @@ const ECTDepartment: React.FC = () => {
                               <td className="py-3 px-4 border-b">{idx + 1}</td>
                               <td className="py-3 px-4 border-b">{item.regulation}</td>
                               <td className="py-3 px-4 border-b">{item.semester}</td>
-                              <td className="py-3 px-4 border-b">{item.subject}</td>
+                              <td className="py-3 px-4 border-b">{(item as any).subject}</td>
                               <td className="py-3 px-4 border-b">
-                                <a href={item.ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">Download</a>
+                                <a href={(item as any).ppt_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">Download</a>
                               </td>
                             </tr>
                           ))}
@@ -1523,6 +1530,9 @@ const ECTDepartment: React.FC = () => {
                   src={departmentLibrary.image_url}
                   alt="CSE Department Library"
                   className="w-full h-auto object-cover rounded-lg shadow-md"
+                  style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div className="md:w-1/2">
@@ -1795,6 +1805,9 @@ const ECTDepartment: React.FC = () => {
                                   src={imageUrl}
                                   alt={`Lab Facility Image ${i + 1}`}
                                   className="w-full rounded-lg shadow-md object-cover"
+                                  style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                  loading="lazy"
+                                  decoding="async"
                                   onError={(e) => {
                                     (e.target as HTMLImageElement).style.display = 'none';
                                   }}
@@ -1840,6 +1853,9 @@ const ECTDepartment: React.FC = () => {
                               src={imageUrl}
                               alt={`Classroom Image ${i + 1}`}
                               className="w-full rounded-lg shadow-md object-cover"
+                              style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                              loading="lazy"
+                              decoding="async"
                               onError={(e) => {
                                 (e.target as HTMLImageElement).style.display = 'none';
                               }}
@@ -1936,7 +1952,9 @@ const ECTDepartment: React.FC = () => {
                               src={imageUrl}
                               alt={`Faculty Development Image ${i + 1}`}
                               className="w-[400px] h-[300px] rounded-lg shadow-lg object-cover"
-                              
+                              style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                              loading="lazy"
+                              decoding="async"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 target.style.display = 'none';
@@ -2071,7 +2089,9 @@ const ECTDepartment: React.FC = () => {
                           src={img.url}
                           alt={`Merit Scholarship ${img.year} Image`}
                           className="w-full rounded-lg shadow-md object-cover"
-                          style={{ height: '300px', width: '400px' }}
+                          style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                          loading="lazy"
+                          decoding="async"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
@@ -2124,12 +2144,15 @@ const ECTDepartment: React.FC = () => {
                           <strong>Date:</strong> {new Date(activity.date_created).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
                         </div>
                       )}
-                      {activity.image_url && (
+                          {activity.image_url && (
                         <div className="my-4">
                           <img
                             src={activity.image_url}
                             alt={activity.title}
                             className="rounded-lg shadow-md w-full max-w-2xl"
+                            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                            loading="lazy"
+                            decoding="async"
                           />
                         </div>
                       )}
@@ -2192,7 +2215,9 @@ const ECTDepartment: React.FC = () => {
                           src={img.url}
                           alt={`Technical Association ${img.year} Image`}
                           className="w-full rounded-lg shadow-md object-cover"
-                          style={{ height: '300px', width: '400px' }}
+                          style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                          loading="lazy"
+                          decoding="async"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
@@ -2522,7 +2547,9 @@ const ECTDepartment: React.FC = () => {
                             src={imageUrl}
                             alt={`Extra-Curricular ${year} Image ${i + 1}`}
                             className="w-full rounded-lg shadow-md object-cover"
-                            style={{ width: '400px', height: '300px', objectFit: 'cover' }}
+                            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                            loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.style.display = 'none';
@@ -2715,7 +2742,9 @@ const ECTDepartment: React.FC = () => {
                           src={img.url}
                           alt={`Training Activities ${img.year} Image`}
                           className="w-full rounded-lg shadow-md object-cover"
-                          style={{ height: '300px', width: '400px' }}
+                          style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                          loading="lazy"
+                          decoding="async"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
@@ -2937,7 +2966,9 @@ const ECTDepartment: React.FC = () => {
                                   src={imageUrl}
                                   alt={`Workshop Image ${i + 1}`}
                                   className="w-full rounded-lg shadow-md object-cover"
-                                  style={{ height: '300px', width: '400px' }}
+                                  style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                                  loading="lazy"
+                                  decoding="async"
                                   onError={(e) => {
                                     const target = e.target as HTMLImageElement;
                                     target.style.display = 'none';
@@ -3097,7 +3128,9 @@ const ECTDepartment: React.FC = () => {
                                         src={imageUrl}
                                         alt={`Guest Lecturer ${year} Image ${i + 1}`}
                                         className="w-full rounded-lg shadow-md object-cover"
-                                        style={{ height: '300px', width: '400px' }}
+                                        style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                                        loading="lazy"
+                                        decoding="async"
                                         onError={(e) => {
                                           const target = e.target as HTMLImageElement;
                                           target.style.display = 'none';

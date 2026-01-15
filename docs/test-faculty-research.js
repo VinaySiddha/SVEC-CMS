@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Quick test to verify faculty-research module is properly configured
-const moduleFields = require('./src/config/module-fields.ts');
+const moduleFields = require('../src/config/module-fields.ts');
 
 console.log('Testing Faculty Research Module Configuration...\n');
 

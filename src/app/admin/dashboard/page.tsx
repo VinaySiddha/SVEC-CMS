@@ -45,8 +45,15 @@ import { table } from 'console';
 
 // Comprehensive department modules configuration based on existing table structure
 const DEPARTMENT_MODULES = {
-  // Computer Science & AI (CSE-AI)
+  // Computer Science & AI (CSE-AI) - SORTED A-Z
   'cse-ai': [
+    {
+      key: 'academic-toppers',
+      name: 'Academic Toppers',
+      icon: Award,
+      description: 'Academic toppers and scholarship recipients',
+      table: 'cai_academictoppers'
+    },
     {
       key: 'board-of-studies',
       name: 'Board of Studies',
@@ -90,6 +97,13 @@ const DEPARTMENT_MODULES = {
       table: 'cai_extra_curricular'
     },
     {
+      key: 'faculty',
+      name: 'Faculty',
+      icon: Users,
+      description: 'Faculty members and profiles',
+      table: 'faculty_profiles'
+    },
+    {
       key: 'faculty-achievements',
       name: 'Faculty Achievements',
       icon: Award,
@@ -102,13 +116,6 @@ const DEPARTMENT_MODULES = {
       icon: GraduationCap,
       description: 'Professional development programs',
       table: 'cai_faculty_development_programs'
-    },
-    {
-      key: 'faculty',
-      name: 'Faculty',
-      icon: Users,
-      description: 'Faculty members and profiles',
-      table: 'faculty_profiles'
     },
     {
       key: 'hackathons',
@@ -167,13 +174,6 @@ const DEPARTMENT_MODULES = {
       table: 'cai_staff'
     },
     {
-      key: 'academic-toppers',
-      name: 'Academic Toppers',
-      icon: Award,
-      description: 'Academic toppers and scholarship recipients',
-      table: 'cai_academictoppers'
-    },
-    {
       key: 'student-achievements',
       name: 'Student Achievements',
       icon: Award,
@@ -196,9 +196,15 @@ const DEPARTMENT_MODULES = {
     }
   ],
 
-  // Electronics & Communication Engineering (ECE) - ALL 23 MODULES
+  // Electronics & Communication Engineering (ECE) - SORTED A-Z WITH SORTED TABLE OPTIONS
   ece: [
-    { key: 'industry-programs', name: 'Industry Programs', icon: Briefcase, description: 'Industry collaboration programs', table: 'ece_industry_programs' },
+    {
+      key: 'academic-toppers',
+      name: 'Academic Toppers',
+      icon: Award,
+      description: 'Academic toppers and scholarships',
+      table: 'ece_academictoppers'
+    },
     {
       key: 'bos-members',
       name: 'BOS Members',
@@ -214,116 +220,18 @@ const DEPARTMENT_MODULES = {
       table: 'ece_bos_minutes'
     },
     {
-      key: 'workshops',
-      name: 'Workshops',
-      icon: Settings,
-      description: 'Educational workshops',
-      table: 'ece_worshops_gl'
-    },
-    {
-      key: 'faculty-tl-innovations',
-      name: 'Faculty TL Innovations',
-      icon: Zap,
-      describetion: 'Teaching learning innovations by faculty',
-      table: 'eee_faculty_tl_innovations'
-    },
-    {
-      key: 'faculty',
-      name: 'Faculty',
-      icon: Users,
-      description: 'Faculty members and profiles',
-      table: 'ece_faculty'
-    },
-    {
-      key: 'technical-faculty',
-      name: 'Technical Faculty',
-      icon: Users,
-      description: 'Technical staff members',
-      table: 'ece_technical_faculty'
-    },
-    {
-      key: 'non-teaching-faculty',
-      name: 'Non-Teaching Faculty',
-      icon: Users,
-      description: 'Non-teaching staff members',
-      table: 'ece_non_teaching_faculty'
-    },
-    {
-      key: 'academic-toppers',
-      name: 'Academic Toppers',
-      icon: Award,
-      description: 'Academic toppers and scholarships',
-      table: 'ece_academictoppers'
-    },
-    {
-      key: 'faculty-achievements',
-      name: 'Faculty Achievements',
-      icon: Award,
-      description: 'Faculty awards and recognitions',
-      table: 'ece_faculty_achievements'
-    },
-    {
-      key: 'physical-facilities',
-      name: 'Physical Facilities',
-      icon: Building2,
-      description: 'Infrastructure and equipment',
-      table: 'ece_physical_facilities'
-    },
-    {
-      key: 'faculty-development',
-      name: 'Faculty Development',
-      icon: GraduationCap,
-      description: 'Professional development programs',
-      table: 'ece_faculty_development_programs'
-    },
-    {
-      key: 'placements',
-      name: 'Placements',
-      icon: Users,
-      description: 'Student placement records',
-      table: 'ece_placements'
-    },
-    {
-      key: 'hackathons-gallery',
-      name: 'Hackathons Gallery',
-      icon: Image,
-      description: 'Event photo galleries',
-      table: 'ece_hackathons_gallery'
-    },
-    {
-      key: 'technical-association',
-      name: 'Technical Association',
-      icon: Settings,
-      description: 'Professional associations',
-      table: 'ece_technical_association'
-    },
-    {
-      key: 'extra-curricular',
-      name: 'Extra-Curricular',
-      icon: Activity,
-      description: 'Student activities and events',
-      table: 'ece_extracurricular_activities'
-    },
-    {
-      key: 'mous',
-      name: 'MOUs',
-      icon: FileText,
-      description: 'Memorandums of Understanding',
-      table: 'ece_mous'
-    },
-    {
-      key: 'syllabus',
-      name: 'Syllabus',
+      key: 'department-library',
+      name: 'Department Library',
       icon: BookOpen,
-      description: 'Course curriculum and syllabus',
-      table: 'ece_syllabus'
+      description: 'Library resources and books',
+      table: 'ece_department_library'
     },
     {
-      key: 'newsletters',
-      name: 'Newsletters',
-      icon: FileText,
-      description: 'Department publications',
-      table: 'ece_newsletters'
+      key: 'department-overview',
+      name: 'Department Overview',
+      icon: Building2,
+      description: 'HOD and department information',
+      table: 'ece_department_overview'
     },
     {
       key: 'eresources',
@@ -333,11 +241,111 @@ const DEPARTMENT_MODULES = {
       table: 'ece_eresources'
     },
     {
+      key: 'extra-curricular',
+      name: 'Extra-Curricular',
+      icon: Activity,
+      description: 'Student activities and events',
+      table: 'ece_extracurricular_activities'
+    },
+    {
+      key: 'faculty',
+      name: 'Faculty',
+      icon: Users,
+      description: 'Faculty members and profiles',
+      table: 'ece_faculty'
+    },
+    {
+      key: 'faculty-achievements',
+      name: 'Faculty Achievements',
+      icon: Award,
+      description: 'Faculty awards, publications, and recognitions',
+      table: 'ece_faculty_achievements',
+      tableOptions: [
+        { value: 'awards', label: 'Awards & Recognition', tableName: 'ece_faculty_awards' },
+        { value: 'certifications', label: 'Certifications', tableName: 'ece_faculty_certifications' },
+        { value: 'fdp', label: 'FDP Attended/Conducted', tableName: 'ece_faculty_fdp' },
+        { value: 'patents', label: 'Patents', tableName: 'ece_faculty_patents' },
+        { value: 'publications', label: 'Publications', tableName: 'ece_faculty_publications' },
+        { value: 'research-projects', label: 'Research Projects', tableName: 'ece_faculty_research_projects' },
+        { value: 'roll-of-honour', label: 'Roll of Honour', tableName: 'ece_faculty_roll_of_honour' },
+      ]
+    },
+    {
+      key: 'faculty-development',
+      name: 'Faculty Development',
+      icon: GraduationCap,
+      description: 'Professional development programs',
+      table: 'ece_faculty_development_programs'
+    },
+    {
+      key: 'faculty-tl-innovations',
+      name: 'Faculty TL Innovations',
+      icon: Zap,
+      describetion: 'Teaching learning innovations by faculty',
+      table: 'eee_faculty_tl_innovations'
+    },
+    {
       key: 'hackathons',
       name: 'Hackathons',
       icon: Briefcase,
       description: 'Coding competitions and events',
       table: 'ece_hackathons'
+    },
+    {
+      key: 'hackathons-gallery',
+      name: 'Hackathons Gallery',
+      icon: Image,
+      description: 'Event photo galleries',
+      table: 'ece_hackathons_gallery'
+    },
+    {
+      key: 'handbooks',
+      name: 'Handbooks',
+      icon: BookOpen,
+      description: 'Academic handbooks and guides',
+      table: 'ece_handbooks'
+    },
+    {
+      key: 'industry-programs',
+      name: 'Industry Programs',
+      icon: Briefcase,
+      description: 'Industry collaboration programs',
+      table: 'ece_industry_programs'
+    },
+    {
+      key: 'mous',
+      name: 'MOUs',
+      icon: FileText,
+      description: 'Memorandums of Understanding',
+      table: 'ece_mous'
+    },
+    {
+      key: 'newsletters',
+      name: 'Newsletters',
+      icon: FileText,
+      description: 'Department publications',
+      table: 'ece_newsletters'
+    },
+    {
+      key: 'non-teaching-faculty',
+      name: 'Non-Teaching Faculty',
+      icon: Users,
+      description: 'Non-teaching staff members',
+      table: 'ece_non_teaching_faculty'
+    },
+    {
+      key: 'physical-facilities',
+      name: 'Physical Facilities',
+      icon: Building2,
+      description: 'Infrastructure and equipment',
+      table: 'ece_physical_facilities'
+    },
+    {
+      key: 'placements',
+      name: 'Placements',
+      icon: Users,
+      description: 'Student placement records',
+      table: 'ece_placements'
     },
     {
       key: 'student-achievements',
@@ -358,83 +366,78 @@ const DEPARTMENT_MODULES = {
       ]
     },
     {
-      key: 'faculty-achievements',
-      name: 'Faculty Achievements',
-      icon: Award,
-      description: 'Faculty awards, publications, and recognitions',
-      table: 'ece_faculty_achievements',
-      tableOptions: [
-        { value: 'awards', label: 'Awards' },
-        { value: 'book-publications', label: 'Book Publications' },
-        { value: 'certifications', label: 'Certifications' },
-        { value: 'conferences', label: 'Conferences' },
-        { value: 'faculty-development', label: 'Faculty Development' },
-        { value: 'faculty-outreach', label: 'Faculty Out-Reach' },
-        { value: 'faculty-promotions', label: 'Faculty Promotions/Incentives' },
-        { value: 'journal-publications', label: 'Journal Publications' },
-        { value: 'patents', label: 'Patents' },
-        { value: 'research-supervisors', label: 'Research Supervisors' },
-      ]
-    },
-    {
-      key: 'department-overview',
-      name: 'Department Overview',
-      icon: Building2,
-      description: 'HOD and department information',
-      table: 'ece_department_overview'
-    },
-    {
-      key: 'handbooks',
-      name: 'Handbooks',
+      key: 'syllabus',
+      name: 'Syllabus',
       icon: BookOpen,
-      description: 'Academic handbooks and guides',
-      table: 'ece_handbooks'
+      description: 'Course curriculum and syllabus',
+      table: 'ece_syllabus'
     },
     {
-      key: 'department-library',
-      name: 'Department Library',
-      icon: BookOpen,
-      description: 'Library resources and books',
-      table: 'ece_department_library'
+      key: 'technical-association',
+      name: 'Technical Association',
+      icon: Settings,
+      description: 'Professional associations',
+      table: 'ece_technical_association'
+    },
+    {
+      key: 'technical-faculty',
+      name: 'Technical Faculty',
+      icon: Users,
+      description: 'Technical staff members',
+      table: 'ece_technical_faculty'
+    },
+    {
+      key: 'workshops',
+      name: 'Workshops',
+      icon: Settings,
+      description: 'Educational workshops',
+      table: 'ece_worshops_gl'
     }
   ],
 
 
-  // Electronics & Communication Technology (ECT) - ALL 29 MODULES
+  // Electronics & Communication Technology (ECT) - SORTED A-Z (29 MODULES)
   ect: [
+    { key: 'academic-toppers', name: 'Academic Toppers', icon: Award, description: 'Student scholarship programs', table: 'department_data' },
     { key: 'bos-members', name: 'BOS Members', icon: Users, description: 'Board of Studies members', table: 'bos_members' },
     { key: 'bos-minutes', name: 'BOS Minutes', icon: FileText, description: 'Board of Studies meeting minutes', table: 'bos_minutes' },
-    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops and training', table: 'workshops' },
     { key: 'department-library', name: 'Department Library', icon: BookOpen, description: 'Library resources and books', table: 'department_library' },
-    { key: 'industry-programs', name: 'Industry Programs', icon: Briefcase, description: 'Industry collaboration programs', table: 'department_data' },
     { key: 'department-overview', name: 'Department Overview', icon: Building2, description: 'Department overview and information', table: 'department_profile' },
     { key: 'eresources', name: 'E-Resources', icon: Globe, description: 'Digital learning resources', table: 'department_data' },
     { key: 'extra-curricular', name: 'Extra-Curricular', icon: Activity, description: 'Student activities and events', table: 'department_data' },
     { key: 'faculty', name: 'Faculty', icon: Users, description: 'Faculty members and profiles', table: 'faculty_profiles' },
     { key: 'faculty-achievements', name: 'Faculty Achievements', icon: Award, description: 'Faculty awards and recognitions', table: 'faculty_achievements' },
     { key: 'faculty-development', name: 'Faculty Development', icon: GraduationCap, description: 'Faculty development programs', table: 'faculty_development' },
+    { key: 'gate', name: 'GATE', icon: Award, description: 'GATE exam records and details', table: 'department_data' },
     { key: 'hackathons', name: 'Hackathons', icon: Briefcase, description: 'Coding competitions and events', table: 'department_data' },
     { key: 'hackathons-gallery', name: 'Hackathons Gallery', icon: Image, description: 'Gallery of hackathon events', table: 'department_data' },
     { key: 'handbooks', name: 'Handbooks', icon: BookOpen, description: 'Academic handbooks and guides', table: 'handbooks' },
-    { key: 'technical-association', name: 'Technical Association', icon: Briefcase, description: 'Technical association programs', table: 'technical_association' },
-    { key: 'merit-scholarships', name: 'Academic Toppers', icon: Award, description: 'Student scholarship programs', table: 'department_data' },
+    { key: 'industry-programs', name: 'Industry Programs', icon: Briefcase, description: 'Industry collaboration programs', table: 'department_data' },
     { key: 'mous', name: 'MOUs', icon: FileText, description: 'Memorandums of Understanding', table: 'mous' },
     { key: 'newsletters', name: 'Newsletters', icon: FileText, description: 'Department publications', table: 'newsletters' },
     { key: 'non-teaching-faculty', name: 'Non-Teaching Faculty', icon: Users, description: 'Non-teaching staff members', table: 'faculty_profiles' },
     { key: 'physical-facilities', name: 'Physical Facilities', icon: Building2, description: 'Infrastructure and equipment', table: 'physical_facilities' },
     { key: 'placements', name: 'Placements', icon: Users, description: 'Student placement records', table: 'placements' },
+    { key: 'roll-of-honour', name: 'Roll of Honour', icon: Award, description: 'Roll of Honour records', table: 'department_data' },
     { key: 'sahaya-events', name: 'Sahaya Events', icon: Activity, description: 'Sahaya community events', table: 'department_data' },
     { key: 'scud-activities', name: 'SCUD Activities', icon: Activity, description: 'SCUD club activities', table: 'department_data' },
     { key: 'student-achievements', name: 'Student Achievements', icon: Award, description: 'Student awards and recognitions', table: 'student_achievements' },
-    { key: 'gate', name: 'GATE', icon: Award, description: 'GATE exam records and details', table: 'department_data' },
-    { key: 'roll-of-honour', name: 'Roll of Honour', icon: Award, description: 'Roll of Honour records', table: 'department_data' },
     { key: 'syllabus', name: 'Syllabus', icon: BookOpen, description: 'Course curriculum and syllabus', table: 'syllabus' },
+    { key: 'technical-association', name: 'Technical Association', icon: Briefcase, description: 'Technical association programs', table: 'technical_association' },
     { key: 'technical-faculty', name: 'Technical Faculty', icon: Users, description: 'Technical staff members', table: 'faculty_profiles' },
     { key: 'training-activities', name: 'Training Activities', icon: GraduationCap, description: 'Training programs and workshops', table: 'training_activities' },
+    { key: 'workshops', name: 'Workshops', icon: Settings, description: 'Educational workshops and training', table: 'workshops' },
   ],
 
-  // Civil Engineering
+  // Civil Engineering - SORTED A-Z
   civil: [
+    {
+      key: 'board-of-studies',
+      name: 'Board of Studies',
+      icon: BookOpen,
+      description: 'Academic board meetings and decisions',
+      table: 'board_of_studies'
+    },
     {
       key: 'bos-members',
       name: 'BOS Members',
@@ -443,26 +446,11 @@ const DEPARTMENT_MODULES = {
       table: 'civil_bos_members'
     },
     {
-      key: 'non-teaching-faculty',
-      name: 'Non-Teaching Faculty',
-      icon: Users,
-      description: 'Non-teaching staff members',
-      table: 'civil_non_teaching_faculty'
-    },
-  
-    {
       key: 'bos-minutes',
       name: 'BOS Minutes',
       icon: FileText,
       description: 'Board of Studies meeting minutes',
       table: 'civil_bos_minutes'
-    },
-    {
-      key: 'board-of-studies',
-      name: 'Board of Studies',
-      icon: BookOpen,
-      description: 'Academic board meetings and decisions',
-      table: 'board_of_studies'
     },
     {
       key: 'consultancy',
@@ -479,11 +467,25 @@ const DEPARTMENT_MODULES = {
       table: 'civil_extra_curricular_activities'
     },
     {
+      key: 'industry-programs',
+      name: 'Industry Programs',
+      icon: Briefcase,
+      description: 'Industry collaboration programs',
+      table: 'civil_industry_programs'
+    },
+    {
       key: 'newsletters',
       name: 'Newsletters',
       icon: FileText,
       description: 'Department publications',
       table: 'civil_newsletters'
+    },
+    {
+      key: 'non-teaching-faculty',
+      name: 'Non-Teaching Faculty',
+      icon: Users,
+      description: 'Non-teaching staff members',
+      table: 'civil_non_teaching_faculty'
     },
     {
       key: 'physical-facilities',
@@ -506,7 +508,7 @@ const DEPARTMENT_MODULES = {
       description: 'Professional associations',
       table: 'civil_technical_association'
     },
-     {
+    {
       key: 'technical-faculty',
       name: 'Technical Faculty',
       icon: Users,
@@ -519,18 +521,10 @@ const DEPARTMENT_MODULES = {
       icon: Settings,
       description: 'Educational workshops',
       table: 'civil_workshops'
-    },
-    {
-      key: 'industry-programs',
-      name: 'Industry Programs',
-      icon: Briefcase,
-      description: 'Industry collaboration programs',
-      table: 'civil_industry_programs'
     }
-
   ],
 
-  // Mechanical Engineering
+  // Mechanical Engineering - SORTED A-Z
   mech: [
     {
       key: 'faculty',
@@ -632,7 +626,7 @@ const DEPARTMENT_MODULES = {
     }
   ],
 
-  // Computer Science Engineering
+  // Computer Science Engineering - SORTED A-Z
   'cse': [
     {
       key: 'board-of-studies',
@@ -663,13 +657,6 @@ const DEPARTMENT_MODULES = {
       table: 'cse_department_library'
     },
     {
-      key: 'eresources',
-      name: 'E-Resources',
-      icon: Globe,
-      description: 'Digital learning resources',
-      table: 'cse_eresources'
-    },
-    {
       key: 'eapcet-toppers',
       name: 'EAPCET Toppers',
       icon: Award,
@@ -677,11 +664,25 @@ const DEPARTMENT_MODULES = {
       table: 'cse_eapcet_toppers'
     },
     {
+      key: 'eresources',
+      name: 'E-Resources',
+      icon: Globe,
+      description: 'Digital learning resources',
+      table: 'cse_eresources'
+    },
+    {
       key: 'extra-curricular',
       name: 'Extra-Curricular',
       icon: Activity,
       description: 'Student activities and events',
       table: 'cai_extra_curricular'
+    },
+    {
+      key: 'faculty',
+      name: 'Faculty',
+      icon: Users,
+      description: 'Faculty members and profiles',
+      table: 'faculty_profiles'
     },
     {
       key: 'faculty-achievements',
@@ -696,13 +697,6 @@ const DEPARTMENT_MODULES = {
       icon: GraduationCap,
       description: 'Professional development programs',
       table: 'cai_faculty_development_programs'
-    },
-    {
-      key: 'faculty',
-      name: 'Faculty',
-      icon: Users,
-      description: 'Faculty members and profiles',
-      table: 'faculty_profiles'
     },
     {
       key: 'hackathons',
@@ -784,15 +778,8 @@ const DEPARTMENT_MODULES = {
   ],
 
 
-  // Electrical & Electronics Engineering
+  // Electrical & Electronics Engineering - SORTED A-Z
   eee: [
-    {
-      key: 'academic-toppers',
-      name: 'Academic Toppers',
-      icon: Award,
-      description: 'Academic toppers and scholarship recipients',
-      table: 'eee_academictoppers'
-    },
     {
       key: 'activity-coordinators',
       name: 'Activity Coordinators',
@@ -878,6 +865,20 @@ const DEPARTMENT_MODULES = {
       table: 'eee_faculty_development_programs'
     },
     {
+      key: 'faculty-innovations',
+      name: 'Faculty Innovations',
+      icon: Zap,
+      description: 'Teaching learning innovations by faculty',
+      table: 'eee_faculty_tl_innovations'
+    },
+    {
+      key: 'fdp',
+      name: 'FDP',
+      icon: GraduationCap,
+      description: 'Faculty development programs',
+      table: 'eee_faculty_development'
+    },
+    {
       key: 'gate',
       name: 'GATE',
       icon: Award,
@@ -948,13 +949,6 @@ const DEPARTMENT_MODULES = {
       table: 'eee_placements'
     },
     {
-      key: 'roll-of-honour',
-      name: 'Roll of Honour',
-      icon: Award,
-      description: 'Distinguished students and achievements',
-      table: 'eee_roll_of_honour'
-    },
-    {
       key: 'sahaya-events',
       name: 'Sahaya Events',
       icon: Activity,
@@ -995,53 +989,11 @@ const DEPARTMENT_MODULES = {
       icon: Settings,
       description: 'Educational workshops',
       table: 'eee_workshops'
-    },
-    {
-      key: 'fdp',
-      name: 'FDP',
-      icon: GraduationCap,
-      description: 'Faculty development programs',
-      table: 'eee_faculty_development'
-    },
-    {
-      key: 'faculty-innovations',
-      name: 'Faculty Innovations',
-      icon: Zap,
-      description: 'Teaching learning innovations by faculty',
-      table: 'eee_faculty_tl_innovations'
     }
   ],
 
-  // Basic Sciences & Humanities
+  // Basic Sciences & Humanities - SORTED A-Z
   bsh: [
-    {
-      key: 'faculty',
-      name: 'Faculty',
-      icon: Users,
-      description: 'Faculty members and profiles',
-      table: 'bsh_faculty'
-    },
-    {
-      key: 'non-teaching-faculty',
-      name: 'Non-Teaching Faculty',
-      icon: Users,
-      description: 'Non-teaching staff members',
-      table: 'bsh_non_teaching_faculty'
-    },
-    {
-      key: 'board-of-studies',
-      name: 'Board of Studies',
-      icon: BookOpen,
-      description: 'Academic board meetings and decisions',
-      table: 'bsh_board_of_studies'
-    },
-    {
-      key: 'results',
-      name: 'Results',
-      icon: Award,
-      description: 'Examination results and outcomes',
-      table: 'bsh_results'
-    },
     {
       key: 'activities',
       name: 'Activities',
@@ -1050,32 +1002,11 @@ const DEPARTMENT_MODULES = {
       table: 'bsh_activities'
     },
     {
-      key: 'faculty-achievements',
-      name: 'Faculty Achievements',
-      icon: Award,
-      description: 'Faculty awards and recognitions',
-      table: 'bsh_faculty_achievements'
-    },
-    {
-      key: 'student-achievements',
-      name: 'Student Achievements',
-      icon: Award,
-      description: 'Student awards and recognitions',
-      table: 'bsh_student_achievements'
-    },
-    {
-      key: 'laboratories',
-      name: 'Laboratories',
-      icon: Microscope,
-      description: 'Laboratory facilities and resources',
-      table: 'bsh_laboratories'
-    },
-    {
-      key: 'faculty-paper-presentations',
-      name: 'Faculty Paper Presentations',
-      icon: FileText,
-      description: 'Faculty research publications and presentations',
-      table: 'bsh_faculty_paper_presentations'
+      key: 'board-of-studies',
+      name: 'Board of Studies',
+      icon: BookOpen,
+      description: 'Academic board meetings and decisions',
+      table: 'bsh_board_of_studies'
     },
     {
       key: 'department-documents',
@@ -1092,11 +1023,18 @@ const DEPARTMENT_MODULES = {
       table: 'bsh_department_profile'
     },
     {
-      key: 'syllabus',
-      name: 'Syllabus',
-      icon: BookOpen,
-      description: 'Course curriculum and syllabus',
-      table: 'bsh_syllabus'
+      key: 'faculty',
+      name: 'Faculty',
+      icon: Users,
+      description: 'Faculty members and profiles',
+      table: 'bsh_faculty'
+    },
+    {
+      key: 'faculty-achievements',
+      name: 'Faculty Achievements',
+      icon: Award,
+      description: 'Faculty awards and recognitions',
+      table: 'bsh_faculty_achievements'
     },
     {
       key: 'faculty-development-programs',
@@ -1106,15 +1044,57 @@ const DEPARTMENT_MODULES = {
       table: 'bsh_fdps'
     },
     {
+      key: 'faculty-paper-presentations',
+      name: 'Faculty Paper Presentations',
+      icon: FileText,
+      description: 'Faculty research publications and presentations',
+      table: 'bsh_faculty_paper_presentations'
+    },
+    {
+      key: 'laboratories',
+      name: 'Laboratories',
+      icon: Microscope,
+      description: 'Laboratory facilities and resources',
+      table: 'bsh_laboratories'
+    },
+    {
+      key: 'non-teaching-faculty',
+      name: 'Non-Teaching Faculty',
+      icon: Users,
+      description: 'Non-teaching staff members',
+      table: 'bsh_non_teaching_faculty'
+    },
+    {
       key: 'photo-gallery',
       name: 'Photo Gallery',
       icon: Image,
       description: 'Department photo gallery and events',
       table: 'bsh_photogallery'
+    },
+    {
+      key: 'results',
+      name: 'Results',
+      icon: Award,
+      description: 'Examination results and outcomes',
+      table: 'bsh_results'
+    },
+    {
+      key: 'student-achievements',
+      name: 'Student Achievements',
+      icon: Award,
+      description: 'Student awards and recognitions',
+      table: 'bsh_student_achievements'
+    },
+    {
+      key: 'syllabus',
+      name: 'Syllabus',
+      icon: BookOpen,
+      description: 'Course curriculum and syllabus',
+      table: 'bsh_syllabus'
     }
   ],
 
-  // Computer Science & Technology
+  // Computer Science & Technology - SORTED A-Z
   cst: [
     {
       key: 'bos-members',
@@ -1304,17 +1284,17 @@ const DEPARTMENT_MODULES = {
 
 // Department list with correct names
 const DEPARTMENTS = [
-  { key: 'cse-ai', name: 'Computer Science & AI', color: 'bg-blue-500', icon: BrainCircuit },
-  { key: 'ece', name: 'Electronics & Communication', color: 'bg-green-500', icon: Zap },
-  { key: 'civil', name: 'Civil Engineeringss', color: 'bg-orange-500', icon: Building2 },
-  { key: 'mech', name: 'Mechanical Engineering', color: 'bg-red-500', icon: Hammer },
-  { key: 'cse', name: 'Computer Science', color: 'bg-purple-500', icon: Cpu },
-  { key: 'eee', name: 'Electrical & Electronics', color: 'bg-yellow-500', icon: Zap },
-  { key: 'bsh', name: 'Basic Sciences & Humanities', color: 'bg-pink-500', icon: BookOpen },
-  { key: 'cst', name: 'Computer Science & Technology', color: 'bg-teal-500', icon: Settings },
-  { key: 'ect', name: 'Electronics & Communication Tech', color: 'bg-cyan-500', icon: Activity },
-  { key: 'aiml', name: 'AI & Machine Learning', color: 'bg-violet-500', icon: BrainCircuit },
-  { key: 'cse-ds', name: 'Computer Science & Data Science', color: 'bg-emerald-500', icon: Activity }
+  { key: 'cse-ai', name: 'Computer Science & AI', color: 'bg-blue-500', gradientBg: 'from-blue-50 to-cyan-100', icon: BrainCircuit },
+  { key: 'ece', name: 'Electronics & Communication', color: 'bg-green-500', gradientBg: 'from-green-50 to-emerald-100', icon: Zap },
+  { key: 'civil', name: 'Civil Engineeringss', color: 'bg-orange-500', gradientBg: 'from-orange-50 to-amber-100', icon: Building2 },
+  { key: 'mech', name: 'Mechanical Engineering', color: 'bg-red-500', gradientBg: 'from-red-50 to-rose-100', icon: Hammer },
+  { key: 'cse', name: 'Computer Science', color: 'bg-purple-500', gradientBg: 'from-purple-50 to-indigo-100', icon: Cpu },
+  { key: 'eee', name: 'Electrical & Electronics', color: 'bg-yellow-500', gradientBg: 'from-yellow-50 to-orange-100', icon: Zap },
+  { key: 'bsh', name: 'Basic Sciences & Humanities', color: 'bg-pink-500', gradientBg: 'from-pink-50 to-rose-100', icon: BookOpen },
+  { key: 'cst', name: 'Computer Science & Technology', color: 'bg-teal-500', gradientBg: 'from-teal-50 to-cyan-100', icon: Settings },
+  { key: 'ect', name: 'Electronics & Communication Tech', color: 'bg-cyan-500', gradientBg: 'from-cyan-50 to-blue-100', icon: Activity },
+  { key: 'aiml', name: 'AI & Machine Learning', color: 'bg-violet-500', gradientBg: 'from-violet-50 to-purple-100', icon: BrainCircuit },
+  { key: 'cse-ds', name: 'Computer Science & Data Science', color: 'bg-emerald-500', gradientBg: 'from-emerald-50 to-green-100', icon: Activity }
 ];
 
 interface ModuleData {
@@ -1325,6 +1305,7 @@ interface ModuleData {
 export default function SuperAdminDashboard() {
   const [selectedDepartment, setSelectedDepartment] = useState('cse-ai');
   const [selectedModule, setSelectedModule] = useState<string | null>(null);
+  const [selectedTable, setSelectedTable] = useState<string>('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchTerm, setSearchTerm] = useState('');
   const [moduleData, setModuleData] = useState<ModuleData[]>([]);
@@ -1385,42 +1366,86 @@ export default function SuperAdminDashboard() {
   );
 
   // Load module data
-  const loadModuleData = async (tableName: string, page: number = 1) => {
+  // Helper function to get actual table name from option value
+  const getTableNameFromOption = (optionValue: string, moduleTableOptions?: any[]) => {
+    if (!moduleTableOptions) return optionValue;
+    const option = moduleTableOptions.find(opt => opt.value === optionValue);
+    return option?.tableName || optionValue;
+  };
+
+  const loadModuleData = async (tableName: string, page: number = 1, isMultiTable: boolean = false, tableOverride?: string) => {
     setLoading(true);
     try {
-      // Fetch both structure and data in parallel
-      const [structureResponse, dataResponse] = await Promise.all([
-        apiGet(`/api/admin/departments/${selectedDepartment}/${selectedModule}/structure`),
-        apiGet(`/api/admin/tables/${tableName}?page=${page}&limit=50`)
-      ]);
+      // For multi-table modules, use the department-specific endpoint
+      if (isMultiTable && tableOverride) {
+        const [structureResponse, dataResponse] = await Promise.all([
+          apiGet(`/api/admin/departments/${selectedDepartment}/${selectedModule}/structure?table=${tableOverride}`),
+          apiGet(`/api/admin/departments/${selectedDepartment}/${selectedModule}?page=${page}&limit=50&table=${tableOverride}`)
+        ]);
 
-      // Handle structure response
-      if (structureResponse.ok) {
-        const structureResult = await structureResponse.json();
-        if (structureResult.success && structureResult.fields) {
-          setTableColumns(structureResult.fields);
+        // Handle structure response
+        if (structureResponse.ok) {
+          const structureResult = await structureResponse.json();
+          if (structureResult.success && structureResult.fields) {
+            setTableColumns(structureResult.fields);
+          }
         }
-      }
 
-      // Handle data response
-      if (dataResponse.ok) {
-        const result = await dataResponse.json();
-        if (result.success && result.data && result.data.records) {
-          setModuleData(result.data.records);
-          setTotalRecords(result.data.total || result.data.records.length);
-          setTotalPages(Math.ceil((result.data.total || result.data.records.length) / 50));
-          setCurrentPage(page);
-          setLastRefreshTime(new Date());
-          setNextRefreshCountdown(30);
+        // Handle data response
+        if (dataResponse.ok) {
+          const result = await dataResponse.json();
+          if (result.success && result.data && result.data.records) {
+            setModuleData(result.data.records);
+            setTotalRecords(result.data.total || result.data.records.length);
+            setTotalPages(Math.ceil((result.data.total || result.data.records.length) / 50));
+            setCurrentPage(page);
+            setLastRefreshTime(new Date());
+            setNextRefreshCountdown(30);
+          } else {
+            setModuleData([]);
+            setTotalRecords(0);
+            setTotalPages(1);
+          }
         } else {
           setModuleData([]);
           setTotalRecords(0);
           setTotalPages(1);
         }
       } else {
-        setModuleData([]);
-        setTotalRecords(0);
-        setTotalPages(1);
+        // For single-table modules, use the direct table endpoint
+        const [structureResponse, dataResponse] = await Promise.all([
+          apiGet(`/api/admin/departments/${selectedDepartment}/${selectedModule}/structure`),
+          apiGet(`/api/admin/tables/${tableName}?page=${page}&limit=50`)
+        ]);
+
+        // Handle structure response
+        if (structureResponse.ok) {
+          const structureResult = await structureResponse.json();
+          if (structureResult.success && structureResult.fields) {
+            setTableColumns(structureResult.fields);
+          }
+        }
+
+        // Handle data response
+        if (dataResponse.ok) {
+          const result = await dataResponse.json();
+          if (result.success && result.data && result.data.records) {
+            setModuleData(result.data.records);
+            setTotalRecords(result.data.total || result.data.records.length);
+            setTotalPages(Math.ceil((result.data.total || result.data.records.length) / 50));
+            setCurrentPage(page);
+            setLastRefreshTime(new Date());
+            setNextRefreshCountdown(30);
+          } else {
+            setModuleData([]);
+            setTotalRecords(0);
+            setTotalPages(1);
+          }
+        } else {
+          setModuleData([]);
+          setTotalRecords(0);
+          setTotalPages(1);
+        }
       }
     } catch (error) {
       console.error('Error loading module data:', error);
@@ -1437,7 +1462,16 @@ export default function SuperAdminDashboard() {
     setCurrentPage(1);
     const module = currentModules.find(m => m.key === moduleKey);
     if (module) {
-      loadModuleData(module.table, 1);
+      // Initialize selectedTable for multi-table modules
+      const moduleWithOptions = module as any;
+      if (moduleWithOptions.tableOptions && moduleWithOptions.tableOptions.length > 0) {
+        const firstTableName = getTableNameFromOption(moduleWithOptions.tableOptions[0].value, moduleWithOptions.tableOptions);
+        setSelectedTable(moduleWithOptions.tableOptions[0].value);
+        loadModuleData(module.table, 1, true, firstTableName);
+      } else {
+        setSelectedTable('');
+        loadModuleData(module.table, 1);
+      }
     }
   };
 
@@ -1869,6 +1903,35 @@ export default function SuperAdminDashboard() {
                 </div>
               </div>
             </CardHeader>
+            {/* Multi-Table Module Selector */}
+            {(module as any)?.tableOptions && (module as any).tableOptions.length > 0 && module && (
+              <div className={`border-b border-gray-200 px-6 py-4 bg-gradient-to-r ${department?.gradientBg || 'from-blue-50 to-purple-50'}`}>
+                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                  Select {module?.name} Category:
+                </label>
+                <select
+                  value={selectedTable}
+                  onChange={(e) => {
+                    const optionValue = e.target.value;
+                    const tableName = getTableNameFromOption(optionValue, (module as any).tableOptions);
+                    setSelectedTable(optionValue);
+                    setCurrentPage(1);
+                    // Reload data with new table
+                    loadModuleData(module?.table, 1, true, tableName);
+                  }}
+                  className="w-full sm:w-96 px-4 py-2 border border-purple-300 rounded-lg text-sm font-medium focus:border-purple-500 focus:ring-2 focus:ring-purple-200 bg-white shadow-sm hover:border-purple-400 transition-colors"
+                >
+                  {(module as any).tableOptions.map((option: any) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                <p className="mt-2 text-xs text-gray-600">
+                  Switch between different {module?.name.toLowerCase()} categories
+                </p>
+              </div>
+            )}
             <CardContent>
               {loading ? (
                 <div className="text-center py-16">

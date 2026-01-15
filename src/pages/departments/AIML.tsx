@@ -229,6 +229,9 @@ const AIMlDepartment: React.FC = () => {
     // Make all API calls in parallel for AIML department tables - expanded to match CSEAI coverage
     const fetchData = async () => {
       try {
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        
         const [
           overviewResponse,
           facultyResponse,
@@ -257,32 +260,32 @@ const AIMlDepartment: React.FC = () => {
           academicToppersGalleryResponse,
           publicDeptResponse
         ] = await Promise.allSettled([
-          fetch('/api/aiml/aiml-department-overview').then(res => res.json()).catch(() => null),
-          fetch('/api/aiml/aiml-faculty').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-syllabus').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-physical-facilities').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-student-achievements').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-workshops').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-placements').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-academictoppers').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-mous').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-bos-members').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-bos-minutes').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-faculty-achievements').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-eresources').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-department-library').then(res => res.json()).catch(() => null),
-          fetch('/api/aiml/aiml-faculty-development').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-technical-faculty').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-non-teaching-staff').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-hackathons').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-hackathons-gallery').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-extra-curricular-gallery').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-extracurricular-activities').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-technical-association').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-technical-association-gallery').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-handbooks').then(res => res.json()).catch(() => []),
-          fetch('/api/aiml/aiml-academic-toppers-gallery').then(res => res.json()).catch(() => []),
-          fetch('/api/public/departments/aiml').then(res => res.json()).catch(() => ({ success: false, data: {} }))
+          fetch(`/api/aiml/aiml-department-overview${cacheBuster}`).then(res => res.json()).catch(() => null),
+          fetch(`/api/aiml/aiml-faculty${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-syllabus${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-physical-facilities${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-student-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-workshops${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-placements${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-academictoppers${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-mous${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-bos-members${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-bos-minutes${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-faculty-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-eresources${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-department-library${cacheBuster}`).then(res => res.json()).catch(() => null),
+          fetch(`/api/aiml/aiml-faculty-development${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-technical-faculty${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-non-teaching-staff${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-hackathons${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-hackathons-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-extra-curricular-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-extracurricular-activities${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-technical-association${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-technical-association-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-handbooks${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/aiml/aiml-academic-toppers-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+          fetch(`/api/public/departments/aiml${cacheBuster}`).then(res => res.json()).catch(() => ({ success: false, data: {} }))
         ]);
 
         // Set overview data
@@ -925,11 +928,11 @@ const AIMlDepartment: React.FC = () => {
                         {group.items.map((item, idx) => (
                           <li key={idx}>
                             {item.title}
-                            {(item.file_url || item.fileUrl) && (
+                            {((item as any).file_url || item.fileUrl) && (
                               <>
                                 {' - '}
                                 <a
-                                  href={item.file_url || item.fileUrl}
+                                  href={(item as any).file_url || item.fileUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="text-[#B22222] hover:underline font-semibold"
@@ -1383,6 +1386,9 @@ const AIMlDepartment: React.FC = () => {
                   src={departmentLibrary.image_url}
                   alt="CSE Department Library"
                   className="w-full h-auto object-cover rounded-lg shadow-md"
+                  style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div className="md:w-1/2">
@@ -1660,6 +1666,9 @@ const AIMlDepartment: React.FC = () => {
                                     src={imageUrl.trim()}
                                     alt={item.title || 'Laboratory'}
                                     className="w-full h-48 object-cover"
+                                    style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                    loading="lazy"
+                                    decoding="async"
                                   />
                                   {item.title && imgIdx === 0 && (
                                     <div className="p-3 bg-white">
@@ -2035,6 +2044,9 @@ const AIMlDepartment: React.FC = () => {
                                 src={img}
                                 alt={`${item.title} Image ${i + 1}`}
                                 className="w-full h-48 object-cover hover:scale-105 transition-transform"
+                                style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                               />
                             </div>
                           ))}
@@ -2180,6 +2192,9 @@ const AIMlDepartment: React.FC = () => {
                                       src={img}
                                       alt={`Technical Association ${year} Image ${i + 1}`}
                                       className="w-[450px] h-[340px] rounded-lg shadow-lg object-cover"
+                                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                      loading="lazy"
+                                      decoding="async"
                                       onError={(e) => {
                                         (e.target as HTMLImageElement).src = '/placeholder-image.svg';
                                         (e.target as HTMLImageElement).className = 'w-[450px] h-[340px] rounded-lg shadow-lg bg-gray-200';
@@ -2495,6 +2510,9 @@ const AIMlDepartment: React.FC = () => {
                               src={img}
                               alt={`Gallery Image ${i + 1}`}
                               className="w-[450px] h-[340px] rounded-lg shadow-lg object-cover"
+                              style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                              loading="lazy"
+                              decoding="async"
                               onError={(e) => {
                                 (e.target as HTMLImageElement).src = '/placeholder-image.svg';
                                 (e.target as HTMLImageElement).className = 'w-[450px] h-[340px] rounded-lg shadow-lg bg-gray-200';
@@ -2879,6 +2897,9 @@ const AIMlDepartment: React.FC = () => {
                               src={img.gallery || img.image_url || img.url}
                               alt={img.title || `Placement Image ${index + 1}`}
                               className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+                              style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                              loading="lazy"
+                              decoding="async"
                               onClick={() => {
                                 const url = img.gallery || img.image_url || img.url;
                                 if (url) window.open(url, '_blank');

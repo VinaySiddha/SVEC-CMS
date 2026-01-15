@@ -45,7 +45,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchFaculty = async () => {
       try {
-        const res = await fetch('/api/bsh/bsh-faculty');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/bsh-faculty${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch faculty data');
         const data: Faculty[] = await res.json();
         // Group by department (chemistry, physics, etc)
@@ -77,7 +79,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchNonTeaching = async () => {
       try {
-        const res = await fetch('/api/bsh/non-teaching-bsh-faculty');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/non-teaching-bsh-faculty${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch non-teaching faculty');
         const data: NonTeachingFaculty[] = await res.json();
         setNonTeachingFaculty(data);
@@ -98,7 +102,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchBos = async () => {
       try {
-        const res = await fetch('/api/bsh/board-of-studies');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/board-of-studies${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch Board of Studies data');
         const data = await res.json();
         // Group by section
@@ -125,7 +131,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchFdp = async () => {
       try {
-        const res = await fetch('/api/bsh/department-documents');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/department-documents${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch FDPs/Workshops');
         const data = await res.json();
         setFdpDocs(data.filter((doc: any) => doc.section === 'fdp_workshops'));
@@ -146,7 +154,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchFdpsOrganized = async () => {
       try {
-        const res = await fetch('/api/bsh/bsh-fdps');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/bsh-fdps${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch FDPs/Guest Lectures Organized');
         const data = await res.json();
         setFdpsOrganized(data);
@@ -166,7 +176,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch('/api/bsh/department-profile');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/department-profile${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch department profile');
         const data = await res.json();
         setDeptProfile(data);
@@ -186,7 +198,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const res = await fetch('/api/bsh/bsh_results');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/bsh_results${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch results');
         const data = await res.json();
         setResults(data);
@@ -206,7 +220,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const res = await fetch('/api/bsh/bsh_activities');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/bsh_activities${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch activities');
         const data = await res.json();
         setActivities(data);
@@ -226,7 +242,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchAchievements = async () => {
       try {
-        const res = await fetch('/api/bsh/bsh_faculty_achievements');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/bsh_faculty_achievements${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch faculty achievements');
         const data = await res.json();
         setFacultyAchievements(data);
@@ -246,7 +264,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchLabs = async () => {
       try {
-        const res = await fetch('/api/bsh/bsh_laboratories');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/bsh_laboratories${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch laboratories');
         const data = await res.json();
         setLabs(data);
@@ -266,7 +286,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchPapers = async () => {
       try {
-        const res = await fetch('/api/bsh/bsh_faculty_paper_presentations');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/bsh_faculty_paper_presentations${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch paper presentations');
         const data = await res.json();
         setPaperPresentations(data);
@@ -286,7 +308,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchAchievements = async () => {
       try {
-        const res = await fetch('/api/bsh/bsh_student_achievements');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/bsh_student_achievements${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch student achievements');
         const data = await res.json();
         setStudentAchievements(data);
@@ -306,7 +330,9 @@ const BSHDepartment: React.FC = () => {
   useEffect(() => {
     const fetchSyllabus = async () => {
       try {
-        const res = await fetch('/api/bsh/bsh-syllabus');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const res = await fetch(`/api/bsh/bsh-syllabus${cacheBuster}`);
         if (!res.ok) throw new Error('Failed to fetch syllabus');
         const data = await res.json();
         setSyllabus(data);

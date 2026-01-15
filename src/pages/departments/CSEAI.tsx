@@ -237,35 +237,38 @@ const CSTDepartment: React.FC = () => {
     try {
       console.log('🔄 Fetching CSEAI department data...');
       // Make all API calls in parallel using Promise.all() - Using organized CSE-AI APIs from /api/cai/ folder
+      const timestamp = new Date().getTime();
+      const cacheBuster = `?_t=${timestamp}`;
+      
       const results = await Promise.all([
-        fetch('/api/cai/cai-student-achievements').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-faculty').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-technical-faculty').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-non-teaching-staff').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-staff').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-syllabus').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-fdp').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-faculty-achievements').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-physical-facilities').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-handbooks').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-workshops').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-academictoppers').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-department-overview').then(res => res.json()).catch(() => null),
-        fetch('/api/cai/cai-bos-members').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-bos-minutes').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-mou').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-hackathons').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-hackathons-gallery').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-academic-toppers-gallery').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-extra-curricular').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-extracurricular-activities').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-technical-association').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-placements').then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-student-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-faculty${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-technical-faculty${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-non-teaching-staff${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-staff${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-syllabus${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-fdp${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-faculty-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-physical-facilities${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-handbooks${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-workshops${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-academictoppers${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-department-overview${cacheBuster}`).then(res => res.json()).catch(() => null),
+        fetch(`/api/cai/cai-bos-members${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-bos-minutes${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-mou${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-hackathons${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-hackathons-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-academic-toppers-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-extra-curricular${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-extracurricular-activities${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-technical-association${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-placements${cacheBuster}`).then(res => res.json()).catch(() => []),
         // Additional APIs for missing data
-        fetch('/api/cai/cai-extra-curricular-gallery').then(res => res.json()).catch(() => []),
-        fetch('/api/cai/cai-technical-association-gallery').then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-extra-curricular-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+        fetch(`/api/cai/cai-technical-association-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
         // Single public API call for all department-specific data (includes MOUs)
-        fetch('/api/public/departments/cse-ai').then(res => res.json()).catch(() => ({ success: false, data: {} }))
+        fetch(`/api/public/departments/cse-ai${cacheBuster}`).then(res => res.json()).catch(() => ({ success: false, data: {} }))
       ]);
 
       const [
@@ -1333,7 +1336,9 @@ const CSTDepartment: React.FC = () => {
                   src={departmentLibrary.image_url}
                   alt="CSE Department Library"
                   className="object-cover rounded-lg shadow-md"
-                  style={{ width: '450px', height: '340px' }}
+                  style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div className="md:w-1/2">
@@ -1610,6 +1615,9 @@ const CSTDepartment: React.FC = () => {
                                     src={imageUrl.trim()}
                                     alt={item.title || 'Laboratory'}
                                     className="w-full h-48 object-cover"
+                                    style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                    loading="lazy"
+                                    decoding="async"
                                   />
                                   {item.title && imgIdx === 0 && (
                                     <div className="p-3 bg-white">
@@ -1701,7 +1709,7 @@ const CSTDepartment: React.FC = () => {
                             .filter(item => item.gallery && Array.isArray(item.gallery) && item.gallery.length > 0)
                             .flatMap(item => item.gallery || [])
                             .map((img, i) => (
-                              <img key={i} src={img} alt={`FDP Gallery ${i + 1}`} className="rounded-lg shadow object-cover" style={{ width: '450px', height: '340px' }} />
+                              <img key={i} src={img} alt={`FDP Gallery ${i + 1}`} className="rounded-lg shadow object-cover" style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }} loading="lazy" decoding="async" />
                             ))
                           }
                         </div>
@@ -1915,6 +1923,9 @@ const CSTDepartment: React.FC = () => {
                                         src={img}
                                         alt={`Academic Toppers ${year} Image ${i + 1}`}
                                         className="w-[450px] h-[340px] rounded-lg shadow-lg object-cover"
+                                        style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                        loading="lazy"
+                                        decoding="async"
                                         onError={(e) => {
                                           (e.target as HTMLImageElement).src = '/placeholder-image.svg';
                                           (e.target as HTMLImageElement).className = 'w-[450px] h-[340px] rounded-lg shadow-lg bg-gray-200';
@@ -2005,6 +2016,9 @@ const CSTDepartment: React.FC = () => {
                             <div key={i} className="rounded-lg overflow-hidden shadow">
                               <img
                                 src={img}
+                                style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                                 alt={`${item.title} Image ${i + 1}`}
                                 className="w-full h-48 object-cover hover:scale-105 transition-transform"
                               />
@@ -2150,6 +2164,9 @@ const CSTDepartment: React.FC = () => {
                                   <div key={i} className="flex flex-col items-center">
                                     <img
                                       src={img}
+                                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                      loading="lazy"
+                                      decoding="async"
                                       alt={`Technical Association ${year} Image ${i + 1}`}
                                       className="w-[450px] h-[340px] rounded-lg shadow-lg object-cover"
                                       onError={(e) => {
@@ -2495,6 +2512,9 @@ const CSTDepartment: React.FC = () => {
                               src={img}
                               alt={`Gallery Image ${i + 1}`}
                               className="w-[450px] h-[340px] rounded-lg shadow-lg object-cover"
+                              style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                              loading="lazy"
+                              decoding="async"
                               onError={(e) => {
                                 (e.target as HTMLImageElement).src = '/placeholder-image.svg';
                                 (e.target as HTMLImageElement).className = 'w-[450px] h-[340px] rounded-lg shadow-lg bg-gray-200';
@@ -2725,7 +2745,9 @@ const CSTDepartment: React.FC = () => {
                                     src={g.url}
                                     alt={g.caption || g.name}
                                     className="object-cover rounded-md"
-                                    style={{ width: '450px', height: '340px' }}
+                                    style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                    loading="lazy"
+                                    decoding="async"
                                   />
                                   <div className="mt-2 text-sm">
                                     <p><strong>Name:</strong> {g.name}</p>
@@ -2761,6 +2783,9 @@ const CSTDepartment: React.FC = () => {
                                 src={img.gallery || img.image_url || img.url}
                                 alt={img.title || `Placement Image ${index + 1}`}
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+                                style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                                 onClick={() => {
                                   const url = img.gallery || img.image_url || img.url;
                                   if (url) window.open(url, '_blank');

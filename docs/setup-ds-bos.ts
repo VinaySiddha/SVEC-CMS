@@ -1,4 +1,4 @@
-import pool from './src/lib/dbPool';
+import pool from '../src/lib/dbPool';
 
 async function setupDSTables() {
   const connection = await pool.getConnection();

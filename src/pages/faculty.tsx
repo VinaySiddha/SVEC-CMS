@@ -94,8 +94,10 @@ const FacultyPage = () => {
       setLoading(true);
       setError(null);
       try {
+        const timestamp = new Date().getTime();
+        const cacheBuster = `&_t=${timestamp}`;
         // Fetch faculty data from API
-        const url = `/api/faculty?branchName=${selectedBranch}`;
+        const url = `/api/faculty?branchName=${selectedBranch}${cacheBuster}`;
         console.log('[fetchFaculty] URL:', url);
         console.log('[fetchFaculty] About to fetch...');
         const response = await fetch(url);

@@ -171,7 +171,6 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'eapcet-toppers': 'cse_eapcet_toppers',
   },
   'eee': {
-    'academic-toppers': 'eee_academictoppers',
     'activity-coordinators': 'eee_activity_coordintors',
     'activity-events': 'eee_activity_events',
     'department-library': 'eee_department_library',
@@ -196,7 +195,6 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
     'non-teaching-faculty': 'eee_non_teaching_faculty',
     'physical-facilities': 'eee_physical_facilities',
     'placements': 'eee_placements',
-    'roll-of-honour': 'eee_roll_of_honour',
     'sahaya-events': 'eee_sahaya_events',
     'student-achievements': 'eee_student_achievements',
     'syllabus': 'eee_syllabus',
@@ -493,6 +491,13 @@ export async function GET(
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
         console.log(`[GET] Multi-table module (student-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
+    } else if (module === 'faculty-achievements' && selectedTable) {
+      // For faculty-achievements, get the actual table name from the config
+      const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
+      if ((moduleConfig as any)?.tables?.[selectedTable]) {
+        tableName = (moduleConfig as any).tables[selectedTable].tableName;
+        console.log(`[GET] Multi-table module (faculty-achievements): Using table ${tableName} for key ${selectedTable}`);
+      }
     }
 
     console.log(`[GET] Resolved table name: ${tableName}`);
@@ -509,57 +514,62 @@ export async function GET(
     let queryParams: any[] = [];
 
     if (search) {
-      // Simple text search on commonly searchable fields instead of querying table structure
-      const searchFields = ['title', 'name', 'description', 'subject', 'author', 'company'];
-      const availableFields: string[] = [];
+      // Use predefined searchable fields for each module to avoid expensive LIMIT 1 queries
+      const searchFieldsMap: Record<string, string[]> = {
+        'default': ['title', 'name', 'description', 'subject', 'author', 'company'],
+        'faculty': ['first_name', 'last_name', 'name', 'designation', 'email'],
+        'faculty-achievements': ['title', 'description'],
+        'student-achievements': ['title', 'name', 'description'],
+        'research-center': ['title', 'name', 'description'],
+        'faculty-development': ['title', 'description', 'topic'],
+        'workshops': ['title', 'topic', 'description'],
+        'newsletters': ['title', 'subject', 'description'],
+        'mous': ['organization', 'title', 'description'],
+        'bos-minutes': ['title', 'description', 'topic']
+      };
 
-      // Quick check for which fields exist (cached approach)
-      try {
-        const sampleRow = await query<RowDataPacket[]>(
-          `SELECT * FROM ${tableName} LIMIT 1`
-        );
+      const searchFields = searchFieldsMap[module] || searchFieldsMap['default'];
 
-        if (sampleRow.length > 0) {
-          const existingFields = Object.keys(sampleRow[0]);
-          availableFields.push(...searchFields.filter(field => existingFields.includes(field)));
-        }
-      } catch (err) {
-        console.warn('Could not determine searchable fields:', err);
-      }
-
-      if (availableFields.length > 0) {
-        searchCondition = ` WHERE ${availableFields.map(field => `${field} LIKE ?`).join(' OR ')}`;
-        queryParams = availableFields.map(() => `%${search}%`);
+      if (searchFields.length > 0) {
+        searchCondition = ` WHERE ${searchFields.map(field => `${field} LIKE ?`).join(' OR ')}`;
+        queryParams = searchFields.map(() => `%${search}%`);
       }
     }
 
     console.log(`[GET] Executing optimized queries on table: ${tableName}`);
 
-    // Determine sort order based on module type
+    // Determine sort order based on module type (without querying table)
     let sortClause = 'ORDER BY id ASC'; // default
 
-    // Dynamically check for sort columns
-    let availableSortColumns: string[] = [];
-    try {
-      const sampleRow = await query<RowDataPacket[]>(
-        `SELECT * FROM ${tableName} LIMIT 1`
-      );
-      if (sampleRow.length > 0) {
-        availableSortColumns = Object.keys(sampleRow[0]);
+    // Map of modules that should be sorted differently
+    // Special handling for modules where different departments have different table schemas
+    const moduleSortMap: Record<string, Record<string, string>> = {
+      'default': {
+        'bos-minutes': 'ORDER BY meeting_date DESC, id DESC',
+        'newsletters': 'ORDER BY created_at DESC, id DESC',
+        'workshops': 'ORDER BY created_at DESC, id DESC',
+        'faculty-achievements': 'ORDER BY created_at DESC, id DESC',
+        'student-achievements': 'ORDER BY created_at DESC, id DESC',
+        'research-center': 'ORDER BY id DESC'
+      },
+      // AIML and other departments may not have created_at in faculty-development
+      'aiml': {
+        'faculty-development': 'ORDER BY id DESC'
+      },
+      'cse-ai': {
+        'faculty-development': 'ORDER BY id DESC'
+      },
+      'ds': {
+        'faculty-development': 'ORDER BY id DESC'
       }
-    } catch (err) {
-      console.warn('Could not determine available columns for sorting:', err);
-    }
+    };
 
-    if (module === 'bos-minutes' && availableSortColumns.includes('meeting_date')) {
-      sortClause = 'ORDER BY meeting_date DESC, id DESC';
-    } else if ((module === 'newsletters' || module === 'faculty-development' || module === 'workshops') && availableSortColumns.includes('created_at')) {
-      sortClause = 'ORDER BY created_at DESC, id DESC';
-    } else if (dept === 'cse-ai' && availableSortColumns.includes('academic_year')) {
-      // CSE-AI tables with academic_year should sort by year DESC
-      sortClause = 'ORDER BY academic_year DESC, id DESC';
-    } else if (dept === 'cse-ai' && availableSortColumns.includes('year')) {
-      // CSE-AI tables with year column should sort by year DESC
+    // Get sort clause with fallback
+    const deptSortMap = moduleSortMap[dept] || {};
+    sortClause = deptSortMap[module] || moduleSortMap['default'][module] || 'ORDER BY id ASC';
+
+    // Handle special cases for departments with year columns
+    if ((dept === 'cse-ai' || dept === 'ece') && ['academic-toppers', 'merit-scholarships'].includes(module)) {
       sortClause = 'ORDER BY year DESC, id DESC';
     }
 
@@ -646,6 +656,13 @@ export async function POST(
       if ((moduleConfig as any)?.tables?.[selectedTable]) {
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
         console.log(`[POST] Multi-table module (student-achievements): Using table ${tableName} for key ${selectedTable}`);
+      }
+    } else if (module === 'faculty-achievements' && selectedTable) {
+      // For faculty-achievements, get the actual table name from the config
+      const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
+      if ((moduleConfig as any)?.tables?.[selectedTable]) {
+        tableName = (moduleConfig as any).tables[selectedTable].tableName;
+        console.log(`[POST] Multi-table module (faculty-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
     }
 
@@ -760,13 +777,6 @@ export async function POST(
         received: body,
         mapped: Object.keys(mappedBody)
       }, { status: 400 });
-    }
-
-    // Auto-populate 'type' field if missing and the table has a 'type' column
-    if (!mappedBody.type && tableName.includes('_faculty_achievements')) {
-      // For faculty achievements tables, default type to 'general' or 'publication'
-      mappedBody.type = 'general';
-      console.log(`[POST] Auto-added type field: ${mappedBody.type}`);
     }
 
     // Auto-generate title field for research-center tables if not provided
@@ -906,6 +916,13 @@ export async function PUT(
       if ((moduleConfig as any)?.tables?.[selectedTable]) {
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
         console.log(`[PUT] Multi-table module (student-achievements): Using table ${tableName} for key ${selectedTable}`);
+      }
+    } else if (module === 'faculty-achievements' && selectedTable) {
+      // For faculty-achievements, get the actual table name from the config
+      const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
+      if ((moduleConfig as any)?.tables?.[selectedTable]) {
+        tableName = (moduleConfig as any).tables[selectedTable].tableName;
+        console.log(`[PUT] Multi-table module (faculty-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
     }
 
@@ -1078,6 +1095,13 @@ export async function DELETE(
       if ((moduleConfig as any)?.tables?.[selectedTable]) {
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
         console.log(`[DELETE] Multi-table module (student-achievements): Using table ${tableName} for key ${selectedTable}`);
+      }
+    } else if (module === 'faculty-achievements' && selectedTable) {
+      // For faculty-achievements, get the actual table name from the config
+      const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
+      if ((moduleConfig as any)?.tables?.[selectedTable]) {
+        tableName = (moduleConfig as any).tables[selectedTable].tableName;
+        console.log(`[DELETE] Multi-table module (faculty-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
     }
 

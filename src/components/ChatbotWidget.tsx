@@ -68,7 +68,9 @@ const ChatbotWidget: React.FC = () => {
   const processBotResponse = async (userInput: string) => {
     try {
       // Use API endpoint for better FAQ matching
-      const response = await fetch('/api/chatbot/faqs', {
+      const timestamp = new Date().getTime();
+      const cacheBuster = `?_t=${timestamp}`;
+      const response = await fetch(`/api/chatbot/faqs${cacheBuster}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

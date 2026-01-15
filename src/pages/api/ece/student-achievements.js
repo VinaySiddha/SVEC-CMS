@@ -106,7 +106,7 @@ export default async function handler(req, res) {
         
         let rollOfHonourGallery = [];
         try {
-            // Fetch honour category records from gallery
+            // Fetch honour and fa category records from gallery
             const result = await connection.execute(
                 "SELECT * FROM ece_hackathons_gallery WHERE category = 'honour' ORDER BY created_at DESC"
             );

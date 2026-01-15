@@ -200,7 +200,10 @@ const MechanicalDepartment: React.FC = () => {
 
   useEffect(() => {
     //1
-    fetch('/api/mech/faculty')
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+    
+    fetch(`/api/mech/faculty${cacheBuster}`)
       .then(res => res.json())
       .then(data => {
         console.log('Faculty API Response:', data);
@@ -219,7 +222,7 @@ const MechanicalDepartment: React.FC = () => {
         setNonTeachingFaculty([]);
       })
     //1a
-    fetch('/api/mech/technical-faculty')
+    fetch(`/api/mech/technical-faculty${cacheBuster}`)
       .then(res => res.json())
       .then(data => {
         console.log('Technical Faculty API Response:', data);
@@ -230,24 +233,24 @@ const MechanicalDepartment: React.FC = () => {
         setTechnicalFaculty([]);
       })
     //2
-    fetch('/api/mech/boardofstudies')
+    fetch(`/api/mech/boardofstudies${cacheBuster}`)
       .then(res => res.json())
       .then(data => setBoardOfStudies(Array.isArray(data) ? data : []))
       .catch(() => setBoardOfStudies([]))
-    fetch('/api/mech/bos-meeting-minutes')
+    fetch(`/api/mech/bos-meeting-minutes${cacheBuster}`)
       .then(res => res.json())
       .then(data => setBosMinutes(Array.isArray(data) ? data : []))
       .catch(() => setBosMinutes([]))
     //3
-    fetch('/api/mech/laboratories')
+    fetch(`/api/mech/laboratories${cacheBuster}`)
       .then(res => res.json())
       .then(data => setLaboratories(data))
     //4
-    fetch('/api/mech/library')
+    fetch(`/api/mech/library${cacheBuster}`)
       .then(res => res.json())
       .then(data => setLibrary(data))
     //5
-    fetch('/api/mech/mous')
+    fetch(`/api/mech/mous${cacheBuster}`)
       .then(res => res.json())
       .then(data => {
         console.log('Mous data from API:', data);
@@ -265,7 +268,7 @@ const MechanicalDepartment: React.FC = () => {
         setMous([]);
       })
     //5a
-    fetch('/api/mech/industry-programs')
+    fetch(`/api/mech/industry-programs${cacheBuster}`)
       .then(res => res.json())
       .then(data => {
         console.log('Industry programs data from API:', data);
@@ -282,48 +285,48 @@ const MechanicalDepartment: React.FC = () => {
         setIndustryPrograms([]);
       })
     //6
-    fetch('/api/mech/facultyTLmethods')
+    fetch(`/api/mech/facultyTLmethods${cacheBuster}`)
       .then(res => res.json())
       .then(data => setFacultyTLmethods(data))
     //7
-    fetch('/api/mech/facultyachievements')
+    fetch(`/api/mech/facultyachievements${cacheBuster}`)
       .then(res => res.json())
       .then(data => setFacultyAchievements(data))
     //8
-    fetch('/api/mech/studentachievements')
+    fetch(`/api/mech/studentachievements${cacheBuster}`)
       .then(res => res.json())
       .then(data => setStudentAchievements(data))
     //9
-    fetch('/api/mech/placements')
+    fetch(`/api/mech/placements${cacheBuster}`)
       .then(res => res.json())
       .then(data => setPlacements(data))
     //10
-    fetch('/api/mech/workshops')
+    fetch(`/api/mech/workshops${cacheBuster}`)
       .then(res => res.json())
       .then(data => setWorkshops(data))
     //11
-    fetch('/api/mech/technicalassociation')
+    fetch(`/api/mech/technicalassociation${cacheBuster}`)
       .then(res => res.json())
       .then(data => setTechnicalAssociation(data))
     //12
-    fetch('/api/mech/research')
+    fetch(`/api/mech/research${cacheBuster}`)
       .then(res => res.json())
       .then(data => setProjectResearch(data))
     //13
-    fetch('/api/mech/newsletters')
+    fetch(`/api/mech/newsletters${cacheBuster}`)
       .then(res => res.json())
       .then(data => setNewsletters(data))
     //14
-    fetch('/api/mech/magazines')
+    fetch(`/api/mech/magazines${cacheBuster}`)
       .then(res => res.json())
       .then(data => setMagazines(data))
     //15
-    fetch('/api/mech/syllabus')
+    fetch(`/api/mech/syllabus${cacheBuster}`)
       .then(res => res.json())
       .then(data => setSyllabus(Array.isArray(data) ? data : []))
       .catch(() => setSyllabus([]))
     //16
-    fetch('/api/mech/hackathons-gallery')
+    fetch(`/api/mech/hackathons-gallery${cacheBuster}`)
       .then(res => res.json())
       .then(data => setPlacementsGallery(Array.isArray(data) ? data : []))
       .catch(() => setPlacementsGallery([]))
@@ -1071,7 +1074,9 @@ const MechanicalDepartment: React.FC = () => {
                       src={safeLibrary[0].image_url}
                       alt="Department Library"
                       className="w-full h-full rounded-lg shadow-md object-cover"
-                      style={{ minHeight: '300px' }}
+                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block', minHeight: '300px' }}
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = 'block';
                         (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
@@ -1453,7 +1458,9 @@ const MechanicalDepartment: React.FC = () => {
                           src={img.url}
                           alt={`Placements ${img.year} Image`}
                           className="w-full rounded-lg shadow-md object-cover"
-                          style={{ height: '300px', width: '400px' }}
+                          style={{ height: '300px', width: '400px', objectFit: 'cover', display: 'block' }}
+                          loading="lazy"
+                          decoding="async"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
@@ -1887,11 +1894,17 @@ const MechanicalDepartment: React.FC = () => {
                       src="/images/departments/me/Hackthon_2022_23 (1).jpg"
                       alt="Hackathon 2022-23 Photo 1"
                       className="w-full h-auto rounded-lg shadow-md"
+                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                      loading="lazy"
+                      decoding="async"
                     />
                     <img
                       src="/images/departments/me/Hackthon 2021_22 (1).jpeg"
                       alt="Hackathon 2021-22 Photo 1"
                       className="w-full h-auto rounded-lg shadow-md"
+                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <div className="space-y-6">
@@ -1899,11 +1912,17 @@ const MechanicalDepartment: React.FC = () => {
                       src="/images/departments/me/Hackthon 2021_22 (1).jpeg"
                       alt="Hackathon 2021-22 Photo 2"
                       className="w-full h-auto rounded-lg shadow-md"
+                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                      loading="lazy"
+                      decoding="async"
                     />
                     <img
                       src="/images/departments/me/Hackthon_2022_23 (2) (1).jpg"
                       alt="Hackathon 2022-23 Photo 2"
                       className="w-full h-auto rounded-lg shadow-md"
+                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                 </div>

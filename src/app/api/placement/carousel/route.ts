@@ -3,9 +3,38 @@ import { query, execute } from '@/lib/db';
 
 export const runtime = 'nodejs';
 
-// GET: Fetch all carousel images
-export async function GET() {
+// GET: Fetch all carousel images or check if specific image exists
+export async function GET(request: NextRequest) {
     try {
+        const { searchParams } = new URL(request.url);
+        const idParam = searchParams.get('id');
+
+        // If ID is provided, check if image exists
+        if (idParam) {
+            const id = parseInt(idParam, 10);
+            if (isNaN(id) || id <= 0) {
+                return NextResponse.json(
+                    { success: false, error: 'Invalid ID format' },
+                    { status: 400 }
+                );
+            }
+
+            const results = await query(
+                'SELECT id, image_url, alt_text, created_at FROM placement_carousel WHERE id = ?',
+                [id]
+            );
+
+            if (results.length === 0) {
+                return NextResponse.json(
+                    { success: false, error: 'Carousel image not found', id },
+                    { status: 404 }
+                );
+            }
+
+            return NextResponse.json(results[0], { status: 200 });
+        }
+
+        // Otherwise, fetch all carousel images
         const results = await query(
             'SELECT * FROM placement_carousel ORDER BY id DESC'
         );
@@ -118,13 +147,36 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
-        const id = searchParams.get('id');
+        const idParam = searchParams.get('id');
 
         // Validate required fields
-        if (!id) {
+        if (!idParam) {
             return NextResponse.json(
                 { success: false, error: 'ID is required' },
                 { status: 400 }
+            );
+        }
+
+        // Convert to integer and validate
+        const id = parseInt(idParam, 10);
+        if (isNaN(id) || id <= 0) {
+            return NextResponse.json(
+                { success: false, error: 'Invalid ID format' },
+                { status: 400 }
+            );
+        }
+
+        // First verify the image exists
+        const existsResult = await query(
+            'SELECT id FROM placement_carousel WHERE id = ?',
+            [id]
+        );
+
+        if (existsResult.length === 0) {
+            console.error(`Carousel image with ID ${id} not found - cannot delete`);
+            return NextResponse.json(
+                { success: false, error: 'Carousel image not found', id },
+                { status: 404 }
             );
         }
 
@@ -135,23 +187,26 @@ export async function DELETE(request: NextRequest) {
         );
 
         if (result.affectedRows === 0) {
+            console.error(`Failed to delete carousel image with ID ${id}`);
             return NextResponse.json(
-                { success: false, error: 'Carousel image not found' },
-                { status: 404 }
+                { success: false, error: 'Failed to delete carousel image', id },
+                { status: 500 }
             );
         }
 
+        console.log(`Carousel image with ID ${id} deleted successfully`);
         return NextResponse.json(
             {
                 success: true,
-                message: 'Carousel image deleted successfully'
+                message: 'Carousel image deleted successfully',
+                id
             },
             { status: 200 }
         );
     } catch (error) {
         console.error('Error deleting carousel image:', error);
         return NextResponse.json(
-            { success: false, error: 'Failed to delete carousel image' },
+            { success: false, error: 'Failed to delete carousel image', details: error instanceof Error ? error.message : 'Unknown error' },
             { status: 500 }
         );
     }

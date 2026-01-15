@@ -209,36 +209,39 @@ const [researchProjects, setResearchProjects] = useState<any[]>([]);
 
 
    useEffect(() => {
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+    
     // Make all API calls in parallel using Promise.all()
     Promise.all([
-      fetch('/api/civil/civil-faculty').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-non-teachning-staff').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-student-achievements').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-syllabus').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-eresources').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-department-library').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-mous').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-industry-programs').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-department-overview').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-training-activities').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-bos-members').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-bos-minutes').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-handbooks').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-physical-facilities').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-faculty-development').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-faculty-achievements').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-eapcet-toppers').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-extracurricular-activities').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-newsletters').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-hackathons').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-placements').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-workshops').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-hackathons-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-extra-curricular-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-training-activities-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-consultancy').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-placements-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/civil/civil-research-projects').then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-faculty${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-non-teachning-staff${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-student-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-syllabus${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-eresources${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-department-library${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-mous${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-industry-programs${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-department-overview${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-training-activities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-bos-members${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-bos-minutes${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-handbooks${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-physical-facilities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-faculty-development${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-faculty-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-eapcet-toppers${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-extracurricular-activities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-newsletters${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-hackathons${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-placements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-workshops${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-hackathons-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-extra-curricular-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-training-activities-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-consultancy${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-placements-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/civil/civil-research-projects${cacheBuster}`).then(res => res.json()).catch(() => []),
       
     ])
     .then(([
@@ -914,7 +917,7 @@ case 'Department Profile':
                   <summary>{type}</summary>
                   <div className="cst-dropdown-content">
                     <ul className="list-disc pl-6 my-2">
-                      {syllabus.filter(s => s.type === type).map((item, idx) => (
+                      {syllabus.filter(s => s.type === type).map((item: any, idx) => (
                         <li key={idx}>
                           {item.subject || item.title}
                           {(item.file_url || item.fileUrl) && (
@@ -1249,6 +1252,9 @@ case 'e-Resources': {
             src={departmentLibrary.image_url}
             alt="CSE Department Library"
             className="w-full h-auto object-cover rounded-lg shadow-md"
+            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <div className="md:w-1/2">
@@ -1430,6 +1436,9 @@ case 'Physical Facilities': {
                                 src={lab.gallery}
                                 alt={lab.title || `Laboratory ${idx + 1}`}
                                 className="w-full h-48 object-cover"
+                                style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                                 onError={(e) => {
                                   (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-size="16"%3EImage not found%3C/text%3E%3C/svg%3E';
                                 }}
@@ -1510,7 +1519,7 @@ case 'Physical Facilities': {
                   .filter(item => item.gallery && Array.isArray(item.gallery) && item.gallery.length > 0)
                   .flatMap(item => item.gallery || [])
                   .map((img, i) => (
-                    <img key={i} src={img} alt={`FDP Gallery ${i + 1}`} className="w-full h-auto rounded-lg shadow" />
+                    <img key={i} src={img} alt={`FDP Gallery ${i + 1}`} className="w-full h-auto rounded-lg shadow" style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }} loading="lazy" decoding="async" />
                   ))
                 }
               </div>
@@ -1642,6 +1651,9 @@ case 'Physical Facilities': {
                         src={img}
                         alt={`Academic Toppers Image ${i + 1}`}
                         className="w-full h-auto rounded-lg shadow object-cover"
+                        style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                        loading="lazy"
+                        decoding="async"
                       />
                     ))
                   }
@@ -1704,6 +1716,9 @@ case 'Physical Facilities': {
                             src={img}
                             alt={`EAPCET Toppers Image ${i + 1}`}
                             className="w-full h-auto rounded-lg shadow object-cover"
+                            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                            loading="lazy"
+                            decoding="async"
                           />
                         ))}
                       </div>
@@ -1799,6 +1814,9 @@ case 'Physical Facilities': {
                       src={img}
                       alt={`Technical Association Image ${i + 1}`}
                       className="w-full h-auto rounded-lg shadow object-cover"
+                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                      loading="lazy"
+                      decoding="async"
                     />
                   ))}
                 </div>
@@ -2001,6 +2019,9 @@ case 'Physical Facilities': {
                                 src={img}
                                 alt={`Hackathon ${year} Image ${i + 1}`}
                                 className="w-[350px] h-[240px] rounded-lg shadow-lg object-cover"
+                                style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                                 onError={(e) => {
                                   (e.target as HTMLImageElement).src = '/placeholder-image.svg';
                                   (e.target as HTMLImageElement).className = 'w-[350px] h-[240px] rounded-lg shadow-lg bg-gray-200';
@@ -2102,6 +2123,9 @@ case 'Physical Facilities': {
                           src={img}
                           alt={`Training Activity Image ${i + 1}`}
                           className="w-full h-48 rounded-lg shadow-lg object-cover"
+                          style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                          loading="lazy"
+                          decoding="async"
                           onError={(e) => {
                             console.log('Training image load error:', img);
                             (e.target as HTMLImageElement).style.display = 'none';
@@ -2265,6 +2289,9 @@ case 'Physical Facilities': {
                             src={img}
                             alt={`Placement ${year} Image ${i + 1}`}
                             className="w-full h-auto rounded-lg shadow object-cover"
+                            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                            loading="lazy"
+                            decoding="async"
                           />
                         ))}
                       </div>
@@ -2307,6 +2334,9 @@ case 'Workshops': {
                       src={img.image_url}
                       alt={img.caption || `Guest Lecture ${i + 1}`}
                       className="w-full h-48 object-cover rounded-lg shadow hover:shadow-lg transition-shadow"
+                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                      loading="lazy"
+                      decoding="async"
                     />
                     {img.caption && (
                       <div className="mt-2 text-center text-sm text-gray-600">

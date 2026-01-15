@@ -66,7 +66,9 @@ export default function AchievementsList({ isAdmin = false }) {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await fetch('/api/departments');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const response = await fetch(`/api/departments${cacheBuster}`);
         if (!response.ok) throw new Error('Failed to fetch departments');
         const data = await response.json();
         setDepartments(data);

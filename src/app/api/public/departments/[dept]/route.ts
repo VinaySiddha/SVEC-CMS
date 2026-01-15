@@ -5,6 +5,23 @@ import { query } from '@/lib/db';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
+// Department-specific table name mappings
+const DEPARTMENT_TABLE_MAPPING: Record<string, Record<string, string>> = {
+  'cse-ai': {
+    'faculty': 'cai_faculty',
+    'non_teaching_faculty': 'cai_non_teaching_faculty',
+    'technical_faculty': 'cai_technical_faculty',
+    'bos_members': 'cai_bos_members',
+    'bos_minutes': 'cai_bos_minutes',
+    'hackathons_gallery': 'cai_hackathons_gallery',
+    'department_library': 'cai_department_library',
+    'faculty_achievements': 'cai_faculty_achievements',
+    'placements': 'cai_placements',
+    'technical_association': 'cai_technical_association',
+    'newsletters': 'cai_newsletters'
+  }
+};
+
 // Helper to safely execute queries without throwing
 const safeQuery = async (sql: string, params: any[]) => {
   try {
@@ -13,6 +30,20 @@ const safeQuery = async (sql: string, params: any[]) => {
     console.warn(`⚠️ Query failed: ${sql.substring(0, 50)}...`, error instanceof Error ? error.message : error);
     return [];
   }
+};
+
+// Helper to get table name with department mapping
+const getTableName = (dept: string, tableSuffix: string): string => {
+  const deptLower = dept.toLowerCase();
+  const mapping = DEPARTMENT_TABLE_MAPPING[deptLower];
+  
+  if (mapping && mapping[tableSuffix]) {
+    return mapping[tableSuffix];
+  }
+  
+  // Fallback to default naming convention
+  const deptPrefix = deptLower.replace(/-/g, '_');
+  return `${deptPrefix}_${tableSuffix}`;
 };
 
 export async function GET(
@@ -37,161 +68,98 @@ export async function GET(
     console.log(`🏫 Fetching data for department: ${dept}`);
 
     // Fetch only approved data for public display
-    console.log('📋 Starting database queries...');
+    console.log('📋 Starting database queries (sequential to avoid connection pool exhaustion)...');
     
-    // Fetch faculty and staff data for public display
-    // Build department-specific table names
-    const deptPrefix = dept.toLowerCase().replace(/-/g, '_');
-    const facultyTable = `${deptPrefix}_faculty`;
-    const nonTeachingTable = `${deptPrefix}_non_teaching_faculty`;
-    const technicalTable = `${deptPrefix}_technical_faculty`;
-    const bosMembersTable = `${deptPrefix}_bos_members`;
-    const bosMinutesTable = `${deptPrefix}_bos_minutes`;
-    const hackathonsGalleryTable = `${deptPrefix}_hackathons_gallery`;
-    const departmentLibraryTable = `${deptPrefix}_department_library`;
-    const facultyAchievementsTable = `${deptPrefix}_faculty_achievements`;
-    const placementsTable = `${deptPrefix}_placements`;
-    const technicalAssociationTable = `${deptPrefix}_technical_association`;
-    const newslettersTable = `${deptPrefix}_newsletters`;
-    
-    console.log(`📋 Table names for dept="${dept}" (prefix="${deptPrefix}"):`);
-    console.log(`   newslettersTable: ${newslettersTable}`);
-    console.log(`   hackathonsGalleryTable: ${hackathonsGalleryTable}`);
-    
-    // Return data from faculty and staff tables
-    const results = await Promise.allSettled([
-      // Faculty
+    // Execute queries sequentially to avoid overwhelming the connection pool
+    // Batch 1: Core faculty and staff data
+    const [facultyData, nonTeachingData, technicalData] = await Promise.all([
       safeQuery(
-        `SELECT * FROM ${facultyTable} ORDER BY date_of_joining ASC, id ASC`,
+        `SELECT * FROM ${getTableName(dept, 'faculty')} ORDER BY date_of_joining ASC, id ASC`,
         []
       ),
-      
-      // Non-Teaching Staff
       safeQuery(
-        `SELECT * FROM ${nonTeachingTable} ORDER BY id ASC`,
+        `SELECT * FROM ${getTableName(dept, 'non_teaching_faculty')} ORDER BY id ASC`,
         []
       ),
-
-      // Technical Staff/Faculty
       safeQuery(
-        `SELECT * FROM ${technicalTable} ORDER BY id ASC`,
-        []
-      ),
-
-      // Board of Studies Members
-      safeQuery(
-        `SELECT * FROM ${bosMembersTable} ORDER BY id ASC`,
-        []
-      ),
-
-      // Board of Studies Meeting Minutes
-      safeQuery(
-        `SELECT * FROM ${bosMinutesTable} ORDER BY meeting_date DESC, id DESC`,
-        []
-      ),
-
-      // Laboratories Gallery Images
-      safeQuery(
-        `SELECT * FROM ${hackathonsGalleryTable} WHERE category = 'laboratories' ORDER BY id DESC`,
-        []
-      ),
-
-      // Department Library
-      safeQuery(
-        `SELECT * FROM ${departmentLibraryTable} LIMIT 1`,
-        []
-      ),
-
-      // Faculty Achievements
-      safeQuery(
-        `SELECT * FROM ${facultyAchievementsTable} ORDER BY created_at DESC`,
-        []
-      ),
-
-      // Placements
-      safeQuery(
-        `SELECT * FROM ${placementsTable} ORDER BY batch DESC`,
-        []
-      ),
-
-      // Technical Association
-      safeQuery(
-        `SELECT * FROM ${technicalAssociationTable} ORDER BY id DESC`,
-        []
-      ),
-
-      // Technical Association Gallery Images
-      safeQuery(
-        `SELECT * FROM ${hackathonsGalleryTable} WHERE category = 'technical association' ORDER BY id DESC`,
-        []
-      ),
-
-      // Laboratories only
-      safeQuery(
-        'SELECT * FROM laboratories WHERE dept = ? AND status = "active" ORDER BY lab_name',
-        [dept]
-      ),
-
-      // MOUs
-      dept.toLowerCase() === 'cse-ai'
-        ? safeQuery('SELECT id, mou_with as organization_name, from_date, to_date, status FROM cai_mous WHERE 1=1 ORDER BY created_at DESC', [])
-        : safeQuery('SELECT id, organization_name, start_date as from_date, end_date as to_date, status FROM mous WHERE dept = ? ORDER BY start_date DESC', [dept]),
-      
-      // Workshops
-      safeQuery(
-        'SELECT * FROM workshops WHERE dept = ? ORDER BY date_from DESC',
-        [dept]
-      ),
-
-      // Newsletters
-      safeQuery(
-        `SELECT * FROM ${newslettersTable} WHERE dept = ? ORDER BY year DESC, volume DESC, issue DESC`,
-        [dept]
-      ),
-
-      // Product Development Gallery Images
-      safeQuery(
-        `SELECT * FROM ${hackathonsGalleryTable} WHERE category = 'pd' ORDER BY id DESC`,
+        `SELECT * FROM ${getTableName(dept, 'technical_faculty')} ORDER BY id ASC`,
         []
       )
     ]);
 
-    // Extract data from results
-    const getData = (index: number) => {
-      const result = results[index];
-      if (result.status === 'fulfilled') {
-        return result.value;
-      } else {
-        console.error(`⚠️ Query ${index} failed:`, result.reason);
-        return [];
-      }
-    };
+    // Batch 2: Board of Studies data
+    const [bosMembersData, bosMinutesData] = await Promise.all([
+      safeQuery(
+        `SELECT * FROM ${getTableName(dept, 'bos_members')} ORDER BY id ASC`,
+        []
+      ),
+      safeQuery(
+        `SELECT * FROM ${getTableName(dept, 'bos_minutes')} ORDER BY meeting_date DESC, id DESC`,
+        []
+      )
+    ]);
 
-    const facultyData = getData(0);
-    const nonTeachingData = getData(1);
-    const technicalData = getData(2);
-    const bosMembersData = getData(3);
-    const bosMinutesData = getData(4);
-    const laboratoryGalleryData = getData(5);
-    const departmentLibraryData = getData(6);
-    const facultyAchievementsData = getData(7);
-    const placementsData = getData(8);
-    const technicalAssociationData = getData(9);
-    const technicalAssociationGalleryData = getData(10);
-    const labsData = getData(11);
-    const mouData = getData(12);
-    const workshopsData = getData(13);
-    let newslettersData = getData(14);
-    const productDevelopmentGalleryData = getData(15);
+    // Batch 3: Achievement and learning data
+    const [facultyAchievementsData, departmentLibraryData] = await Promise.all([
+      safeQuery(
+        `SELECT * FROM ${getTableName(dept, 'faculty_achievements')} ORDER BY created_at DESC`,
+        []
+      ),
+      safeQuery(
+        `SELECT * FROM ${getTableName(dept, 'department_library')} LIMIT 1`,
+        []
+      )
+    ]);
 
-    // Transform newsletters data - file_url is already in the table, no need to rename
-    if (Array.isArray(newslettersData) && newslettersData.length > 0) {
-      // Ensure file_url is properly named (in case some records use 'url')
-      newslettersData = newslettersData.map((item: any) => ({
-        ...item,
-        file_url: item.file_url || item.url
-      }));
-    }
+    // Batch 4: Placements and technical association
+    const [placementsData, technicalAssociationData] = await Promise.all([
+      safeQuery(
+        `SELECT * FROM ${getTableName(dept, 'placements')} ORDER BY batch DESC`,
+        []
+      ),
+      safeQuery(
+        `SELECT * FROM ${getTableName(dept, 'technical_association')} ORDER BY id DESC`,
+        []
+      )
+    ]);
+
+    // Batch 5: Gallery and media data
+    const [laboratoryGalleryData, technicalAssociationGalleryData, productDevelopmentGalleryData] = await Promise.all([
+      safeQuery(
+        `SELECT * FROM ${getTableName(dept, 'hackathons_gallery')} WHERE category = 'laboratories' ORDER BY id DESC`,
+        []
+      ),
+      safeQuery(
+        `SELECT * FROM ${getTableName(dept, 'hackathons_gallery')} WHERE category = 'technical association' ORDER BY id DESC`,
+        []
+      ),
+      safeQuery(
+        `SELECT * FROM ${getTableName(dept, 'hackathons_gallery')} WHERE category = 'pd' ORDER BY id DESC`,
+        []
+      )
+    ]);
+
+    // Batch 6: Shared tables (labs, MOUs, workshops, newsletters)
+    const [labsData, workshopsData] = await Promise.all([
+      safeQuery(
+        'SELECT * FROM laboratories WHERE dept = ? AND status = "active" ORDER BY lab_name',
+        [dept]
+      ),
+      safeQuery(
+        'SELECT * FROM workshops WHERE dept = ? ORDER BY date_from DESC',
+        [dept]
+      )
+    ]);
+
+    let newslettersData = await safeQuery(
+      `SELECT * FROM ${getTableName(dept, 'newsletters')} WHERE dept = ? ORDER BY year DESC, volume DESC, issue DESC`,
+      [dept]
+    );
+
+    // Batch 7: MOUs (with special handling for CSE-AI)
+    const mouData = dept.toLowerCase() === 'cse-ai'
+      ? await safeQuery('SELECT id, mou_with as organization_name, from_date, to_date, status FROM cai_mous WHERE 1=1 ORDER BY created_at DESC', [])
+      : await safeQuery('SELECT id, organization_name, start_date as from_date, end_date as to_date, status FROM mous WHERE dept = ? ORDER BY start_date DESC', [dept]);
 
     console.log(`✅ All queries completed`);
     console.log(`👨‍🏫 Faculty: ${Array.isArray(facultyData) ? facultyData.length : 0} records`);
@@ -203,11 +171,22 @@ export async function GET(
     console.log(`📚 Department Library: ${Array.isArray(departmentLibraryData) ? departmentLibraryData.length : 0} records`);
     console.log(`🏆 Faculty Achievements: ${Array.isArray(facultyAchievementsData) ? facultyAchievementsData.length : 0} records`);
     console.log(`💼 Placements: ${Array.isArray(placementsData) ? placementsData.length : 0} records`);
-    console.log(`� Technical Association: ${Array.isArray(technicalAssociationData) ? technicalAssociationData.length : 0} records`);    console.log(`🖼️ Technical Association Gallery: ${Array.isArray(technicalAssociationGalleryData) ? technicalAssociationGalleryData.length : 0} records`);    console.log(`�🏛️ Labs: ${Array.isArray(labsData) ? labsData.length : 0} records`);
+    console.log(`🔧 Technical Association: ${Array.isArray(technicalAssociationData) ? technicalAssociationData.length : 0} records`);
+    console.log(`🖼️ Technical Association Gallery: ${Array.isArray(technicalAssociationGalleryData) ? technicalAssociationGalleryData.length : 0} records`);
+    console.log(`🏛️ Labs: ${Array.isArray(labsData) ? labsData.length : 0} records`);
     console.log(`📋 MOUs: ${Array.isArray(mouData) ? mouData.length : 0} records`);
     console.log(`📚 Workshops: ${Array.isArray(workshopsData) ? workshopsData.length : 0} records`);
     console.log(`📰 Newsletters: ${Array.isArray(newslettersData) ? newslettersData.length : 0} records`);
     console.log(`🎨 Product Development Gallery: ${Array.isArray(productDevelopmentGalleryData) ? productDevelopmentGalleryData.length : 0} records`);
+
+    // Transform newsletters data - file_url is already in the table, no need to rename
+    if (Array.isArray(newslettersData) && newslettersData.length > 0) {
+      // Ensure file_url is properly named (in case some records use 'url')
+      newslettersData = newslettersData.map((item: any) => ({
+        ...item,
+        file_url: item.file_url || item.url
+      }));
+    }
 
     const response = NextResponse.json({
       success: true,

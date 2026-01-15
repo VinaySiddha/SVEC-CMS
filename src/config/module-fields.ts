@@ -75,10 +75,9 @@ export const workshopsFieldConfig: ModuleFieldConfig = {
       size: 'half',
       description: 'Select the workshop category',
       options: [
-
         { value: 'Academic Toppers', label: 'Academic Toppers' },
-        { value: 'SOC', label: 'SOC' },
         { value: 'Guest Lecturers/Seminars', label: 'Guest Lecturers/Seminars' },
+        { value: 'SOC', label: 'SOC' },
         { value: 'Workshops', label: 'Workshops' }
       ]
     },
@@ -198,7 +197,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           type: 'text',
           placeholder: 'e.g., Lab Technician, Technical Officer',
           required: true,
-          size: 'full',
+           size: 'full',
           description: 'Enter job designation'
         },
         {
@@ -227,8 +226,8 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'half',
           description: 'Select the category',
           options: [
-            { value: 'eapcet', label: 'EAPCET Rankers' },
             { value: 'engday', label: 'Engineer\'s Day' },
+            { value: 'eapcet', label: 'EAPCET Rankers' }
           ]
         },
         {
@@ -552,12 +551,12 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Select the gallery category',
           options: [
-            { value: 'hackathon', label: 'Hackathon' },
             { value: 'academic toppers', label: 'Academic Toppers' },
-            { value: 'technical association', label: 'Technical Association' },
             { value: 'extracurricular activities', label: 'Extracurricular Activities' },
+            { value: 'hackathon', label: 'Hackathon' },
             { value: 'laboratories', label: 'Laboratories' },
-            { value: 'placements', label: 'Placements' }
+            { value: 'placements', label: 'Placements' },
+            { value: 'technical association', label: 'Technical Association' }
           ]
         },
         {
@@ -1003,11 +1002,11 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           required: false,
           size: 'half',
           options: [
-            { value: 'Internships', label: 'Internships' },
-            { value: 'Conference Publications', label: 'Conference Publications' },
-            { value: 'NPTEL/Other Certifications', label: 'NPTEL/Other Certifications' },
-            { value: 'Global Certifications', label: 'Global Certifications' },
             { value: 'Community Service Project', label: 'Community Service Project' },
+            { value: 'Conference Publications', label: 'Conference Publications' },
+            { value: 'Global Certifications', label: 'Global Certifications' },
+            { value: 'Internships', label: 'Internships' },
+            { value: 'NPTEL/Other Certifications', label: 'NPTEL/Other Certifications' },
             { value: 'Student Research Projects', label: 'Student Research Projects' }
           ]
         },
@@ -1510,14 +1509,14 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'half',
           description: 'Select the type of achievement',
           options: [
-            { value: 'Journal Publications', label: 'Journal Publications' },
-            { value: 'Conferences', label: 'Conferences' },
+            { value: 'Awards', label: 'Awards' },
             { value: 'Book Publications', label: 'Book Publications' },
             { value: 'Certifications', label: 'Certifications' },
-            { value: 'Patents', label: 'Patents' },
-            { value: 'Research Supervisors', label: 'Research Supervisors' },
+            { value: 'Conferences', label: 'Conferences' },
             { value: 'Faculty Out-Reach', label: 'Faculty Out-Reach' },
-            { value: 'Awards', label: 'Awards' }
+            { value: 'Journal Publications', label: 'Journal Publications' },
+            { value: 'Patents', label: 'Patents' },
+            { value: 'Research Supervisors', label: 'Research Supervisors' }
           ]
         },
         {
@@ -1643,22 +1642,19 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           size: 'full',
           description: 'Select the gallery category',
           options: [
-            { value: 'hackathon', label: 'Hackathon' },
-            { value: 'eapcet', label: 'EAPCET Toppers' },
             { value: 'toppers', label: 'Academic Toppers' },
-            { value: 'technical', label: 'Technical Association' },
             { value: 'activities', label: 'Extracurricular Activities' },
+            { value: 'eapcet', label: 'EAPCET Toppers' },
+            { value: 'faculty', label: 'Faculty Development Programs' },
+            { value: 'gate', label: 'GATE' },
+            { value: 'lectures', label: 'Guest Lecturers' },
+            { value: 'hackathon', label: 'Hackathon' },
             { value: 'labs', label: 'Laboratories' },
             { value: 'placements', label: 'Placements' },
-            { value: 'training', label: 'Training Activities' },
-            { value: 'gate', label: 'GATE' },
             { value: 'honour', label: 'Roll of Honour' },
-            { value: 'workshops', label: 'Workshops' },
-            { value: 'lectures', label: 'Guest Lecturers' },
-            { value: 'faculty', label: 'Faculty Development Programs' },
-
-
-
+            { value: 'technical', label: 'Technical Association' },
+            { value: 'training', label: 'Training Activities' },
+            { value: 'workshops', label: 'Workshops' }
           ]
         },
         {
@@ -2147,15 +2143,15 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
           required: false,
           size: 'half',
           options: [
+            { value: 'Awards', label: 'Awards' },
+            { value: 'Community Service Project', label: 'Community Service Project' },
+            { value: 'Conference Publications', label: 'Conference Publications' },
+            { value: 'GIF', label: 'GIF' },
+            { value: 'Global Certifications', label: 'Global Certifications' },
             { value: 'Internships', label: 'Internships' },
             { value: 'Journals', label: 'Journals' },
-            { value: 'Conference Publications', label: 'Conference Publications' },
             { value: 'NPTEL/Other Certifications', label: 'NPTEL/Other Certifications' },
-            { value: 'Global Certifications', label: 'Global Certifications' },
-            { value: 'Community Service Project', label: 'Community Service Project' },
-            { value: 'Student Research Projects', label: 'Student Research Projects' },
-            { value: 'Awards', label: 'Awards' },
-            { value: 'GIF', label: 'GIF' }
+            { value: 'Student Research Projects', label: 'Student Research Projects' }
           ]
         },
         {
@@ -2650,11 +2646,11 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
   // Table Prefix: eee_*
   // 
   // Modules (alphabetical order):
-  // • academic-toppers, activity-coordinators, activity-events, activity-gallery, bos-members
+  // • activity-coordinators, activity-events, activity-gallery, bos-members
   // • bos-minutes, department-overview, eapcet-toppers, eresources, extra-curricular, faculty
   // • faculty-achievements, faculty-development, gate, hackathons, hackathons-gallery, industry-programs
   // • merit-scholarships, mous, newsletters, non-teaching-faculty, physical-facilities, placements
-  // • roll-of-honour, sahaya-events, student-achievements, syllabus, technical-association, technical-faculty, workshops
+  // • sahaya-events, student-achievements, syllabus, technical-association, technical-faculty, workshops
   // ================================================================================================
   'eee': {
 
@@ -3016,112 +3012,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['name', 'designation', 'date_of_joining', 'created_at'],
       editableFields: ['name', 'designation', 'date_of_joining']
     },
-    'academic-toppers': {
-      tableName: 'eee_academictoppers',
-      displayField: 'particulars',
-      fields: [
-        {
-          name: 'batch',
-          label: 'Batch',
-          type: 'text',
-          placeholder: 'e.g., 2024-25',
-          required: true,
-          size: 'half',
-          description: 'Enter the batch year'
-        },
-        {
-          name: 'academic_year',
-          label: 'Academic Year',
-          type: 'text',
-          placeholder: 'e.g., 2024-25',
-          required: true,
-          size: 'half',
-          description: 'Enter the academic year in YYYY-YY format'
-        },
-        {
-          name: 'particulars',
-          label: 'Particulars/Details',
-          type: 'text',
-          placeholder: 'e.g., Academic Toppers',
-          required: true,
-          size: 'full',
-          description: 'Enter details about the achievement'
-        },
-        {
-          name: 'no_of_students_benefited',
-          label: 'Number of Students Benefited',
-          type: 'number',
-          placeholder: 'e.g., 17',
-          required: false,
-          size: 'half',
-          description: 'Number of students who benefited'
-        },
-        {
-          name: 'scholarship_amount',
-          label: 'Scholarship Amount (₹)',
-          type: 'number',
-          placeholder: 'e.g., 99500',
-          required: false,
-          size: 'half',
-          description: 'Total scholarship amount in rupees'
-        },
-        {
-          name: 'file_url',
-          label: 'Certificate/Document Upload',
-          type: 'file',
-          required: false,
-          size: 'full',
-          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
-          description: 'Upload certificate, document, or image (PDF, DOC, DOCX, or Image files)'
-        }
-      ],
-      searchableFields: ['batch', 'particulars', 'academic_year'],
-      sortableFields: ['batch', 'academic_year', 'no_of_students_benefited', 'created_at'],
-      editableFields: ['batch', 'academic_year', 'particulars', 'no_of_students_benefited', 'scholarship_amount', 'file_url']
-    },
-    'faculty-achievements': {
-      tableName: 'eee_faculty_achievements',
-      displayField: 'title',
 
-      fields: [
-        {
-          name: 'category',
-          label: 'Category',
-          type: 'select',
-          required: true,
-          size: 'half',
-          description: 'Select the type of achievement',
-          options: [
-            { value: 'FDP Attended', label: 'FDPs Attended' },
-            { value: 'FDP Conducted', label: 'FDPs Conducted' },
-            { value: 'NPTEL', label: 'NPTEL' },
-            
-          ]
-        },
-        {
-          name: 'title',
-          label: 'Achievement Title',
-          type: 'text',
-          placeholder: 'e.g., Best Teacher Award, Paper Title, etc.',
-          required: true,
-          size: 'full',
-          description: 'Enter the title of the achievement, publication, or certification'
-        },
-        {
-          name: 'file_url',
-          label: 'Supporting Document',
-          type: 'file',
-          placeholder: 'Upload certificate, publication, or related document',
-          required: false,
-          size: 'full',
-          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
-          description: 'Upload supporting document, certificate, or publication (PDF, DOC, DOCX, or Image files max 1MB)'
-        }
-      ],
-      searchableFields: ['title', 'category'],
-      sortableFields: ['title', 'category', 'created_at'],
-      editableFields: ['title', 'category', 'file_url']
-    },
     'fdps': {
       tableName: 'eee_faculty_development',
       displayField: 'title',
@@ -4466,6 +4357,298 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
         }
       }
     },
+    'faculty-achievements': {
+      displayName: 'Faculty Achievements',
+      autoGenerateTitle: true,
+      isMultiTable: true,
+      tables: {
+        'roll-of-honour': {
+          tableName: 'eee_faculty_roll_of_honour',
+          displayField: 'faculty_name',
+          sectionTitle: 'Roll Of Honour',
+          fields: [
+            {
+              name: 'faculty_name',
+              label: 'Name of Faculty',
+              type: 'text',
+              placeholder: 'Enter faculty name',
+              required: true,
+              size: 'full',
+              description: 'Full name of the faculty member'
+            },
+            {
+              name: 'achievement',
+              label: 'Achievement/Award',
+              type: 'text',
+              placeholder: 'e.g., Best Teacher Award',
+              required: true,
+              size: 'full',
+              description: 'Description of the achievement or award'
+            },
+            {
+              name: 'year',
+              label: 'Year',
+              type: 'text',
+              placeholder: 'e.g., 2024',
+              required: false,
+              size: 'half'
+            }
+          ],
+          searchableFields: ['faculty_name', 'achievement'],
+          sortableFields: ['faculty_name', 'year', 'created_at'],
+          editableFields: ['faculty_name', 'achievement', 'year']
+        },
+        'publications': {
+          tableName: 'eee_faculty_publications',
+          displayField: 'publication_title',
+          sectionTitle: 'Publications',
+          fields: [
+            {
+              name: 'faculty_name',
+              label: 'Faculty Name',
+              type: 'text',
+              placeholder: 'Enter faculty name',
+              required: true,
+              size: 'half'
+            },
+            {
+              name: 'publication_title',
+              label: 'Publication Title',
+              type: 'text',
+              placeholder: 'Enter publication title',
+              required: true,
+              size: 'full'
+            },
+            {
+              name: 'journal_conference',
+              label: 'Journal/Conference Name',
+              type: 'text',
+              placeholder: 'e.g., IEEE Transactions',
+              required: false,
+              size: 'half'
+            },
+            {
+              name: 'year',
+              label: 'Year',
+              type: 'text',
+              placeholder: 'e.g., 2024',
+              required: false,
+              size: 'half'
+            },
+            {
+              name: 'url',
+              label: 'URL/DOI',
+              type: 'text',
+              placeholder: 'https://...',
+              required: false,
+              size: 'full'
+            }
+          ],
+          searchableFields: ['publication_title', 'faculty_name', 'journal_conference'],
+          sortableFields: ['year', 'publication_title', 'created_at'],
+          editableFields: ['faculty_name', 'publication_title', 'journal_conference', 'year', 'url']
+        },
+        'certifications': {
+          tableName: 'eee_faculty_certifications',
+          displayField: 'faculty_name',
+          sectionTitle: 'Certifications',
+          fields: [
+            {
+              name: 'faculty_name',
+              label: 'Faculty Name',
+              type: 'text',
+              placeholder: 'Enter faculty name',
+              required: true,
+              size: 'half'
+            },
+            {
+              name: 'certification_name',
+              label: 'Certification Name',
+              type: 'text',
+              placeholder: 'e.g., NPTEL Certificate',
+              required: true,
+              size: 'full'
+            },
+            {
+              name: 'issuing_body',
+              label: 'Issuing Body',
+              type: 'text',
+              placeholder: 'e.g., NPTEL, Coursera',
+              required: false,
+              size: 'half'
+            },
+            {
+              name: 'year',
+              label: 'Year',
+              type: 'text',
+              placeholder: 'e.g., 2024',
+              required: false,
+              size: 'half'
+            }
+          ],
+          searchableFields: ['certification_name', 'faculty_name', 'issuing_body'],
+          sortableFields: ['year', 'certification_name', 'created_at'],
+          editableFields: ['faculty_name', 'certification_name', 'issuing_body', 'year']
+        },
+        'fdp': {
+          tableName: 'eee_faculty_fdp',
+          displayField: 'faculty_name',
+          sectionTitle: 'FDP Attended/Conducted',
+          fields: [
+            {
+              name: 'faculty_name',
+              label: 'Faculty Name',
+              type: 'text',
+              placeholder: 'Enter faculty name',
+              required: true,
+              size: 'half'
+            },
+            {
+              name: 'fdp_title',
+              label: 'FDP Title',
+              type: 'text',
+              placeholder: 'e.g., FDP on Machine Learning',
+              required: true,
+              size: 'full'
+            },
+            {
+              name: 'type',
+              label: 'Type',
+              type: 'select',
+              required: true,
+              size: 'half',
+              options: [
+                { value: 'attended', label: 'Attended' },
+                { value: 'conducted', label: 'Conducted' }
+              ]
+            },
+            {
+              name: 'institution',
+              label: 'Institution/Organization',
+              type: 'text',
+              placeholder: 'e.g., NIT, University',
+              required: false,
+              size: 'half'
+            },
+            {
+              name: 'year',
+              label: 'Year',
+              type: 'text',
+              placeholder: 'e.g., 2024',
+              required: false,
+              size: 'half'
+            }
+          ],
+          searchableFields: ['fdp_title', 'faculty_name', 'institution'],
+          sortableFields: ['year', 'fdp_title', 'created_at'],
+          editableFields: ['faculty_name', 'fdp_title', 'type', 'institution', 'year']
+        },
+        'patents': {
+          tableName: 'ece_faculty_patents',
+          displayField: 'patent_title',
+          sectionTitle: 'Patents',
+          fields: [
+            {
+              name: 'faculty_name',
+              label: 'Faculty Name(s)',
+              type: 'text',
+              placeholder: 'Enter faculty names',
+              required: true,
+              size: 'full'
+            },
+            {
+              name: 'patent_title',
+              label: 'Patent Title',
+              type: 'text',
+              placeholder: 'Enter patent title',
+              required: true,
+              size: 'full'
+            },
+            {
+              name: 'patent_number',
+              label: 'Patent Number',
+              type: 'text',
+              placeholder: 'e.g., IN1234567B1',
+              required: false,
+              size: 'half'
+            },
+            {
+              name: 'year_filed',
+              label: 'Year Filed',
+              type: 'text',
+              placeholder: 'e.g., 2024',
+              required: false,
+              size: 'half'
+            },
+            {
+              name: 'status',
+              label: 'Status',
+              type: 'select',
+              required: false,
+              size: 'half',
+              options: [
+                { value: 'filed', label: 'Filed' },
+                { value: 'granted', label: 'Granted' },
+                { value: 'pending', label: 'Pending' }
+              ]
+            }
+          ],
+          searchableFields: ['patent_title', 'faculty_name', 'patent_number'],
+          sortableFields: ['year_filed', 'patent_title', 'created_at'],
+          editableFields: ['faculty_name', 'patent_title', 'patent_number', 'year_filed', 'status']
+        },
+        'research-projects': {
+          tableName: 'eee_faculty_research_projects',
+          displayField: 'project_title',
+          sectionTitle: 'Research Projects',
+          fields: [
+            {
+              name: 'faculty_name',
+              label: 'Faculty Name(s)',
+              type: 'text',
+              placeholder: 'Enter faculty names',
+              required: true,
+              size: 'full'
+            },
+            {
+              name: 'project_title',
+              label: 'Project Title',
+              type: 'text',
+              placeholder: 'Enter project title',
+              required: true,
+              size: 'full'
+            },
+            {
+              name: 'funding_agency',
+              label: 'Funding Agency',
+              type: 'text',
+              placeholder: 'e.g., DST, CSIR, UGC',
+              required: false,
+              size: 'half'
+            },
+            {
+              name: 'funding_amount',
+              label: 'Funding Amount (₹)',
+              type: 'number',
+              placeholder: 'e.g., 500000',
+              required: false,
+              size: 'half'
+            },
+            {
+              name: 'year_started',
+              label: 'Year Started',
+              type: 'text',
+              placeholder: 'e.g., 2024',
+              required: false,
+              size: 'half'
+            }
+          ],
+          searchableFields: ['project_title', 'faculty_name', 'funding_agency'],
+          sortableFields: ['year_started', 'project_title', 'created_at'],
+          editableFields: ['faculty_name', 'project_title', 'funding_agency', 'funding_amount', 'year_started']
+        }
+      }
+    },
     'extra-curricular': {
       tableName: 'eee_extracurricular_activities',
       displayField: 'activity_name',
@@ -4882,51 +5065,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       sortableFields: ['name', 'score', 'year', 'created_at'],
       editableFields: ['name', 'score', 'year']
     },
-    'roll-of-honour': {
-      tableName: 'eee_roll_of_honour',
-      displayField: 'name',
-      fields: [
-        {
-          name: 'rollno',
-          label: 'Roll Number',
-          type: 'text',
-          placeholder: 'e.g., CST2021001',
-          required: true,
-          size: 'half',
-          description: 'Student roll number'
-        },
-        {
-          name: 'name',
-          label: 'Student Name',
-          type: 'text',
-          placeholder: 'Enter full name',
-          required: true,
-          size: 'half',
-          description: 'Full name of the student'
-        },
-        {
-          name: 'batch',
-          label: 'Batch',
-          type: 'text',
-          placeholder: 'e.g., 2024',
-          required: true,
-          size: 'half',
-          description: 'Batch/Year'
-        },
-        {
-          name: 'cgpa',
-          label: 'CGPA',
-          type: 'text',
-          placeholder: 'e.g., 9.5',
-          required: true,
-          size: 'half',
-          description: 'Cumulative Grade Point Average'
-        }
-      ],
-      searchableFields: ['name', 'rollno', 'batch'],
-      sortableFields: ['name', 'cgpa', 'batch', 'created_at'],
-      editableFields: ['name', 'batch', 'cgpa']
-    },
+
     'sahaya-events': {
       tableName: 'eee_sahaya_events',
       displayField: 'title',
@@ -5564,48 +5703,11 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       autoGenerateTitle: true,
       isMultiTable: true,
       tables: {
-        'roll-of-honour': {
-          tableName: 'ece_faculty_roll_of_honour',
-          displayField: 'faculty_name',
-          sectionTitle: 'Faculty Recognition & Honour',
+        'awards': {
+          tableName: 'ece_faculty_awards',
+          displayField: 'title',
+          sectionTitle: 'Awards & Recognition',
           fields: [
-            {
-              name: 'faculty_name',
-              label: 'Faculty Name',
-              type: 'text',
-              placeholder: 'e.g., Dr. John Smith',
-              required: true,
-              size: 'half',
-              description: 'Faculty member name'
-            },
-            {
-              name: 'designation',
-              label: 'Designation',
-              type: 'text',
-              placeholder: 'e.g., Professor, Associate Professor',
-              required: false,
-              size: 'half',
-              description: 'Faculty designation'
-            },
-            {
-              name: 'department',
-              label: 'Department',
-              type: 'text',
-              placeholder: 'e.g., ECE, CSE',
-              required: false,
-              size: 'half',
-              description: 'Department name'
-            },
-            {
-              name: 'achievement_details',
-              label: 'Achievement Details',
-              type: 'textarea',
-              placeholder: 'Enter achievement details',
-              required: false,
-              size: 'full',
-              rows: 3,
-              description: 'Details of the recognition or honour'
-            },
             {
               name: 'year',
               label: 'Year',
@@ -5613,1053 +5715,205 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
               placeholder: 'e.g., 2024',
               required: false,
               size: 'half',
-              description: 'Year of the achievement'
-            }
-          ],
-          searchableFields: ['faculty_name', 'designation', 'year'],
-          sortableFields: ['faculty_name', 'designation', 'year', 'created_at'],
-          editableFields: ['faculty_name', 'designation', 'department', 'achievement_details', 'year']
-        },
-        'workshops-conducted': {
-          tableName: 'ece_faculty_workshops_internships',
-          displayField: 'title',
-          sectionTitle: 'Workshops/Internships Conducted',
-          fields: [
-            {
-              name: 'program',
-              label: 'Program Type',
-              type: 'select',
-              required: true,
-              size: 'half',
-              options: [
-                { label: 'Workshops', value: 'workshops' },
-                { label: 'Seminars', value: 'seminars' },
-                { label: 'Internship Programs', value: 'internships' },
-                { label: 'Training', value: 'training' }
-              ],
-              description: 'Select the program type'
+              description: 'Enter the year of the achievement'
             },
             {
               name: 'title',
-              label: 'Program Title',
+              label: 'Award/Recognition Title',
               type: 'text',
-              placeholder: 'e.g., Advanced Digital Signal Processing Workshop',
+              placeholder: 'e.g., Best Teacher Award',
               required: true,
               size: 'full',
-              description: 'Enter the title of the workshop/program',
-              validation: {
-                min: 5,
-                max: 200,
-                pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
-                message: 'Title must be 5-200 characters with alphanumeric characters and basic punctuation'
-              }
+              description: 'Enter the title of the award or recognition'
             },
-            {
-              name: 'year',
-              label: 'Year',
-              type: 'text',
-              placeholder: 'e.g., 2025',
-              required: false,
-              size: 'half',
-              description: 'Enter the year'
-            },
-            {
-              name: 'url',
-              label: 'Program Document/Certificate',
-              type: 'file',
-              required: false,
-              size: 'full',
-              accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
-              description: 'Upload the document or certificate (PDF, DOC, or Image files)'
-            }
+        
           ],
-          searchableFields: ['title', 'program', 'year'],
-          sortableFields: ['title', 'program', 'year', 'created_at'],
-          editableFields: ['program', 'title', 'year', 'url']
+          searchableFields: ['title', 'year'],
+          sortableFields: ['year', 'title', 'created_at'],
+          editableFields: ['year', 'title', ]
         },
         'publications': {
           tableName: 'ece_faculty_publications',
           displayField: 'title',
-          sectionTitle: 'Publications',
-          fields: [
-            {
-              name: 'title',
-              label: 'Publication Title',
-              type: 'text',
-              placeholder: 'e.g., Advanced VLSI Design Methodologies',
-              required: true,
-              size: 'full',
-              description: 'Enter the publication title',
-              validation: {
-                min: 5,
-                max: 500,
-                pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
-                message: 'Title must be 5-500 characters with alphanumeric characters and basic punctuation'
-              }
-            },
-            {
-              name: 'year',
-              label: 'Year',
-              type: 'text',
-              placeholder: 'e.g., 2024',
-              required: false,
-              size: 'half',
-              description: 'Publication year'
-            },
-            {
-              name: 'url',
-              label: 'Publication Document/Link',
-              type: 'file',
-              required: false,
-              size: 'full',
-              accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
-              description: 'Upload publication document or PDF (PDF, DOC, or Image files)'
-            }
-          ],
-          searchableFields: ['title', 'year'],
-          sortableFields: ['title', 'year', 'created_at'],
-          editableFields: ['title', 'year', 'url']
-        },
-        'icet': {
-          tableName: 'ece_faculty_icet',
-          displayField: 'faculty_name',
-          sectionTitle: 'Higher Education Qualifications - ICET',
+          sectionTitle: 'Book Publications',
           fields: [
             {
               name: 'faculty_name',
-              label: 'Faculty Name',
+              label: 'Name of the Faculty',
               type: 'text',
-              placeholder: 'e.g., Dr. John Smith',
+              placeholder: 'e.g., Dr. Purnima K Sharma',
               required: true,
-              size: 'half',
-              description: 'Faculty member name'
+              size: 'full',
+              description: 'Full name of the faculty member who published the book'
             },
             {
-              name: 'exam',
-              label: 'Exam',
+              name: 'publication_title',
+              label: 'Title of the Book',
               type: 'text',
-              placeholder: 'e.g., ICET, PGCET',
+              placeholder: 'e.g., Dual Strip Flag Microstrip Patch Antenna For Millimeter Wave Applications',
               required: true,
-              size: 'half',
-              description: 'Name of the exam'
+              size: 'full',
+              description: 'Enter the complete title of the book'
             },
             {
-              name: 'education',
-              label: 'Higher Education Program',
+              name: 'journal_conference',
+              label: 'Publisher',
               type: 'text',
-              placeholder: 'e.g., M.Tech, PhD',
+              placeholder: 'e.g., SPRINGER, Academic Press, etc.',
               required: true,
               size: 'half',
-              description: 'Higher Education Program',
-              step: '0.01'
+              description: 'Name of the publisher'
             },
             {
               name: 'year',
-              label: 'Year',
+              label: 'Year of Publication',
               type: 'text',
-              placeholder: 'e.g., 2024',
+              placeholder: 'e.g., 2022',
               required: false,
               size: 'half',
-              description: 'Year of qualification'
-            }
-          ],
-          searchableFields: ['faculty_name', 'education', 'exam'],
-          sortableFields: ['faculty_name', 'education', 'exam', 'year', 'created_at'],
-          editableFields: ['faculty_name', 'exam', 'education', 'year']
-        },
-        'gre': {
-          tableName: 'ece_faculty_gre',
-          displayField: 'faculty_name',
-          sectionTitle: 'Higher Studies Qualifications - GRE/TOEFL',
-          fields: [
-            {
-              name: 'faculty_name',
-              label: 'Faculty Name',
-              type: 'text',
-              placeholder: 'e.g., Dr. John Smith',
-              required: true,
-              size: 'half',
-              description: 'Faculty member name'
-            },
-            {
-              name: 'course',
-              label: 'Course',
-              type: 'text',
-              placeholder: 'e.g., MS, PhD',
-              required: false,
-              size: 'half',
-              description: 'Course opted'
-            },
-            {
-              name: 'toefl',
-              label: 'TOEFL',
-              type: 'number',
-              placeholder: 'e.g., 95',
-              required: false,
-              size: 'half',
-              description: 'TOEFL score',
-              step: '1'
-            },
-            {
-              name: 'gre',
-              label: 'GRE',
-              type: 'number',
-              placeholder: 'e.g., 315',
-              required: false,
-              size: 'half',
-              description: 'GRE score',
-              step: '1'
-            },
-            {
-              name: 'ielts',
-              label: 'IELTS',
-              type: 'number',
-              placeholder: 'e.g., 7.5',
-              required: false,
-              size: 'half',
-              description: 'IELTS score',
-              step: '0.5'
-            },
-            {
-              name: 'duolingo',
-              label: 'Duolingo',
-              type: 'number',
-              placeholder: 'e.g., 110',
-              required: false,
-              size: 'half',
-              description: 'Duolingo English Test score',
-              step: '1'
-            },
-            {
-              name: 'pte',
-              label: 'PTE',
-              type: 'number',
-              placeholder: 'e.g., 65',
-              required: false,
-              size: 'half',
-              description: 'PTE score',
-              step: '1'
-            },
-            {
-              name: 'year',
-              label: 'Year',
-              type: 'text',
-              placeholder: 'e.g., 2024',
-              required: false,
-              size: 'half',
-              description: 'Year of qualification'
-            }
-          ],
-          searchableFields: ['faculty_name', 'course', 'year'],
-          sortableFields: ['faculty_name', 'course', 'toefl', 'gre', 'ielts', 'duolingo', 'pte', 'year', 'created_at'],
-          editableFields: ['faculty_name', 'course', 'toefl', 'gre', 'ielts', 'duolingo', 'pte', 'year']
-        },
-        'gate': {
-          tableName: 'ece_faculty_gate',
-          displayField: 'faculty_name',
-          sectionTitle: 'GATE Qualifications',
-          fields: [
-            {
-              name: 'faculty_name',
-              label: 'Faculty Name',
-              type: 'text',
-              placeholder: 'e.g., Dr. John Smith',
-              required: true,
-              size: 'half',
-              description: 'Faculty member name'
-            },
-            {
-              name: 'score',
-              label: 'GATE Score',
-              type: 'number',
-              placeholder: 'e.g., 87.34',
-              required: true,
-              size: 'half',
-              description: 'GATE score/rank',
-              step: '0.01'
-            },
-            {
-              name: 'year',
-              label: 'Year',
-              type: 'number',
-              placeholder: 'e.g., 2023',
-              required: true,
-              size: 'half',
-              description: 'Year of GATE exam',
-              step: '1'
-            }
-          ],
-          searchableFields: ['faculty_name', 'year'],
-          sortableFields: ['faculty_name', 'score', 'year', 'created_at'],
-          editableFields: ['faculty_name', 'score', 'year']
-        },
-        'awards': {
-          tableName: 'ece_faculty_awards_achievements',
-          displayField: 'faculty_name',
-          sectionTitle: 'Awards & Recognition',
-          fields: [
-            {
-              name: 'faculty_name',
-              label: 'Faculty Name',
-              type: 'text',
-              placeholder: 'e.g., Dr. John Smith',
-              required: true,
-              size: 'half',
-              description: 'Faculty member name'
-            },
-            {
-              name: 'name_of_the_award',
-              label: 'Award Name',
-              type: 'text',
-              placeholder: 'e.g., Best Teacher Award, IEEE Recognition',
-              required: true,
-              size: 'full',
-              description: 'Name of the award or recognition'
-            },
-            {
-              name: 'year',
-              label: 'Year',
-              type: 'text',
-              placeholder: 'e.g., 2024',
-              required: false,
-              size: 'half',
-              description: 'Year of the award'
-            }
-          ],
-          searchableFields: ['faculty_name', 'name_of_the_award', 'year'],
-          sortableFields: ['faculty_name', 'name_of_the_award', 'year', 'created_at'],
-          editableFields: ['faculty_name', 'name_of_the_award', 'year']
-        },
-        'projects': {
-          tableName: 'ece_faculty_placement',
-          displayField: 'academic_year',
-          sectionTitle: 'Research & Development Projects',
-          fields: [
-            {
-              name: 'academic_year',
-              label: 'Academic Year (CAY)',
-              type: 'text',
-              placeholder: 'e.g., 2024-25',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'total_projects',
-              label: 'Total Research Projects',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'completed_projects',
-              label: 'Completed Projects',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'ongoing_projects',
-              label: 'Ongoing Projects',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'student_collaborators',
-              label: 'Student Collaborators',
-              type: 'number',
-              required: false,
-              size: 'half'
-            }
-          ],
-          searchableFields: ['academic_year'],
-          sortableFields: ['academic_year', 'total_projects', 'created_at'],
-          editableFields: ['academic_year', 'total_projects', 'completed_projects', 'ongoing_projects', 'student_collaborators']
-        },
-        'supervision': {
-          tableName: 'ece_faculty_higher_studies',
-          displayField: 'academic_year',
-          sectionTitle: 'Student Supervision & Mentoring',
-          fields: [
-            {
-              name: 'academic_year',
-              label: 'Academic Year (CAY)',
-              type: 'text',
-              placeholder: 'e.g., 2024-25',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'phd_students_supervised',
-              label: 'PhD Students Supervised',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'mtech_students_supervised',
-              label: 'M.Tech Students Supervised',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'research_scholars',
-              label: 'Research Scholars/Associates',
-              type: 'number',
-              required: false,
-              size: 'third'
-            }
-          ],
-          searchableFields: ['academic_year'],
-          sortableFields: ['academic_year', 'phd_students_supervised', 'created_at'],
-          editableFields: ['academic_year', 'phd_students_supervised', 'mtech_students_supervised', 'research_scholars']
-        },
-        'competitive-exams': {
-          tableName: 'ece_faculty_competitive_examinations',
-          displayField: 'year',
-          sectionTitle: 'Faculty Competitive Examinations',
-          fields: [
-            {
-              name: 'year',
-              label: 'Year',
-              type: 'text',
-              placeholder: 'e.g., 2023-24',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'net',
-              label: 'NET',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'slet',
-              label: 'SLET',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'gmat',
-              label: 'GMAT',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'cat',
-              label: 'CAT',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'gre',
-              label: 'GRE',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'jam',
-              label: 'JAM',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'ielts',
-              label: 'IELTS',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'toefl',
-              label: 'TOEFL',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'civil_services',
-              label: 'Civil Services',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'state_govt_exams',
-              label: 'State Govt Exams',
-              type: 'number',
-              required: false,
-              size: 'half'
-            },
-            {
-              name: 'other_exams',
-              label: 'Other Govt Exams',
-              type: 'number',
-              required: false,
-              size: 'half'
-            },
-            {
-              name: 'total',
-              label: 'Total',
-              type: 'number',
-              required: false,
-              size: 'half',
-              description: 'Total of all exams'
-            }
-          ],
-          searchableFields: ['year'],
-          sortableFields: ['year', 'total', 'created_at'],
-          editableFields: ['year', 'net', 'slet', 'gmat', 'cat', 'gre', 'jam', 'ielts', 'toefl', 'civil_services', 'state_govt_exams', 'other_exams', 'total']
-        },
-        'certifications': {
-          tableName: 'ece_faculty_course_certifications',
-          displayField: 'academic_year',
-          sectionTitle: 'Online Certifications',
-          fields: [
-            {
-              name: 'academic_year',
-              label: 'Academic Year',
-              type: 'text',
-              placeholder: 'e.g., 2024-25',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'nptel',
-              label: 'NPTEL',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'coursera',
-              label: 'Coursera',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'others',
-              label: 'Others',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'total',
-              label: 'Total',
-              type: 'number',
-              required: false,
-              size: 'half',
-              description: 'Total certifications'
-            }
-          ],
-          searchableFields: ['academic_year'],
-          sortableFields: ['academic_year', 'total', 'created_at'],
-          editableFields: ['academic_year', 'nptel', 'coursera', 'others', 'total']
-        },
-        'mentorship': {
-          tableName: 'ece_faculty_internship',
-          displayField: 'academic_year',
-          sectionTitle: 'Mentorship & Internship Supervision',
-          fields: [
-            {
-              name: 'academic_year',
-              label: 'Academic Year',
-              type: 'text',
-              placeholder: 'e.g., 2024-25',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'internshala',
-              label: 'Internshala Mentored',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'apssdc',
-              label: 'APSSDC Mentored',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'others',
-              label: 'Others Mentored',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'total',
-              label: 'Total',
-              type: 'number',
-              required: false,
-              size: 'half',
-              description: 'Total mentorships'
-            }
-          ],
-          searchableFields: ['academic_year'],
-          sortableFields: ['academic_year', 'total', 'created_at'],
-          editableFields: ['academic_year', 'internshala', 'apssdc', 'others', 'total']
-        },
-        'workshops-conducted': {
-          tableName: 'ece_faculty_workshops_soc',
-          displayField: 'workshop_name',
-          sectionTitle: 'Workshops/Seminars Conducted',
-          fields: [
-            {
-              name: 'academic_year',
-              label: 'Academic Year',
-              type: 'text',
-              placeholder: 'e.g., 2024-25',
-              required: true,
-              size: 'half',
-              description: 'Used for grouping workshops'
-            },
-            {
-              name: 'workshop_name',
-              label: 'Workshop/Seminar Title',
-              type: 'text',
-              placeholder: 'e.g., Digital Signal Processing Workshop',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'association_college',
-              label: 'In association/college',
-              type: 'text',
-              placeholder: 'e.g., NIT Andhra Pradesh',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'start_date',
-              label: 'Start Date',
-              type: 'date',
-              required: true,
-              size: 'half'
-            },
-            {
-              name: 'end_date',
-              label: 'End Date',
-              type: 'date',
-              required: true,
-              size: 'half'
-            },
-            {
-              name: 'no_of_students',
-              label: 'No. of Participants',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'duration',
-              label: 'Duration',
-              type: 'text',
-              placeholder: 'e.g., 3 Days, 2 Weeks',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'year_sem',
-              label: 'Targeted Year/Semester',
-              type: 'text',
-              placeholder: 'e.g., VI, IV, III',
-              required: false,
-              size: 'third'
-            }
-          ],
-          searchableFields: ['workshop_name', 'association_college', 'academic_year'],
-          sortableFields: ['academic_year', 'start_date', 'workshop_name', 'created_at'],
-          editableFields: ['academic_year', 'workshop_name', 'association_college', 'start_date', 'end_date', 'no_of_students', 'duration', 'year_sem']
-        },
-        'research-training': {
-          tableName: 'ece_faculty_crt',
-          displayField: 'training_activity',
-          sectionTitle: 'Research & Training Activities',
-          fields: [
-            {
-              name: 'academic_year',
-              label: 'Academic Year',
-              type: 'text',
-              placeholder: 'e.g., 2024-25',
-              required: true,
-              size: 'half'
-            },
-            {
-              name: 'training_activity',
-              label: 'Training Activity Name',
-              type: 'text',
-              placeholder: 'e.g., Research Training Program',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'no_of_students',
-              label: 'No. of Students',
-              type: 'number',
-              placeholder: 'e.g., 50',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'duration',
-              label: 'Duration',
-              type: 'text',
-              placeholder: 'e.g., 12-09-2024 to 17-11-2024',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'resource_person',
-              label: 'Resource Person/Organization',
-              type: 'text',
-              placeholder: 'e.g., Industry Partner, External Expert',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'target_audience',
-              label: 'Target Audience',
-              type: 'text',
-              placeholder: 'e.g., First year students, Research scholars',
-              required: false,
-              size: 'full'
-            }
-          ],
-          searchableFields: ['training_activity', 'resource_person', 'academic_year'],
-          sortableFields: ['academic_year', 'training_activity', 'no_of_students', 'created_at'],
-          editableFields: ['academic_year', 'training_activity', 'no_of_students', 'duration', 'resource_person', 'target_audience']
-        },
-        'funded-projects': {
-          tableName: 'ece_faculty_projects',
-          displayField: 'academic_year',
-          sectionTitle: 'Funded Research Projects',
-          fields: [
-            {
-              name: 'academic_year',
-              label: 'Academic Year/Batch',
-              type: 'text',
-              placeholder: 'e.g., 2024-25',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'file_url',
-              label: 'Project Details PDF',
-              type: 'file',
-              required: false,
-              size: 'full',
-              accept: '.pdf'
-            }
-          ],
-          searchableFields: ['academic_year'],
-          sortableFields: ['academic_year', 'created_at'],
-          editableFields: ['academic_year', 'file_url']
-        },
-        'collaborative-programs': {
-          tableName: 'ece_faculty_csp',
-          displayField: 'academic_year',
-          sectionTitle: 'Collaborative Study Programs',
-          fields: [
-            {
-              name: 'academic_year',
-              label: 'Academic Year/Batch',
-              type: 'text',
-              placeholder: 'e.g., 2024-25',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'file_url',
-              label: 'Program Details PDF',
-              type: 'file',
-              required: false,
-              size: 'full',
-              accept: '.pdf'
-            }
-          ],
-          searchableFields: ['academic_year'],
-          sortableFields: ['academic_year', 'created_at'],
-          editableFields: ['academic_year', 'file_url']
-        },
-        'research-collaborations': {
-          tableName: 'ece_faculty_research_projects',
-          displayField: 'title',
-          sectionTitle: 'Research Collaborations & Publications',
-          fields: [
-            {
-              name: 'type',
-              label: 'Type',
-              type: 'select',
-              required: true,
-              size: 'full',
-              options: [
-                { label: 'National Project', value: 'national' },
-                { label: 'International Project', value: 'international' }
-              ],
-              description: 'Select the research type'
-            },
-            {
-              name: 'year',
-              label: 'Year',
-              type: 'text',
-              placeholder: 'e.g., 2024',
-              required: true,
-              size: 'half',
-              description: 'Year of the research',
-              validation: {
-                min: 1,
-                max: 100,
-                pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
-                message: 'Year must be valid with alphanumeric characters'
-              }
-            },
-            {
-              name: 'title',
-              label: 'Research Title',
-              type: 'text',
-              placeholder: 'e.g., AI-based Signal Processing',
-              required: true,
-              size: 'full',
-              description: 'Enter the title of the research',
-              validation: {
-                min: 5,
-                max: 500,
-                pattern: '^[a-zA-Z0-9\\s\\-.,()]+$',
-                message: 'Title must be 5-500 characters with alphanumeric characters and basic punctuation'
-              }
-            },
-            {
-              name: 'fileUrl',
-              label: 'Research Document/Publication PDF',
-              type: 'file',
-              required: false,
-              size: 'full',
-              accept: '.pdf,.doc,.docx',
-              description: 'Upload the research document or publication (PDF, DOC, or DOCX format)'
-            }
-          ],
-          searchableFields: ['title', 'type', 'year'],
-          sortableFields: ['title', 'type', 'year', 'created_at'],
-          editableFields: ['type', 'title', 'year', 'fileUrl']
-        },
-        'online-learning': {
-          tableName: 'ece_faculty_nptel',
-          displayField: 'academic_year',
-          sectionTitle: 'Online Learning Courses (NPTEL/MOOCs)',
-          fields: [
-            {
-              name: 'academic_year',
-              label: 'Academic Year/Batch',
-              type: 'text',
-              placeholder: 'e.g., 2024-25',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'file_url',
-              label: 'Course Details PDF',
-              type: 'file',
-              required: false,
-              size: 'full',
-              accept: '.pdf'
-            }
-          ],
-          searchableFields: ['academic_year'],
-          sortableFields: ['academic_year', 'created_at'],
-          editableFields: ['academic_year', 'file_url']
-        },
-        'achievements-pdf': {
-          tableName: 'ece_faculty_achievements_pdf',
-          displayField: 'pdf_title',
-          sectionTitle: 'Faculty Achievements List PDF',
-          fields: [
-            {
-              name: 'pdf_title',
-              label: 'Document Title',
-              type: 'text',
-              placeholder: 'e.g., Faculty Research Achievements 2024',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'file_url',
-              label: 'PDF File',
-              type: 'file',
-              required: false,
-              size: 'full',
-              accept: '.pdf'
-            }
-          ],
-          searchableFields: ['pdf_title'],
-          sortableFields: ['pdf_title', 'created_at'],
-          editableFields: ['pdf_title', 'file_url']
-        },
-        'research-impact': {
-          tableName: 'ece_faculty_achievements_placement',
-          displayField: 'academic_year',
-          sectionTitle: 'Research Impact & Student Outcomes',
-          fields: [
-            {
-              name: 'academic_year',
-              label: 'Academic Year (CAY)',
-              type: 'text',
-              placeholder: 'e.g., 2024-25',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'total_final_year_students',
-              label: 'Total Final Year Students Mentored',
-              type: 'number',
-              required: false,
-              size: 'half'
-            },
-            {
-              name: 'students_placed',
-              label: 'Students Placed in Industry',
-              type: 'number',
-              required: false,
-              size: 'half'
-            },
-            {
-              name: 'students_higher_studies',
-              label: 'Students Pursuing Higher Studies',
-              type: 'number',
-              required: false,
-              size: 'half',
-              description: 'GATE/GRE/GMAT qualified'
-            },
-            {
-              name: 'students_entrepreneur',
-              label: 'Student Entrepreneurs',
-              type: 'number',
-              required: false,
-              size: 'half'
-            }
-          ],
-          searchableFields: ['academic_year'],
-          sortableFields: ['academic_year', 'total_final_year_students', 'created_at'],
-          editableFields: ['academic_year', 'total_final_year_students', 'students_placed', 'students_higher_studies', 'students_entrepreneur']
-        },
-        'mentoring-achievements': {
-          tableName: 'ece_faculty_achievements_internships',
-          displayField: 'academic_year',
-          sectionTitle: 'Mentoring & Internship Achievements',
-          fields: [
-            {
-              name: 'academic_year',
-              label: 'Academic Year',
-              type: 'text',
-              placeholder: 'e.g., 2024-25',
-              required: true,
-              size: 'full'
-            },
-            {
-              name: 'certificates_nptel',
-              label: 'Students with NPTEL Certificates',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'certificates_coursera',
-              label: 'Students with Coursera Certificates',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'certificates_others',
-              label: 'Students with Other Certificates',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'internships_internshala',
-              label: 'Internships via Internshala',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'internships_apssdc',
-              label: 'Internships via APSSDC',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'internships_others',
-              label: 'Internships via Others',
-              type: 'number',
-              required: false,
-              size: 'third'
-            },
-            {
-              name: 'workshops',
-              label: 'Workshops Conducted',
-              type: 'number',
-              required: false,
-              size: 'half'
-            },
-            {
-              name: 'cocurricular_activities',
-              label: 'Co-Curricular Activities Led',
-              type: 'number',
-              required: false,
-              size: 'half'
-            }
-          ],
-          searchableFields: ['academic_year'],
-          sortableFields: ['academic_year', 'created_at'],
-          editableFields: ['academic_year', 'certificates_nptel', 'certificates_coursera', 'certificates_others', 'internships_internshala', 'internships_apssdc', 'internships_others', 'workshops', 'cocurricular_activities']
-        }
-      }
-    },
-    
-    'faculty-awards': {
-      displayName: 'Faculty Awards',
-      tableName: 'ece_faculty_awards',
-      displayField: 'title',
-      fields: [
-            {
-              name: 'title',
-              label: 'Description of the Award',
-              type: 'text',
-              placeholder: 'e.g., Description of the Award',
-              required: true,
-              size: 'full',
-              description: 'Write a brief description of the award received'
-            },
-            {
-              name: 'year',
-              label: 'Year',
-              type: 'text',
-              placeholder: 'e.g., 2024',
-              required: true,
-              size: 'half',
-              description: 'Year of the conference'
+              description: 'Year when the book was published'
             },
             
           ],
-          searchableFields: ['faculty_name', 'title', 'year'],
-          sortableFields: ['year', 'title', 'created_at'],
-          editableFields: ['title', 'year']
+          searchableFields: ['faculty_name', 'title', 'publisher', 'year'],
+          sortableFields: ['year', 'faculty_name', 'title', 'created_at'],
+          editableFields: ['faculty_name', 'title', 'publisher', 'year']
+        },
+        'promotions-incentives': {
+          tableName: 'ece_faculty_promotions_incentives',
+          displayField: 'title',
+          sectionTitle: 'Faculty Promotions/Incentives',
+          fields: [
+            {
+              name: 'academic_year',
+              label: 'Academic Year',
+              type: 'text',
+              placeholder: 'e.g., 2022',
+              required: false,
+              size: 'half',
+              description: 'Year when the book was published'
+            },
+            {
+              name: 'faculty_name',
+              label: 'Name of the Faculty',
+              type: 'text',
+              placeholder: 'e.g., Dr. Purnima K Sharma',
+              required: true,
+              size: 'full',
+              description: 'Full name of the faculty member who published the book'
+            },
+            {
+              name: 'promotion',
+              label: 'Promotion',
+              type: 'text',
+              placeholder: 'e.g., Number Of Faculty Posses the promotion',
+              required: true,
+              size: 'full',
+              
+            },
+             {
+              name: 'publication',
+              label: 'Publication',
+              type: 'text',
+              placeholder: 'e.g., Number Of Faculty Posses the publication',
+              required: true,
+              size: 'full',
+              
+            },
+            
+            
+          ],
+          searchableFields: ['faculty_name', 'promotion', 'academic_year','publication'],
+          sortableFields: ['academic_year', 'faculty_name', 'promotion', 'publication','created_at'],
+          editableFields: ['faculty_name', 'promotion', 'academic_year','publication']
+        },
+        'memberships': {
+          tableName: 'ece_faculty_memberships',
+          displayField: 'title',
+          sectionTitle: 'Faculty Memberships',
+          fields: [
+            {
+              name: 'faculty_name',
+              label: 'Name of the Faculty',
+              type: 'text',
+              placeholder: 'e.g., Dr. Purnima K Sharma',
+              required: true,
+              size: 'full',
+              description: 'Full name of the faculty member who published the book'
+            },
+            {
+              name: 'membership',
+              label: 'Membership',
+              type: 'text',
+              placeholder: 'e.g., Number Of Faculty Posses the membership',
+              required: true,
+              size: 'full',
+              description: 'Enter the complete title of the book'
+            },
+            {
+              name: 'year',
+              label: 'Year of Publication',
+              type: 'text',
+              placeholder: 'e.g., 2022',
+              required: false,
+              size: 'half',
+              description: 'Year when the book was published'
+            },
+            
+          ],
+          searchableFields: ['faculty_name', 'membership', 'year'],
+          sortableFields: ['year', 'faculty_name', 'membership', 'created_at'],
+          editableFields: ['faculty_name', 'membership', 'year']
+        },
+        'faculty-achievement': {
+      tableName: 'ece_faculty_achievements',
+      displayField: 'title',
+
+      fields: [
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          required: true,
+          size: 'half',
+          description: 'Select the type of achievement',
+          options: [
+            { value: 'Journal Publications', label: 'Journal Publications' },
+            { value: 'Conferences', label: 'Conferences' },
+            { value: 'Certifications', label: 'Certifications' },
+            { value: 'Patents', label: 'Patents' },
+            { value: 'Faculty Out-Reach', label: 'Faculty Out-Reach' },
+          ]
+        },
+        {
+          name: 'title',
+          label: 'Achievement Title',
+          type: 'text',
+          placeholder: 'e.g., Best Teacher Award, Paper Title, etc.',
+          required: true,
+          size: 'full',
+          description: 'Enter the title of the achievement, publication, or certification'
+        },
+        {
+          name: 'file_url',
+          label: 'Supporting Document',
+          type: 'file',
+          placeholder: 'Upload certificate, publication, or related document',
+          required: false,
+          size: 'full',
+          accept: '.pdf,.doc,.docx,.jpg,.jpeg,.png',
+          description: 'Upload supporting document, certificate, or publication (PDF, DOC, DOCX, or Image files max 1MB)'
+        }
+      ],
+      searchableFields: ['title', 'category'],
+      sortableFields: ['title', 'category', 'created_at'],
+      editableFields: ['title', 'category', 'file_url']
     },
+    
+      }
+      
+    },
+    
     
     'physical-facilities': {
       tableName: 'ece_physical_facilities',
@@ -6791,7 +6045,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
       editableFields: ['year', 'url']
     },
     'hackathons-gallery': {
-      tableName: 'ect_hackathons_gallery',
+      tableName: 'ece_hackathons_gallery',
       displayField: 'category',
       fields: [
         {
@@ -6816,6 +6070,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
             { value: 'workshops', label: 'Workshops' },
             { value: 'lectures', label: 'Guest Lecturers' },
             { value: 'faculty', label: 'Faculty Development Programs' },
+            { value: 'fa', label: 'Faculty Achievements' },
 
 
           ]
@@ -15187,6 +14442,7 @@ export const MODULES_FIELD_CONFIG: Record<string, Record<string, ModuleFieldConf
             { value: 'workshops', label: 'Workshops' },
             { value: 'lectures', label: 'Guest Lecturers' },
             { value: 'faculty', label: 'Faculty Development Programs' },
+            { value: 'fa', label: 'Faculty Achievements' },
 
 
           ]

@@ -480,7 +480,7 @@ export async function GET(
     if (fieldConfig) {
       // Return configured field structure
       console.log(`[Structure] Returning configured fields for ${dept}/${module}`, fieldConfig);
-      console.log(`[Structure] Type field config:`, fieldConfig.fields.find(f => f.name === 'type'));
+      console.log(`[Structure] Type field config:`, fieldConfig.fields?.find(f => f.name === 'type'));
       const response = NextResponse.json({
         success: true,
         source: 'config',

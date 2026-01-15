@@ -16,6 +16,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json(data);
   } catch (error) {
     console.error('Error fetching social service gallery:', error);
-    res.status(500).json({ error: 'Failed to fetch social service gallery' });
+    res.status(200).json([]);
   }
 }

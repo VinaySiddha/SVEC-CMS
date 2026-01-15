@@ -219,41 +219,44 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
 
 
    useEffect(() => {
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+
     // Make all API calls in parallel using Promise.all()
     Promise.all([
-      fetch('/api/cst/cst-faculty').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-student-achievements').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-syllabus').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-eresources').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-department-library').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-mous').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-industry-programs').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-department-overview').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-training-activities').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-bos-members').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-bos-minutes').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-handbooks').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-physical-facilities').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-laboratories').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-classrooms').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-faculty-development').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-faculty-achievements').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-merit-scholarships').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-eapcet-toppers').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-extra-curricular').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-sahaya-events').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-scud-activities').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-newsletters').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-hackathons').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-placements').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-workshops').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-lecturers-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-hackathons-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-technical-association-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-extra-curricular-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-eapcet-toppers-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-training-activities-gallery').then(res => res.json()).catch(() => []),
-      fetch('/api/cst/cst-placements-gallery').then(res => res.json()).catch(() => [])
+      fetch(`/api/cst/cst-faculty${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-student-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-syllabus${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-eresources${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-department-library${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-mous${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-industry-programs${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-department-overview${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-training-activities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-bos-members${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-bos-minutes${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-handbooks${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-physical-facilities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-laboratories${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-classrooms${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-faculty-development${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-faculty-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-merit-scholarships${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-eapcet-toppers${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-extra-curricular${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-sahaya-events${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-scud-activities${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-newsletters${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-hackathons${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-placements${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-workshops${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-lecturers-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-hackathons-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-technical-association-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-extra-curricular-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-eapcet-toppers-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-training-activities-gallery${cacheBuster}`).then(res => res.json()).catch(() => []),
+      fetch(`/api/cst/cst-placements-gallery${cacheBuster}`).then(res => res.json()).catch(() => [])
       
     ])
     .then(([
@@ -328,7 +331,13 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
         setBosMembers(normalizeArray<BOSMember>(bosMembersData));
         setBosMinutes(normalizeArray<BOSMinute>(bosMinutesData));
         setHandbooks(normalizeArray<any>(handbooksData));
-        setPhysicalFacilities(normalizeArray<PhysicalFacility>(physicalFacilitiesData));
+        
+        // Merge laboratories data into physicalFacilities
+        const mergedFacilities = [
+          ...normalizeArray<PhysicalFacility>(physicalFacilitiesData),
+          ...normalizeArray<any>(laboratoriesData)
+        ];
+        setPhysicalFacilities(mergedFacilities);
         setLaboratories(normalizeArray<any>(laboratoriesData));
         setClassrooms(normalizeArray<any>(classroomsData));
         setFacultyDevelopment(normalizeArray<any>(facultyDevelopmentData));
@@ -1202,6 +1211,9 @@ case 'e-Resources': {
             src={departmentLibrary.image_url}
             alt="CSE Department Library"
             className="w-full h-auto object-cover rounded-lg shadow-md"
+            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <div className="md:w-1/2">
@@ -1551,9 +1563,9 @@ case 'Physical Facilities': {
                     
                   </div>
 
-                  {/* Laboratory Images Gallery */}
+{/* Laboratory Images Gallery */}
                   {(() => {
-                    const labImages = physicalFacilities.filter(f => f.category && f.category.toLowerCase() === 'laboratories');
+                    const labImages = physicalFacilities.filter(f => f.category && (f.category.toLowerCase() === 'laboratories' || f.category.toLowerCase() === 'labs'));
                     return labImages && labImages.length > 0 ? (
                       <div className="mt-8 pt-8 border-t border-gray-300">
                         <h3 className="text-2xl font-bold text-center mb-6 text-[#B22222]">Laboratory Images</h3>
@@ -1570,6 +1582,9 @@ case 'Physical Facilities': {
                                   src={imageUrl.trim()}
                                   alt={item.title || `Laboratory ${imgIdx + 1}`}
                                   className="w-full h-48 object-cover"
+                                  style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                  loading="lazy"
+                                  decoding="async"
                                   onError={(e) => {
                                     (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-size="16"%3EImage not found%3C/text%3E%3C/svg%3E';
                                   }}
@@ -1591,36 +1606,8 @@ case 'Physical Facilities': {
 
               
 
-              {/* Timetables (explicit dropdown) */}
-              {(() => {
-                const timetables = physicalFacilities.filter(f => f.category && f.category.toLowerCase() === 'timetables');
-                if (timetables.length === 0) return null;
-                return (
-                  <details className="cst-dropdown">
-                    <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
-                      <span>Timetables</span>
-                    </summary>
-                    <div className="cst-dropdown-content">
-                      <ul className="list-disc pl-6 my-2 space-y-2">
-                        {timetables.map(item => (
-                          <li key={item.id}>
-                            {item.title || 'Timetable'}
-                            {item.file_url && (
-                              <>
-                                {' - '}
-                                <a href={item.file_url} target="_blank" rel="noopener noreferrer" className="text-[#B22222] hover:underline">View</a>
-                              </>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </details>
-                );
-              })()}
-
               {/* Other categories from database */}
-              {grouped.filter(g => g.category && g.category.toLowerCase() !== 'laboratory').map((group, index) => (
+              {grouped.filter(g => g.category && g.category.toLowerCase() !== 'labs').map((group, index) => (
                 <details key={group.category} open={index === 0} className="cst-dropdown group">
                   <summary className="bg-[#B22222] text-white p-4 rounded-lg font-bold text-lg cursor-pointer flex justify-between items-center hover:bg-[#a01a1a] transition-colors shadow-md">
                     <span>{group.category}</span>
@@ -1653,7 +1640,8 @@ case 'Physical Facilities': {
             </div>
           </div>
         );
-      }   case 'Faculty Development Programs': {
+      } 
+   case 'Faculty Development Programs': {
   // Group by category
   const categories = Array.from(new Set(facultyDevelopment.map(f => f.category)));
   const grouped = categories.map(cat => ({
@@ -1675,7 +1663,7 @@ case 'Physical Facilities': {
                   .filter(item => item.gallery && Array.isArray(item.gallery) && item.gallery.length > 0)
                   .flatMap(item => item.gallery || [])
                   .map((img, i) => (
-                    <img key={i} src={img} alt={`FDP Gallery ${i + 1}`} className="w-full h-auto rounded-lg shadow" />
+                    <img key={i} src={img} alt={`FDP Gallery ${i + 1}`} className="w-full h-auto rounded-lg shadow" style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }} loading="lazy" decoding="async" />
                   ))
                 }
               </div>
@@ -1807,6 +1795,9 @@ case 'Physical Facilities': {
                         src={img}
                         alt={`Academic Toppers Image ${i + 1}`}
                         className="w-full h-auto rounded-lg shadow object-cover"
+                        style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                        loading="lazy"
+                        decoding="async"
                       />
                     ))
                   }
@@ -1869,6 +1860,9 @@ case 'Physical Facilities': {
                             src={img}
                             alt={`EAPCET Toppers Image ${i + 1}`}
                             className="w-full h-auto rounded-lg shadow object-cover"
+                            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                            loading="lazy"
+                            decoding="async"
                           />
                         ))}
                       </div>
@@ -1956,6 +1950,9 @@ case 'Physical Facilities': {
                       src={img}
                       alt={`Technical Association Image ${i + 1}`}
                       className="w-full h-auto rounded-lg shadow object-cover"
+                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                      loading="lazy"
+                      decoding="async"
                     />
                   ))}
                 </div>
@@ -2121,6 +2118,9 @@ case 'Physical Facilities': {
                                 src={imageUrl}
                                 alt={`Extra-Curricular ${year} Image ${i + 1}`}
                                 className="w-[350px] h-[240px] rounded-lg shadow-lg object-cover"
+                                style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                                 onError={(e) => {
                                   (e.target as HTMLImageElement).src = '/placeholder-image.svg';
                                   (e.target as HTMLImageElement).className = 'w-[350px] h-[240px] rounded-lg shadow-lg bg-gray-200';
@@ -2245,6 +2245,9 @@ case 'Physical Facilities': {
                                 src={img}
                                 alt={`Hackathon ${year} Image ${i + 1}`}
                                 className="w-[350px] h-[240px] rounded-lg shadow-lg object-cover"
+                                style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                                 onError={(e) => {
                                   (e.target as HTMLImageElement).src = '/placeholder-image.svg';
                                   (e.target as HTMLImageElement).className = 'w-[350px] h-[240px] rounded-lg shadow-lg bg-gray-200';
@@ -2346,6 +2349,9 @@ case 'Physical Facilities': {
                           src={img}
                           alt={`Training Activity Image ${i + 1}`}
                           className="w-full h-48 rounded-lg shadow-lg object-cover"
+                          style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                          loading="lazy"
+                          decoding="async"
                           onError={(e) => {
                             console.log('Training image load error:', img);
                             (e.target as HTMLImageElement).style.display = 'none';
@@ -2443,7 +2449,9 @@ case 'Physical Facilities': {
                           src={img.url}
                           alt={img.caption || `Placement ${i + 1}`}
                           className="w-full h-auto rounded-lg shadow object-cover"
-                          style={{ aspectRatio: '16/9' }}
+                          style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                          loading="lazy"
+                          decoding="async"
                         />
                         {img.roll_no && (
                           <div className="text-center my-3 text-green-600">
@@ -2509,6 +2517,9 @@ case 'Physical Facilities': {
                             src={img}
                             alt={`Placement ${year} Image ${i + 1}`}
                             className="w-full h-auto rounded-lg shadow object-cover"
+                            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                            loading="lazy"
+                            decoding="async"
                           />
                         ))}
                       </div>
@@ -2551,6 +2562,9 @@ case 'Workshops': {
                       src={img.image_url}
                       alt={img.caption || `Guest Lecture ${i + 1}`}
                       className="w-full h-48 object-cover rounded-lg shadow hover:shadow-lg transition-shadow"
+                      style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                      loading="lazy"
+                      decoding="async"
                     />
                     {img.caption && (
                       <div className="mt-2 text-center text-sm text-gray-600">

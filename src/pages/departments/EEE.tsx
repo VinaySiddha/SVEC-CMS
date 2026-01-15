@@ -91,8 +91,13 @@ const EEEDepartment: React.FC = () => {
 
   // Fetch Department Overview
   useEffect(() => {
-    fetch('/api/eee/eee-department-overview')
-      .then(res => res.json())
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+    fetch(`/api/eee/eee-department-overview${cacheBuster}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(data => {
         setOverview(Array.isArray(data) && data.length > 0 ? data[0] : data || null);
       })
@@ -104,8 +109,13 @@ const EEEDepartment: React.FC = () => {
 
   // Fetch BOS Meeting Minutes
   useEffect(() => {
-    fetch('/api/eee/eee-bos-minutes')
-      .then(res => res.json())
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+    fetch(`/api/eee/eee-bos-minutes${cacheBuster}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(data => {
         setBosMinutes(Array.isArray(data) ? data : []);
         setBosMinutesLoading(false);
@@ -117,7 +127,9 @@ const EEEDepartment: React.FC = () => {
       });
   }, []);
 useEffect(() => {
-    fetch('/api/eee/eee-bos-members')
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+    fetch(`/api/eee/eee-bos-members${cacheBuster}`)
       .then(res => res.json())
       .then(data => {
         setBosMinutes(Array.isArray(data) ? data : []);
@@ -132,8 +144,13 @@ useEffect(() => {
 
   // Fetch Syllabus
   useEffect(() => {
-    fetch('/api/eee/syllabus')
-      .then(res => res.json())
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+    fetch(`/api/eee/eee-syllabus${cacheBuster}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(data => {
         setSyllabus(Array.isArray(data) ? data : []);
         setSyllabusLoading(false);
@@ -147,8 +164,13 @@ useEffect(() => {
 
   // Fetch Faculty Innovations
   useEffect(() => {
-    fetch('/api/eee/faculty-innovations')
-      .then(res => res.json())
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+    fetch(`/api/eee/eee-faculty-innovations${cacheBuster}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(data => {
         setFacultyInnovations(Array.isArray(data) ? data : []);
         setFacultyInnovationsLoading(false);
@@ -162,8 +184,13 @@ useEffect(() => {
 
   // Fetch Technical Handbooks
   useEffect(() => {
-    fetch('/api/eee/technical-handbooks')
-      .then(res => res.json())
+    const timestamp = new Date().getTime();
+    const cacheBuster = `?_t=${timestamp}`;
+    fetch(`/api/eee/eee-technical-handbooks${cacheBuster}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(data => {
         setTechnicalHandbooks(Array.isArray(data) ? data : []);
         setTechnicalHandbooksLoading(false);
@@ -183,7 +210,10 @@ useEffect(() => {
     const fetchNewsletters = async () => {
       try {
         setNewslettersLoading(true);
-        const response = await fetch('/api/eee/eee-newsletters');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const response = await fetch(`/api/eee/eee-newsletters${cacheBuster}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         console.log('📰 EEE Newsletters fetched:', data);
         setEeeNewsletters(Array.isArray(data) ? data : []);
@@ -206,7 +236,10 @@ useEffect(() => {
     const fetchPdGallery = async () => {
       try {
         setPdGalleryLoading(true);
-        const response = await fetch('/api/eee/eee-pd-gallery');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const response = await fetch(`/api/eee/eee-pd-gallery${cacheBuster}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         console.log('🎨 Product Development Gallery fetched:', data);
         setPdGalleryImages(Array.isArray(data) ? data : []);
@@ -229,7 +262,10 @@ useEffect(() => {
     const fetchGreenInitGallery = async () => {
       try {
         setGreenInitGalleryLoading(true);
-        const response = await fetch('/api/eee/eee-green-initiatives-gallery');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const response = await fetch(`/api/eee/eee-green-initiatives-gallery${cacheBuster}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         console.log('🌱 Green Initiatives Gallery fetched:', data);
         setGreenInitGalleryImages(Array.isArray(data) ? data : []);
@@ -252,7 +288,10 @@ useEffect(() => {
     const fetchTechHandbooks = async () => {
       try {
         setTechHandbooksLoading(true);
-        const response = await fetch('/api/eee/eee-technical-handbooks');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const response = await fetch(`/api/eee/eee-technical-handbooks${cacheBuster}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         console.log('📚 Technical Handbooks fetched:', data);
         setTechHandbooks(Array.isArray(data) ? data : []);
@@ -275,7 +314,10 @@ useEffect(() => {
     const fetchGiGallery = async () => {
       try {
         setGiGalleryLoading(true);
-        const response = await fetch('/api/eee/eee-green-initiative-gallery');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const response = await fetch(`/api/eee/eee-green-initiative-gallery${cacheBuster}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         console.log('🌿 Green Initiative Gallery (gi) fetched:', data);
         setGiGalleryImages(Array.isArray(data) ? data : []);
@@ -298,7 +340,10 @@ useEffect(() => {
     const fetchSsGallery = async () => {
       try {
         setSsGalleryLoading(true);
-        const response = await fetch('/api/eee/eee-ss-gallery');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const response = await fetch(`/api/eee/eee-ss-gallery${cacheBuster}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         console.log('🤝 Social Service Gallery (ss) fetched:', data);
         setSsGalleryImages(Array.isArray(data) ? data : []);
@@ -321,7 +366,10 @@ useEffect(() => {
     const fetchAcGallery = async () => {
       try {
         setAcGalleryLoading(true);
-        const response = await fetch('/api/eee/eee-ac-gallery');
+        const timestamp = new Date().getTime();
+        const cacheBuster = `?_t=${timestamp}`;
+        const response = await fetch(`/api/eee/eee-ac-gallery${cacheBuster}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         console.log('🎉 Anniversary Gallery (ac) fetched:', data);
         setAcGalleryImages(Array.isArray(data) ? data : []);
@@ -1088,6 +1136,9 @@ useEffect(() => {
                         src={lab.img}
                         alt={lab.name}
                         className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                        style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                        loading="lazy"
+                        decoding="async"
                       />
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300"></div>
                     </div>
@@ -1124,7 +1175,10 @@ useEffect(() => {
                       <img 
                         src={departmentLibrary.image_url} 
                         alt="Department Library" 
-                        className="w-full h-auto rounded-lg shadow-md object-cover max-h-96" 
+                        className="w-full h-auto rounded-lg shadow-md object-cover max-h-96"
+                        style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                        loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <div className="w-full h-96 bg-gray-200 rounded-lg shadow-md flex items-center justify-center">
@@ -1801,6 +1855,9 @@ useEffect(() => {
                                     src={subImg.gallery || subImg.image_url}
                                     alt={subImg.title || `${item.title} - Image ${subIdx + 1}`}
                                     className="w-full h-auto rounded-lg shadow object-cover"
+                                    style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                    loading="lazy"
+                                    decoding="async"
                                     onError={(e) => {
                                       const target = e.target as HTMLImageElement;
                                       target.style.display = 'none';
@@ -1818,6 +1875,9 @@ useEffect(() => {
                                 src={item.gallery || item.image_url}
                                 alt={item.title || `Green Initiative ${index + 1}`}
                                 className="rounded-lg shadow-md max-w-2xl w-full"
+                                style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                                loading="lazy"
+                                decoding="async"
                                 onError={(e) => {
                                   const target = e.target as HTMLImageElement;
                                   target.style.display = 'none';
@@ -1926,6 +1986,9 @@ useEffect(() => {
                             src="https://srivasaviengg.ac.in/images/departments/eee/eee_da1.jpg"
                             alt="Student Product 1"
                             className="w-full h-auto rounded-lg shadow object-cover"
+                            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                            loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.style.display = 'none';
@@ -1937,6 +2000,9 @@ useEffect(() => {
                             src="https://srivasaviengg.ac.in/images/departments/eee/eee_da2.jpg"
                             alt="Student Product 2"
                             className="w-full h-auto rounded-lg shadow object-cover"
+                            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                            loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.style.display = 'none';
@@ -1948,6 +2014,9 @@ useEffect(() => {
                             src="https://srivasaviengg.ac.in/images/departments/eee/eee_da3.jpg"
                             alt="Student Product 3"
                             className="w-full h-auto rounded-lg shadow object-cover"
+                            style={{ width: '400px', height: '300px', objectFit: 'cover', display: 'block' }}
+                            loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.style.display = 'none';

@@ -67,10 +67,12 @@ export default function PlacementCarouselPage() {
             }
 
             const data = await response.json();
-            setCarouselImages(data);
+            console.log('Fetched carousel images:', data);
+            setCarouselImages(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error('Error fetching carousel images:', error);
             toast.error('Failed to load carousel images');
+            setCarouselImages([]);
         } finally {
             setIsLoading(false);
         }
@@ -201,25 +203,55 @@ export default function PlacementCarouselPage() {
     };
 
     const handleDelete = async (id: number) => {
+        // Validate ID
+        if (!id || id <= 0) {
+            toast.error('Invalid image ID');
+            return;
+        }
+
         if (!confirm('Are you sure you want to delete this carousel image?')) {
             return;
         }
 
         try {
+            console.log('Attempting to delete carousel image with ID:', id);
+            
+            // First, verify the image exists in the current list
+            const imageExists = carouselImages.some(img => img.id === id);
+            if (!imageExists) {
+                console.warn(`Image with ID ${id} not found in current list`);
+                toast.error('Image no longer exists. Refreshing...');
+                await fetchCarouselImages();
+                return;
+            }
+
             const response = await fetch(`/api/placement/carousel?id=${id}`, {
                 method: 'DELETE'
             });
 
+            const data = await response.json();
+            console.log('Delete response:', data, 'Status:', response.status);
+
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to delete carousel image');
+                // If 404, image doesn't exist in database
+                if (response.status === 404) {
+                    console.error(`Image with ID ${id} not found in database`);
+                    toast.error('Image not found in database. Removing from list...');
+                    setCarouselImages(carouselImages.filter(img => img.id !== id));
+                    return;
+                }
+                throw new Error(data.error || `Failed to delete carousel image (${response.status})`);
             }
 
             toast.success('Carousel image deleted successfully!');
+            // Remove image from local state immediately for better UX
+            setCarouselImages(carouselImages.filter(img => img.id !== id));
             fetchCarouselImages();
         } catch (error: any) {
             console.error('Error deleting carousel image:', error);
             toast.error(error.message || 'Failed to delete carousel image');
+            // Refresh to sync with backend
+            await fetchCarouselImages();
         }
     };
 
