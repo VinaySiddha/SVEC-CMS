@@ -195,6 +195,12 @@ jobs:
               sleep 2
             fi
 
+            # Restart Docker to fix iptables/networking issues
+            echo "🔄 Restarting Docker to refresh networking..."
+            systemctl restart docker
+            sleep 5
+            echo "✅ Docker restarted successfully"
+
             # Run new container
             echo "🚀 Starting new container..."
             docker run -d \
