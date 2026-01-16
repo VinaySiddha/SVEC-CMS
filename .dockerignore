@@ -24,9 +24,12 @@ dist
 debug
 .nyc_output
 
-# Local env files
-# .env*.local
-# .env
+# Local env files - NEVER include these in Docker images!
+.env*
+.env
+.env.local
+.env.production
+.env.development
 
 # Vercel
 .vercel

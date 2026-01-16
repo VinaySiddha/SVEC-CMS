@@ -148,8 +148,11 @@ jobs:
           command_timeout: 15m
           debug: false
           script: |
+            set -e  # Exit on error
+
             echo "🚀 Starting deployment..."
             echo "📦 Branch: ${{ github.ref_name }}"
+            echo "🏷️  Image: ${{ env.IMAGE_NAME }}:${{ github.ref_name }}"
 
             # Navigate to project directory
             cd /var/www/srivasaviengg.ac.in
@@ -158,10 +161,21 @@ jobs:
             echo "📥 Pulling latest Docker image..."
             docker pull ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
 
-            # Stop and remove old container
+            # Check if container exists and stop it
             echo "🛑 Stopping old container..."
-            docker stop svec-cms 2>/dev/null || true
-            docker rm svec-cms 2>/dev/null || true
+            if docker ps -a --format '{{.Names}}' | grep -q '^svec-cms$'; then
+              echo "   Found existing container, stopping..."
+              docker stop svec-cms || true
+              docker rm svec-cms || true
+            else
+              echo "   No existing container found"
+            fi
+
+            # Verify container is gone
+            if docker ps -a --format '{{.Names}}' | grep -q '^svec-cms$'; then
+              echo "❌ Failed to remove old container"
+              exit 1
+            fi
 
             # Run new container
             echo "🚀 Starting new container..."
@@ -173,13 +187,25 @@ jobs:
               --env-file .env.production \
               ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
 
+            # Verify container started
+            echo "⏳ Waiting for container to start..."
+            sleep 3
+
+            if docker ps --format '{{.Names}}' | grep -q '^svec-cms$'; then
+              echo "✅ Container started successfully"
+            else
+              echo "❌ Container failed to start"
+              docker logs svec-cms --tail 50 || true
+              exit 1
+            fi
+
             # Clean up old images
             echo "🧹 Cleaning up old images..."
             docker image prune -f
 
             # Show container status
             echo "📊 Container status:"
-            docker ps | grep svec-cms
+            docker ps --filter "name=svec-cms" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
             echo "✅ Deployment completed successfully!"
             echo "🌐 Application is running on port 4000"
@@ -195,28 +221,49 @@ jobs:
           script: |
             echo "🔍 Verifying deployment..."
 
-            # Wait for container to be ready
-            sleep 5
+            # Wait for application to be ready
+            echo "⏳ Waiting 10 seconds for application to start..."
+            sleep 10
 
             # Check if container is running
-            if docker ps | grep -q svec-cms; then
+            if docker ps --format '{{.Names}}' | grep -q '^svec-cms$'; then
               echo "✅ Container is running"
+
+              # Show container details
+              echo "📊 Container details:"
+              docker ps --filter "name=svec-cms" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
             else
               echo "❌ Container is not running"
-              docker logs svec-cms --tail 50
+
+              # Check if container exists but is stopped
+              if docker ps -a --format '{{.Names}}' | grep -q '^svec-cms$'; then
+                echo "⚠️  Container exists but is stopped"
+                echo "📋 Last 50 lines of logs:"
+                docker logs svec-cms --tail 50 || true
+              else
+                echo "❌ Container does not exist"
+              fi
+
               exit 1
             fi
 
             # Check if app is responding
-            if curl -s http://localhost:4000 > /dev/null; then
+            echo "🔍 Testing application health..."
+            if curl -s -f http://localhost:4000 > /dev/null 2>&1; then
               echo "✅ Application is responding on port 4000"
             else
-              echo "⚠️  Application may not be responding yet"
+              echo "⚠️  Application is not responding yet (may need more time)"
+              echo "📋 Recent container logs:"
+              docker logs svec-cms --tail 30 || true
             fi
 
             # Show recent logs
-            echo "📋 Recent container logs:"
-            docker logs svec-cms --tail 20
+            echo ""
+            echo "📋 Last 20 lines of application logs:"
+            docker logs svec-cms --tail 20 2>&1 || echo "Could not fetch logs"
+
+            echo ""
+            echo "✅ Verification completed"
 
       - name: Deployment notification
         if: always()
