@@ -90,7 +90,6 @@ export async function getStudentAchievements(options: GetStudentAchievementsOpti
     const data = await response.json();
     return data;
   } catch (error: any) {
-    console.error('Error fetching student achievement data:', error);
     throw new Error(error.message || 'Failed to fetch student achievement data');
   }
 }
@@ -101,7 +100,6 @@ export async function getStudentAchievementById(id: string): Promise<StudentAchi
     const achievements = await getStudentAchievements({ id });
     return achievements[0];
   } catch (error: any) {
-    console.error(`Error fetching student achievement with ID ${id}:`, error);
     throw new Error(error.message || `Failed to fetch student achievement with ID ${id}`);
   }
 }

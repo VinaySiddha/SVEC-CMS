@@ -4,13 +4,27 @@ import { join } from 'path';
 import sharp from 'sharp';
 import { deleteRecordFiles, validateFileSize, isFileUrlField } from '@/utils/file-management';
 
+/**
+ * Get upload directory from environment variable or use default
+ * For production VPS: /var/www/uploads
+ * For local dev: project_dir/public/uploads
+ */
+const getUploadBaseDir = (): string => {
+  const envUploadDir = process.env.UPLOAD_DIR;
+  if (envUploadDir) {
+    return envUploadDir;
+  }
+  // Default to local development path
+  return join(process.cwd(), 'public', 'uploads');
+};
+
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ dept: string; module: string }> }
 ) {
   try {
     const { dept, module } = await params;
-    
+
     const data = await request.formData();
     const file: File | null = data.get('file') as unknown as File;
 
@@ -24,7 +38,7 @@ export async function POST(
     // Check if this is a gallery upload by checking form data or module
     const isGalleryUpload = data.get('gallery') === 'true' || module === 'hackathons-gallery';
     const maxSize = isGalleryUpload ? 2 * 1024 * 1024 : 5 * 1024 * 1024; // 2MB for gallery, 5MB for others
-    
+
     // Validate file size with appropriate limit
     if (!validateFileSize(file.size, maxSize)) {
       const maxSizeDisplay = isGalleryUpload ? '2MB' : '5MB';
@@ -38,7 +52,7 @@ export async function POST(
     const allowedTypes = [
       'application/pdf',
       'image/jpeg',
-      'image/jpg', 
+      'image/jpg',
       'image/png',
       'image/webp',
       'application/msword',
@@ -53,11 +67,10 @@ export async function POST(
     }
 
     // Create department/section directory structure
-    const uploadDir = join(process.cwd(), 'public', 'uploads', dept, module);
+    const uploadDir = join(getUploadBaseDir(), dept, module);
     try {
       await mkdir(uploadDir, { recursive: true });
     } catch (error) {
-      console.error('Error creating upload directory:', error);
     }
 
     // Use original filename without timestamps
@@ -81,15 +94,12 @@ export async function POST(
           .webp({ quality: 95 })
           .toBuffer();
         buffer = resizedBuffer;
-        console.log(`Image resized to 400x300px for gallery with WebP format`);
       } catch (resizeError) {
-        console.warn('Image resize failed, saving original:', resizeError);
         // Continue with original buffer if resize fails
       }
     }
 
     await writeFile(filePath, buffer);
-    console.log(`File uploaded successfully: ${filePath}`);
 
     // Generate public URL
     const publicUrl = `/uploads/${dept}/${module}/${fileName}`;
@@ -98,17 +108,14 @@ export async function POST(
     const existingUrl = data.get('existingUrl') as string;
     if (existingUrl) {
       try {
-        const oldFilePath = join(process.cwd(), 'public', existingUrl);
-        console.log(`[UPLOAD] Attempting to delete old file: ${existingUrl}`);
-        console.log(`[UPLOAD] Old file path: ${oldFilePath}`);
-        
+        // Extract the path after /uploads/
+        const relativePath = existingUrl.replace('/uploads/', '');
+        const oldFilePath = join(getUploadBaseDir(), relativePath);
+
         await access(oldFilePath);
-        console.log(`[UPLOAD] Old file exists, proceeding with deletion`);
-        
+
         await unlink(oldFilePath);
-        console.log(`[UPLOAD] ✅ Successfully deleted old file: ${oldFilePath}`);
       } catch (error) {
-        console.warn(`[UPLOAD] ❌ Could not delete old file: ${existingUrl}`, error);
       }
     }
 
@@ -127,7 +134,6 @@ export async function POST(
     });
 
   } catch (error) {
-    console.error('Upload error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error during file upload'

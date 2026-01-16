@@ -38,7 +38,6 @@ export function IssuesList({ issues, deptId, onEditIssue, onRefresh }: IssuesLis
         toast.error(result.message || 'Failed to delete issue');
       }
     } catch (error) {
-      console.error('Error deleting issue:', error);
       toast.error('Failed to delete issue');
     } finally {
       setIsDeleting(null);

@@ -17,7 +17,6 @@ ORDER BY academic_year DESC, created_at DESC;`
     
     res.status(200).json(results);
   } catch (error) {
-    console.error('Error fetching ECT workshops gallery:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 }

@@ -161,7 +161,6 @@ export default function StudentAchievementForm({
       // Redirect to student achievements list on success
       router.push("/admin/student-achievements");
     } catch (error: any) {
-      console.error("Error saving student achievement:", error);
       setSubmitError(error.message || "Failed to save student achievement");
     } finally {
       setIsSubmitting(false);

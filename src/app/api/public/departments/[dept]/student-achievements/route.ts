@@ -10,7 +10,6 @@ const safeQuery = async (sql: string, params: any[]) => {
     try {
         return await query(sql, params);
     } catch (error) {
-        console.warn(`⚠️ Query failed: ${sql.substring(0, 50)}...`, error instanceof Error ? error.message : error);
         return [];
     }
 };
@@ -30,7 +29,6 @@ export async function GET(
             );
         }
 
-        console.log(`🏆 Fetching student achievements data for department: ${dept}`);
 
         // Fetch all 14 student achievement tables (3 General + 11 others)
         const results = await Promise.allSettled([
@@ -110,20 +108,6 @@ export async function GET(
             csp: getData(12),
         };
 
-        console.log(`✅ Student achievements data fetched successfully`);
-        console.log(`📊 Student PDFs: ${studentAchievementsData.studentPdfList.length}`);
-        console.log(`📊 Placement Summary: ${studentAchievementsData.placementSummary.length}`);
-        console.log(`📊 Internships Summary: ${studentAchievementsData.internshipsSummary.length}`);
-        console.log(`📊 Roll Of Honour: ${studentAchievementsData.rollOfHonour.length}`);
-        console.log(`📊 Placement: ${studentAchievementsData.placement.length}`);
-        console.log(`📊 Higher Studies: ${studentAchievementsData.higherStudies.length}`);
-        console.log(`📊 Competitive Exams: ${studentAchievementsData.competitiveExaminations.length}`);
-        console.log(`📊 Course Certifications: ${studentAchievementsData.courseCertifications.length}`);
-        console.log(`📊 Internship: ${studentAchievementsData.internship.length}`);
-        console.log(`📊 Workshops/SOC: ${studentAchievementsData.workshopsSoc.length}`);
-        console.log(`📊 CRT: ${studentAchievementsData.crt.length}`);
-        console.log(`📊 Projects: ${studentAchievementsData.projects.length}`);
-        console.log(`📊 CSP: ${studentAchievementsData.csp.length}`);
 
         const response = NextResponse.json({
             success: true,
@@ -139,7 +123,6 @@ export async function GET(
         return response;
 
     } catch (error) {
-        console.error('❌ Error fetching student achievements data:', error);
         return NextResponse.json(
             {
                 success: false,

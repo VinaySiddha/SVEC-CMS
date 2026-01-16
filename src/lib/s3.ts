@@ -13,7 +13,6 @@
  */
 export async function put(file: File, path: string): Promise<string> {
   // In a real implementation, this would use AWS SDK to upload the file
-  console.log(`Mock S3 upload: ${path}`);
   
   // Return a mock URL
   return `https://storage.example.com/${path}`;
@@ -39,7 +38,6 @@ export async function getSignedUrl(path: string): Promise<string> {
  */
 export async function deleteFile(path: string): Promise<void> {
   // In a real implementation, this would use AWS SDK to delete the file
-  console.log(`Mock S3 delete: ${path}`);
 }
 
 /**
@@ -49,6 +47,5 @@ export async function deleteFile(path: string): Promise<void> {
  */
 export async function listFiles(prefix: string): Promise<string[]> {
   // In a real implementation, this would use AWS SDK to list files
-  console.log(`Mock S3 list: ${prefix}`);
   return [];
 }

@@ -72,7 +72,6 @@ export function SyllabusDocumentManager({ department }: SyllabusDocumentManagerP
       const response = await axios.get(`/api/syllabus_documents?dept=${department}`);
       setDocuments(response.data.documents || []);
     } catch (error: any) {
-      console.error('Error loading documents:', error);
       setError('Failed to load syllabus documents');
     } finally {
       setLoading(false);
@@ -182,7 +181,6 @@ export function SyllabusDocumentManager({ department }: SyllabusDocumentManagerP
       setActiveTab('manage');
       
     } catch (error: any) {
-      console.error('Error uploading document:', error);
       setError(error.response?.data?.error || 'Failed to upload document');
     } finally {
       setLoading(false);
@@ -206,7 +204,6 @@ export function SyllabusDocumentManager({ department }: SyllabusDocumentManagerP
       // Reload documents
       loadDocuments();
     } catch (error: any) {
-      console.error('Error deleting document:', error);
       setError('Failed to delete document');
     } finally {
       setLoading(false);

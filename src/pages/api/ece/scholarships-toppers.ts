@@ -12,7 +12,6 @@ export default async function handler(req, res) {
     const [rows] = await connection.execute('SELECT type,year,title,url,based_on,students,amount FROM ece_scholarships_toppers ORDER BY id');
     res.status(200).json(rows);
   } catch (error) {
-    console.error("Error fetching clubs data:", error);
     res.status(500).json({ error: error.message });
   } finally {
     if (connection) {

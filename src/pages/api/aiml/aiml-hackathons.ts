@@ -18,7 +18,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         res.status(200).json(hackathons);
     } catch (error) {
-        console.error('CAI Hackathons API Error:', error);
         res.status(500).json({ error: 'Failed to fetch CAI hackathons data', details: error });
     }
 }

@@ -14,7 +14,6 @@ export async function GET() {
 
         return NextResponse.json(results, { status: 200 });
     } catch (error) {
-        console.error('Error fetching placement category stats:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to fetch placement category stats' },
             { status: 500 }
@@ -75,7 +74,6 @@ export async function POST(request: NextRequest) {
             { status: 201 }
         );
     } catch (error) {
-        console.error('Error creating category stats entry:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to create category stats entry' },
             { status: 500 }
@@ -177,7 +175,6 @@ export async function PUT(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error updating category stats entry:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to update category stats entry' },
             { status: 500 }
@@ -220,7 +217,6 @@ export async function DELETE(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error deleting category stats entry:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to delete category stats entry' },
             { status: 500 }

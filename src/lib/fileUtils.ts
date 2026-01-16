@@ -2,8 +2,22 @@ import { unlink } from 'fs/promises';
 import { join } from 'path';
 
 /**
- * Delete a file from the public/uploads directory
- * @param filePath - The file path relative to public/uploads (e.g., 'placement_events/circular/file.pdf')
+ * Get upload directory from environment variable or use default
+ * For production VPS: /var/www/uploads
+ * For local dev: project_dir/public/uploads
+ */
+const getUploadBaseDir = (): string => {
+  const envUploadDir = process.env.UPLOAD_DIR;
+  if (envUploadDir) {
+    return envUploadDir;
+  }
+  // Default to local development path
+  return join(process.cwd(), 'public', 'uploads');
+};
+
+/**
+ * Delete a file from the uploads directory
+ * @param filePath - The file path relative to uploads (e.g., 'placement_events/circular/file.pdf')
  */
 export async function deleteUploadedFile(filePath: string | undefined | null): Promise<boolean> {
   if (!filePath) {
@@ -11,27 +25,25 @@ export async function deleteUploadedFile(filePath: string | undefined | null): P
   }
 
   try {
+    // Get the base upload directory
+    const uploadsDir = getUploadBaseDir();
+
     // Construct the full file path
-    const fullPath = join(process.cwd(), 'public', 'uploads', filePath);
-    
+    const fullPath = join(uploadsDir, filePath);
+
     // Security check: ensure the path is within the uploads directory
-    const uploadsDir = join(process.cwd(), 'public', 'uploads');
     if (!fullPath.startsWith(uploadsDir)) {
-      console.warn(`Security: Attempted to delete file outside uploads directory: ${fullPath}`);
       return false;
     }
 
     // Delete the file
     await unlink(fullPath);
-    console.log(`File deleted successfully: ${filePath}`);
     return true;
   } catch (error: any) {
     // It's okay if the file doesn't exist
     if (error.code === 'ENOENT') {
-      console.log(`File not found (already deleted): ${filePath}`);
       return true;
     }
-    console.error(`Error deleting file ${filePath}:`, error);
     return false;
   }
 }

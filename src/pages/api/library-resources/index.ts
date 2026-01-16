@@ -107,7 +107,6 @@ const libraryResources = {
       
       return filteredResources;
     } catch (error) {
-      console.error('Error fetching library resources:', error);
       throw error;
     }
   },
@@ -116,7 +115,6 @@ const libraryResources = {
     try {
       return mockLibraryResources.find(r => r.id === id);
     } catch (error) {
-      console.error(`Error fetching library resource with ID ${id}:`, error);
       throw error;
     }
   },
@@ -151,7 +149,6 @@ const libraryResources = {
       mockLibraryResources.push(newResource);
       return newResource;
     } catch (error) {
-      console.error('Error creating library resource:', error);
       throw error;
     }
   },
@@ -201,7 +198,6 @@ const libraryResources = {
       mockLibraryResources[resourceIndex] = updatedResource;
       return updatedResource;
     } catch (error) {
-      console.error(`Error updating library resource with ID ${id}:`, error);
       throw error;
     }
   },
@@ -226,7 +222,6 @@ const libraryResources = {
       
       return { success: true };
     } catch (error) {
-      console.error(`Error deleting library resource with ID ${id}:`, error);
       throw error;
     }
   },
@@ -249,7 +244,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const resources = await libraryResources.getAll(params);
         res.status(200).json(resources);
       } catch (error) {
-        console.error('Error handling GET request:', error);
         res.status(500).json({ message: 'Failed to fetch library resources' });
       }
       break;
@@ -270,7 +264,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         res.status(201).json(resource);
       } catch (error: any) {
-        console.error('Error handling POST request:', error);
         res.status(400).json({ message: error.message || 'Failed to create resource' });
       }
       break;

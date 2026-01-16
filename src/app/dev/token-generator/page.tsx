@@ -40,7 +40,6 @@ export default function TokenUtilityPage() {
       localStorage.setItem('authToken', data.token);
       
     } catch (error) {
-      console.error('Failed to generate token:', error);
       alert('Failed to generate token. Please try again.');
     }
     
@@ -52,7 +51,6 @@ export default function TokenUtilityPage() {
       await navigator.clipboard.writeText(generatedToken);
       alert('Token copied to clipboard!');
     } catch (err) {
-      console.error('Failed to copy:', err);
     }
   };
 

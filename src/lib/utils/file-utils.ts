@@ -9,7 +9,6 @@ export async function deleteFile(filePath: string) {
         await unlink(fullPath);
         return true;
     } catch (error) {
-        console.error('Error deleting file:', error);
         return false;
     }
 }

@@ -9,8 +9,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         "SELECT id, dept, category, academic_year, gallery, title FROM cse_hackathons_gallery WHERE category IN ('hackathon', 'laboratories', 'labs', 'placements') ORDER BY category ASC, academic_year DESC"
       );
       
-      console.log('🔍 API Debug - Raw rows from DB:', rows);
-      console.log('🔍 API Debug - Categories found:', rows.map((r: any) => r.category));
       
       // Transform: Group multiple gallery records by category + academic_year into comma-separated URLs
       const groupedByYearAndCategory: Record<string, any> = {};
@@ -42,7 +40,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         file_url: item.gallery.join(',')
       }));
       
-      console.log('🔍 API Debug - Final transformed data:', hackathonsGallery);
       
       res.status(200).json(hackathonsGallery);
     } 
@@ -89,7 +86,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(405).json({ error: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('Database error:', error);
     res.status(500).json({ 
       error: 'Database connection failed',
       details: error instanceof Error ? error.message : 'Unknown error'

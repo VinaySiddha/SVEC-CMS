@@ -93,7 +93,6 @@ export function HandbookForm({ handbook, departments, onSuccess }: HandbookFormP
       toast.success(handbook ? 'Handbook updated successfully' : 'Handbook added successfully');
       onSuccess();
     } catch (error) {
-      console.error('Error saving handbook:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to save handbook');
     } finally {
       setIsLoading(false);

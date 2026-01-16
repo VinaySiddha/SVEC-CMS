@@ -87,7 +87,6 @@ export default function ExamSectionDashboard() {
         toast.error('Failed to delete item');
       }
     } catch (error) {
-      console.error('Delete error:', error);
       toast.error('Error deleting item');
     }
   };
@@ -109,7 +108,6 @@ export default function ExamSectionDashboard() {
         toast.error('Failed to delete item');
       }
     } catch (error) {
-      console.error('Delete error:', error);
       toast.error('Error deleting item');
     }
   };
@@ -126,7 +124,6 @@ export default function ExamSectionDashboard() {
         toast.error('Failed to delete item');
       }
     } catch (error) {
-      console.error('Delete error:', error);
       toast.error('Error deleting item');
     }
   };
@@ -177,7 +174,6 @@ export default function ExamSectionDashboard() {
           setRsacData(normalizeRecords(rsacJson));
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
         toast.error('Failed to load data');
       } finally {
         setDataLoading(false);

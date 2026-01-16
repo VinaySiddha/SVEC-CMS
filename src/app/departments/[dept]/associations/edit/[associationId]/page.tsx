@@ -41,7 +41,6 @@ export default function EditAssociationPage() {
         const data = await response.json();
         setAssociation(data.association);
       } catch (error: any) {
-        console.error("Error fetching association:", error);
         setError(error.message || "Failed to load association");
         toast.error("Could not load association data");
       } finally {

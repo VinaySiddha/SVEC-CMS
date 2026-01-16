@@ -13,7 +13,6 @@ export default async function handler(req, res) {
                 database: 'svec_cms',
             });
         } catch (connError) {
-            console.error("Database connection failed:", connError);
             return res.status(500).json({ 
                 error: 'Database connection failed',
                 details: connError.message 
@@ -29,7 +28,6 @@ export default async function handler(req, res) {
             );
             awards = result[0];
         } catch (e) {
-            console.warn("Failed to fetch ece_awards:", e.message);
         }
         
         try {
@@ -38,7 +36,6 @@ export default async function handler(req, res) {
             );
             csp = result[0];
         } catch (e) {
-            console.warn("Failed to fetch ece_csp:", e.message);
         }
         
         try {
@@ -47,7 +44,6 @@ export default async function handler(req, res) {
             );
             gate = result[0];
         } catch (e) {
-            console.warn("Failed to fetch ece_gate:", e.message);
         }
         
         try {
@@ -56,7 +52,6 @@ export default async function handler(req, res) {
             );
             gre = result[0];
         } catch (e) {
-            console.warn("Failed to fetch ece_gre:", e.message);
         }
         
         try {
@@ -65,7 +60,6 @@ export default async function handler(req, res) {
             );
             icet = result[0];
         } catch (e) {
-            console.warn("Failed to fetch ece_icet:", e.message);
         }
         
         try {
@@ -74,7 +68,6 @@ export default async function handler(req, res) {
             );
             nptel = result[0];
         } catch (e) {
-            console.warn("Failed to fetch ece_nptel:", e.message);
         }
         
         try {
@@ -83,7 +76,6 @@ export default async function handler(req, res) {
             );
             projects = result[0];
         } catch (e) {
-            console.warn("Failed to fetch ece_projects:", e.message);
         }
         
         try {
@@ -92,7 +84,6 @@ export default async function handler(req, res) {
             );
             publications = result[0];
         } catch (e) {
-            console.warn("Failed to fetch ece_publications:", e.message);
         }
         
         try {
@@ -101,7 +92,6 @@ export default async function handler(req, res) {
             );
             rollOfHonour = result[0];
         } catch (e) {
-            console.warn("Failed to fetch ece_roll_of_honour:", e.message);
         }
         
         let rollOfHonourGallery = [];
@@ -111,9 +101,7 @@ export default async function handler(req, res) {
                 "SELECT * FROM ece_hackathons_gallery WHERE category = 'honour' ORDER BY created_at DESC"
             );
             const honourRecords = result[0] || [];
-            console.log('Honour category records found:', honourRecords.length);
             if (honourRecords.length > 0) {
-                console.log('First honour record:', honourRecords[0]);
             }
             
             // Map records with custom category field
@@ -122,9 +110,7 @@ export default async function handler(req, res) {
                 category: 'roll-of-honour-gallery',
                 table: 'ece_hackathons_gallery'
             }));
-            console.log('Roll of Honour Gallery mapped count:', rollOfHonourGallery.length);
         } catch (e) {
-            console.warn("Failed to fetch ece_hackathons_gallery (honour):", e.message);
         }
         
         try {
@@ -133,7 +119,6 @@ export default async function handler(req, res) {
             );
             researchProjects = result[0];
         } catch (e) {
-            console.warn("Failed to fetch ece_research_projects:", e.message);
         }
         
         try {
@@ -142,7 +127,6 @@ export default async function handler(req, res) {
             );
             workshops = result[0];
         } catch (e) {
-            console.warn("Failed to fetch ece_workshops_internships:", e.message);
         }
         
         // Combine all results
@@ -163,14 +147,12 @@ export default async function handler(req, res) {
         
         res.status(200).json(allAchievements);
     } catch (error) {
-        console.error("Error fetching student achievements:", error);
         res.status(500).json({ error: error.message });
     } finally {
         if (connection) {
             try {
                 await connection.end();
             } catch (e) {
-                console.warn("Error closing connection:", e);
             }
         }
     }

@@ -10,7 +10,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         );
         res.status(200).json(rows || []);
       } catch (err) {
-        console.warn('EEE Syllabus query failed:', err);
         res.status(200).json([]);
       }
     } else {
@@ -18,7 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(405).json({ error: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('EEE Syllabus API Error:', error);
     res.status(200).json([]);
   }
 }

@@ -19,8 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const dept = (branchName as string).toLowerCase();
   
-  console.log('=== Faculty API Called ===');
-  console.log('Department requested:', dept);
   
   try {
     let sql = '';
@@ -86,18 +84,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const results = await query(sql, params);
     
-    console.log('Query executed. Results count:', results ? results.length : 0);
-    console.log('Query results sample:', results && results.length > 0 ? results[0] : 'No results');
     
     // If no results found, return empty array instead of error
     if (!results || results.length === 0) {
-      console.log('No faculty data found for dept:', dept);
       return res.status(200).json([]);
     }
     
     res.status(200).json(results);
   } catch (error: any) {
-    console.error('Error fetching faculty for dept:', dept, error);
     
     // If table doesn't exist, try faculty_profiles as fallback
     if (error?.code === 'ER_NO_SUCH_TABLE' || error?.message?.includes('doesn\'t exist')) {
@@ -110,7 +104,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const fallbackResults = await query(fallbackSql, [dept]);
         return res.status(200).json(fallbackResults || []);
       } catch (fallbackError) {
-        console.error('Fallback query also failed:', fallbackError);
         return res.status(200).json([]);
       }
     }

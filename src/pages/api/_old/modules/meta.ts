@@ -31,7 +31,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       department: dept,
     });
   } catch (error: any) {
-    console.error('Error fetching modules metadata:', error);
     return res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 }

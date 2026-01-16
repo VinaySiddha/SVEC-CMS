@@ -45,7 +45,6 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error('Error fetching student achievements:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -104,7 +103,6 @@ export async function POST(
     });
 
   } catch (error) {
-    console.error('Error adding student achievement:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const rows: any = await executeQuery(query, params);
 
-      console.log('🔍 DS Physical Facilities API Debug:', {
+      console.log('DS physical facilities query result:', {
         query: query,
         params: params,
         rowsCount: rows ? rows.length : 0,
@@ -35,7 +35,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(405).json({ error: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('Database error:', error);
     res.status(500).json({
       error: 'Database connection failed',
       details: error instanceof Error ? error.message : 'Unknown error'

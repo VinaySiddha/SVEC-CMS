@@ -30,7 +30,6 @@ export async function GET(request: NextRequest) {
             data: activities
         });
     } catch (error) {
-        console.error('Error fetching training activities:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch training activities' },
             { status: 500 }

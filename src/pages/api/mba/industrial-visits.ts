@@ -24,7 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(405).json({ error: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('Error fetching MBA industrial visits:', error);
     res.status(500).json({ 
       error: 'Failed to fetch industrial visits data',
       details: error instanceof Error ? error.message : 'Unknown error'

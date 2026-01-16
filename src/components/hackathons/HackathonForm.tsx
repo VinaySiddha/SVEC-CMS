@@ -88,7 +88,6 @@ export function HackathonForm({ deptId, existingHackathon, onSuccess }: Hackatho
       try {
         return JSON.parse(existingHackathon.winners);
       } catch (e) {
-        console.error("Error parsing winners JSON:", e);
         return [];
       }
     }
@@ -219,7 +218,6 @@ export function HackathonForm({ deptId, existingHackathon, onSuccess }: Hackatho
       onSuccess();
       
     } catch (error) {
-      console.error("Error submitting form:", error);
       toast.error(error instanceof Error ? error.message : "An error occurred");
     } finally {
       setIsSubmitting(false);

@@ -31,7 +31,6 @@ export default function DepartmentOrganizedEventsPage() {
           setUserRole(sessionData.role);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
         setDepartmentName(deptId); // Fallback
       } finally {
         setLoading(false);

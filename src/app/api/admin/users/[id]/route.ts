@@ -102,7 +102,6 @@ export async function PUT(
     });
 
   } catch (error) {
-    console.error('Error updating user:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -183,7 +182,6 @@ export async function DELETE(
     });
 
   } catch (error) {
-    console.error('Error deleting user:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

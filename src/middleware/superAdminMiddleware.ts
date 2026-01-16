@@ -42,7 +42,6 @@ export async function superAdminMiddleware(request: NextRequest) {
     return response;
 
   } catch (error) {
-    console.error('Token verification error:', error);
     
     // Clear invalid token and redirect
     const response = NextResponse.redirect(new URL('/super-admin/login', request.url));

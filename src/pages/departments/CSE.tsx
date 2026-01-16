@@ -300,12 +300,6 @@ const CSEDepartment: React.FC = () => {
         workshopsGalleryDataFetch,
         lecturersGalleryDataFetch
       ]) => {
-        console.log('cse API responses:', {
-          faculty: facultyData,
-          studentAchievements: studentAchievementsData,
-          syllabus: syllabusData,
-          eresources: eresourcesData
-        });
 
         // Separate teaching, technical, and non-teaching faculty from the unified response
         // The API now includes faculty_type field: 'teaching', 'technical', or 'non_teaching'
@@ -374,21 +368,11 @@ const CSEDepartment: React.FC = () => {
         setLecturersGalleryData(Array.isArray(lecturersGalleryDataFetch) ? lecturersGalleryDataFetch : []);
         setMeritScholarshipsGalleryData(Array.isArray(meritScholarshipsGalleryData) ? meritScholarshipsGalleryData : []);
         setEapcetToppersGalleryData(Array.isArray(eapcetToppersGalleryData) ? eapcetToppersGalleryData : []);
-        console.log('Merit Scholarships Gallery Data (from Promise):', meritScholarshipsGalleryData);
-        console.log('All Gallery Data:', {
-          hackathonsGallery: hackathonsGalleryData,
-          technicalAssociation: technicalAssociationGalleryData,
-          trainingActivities: trainingActivitiesGalleryData,
-          extraCurricular: extraCurricularGalleryData,
-          meritScholarships: meritScholarshipsGalleryData,
-          placements: placementsGalleryData
-        });
         setFacultyDevelopmentGalleryData(Array.isArray(facultyDevelopmentGalleryData) ? facultyDevelopmentGalleryData : []);
         setGateData(Array.isArray(gateDataFetch) ? gateDataFetch : []);
         setGateGalleryData(Array.isArray(gateGalleryDataFetch) ? gateGalleryDataFetch : []);
         setRollOfHonourData(Array.isArray(rollOfHonourDataFetch) ? rollOfHonourDataFetch : []);
         setRollOfHonourGalleryData(Array.isArray(rollOfHonourGalleryDataFetch) ? rollOfHonourGalleryDataFetch : []);
-        console.log('Roll of Honour Gallery Data:', rollOfHonourGalleryDataFetch);
 
         // Store all data in cache for compatibility
         const facultyArray = Array.isArray(facultyData) ? facultyData : [];
@@ -430,7 +414,6 @@ const CSEDepartment: React.FC = () => {
         };
       })
       .catch((error) => {
-        console.error('Error fetching cse data:', error);
       });
   }, []);
 
@@ -2388,15 +2371,6 @@ case 'Physical Facilities': {
       case 'Extra-Curricular Activities': {
         const activityItems = extraCurricular.filter(a => a.type === 'activity');
         const sahaya = extraCurricular.find(a => a.type === 'sahaya');
-
-        // Debug logging
-        console.log('Extra Curricular Debug:', {
-          extraCurricular,
-          activityItems,
-          sahaya,
-          sahayaEvents,
-          extraCurricularGallery
-        });
 
         // Group extra-curricular gallery by academic year
         const groupedByYear: Record<string, any[]> = {};

@@ -41,7 +41,6 @@ export default function PlacementGallery({ deptId, isAdmin = false, onRefresh }:
       const data = await response.json();
       setImages(data.gallery || []);
     } catch (error) {
-      console.error('Error fetching gallery images:', error);
       toast({
         title: "Error",
         description: "Failed to load gallery images",
@@ -99,7 +98,6 @@ export default function PlacementGallery({ deptId, isAdmin = false, onRefresh }:
         onRefresh();
       }
     } catch (error) {
-      console.error('Error deleting gallery image:', error);
       toast({
         title: "Error",
         description: "Failed to delete gallery image",

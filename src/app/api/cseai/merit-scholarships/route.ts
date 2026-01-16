@@ -16,7 +16,6 @@ export async function GET(request: NextRequest) {
             data: scholarships
         });
     } catch (error) {
-        console.error('Error fetching merit scholarships:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch merit scholarships' },
             { status: 500 }

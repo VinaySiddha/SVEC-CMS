@@ -41,7 +41,6 @@ export default function EditEventPage() {
         const data = await response.json();
         setEvent(data.event);
       } catch (error: any) {
-        console.error("Error fetching event:", error);
         setError(error.message || "Failed to load event");
         toast.error("Could not load event data");
       } finally {

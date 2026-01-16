@@ -110,7 +110,6 @@ const ChatbotWidget: React.FC = () => {
 
   // Debug log
   useEffect(() => {
-    console.log('ChatbotWidget component rendered');
   }, []);
 
   // Short & Sweet FAQ Database
@@ -423,7 +422,6 @@ const ChatbotWidget: React.FC = () => {
   };
 
   const toggleChat = () => {
-    console.log('Chat toggle clicked, current state:', isOpen);
     setIsOpen(!isOpen);
   };
 

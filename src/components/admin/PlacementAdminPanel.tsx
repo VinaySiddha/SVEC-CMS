@@ -118,7 +118,6 @@ const PlacementAdminPanel: React.FC = () => {
         setTeamMembers(teamData.data?.team_members || []);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
@@ -145,7 +144,6 @@ const PlacementAdminPanel: React.FC = () => {
         resetForms();
       }
     } catch (error) {
-      console.error('Error saving statistics:', error);
     }
   };
 
@@ -170,7 +168,6 @@ const PlacementAdminPanel: React.FC = () => {
         resetForms();
       }
     } catch (error) {
-      console.error('Error saving company:', error);
     }
   };
 
@@ -238,7 +235,6 @@ const PlacementAdminPanel: React.FC = () => {
         resetForms();
       }
     } catch (error) {
-      console.error('Error saving team member:', error);
     } finally {
       setIsUploadingImage(false);
     }
@@ -262,7 +258,6 @@ const PlacementAdminPanel: React.FC = () => {
         await fetchData();
       }
     } catch (error) {
-      console.error('Error deleting item:', error);
     }
   };
 

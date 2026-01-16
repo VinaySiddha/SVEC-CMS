@@ -62,7 +62,6 @@ export async function getOrganizedEvents(options: GetOrganizedEventsOptions = {}
     const data = await response.json();
     return data;
   } catch (error: any) {
-    console.error('Error fetching organized event data:', error);
     throw new Error(error.message || 'Failed to fetch organized event data');
   }
 }
@@ -73,7 +72,6 @@ export async function getOrganizedEventById(id: string): Promise<OrganizedEvent>
     const events = await getOrganizedEvents({ id });
     return events[0];
   } catch (error: any) {
-    console.error(`Error fetching organized event with ID ${id}:`, error);
     throw new Error(error.message || `Failed to fetch organized event with ID ${id}`);
   }
 }
@@ -88,7 +86,6 @@ export function formatDateForDisplay(dateString: string): string {
       day: 'numeric'
     });
   } catch (error) {
-    console.error('Error formatting date:', error);
     return dateString; // Return the original string if parsing fails
   }
 }

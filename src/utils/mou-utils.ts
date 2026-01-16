@@ -89,7 +89,6 @@ export async function getMOUs(departmentId?: string): Promise<MOU[]> {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error fetching MOUs:', error);
     throw error;
   }
 }
@@ -108,7 +107,6 @@ export async function getMOU(id: string): Promise<MOU> {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(`Error fetching MOU ${id}:`, error);
     throw error;
   }
 }

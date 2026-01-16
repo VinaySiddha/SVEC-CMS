@@ -73,7 +73,6 @@ export default function AchievementsList({ isAdmin = false }) {
         const data = await response.json();
         setDepartments(data);
       } catch (err) {
-        console.error('Error fetching departments:', err);
         setError('Failed to load departments');
       }
     };
@@ -112,7 +111,6 @@ export default function AchievementsList({ isAdmin = false }) {
         const data = await response.json();
         setAchievements(data);
       } catch (err: any) {
-        console.error('Error fetching achievements:', err);
         setError(err.message || 'Failed to load achievements');
       } finally {
         setIsLoading(false);
@@ -145,7 +143,6 @@ export default function AchievementsList({ isAdmin = false }) {
       setAchievements(prev => prev.filter(item => item.id !== id));
       toast.success('Achievement deleted successfully');
     } catch (err: any) {
-      console.error('Error deleting achievement:', err);
       toast.error(err.message || 'Error deleting achievement');
     }
   };
@@ -182,7 +179,6 @@ export default function AchievementsList({ isAdmin = false }) {
           : 'Achievement approved successfully'
       );
     } catch (err: any) {
-      console.error('Error updating approval status:', err);
       toast.error(err.message || 'Error updating approval status');
     }
   };

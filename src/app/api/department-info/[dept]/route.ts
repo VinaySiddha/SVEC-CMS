@@ -28,7 +28,6 @@ export async function GET(
       data: department[0]
     });
   } catch (error) {
-    console.error('Error fetching department info:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to fetch department info' },
       { status: 500 }
@@ -109,7 +108,6 @@ export async function PUT(
           const oldImagePath = join(process.cwd(), 'public', existing[0].hod_image);
           await unlink(oldImagePath);
         } catch (error) {
-          console.warn('Could not delete old image:', error);
         }
       }
       
@@ -139,7 +137,6 @@ export async function PUT(
     });
 
   } catch (error) {
-    console.error('Error updating department info:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to update department info' },
       { status: 500 }
@@ -181,7 +178,6 @@ export async function DELETE(
     });
 
   } catch (error) {
-    console.error('Error deleting department info:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to delete department info' },
       { status: 500 }

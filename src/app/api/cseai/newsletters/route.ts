@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
             data: newsletters
         });
     } catch (error) {
-        console.error('Error fetching newsletters:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch newsletters' },
             { status: 500 }

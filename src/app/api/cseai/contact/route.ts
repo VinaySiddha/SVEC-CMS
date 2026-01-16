@@ -29,7 +29,6 @@ export async function GET(request: NextRequest) {
             data: contacts
         });
     } catch (error) {
-        console.error('Error fetching department contact:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch department contact' },
             { status: 500 }

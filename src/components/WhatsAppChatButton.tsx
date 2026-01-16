@@ -3,11 +3,9 @@ import React, { useEffect } from 'react';
 
 const WhatsAppChatButton: React.FC = () => {
   useEffect(() => {
-    console.log('WhatsAppChatButton component rendered');
   }, []);
 
   const handleWhatsAppClick = () => {
-    console.log('WhatsApp button clicked');
     const whatsappUrl = 'https://wa.me/918142382563?text=Hello, I\'m interested in learning more about admissions at SVEC.';
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };

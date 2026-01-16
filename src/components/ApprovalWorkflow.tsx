@@ -52,7 +52,6 @@ export function ApprovalWorkflow() {
         setPendingItems(data.items || []);
       }
     } catch (error) {
-      console.error('Error fetching pending items:', error);
     } finally {
       setLoading(false);
     }
@@ -84,7 +83,6 @@ export function ApprovalWorkflow() {
         toast.error(`Failed to ${action} item`);
       }
     } catch (error) {
-      console.error('Error processing approval:', error);
       toast.error(`Failed to ${action} item`);
     } finally {
       setActionLoading(false);

@@ -345,9 +345,6 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
         setMeritScholarships(normalizeArray<any>(meritScholarshipsData));
         
         // Handle EAPCET Toppers - ensure it's an array
-        console.log('Raw EAPCET Toppers Data:', eapcetToppersData);
-        console.log('Type:', typeof eapcetToppersData);
-        console.log('Is Array:', Array.isArray(eapcetToppersData));
         
         let eapcetArray = [];
         if (Array.isArray(eapcetToppersData)) {
@@ -362,8 +359,6 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
           }
         }
         
-        console.log('EAPCET Array after conversion:', eapcetArray);
-        console.log('EAPCET Array length:', eapcetArray.length);
         
         // Don't normalize yet - set the array directly to see raw data
         setEapcetToppers(sortByIdDesc(eapcetArray));
@@ -397,7 +392,6 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
         setTechnicalAssociationGallery(normalizeArray<any>(technicalAssociationGalleryData));
         setExtraCurricularGallery(normalizeArray<any>(extraCurricularGalleryData));
         setTrainingActivitiesGallery(normalizeArray<any>(trainingActivitiesGalleryData));
-        console.log('Placements Gallery Data from API:', placementsGalleryData);
         setPlacementsGalleryData(normalizeArray<any>(placementsGalleryData));
     })
     .catch(() => {
@@ -2353,7 +2347,6 @@ case 'Physical Facilities': {
                           loading="lazy"
                           decoding="async"
                           onError={(e) => {
-                            console.log('Training image load error:', img);
                             (e.target as HTMLImageElement).style.display = 'none';
                           }}
                         />
@@ -2479,7 +2472,6 @@ case 'Physical Facilities': {
           <div className="cst-dropdown-content">
             {(() => {
               // Debug: Check what data we have in the UI
-              console.log('Placement Items in UI:', placementsGalleryData);
               
               // Use placementsGalleryData which is already filtered by the API
               const placementItems = placementsGalleryData;

@@ -61,7 +61,6 @@ export function PlacementStaffList({ onEdit }: PlacementStaffListProps) {
       const data = await response.json();
       setStaff(data);
     } catch (error) {
-      console.error('Error fetching staff:', error);
       toast.error('Failed to load staff members');
     } finally {
       setIsLoading(false);
@@ -87,7 +86,6 @@ export function PlacementStaffList({ onEdit }: PlacementStaffListProps) {
       toast.success('Staff member deleted successfully');
       fetchStaff(); // Refresh the list
     } catch (error) {
-      console.error('Error deleting staff member:', error);
       toast.error('Failed to delete staff member');
     }
   };

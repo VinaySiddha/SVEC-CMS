@@ -26,7 +26,6 @@ export async function GET(req: NextRequest) {
     const profiles = await db.query(query, params);
     return NextResponse.json({ success: true, data: profiles });
   } catch (error) {
-    console.error('Error fetching profiles:', error);
     return NextResponse.json({ success: false, error: 'Failed to fetch profiles' }, { status: 500 });
   }
 }
@@ -65,7 +64,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, id: result.insertId || result[0]?.id });
   } catch (error) {
-    console.error('Error creating profile:', error);
     return NextResponse.json({ success: false, error: 'Failed to create profile' }, { status: 500 });
   }
 }

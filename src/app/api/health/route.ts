@@ -5,7 +5,6 @@ export async function GET(request: NextRequest) {
   const startTime = Date.now();
   
   try {
-    console.log('🏥 Health check started...');
     
     // Test basic database connection
     await query('SELECT 1 as connection_test', []);
@@ -25,7 +24,6 @@ export async function GET(request: NextRequest) {
     const endTime = Date.now();
     const duration = endTime - startTime;
     
-    console.log(`✅ Health check completed in ${duration}ms`);
     
     return NextResponse.json({
       status: 'healthy',
@@ -50,7 +48,6 @@ export async function GET(request: NextRequest) {
     const endTime = Date.now();
     const duration = endTime - startTime;
     
-    console.error('💀 Health check failed:', error);
     
     return NextResponse.json({
       status: 'unhealthy',

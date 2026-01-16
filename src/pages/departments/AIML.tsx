@@ -72,10 +72,8 @@ const sortFacultyByDesignationAndDOJ = (facultyList: Faculty[]): Faculty[] => {
   });
 
   // Debug logging
-  console.log('🔍 Faculty Sorting Debug:');
   sorted.forEach((f, idx) => {
     const priority = getDesignationPriority(f.designation);
-    console.log(`${idx + 1}. ${f.name} | ${f.designation} (Priority: ${priority}) | DOJ: ${f.date_of_joining}`);
   });
 
   return sorted;
@@ -330,7 +328,6 @@ const AIMlDepartment: React.FC = () => {
 
         // Set academic toppers gallery data
         if (academicToppersGalleryResponse.status === 'fulfilled' && academicToppersGalleryResponse.value) {
-          console.log('📊 Academic Toppers Gallery Response:', academicToppersGalleryResponse.value);
           setAcademicToppersGallery(Array.isArray(academicToppersGalleryResponse.value) ? academicToppersGalleryResponse.value : []);
         }
 
@@ -418,12 +415,10 @@ const AIMlDepartment: React.FC = () => {
         // Handle public department API data as fallback
         if (publicDeptResponse.status === 'fulfilled' && publicDeptResponse.value) {
           const publicData = publicDeptResponse.value?.data || {};
-          console.log('🔍 AIML Public Department API data available:', Object.keys(publicData));
           // Use public data as fallback for any missing data if needed
         }
 
       } catch (error) {
-        console.error('Error fetching AIML department data:', error);
       }
     };
 
@@ -1643,12 +1638,6 @@ const AIMlDepartment: React.FC = () => {
                     {/* Laboratory Images Gallery */}
                     {(() => {
                       const labImages = hackathonsGallery && hackathonsGallery.filter(g => g.category && g.category.toLowerCase() === 'laboratory');
-                      console.log('🔍 Laboratory Images Debug:', {
-                        totalGallery: hackathonsGallery ? hackathonsGallery.length : 0,
-                        allCategories: hackathonsGallery ? hackathonsGallery.map(g => g.category) : [],
-                        labImagesCount: labImages ? labImages.length : 0,
-                        labImagesData: labImages
-                      });
 
                       return labImages && labImages.length > 0 && (
                         <div className="mt-8 pt-8 border-t border-gray-300">
@@ -1774,7 +1763,6 @@ const AIMlDepartment: React.FC = () => {
       case 'Faculty Achievements': {
         // Get unique categories from the data itself
         const uniqueCategories = Array.from(new Set(facultyAchievements.map(a => a.category))).sort();
-        console.log('Faculty Achievements rendering - total items:', facultyAchievements.length, 'Categories found:', uniqueCategories);
 
         // Check if there's data
         if (!facultyAchievements || facultyAchievements.length === 0) {
@@ -2367,12 +2355,6 @@ const AIMlDepartment: React.FC = () => {
                           ? extraCurricular.filter((item: any) => item.category && item.category.toLowerCase() === 'maitri coordinators')
                           : [];
 
-                        console.log('🔍 Maitri Coordinators Debug:', {
-                          totalActivities: extraCurricular.length,
-                          maitriCoordinatorsCount: maitriCoordinators.length,
-                          sampleItem: maitriCoordinators.length > 0 ? maitriCoordinators[0] : null
-                        });
-
                         return maitriCoordinators && maitriCoordinators.length > 0 ? (
                           <ul className="my-2 list-none space-y-2">
                             {maitriCoordinators.map((item: any, idx: number) => (
@@ -2410,12 +2392,6 @@ const AIMlDepartment: React.FC = () => {
                         const maitriEvents = workshops && workshops.length > 0
                           ? workshops.filter((w: any) => w.category && w.category.toLowerCase() === 'maitri events')
                           : [];
-
-                        console.log('🔍 Maitri Events Debug:', {
-                          totalWorkshops: workshops.length,
-                          maitriEventsCount: maitriEvents.length,
-                          sampleEvent: maitriEvents.length > 0 ? maitriEvents[0] : null
-                        });
 
                         return maitriEvents && maitriEvents.length > 0 ? (
                           <ul className="my-2 list-none space-y-2">

@@ -19,7 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await connection.end();
         res.status(200).json({ nonTeaching: rows });
     } catch (error) {
-        console.error('Error fetching MBA non-teaching staff:', error);
         res.status(500).json({ error: 'Failed to fetch MBA non-teaching staff' });
     }
 }

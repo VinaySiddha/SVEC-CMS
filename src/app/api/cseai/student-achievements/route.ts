@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
             data: achievements
         });
     } catch (error) {
-        console.error('Error fetching student achievements:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch student achievements' },
             { status: 500 }

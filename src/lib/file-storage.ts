@@ -10,6 +10,18 @@ const ALLOWED_FILE_TYPES = {
   'image/png': 'png',
 };
 
+// Get upload directory from environment variable or use default
+// For production VPS: /var/www/uploads
+// For local dev: project_dir/public/uploads
+const getUploadBaseDir = (): string => {
+  const envUploadDir = process.env.UPLOAD_DIR;
+  if (envUploadDir) {
+    return envUploadDir;
+  }
+  // Default to local development path
+  return path.join(process.cwd(), 'public', 'uploads');
+};
+
 // File storage utility
 export const fileStorage = {
   /**
@@ -29,31 +41,33 @@ export const fileStorage = {
     const datePrefix = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const randomId = randomUUID().slice(0, 8);
     const fileName = `${datePrefix}-${randomId}.${extension}`;
-    
+
     // Create the upload directory if it doesn't exist
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', dept, module);
+    const uploadDir = path.join(getUploadBaseDir(), dept, module);
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
-    
+
     const filePath = path.join(uploadDir, fileName);
-    
+
     // Copy the file to the uploads directory
     await fs.promises.copyFile(file.filepath, filePath);
-    
+
     // Return public URL
     return `/uploads/${dept}/${module}/${fileName}`;
   },
-  
+
   /**
    * Delete a file from the uploads directory
    * @param url The public URL of the file to delete
    */
   async deleteFile(url: string): Promise<void> {
     if (!url || !url.startsWith('/uploads/')) return;
-    
-    const filePath = path.join(process.cwd(), 'public', url);
-    
+
+    // Extract the path after /uploads/
+    const relativePath = url.replace('/uploads/', '');
+    const filePath = path.join(getUploadBaseDir(), relativePath);
+
     if (fs.existsSync(filePath)) {
       await fs.promises.unlink(filePath);
     }

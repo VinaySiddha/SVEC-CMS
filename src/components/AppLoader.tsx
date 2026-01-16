@@ -16,7 +16,6 @@ const AppLoader: React.FC<AppLoaderProps> = ({ children }) => {
     if (loadingCompleteRef.current) return; // Prevent multiple calls
     loadingCompleteRef.current = true;
     
-    console.log('Loading completed - transitioning to main content');
     setIsLoading(false);
     
     // Ensure content is fully rendered before showing

@@ -11,7 +11,7 @@ const dbConfig = {
 
 }
 
-const JWT_SECRET = process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30';
+const JWT_SECRET = process.env.JWT_SECRET || 'default_jwt_secret';
 
 export async function POST(request: NextRequest) {
   try {
@@ -71,11 +71,12 @@ export async function POST(request: NextRequest) {
 
     await connection.end();
 
-    // Generate JWT token
+    // Generate JWT token with username
     const token = jwt.sign(
       {
         id: user.id,
         email: user.email,
+        username: user.username || user.email.split('@')[0],
         role: user.role,
         name: user.name,
         department: user.department
@@ -84,20 +85,30 @@ export async function POST(request: NextRequest) {
       { expiresIn: '24h' }
     );
 
-    // Create response
+    // Create response with token included
     const response = NextResponse.json({
       success: true,
+      token, // Include token in response for localStorage
       user: {
         id: user.id,
         email: user.email,
         name: user.name,
         role: user.role,
-        department: user.department
+        department: user.department,
+        username: user.username || user.email.split('@')[0]
       },
       message: 'Login successful'
     });
 
-    // Set HTTP-only cookie
+    // Set HTTP-only cookies (both names for compatibility)
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      path: '/'
+    });
+    
     response.cookies.set('admin_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -109,7 +120,6 @@ export async function POST(request: NextRequest) {
     return response;
 
   } catch (error) {
-    console.error('Login error:', error);
     return NextResponse.json(
       { success: false, error: 'Internal server error' },
       { status: 500 }

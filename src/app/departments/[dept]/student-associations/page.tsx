@@ -67,7 +67,6 @@ export default function DepartmentAssociationsPage() {
         
         setAssociations(parsedAssociations || []);
       } catch (error: any) {
-        console.error("Error fetching associations:", error);
         setError(error.message);
       } finally {
         setLoading(false);

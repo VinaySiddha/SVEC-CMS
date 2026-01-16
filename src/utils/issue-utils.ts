@@ -26,10 +26,8 @@ export async function createIssuesTable() {
 
   try {
     await query(createTableSQL);
-    console.log('Issues table created successfully');
     return { success: true, message: 'Issues table created successfully' };
   } catch (error) {
-    console.error('Error creating issues table:', error);
     return { success: false, message: `Error creating issues table: ${error}` };
   }
 }
@@ -45,7 +43,6 @@ export async function getIssues(deptId: string) {
     );
     return { success: true, issues };
   } catch (error) {
-    console.error('Error fetching issues:', error);
     return { success: false, message: `Error fetching issues: ${error}`, issues: [] };
   }
 }
@@ -66,7 +63,6 @@ export async function getIssue(deptId: string, issueId: string) {
       return { success: false, message: 'Issue not found', issue: null };
     }
   } catch (error) {
-    console.error('Error fetching issue:', error);
     return { success: false, message: `Error fetching issue: ${error}`, issue: null };
   }
 }
@@ -115,7 +111,6 @@ export async function createIssue(
       }
     };
   } catch (error) {
-    console.error('Error creating issue:', error);
     return { success: false, message: `Error creating issue: ${error}` };
   }
 }
@@ -176,7 +171,6 @@ export async function updateIssue(
       }
     };
   } catch (error) {
-    console.error('Error updating issue:', error);
     return { success: false, message: `Error updating issue: ${error}` };
   }
 }
@@ -202,7 +196,6 @@ export async function deleteIssue(deptId: string, issueId: string) {
     
     return { success: true, message: 'Issue deleted successfully' };
   } catch (error) {
-    console.error('Error deleting issue:', error);
     return { success: false, message: `Error deleting issue: ${error}` };
   }
 }

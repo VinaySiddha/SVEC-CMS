@@ -22,7 +22,6 @@ export default function DepartmentIndustryNewsPage() {
         const data = await response.json();
         setDepartmentName(data.name || deptId);
       } catch (error) {
-        console.error('Error fetching department:', error);
         // Use the department ID as fallback
         setDepartmentName(deptId);
       } finally {

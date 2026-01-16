@@ -22,7 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(404).json({ message: 'Not found' });
     }
   } catch (error) {
-    console.error('API /api/bsh/department-profile error:', error);
     res.status(500).json({ message: 'Database error', error: (error as Error).message });
   }
 }

@@ -3,7 +3,6 @@ import { runUserManagementTests } from '@/lib/user-test';
 
 export async function GET(request: NextRequest) {
   try {
-    console.log('Running user management system tests...');
     
     const testResults = await runUserManagementTests();
     
@@ -12,7 +11,6 @@ export async function GET(request: NextRequest) {
     });
     
   } catch (error) {
-    console.error('User management test API error:', error);
     
     return NextResponse.json({
       success: false,

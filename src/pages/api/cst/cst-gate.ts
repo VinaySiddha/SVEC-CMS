@@ -14,7 +14,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(405).json({ error: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('CST GATE API Error:', error);
     res.status(500).json({
       error: 'Database connection failed',
       details: error instanceof Error ? error.message : 'Unknown error'

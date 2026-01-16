@@ -71,10 +71,11 @@ const CivilDepartment: React.FC = () => {
     fetch("/api/civil/extra-curricular?dept=Civil")
       .then((res) => res.json())
       .then((data) => {
-        console.log("API response:", data); // 👀 check this in browser console
         setExtraCurricularActivities(data);
       })
-      .catch((err) => console.error("Fetch error:", err));
+      .catch((err) => {
+        console.error('Error fetching extra curricular activities:', err);
+      });
   }, []);
   const [researchDevelopment, setResearchDevelopment] = useState<any>({});
   const [researchProjects, setResearchProjects] = useState<any>({});
@@ -83,26 +84,20 @@ const CivilDepartment: React.FC = () => {
     // Use the existing working API pattern
     fetch("/api/civil/consultancy?department=civil")
       .then((res) => {
-        console.log('Response status:', res.status);
         if (!res.ok) {
-          console.error('API returned status:', res.status);
           return res.text().then(text => {
-            console.error('Error response body:', text.substring(0, 200));
             throw new Error(`API error: ${res.status}`);
           });
         }
         return res.json();
       })
       .then((data) => {
-        console.log("Consultancy API response:", data);
         setConsultancyActivities(data || []);
       })
       .catch((err) => {
-        console.error("API fetch error:", err);
         setConsultancyActivities([]);
       });
   }, []);
-  console.log(consultancyActivities);
   const [departmentContact, setDepartmentContact] = useState<any[]>([]);
   const [Syllabus, setSyllabus] = useState<any[]>([]);
   
@@ -116,17 +111,14 @@ const CivilDepartment: React.FC = () => {
     fetch("/api/civil/physical-facilities?category=Class Timetable")
       .then((res) => {
         if (!res.ok) {
-          console.error('Class Timetables API returned status:', res.status);
           throw new Error(`API error: ${res.status}`);
         }
         return res.json();
       })
       .then((data) => {
-        console.log("Class Timetables API response:", data);
         setClassTimetables(data || []);
       })
       .catch((err) => {
-        console.error("Class Timetables fetch error:", err);
         setClassTimetables([]);
       });
   }, []);
@@ -136,17 +128,14 @@ const CivilDepartment: React.FC = () => {
     fetch("/api/civil/physical-facilities?category=Class Room")
       .then((res) => {
         if (!res.ok) {
-          console.error('Class Rooms API returned status:', res.status);
           throw new Error(`API error: ${res.status}`);
         }
         return res.json();
       })
       .then((data) => {
-        console.log("Class Rooms API response:", data);
         setClassRooms(data || []);
       })
       .catch((err) => {
-        console.error("Class Rooms fetch error:", err);
         setClassRooms([]);
       });
   }, []);
@@ -156,17 +145,14 @@ const CivilDepartment: React.FC = () => {
     fetch("/api/civil/physical-facilities?category=Laboratory")
       .then((res) => {
         if (!res.ok) {
-          console.error('Laboratories API returned status:', res.status);
           throw new Error(`API error: ${res.status}`);
         }
         return res.json();
       })
       .then((data) => {
-        console.log("Laboratories API response:", data);
         setLaboratories(data || []);
       })
       .catch((err) => {
-        console.error("Laboratories fetch error:", err);
         setLaboratories([]);
       });
   }, []);
@@ -175,10 +161,11 @@ const CivilDepartment: React.FC = () => {
     fetch("/api/civil/syllabus?department=civil")
       .then((res) => res.json())
       .then((data) => {
-        console.log("API response:", data); // 👀 check this in browser console
         setSyllabus(data.undefined);
       })
-      .catch((err) => console.error("Fetch error:", err));
+      .catch((err) => {
+        console.error('Error fetching syllabus:', err);
+      });
   }, []);
   // Helper function to get icon component
   const getIconComponent = (iconName: string) => {
@@ -216,27 +203,24 @@ const CivilDepartment: React.FC = () => {
     fetch("/api/civil/newsletters?department=civil")
       .then((res) => res.json())
       .then((data) => {
-        console.log("API response:", data); // 👀 check this in browser console
         setNewsletters(data);
       })
-      .catch((err) => console.error("Fetch error:", err));
+      .catch((err) => {
+        console.error('Error fetching newsletters:', err);
+      });
   }, []);
   useEffect(() => {
     fetch("/api/civil/workshops")
       .then((res) => res.json())
       .then((data) => {
-        console.log("Workshops API response:", data); // 👀 check this in browser console
         // Ensure data is an array before setting state
         if (Array.isArray(data)) {
-          console.log("Setting workshops data, count:", data.length);
           setWorkshops(data);
         } else {
-          console.error("Workshops data is not an array:", data);
           setWorkshops([]);
         }
       })
       .catch((err) => {
-        console.error("Workshops fetch error:", err);
         setWorkshops([]);
       });
   }, []);
@@ -252,14 +236,16 @@ const CivilDepartment: React.FC = () => {
           setStudentBOS([]); // fallback
         }
       })
-      .catch(err => console.error("Failed to fetch BOS:", err));
+      .catch(err => {
+        console.error('Error fetching student BOS:', err);
+        setStudentBOS([]);
+      });
   }, []);
   
   useEffect(() => {
     fetch('/api/civil/bos-members?dept=civil')
       .then(res => {
         if (!res.ok) {
-          console.error(`BOS Members API returned status ${res.status}`);
           setBosMembers([]);
           return null;
         }
@@ -267,7 +253,6 @@ const CivilDepartment: React.FC = () => {
       })
       .then(data => {
         if (data === null) return;
-        console.log("BOS Members API response:", data);
         if (Array.isArray(data)) {
           setBosMembers(data);
         } else if (data.success && Array.isArray(data.data)) {
@@ -277,7 +262,6 @@ const CivilDepartment: React.FC = () => {
         }
       })
       .catch(err => {
-        console.error("Failed to fetch BOS members:", err);
         setBosMembers([]);
       });
   }, []);
@@ -286,7 +270,6 @@ const CivilDepartment: React.FC = () => {
     fetch('/api/civil/bos-minutes?dept=civil')
       .then(res => {
         if (!res.ok) {
-          console.error(`BOS Minutes API returned status ${res.status}`);
           setBosMinutes([]);
           return null;
         }
@@ -294,7 +277,6 @@ const CivilDepartment: React.FC = () => {
       })
       .then(data => {
         if (data === null) return;
-        console.log("BOS Minutes API response:", data);
         if (Array.isArray(data)) {
           setBosMinutes(data);
         } else if (data.success && Array.isArray(data.data)) {
@@ -304,7 +286,6 @@ const CivilDepartment: React.FC = () => {
         }
       })
       .catch(err => {
-        console.error("Failed to fetch BOS minutes:", err);
         setBosMinutes([]);
       });
   }, []);
@@ -313,7 +294,6 @@ const CivilDepartment: React.FC = () => {
     fetch('/api/civil-faculty')
       .then(res => {
         if (!res.ok) {
-          console.error(`Faculty API returned status ${res.status}`);
           setFaculty([]);
           return null;
         }
@@ -321,7 +301,6 @@ const CivilDepartment: React.FC = () => {
       })
       .then(data => {
         if (data === null) return;
-        console.log("Faculty API response:", data);
         if (Array.isArray(data)) {
           setFaculty(data);
         } else if (data.success && Array.isArray(data.data)) {
@@ -331,7 +310,6 @@ const CivilDepartment: React.FC = () => {
         }
       })
       .catch(err => {
-        console.error("Failed to fetch faculty:", err);
         setFaculty([]);
       });
   }, []);
@@ -340,7 +318,6 @@ const CivilDepartment: React.FC = () => {
     fetch('/api/civil-technical-faculty')
       .then(res => {
         if (!res.ok) {
-          console.error(`Technical Staff API returned status ${res.status}`);
           setTechnicalFaculty([]);
           return null;
         }
@@ -348,7 +325,6 @@ const CivilDepartment: React.FC = () => {
       })
       .then(data => {
         if (data === null) return;
-        console.log("Technical Staff API response:", data);
         if (Array.isArray(data)) {
           setTechnicalFaculty(data);
         } else if (data.success && Array.isArray(data.data)) {
@@ -358,7 +334,6 @@ const CivilDepartment: React.FC = () => {
         }
       })
       .catch(err => {
-        console.error("Failed to fetch technical staff:", err);
         setTechnicalFaculty([]);
       });
   }, []);
@@ -367,7 +342,6 @@ const CivilDepartment: React.FC = () => {
     fetch('/api/civil-non-technical-staff')
       .then(res => {
         if (!res.ok) {
-          console.error(`Non-Teaching Staff API returned status ${res.status}`);
           setNonTeachingFaculty([]);
           return null;
         }
@@ -375,7 +349,6 @@ const CivilDepartment: React.FC = () => {
       })
       .then(data => {
         if (data === null) return;
-        console.log("Non-Teaching Staff API response:", data);
         if (Array.isArray(data)) {
           setNonTeachingFaculty(data);
         } else if (data.success && Array.isArray(data.data)) {
@@ -385,7 +358,6 @@ const CivilDepartment: React.FC = () => {
         }
       })
       .catch(err => {
-        console.error("Failed to fetch non-teaching staff:", err);
         setNonTeachingFaculty([]);
       });
   }, []);
@@ -393,17 +365,14 @@ const CivilDepartment: React.FC = () => {
     fetch('/api/civil/student-achievements')
       .then((res) => res.json())
       .then((data) => {
-        console.log('Student Achievements API response:', data);
         if (data && typeof data === 'object' && !data.error) {
           setAchievements(data);
         } else {
-          console.error('Invalid achievements data:', data);
           setAchievements({});
         }
         setLoading(false);
       })
       .catch((err) => {
-        console.error('Failed to fetch student achievements:', err);
         setAchievements({});
         setLoading(false);
       });
@@ -418,7 +387,9 @@ const CivilDepartment: React.FC = () => {
         // API direct array return chestundi
         setPlacements(data);
       })
-      .catch(err => console.error('Failed to fetch placements:', err));
+      .catch(err => {
+        console.error('Error fetching placements:', err);
+      });
   }, []);
 
 

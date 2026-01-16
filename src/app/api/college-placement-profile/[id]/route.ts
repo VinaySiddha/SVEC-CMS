@@ -13,7 +13,6 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     
     return NextResponse.json({ success: true, data: profiles[0] });
   } catch (error) {
-    console.error('Error fetching profile:', error);
     return NextResponse.json({ success: false, error: 'Failed to fetch profile' }, { status: 500 });
   }
 }
@@ -54,7 +53,6 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error updating profile:', error);
     return NextResponse.json({ success: false, error: 'Failed to update profile' }, { status: 500 });
   }
 }
@@ -66,7 +64,6 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
     await db.query('UPDATE college_placement_profiles SET is_active = false WHERE id = ?', [id]);
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deleting profile:', error);
     return NextResponse.json({ success: false, error: 'Failed to delete profile' }, { status: 500 });
   }
 }

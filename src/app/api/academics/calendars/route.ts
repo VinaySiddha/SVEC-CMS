@@ -34,7 +34,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(calendars);
   } catch (error) {
-    console.error('Error fetching academic calendars:', error);
     
     // Return mock data if database fails
     const mockCalendars = {

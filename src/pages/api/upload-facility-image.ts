@@ -89,7 +89,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         [JSON.stringify(updatedGallery), facilityId]
       );
 
-      console.log(`Image uploaded successfully for facility ${facilityId}: ${imageUrl}`);
       
       res.status(200).json({ 
         success: true, 
@@ -102,7 +101,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
   } catch (error) {
-    console.error('Upload error:', error);
     
     // Clean up file if upload failed
     if (error instanceof Error && error.message.includes('File too large')) {

@@ -88,7 +88,6 @@ export default function PlacementChartsPage() {
             const data = await response.json();
             setChartData(data);
         } catch (error) {
-            console.error('Error fetching placement charts:', error);
             toast.error('Failed to load placement charts');
         } finally {
             setIsLoading(false);
@@ -170,7 +169,6 @@ export default function PlacementChartsPage() {
             resetForm();
             fetchChartData();
         } catch (error: any) {
-            console.error('Error saving placement chart:', error);
             toast.error(error.message || 'Failed to save placement chart');
         } finally {
             setIsSubmitting(false);
@@ -213,7 +211,6 @@ export default function PlacementChartsPage() {
             toast.success('Placement chart deleted successfully!');
             fetchChartData();
         } catch (error: any) {
-            console.error('Error deleting placement chart:', error);
             toast.error(error.message || 'Failed to delete placement chart');
         }
     };

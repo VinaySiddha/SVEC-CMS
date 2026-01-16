@@ -20,7 +20,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(companies || []);
   } catch (error) {
-    console.error('Error fetching companies:', error);
     return NextResponse.json(
       { error: 'Failed to fetch companies' },
       { status: 500 }
@@ -57,7 +56,6 @@ export async function POST(request: NextRequest) {
       message: 'Company added successfully'
     });
   } catch (error) {
-    console.error('Error adding company:', error);
     return NextResponse.json(
       { error: 'Failed to add company' },
       { status: 500 }

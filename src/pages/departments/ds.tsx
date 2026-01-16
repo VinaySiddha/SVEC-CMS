@@ -54,13 +54,10 @@ const getDesignationPriority = (designation: string): number => {
 
 // Sort faculty by designation priority (ascending) then by date_of_joining (ascending)
 const sortFacultyByDesignationAndDOJ = (facultyList: Faculty[]): Faculty[] => {
-  console.log('🚀 Starting Faculty Sorting - Total Faculty:', facultyList.length);
 
   // Log unsorted faculty first
-  console.log('📋 Unsorted Faculty:');
   facultyList.forEach((f, idx) => {
     const priority = getDesignationPriority(f.designation);
-    console.log(`${idx + 1}. ${f.name} | ${f.designation} (Priority: ${priority}) | DOJ: ${f.date_of_joining}`);
   });
 
   const sorted = [...facultyList].sort((a, b) => {
@@ -80,10 +77,8 @@ const sortFacultyByDesignationAndDOJ = (facultyList: Faculty[]): Faculty[] => {
   });
 
   // Debug logging for sorted results
-  console.log('✅ Sorted Faculty:');
   sorted.forEach((f, idx) => {
     const priority = getDesignationPriority(f.designation);
-    console.log(`${idx + 1}. ${f.name} | ${f.designation} (Priority: ${priority}) | DOJ: ${f.date_of_joining}`);
   });
 
   return sorted;
@@ -306,15 +301,9 @@ const DSDepartment: React.FC = () => {
 
         // Set physical facilities data
         if (physicalFacilitiesResponse.status === 'fulfilled' && physicalFacilitiesResponse.value) {
-          console.log('📊 Physical Facilities Response:', {
-            status: physicalFacilitiesResponse.status,
-            value: physicalFacilitiesResponse.value,
-            isArray: Array.isArray(physicalFacilitiesResponse.value),
-            length: physicalFacilitiesResponse.value ? (Array.isArray(physicalFacilitiesResponse.value) ? physicalFacilitiesResponse.value.length : Object.keys(physicalFacilitiesResponse.value).length) : 0
-          });
           setPhysicalFacilities(Array.isArray(physicalFacilitiesResponse.value) ? physicalFacilitiesResponse.value : []);
         } else {
-          console.log('⚠️ Physical Facilities Response Failed:', {
+          console.error('Physical facilities fetch failed:', {
             status: physicalFacilitiesResponse.status,
             reason: physicalFacilitiesResponse.status === 'rejected' ? physicalFacilitiesResponse.reason : 'No value'
           });
@@ -348,7 +337,6 @@ const DSDepartment: React.FC = () => {
         // Set BOS data
         if (bosResponse.status === 'fulfilled') {
           const bosVal = bosResponse.value;
-          console.log('BOS Members Response:', bosVal);
           const bosArray = Array.isArray(bosVal) ? bosVal : Array.isArray(bosVal?.data) ? bosVal.data : [];
           setBosMembers(bosArray);
         }
@@ -381,7 +369,6 @@ const DSDepartment: React.FC = () => {
         // Set BOS minutes data
         if (bosMinutesResponse.status === 'fulfilled') {
           const minutesVal = bosMinutesResponse.value;
-          console.log('BOS Minutes Response:', minutesVal);
           const minutesArray = Array.isArray(minutesVal) ? minutesVal : Array.isArray(minutesVal?.data) ? minutesVal.data : [];
           setBosMinutes(minutesArray);
         }
@@ -393,14 +380,13 @@ const DSDepartment: React.FC = () => {
 
         // Set hackathons data
         if (hackathonsResponse.status === 'fulfilled') {
-          console.log('Hackathons API Response:', {
+          console.log('Hackathons data:', {
             status: 'success',
             value: hackathonsResponse.value,
             isArray: Array.isArray(hackathonsResponse.value)
           });
           setHackathons(Array.isArray(hackathonsResponse.value) ? hackathonsResponse.value : []);
         } else if (hackathonsResponse.status === 'rejected') {
-          console.error('Hackathons API Error:', hackathonsResponse.reason);
         }
 
         // Set hackathons gallery data
@@ -435,12 +421,10 @@ const DSDepartment: React.FC = () => {
         // Handle public department API data as fallback
         if (publicDeptResponse.status === 'fulfilled' && publicDeptResponse.value) {
           const publicData = publicDeptResponse.value?.data || {};
-          console.log('ðŸ” ds Public Department API data available:', Object.keys(publicData));
           // Use public data as fallback for any missing data if needed
         }
 
       } catch (error) {
-        console.error('Error fetching ds department data:', error);
       }
     };
 
@@ -1524,7 +1508,7 @@ const DSDepartment: React.FC = () => {
 
         const otherCategories = grouped.filter(g => g.category && g.category !== 'laboratory');
 
-        console.log('🔍 Physical Facilities Comprehensive Debug:', {
+        console.log('Physical facilities debug:', {
           totalItems: physicalFacilities.length,
           rawData: physicalFacilities.slice(0, 3),
           allCategoriesRaw: Array.from(new Set(physicalFacilities.map(f => f.category))),
@@ -1643,8 +1627,8 @@ const DSDepartment: React.FC = () => {
                     {/* Laboratory Images Gallery */}
                     {(() => {
                       const labImages = hackathonsGallery && hackathonsGallery.filter(g => g.category && (g.category.toLowerCase() === 'laboratories' || g.category.toLowerCase() === 'laboratory'));
-                      
-                      console.log('🔍 Laboratory Images Debug:', {
+
+                      console.log('Laboratory gallery debug:', {
                         totalGallery: hackathonsGallery ? hackathonsGallery.length : 0,
                         allCategories: hackathonsGallery ? Array.from(new Set(hackathonsGallery.map(g => g.category))).sort() : [],
                         labImagesCount: labImages ? labImages.length : 0,
@@ -1677,7 +1661,6 @@ const DSDepartment: React.FC = () => {
                                     alt={item.title || 'Laboratory'}
                                     className="w-full h-48 object-cover"
                                     onError={(e) => {
-                                      console.warn('Failed to load image:', imageUrl);
                                       (e.target as HTMLImageElement).src = '/images/placeholder.png';
                                     }}
                                   />
@@ -1746,7 +1729,6 @@ const DSDepartment: React.FC = () => {
       case 'Faculty Achievements': {
         // Get unique types/categories from the data itself
         const uniqueTypes = Array.from(new Set(facultyAchievements.map(a => a.category || a.type))).sort();
-        console.log('Faculty Achievements rendering - total items:', facultyAchievements.length, 'Types found:', uniqueTypes);
 
         // Group achievements by type, then by year
         const grouped = uniqueTypes.map(type => {
@@ -1983,7 +1965,7 @@ const DSDepartment: React.FC = () => {
 
 
       case 'Technical Association': {
-        console.log('🏢 Technical Association Section - State Check:', {
+        console.log('Technical Association data:', {
           scudActivitiesLength: scudActivities?.length || 0,
           technicalAssociationLength: scudActivities?.length || 0,
           technicalAssociationGalleryLength: technicalAssociationGallery?.length || 0,

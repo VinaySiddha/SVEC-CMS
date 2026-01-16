@@ -37,7 +37,6 @@ export async function GET(request: NextRequest) {
       data: departments
     });
   } catch (error) {
-    console.error('Error fetching department info:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to fetch department info' },
       { status: 500 }
@@ -129,7 +128,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error creating department info:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to create department info' },
       { status: 500 }

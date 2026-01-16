@@ -30,7 +30,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         res.status(200).json(rows);
     } catch (error: any) {
-        console.error("API Error:", error);
         res.status(500).json({ error: "Failed to fetch faculty achievements" });
     }
 }

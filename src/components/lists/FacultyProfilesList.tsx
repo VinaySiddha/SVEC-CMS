@@ -51,7 +51,6 @@ export function FacultyProfilesList({
       const data = await response.json();
       setProfiles(data);
     } catch (error) {
-      console.error('Error fetching faculty profiles:', error);
       toast.error('Failed to load faculty profiles');
     } finally {
       setIsLoading(false);
@@ -76,7 +75,6 @@ export function FacultyProfilesList({
       toast.success('Faculty profile deleted successfully');
       fetchProfiles();
     } catch (error) {
-      console.error('Error deleting faculty profile:', error);
       toast.error('Failed to delete faculty profile');
     }
   };

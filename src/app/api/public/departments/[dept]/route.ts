@@ -27,7 +27,6 @@ const safeQuery = async (sql: string, params: any[]) => {
   try {
     return await query(sql, params);
   } catch (error) {
-    console.warn(`⚠️ Query failed: ${sql.substring(0, 50)}...`, error instanceof Error ? error.message : error);
     return [];
   }
 };
@@ -53,22 +52,18 @@ export async function GET(
   let dept: string = 'unknown';
   
   try {
-    console.log('🚀 Starting department data fetch...');
     const resolvedParams = await params;
     dept = resolvedParams.dept;
 
     if (!dept) {
-      console.error('❌ Department parameter is missing');
       return NextResponse.json(
         { error: 'Department parameter is required' },
         { status: 400 }
       );
     }
     
-    console.log(`🏫 Fetching data for department: ${dept}`);
 
     // Fetch only approved data for public display
-    console.log('📋 Starting database queries (sequential to avoid connection pool exhaustion)...');
     
     // Execute queries sequentially to avoid overwhelming the connection pool
     // Batch 1: Core faculty and staff data
@@ -161,23 +156,6 @@ export async function GET(
       ? await safeQuery('SELECT id, mou_with as organization_name, from_date, to_date, status FROM cai_mous WHERE 1=1 ORDER BY created_at DESC', [])
       : await safeQuery('SELECT id, organization_name, start_date as from_date, end_date as to_date, status FROM mous WHERE dept = ? ORDER BY start_date DESC', [dept]);
 
-    console.log(`✅ All queries completed`);
-    console.log(`👨‍🏫 Faculty: ${Array.isArray(facultyData) ? facultyData.length : 0} records`);
-    console.log(`👥 Non-Teaching Staff: ${Array.isArray(nonTeachingData) ? nonTeachingData.length : 0} records`);
-    console.log(`🔧 Technical Staff: ${Array.isArray(technicalData) ? technicalData.length : 0} records`);
-    console.log(`📚 BOS Members: ${Array.isArray(bosMembersData) ? bosMembersData.length : 0} records`);
-    console.log(`📋 BOS Minutes: ${Array.isArray(bosMinutesData) ? bosMinutesData.length : 0} records`);
-    console.log(`🖼️ Laboratory Gallery: ${Array.isArray(laboratoryGalleryData) ? laboratoryGalleryData.length : 0} records`);
-    console.log(`📚 Department Library: ${Array.isArray(departmentLibraryData) ? departmentLibraryData.length : 0} records`);
-    console.log(`🏆 Faculty Achievements: ${Array.isArray(facultyAchievementsData) ? facultyAchievementsData.length : 0} records`);
-    console.log(`💼 Placements: ${Array.isArray(placementsData) ? placementsData.length : 0} records`);
-    console.log(`🔧 Technical Association: ${Array.isArray(technicalAssociationData) ? technicalAssociationData.length : 0} records`);
-    console.log(`🖼️ Technical Association Gallery: ${Array.isArray(technicalAssociationGalleryData) ? technicalAssociationGalleryData.length : 0} records`);
-    console.log(`🏛️ Labs: ${Array.isArray(labsData) ? labsData.length : 0} records`);
-    console.log(`📋 MOUs: ${Array.isArray(mouData) ? mouData.length : 0} records`);
-    console.log(`📚 Workshops: ${Array.isArray(workshopsData) ? workshopsData.length : 0} records`);
-    console.log(`📰 Newsletters: ${Array.isArray(newslettersData) ? newslettersData.length : 0} records`);
-    console.log(`🎨 Product Development Gallery: ${Array.isArray(productDevelopmentGalleryData) ? productDevelopmentGalleryData.length : 0} records`);
 
     // Transform newsletters data - file_url is already in the table, no need to rename
     if (Array.isArray(newslettersData) && newslettersData.length > 0) {
@@ -219,8 +197,6 @@ export async function GET(
     return response;
 
   } catch (error) {
-    console.error('💥 Error in department data fetch:', error);
-    console.error(`🏫 Department: ${dept || 'unknown'}`);
     
     return NextResponse.json(
       { 

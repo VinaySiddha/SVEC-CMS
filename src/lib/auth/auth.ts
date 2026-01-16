@@ -76,17 +76,12 @@ export function generateToken(user: Pick<User, 'id' | 'username' | 'department' 
  */
 export function verifyToken(token: string): AuthToken | null {
   try {
-    console.log('[verifyToken] Verifying token, length:', token.length);
     const decoded = jwt.verify(token, JWT_SECRET) as AuthToken;
-    console.log('[verifyToken] ✅ Token valid for user:', decoded.username, 'Role:', decoded.role);
     return decoded;
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      console.error('[verifyToken] ❌ Token EXPIRED at:', error.expiredAt);
     } else if (error instanceof jwt.JsonWebTokenError) {
-      console.error('[verifyToken] ❌ Token INVALID:', error.message);
     } else {
-      console.error('[verifyToken] ❌ Token verification error:', error);
     }
     return null;
   }
@@ -159,7 +154,6 @@ export async function authenticateUser(
       permissions: permissions,
     };
   } catch (error) {
-    console.error('Authentication error:', error);
     return null;
   }
 }
@@ -191,7 +185,6 @@ export async function getUserById(id: number): Promise<User | null> {
       is_active: user.is_active,
     };
   } catch (error) {
-    console.error('Get user error:', error);
     return null;
   }
 }
@@ -226,7 +219,6 @@ export async function createUser(userData: {
     const insertId = (result as any).insertId;
     return getUserById(insertId);
   } catch (error) {
-    console.error('Create user error:', error);
     return null;
   }
 }
@@ -264,7 +256,6 @@ export async function getSuperAdminPermissions(userId: number): Promise<string[]
 
     return permissions.map((p: any) => p.permission);
   } catch (error) {
-    console.error('Get permissions error:', error);
     return [];
   }
 }
@@ -289,7 +280,6 @@ export async function hasPermission(userId: number, permission: string, resource
 
     return (result[0] as any).count > 0;
   } catch (error) {
-    console.error('Check permission error:', error);
     return false;
   }
 }
@@ -326,7 +316,6 @@ export async function grantPermission(
 
     return true;
   } catch (error) {
-    console.error('Grant permission error:', error);
     return false;
   }
 }
@@ -374,7 +363,6 @@ export async function logAuditEvent(event: {
       ]
     );
   } catch (error) {
-    console.error('Audit logging error:', error);
     // Don't throw - audit logging should not break the main flow
   }
 }

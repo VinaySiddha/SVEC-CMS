@@ -138,7 +138,6 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error('Error fetching table data:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch table data' },
       { status: 500 }
@@ -255,12 +254,6 @@ export async function POST(
         }
 
         if (missingUrls.length > 0) {
-          console.warn('Warning: File URLs not properly saved to database', {
-            recordId: insertId,
-            tableName,
-            missingUrls
-          });
-
           // Attempt to update the missing URLs
           for (const { field, expectedUrl } of missingUrls) {
             try {
@@ -269,7 +262,6 @@ export async function POST(
                 [expectedUrl, insertId]
               );
             } catch (updateError) {
-              console.error(`Failed to update ${field} for record ${insertId}:`, updateError);
             }
           }
         }
@@ -287,12 +279,10 @@ export async function POST(
         }
       });
     } catch (insertError) {
-      console.error('Error inserting record:', insertError);
       throw insertError;
     }
 
   } catch (error) {
-    console.error('Error creating record:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to create record', details: String(error) },
       { status: 500 }

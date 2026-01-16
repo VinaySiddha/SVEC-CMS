@@ -33,6 +33,5 @@ const DEFAULT_HOME_CONTENT = {
 };
 
 export async function getHomePageContent() {
-  console.log('Returning static home page content');
   return DEFAULT_HOME_CONTENT;
 }

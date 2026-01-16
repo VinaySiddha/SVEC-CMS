@@ -49,7 +49,6 @@ const getDesignationPriority = (designation: string): number => {
 const sortFacultyByDesignationAndDOJ = (facultyList: Faculty[]): Faculty[] => {
   // Safety check: return empty array if input is not an array
   if (!Array.isArray(facultyList)) {
-    console.error('sortFacultyByDesignationAndDOJ: Input is not an array', facultyList);
     return [];
   }
   return [...facultyList].sort((a, b) => {
@@ -614,7 +613,6 @@ const ECEDepartment: React.FC = () => {
           if (Array.isArray(bosMinutesData)) setBosMinutes(bosMinutesData);
         }
       } catch (err) {
-        console.error('Batch 1 fetch error:', err);
       }
     };
 
@@ -645,7 +643,6 @@ const ECEDepartment: React.FC = () => {
           if (Array.isArray(fdpData)) setFdp(fdpData);
         }
       } catch (err) {
-        console.error('Batch 2 fetch error:', err);
       }
     };
 
@@ -698,7 +695,6 @@ const ECEDepartment: React.FC = () => {
           setStudentAchievementsLoading(false);
         }
       } catch (err) {
-        console.error('Batch 3 fetch error:', err);
         setFacultyAchievementsLoading(false);
         setStudentAchievementsLoading(false);
       }
@@ -743,7 +739,6 @@ const ECEDepartment: React.FC = () => {
           if (Array.isArray(results[8])) setFacultyInnovations(results[8]);
         }
       } catch (err) {
-        console.error('Batch 4 fetch error:', err);
       }
     };
 
@@ -783,7 +778,6 @@ const ECEDepartment: React.FC = () => {
           if (Array.isArray(results[7])) setClassroomsGalleryData(results[7]);
         }
       } catch (err) {
-        console.error('Batch 5 fetch error:', err);
       }
     };
 
@@ -799,7 +793,6 @@ const ECEDepartment: React.FC = () => {
           setExtraCurricularActivities(data);
         }
       } catch (err) {
-        console.error('Batch 6 fetch error:', err);
       }
     };
 
@@ -810,7 +803,7 @@ const ECEDepartment: React.FC = () => {
       .then(() => fetchBatch4())
       .then(() => fetchBatch5())
       .then(() => fetchBatch6())
-      .catch(err => console.error('Fetch chain error:', err));
+      .catch(err => console.error('Error fetching data:', err));
 
     // Cleanup on unmount
     return () => {

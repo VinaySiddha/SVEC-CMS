@@ -60,7 +60,6 @@ export function HandbooksList({ departments, onEdit }: HandbooksListProps) {
       const data = await response.json();
       setHandbooks(data);
     } catch (error) {
-      console.error('Error fetching handbooks:', error);
       toast.error('Failed to load handbooks');
     } finally {
       setIsLoading(false);
@@ -90,7 +89,6 @@ export function HandbooksList({ departments, onEdit }: HandbooksListProps) {
       toast.success('Handbook deleted successfully');
       fetchHandbooks();
     } catch (error) {
-      console.error('Error deleting handbook:', error);
       toast.error('Failed to delete handbook');
     }
   };

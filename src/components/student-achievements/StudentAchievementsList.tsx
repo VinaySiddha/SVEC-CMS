@@ -51,7 +51,6 @@ export default function StudentAchievementsList({
       const data = await response.json();
       setAchievements(data);
     } catch (error) {
-      console.error('Error fetching student achievements:', error);
     } finally {
       setLoading(false);
     }

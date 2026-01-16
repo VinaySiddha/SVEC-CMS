@@ -67,9 +67,7 @@ export default function SettingsPage() {
     try {
       // API call to save settings
       await new Promise(resolve => setTimeout(resolve, 1000)); // Mock delay
-      console.log('Settings saved:', settings);
     } catch (error) {
-      console.error('Error saving settings:', error);
     } finally {
       setLoading(false);
     }

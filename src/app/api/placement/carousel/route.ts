@@ -41,7 +41,6 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json(results, { status: 200 });
     } catch (error) {
-        console.error('Error fetching carousel images:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to fetch carousel images' },
             { status: 500 }
@@ -85,7 +84,6 @@ export async function POST(request: NextRequest) {
             { status: 201 }
         );
     } catch (error) {
-        console.error('Error creating carousel image:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to create carousel image' },
             { status: 500 }
@@ -135,7 +133,6 @@ export async function PUT(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error updating carousel image:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to update carousel image' },
             { status: 500 }
@@ -173,7 +170,6 @@ export async function DELETE(request: NextRequest) {
         );
 
         if (existsResult.length === 0) {
-            console.error(`Carousel image with ID ${id} not found - cannot delete`);
             return NextResponse.json(
                 { success: false, error: 'Carousel image not found', id },
                 { status: 404 }
@@ -187,14 +183,12 @@ export async function DELETE(request: NextRequest) {
         );
 
         if (result.affectedRows === 0) {
-            console.error(`Failed to delete carousel image with ID ${id}`);
             return NextResponse.json(
                 { success: false, error: 'Failed to delete carousel image', id },
                 { status: 500 }
             );
         }
 
-        console.log(`Carousel image with ID ${id} deleted successfully`);
         return NextResponse.json(
             {
                 success: true,
@@ -204,7 +198,6 @@ export async function DELETE(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error deleting carousel image:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to delete carousel image', details: error instanceof Error ? error.message : 'Unknown error' },
             { status: 500 }

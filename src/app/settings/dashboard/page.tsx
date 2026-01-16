@@ -74,7 +74,6 @@ export default function SettingsDashboard() {
       // Add save logic here if needed
       toast.success('Settings saved successfully!');
     } catch (error) {
-      console.error('Save error:', error);
       toast.error('Failed to save settings');
     } finally {
       setIsSaving(false);

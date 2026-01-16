@@ -101,7 +101,6 @@ export function EventForm({ deptId, event, initialData, existingEvent, isEdit, o
       }
       return eventData.gallery;
     } catch (e) {
-      console.error("Error parsing gallery data:", e);
       return [];
     }
   };
@@ -232,7 +231,6 @@ export function EventForm({ deptId, event, initialData, existingEvent, isEdit, o
         }
       }
     } catch (error) {
-      console.error("Error submitting event form:", error);
       toast.dismiss();
       toast.error("An unexpected error occurred");
     } finally {

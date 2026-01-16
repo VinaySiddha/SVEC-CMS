@@ -65,10 +65,8 @@ const sortFacultyByDesignationAndDOJ = (facultyList: Faculty[]): Faculty[] => {
   });
 
   // Debug logging
-  console.log('🔍 Faculty Sorting Debug:');
   sorted.forEach((f, idx) => {
     const priority = getDesignationPriority(f.designation);
-    console.log(`${idx + 1}. ${f.name} | ${f.designation} (Priority: ${priority}) | DOJ: ${f.date_of_joining}`);
   });
 
   return sorted;
@@ -235,7 +233,6 @@ const CSTDepartment: React.FC = () => {
   const fetchAllData = useCallback(async () => {
     setIsRefreshing(true);
     try {
-      console.log('🔄 Fetching CSEAI department data...');
       // Make all API calls in parallel using Promise.all() - Using organized CSE-AI APIs from /api/cai/ folder
       const timestamp = new Date().getTime();
       const cacheBuster = `?_t=${timestamp}`;
@@ -310,27 +307,18 @@ const CSTDepartment: React.FC = () => {
       const technicalMagazinesData = publicData.technicalMagazines || [];
       const publicFacultyData = publicData.faculty || [];
 
-      console.log('🔍 Data extraction check:');
-      console.log('Student Achievements Direct API:', Array.isArray(studentAchievementsDirectData) ? studentAchievementsDirectData.length : 0);
-      console.log('Student Achievements Public API:', Array.isArray(studentAchievementsPublicData) ? studentAchievementsPublicData.length : 0);
-      console.log('Faculty from individual API:', Array.isArray(facultyData) ? facultyData.length : 0);
-      console.log('Faculty from public API:', Array.isArray(publicFacultyData) ? publicFacultyData.length : 0);
-      console.log('Faculty Development:', Array.isArray(facultyDevelopmentData) ? facultyDevelopmentData.length : 0);
-      console.log('MOUs:', Array.isArray(mousData) ? mousData.length : 0);
 
       // Set student achievements data - use direct API as primary, public API as fallback
       const combinedStudentAchievementsData = Array.isArray(studentAchievementsDirectData) && studentAchievementsDirectData.length > 0
         ? studentAchievementsDirectData
         : Array.isArray(studentAchievementsPublicData) ? studentAchievementsPublicData : [];
       setStudentAchievements(combinedStudentAchievementsData);
-      console.log('Final student achievements data set:', combinedStudentAchievementsData.length, 'records');
 
       // Set faculty data - use individual API as primary, public API as fallback
       const combinedFacultyData = Array.isArray(facultyData) && facultyData.length > 0
         ? facultyData
         : Array.isArray(publicFacultyData) ? publicFacultyData : [];
       setFaculty(sortFacultyByDesignationAndDOJ(combinedFacultyData));
-      console.log('Final faculty data set:', combinedFacultyData.length, 'records');
 
       // Set technical faculty data
       setTechnicalFaculty(sortFacultyByDesignationAndDOJ(Array.isArray(technicalFacultyData) ? technicalFacultyData : []));
@@ -358,12 +346,6 @@ const CSTDepartment: React.FC = () => {
         ? mousDirectData
         : Array.isArray(mousData) ? mousData : [];
       setMous(combinedMousData);
-      console.log('✅ MOUs data set successfully:', {
-        directDataLength: Array.isArray(mousDirectData) ? mousDirectData.length : 0,
-        publicDataLength: Array.isArray(mousData) ? mousData.length : 0,
-        finalLength: combinedMousData.length,
-        sampleData: combinedMousData.length > 0 ? combinedMousData[0] : 'No data'
-      });
 
       // Set physical facilities data
       setPhysicalFacilities(Array.isArray(physicalFacilitiesData) ? physicalFacilitiesData : []);
@@ -393,10 +375,8 @@ const CSTDepartment: React.FC = () => {
         ? fdpData
         : Array.isArray(facultyDevelopmentData) ? facultyDevelopmentData : [];
       setFacultyDevelopment(combinedFacultyDevelopmentData);
-      console.log('Faculty Development data set:', combinedFacultyDevelopmentData.length, 'records');
 
       // Faculty achievements already set above with combined data from direct + public APIs
-      console.log('Faculty Achievements data set:', Array.isArray(combinedFacultyAchievementsData) ? combinedFacultyAchievementsData.length : 0, 'records');
 
       // Set hackathons data
       setHackathons(Array.isArray(hackathonsData) ? hackathonsData : []);
@@ -425,9 +405,7 @@ const CSTDepartment: React.FC = () => {
 
       // Update refresh status
       setLastRefresh(new Date());
-      console.log('✅ CSEAI data fetch completed successfully');
     } catch (error) {
-      console.error('❌ Error fetching CSEAI data:', error);
     } finally {
       setIsRefreshing(false);
     }
@@ -437,7 +415,7 @@ const CSTDepartment: React.FC = () => {
   useAutoRefresh(fetchAllData, {
     interval: 30000, // Refresh every 30 seconds
     enabled: true,
-    onRefresh: () => console.log('✨ Auto-refresh triggered for CSE-AI department'),
+    onRefresh: () => console.log('Auto-refreshing CSE-AI data'),
     department: 'cse-ai' // Department code for filtering updates
   });
 
@@ -1373,7 +1351,6 @@ const CSTDepartment: React.FC = () => {
 
 
       case 'MoUs': {
-        console.log('MoUs Section - Current State:', { mous, length: mous.length }); // Debug logging
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">MoUs</h2>
@@ -1592,12 +1569,6 @@ const CSTDepartment: React.FC = () => {
                     {/* Laboratory Images Gallery */}
                     {(() => {
                       const labImages = hackathonsGallery && hackathonsGallery.filter(g => g.category && (g.category.toLowerCase() === 'laboratories' || g.category.toLowerCase() === 'laboratory'));
-                      console.log('🔍 Laboratory Images Debug:', {
-                        totalGallery: hackathonsGallery ? hackathonsGallery.length : 0,
-                        allCategories: hackathonsGallery ? hackathonsGallery.map(g => g.category) : [],
-                        labImagesCount: labImages ? labImages.length : 0,
-                        labImagesData: labImages
-                      });
 
                       return labImages && labImages.length > 0 && (
                         <div className="mt-8 pt-8 border-t border-gray-300">
@@ -1671,7 +1642,6 @@ const CSTDepartment: React.FC = () => {
         );
       }
        case 'Faculty Development Programs': {
-        console.log('Faculty Development Section - Current State:', { facultyDevelopment, length: facultyDevelopment.length });
 
         if (!facultyDevelopment || facultyDevelopment.length === 0) {
           return (
@@ -1751,7 +1721,6 @@ const CSTDepartment: React.FC = () => {
       case 'Faculty Achievements': {
         // Get unique categories from the data itself
         const uniqueCategories = Array.from(new Set(facultyAchievements.map(a => a.category))).sort();
-        console.log('Faculty Achievements rendering - total items:', facultyAchievements.length, 'Categories found:', uniqueCategories);
 
         // Check if there's data
         if (!facultyAchievements || facultyAchievements.length === 0) {
@@ -2369,12 +2338,6 @@ const CSTDepartment: React.FC = () => {
                           ? extracurricularActivities.filter((item: any) => item.category && item.category.toLowerCase() === 'maitri coordinators')
                           : [];
 
-                        console.log('🔍 Maitri Coordinators Debug:', {
-                          totalActivities: extracurricularActivities.length,
-                          maitriCoordinatorsCount: maitriCoordinators.length,
-                          sampleItem: maitriCoordinators.length > 0 ? maitriCoordinators[0] : null
-                        });
-
                         return maitriCoordinators && maitriCoordinators.length > 0 ? (
                           <ul className="my-2 list-none space-y-2">
                             {maitriCoordinators.map((item: any, idx: number) => (
@@ -2412,12 +2375,6 @@ const CSTDepartment: React.FC = () => {
                         const maitriEvents = workshops && workshops.length > 0
                           ? workshops.filter((w: any) => w.category && w.category.toLowerCase() === 'maitri events')
                           : [];
-
-                        console.log('🔍 Maitri Events Debug:', {
-                          totalWorkshops: workshops.length,
-                          maitriEventsCount: maitriEvents.length,
-                          sampleEvent: maitriEvents.length > 0 ? maitriEvents[0] : null
-                        });
 
                         return maitriEvents && maitriEvents.length > 0 ? (
                           <ul className="my-2 list-none space-y-2">

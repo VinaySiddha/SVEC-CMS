@@ -123,7 +123,6 @@ export function StudentAchievementForm({
       onSuccess();
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
-      console.error('Error submitting student achievement:', error);
     } finally {
       setIsLoading(false);
     }

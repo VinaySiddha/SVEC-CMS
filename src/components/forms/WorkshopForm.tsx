@@ -126,7 +126,6 @@ export function WorkshopForm({
       onSuccess();
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
-      console.error('Error submitting workshop:', error);
     } finally {
       setIsLoading(false);
     }

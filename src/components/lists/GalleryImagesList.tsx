@@ -62,7 +62,6 @@ export function GalleryImagesList({
       const data = await response.json();
       setImages(data.data || []);
     } catch (error) {
-      console.error('Error fetching gallery images:', error);
       toast.error('Failed to load gallery images');
     } finally {
       setIsLoading(false);
@@ -88,7 +87,6 @@ export function GalleryImagesList({
       toast.success('Image deleted successfully');
       fetchImages();
     } catch (error) {
-      console.error('Error deleting image:', error);
       toast.error('Failed to delete image');
     }
   };

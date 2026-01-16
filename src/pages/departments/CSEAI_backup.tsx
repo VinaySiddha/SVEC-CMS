@@ -313,12 +313,10 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
         // Handle public department API data as fallback
         if (publicDeptResponse.status === 'fulfilled' && publicDeptResponse.value) {
           const publicData = publicDeptResponse.value?.data || {};
-          console.log('🔍 AIML Public Department API data available:', Object.keys(publicData));
           // Use public data as fallback for any missing data if needed
         }
 
       } catch (error) {
-        console.error('Error fetching AIML department data:', error);
       }
     };
 
@@ -1589,7 +1587,6 @@ case 'Physical Facilities': {
      case 'Faculty Achievements': {
   // Get unique categories from the data itself
   const uniqueCategories = Array.from(new Set(facultyAchievements.map(a => a.category))).sort();
-  console.log('Faculty Achievements rendering - total items:', facultyAchievements.length, 'Categories found:', uniqueCategories);
   
   // Group achievements by category
   const grouped = uniqueCategories.map(cat => ({

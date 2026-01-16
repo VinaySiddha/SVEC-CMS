@@ -17,7 +17,6 @@ export async function testDatabaseConnection() {
   const startTime = Date.now();
   
   try {
-    console.log('Testing database connection...');
     
     // Simple query to test connection
     const result = await query('SELECT 1 as test, VERSION() as mysql_version, NOW() as server_time');
@@ -25,7 +24,7 @@ export async function testDatabaseConnection() {
     testResults.responseTime = Date.now() - startTime;
     testResults.connected = true;
     testResults.serverInfo = result[0];
-    
+
     console.log('Database connection successful:', {
       responseTime: testResults.responseTime + 'ms',
       serverInfo: testResults.serverInfo
@@ -35,7 +34,7 @@ export async function testDatabaseConnection() {
     testResults.responseTime = Date.now() - startTime;
     testResults.error = error.message || 'Unknown error';
     testResults.connected = false;
-    
+
     console.error('Database connection failed:', {
       error: error.message,
       code: error.code,
@@ -58,7 +57,6 @@ export async function testTableAccess(tableName: string = 'users') {
   const startTime = Date.now();
   
   try {
-    console.log(`Testing table access: ${tableName}`);
     
     // Test basic table access
     const result = await query(`SELECT COUNT(*) as count FROM ${tableName} LIMIT 1`);
@@ -66,8 +64,8 @@ export async function testTableAccess(tableName: string = 'users') {
     testResults.responseTime = Date.now() - startTime;
     testResults.accessible = true;
     testResults.recordCount = (result[0] as any).count;
-    
-    console.log(`Table ${tableName} access successful:`, {
+
+    console.log('Table access successful:', {
       recordCount: testResults.recordCount,
       responseTime: testResults.responseTime + 'ms'
     });
@@ -76,8 +74,8 @@ export async function testTableAccess(tableName: string = 'users') {
     testResults.responseTime = Date.now() - startTime;
     testResults.error = error.message || 'Unknown error';
     testResults.accessible = false;
-    
-    console.error(`Table ${tableName} access failed:`, {
+
+    console.error('Table access failed:', {
       error: error.message,
       code: error.code,
       responseTime: testResults.responseTime + 'ms'
@@ -88,7 +86,6 @@ export async function testTableAccess(tableName: string = 'users') {
 }
 
 export async function runFullDatabaseTest() {
-  console.log('Starting full database test...');
   
   const tests = {
     connection: await testDatabaseConnection(),
@@ -97,12 +94,12 @@ export async function runFullDatabaseTest() {
     auditLogsTable: await testTableAccess('audit_logs')
   };
   
-  const allSuccessful = tests.connection.connected && 
-                       tests.usersTable.accessible && 
+  const allSuccessful = tests.connection.connected &&
+                       tests.usersTable.accessible &&
                        tests.departmentCredentialsTable.accessible &&
                        tests.auditLogsTable.accessible;
-  
-  console.log('Database test results:', {
+
+  console.log('Full database test results:', {
     overall: allSuccessful ? 'SUCCESS' : 'FAILED',
     tests
   });

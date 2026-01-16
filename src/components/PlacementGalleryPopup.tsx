@@ -49,7 +49,6 @@ export default function PlacementGalleryPopup({ isOpen, onClose }: PlacementGall
           setCurrentIndex(0);
         }
       } catch (error) {
-        console.error('Error fetching placement images:', error);
       } finally {
         setIsLoading(false);
       }

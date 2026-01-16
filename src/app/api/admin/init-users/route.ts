@@ -44,7 +44,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Failed to initialize admin users:', error);
     return NextResponse.json(
       { error: 'Failed to initialize admin users', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }

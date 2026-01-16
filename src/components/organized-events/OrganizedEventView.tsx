@@ -69,7 +69,6 @@ export function OrganizedEventView({
       
       setDepartments(deptMap);
     } catch (error) {
-      console.error('Error fetching department names:', error);
     }
   };
 

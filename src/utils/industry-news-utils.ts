@@ -146,7 +146,6 @@ export async function getIndustryNews(options: {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error fetching industry news:', error);
     throw error;
   }
 }
@@ -165,7 +164,6 @@ export async function getIndustryNewsItem(id: string): Promise<IndustryNews> {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(`Error fetching industry news item ${id}:`, error);
     throw error;
   }
 }

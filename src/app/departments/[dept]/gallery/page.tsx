@@ -47,7 +47,6 @@ export default function DepartmentGallery() {
       const data = await response.json();
       setImages(data);
     } catch (error) {
-      console.error('Error fetching gallery images:', error);
     } finally {
       setLoading(false);
     }

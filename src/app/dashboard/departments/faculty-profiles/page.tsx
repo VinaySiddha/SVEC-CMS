@@ -85,7 +85,6 @@ export default function FacultyProfilesPage() {
         total: data.meta?.total || 0
       }));
     } catch (err) {
-      console.error('Error fetching faculty profiles:', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch data');
     } finally {
       setLoading(false);
@@ -210,7 +209,6 @@ export default function FacultyProfilesPage() {
       await fetchProfiles();
       
     } catch (err) {
-      console.error('Form submission error:', err);
       
       if (err instanceof z.ZodError) {
         // Handle zod validation errors
@@ -280,7 +278,6 @@ export default function FacultyProfilesPage() {
       fetchProfiles();
       
     } catch (err) {
-      console.error('Error deleting faculty profile:', err);
       setError(err instanceof Error ? err.message : 'Failed to delete faculty profile');
     } finally {
       setIsDeleting(false);
@@ -364,7 +361,6 @@ export default function FacultyProfilesPage() {
         setNonTeachingStaff(result.data.nonTeachingStaff);
       }
     } catch (error) {
-      console.error('Error fetching non-teaching staff:', error);
     }
   };
 
@@ -393,7 +389,6 @@ export default function FacultyProfilesPage() {
       resetNonTeachingForm();
       fetchNonTeachingStaff();
     } catch (error) {
-      console.error('Error saving non-teaching staff:', error);
       setError(error instanceof Error ? error.message : 'Failed to save staff member');
     }
   };
@@ -425,7 +420,6 @@ export default function FacultyProfilesPage() {
 
         fetchNonTeachingStaff();
       } catch (error) {
-        console.error('Error deleting non-teaching staff:', error);
         setError(error instanceof Error ? error.message : 'Failed to delete staff member');
       }
     }

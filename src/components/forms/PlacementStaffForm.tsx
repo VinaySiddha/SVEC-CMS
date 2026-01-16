@@ -97,11 +97,9 @@ export function PlacementStaffForm({ staff, onSuccess, onCancel }: PlacementStaf
         let errorMessage = 'Failed to save staff member';
         try {
           const error = await response.json();
-          console.error('Staff API error response:', error);
           errorMessage = error?.error || errorMessage;
         } catch (e) {
           // If response is not JSON, keep default error message
-          console.error('Staff API error: response not JSON', e);
         }
         throw new Error(errorMessage);
       }
@@ -110,7 +108,6 @@ export function PlacementStaffForm({ staff, onSuccess, onCancel }: PlacementStaf
       form.reset();
       onSuccess();
     } catch (error) {
-      console.error('Error saving staff member:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to save staff member');
     } finally {
       setIsLoading(false);

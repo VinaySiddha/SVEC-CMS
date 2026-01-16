@@ -49,7 +49,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Delete the database record
       await connection.execute('DELETE FROM cai_bos_members WHERE id = ?', [id]);
       
-      console.log(`Deleted CAI BOS members record ${id} and associated files`);
       res.status(200).json({ message: 'Record and files deleted successfully' });
       
     } else if (req.method === 'PUT') {
@@ -77,7 +76,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       for (const field of fileFields) {
         if (updateData[field] && existingRecord[field] && updateData[field] !== existingRecord[field]) {
           FileManager.deleteFile(existingRecord[field]);
-          console.log(`Automatically replaced old file in ${field}: ${existingRecord[field]} with: ${updateData[field]}`);
         }
       }
       
@@ -99,7 +97,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         updateValues
       );
       
-      console.log(`Updated CAI BOS members record ${id} with automatic file replacement`);
       res.status(200).json({ message: 'Record updated successfully, old files automatically replaced' });
       
     } else {
@@ -107,7 +104,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     
   } catch (error) {
-    console.error('Error with cai_bos_members data:', error);
     res.status(500).json({ error: 'Failed to process BOS members data' });
   } 
 }

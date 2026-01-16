@@ -140,7 +140,6 @@ const Academics: React.FC = () => {
             // Try to parse as JSON, fallback if not
             return JSON.parse(text);
           } catch (e) {
-            console.error('Failed to parse JSON for', res.url, e);
             return fallback;
           }
         }
@@ -180,9 +179,6 @@ const Academics: React.FC = () => {
         setUgAutonomousData(autonomousData.data?.UG || {});
         setPgAutonomousData(autonomousData.data?.PG || {});
         
-        console.log('Autonomous data received:', autonomousData);
-        console.log('UG Autonomous data:', autonomousData.data?.UG);
-        console.log('PG Autonomous data:', autonomousData.data?.PG);
 
         // Set JNTUK exam section data - organize timetables by degree
         const normalizeType = (type: string = '') => {
@@ -212,7 +208,6 @@ const Academics: React.FC = () => {
         setUgJNTUKData(jntukByDegree.UG);
         setPgJNTUKData(jntukByDegree.PG);
       } catch (err) {
-        console.error('Error fetching academic data:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
         setLoading(false);

@@ -29,7 +29,6 @@ export async function GET(request: NextRequest) {
             data: activities
         });
     } catch (error) {
-        console.error('Error fetching extra-curricular activities:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch extra-curricular activities' },
             { status: 500 }

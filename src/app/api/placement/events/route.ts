@@ -24,7 +24,6 @@ export async function GET(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error fetching placement events:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to fetch placement events' },
             { status: 500 }
@@ -61,7 +60,6 @@ export async function POST(request: NextRequest) {
             { status: 201 }
         );
     } catch (error) {
-        console.error('Error creating placement event:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to create placement event' },
             { status: 500 }
@@ -114,7 +112,6 @@ export async function PUT(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error updating placement event:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to update placement event' },
             { status: 500 }
@@ -170,7 +167,6 @@ export async function DELETE(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error deleting placement event:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to delete placement event' },
             { status: 500 }

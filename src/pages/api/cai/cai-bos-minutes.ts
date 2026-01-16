@@ -7,7 +7,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     if (req.method === 'GET') {
-      console.log('Fetching CAI BOS minutes...');
       const startTime = Date.now();
       
       const rows: any = await executeQuery(`
@@ -17,8 +16,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         LIMIT 20
       `);
       
-      console.log('CAI BOS minutes query time:', Date.now() - startTime, 'ms');
-      console.log('CAI BOS minutes records found:', (rows as any[]).length);
       
       res.status(200).json(rows);
       
@@ -47,7 +44,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Delete the database record
       await connection.execute('DELETE FROM cai_bos_minutes WHERE id = ?', [id]);
       
-      console.log(`Deleted CAI BOS minutes record ${id} and associated files`);
       res.status(200).json({ message: 'Record and files deleted successfully' });
       
     } else if (req.method === 'PUT') {
@@ -73,7 +69,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // If file URL is being updated, delete the old file
       if (updateData.file_url && updateData.file_url !== existingRecord.file_url) {
         FileManager.deleteFile(existingRecord.file_url);
-        console.log(`Replaced old file: ${existingRecord.file_url} with: ${updateData.file_url}`);
       }
       
       // Update the record
@@ -94,7 +89,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         updateValues
       );
       
-      console.log(`Updated CAI BOS minutes record ${id}`);
       res.status(200).json({ message: 'Record updated successfully' });
       
     } else {
@@ -102,7 +96,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     
   } catch (error) {
-    console.error('CAI BOS minutes API error:', error);
     res.status(500).json({ 
       error: 'Internal server error',
       message: error instanceof Error ? error.message : 'Unknown error'

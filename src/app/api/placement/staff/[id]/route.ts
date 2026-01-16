@@ -23,7 +23,6 @@ export async function GET(
 
     return NextResponse.json(staff[0]);
   } catch (error) {
-    console.error('Error fetching staff member:', error);
     return NextResponse.json(
       { error: 'Failed to fetch staff member' },
       { status: 500 }
@@ -85,7 +84,6 @@ export async function PUT(
       message: 'Staff member updated successfully'
     });
   } catch (error) {
-    console.error('Error updating staff member:', error);
     return NextResponse.json(
       { error: 'Failed to update staff member' },
       { status: 500 }
@@ -125,7 +123,6 @@ export async function DELETE(
       message: 'Staff member deleted successfully'
     });
   } catch (error) {
-    console.error('Error deleting staff member:', error);
     return NextResponse.json(
       { error: 'Failed to delete staff member' },
       { status: 500 }

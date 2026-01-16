@@ -54,7 +54,6 @@ export async function PATCH(
     });
 
   } catch (error) {
-    console.error('Error updating user status:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

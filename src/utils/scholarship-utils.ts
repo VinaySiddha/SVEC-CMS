@@ -47,15 +47,11 @@ export async function createScholarshipTable() {
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )
       `);
-      
-      console.log('Scholarships table created successfully');
       return { success: true, message: 'Scholarships table created successfully' };
     } else {
-      console.log('Scholarships table already exists');
       return { success: true, message: 'Scholarships table already exists' };
     }
   } catch (error) {
-    console.error('Error creating scholarships table:', error);
     return { success: false, error: 'Failed to create scholarships table' };
   }
 }
@@ -73,7 +69,6 @@ export async function getScholarships(deptId: string): Promise<Scholarship[]> {
     );
     return scholarships;
   } catch (error) {
-    console.error('Error fetching scholarships:', error);
     throw error;
   }
 }
@@ -92,7 +87,6 @@ export async function getScholarship(scholarshipId: number): Promise<Scholarship
     
     return scholarships.length > 0 ? scholarships[0] : null;
   } catch (error) {
-    console.error('Error fetching scholarship:', error);
     throw error;
   }
 }
@@ -144,7 +138,6 @@ export async function createScholarship(
       return { success: false, error: 'Failed to create scholarship record' };
     }
   } catch (error) {
-    console.error('Error creating scholarship:', error);
     return { success: false, error: 'An error occurred while creating scholarship' };
   }
 }
@@ -202,7 +195,6 @@ export async function updateScholarship(
     
     return { success: true };
   } catch (error) {
-    console.error('Error updating scholarship:', error);
     return { success: false, error: 'An error occurred while updating scholarship' };
   }
 }
@@ -230,7 +222,6 @@ export async function deleteScholarship(scholarshipId: number): Promise<{ succes
     
     return { success: true };
   } catch (error) {
-    console.error('Error deleting scholarship:', error);
     return { success: false, error: 'An error occurred while deleting scholarship' };
   }
 }

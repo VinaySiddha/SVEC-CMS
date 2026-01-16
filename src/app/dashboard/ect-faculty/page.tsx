@@ -37,7 +37,6 @@ export default function ECTFacultyDashboard() {
       const data = await response.json();
       setFaculty(data);
     } catch (error) {
-      console.error('Error fetching faculty:', error);
       alert('Failed to load faculty data');
     } finally {
       setLoading(false);
@@ -126,7 +125,6 @@ export default function ECTFacultyDashboard() {
       closeModal();
       fetchFaculty();
     } catch (error) {
-      console.error('Error saving faculty:', error);
       alert(error instanceof Error ? error.message : 'Failed to save faculty member');
     }
   };
@@ -147,7 +145,6 @@ export default function ECTFacultyDashboard() {
       alert('Faculty member deleted successfully!');
       fetchFaculty();
     } catch (error) {
-      console.error('Error deleting faculty:', error);
       alert('Failed to delete faculty member');
     }
   };

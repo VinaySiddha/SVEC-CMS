@@ -30,7 +30,6 @@ export async function GET(
       data: (result as any[])[0]
     });
   } catch (error) {
-    console.error('Error fetching gallery image:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to fetch gallery image' },
       { status: 500 }
@@ -111,7 +110,6 @@ export async function PUT(
       message: 'Gallery image updated successfully'
     });
   } catch (error) {
-    console.error('Error updating gallery image:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to update gallery image' },
       { status: 500 }
@@ -147,7 +145,6 @@ export async function DELETE(
       message: 'Gallery image deleted successfully'
     });
   } catch (error) {
-    console.error('Error deleting gallery image:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to delete gallery image' },
       { status: 500 }

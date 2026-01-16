@@ -83,7 +83,6 @@ export default function PlacementOfficerPage() {
             const data = await response.json();
             setOfficer(data);
         } catch (error) {
-            console.error('Error fetching placement officer:', error);
             toast.error('Failed to load placement officer');
         } finally {
             setIsLoading(false);
@@ -186,7 +185,6 @@ export default function PlacementOfficerPage() {
             setImagePreview(null);
             fetchOfficer();
         } catch (error: any) {
-            console.error('Error adding officer:', error);
             toast.error(error.message || 'Failed to add officer');
         } finally {
             setIsSubmitting(false);
@@ -249,7 +247,6 @@ export default function PlacementOfficerPage() {
             setEditImagePreview(null);
             fetchOfficer();
         } catch (error: any) {
-            console.error('Error updating officer:', error);
             toast.error(error.message || 'Failed to update officer');
         } finally {
             setIsSubmitting(false);
@@ -277,7 +274,6 @@ export default function PlacementOfficerPage() {
             toast.success('Placement officer deleted successfully!');
             setOfficer(null);
         } catch (error: any) {
-            console.error('Error deleting officer:', error);
             toast.error(error.message || 'Failed to delete officer');
         } finally {
             setIsSubmitting(false);

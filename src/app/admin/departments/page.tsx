@@ -65,7 +65,6 @@ export default function DepartmentsPage() {
         if (result.data.departments && Array.isArray(result.data.departments)) {
           setData(result.data);
         } else {
-          console.error('Invalid data structure:', result.data);
           // Set default data structure to prevent errors
           setData({
             overview: {
@@ -78,7 +77,6 @@ export default function DepartmentsPage() {
           });
         }
       } else {
-        console.error('Failed to fetch departments:', result.error);
         setData({
           overview: {
             totalDepartments: 0,
@@ -90,7 +88,6 @@ export default function DepartmentsPage() {
         });
       }
     } catch (error) {
-      console.error('Error fetching departments:', error);
       // Set fallback data to prevent undefined errors
       setData({
         overview: {

@@ -33,7 +33,6 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error fetching faculty profiles:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -120,7 +119,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error creating faculty profile:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -226,7 +224,6 @@ export async function PUT(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error updating faculty profile:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -265,7 +262,6 @@ export async function DELETE(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error deleting faculty profile:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

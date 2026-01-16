@@ -36,7 +36,6 @@ export async function GET(request: NextRequest) {
             data: groupedAchievements
         });
     } catch (error) {
-        console.error('Error fetching faculty achievements:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch faculty achievements' },
             { status: 500 }

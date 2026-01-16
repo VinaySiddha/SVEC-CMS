@@ -42,7 +42,6 @@ export default function ManageIndustryNewsPage() {
           setNews(newsData);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
         // Use the department ID as fallback
         setDepartmentName(deptId);
         setDepartments([{ id: deptId, name: deptId }]);

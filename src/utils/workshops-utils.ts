@@ -63,7 +63,6 @@ export async function getWorkshops(options: GetWorkshopsOptions = {}): Promise<W
     const data = await response.json();
     return data;
   } catch (error: any) {
-    console.error('Error fetching workshop data:', error);
     throw new Error(error.message || 'Failed to fetch workshop data');
   }
 }
@@ -74,7 +73,6 @@ export async function getWorkshopById(id: string): Promise<Workshop> {
     const workshops = await getWorkshops({ id });
     return workshops[0];
   } catch (error: any) {
-    console.error(`Error fetching workshop with ID ${id}:`, error);
     throw new Error(error.message || `Failed to fetch workshop with ID ${id}`);
   }
 }
@@ -89,7 +87,6 @@ export function formatDateForDisplay(dateString: string): string {
       day: 'numeric'
     });
   } catch (error) {
-    console.error('Error formatting date:', error);
     return dateString; // Return the original string if parsing fails
   }
 }

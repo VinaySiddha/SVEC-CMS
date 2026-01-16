@@ -48,7 +48,6 @@ export const ResearchModuleSelection: React.FC<ModuleSelectionProps> = ({
           setSelectedModules(modules);
         }
       } catch (error) {
-        console.error('Error loading module selection:', error);
       } finally {
         setLoading(false);
       }

@@ -91,7 +91,6 @@ export default function PlacementForm({ deptId, onSuccess }: PlacementFormProps)
       setReportFile(null);
       onSuccess();
     } catch (error) {
-      console.error('Error submitting placement data:', error);
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Failed to add placement stats",

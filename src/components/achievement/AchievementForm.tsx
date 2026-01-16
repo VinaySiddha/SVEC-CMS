@@ -57,7 +57,6 @@ export default function AchievementForm({ achievementId }: { achievementId?: str
         const data = await response.json();
         setDepartments(data);
       } catch (err) {
-        console.error('Error fetching departments:', err);
         setError('Failed to load departments. Please try again later.');
       }
     };
@@ -91,7 +90,6 @@ export default function AchievementForm({ achievementId }: { achievementId?: str
           proof_url: data.proof_url || '',
         });
       } catch (err) {
-        console.error('Error fetching achievement data:', err);
         setError('Failed to load achievement data. Please try again later.');
       } finally {
         setIsLoading(false);
@@ -177,7 +175,6 @@ export default function AchievementForm({ achievementId }: { achievementId?: str
       router.push('/administration/manage-faculty-achievements');
       
     } catch (err: any) {
-      console.error('Error submitting achievement:', err);
       setError(err.message || 'An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);

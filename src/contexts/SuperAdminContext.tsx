@@ -59,7 +59,6 @@ export const SuperAdminProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         }
       }
     } catch (error) {
-      console.error('Auth check failed:', error);
       setUser(null);
       if (pathname !== '/super-admin/login') {
         router.push('/super-admin/login');
@@ -76,7 +75,6 @@ export const SuperAdminProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         credentials: 'include',
       });
     } catch (error) {
-      console.error('Logout error:', error);
     } finally {
       setUser(null);
       router.push('/super-admin/login');

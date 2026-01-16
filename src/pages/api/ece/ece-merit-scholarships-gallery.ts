@@ -14,7 +14,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     `;
     
     const results = await executeQuery(query);
-    console.log('All gallery data:', results);
     
     // Filter for toppers category or return all if toppers doesn't exist
     const toppersData = results.filter((item: any) => item.category === 'toppers');
@@ -22,7 +21,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     
     res.status(200).json(dataToReturn);
   } catch (error) {
-    console.error('Error fetching ECT merit scholarships gallery:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 }

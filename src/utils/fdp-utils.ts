@@ -67,7 +67,6 @@ export async function getFDPs(options: GetFDPOptions = {}): Promise<FacultyDevel
     const data = await response.json();
     return data;
   } catch (error: any) {
-    console.error('Error fetching FDP data:', error);
     throw new Error(error.message || 'Failed to fetch FDP data');
   }
 }
@@ -78,7 +77,6 @@ export async function getFDPById(id: string): Promise<FacultyDevelopmentProgram>
     const fdps = await getFDPs({ id });
     return fdps[0];
   } catch (error: any) {
-    console.error(`Error fetching FDP with ID ${id}:`, error);
     throw new Error(error.message || `Failed to fetch FDP with ID ${id}`);
   }
 }
@@ -93,7 +91,6 @@ export function formatDateForDisplay(dateString: string): string {
       day: 'numeric'
     });
   } catch (error) {
-    console.error('Error formatting date:', error);
     return dateString; // Return the original string if parsing fails
   }
 }

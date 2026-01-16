@@ -37,11 +37,10 @@ function getDbConfig() {
  */
 export function getPool(): Pool {
   if (!pool) {
-    console.log('Creating new database connection pool');
     const config = getDbConfig();
-    console.log('Database config:', { 
-      ...config, 
-      password: config.password ? '****' : '' 
+    console.log('Creating database pool with config:', {
+      ...config,
+      password: config.password ? '****' : ''
     });
     pool = mysql.createPool(config);
   }
@@ -66,27 +65,22 @@ export async function query<T>(sql: string, params?: any[]): Promise<T[]> {
   
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      console.log(`Database query attempt ${attempt}/${maxRetries}`);
       
       // Get the pool and execute the query with prepared statement
       const [rows] = await getPool().execute<RowDataPacket[]>(sql, params || []);
       
-      console.log(`Query successful on attempt ${attempt}`);
       // Type assertion - we're confident this will match the expected type T
       return rows as T[];
     } catch (error: any) {
       lastError = error;
-      console.error(`Database query error on attempt ${attempt}:`, error.code, error.message);
       
       // If this is a connection timeout, network error, or too many connections, try to recreate the pool
       if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET' || error.code === 'ENOTFOUND' || error.code === 'ER_CON_COUNT_ERROR') {
-        console.log('Connection error detected, resetting pool...');
         resetPool();
         
         // Wait before retry (exponential backoff)
         if (attempt < maxRetries) {
           const delay = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s, 16s, 32s
-          console.log(`Waiting ${delay}ms before retry...`);
           await new Promise(resolve => setTimeout(resolve, delay));
         }
       } else {
@@ -96,7 +90,6 @@ export async function query<T>(sql: string, params?: any[]): Promise<T[]> {
     }
   }
   
-  console.error('All query attempts failed:', lastError);
   throw lastError;
 }
 
@@ -109,7 +102,7 @@ export async function query<T>(sql: string, params?: any[]): Promise<T[]> {
  *   'INSERT INTO users (username, email, password_hash, department, role) VALUES (?, ?, ?, ?, ?)',
  *   ['john_doe', 'john@example.com', 'hashed_password', 'cse', 'dept']
  * );
- * console.log(`Inserted user with ID: ${result.insertId}`);
+ * 
  * 
  * @param sql SQL statement string
  * @param params Array of parameters to substitute in the statement
@@ -121,26 +114,21 @@ export async function execute<T>(sql: string, params?: any[]): Promise<ResultSet
   
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      console.log(`Database execute attempt ${attempt}/${maxRetries}`);
       
       // Get the pool and execute the statement with prepared statement
       const [result] = await getPool().execute<ResultSetHeader>(sql, params || []);
       
-      console.log(`Execute successful on attempt ${attempt}`);
       return result;
     } catch (error: any) {
       lastError = error;
-      console.error(`Database execute error on attempt ${attempt}:`, error.code, error.message);
       
       // If this is a connection timeout, network error, or too many connections, try to recreate the pool
       if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET' || error.code === 'ENOTFOUND' || error.code === 'ER_CON_COUNT_ERROR') {
-        console.log('Connection error detected, resetting pool...');
         resetPool();
         
         // Wait before retry (exponential backoff)
         if (attempt < maxRetries) {
           const delay = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s, 16s, 32s
-          console.log(`Waiting ${delay}ms before retry...`);
           await new Promise(resolve => setTimeout(resolve, delay));
         }
       } else {
@@ -150,7 +138,6 @@ export async function execute<T>(sql: string, params?: any[]): Promise<ResultSet
     }
   }
   
-  console.error('All execute attempts failed:', lastError);
   throw lastError;
 }
 
@@ -187,7 +174,6 @@ export async function withTransaction<T>(
   } catch (error) {
     // If any error, rollback the transaction
     await connection.rollback();
-    console.error('Transaction error:', error);
     // Re-throw the error for handling by the caller
     throw error;
   } finally {
@@ -201,9 +187,8 @@ export async function withTransaction<T>(
  */
 export function resetPool(): void {
   if (pool) {
-    pool.end().catch(console.error);
+    pool.end().catch(() => {});
     pool = null;
-    console.log('Database connection pool reset');
   }
 }
 
@@ -215,7 +200,6 @@ export async function closePool(): Promise<void> {
   if (pool) {
     await pool.end();
     pool = null;
-    console.log('Database connection pool closed');
   }
 }
 

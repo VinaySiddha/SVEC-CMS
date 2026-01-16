@@ -32,10 +32,8 @@ export async function createTrainingsTable() {
 
   try {
     await query(createTableSQL);
-    console.log('Trainings table created successfully');
     return { success: true, message: 'Trainings table created successfully' };
   } catch (error) {
-    console.error('Error creating trainings table:', error);
     return { success: false, message: `Error creating trainings table: ${error}` };
   }
 }
@@ -51,7 +49,6 @@ export async function getTrainings(deptId: string) {
     );
     return { success: true, trainings };
   } catch (error) {
-    console.error('Error fetching trainings:', error);
     return { success: false, message: `Error fetching trainings: ${error}`, trainings: [] };
   }
 }
@@ -72,7 +69,6 @@ export async function getTraining(deptId: string, trainingId: string) {
       return { success: false, message: 'Training not found', training: null };
     }
   } catch (error) {
-    console.error('Error fetching training:', error);
     return { success: false, message: `Error fetching training: ${error}`, training: null };
   }
 }
@@ -124,7 +120,6 @@ export async function createTraining(
       }
     };
   } catch (error) {
-    console.error('Error creating training:', error);
     return { success: false, message: `Error creating training: ${error}` };
   }
 }
@@ -189,7 +184,6 @@ export async function updateTraining(
       }
     };
   } catch (error) {
-    console.error('Error updating training:', error);
     return { success: false, message: `Error updating training: ${error}` };
   }
 }
@@ -217,7 +211,6 @@ export async function deleteTraining(deptId: string, trainingId: string) {
     
     return { success: true, message: 'Training deleted successfully' };
   } catch (error) {
-    console.error('Error deleting training:', error);
     return { success: false, message: `Error deleting training: ${error}` };
   }
 }

@@ -18,7 +18,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await connection.end();
     res.status(200).json(rows);
   } catch (error) {
-    console.error('API /api/non-teaching-faculty error:', error);
     res.status(500).json({ message: 'Database error', error: (error as Error).message });
   }
 }

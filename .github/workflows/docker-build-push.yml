@@ -2,10 +2,10 @@ name: Build and Push Docker Image
 
 on:
   push:
-    branches: [ main, master, Final_Blast ]
+    branches: [ dev ]
   pull_request:
     branches: [ main, master ]
-  
+
   # Allow manual triggering
   workflow_dispatch:
 
@@ -130,24 +130,101 @@ jobs:
           name: trivy-sarif-results
           path: trivy-results.sarif
 
-  # Optional: Deploy to staging/production environment
+  # Deploy to VPS
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/Final_Blast'
-    
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/Final_Blast' || github.ref == 'refs/heads/dev'
+
     steps:
       - name: Deploy to VPS via SSH
-        uses: appleboy/ssh-action@v0.1.10
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: 22
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
           timeout: 30s
-          command_timeout: 10m
-          debug: true
+          command_timeout: 15m
+          debug: false
           script: |
-            cd /root/srivasaviengg.ac.in
-            docker-compose pull
-            docker-compose up -d
+            echo "🚀 Starting deployment..."
+            echo "📦 Branch: ${{ github.ref_name }}"
+
+            # Navigate to project directory
+            cd /var/www/srivasaviengg.ac.in
+
+            # Pull latest Docker image
+            echo "📥 Pulling latest Docker image..."
+            docker pull ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+
+            # Stop and remove old container
+            echo "🛑 Stopping old container..."
+            docker stop svec-cms 2>/dev/null || true
+            docker rm svec-cms 2>/dev/null || true
+
+            # Run new container
+            echo "🚀 Starting new container..."
+            docker run -d \
+              --name svec-cms \
+              --restart unless-stopped \
+              -p 4000:3000 \
+              -v /var/www/srivasaviengg.ac.in/uploads:/var/www/uploads \
+              --env-file .env.production \
+              ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+
+            # Clean up old images
+            echo "🧹 Cleaning up old images..."
+            docker image prune -f
+
+            # Show container status
+            echo "📊 Container status:"
+            docker ps | grep svec-cms
+
+            echo "✅ Deployment completed successfully!"
+            echo "🌐 Application is running on port 4000"
+
+      - name: Verify deployment
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          timeout: 30s
+          script: |
+            echo "🔍 Verifying deployment..."
+
+            # Wait for container to be ready
+            sleep 5
+
+            # Check if container is running
+            if docker ps | grep -q svec-cms; then
+              echo "✅ Container is running"
+            else
+              echo "❌ Container is not running"
+              docker logs svec-cms --tail 50
+              exit 1
+            fi
+
+            # Check if app is responding
+            if curl -s http://localhost:4000 > /dev/null; then
+              echo "✅ Application is responding on port 4000"
+            else
+              echo "⚠️  Application may not be responding yet"
+            fi
+
+            # Show recent logs
+            echo "📋 Recent container logs:"
+            docker logs svec-cms --tail 20
+
+      - name: Deployment notification
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Deployment to VPS completed successfully!"
+            echo "Branch: ${{ github.ref_name }}"
+            echo "Commit: ${{ github.sha }}"
+          else
+            echo "❌ Deployment to VPS failed!"
+          fi

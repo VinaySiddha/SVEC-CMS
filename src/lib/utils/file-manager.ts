@@ -49,7 +49,6 @@ export async function handleFileUpload({ file, type, section }: FileUploadOption
       fileName
     };
   } catch (error: any) {
-    console.error('File upload error:', error);
     return {
       success: false,
       error: error.message
@@ -66,7 +65,6 @@ export async function deleteFile(url: string) {
     }
     return false;
   } catch (error) {
-    console.error('File deletion error:', error);
     return false;
   }
 }

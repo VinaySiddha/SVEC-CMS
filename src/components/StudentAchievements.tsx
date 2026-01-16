@@ -52,7 +52,6 @@ export const StudentAchievements: React.FC<StudentAchievementsProps> = ({ depart
                 }
             } catch (err) {
                 setError('Failed to load student achievements data');
-                console.error('Student achievements fetch error:', err);
             } finally {
                 setLoading(false);
             }

@@ -27,7 +27,6 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error fetching controller profile:', error);
     return NextResponse.json(
       { error: 'Failed to fetch profile' },
       { status: 500 }
@@ -120,7 +119,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error creating/updating profile:', error);
     return NextResponse.json(
       { error: 'Failed to save profile' },
       { status: 500 }
@@ -161,7 +159,6 @@ export async function DELETE(request: NextRequest) {
       try {
         await unlink(filePath);
       } catch (error) {
-        console.error('Error deleting photo:', error);
         // Continue even if file deletion fails
       }
     }
@@ -172,7 +169,6 @@ export async function DELETE(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error deleting profile:', error);
     return NextResponse.json(
       { error: 'Failed to delete profile' },
       { status: 500 }

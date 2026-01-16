@@ -127,7 +127,6 @@ export function LaboratoryForm({
       onSuccess();
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
-      console.error('Error submitting laboratory:', error);
     } finally {
       setIsLoading(false);
     }

@@ -48,7 +48,6 @@ export default async function handler(req, res) {
 
     res.status(200).json({ success: true, message: 'Sample data seeded successfully', count: sampleData.length });
   } catch (error) {
-    console.error('Error seeding faculty achievements:', error);
     res.status(500).json({ error: error.message });
   } finally {
     if (connection) {

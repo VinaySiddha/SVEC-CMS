@@ -66,10 +66,9 @@ const MBADepartment: React.FC = () => {
         return res.json();
       })
       .then((data) => {
-        console.log('MBA Student Achievements Data:', data);
         setStudentAch(data || {});
       })
-      .catch((err) => console.error("Error fetching MBA Student Achievements:", err));
+      .catch((err) => console.error('Error fetching student achievements:', err));
   }, []);
 
   useEffect(() => {
@@ -79,16 +78,15 @@ const MBADepartment: React.FC = () => {
         return res.json();
       })
       .then((data) => {
-        console.log('MBA Workshops Data:', data);
         setWorkshops(data || {});
       })
-      .catch((err) => console.error("Error fetching MBA Workshops:", err));
+      .catch((err) => console.error('Error fetching workshops:', err));
   }, []);
   useEffect(() => {
     fetch('/api/mba/placements') // backend API URL
       .then((res) => res.json())
       .then((data) => setPlacement(data)) // assuming your API returns { placements: [...] }
-      .catch((err) => console.error("Error fetching MBA Placements:", err));
+      .catch((err) => console.error('Error fetching placements:', err));
   }, []);
   useEffect(() => {
     fetch('/api/mba/faculty-profiles') // backend API URL
@@ -125,7 +123,9 @@ const MBADepartment: React.FC = () => {
 
         setFaculty(sortedFaculty);
       })
-      .catch((err) => console.error("Error fetching Faculty Profiles:", err));
+      .catch((err) => {
+        console.error('Error fetching faculty:', err);
+      });
   }, []);
   useEffect(() => {
     fetch('/api/mba/faculty-achievements') // backend API URL
@@ -135,7 +135,6 @@ const MBADepartment: React.FC = () => {
       })
       .then((data) => setFacultyAch(Array.isArray(data) ? data : []))
       .catch((err) => {
-        console.error("Error fetching Faculty Achievements:", err);
         setFacultyAch([]);
       });
   }, []);
@@ -158,7 +157,6 @@ const MBADepartment: React.FC = () => {
       })
       .then((data) => setFacultyDev(Array.isArray(data) ? data : []))
       .catch((err) => {
-        console.error("Error fetching Faculty Development:", err);
         setFacultyDev([]);
       });
   }, []);
@@ -171,7 +169,6 @@ const MBADepartment: React.FC = () => {
       })
       .then((data) => setIndustrialVisits(Array.isArray(data) ? data : []))
       .catch((err) => {
-        console.error("Error fetching Industrial Visits:", err);
         setIndustrialVisits([]);
       });
   }, []);
@@ -187,7 +184,6 @@ const MBADepartment: React.FC = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching Syllabus:", err);
         setSyllabus([]);
         setLoading(false);
       });
@@ -200,7 +196,6 @@ const MBADepartment: React.FC = () => {
       })
       .then((data) => setbosMeetings(data))
       .catch((err) => {
-        console.error("Error fetching BOS meetings:", err);
         setbosMeetings([]);
       });
   }, []);
@@ -211,11 +206,9 @@ const MBADepartment: React.FC = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data)
         setNonTeachingFaculty(data.nonTeaching || []);
       })
       .catch((err) => {
-        console.error("Error fetching Non-Teaching Staff:", err);
         setNonTeachingFaculty([]);
       });
   }, []);
@@ -226,11 +219,9 @@ const MBADepartment: React.FC = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data)
         setboardOfStudies(data || []);
       })
       .catch((err) => {
-        console.error("Error fetching Board of Studies:", err);
         setboardOfStudies([]);
       });
   }, []);
@@ -243,7 +234,6 @@ const MBADepartment: React.FC = () => {
       })
       .then((data) => setHandbooks(Array.isArray(data) ? data : []))
       .catch((err) => {
-        console.error("Error fetching MBA Handbooks:", err);
         setHandbooks([]);
       });
   }, []);
@@ -256,7 +246,6 @@ const MBADepartment: React.FC = () => {
       })
       .then((data) => setMeritScholarships(Array.isArray(data) ? data : []))
       .catch((err) => {
-        console.error("Error fetching MBA Merit Scholarships:", err);
         setMeritScholarships([]);
       });
   }, []);
@@ -269,7 +258,6 @@ const MBADepartment: React.FC = () => {
       })
       .then((data) => setMous(Array.isArray(data) ? data : []))
       .catch((err) => {
-        console.error("Error fetching MBA MoUs:", err);
         setMous([]);
       });
   }, []);
@@ -282,7 +270,6 @@ const MBADepartment: React.FC = () => {
       })
       .then((data) => setNewsletters(Array.isArray(data) ? data : []))
       .catch((err) => {
-        console.error("Error fetching MBA Newsletters:", err);
         setNewsletters([]);
       });
   }, []);
@@ -295,7 +282,6 @@ const MBADepartment: React.FC = () => {
       })
       .then((data) => setPhysicalFacilities(Array.isArray(data) ? data : []))
       .catch((err) => {
-        console.error("Error fetching MBA Physical Facilities:", err);
         setPhysicalFacilities([]);
       });
   }, []);
@@ -312,7 +298,6 @@ const MBADepartment: React.FC = () => {
         }
       })
       .catch((err) => {
-        console.error("Error fetching MBA Department Library:", err);
         setDepartmentLibrary(null);
       });
   }, []);
@@ -430,7 +415,6 @@ const MBADepartment: React.FC = () => {
       }
       setLoading(false);
     } catch (err) {
-      console.error('Error fetching MBA data:', err);
       setLoading(false);
     }
   }, []);
@@ -439,7 +423,7 @@ const MBADepartment: React.FC = () => {
   useAutoRefresh(fetchAllData, {
     interval: 30000, // Refresh every 30 seconds
     enabled: true,
-    onRefresh: () => console.log('✨ Auto-refresh triggered for MBA department'),
+    onRefresh: () => {},
     department: 'mba' // Department code for filtering updates
   });
 

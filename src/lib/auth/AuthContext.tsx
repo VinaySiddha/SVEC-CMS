@@ -16,27 +16,22 @@ interface User {
 // Client-side token verification (simplified)
 function verifyClientToken(token: string): { id: number; username: string; department: string; role: string; email?: string; department_name?: string } | null {
   try {
-    console.log('Verifying token:', token ? 'Token exists' : 'No token');
     
     // Simple base64 decode for client-side verification
     // Note: This is not secure verification, just for UI state management
     if (!token || typeof token !== 'string') {
-      console.warn('Token is missing or not a string');
       return null;
     }
     
     const parts = token.split('.');
     if (parts.length !== 3) {
-      console.warn('Invalid JWT format - expected 3 parts, got:', parts.length);
       return null;
     }
     
     let payload;
     try {
       payload = JSON.parse(atob(parts[1]));
-      console.log('Token payload decoded:', { id: payload.id, username: payload.username, role: payload.role, exp: payload.exp });
     } catch (decodeError) {
-      console.error('Failed to decode token payload:', decodeError);
       return null;
     }
     
@@ -45,22 +40,17 @@ function verifyClientToken(token: string): { id: number; username: string; depar
       const currentTime = Date.now() / 1000;
       const bufferTime = 300; // 5 minutes
       if (payload.exp < (currentTime - bufferTime)) {
-        console.warn('Token expired:', { exp: payload.exp, current: currentTime, expired: payload.exp < currentTime });
         return null;
       }
-      console.log('Token is valid, expires at:', new Date(payload.exp * 1000));
     }
     
     // Validate required fields
     if (!payload.id || !payload.username || !payload.role) {
-      console.warn('Token missing required fields:', { id: !!payload.id, username: !!payload.username, role: !!payload.role });
       return null;
     }
     
-    console.log('Token verification successful for user:', payload.username);
     return payload;
   } catch (error) {
-    console.error('Token verification error:', error);
     return null;
   }
 }
@@ -84,24 +74,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const initializeAuth = () => {
-      console.log('🚀 Starting Auth Initialization');
       
       // Simple localStorage check
       const storedToken = localStorage.getItem('authToken');
       
       if (!storedToken) {
-        console.log('❌ No token found');
         setToken(null);
         setUser(null);
         setIsLoading(false);
         return;
       }
       
-      console.log('✅ Token found, verifying...');
       const decoded = verifyClientToken(storedToken);
       
       if (decoded) {
-        console.log('✅ Token valid for:', decoded.username);
         
         const userData: User = {
           id: decoded.id,
@@ -115,9 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         setToken(storedToken);
         setUser(userData);
-        console.log('✅ Session restored successfully');
       } else {
-        console.log('❌ Token invalid or expired, clearing...');
         localStorage.removeItem('authToken');
         setToken(null);
         setUser(null);
@@ -134,9 +118,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = (newToken: string, userData: User) => {
     try {
-      console.log('=== Starting Login Process ===');
-      console.log('Token received:', newToken ? 'Yes' : 'No');
-      console.log('User data received:', userData);
       
       // Validate token before setting
       const decoded = verifyClientToken(newToken);
@@ -144,7 +125,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         throw new Error('Invalid token provided to login');
       }
       
-      console.log('✅ Token validation successful, logging in user:', userData.username);
       
       // Set state first
       setToken(newToken);
@@ -153,30 +133,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Then save to localStorage
       try {
         localStorage.setItem('authToken', newToken);
-        console.log('✅ Token saved to localStorage');
         
         // Verify it was saved
         const saved = localStorage.getItem('authToken');
         if (saved === newToken) {
-          console.log('✅ Token verification in localStorage successful');
         } else {
-          console.error('❌ Token not properly saved to localStorage');
         }
       } catch (storageError) {
-        console.error('❌ Failed to save token to localStorage:', storageError);
         throw new Error('Failed to save authentication state');
       }
       
-      console.log('=== Login Process Complete ===');
     } catch (error) {
-      console.error('❌ Login error:', error);
       throw error;
     }
   };
 
   const logout = () => {
     try {
-      console.log('Logging out user:', user?.username);
       setToken(null);
       setUser(null);
       localStorage.removeItem('authToken');
@@ -184,7 +157,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Also clear any other auth-related storage
       localStorage.removeItem('userData');
     } catch (error) {
-      console.error('Logout error:', error);
       // Still clear state even if localStorage fails
       setToken(null);
       setUser(null);
@@ -195,7 +167,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const hasPermission = (requiredDept?: string): boolean => {
     if (!user) {
-      console.log('No user found for permission check');
       return false;
     }
     
@@ -212,7 +183,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const hasAccess = user.department === requiredDept;
     
     if (!hasAccess) {
-      console.log(`Permission denied: user dept '${user.department}' != required '${requiredDept}'`);
     }
     
     return hasAccess;

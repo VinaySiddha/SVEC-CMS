@@ -100,7 +100,6 @@ export function FacultyAchievementForm({
       onSuccess();
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
-      console.error('Error submitting faculty achievement:', error);
     } finally {
       setIsLoading(false);
     }

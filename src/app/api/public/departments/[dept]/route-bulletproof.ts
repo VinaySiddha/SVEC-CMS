@@ -6,25 +6,19 @@ export async function GET(
   { params }: { params: Promise<{ dept: string }> }
 ) {
   try {
-    console.log('=== API ROUTE START ===');
     
     // Step 1: Get department parameter
     const resolvedParams = await params;
     const dept = resolvedParams.dept;
-    console.log('✅ Step 1: Got department:', dept);
     
     if (!dept) {
-      console.log('❌ No department provided');
       return NextResponse.json({ error: 'Department required' }, { status: 400 });
     }
 
     // Step 2: Test basic database connection
-    console.log('🔍 Step 2: Testing database connection...');
     try {
       const connectionTest = await query('SELECT 1 as test', []);
-      console.log('✅ Step 2: Database connected successfully');
     } catch (dbError) {
-      console.error('❌ Step 2: Database connection failed:', dbError);
       return NextResponse.json({ 
         error: 'Database connection failed', 
         details: dbError instanceof Error ? dbError.message : 'Unknown DB error' 
@@ -32,7 +26,6 @@ export async function GET(
     }
 
     // Step 3: Try faculty query only (the most important one)
-    console.log('🔍 Step 3: Fetching faculty data...');
     let facultyData = [];
     try {
       facultyData = await query(
@@ -52,18 +45,14 @@ export async function GET(
          LIMIT 50`,
         [dept]
       ) as any[];
-      console.log(`✅ Step 3: Got ${facultyData.length} faculty records`);
     } catch (facultyError) {
-      console.error('❌ Step 3: Faculty query failed:', facultyError);
       facultyData = [];
     }
 
     // Step 4: Try syllabus query (the problematic one)
-    console.log('🔍 Step 4: Fetching syllabus data...');
     let syllabusDocuments = [];
     try {
       if (dept.toUpperCase() === 'EEE') {
-        console.log('🔍 Step 4a: Querying EEE_Syllabus table...');
         syllabusDocuments = await query(
           `SELECT id, title, description, document_url, type, academic_year, semester, regulation 
            FROM EEE_Syllabus 
@@ -72,9 +61,7 @@ export async function GET(
            LIMIT 20`,
           ['active']
         ) as any[];
-        console.log(`✅ Step 4a: Got ${syllabusDocuments.length} EEE syllabus records`);
       } else {
-        console.log('🔍 Step 4b: Querying syllabus_documents table...');
         syllabusDocuments = await query(
           `SELECT id, title, description, document_url, type, academic_year, semester, regulation 
            FROM syllabus_documents 
@@ -83,30 +70,23 @@ export async function GET(
            LIMIT 20`,
           [dept, 'approved']
         ) as any[];
-        console.log(`✅ Step 4b: Got ${syllabusDocuments.length} syllabus records`);
       }
     } catch (syllabusError) {
-      console.error('❌ Step 4: Syllabus query failed:', syllabusError);
-      console.error('❌ Syllabus error details:', syllabusError instanceof Error ? syllabusError.message : 'Unknown');
       syllabusDocuments = [];
     }
 
     // Step 5: Try labs query (simple one)
-    console.log('🔍 Step 5: Fetching labs data...');
     let labsData = [];
     try {
       labsData = await query(
         'SELECT id, lab_name, description, equipment_details FROM laboratories WHERE dept = ? AND status = "active" ORDER BY lab_name LIMIT 10',
         [dept]
       ) as any[];
-      console.log(`✅ Step 5: Got ${labsData.length} lab records`);
     } catch (labsError) {
-      console.error('❌ Step 5: Labs query failed:', labsError);
       labsData = [];
     }
 
     // Step 6: Return successful response
-    console.log('🎉 Step 6: Preparing response...');
     const response = {
       success: true,
       department: dept,
@@ -135,16 +115,10 @@ export async function GET(
       }
     };
     
-    console.log('✅ Step 6: Response prepared successfully');
-    console.log('=== API ROUTE SUCCESS ===');
     
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('💥 FATAL ERROR in API route:');
-    console.error('💥 Error message:', error instanceof Error ? error.message : 'Unknown error');
-    console.error('💥 Error stack:', error instanceof Error ? error.stack : 'No stack trace');
-    console.error('=== API ROUTE FAILED ===');
     
     return NextResponse.json(
       {

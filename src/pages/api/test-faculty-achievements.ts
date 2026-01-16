@@ -7,15 +7,12 @@ export default async function handler(request: NextRequest) {
 
 async function GET(request: NextRequest) {
   try {
-    console.log('🔍 Testing Faculty Achievements data from cai_faculty_achievements...');
 
     const result = await query(
       'SELECT id, category, year, title, file_url FROM cai_faculty_achievements ORDER BY created_at DESC',
       []
     );
 
-    console.log(`✅ Faculty Achievements Data Fetch Test`);
-    console.log(`📊 Total Records: ${Array.isArray(result) ? result.length : 0}`);
 
     return NextResponse.json({
       success: true,
@@ -33,7 +30,6 @@ async function GET(request: NextRequest) {
       endpoint: '/api/public/departments/cse-ai (includes facultyAchievements)'
     });
   } catch (error) {
-    console.error('❌ Error fetching Faculty Achievements data:', error);
     return NextResponse.json(
       {
         success: false,

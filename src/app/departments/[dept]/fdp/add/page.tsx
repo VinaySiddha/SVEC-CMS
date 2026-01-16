@@ -40,11 +40,9 @@ export default function AddFDPPage() {
             }
           }
         } catch (facultyError) {
-          console.error('Error fetching faculty members:', facultyError);
           // Continue without faculty data
         }
       } catch (error) {
-        console.error('Error fetching department:', error);
         // Use the department ID as fallback
         setDepartmentName(deptId);
         setDepartments([{ id: deptId, name: deptId }]);

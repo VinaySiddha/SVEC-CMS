@@ -75,7 +75,6 @@ export async function GET(
 
         return NextResponse.json(rows || []);
     } catch (error) {
-        console.error(`Error fetching ECT module data:`, error);
         return NextResponse.json(
             { error: 'Failed to fetch data', details: error instanceof Error ? error.message : 'Unknown error' },
             { status: 500 }

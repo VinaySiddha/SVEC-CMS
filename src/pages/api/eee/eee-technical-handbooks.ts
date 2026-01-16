@@ -11,7 +11,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         );
         res.status(200).json(rows || []);
       } catch (err) {
-        console.warn('Category filter query failed, trying without filter:', err);
         try {
           // Fallback: try without category filter
           const rows: any = await executeQuery(
@@ -19,7 +18,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           );
           res.status(200).json(rows || []);
         } catch (err2) {
-          console.warn('General query also failed:', err2);
           // Return empty array if table doesn't exist
           res.status(200).json([]);
         }
@@ -29,7 +27,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(405).json({ error: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('EEE Technical Handbooks API Error:', error);
     // Return empty array instead of error for non-critical data
     res.status(200).json([]);
   }

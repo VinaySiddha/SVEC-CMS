@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 // Simple test route to debug the modules issue
 export async function GET() {
   try {
-    console.log('Test API route called');
     
     // Simple department config for testing
     const testConfig = {
@@ -43,7 +42,6 @@ export async function GET() {
     });
 
   } catch (error) {
-    console.error('Error in test route:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch test data' },
       { status: 500 }

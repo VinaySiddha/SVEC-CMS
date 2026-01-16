@@ -31,7 +31,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Token generation error:', error);
     return NextResponse.json(
       { error: 'Failed to generate token' },
       { status: 500 }

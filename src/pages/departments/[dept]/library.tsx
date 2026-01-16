@@ -80,7 +80,6 @@ export default function DepartmentLibraryPage() {
       const data = await response.json();
       setResources(data);
     } catch (error) {
-      console.error('Error fetching resources:', error);
     } finally {
       setIsLoading(false);
     }

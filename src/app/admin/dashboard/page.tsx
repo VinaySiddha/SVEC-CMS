@@ -1324,8 +1324,6 @@ export default function SuperAdminDashboard() {
 
   // Debug state changes
   useEffect(() => {
-    console.log('showCreateModal changed to:', showCreateModal);
-    console.log('editingItem changed to:', editingItem);
   }, [showCreateModal, editingItem]);
 
   // Auto-refresh module data every 30 seconds when a module is selected
@@ -1335,7 +1333,6 @@ export default function SuperAdminDashboard() {
     const refreshInterval = setInterval(() => {
       const module = currentModules.find(m => m.key === selectedModule);
       if (module) {
-        console.log(`🔄 Auto-refreshing ${module.name} data...`);
         loadModuleData(module.table, currentPage);
       }
     }, 30000); // 30 seconds
@@ -1448,7 +1445,6 @@ export default function SuperAdminDashboard() {
         }
       }
     } catch (error) {
-      console.error('Error loading module data:', error);
       setModuleData([]);
       setTotalRecords(0);
       setTotalPages(1);
@@ -1492,11 +1488,9 @@ export default function SuperAdminDashboard() {
   };
 
   const handleEdit = (item: ModuleData) => {
-    console.log('Edit clicked for item:', item);
     alert(`Edit clicked for item: ${item.id} - ${item.title || item.name || 'Untitled'}`);
     setEditingItem(item);
     setShowCreateModal(true);
-    console.log('Modal should open, showCreateModal:', true);
   };
 
   const handleDelete = async (id: number) => {
@@ -1514,7 +1508,6 @@ export default function SuperAdminDashboard() {
         alert('Failed to delete item');
       }
     } catch (error) {
-      console.error('Error deleting item:', error);
       alert('Error deleting item');
     }
   };
@@ -1556,7 +1549,6 @@ export default function SuperAdminDashboard() {
         alert(`Failed to save: ${errorData.error || 'Unknown error'}`);
       }
     } catch (error) {
-      console.error('Error saving item:', error);
       alert('Error saving item');
     }
   };

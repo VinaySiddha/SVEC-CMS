@@ -8,7 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         "SELECT id, academic_year, title, file_url FROM mech_industry_programs ORDER BY academic_year DESC"
       );
 
-      console.log('Raw industry_programs data from DB:', JSON.stringify(rows, null, 2));
 
       // Format data for frontend display
       const formatted = (rows || []).map((r: any) => ({
@@ -25,14 +24,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         ] : []
       }));
 
-      console.log('Formatted industry_programs response:', JSON.stringify(formatted, null, 2));
       res.status(200).json(formatted);
     } else {
       res.setHeader('Allow', ['GET']);
       res.status(405).json({ error: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('Mech Industry Programs API Error:', error);
     res.status(500).json({
       error: 'Database connection failed',
       details: error instanceof Error ? error.message : 'Unknown error'

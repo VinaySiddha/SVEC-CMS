@@ -44,7 +44,6 @@ export default function DepartmentHandbooksPage() {
       const data = await response.json();
       setHandbooks(data);
     } catch (error) {
-      console.error('Error fetching handbooks:', error);
     } finally {
       setIsLoading(false);
     }

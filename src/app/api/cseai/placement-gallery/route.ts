@@ -22,7 +22,6 @@ export async function GET(request: NextRequest) {
             data: galleryItems
         });
     } catch (error) {
-        console.error('Error fetching placement gallery:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch placement gallery' },
             { status: 500 }

@@ -114,9 +114,7 @@ export async function POST(request: NextRequest) {
         currentDate
       ]);
 
-      console.log('Database insert result:', dbResult);
     } catch (dbError) {
-      console.error('Database error:', dbError);
     }
 
     return NextResponse.json({
@@ -127,7 +125,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Upload error:', error);
     return NextResponse.json(
       { error: 'Error uploading file' },
       { status: 500 }

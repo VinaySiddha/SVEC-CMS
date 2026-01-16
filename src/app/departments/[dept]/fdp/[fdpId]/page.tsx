@@ -43,7 +43,6 @@ export default function EditFDPPage() {
             }
           }
         } catch (facultyError) {
-          console.error('Error fetching faculty members:', facultyError);
           // Continue without faculty data
         }
         
@@ -56,7 +55,6 @@ export default function EditFDPPage() {
         const fdpData = await fdpResponse.json();
         setFdp(fdpData);
       } catch (error) {
-        console.error('Error fetching data:', error);
         // Use fallbacks
         setDepartmentName(deptId);
         setDepartments([{ id: deptId, name: deptId }]);

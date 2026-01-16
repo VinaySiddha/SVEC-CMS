@@ -10,14 +10,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   });
 
   try {
-    console.log('🔍 Testing syllabus data fetch from cai_syllabus...');
 
     // Test direct query
     const [syllabusRecords]: any = await connection.execute(
       'SELECT id, type, title, fileUrl, academic_year FROM cai_syllabus ORDER BY academic_year DESC, type ASC'
     );
 
-    console.log(`✅ Query successful. Found ${syllabusRecords.length} records`);
 
     res.status(200).json({
       success: true,
@@ -34,7 +32,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     });
   } catch (error) {
-    console.error('❌ Error fetching syllabus data:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to fetch syllabus data',

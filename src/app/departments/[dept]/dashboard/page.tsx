@@ -575,13 +575,12 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
   useEffect(() => {
     // Don't run checks while auth is still loading OR dept is not yet resolved
     if (authLoading || !dept) {
-      console.log('Auth or dept still loading, skipping checks. authLoading:', authLoading, 'dept:', dept);
       return;
     }
 
     // CRITICAL: Check if token exists in localStorage
     const checkToken = localStorage.getItem('authToken');
-    console.log('🔍 Dashboard Auth Check:', {
+    console.log('Auth check:', {
       user: user?.username,
       dept,
       tokenExists: !!checkToken,
@@ -589,22 +588,18 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
     });
 
     if (!user) {
-      console.log('No user found after auth completed, redirecting to login');
       router.push('/auth/login?message=Session expired, please login again');
       return;
     }
 
-    console.log('User authenticated:', user.username, 'Role:', user.role, 'User Dept:', user.department, 'Requested Dept:', dept);
 
     // Check if user has access to this department
     if (user.role !== 'super_admin' && user.role !== 'admin' && user.department !== dept) {
-      console.log('Access denied - User dept:', user.department, 'Requested dept:', dept);
       toast.error('You do not have access to this department');
       router.push('/auth/login?message=Access denied');
       return;
     }
 
-    console.log('✅ Department access granted for:', dept);
   }, [user, dept, router, authLoading]);
 
   // Auto-refresh mechanism
@@ -680,14 +675,12 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
   const loadModuleData = async (moduleKey: string, page: number = 1, forceRefresh: boolean = false, tableOverride?: string) => {
     // Validate parameters early to avoid sending malformed requests to the API
     if (!dept) {
-      console.error('[loadModuleData] Missing department param:', dept, 'moduleKey:', moduleKey);
       toast.error('Invalid department specified');
       setLoading(false);
       return;
     }
 
     if (!moduleKey) {
-      console.error('[loadModuleData] Missing moduleKey for department:', dept);
       toast.error('Invalid module selected');
       setLoading(false);
       return;
@@ -696,7 +689,6 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
     // Ensure the selected module exists for this department
     const moduleExists = (currentModules || []).some(m => m.key === moduleKey);
     if (!moduleExists) {
-      console.error(`[loadModuleData] Module "${moduleKey}" is not valid for department "${dept}"`);
       toast.error('Invalid department or module');
       setLoading(false);
       return;
@@ -717,15 +709,12 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
 
     // CRITICAL DEBUG: Check if token exists
     if (!authToken) {
-      console.error('🚨 CRITICAL: No auth token found in localStorage!');
-      console.error('🚨 All localStorage keys:', Object.keys(localStorage));
-      console.error('🚨 This will cause 401 errors!');
       toast.error('Authentication error: Please login again');
       router.push('/auth/login?message=Session expired');
       return;
     }
 
-    console.log('🔍 Loading module data - Auth token check:', {
+    console.log('Fetching data with auth:', {
       hasToken: true,
       tokenPreview: authToken.substring(0, 30) + '...',
       tokenLength: authToken.length,
@@ -737,7 +726,6 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
     // Only include Authorization header when a valid token exists to avoid sending 'Bearer null'
     const headers: Record<string, string> = {};
     headers['Authorization'] = `Bearer ${authToken}`;
-    console.log('✅ Authorization header set:', headers['Authorization'].substring(0, 50) + '...');
 
     try {
       // Determine which table to use for multi-table modules
@@ -817,7 +805,6 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
       if (structureResult.status === 'fulfilled') {
         setTableColumns(structureResult.value.fields || []);
       } else {
-        console.warn('Failed to load table structure:', structureResult.reason);
         setTableColumns([]);
       }
 
@@ -839,13 +826,11 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         setTotalRecords(0);
         setTotalPages(1);
         if (dataResult.status === 'rejected') {
-          console.error('Data fetch failed:', dataResult.reason);
         } else {
           toast.error('No data found for this module');
         }
       }
     } catch (error) {
-      console.error('Error loading module data:', error);
       setModuleData([]);
       setTotalRecords(0);
       setTotalPages(1);
@@ -861,8 +846,6 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
 
   // Handle module selection
   const handleModuleSelect = (moduleKey: string) => {
-    console.log('📱 Module selected:', moduleKey);
-    console.log('📱 Current auth token exists:', !!localStorage.getItem('authToken'));
     setSelectedModule(moduleKey);
     setCurrentPage(1);
     loadModuleData(moduleKey, 1);
@@ -913,7 +896,6 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                 body: JSON.stringify({ fileUrl: itemToDelete[field] })
               });
             } catch (fileError) {
-              console.warn('Could not delete file:', itemToDelete[field], fileError);
             }
           }
         }
@@ -969,7 +951,6 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         toast.error(result.error || 'Failed to delete item');
       }
     } catch (error) {
-      console.error('Error deleting item:', error);
       if (error instanceof Error) {
         toast.error(`Delete failed: ${error.message}`);
       } else {
@@ -1053,7 +1034,6 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
         toast.error(`Failed to save: ${result.error || 'Unknown error'}`);
       }
     } catch (error) {
-      console.error('Error saving item:', error);
       if (error instanceof Error) {
         toast.error(`Save failed: ${error.message}`);
       } else {
@@ -1207,7 +1187,6 @@ export default function DepartmentDashboard({ params }: DepartmentDashboardProps
                             onClick={() => {
                               setSelectedFacultyAchievementTable(option.value);
                               setCurrentPage(1);
-                              console.log(`[Faculty Achievements] Switching to: ${option.label}`);
                               // Load data for the selected table - pass only the config key as tableOverride
                               loadModuleData(selectedModule, 1, true, option.value);
                             }}
@@ -1740,12 +1719,9 @@ function EditForm({
       if (response.ok) {
         const options = await response.json();
         setLaboratoryOptions(options);
-        console.log('[EditForm] Laboratory options loaded:', options);
       } else {
-        console.error('Failed to fetch laboratory options');
       }
     } catch (error) {
-      console.error('Error fetching laboratory options:', error);
     }
   };
 
@@ -1760,13 +1736,10 @@ function EditForm({
       let structureUrl = `/api/admin/departments/${dept}/${selectedModule}/structure?t=${cacheBuster}`;
       if (selectedModule === 'research-center' && selectedResearchTable) {
         structureUrl += `&table=${selectedResearchTable}`;
-        console.log(`[fetchTableStructure] Research Center: Loading fields for ${selectedResearchTable}`);
       } else if (selectedModule === 'student-achievements' && selectedStudentAchievementTable) {
         structureUrl += `&table=${selectedStudentAchievementTable}`;
-        console.log(`[fetchTableStructure] Student Achievements: Loading fields for ${selectedStudentAchievementTable}`);
       } else if (selectedModule === 'faculty-achievements' && selectedFacultyAchievementTable) {
         structureUrl += `&table=${selectedFacultyAchievementTable}`;
-        console.log(`[fetchTableStructure] Faculty Achievements: Loading fields for ${selectedFacultyAchievementTable}`);
       }
 
       const result = await fetchWithErrorHandling(structureUrl, {
@@ -1776,7 +1749,6 @@ function EditForm({
         }
       });
 
-      console.log('[fetchTableStructure] API Response:', result);
 
       // Check if we have configured fields (from module-fields.ts)
       if (result.source === 'config' && result.fields) {
@@ -1787,15 +1759,12 @@ function EditForm({
           Null: field.required ? 'NO' : 'YES',
           fieldConfig: field // Store the full field config for additional properties
         }));
-        console.log('[fetchTableStructure] Mapped config fields:', configFields);
         setTableFields(configFields);
       } else {
-        console.log('[fetchTableStructure] Using fallback database schema');
         // Use database schema fields as fallback
         setTableFields(result.fields || []);
       }
     } catch (error) {
-      console.error('Error fetching table structure:', error);
       // Fallback to default fields if API fails
       setTableFields([
         { Field: 'title', Type: 'varchar(255)', Null: 'YES' },
@@ -1901,7 +1870,7 @@ function EditForm({
       return;
     }
 
-    console.log('[EditForm.handleSubmit] Data being saved:', {
+    console.log('Saving data:', {
       fieldCount: Object.keys(dataToSave).length,
       data: dataToSave,
       fields: Object.keys(dataToSave)
@@ -1957,7 +1926,6 @@ function EditForm({
       }
 
       setSelectedFiles(prev => ({ ...prev, [fieldName]: file }));
-      console.log(`📎 Selected file for ${fieldName}: ${file.name} (${fileSizeKB}KB)`);
 
       toast.success('📎 File Selected!', {
         description: `${file.name} (${fileSizeKB}KB) ready for upload to ${fieldName}`,
@@ -2041,7 +2009,7 @@ function EditForm({
         const placeholder = field.fieldConfig?.placeholder || `Enter ${displayName.toLowerCase()}`;
 
         if (fieldName === 'type') {
-          console.log(`[EditForm] Rendering field "${fieldName}":`, {
+          console.log('Type field debug:', {
             fieldConfig: field.fieldConfig,
             hasType: !!field.fieldConfig?.type,
             type: field.fieldConfig?.type,
@@ -2171,7 +2139,6 @@ function EditForm({
 
                             if (totalFiles === 0) return;
 
-                            console.log(`Starting upload of ${totalFiles} files for gallery`);
 
                             for (const file of files) {
                               if (file.size > maxSize) {
@@ -2216,13 +2183,11 @@ function EditForm({
                                   }
 
                                   successCount++;
-                                  console.log(`Successfully uploaded ${file.name} to gallery (${successCount}/${totalFiles})`);
                                 } else {
                                   const errorResult = await response.json();
                                   alert(`Failed to upload ${file.name}: ${errorResult.error || 'Unknown error'}`);
                                 }
                               } catch (error) {
-                                console.error('Upload error:', error);
                                 alert(`Error uploading ${file.name}: ${(error as any)?.message || 'Network error'}`);
                               }
                             }
@@ -2299,7 +2264,6 @@ function EditForm({
                                     }
                                   );
                                 } catch (error) {
-                                  console.warn('Could not delete image file:', error);
                                 }
                               }
 
@@ -2355,7 +2319,6 @@ function EditForm({
                                         }
                                       );
                                     } catch (error) {
-                                      console.warn('Could not delete image file:', error);
                                     }
                                   }
 

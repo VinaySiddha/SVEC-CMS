@@ -47,7 +47,6 @@ export const useAutoRefresh = (
       const now = Date.now();
       // Prevent too frequent refreshes (minimum 5 seconds between refreshes)
       if (now - lastRefreshRef.current > 5000) {
-        console.log('Auto-refreshing department data...');
         refreshCallback();
         onRefresh?.();
         lastRefreshRef.current = now;
@@ -61,7 +60,6 @@ export const useAutoRefresh = (
       const now = Date.now();
       // Refresh if it's been more than 10 seconds since last refresh
       if (now - lastRefreshRef.current > 10000) {
-        console.log('Refreshing data due to tab focus...');
         refreshCallback();
         onRefresh?.();
         lastRefreshRef.current = now;
@@ -81,7 +79,7 @@ export const useAutoRefresh = (
         const isRelevantModule = !module || update.module === module;
         
         if (isRelevantDepartment && isRelevantModule) {
-          console.log('🔄 Admin update detected, refreshing immediately:', {
+          console.log('Relevant update detected:', {
             action: update.action,
             department: update.department,
             module: update.module
@@ -95,7 +93,6 @@ export const useAutoRefresh = (
           }
         }
       } catch (error) {
-        console.warn('Error parsing storage event:', error);
       }
     }
   }, [enabled, refreshCallback, onRefresh, department, module]);
@@ -131,7 +128,6 @@ export const useAutoRefresh = (
 
   return {
     forceRefresh: useCallback(() => {
-      console.log('Force refreshing data...');
       refreshCallback();
       onRefresh?.();
       lastRefreshRef.current = Date.now();

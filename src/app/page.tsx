@@ -70,7 +70,6 @@ const Home: React.FC = () => {
           setHomeContent(dbContent);
         }
       } catch (error) {
-        console.error("Could not fetch from database, using local content.", error);
       }
     }
     loadContent();
@@ -88,10 +87,8 @@ const Home: React.FC = () => {
           );
           setNoticeboardItems(sorted);
         } else {
-          console.warn('No noticeboard data returned from API');
         }
       } catch (error) {
-        console.error('Error fetching noticeboard items:', error);
       }
     }
     fetchNoticeboardItems();
@@ -115,10 +112,8 @@ const Home: React.FC = () => {
           );
           setPlacementNotices(sorted);
         } else {
-          console.warn('No placement noticeboard data returned from API');
         }
       } catch (error) {
-        console.error('Error fetching placement notices:', error);
       }
     }
     fetchPlacementNotices();
@@ -132,10 +127,8 @@ const Home: React.FC = () => {
         if (result.success && Array.isArray(result.data)) {
           setPlacementEvents(result.data);
         } else {
-          console.warn('No placement events data returned from API');
         }
       } catch (error) {
-        console.error('Error fetching placement events:', error);
       }
     }
     fetchPlacementEvents();

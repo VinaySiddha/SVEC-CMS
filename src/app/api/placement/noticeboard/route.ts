@@ -22,7 +22,6 @@ export async function GET(request: NextRequest) {
     const rows = await db.query(query, params);
 
     if (!rows || (Array.isArray(rows) && rows.length === 0)) {
-      console.log('No placement noticeboard data found in database');
       return NextResponse.json({
         success: true,
         data: [],
@@ -36,7 +35,6 @@ export async function GET(request: NextRequest) {
       count: Array.isArray(rows) ? rows.length : 0
     });
   } catch (error: any) {
-    console.error('Error fetching placement noticeboard data:', error);
     return NextResponse.json(
       {
         success: false,
@@ -86,7 +84,6 @@ export async function POST(request: NextRequest) {
         await writeFile(filepath, buffer);
         file_url = filename;
       } catch (fileError) {
-        console.error('Error uploading file:', fileError);
         // Continue without file if upload fails, but log the error
       }
     }
@@ -111,7 +108,6 @@ export async function POST(request: NextRequest) {
       id: (result as any).insertId
     });
   } catch (error: any) {
-    console.error('Error creating notice:', error);
     return NextResponse.json(
       { success: false, error: error.message || 'Failed to create notice' },
       { status: 500 }
@@ -156,7 +152,6 @@ export async function PUT(request: NextRequest) {
       message: 'Notice updated successfully'
     });
   } catch (error: any) {
-    console.error('Error updating notice:', error);
     return NextResponse.json(
       { success: false, error: error.message || 'Failed to update notice' },
       { status: 500 }
@@ -192,7 +187,6 @@ export async function DELETE(request: NextRequest) {
       message: 'Notice and associated file deleted successfully'
     });
   } catch (error: any) {
-    console.error('Error deleting notice:', error);
     return NextResponse.json(
       { success: false, error: error.message || 'Failed to delete notice' },
       { status: 500 }

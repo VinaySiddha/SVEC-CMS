@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
             data: hackathons
         });
     } catch (error) {
-        console.error('Error fetching hackathons:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch hackathons' },
             { status: 500 }

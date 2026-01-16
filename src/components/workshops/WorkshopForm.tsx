@@ -180,7 +180,6 @@ export default function WorkshopForm({ workshop, isEdit = false }: WorkshopFormP
       // Redirect to workshops list on success
       router.push("/admin/workshops");
     } catch (error: any) {
-      console.error("Error saving workshop:", error);
       setSubmitError(error.message || "Failed to save workshop");
     } finally {
       setIsSubmitting(false);

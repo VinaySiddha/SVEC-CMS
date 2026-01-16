@@ -40,7 +40,6 @@ export async function PUT(
       message: 'Board member updated successfully'
     });
   } catch (error) {
-    console.error('Error updating board member:', error);
     return NextResponse.json(
       { 
         success: false, 
@@ -67,7 +66,6 @@ export async function DELETE(
       message: 'Board member deleted successfully'
     });
   } catch (error) {
-    console.error('Error deleting board member:', error);
     return NextResponse.json(
       { 
         success: false, 

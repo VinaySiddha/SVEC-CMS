@@ -7,7 +7,6 @@
 import { query } from '@/lib/db';
 
 export async function migrate() {
-  console.log('Running migration: Create board_of_studies table');
   
   try {
     // Create board_of_studies table
@@ -25,23 +24,18 @@ export async function migrate() {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
     
-    console.log('Successfully created board_of_studies table');
     return true;
   } catch (error) {
-    console.error('Migration failed:', error);
     return false;
   }
 }
 
 export async function rollback() {
-  console.log('Rolling back migration: Create board_of_studies table');
   
   try {
     await query('DROP TABLE IF EXISTS board_of_studies');
-    console.log('Successfully rolled back board_of_studies table creation');
     return true;
   } catch (error) {
-    console.error('Rollback failed:', error);
     return false;
   }
 }

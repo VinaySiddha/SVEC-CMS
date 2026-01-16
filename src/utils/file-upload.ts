@@ -59,7 +59,6 @@ export async function parseMultipartForm(req: NextRequest): Promise<{ fields: Re
     
     return { fields, files };
   } catch (error) {
-    console.error('Error parsing multipart form data:', error);
     throw new Error('Failed to parse form data');
   }
 }
@@ -183,7 +182,6 @@ export async function saveFile(
       fileName: `/${directory}/${fileName}` 
     };
   } catch (error) {
-    console.error('Error saving file:', error);
     return { 
       filePath: '',
       fileName: '',
@@ -220,7 +218,6 @@ export async function deleteFile(fileName: string): Promise<boolean> {
     await fsPromises.unlink(filePath);
     return true;
   } catch (error) {
-    console.error('Error deleting file:', error);
     return false;
   }
 }
@@ -276,7 +273,6 @@ export async function uploadFile(file: File, options: UploadOptions = {}): Promi
       url: result.fileName // This is the relative path from public directory
     };
   } catch (error) {
-    console.error('Error in uploadFile:', error);
     return {
       success: false,
       error: 'File upload failed'

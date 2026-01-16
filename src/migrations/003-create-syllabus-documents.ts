@@ -7,7 +7,6 @@
 import { query } from '@/lib/db';
 
 export async function migrate() {
-  console.log('Running migration: Create syllabus_documents table');
   
   try {
     // Create syllabus_documents table
@@ -26,23 +25,18 @@ export async function migrate() {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
     
-    console.log('Successfully created syllabus_documents table');
     return true;
   } catch (error) {
-    console.error('Migration failed:', error);
     return false;
   }
 }
 
 export async function rollback() {
-  console.log('Rolling back migration: Create syllabus_documents table');
   
   try {
     await query('DROP TABLE IF EXISTS syllabus_documents');
-    console.log('Successfully rolled back syllabus_documents table creation');
     return true;
   } catch (error) {
-    console.error('Rollback failed:', error);
     return false;
   }
 }

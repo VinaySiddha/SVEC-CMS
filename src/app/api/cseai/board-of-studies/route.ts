@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
             data: meetings
         });
     } catch (error) {
-        console.error('Error fetching board of studies:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch board of studies' },
             { status: 500 }

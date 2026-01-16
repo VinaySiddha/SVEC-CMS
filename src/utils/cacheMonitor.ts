@@ -111,7 +111,6 @@ class CacheMonitor {
    * Log report to console
    */
   logReport() {
-    console.log(this.getReport());
   }
 }
 
@@ -160,15 +159,6 @@ export const performanceTiming = {
   logNavigationTiming: () => {
     const timing = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
     if (timing) {
-      console.group('Navigation Timing');
-      console.log(`DNS Lookup: ${timing.domainLookupEnd - timing.domainLookupStart}ms`);
-      console.log(`TCP Connection: ${timing.connectEnd - timing.connectStart}ms`);
-      console.log(`Request Time: ${timing.responseStart - timing.requestStart}ms`);
-      console.log(`Response Time: ${timing.responseEnd - timing.responseStart}ms`);
-      console.log(`DOM Interactive: ${timing.domInteractive - timing.fetchStart}ms`);
-      console.log(`DOM Content Loaded: ${timing.domContentLoadedEventEnd - timing.fetchStart}ms`);
-      console.log(`Page Load Complete: ${timing.loadEventEnd - timing.fetchStart}ms`);
-      console.groupEnd();
     }
   },
 };
@@ -179,5 +169,4 @@ export const performanceTiming = {
 if (typeof window !== 'undefined') {
   (window as any).cacheMonitor = cacheMonitor;
   (window as any).performanceTiming = performanceTiming;
-  console.log('💾 Cache Monitor available globally. Use: cacheMonitor.logReport()');
 }

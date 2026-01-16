@@ -89,7 +89,6 @@ export function ResourcesList({ deptId, allowAddNew = true, isAdmin = false, onE
       const data = await response.json();
       setResources(data.resources || []);
     } catch (error) {
-      console.error("Error fetching resources:", error);
       toast.error("Failed to load resources");
     } finally {
       setLoading(false);
@@ -111,7 +110,6 @@ export function ResourcesList({ deptId, allowAddNew = true, isAdmin = false, onE
       setResources((prev) => prev.filter((resource) => resource.id !== id));
       toast.success("Resource deleted successfully");
     } catch (error) {
-      console.error("Error deleting resource:", error);
       toast.error("Failed to delete resource");
     } finally {
       setDeleteDialogOpen(false);

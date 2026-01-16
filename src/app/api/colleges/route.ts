@@ -72,7 +72,6 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error) {
-    console.error('Error fetching colleges:', error);
     return NextResponse.json(
       { error: 'Failed to fetch colleges' },
       { status: 500 }
@@ -184,7 +183,6 @@ export async function POST(request: NextRequest) {
       id: (result as any).insertId
     });
   } catch (error) {
-    console.error('Error creating college:', error);
     return NextResponse.json(
       { error: 'Failed to create college' },
       { status: 500 }

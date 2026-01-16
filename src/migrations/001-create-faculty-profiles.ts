@@ -7,7 +7,6 @@
 import { query } from '@/lib/db';
 
 export async function migrate() {
-  console.log('Running migration: Create faculty_profiles table');
   
   try {
     // Create faculty_profiles table
@@ -31,23 +30,18 @@ export async function migrate() {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     `);
     
-    console.log('Successfully created faculty_profiles table');
     return true;
   } catch (error) {
-    console.error('Migration failed:', error);
     return false;
   }
 }
 
 export async function rollback() {
-  console.log('Rolling back migration: Create faculty_profiles table');
   
   try {
     await query('DROP TABLE IF EXISTS faculty_profiles');
-    console.log('Successfully rolled back faculty_profiles table creation');
     return true;
   } catch (error) {
-    console.error('Rollback failed:', error);
     return false;
   }
 }

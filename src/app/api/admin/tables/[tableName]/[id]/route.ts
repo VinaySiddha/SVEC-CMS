@@ -107,7 +107,6 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error('Error fetching record:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch record' },
       { status: 500 }
@@ -204,11 +203,9 @@ export async function PUT(
               try {
                 const filePath = join(process.cwd(), 'public', oldFileUrl.replace(/^\//, ''));
                 unlink(filePath).catch(err => {
-                  console.error(`Error deleting old file ${oldFileUrl}:`, err);
                   // Continue even if deletion fails
                 });
               } catch (error) {
-                console.error(`Error processing file deletion for ${oldFileUrl}:`, error);
               }
             }
           }
@@ -262,12 +259,6 @@ export async function PUT(
         }
 
         if (missingUrls.length > 0) {
-          console.warn('Warning: File URLs not properly saved during update', {
-            recordId: id,
-            tableName,
-            missingUrls
-          });
-
           // Attempt to update the missing URLs
           for (const { field, expectedUrl } of missingUrls) {
             try {
@@ -276,7 +267,6 @@ export async function PUT(
                 [expectedUrl, id]
               );
             } catch (updateError) {
-              console.error(`Failed to update ${field} for record ${id}:`, updateError);
             }
           }
         }
@@ -293,7 +283,6 @@ export async function PUT(
       });
     } catch (updateError) {
       await connection.end();
-      console.error('Error updating record:', updateError);
       return NextResponse.json(
         { success: false, error: 'Failed to update record', details: String(updateError) },
         { status: 500 }
@@ -301,7 +290,6 @@ export async function PUT(
     }
 
   } catch (error) {
-    console.error('Error processing record update:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to process record update', details: String(error) },
       { status: 500 }
@@ -367,7 +355,6 @@ export async function DELETE(
               
               await unlink(filePath);
             } catch (error) {
-              console.error(`Error deleting file ${fileUrl}:`, error);
               // Continue with deletion even if file doesn't exist
             }
           }
@@ -383,7 +370,6 @@ export async function DELETE(
     });
 
   } catch (error) {
-    console.error('Error deleting record:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to delete record' },
       { status: 500 }

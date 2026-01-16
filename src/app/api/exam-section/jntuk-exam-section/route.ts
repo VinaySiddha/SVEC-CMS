@@ -21,7 +21,6 @@ export async function GET(request: NextRequest) {
     
     // If no data from database, return mock data
     if (!rows || (Array.isArray(rows) && rows.length === 0)) {
-      console.log('No JNTUK data found in database, returning mock data');
       
       const mockJNTUKData = [
         // Results
@@ -118,7 +117,6 @@ export async function GET(request: NextRequest) {
     
     return NextResponse.json(Array.isArray(rows) ? rows : []);
   } catch (error) {
-    console.error('Error fetching JNTUK exam sections:', error);
     
     // Return mock data as fallback
     const mockJNTUKData = [
@@ -186,7 +184,6 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('Error creating JNTUK exam section entry:', error);
     return NextResponse.json(
       { error: 'Failed to create JNTUK exam section entry' },
       { status: 500 }
@@ -221,7 +218,6 @@ export async function DELETE(request: NextRequest) {
       try {
         await unlink(filePath);
       } catch (error) {
-        console.error('Error deleting file:', error);
         // Continue even if file deletion fails
       }
     }
@@ -231,7 +227,6 @@ export async function DELETE(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error deleting JNTUK exam section entry:', error);
     return NextResponse.json(
       { error: 'Failed to delete JNTUK exam section entry' },
       { status: 500 }

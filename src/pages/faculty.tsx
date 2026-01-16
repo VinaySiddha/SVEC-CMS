@@ -43,7 +43,6 @@ const getDesignationPriority = (designation: string): number => {
 
 // Sort faculty by designation priority (ascending) then by ID (ascending)
 const sortFacultyByDesignationAndID = (facultyList: FacultyMember[]): FacultyMember[] => {
-  console.log('[sortFacultyByDesignationAndID] Input:', facultyList.length, 'members');
   try {
     const sorted = [...facultyList].sort((a, b) => {
       const priorityA = getDesignationPriority(a.designation);
@@ -57,10 +56,8 @@ const sortFacultyByDesignationAndID = (facultyList: FacultyMember[]): FacultyMem
       // If same designation, sort by ID (database order)
       return a.id - b.id;
     });
-    console.log('[sortFacultyByDesignationAndID] Output:', sorted.length, 'members');
     return sorted;
   } catch (err) {
-    console.error('[sortFacultyByDesignationAndID] Error:', err);
     return facultyList;
   }
 };
@@ -88,58 +85,35 @@ const FacultyPage = () => {
   ];
 
   useEffect(() => {
-    console.log('[useEffect START] selectedBranch:', selectedBranch);
     const fetchFaculty = async () => {
-      console.log('[useEffect] Fetching faculty for branch:', selectedBranch);
       setLoading(true);
       setError(null);
       try {
         const timestamp = new Date().getTime();
         const cacheBuster = `&_t=${timestamp}`;
-        // Fetch faculty data from API
         const url = `/api/faculty?branchName=${selectedBranch}${cacheBuster}`;
-        console.log('[fetchFaculty] URL:', url);
-        console.log('[fetchFaculty] About to fetch...');
         const response = await fetch(url);
-        console.log('[fetchFaculty] Fetch completed');
-        
-        console.log('[fetchFaculty] Response status:', response.status);
-        console.log('[fetchFaculty] Response ok:', response.ok);
-        
         if (!response.ok) {
-          // If response is not ok, set empty array instead of throwing error
-          console.warn(`[fetchFaculty] No faculty data available for ${selectedBranch}`);
           setFaculty([]);
           setError(null); // Don't show error for empty data
         } else {
           const data = await response.json();
-          console.log('[fetchFaculty] Raw data received:', data);
-          console.log('[fetchFaculty] Data type:', typeof data);
-          console.log('[fetchFaculty] Is array:', Array.isArray(data));
-          console.log('[fetchFaculty] Data length:', Array.isArray(data) ? data.length : 'N/A');
-          
           if (!Array.isArray(data)) {
-            console.error('[fetchFaculty] Data is not an array:', data);
             setFaculty([]);
           } else if (data.length === 0) {
-            console.warn('[fetchFaculty] Empty faculty data received');
             setFaculty([]);
           } else {
             // Apply sorting by designation and ID
             try {
               const sortedFaculty = sortFacultyByDesignationAndID(data);
-              console.log('[fetchFaculty] Sorted faculty:', sortedFaculty.length, 'members');
               setFaculty(sortedFaculty);
             } catch (sortErr) {
-              console.error('[fetchFaculty] Error sorting faculty:', sortErr);
               setFaculty(data); // Fallback to unsorted data
             }
           }
           setError(null);
         }
       } catch (err: any) {
-        console.error('[fetchFaculty] Caught error:', err);
-        console.error('[fetchFaculty] Error message:', err.message);
         setFaculty([]);
         setError(null); // Don't show error to user, just show empty state
       } finally {

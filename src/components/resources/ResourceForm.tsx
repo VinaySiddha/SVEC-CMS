@@ -149,7 +149,6 @@ export function ResourceForm({ deptId, existingResource, onSuccess }: ResourceFo
         throw new Error(data.error || "Failed to save resource");
       }
       
-      console.log("Resource URLs:", {
         ppt_url: data.resource.ppt_url,
         qbank_url: data.resource.qbank_url,
         old_paper_url: data.resource.old_paper_url
@@ -159,7 +158,6 @@ export function ResourceForm({ deptId, existingResource, onSuccess }: ResourceFo
       onSuccess();
       
     } catch (error) {
-      console.error("Error submitting form:", error);
       toast.error(error instanceof Error ? error.message : "An error occurred");
     } finally {
       setIsSubmitting(false);

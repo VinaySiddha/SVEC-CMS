@@ -26,7 +26,6 @@ export default function AddIndustryNewsPage() {
         setDepartmentName(data.name || deptId);
         setDepartments([{ id: deptId, name: data.name || deptId }]);
       } catch (error) {
-        console.error('Error fetching department:', error);
         // Use the department ID as fallback
         setDepartmentName(deptId);
         setDepartments([{ id: deptId, name: deptId }]);

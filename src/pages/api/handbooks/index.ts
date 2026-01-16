@@ -100,7 +100,6 @@ const handbooks = {
       
       return mockHandbooks;
     } catch (error) {
-      console.error('Error fetching handbooks:', error);
       throw error;
     }
   },
@@ -111,7 +110,6 @@ const handbooks = {
       const mockHandbooks = await this.getAll();
       return mockHandbooks.find(h => h.id === id);
     } catch (error) {
-      console.error(`Error fetching handbook with ID ${id}:`, error);
       throw error;
     }
   },
@@ -157,7 +155,6 @@ const handbooks = {
         updated_at: new Date().toISOString(),
       };
     } catch (error) {
-      console.error('Error creating handbook:', error);
       throw error;
     }
   },
@@ -226,7 +223,6 @@ const handbooks = {
         updated_at: new Date().toISOString(),
       };
     } catch (error) {
-      console.error(`Error updating handbook with ID ${id}:`, error);
       throw error;
     }
   },
@@ -260,7 +256,6 @@ const handbooks = {
       
       return { success: true };
     } catch (error) {
-      console.error(`Error deleting handbook with ID ${id}:`, error);
       throw error;
     }
   },
@@ -294,7 +289,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         res.status(201).json(handbook);
       } catch (error) {
-        console.error('Error creating handbook:', error);
         res.status(500).json({ message: 'Failed to create handbook' });
       }
       break;

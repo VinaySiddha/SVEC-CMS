@@ -58,7 +58,6 @@ export default function PlacementIntroPage() {
             const data = await response.json();
             setIntro(data);
         } catch (error) {
-            console.error('Error fetching placement intro:', error);
             toast.error('Failed to load placement intro');
         } finally {
             setIsLoading(false);
@@ -122,7 +121,6 @@ export default function PlacementIntroPage() {
             setEditContent('');
             fetchIntro();
         } catch (error: any) {
-            console.error('Error saving placement intro:', error);
             toast.error(error.message || 'Failed to save placement intro');
         } finally {
             setIsSaving(false);

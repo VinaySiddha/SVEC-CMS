@@ -19,7 +19,6 @@ export default function DepartmentPage({ params }: DepartmentPageProps) {
         // Redirect to the new dashboard page
         router.replace(`/departments/${dept}/dashboard`);
       } catch (error) {
-        console.error('Error resolving params:', error);
         router.replace('/auth/login');
       }
     };

@@ -84,7 +84,6 @@ export default function PlacementTeamPage() {
             const data = await response.json();
             setTeamMembers(data);
         } catch (error) {
-            console.error('Error fetching team members:', error);
             toast.error('Failed to load team members');
         } finally {
             setIsLoading(false);
@@ -229,7 +228,6 @@ export default function PlacementTeamPage() {
             resetForm();
             fetchTeamMembers();
         } catch (error: any) {
-            console.error('Error saving team member:', error);
             toast.error(error.message || 'Failed to save team member');
         } finally {
             setIsSubmitting(false);
@@ -294,7 +292,6 @@ export default function PlacementTeamPage() {
             clearEditImageSelection();
             fetchTeamMembers();
         } catch (error: any) {
-            console.error('Error updating team member:', error);
             toast.error(error.message || 'Failed to update team member');
         } finally {
             setIsSavingEdit(false);
@@ -319,7 +316,6 @@ export default function PlacementTeamPage() {
             toast.success('Team member deleted successfully!');
             fetchTeamMembers();
         } catch (error: any) {
-            console.error('Error deleting team member:', error);
             toast.error(error.message || 'Failed to delete team member');
         }
     };

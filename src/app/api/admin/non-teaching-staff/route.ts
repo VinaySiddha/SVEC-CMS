@@ -17,7 +17,6 @@ export async function GET(request: NextRequest) {
       data: staff
     });
   } catch (error) {
-    console.error('Error fetching non-teaching staff:', error);
     return NextResponse.json(
       { 
         success: false, 
@@ -62,7 +61,6 @@ export async function POST(request: NextRequest) {
       message: 'Non-teaching staff member created successfully'
     });
   } catch (error) {
-    console.error('Error creating non-teaching staff:', error);
     return NextResponse.json(
       { 
         success: false, 

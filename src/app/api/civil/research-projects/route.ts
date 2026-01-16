@@ -39,7 +39,6 @@ export async function GET(request: NextRequest) {
             data: groupedProjects
         });
     } catch (error) {
-        console.error('Error fetching research projects:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch research projects' },
             { status: 500 }

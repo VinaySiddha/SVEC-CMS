@@ -7,15 +7,12 @@ export default async function handler(request: NextRequest) {
 
 async function GET(request: NextRequest) {
   try {
-    console.log('🔍 Testing Faculty Development data from cai_faculty_development...');
 
     const result = await query(
       'SELECT id, category, title, year, file_url, gallery FROM cai_faculty_development ORDER BY id DESC',
       []
     );
 
-    console.log(`✅ Faculty Development Data Fetch Test`);
-    console.log(`📊 Total Records: ${Array.isArray(result) ? result.length : 0}`);
 
     return NextResponse.json({
       success: true,
@@ -34,7 +31,6 @@ async function GET(request: NextRequest) {
       endpoint: '/api/public/departments/cse-ai (includes facultyDevelopment)'
     });
   } catch (error) {
-    console.error('❌ Error fetching Faculty Development data:', error);
     return NextResponse.json(
       {
         success: false,

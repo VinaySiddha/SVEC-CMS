@@ -35,7 +35,6 @@ export async function GET(request: NextRequest) {
       data: laboratories
     });
   } catch (error) {
-    console.error('Error fetching laboratories:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to fetch laboratories' },
       { status: 500 }
@@ -107,7 +106,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error creating laboratory:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to create laboratory' },
       { status: 500 }

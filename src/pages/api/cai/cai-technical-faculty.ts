@@ -8,7 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     if (req.method === 'GET') {
-      console.log('Fetching CAI technical faculty...');
       const startTime = Date.now();
 
       const rows: any = await executeQuery(`
@@ -18,8 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         LIMIT 50
       `);
       
-      console.log('CAI technical faculty query time:', Date.now() - startTime, 'ms');
-      console.log('CAI technical faculty records found:', (rows as any[]).length);
 
       res.status(200).json(rows);
       
@@ -48,7 +45,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Delete the database record
       await executeQuery('DELETE FROM cai_technical_faculty WHERE id = ?', [id]);
       
-      console.log(`Deleted CAI technical faculty record ${id} and associated files`);
       res.status(200).json({ message: 'Record and files deleted successfully' });
       
     } else if (req.method === 'PUT') {
@@ -77,7 +73,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       for (const field of fileFields) {
         if (updateData[field] && existingRecord[field] && updateData[field] !== existingRecord[field]) {
           FileManager.deleteFile(existingRecord[field]);
-          console.log(`Automatically replaced old file in ${field}: ${existingRecord[field]} with: ${updateData[field]}`);
         }
       }
       
@@ -99,7 +94,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         updateValues
       );
       
-      console.log(`Updated CAI technical faculty record ${id} with automatic file replacement`);
       res.status(200).json({ message: 'Record updated successfully, old files automatically replaced' });
       
     } else {
@@ -107,7 +101,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     
   } catch (error) {
-    console.error('Error with CAI technical faculty:', error);
     res.status(500).json({ 
       message: 'Error with CAI technical faculty data',
       error: error instanceof Error ? error.message : 'Unknown error' 

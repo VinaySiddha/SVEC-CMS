@@ -12,7 +12,6 @@ export default async function handler(req, res) {
     const [rows] = await connection.execute('SELECT name,designation FROM mech_non_teaching_faculty ORDER BY date_of_joining ASC');
     res.status(200).json(rows);
   } catch (error) {
-    console.error("Error fetching mech non-teaching faculty data:", error);
     res.status(500).json({ error: error.message });
   } finally {
     if (connection) {

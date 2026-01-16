@@ -29,7 +29,6 @@ export default function HashGenerator() {
       const data = await response.json();
       setHash(data.hash);
     } catch (err: any) {
-      console.error('Error generating hash:', err);
       setError(err.message || 'An error occurred while generating the hash');
     } finally {
       setIsGenerating(false);

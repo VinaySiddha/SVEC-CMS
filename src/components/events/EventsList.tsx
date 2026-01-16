@@ -88,7 +88,6 @@ export function EventsList({ deptId, allowAddNew = true, isAdmin = false, onEdit
         const data = await response.json();
         setEvents(data.events || []);
       } catch (error) {
-        console.error("Error fetching events:", error);
         toast.error("Could not load events");
       } finally {
         setLoading(false);
@@ -132,7 +131,6 @@ export function EventsList({ deptId, allowAddNew = true, isAdmin = false, onEdit
         toast.error(result.message || "Failed to delete event");
       }
     } catch (error) {
-      console.error("Error deleting event:", error);
       toast.error("Failed to delete event");
     } finally {
       setDeleting(null);

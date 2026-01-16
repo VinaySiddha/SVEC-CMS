@@ -40,7 +40,6 @@ export async function PUT(
       message: 'Meeting minute updated successfully'
     });
   } catch (error) {
-    console.error('Error updating meeting minute:', error);
     return NextResponse.json(
       { 
         success: false, 
@@ -67,7 +66,6 @@ export async function DELETE(
       message: 'Meeting minute deleted successfully'
     });
   } catch (error) {
-    console.error('Error deleting meeting minute:', error);
     return NextResponse.json(
       { 
         success: false, 

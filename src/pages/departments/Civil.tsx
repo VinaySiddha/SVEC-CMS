@@ -315,18 +315,12 @@ const [researchProjects, setResearchProjects] = useState<any[]>([]);
         
         // Filter physical facilities data by category
         const allPhysicalFacilities = normalizeArray<any>(physicalFacilitiesData);
-        console.log('Physical Facilities Data:', allPhysicalFacilities);
-        console.log('Hackathons Gallery Data:', hackathonsGalleryData);
         
         const labsData = normalizeArray<any>(hackathonsGalleryData).filter((item: any) => item.category === 'labs');
         const classroomsData = allPhysicalFacilities.filter((item: any) => item.category === 'Class Rooms' || item.category === 'Class Room');
         const timetablesData = allPhysicalFacilities.filter((item: any) => item.category === 'Timetables' || item.category === 'Class Timetable');
         const seminarHallsData = allPhysicalFacilities.filter((item: any) => item.category === 'Seminar Halls');
         
-        console.log('Laboratories filtered:', labsData);
-        console.log('Classrooms filtered:', classroomsData);
-        console.log('Timetables filtered:', timetablesData);
-        console.log('Seminar Halls filtered:', seminarHallsData);
         
         setLaboratories(labsData);
         setClassrooms(classroomsData);
@@ -338,9 +332,6 @@ const [researchProjects, setResearchProjects] = useState<any[]>([]);
         setMeritScholarships([]); // Merit scholarships data not available from API
         
         // Handle EAPCET Toppers - ensure it's an array
-        console.log('Raw EAPCET Toppers Data:', eapcetToppersData);
-        console.log('Type:', typeof eapcetToppersData);
-        console.log('Is Array:', Array.isArray(eapcetToppersData));
         
         let eapcetArray = [];
         if (Array.isArray(eapcetToppersData)) {
@@ -355,8 +346,6 @@ const [researchProjects, setResearchProjects] = useState<any[]>([]);
           }
         }
         
-        console.log('EAPCET Array after conversion:', eapcetArray);
-        console.log('EAPCET Array length:', eapcetArray.length);
         
         // Don't normalize yet - set the array directly to see raw data
         setEapcetToppers(sortByIdDesc(eapcetArray));
@@ -377,7 +366,6 @@ const [researchProjects, setResearchProjects] = useState<any[]>([]);
      
         setExtraCurricularGallery(normalizeArray<any>(extraCurricularGalleryData));
         setTrainingActivitiesGallery(normalizeArray<any>(trainingActivitiesGalleryData));
-        console.log('Placements Gallery Data from API:', placementsGalleryData);
         setPlacementsGalleryData(normalizeArray<any>(placementsGalleryData));
         setConsultancy(normalizeArray<Consultancy>(consultancyData));
         setResearchProjects(normalizeArray<any>(researchProjectsData));
@@ -2127,7 +2115,6 @@ case 'Physical Facilities': {
                           loading="lazy"
                           decoding="async"
                           onError={(e) => {
-                            console.log('Training image load error:', img);
                             (e.target as HTMLImageElement).style.display = 'none';
                           }}
                         />
@@ -2251,7 +2238,6 @@ case 'Physical Facilities': {
           <div className="cst-dropdown-content">
             {(() => {
               // Debug: Check what data we have in the UI
-              console.log('Placement Items in UI:', placementsGalleryData);
               
               // Use placementsGalleryData which is already filtered by the API
               const placementItems = placementsGalleryData;

@@ -62,7 +62,6 @@ export async function GET(
       data: college
     });
   } catch (error) {
-    console.error('Error fetching college:', error);
     return NextResponse.json(
       { error: 'Failed to fetch college' },
       { status: 500 }
@@ -180,7 +179,6 @@ export async function PUT(
       message: 'College updated successfully'
     });
   } catch (error) {
-    console.error('Error updating college:', error);
     return NextResponse.json(
       { error: 'Failed to update college' },
       { status: 500 }
@@ -231,7 +229,6 @@ export async function DELETE(
       message: 'College deleted successfully'
     });
   } catch (error) {
-    console.error('Error deleting college:', error);
     return NextResponse.json(
       { error: 'Failed to delete college' },
       { status: 500 }

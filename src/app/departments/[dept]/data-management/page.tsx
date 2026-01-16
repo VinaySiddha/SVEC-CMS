@@ -118,7 +118,6 @@ export default function DepartmentDataManagement() {
       });
 
     } catch (error) {
-      console.error('Error fetching department data:', error);
       toast.error('Failed to fetch department data');
     } finally {
       setLoading(false);
@@ -163,7 +162,6 @@ export default function DepartmentDataManagement() {
         toast.error(error.error || 'Failed to save data');
       }
     } catch (error) {
-      console.error('Error saving data:', error);
       toast.error('Failed to save data');
     } finally {
       setLoading(false);
@@ -190,7 +188,6 @@ export default function DepartmentDataManagement() {
         toast.error('Failed to delete item');
       }
     } catch (error) {
-      console.error('Error deleting item:', error);
       toast.error('Failed to delete item');
     }
   };

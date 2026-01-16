@@ -29,7 +29,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         res.status(200).json(rows);
     } catch (error) {
-        console.error("Database error:", error);
         res.status(500).json({ error: "Failed to fetch syllabus data" });
     }
 }

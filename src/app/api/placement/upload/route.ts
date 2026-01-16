@@ -5,6 +5,20 @@ import path from 'path';
 
 export const runtime = 'nodejs';
 
+/**
+ * Get upload directory from environment variable or use default
+ * For production VPS: /var/www/uploads
+ * For local dev: project_dir/public/uploads
+ */
+const getUploadBaseDir = (): string => {
+  const envUploadDir = process.env.UPLOAD_DIR;
+  if (envUploadDir) {
+    return envUploadDir;
+  }
+  // Default to local development path
+  return path.join(process.cwd(), 'public', 'uploads');
+};
+
 // Allowed modules
 const ALLOWED_MODULES = ['carousel', 'officer', 'team', 'charts', 'category', 'logos', 'pdf'];
 
@@ -110,14 +124,13 @@ export async function POST(request: NextRequest) {
         }
 
         // Create upload directory path
-        const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'placement', module);
+        const uploadDir = path.join(getUploadBaseDir(), 'placement', module);
 
         // Create directory if it doesn't exist
         if (!existsSync(uploadDir)) {
             try {
                 await mkdir(uploadDir, { recursive: true });
             } catch (mkdirError) {
-                console.error('Error creating directory:', mkdirError);
                 return NextResponse.json(
                     {
                         success: false,
@@ -140,7 +153,6 @@ export async function POST(request: NextRequest) {
             const buffer = Buffer.from(bytes);
             await writeFile(filePath, buffer);
         } catch (writeError) {
-            console.error('Error writing file:', writeError);
             return NextResponse.json(
                 {
                     success: false,
@@ -166,7 +178,6 @@ export async function POST(request: NextRequest) {
         );
 
     } catch (error) {
-        console.error('Upload error:', error);
         return NextResponse.json(
             {
                 success: false,

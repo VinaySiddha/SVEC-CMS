@@ -42,7 +42,6 @@ export default function PlacementsList({ deptId, isAdmin = false, onRefresh }: P
       const data = await response.json();
       setPlacements(data.placements);
     } catch (error) {
-      console.error('Error fetching placements:', error);
       toast({
         title: "Error",
         description: "Failed to load placement data",
@@ -85,7 +84,6 @@ export default function PlacementsList({ deptId, isAdmin = false, onRefresh }: P
         onRefresh();
       }
     } catch (error) {
-      console.error('Error deleting placement:', error);
       toast({
         title: "Error",
         description: "Failed to delete placement entry",

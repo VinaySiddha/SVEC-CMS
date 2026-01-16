@@ -107,7 +107,6 @@ export function createModuleHandler<T extends BaseEntity>(
             
             return res.status(200).json(options.normalizeOutput!(entity));
           } catch (error: any) {
-            console.error(`Error fetching ${moduleName}:`, error);
             return res.status(500).json({ message: `Error fetching ${moduleName}`, error: error.message });
           }
         }
@@ -117,7 +116,6 @@ export function createModuleHandler<T extends BaseEntity>(
           const entities = await db.list(dept && typeof dept === 'string' ? dept : undefined);
           return res.status(200).json(entities.map(e => options.normalizeOutput!(e)));
         } catch (error: any) {
-          console.error(`Error fetching ${moduleName} list:`, error);
           return res.status(500).json({ message: `Error fetching ${moduleName} list`, error: error.message });
         }
       }
@@ -179,7 +177,6 @@ export function createModuleHandler<T extends BaseEntity>(
           
           return res.status(201).json(options.normalizeOutput!(entity));
         } catch (error: any) {
-          console.error(`Error creating ${moduleName}:`, error);
           return res.status(500).json({ message: `Error creating ${moduleName}`, error: error.message });
         }
       }
@@ -247,7 +244,6 @@ export function createModuleHandler<T extends BaseEntity>(
           
           return res.status(200).json(options.normalizeOutput!(entity));
         } catch (error: any) {
-          console.error(`Error updating ${moduleName}:`, error);
           return res.status(500).json({ message: `Error updating ${moduleName}`, error: error.message });
         }
       }
@@ -287,7 +283,6 @@ export function createModuleHandler<T extends BaseEntity>(
           
           return res.status(200).json({ success: true });
         } catch (error: any) {
-          console.error(`Error deleting ${moduleName}:`, error);
           return res.status(500).json({ message: `Error deleting ${moduleName}`, error: error.message });
         }
       }

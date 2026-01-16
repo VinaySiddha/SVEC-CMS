@@ -9,7 +9,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(details || []);
   } catch (error) {
-    console.error('Error fetching placement details:', error);
     return NextResponse.json(
       { error: 'Failed to fetch placement details' },
       { status: 500 }
@@ -59,7 +58,6 @@ export async function POST(request: NextRequest) {
       message: 'Placement details saved successfully'
     });
   } catch (error) {
-    console.error('Error saving placement details:', error);
     return NextResponse.json(
       { error: 'Failed to save placement details' },
       { status: 500 }

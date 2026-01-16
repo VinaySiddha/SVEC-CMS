@@ -240,13 +240,10 @@ export default function AutonomousExamSection() {
     try {
       const response = await fetch('/api/exam-section/autonomous-exam-section');
       const data = await response.json();
-      console.log('Fetched exam data:', data);
       // Ensure data is always an array
       const arrayData = Array.isArray(data) ? data : [];
-      console.log('Processed exam data:', arrayData);
       setExamData(arrayData);
     } catch (error) {
-      console.error('Fetch error:', error);
       toast.error('Failed to fetch exam notifications');
       setExamData([]);
     }

@@ -76,7 +76,6 @@ export default function RSACPage() {
       
       setItems(transformedData);
     } catch (error) {
-      console.error('Error fetching items:', error);
       toast.error('Failed to fetch items');
       setItems([]);
     }

@@ -134,7 +134,6 @@ export default async function handler(
       return res.status(405).json({ error: `Method ${req.method} not allowed` });
     }
   } catch (error) {
-    console.error('ECT Faculty API Error:', error);
     return res.status(500).json({ 
       error: 'Internal server error',
       details: error instanceof Error ? error.message : 'Unknown error'

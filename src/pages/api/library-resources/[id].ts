@@ -87,7 +87,6 @@ const libraryResources = {
     try {
       return mockLibraryResources.find(r => r.id === id);
     } catch (error) {
-      console.error(`Error fetching library resource with ID ${id}:`, error);
       throw error;
     }
   },
@@ -137,7 +136,6 @@ const libraryResources = {
       mockLibraryResources[resourceIndex] = updatedResource;
       return updatedResource;
     } catch (error) {
-      console.error(`Error updating library resource with ID ${id}:`, error);
       throw error;
     }
   },
@@ -162,7 +160,6 @@ const libraryResources = {
       
       return { success: true };
     } catch (error) {
-      console.error(`Error deleting library resource with ID ${id}:`, error);
       throw error;
     }
   },
@@ -188,7 +185,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         res.status(200).json(resource);
       } catch (error) {
-        console.error(`Error fetching library resource with ID ${id}:`, error);
         res.status(500).json({ message: 'Failed to fetch resource' });
       }
       break;
@@ -214,7 +210,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         res.status(200).json(resource);
       } catch (error: any) {
-        console.error(`Error updating library resource with ID ${id}:`, error);
         
         if (error.message === 'Resource not found') {
           return res.status(404).json({ message: 'Resource not found' });
@@ -233,7 +228,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await libraryResources.delete(id);
         res.status(200).json({ success: true });
       } catch (error: any) {
-        console.error(`Error deleting library resource with ID ${id}:`, error);
         
         if (error.message === 'Resource not found') {
           return res.status(404).json({ message: 'Resource not found' });

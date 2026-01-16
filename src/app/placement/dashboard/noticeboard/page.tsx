@@ -69,7 +69,6 @@ export default function PlacementNoticeboardPage() {
         toast.error(data.message || 'Failed to fetch notices');
       }
     } catch (error) {
-      console.error('Error fetching notices:', error);
       toast.error('Error fetching notices');
     } finally {
       setDataLoading(false);
@@ -179,7 +178,6 @@ export default function PlacementNoticeboardPage() {
         toast.error(data.message || 'Failed to save notice');
       }
     } catch (error) {
-      console.error('Error saving notice:', error);
       toast.error('Error saving notice');
     }
   };
@@ -227,7 +225,6 @@ export default function PlacementNoticeboardPage() {
         toast.error(data.message || 'Failed to delete notice');
       }
     } catch (error) {
-      console.error('Error deleting notice:', error);
       toast.error('Error deleting notice');
     }
   };

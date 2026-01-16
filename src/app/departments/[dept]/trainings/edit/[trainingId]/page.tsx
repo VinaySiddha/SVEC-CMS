@@ -41,7 +41,6 @@ export default function EditTrainingPage() {
         const data = await response.json();
         setTraining(data.training);
       } catch (error: any) {
-        console.error("Error fetching training:", error);
         setError(error.message || "Failed to load training");
         toast.error("Could not load training data");
       } finally {

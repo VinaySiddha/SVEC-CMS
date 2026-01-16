@@ -111,7 +111,6 @@ export default function CollegeList({ onEdit, refreshTrigger }: CollegeListProps
       setColleges(result.data || []);
       setPagination(result.pagination || pagination);
     } catch (error) {
-      console.error('Error fetching colleges:', error);
       toast.error('Failed to fetch colleges');
       setColleges([]);
     } finally {
@@ -158,7 +157,6 @@ export default function CollegeList({ onEdit, refreshTrigger }: CollegeListProps
       setCollegeToDelete(null);
       fetchColleges();
     } catch (error) {
-      console.error('Error deleting college:', error);
       toast.error('Failed to delete college');
     }
   };

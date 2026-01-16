@@ -11,7 +11,6 @@ export default async function handler(req, res) {
     try {
       membershipRows = await executeQuery('SELECT id,membership,faculty_name,year FROM ece_faculty_memberships ORDER BY year DESC');
     } catch (memError) {
-      console.warn("Warning: ece_faculty_memberships table not found or error querying:", memError.message);
       membershipRows = [];
     }
     
@@ -70,7 +69,6 @@ const transformedBooks = Array.isArray(bookRows) ? bookRows.map((book) => ({
     
     res.status(200).json(allData);
   } catch (error) {
-    console.error("Error fetching faculty achievements data:", error);
     // Return empty array on error instead of 500
     res.status(200).json([]);
   }

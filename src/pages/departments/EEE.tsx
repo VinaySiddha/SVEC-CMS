@@ -102,7 +102,6 @@ const EEEDepartment: React.FC = () => {
         setOverview(Array.isArray(data) && data.length > 0 ? data[0] : data || null);
       })
       .catch(err => {
-        console.error('Error fetching department overview:', err);
         setOverview(null);
       });
   }, []);
@@ -121,7 +120,6 @@ const EEEDepartment: React.FC = () => {
         setBosMinutesLoading(false);
       })
       .catch(err => {
-        console.error('Error fetching BOS minutes:', err);
         setBosMinutes([]);
         setBosMinutesLoading(false);
       });
@@ -136,7 +134,6 @@ useEffect(() => {
         setBosMinutesLoading(false);
       })
       .catch(err => {
-        console.error('Error fetching BOS minutes:', err);
         setBosMinutes([]);
         setBosMinutesLoading(false);
       });
@@ -156,7 +153,6 @@ useEffect(() => {
         setSyllabusLoading(false);
       })
       .catch(err => {
-        console.error('Error fetching syllabus:', err);
         setSyllabus([]);
         setSyllabusLoading(false);
       });
@@ -176,7 +172,6 @@ useEffect(() => {
         setFacultyInnovationsLoading(false);
       })
       .catch(err => {
-        console.error('Error fetching faculty innovations:', err);
         setFacultyInnovations([]);
         setFacultyInnovationsLoading(false);
       });
@@ -196,7 +191,6 @@ useEffect(() => {
         setTechnicalHandbooksLoading(false);
       })
       .catch(err => {
-        console.error('Error fetching technical handbooks:', err);
         setTechnicalHandbooks([]);
         setTechnicalHandbooksLoading(false);
       });
@@ -215,10 +209,8 @@ useEffect(() => {
         const response = await fetch(`/api/eee/eee-newsletters${cacheBuster}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        console.log('📰 EEE Newsletters fetched:', data);
         setEeeNewsletters(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error('Error fetching EEE newsletters:', err);
         setEeeNewsletters([]);
       } finally {
         setNewslettersLoading(false);
@@ -241,10 +233,8 @@ useEffect(() => {
         const response = await fetch(`/api/eee/eee-pd-gallery${cacheBuster}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        console.log('🎨 Product Development Gallery fetched:', data);
         setPdGalleryImages(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error('Error fetching Product Development gallery:', err);
         setPdGalleryImages([]);
       } finally {
         setPdGalleryLoading(false);
@@ -267,10 +257,8 @@ useEffect(() => {
         const response = await fetch(`/api/eee/eee-green-initiatives-gallery${cacheBuster}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        console.log('🌱 Green Initiatives Gallery fetched:', data);
         setGreenInitGalleryImages(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error('Error fetching Green Initiatives gallery:', err);
         setGreenInitGalleryImages([]);
       } finally {
         setGreenInitGalleryLoading(false);
@@ -293,10 +281,8 @@ useEffect(() => {
         const response = await fetch(`/api/eee/eee-technical-handbooks${cacheBuster}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        console.log('📚 Technical Handbooks fetched:', data);
         setTechHandbooks(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error('Error fetching technical handbooks:', err);
         setTechHandbooks([]);
       } finally {
         setTechHandbooksLoading(false);
@@ -319,10 +305,8 @@ useEffect(() => {
         const response = await fetch(`/api/eee/eee-green-initiative-gallery${cacheBuster}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        console.log('🌿 Green Initiative Gallery (gi) fetched:', data);
         setGiGalleryImages(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error('Error fetching Green Initiative gallery:', err);
         setGiGalleryImages([]);
       } finally {
         setGiGalleryLoading(false);
@@ -345,10 +329,8 @@ useEffect(() => {
         const response = await fetch(`/api/eee/eee-ss-gallery${cacheBuster}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        console.log('🤝 Social Service Gallery (ss) fetched:', data);
         setSsGalleryImages(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error('Error fetching Social Service gallery:', err);
         setSsGalleryImages([]);
       } finally {
         setSsGalleryLoading(false);
@@ -371,10 +353,8 @@ useEffect(() => {
         const response = await fetch(`/api/eee/eee-ac-gallery${cacheBuster}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        console.log('🎉 Anniversary Gallery (ac) fetched:', data);
         setAcGalleryImages(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error('Error fetching Anniversary gallery:', err);
         setAcGalleryImages([]);
       } finally {
         setAcGalleryLoading(false);
@@ -1710,8 +1690,6 @@ useEffect(() => {
       case 'Newsletters':
         // Use fetched eeeNewsletters data, fallback to departmentData
         const displayNewsletters = eeeNewsletters.length > 0 ? eeeNewsletters : newslettersData;
-        console.log('📰 Newsletters Data:', displayNewsletters);
-        console.log('📰 EEE Newsletters from hook:', eeeNewsletters);
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Newsletters</h2>

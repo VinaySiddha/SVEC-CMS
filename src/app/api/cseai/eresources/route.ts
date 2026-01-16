@@ -49,7 +49,6 @@ export async function GET(request: NextRequest) {
             data: Object.values(groupedResources)
         });
     } catch (error) {
-        console.error('Error fetching e-resources:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch e-resources' },
             { status: 500 }

@@ -12,7 +12,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     if (req.method === 'GET') {
-      console.log('Fetching CAI physical facilities...');
       const startTime = Date.now();
 
       const [rows] = await connection.execute(`
@@ -23,8 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         LIMIT 100
       `, ['cse-ai']);
 
-      console.log('CAI physical facilities query time:', Date.now() - startTime, 'ms');
-      console.log('CAI physical facilities records found:', (rows as any[]).length);
 
       res.status(200).json(rows);
       
@@ -53,7 +50,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Delete the database record
       await connection.execute('DELETE FROM cai_physical_facilities WHERE id = ?', [id]);
       
-      console.log(`Deleted CAI physical facilities record ${id} and associated files`);
       res.status(200).json({ message: 'Record and files deleted successfully' });
       
     } else if (req.method === 'PUT') {
@@ -79,12 +75,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // If file_url or gallery is being updated, automatically replace old files
       if (updateData.file_url && updateData.file_url !== existingRecord.file_url) {
         FileManager.deleteFile(existingRecord.file_url);
-        console.log(`Automatically replaced old file: ${existingRecord.file_url} with: ${updateData.file_url}`);
       }
       
       if (updateData.gallery && updateData.gallery !== existingRecord.gallery) {
         FileManager.deleteFile(existingRecord.gallery);
-        console.log(`Automatically replaced old gallery: ${existingRecord.gallery} with: ${updateData.gallery}`);
       }
       
       // Update the record
@@ -105,7 +99,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         updateValues
       );
       
-      console.log(`Updated CAI physical facilities record ${id} with automatic file replacement`);
       res.status(200).json({ message: 'Record updated successfully, old files automatically replaced' });
       
     } else {
@@ -113,7 +106,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     
   } catch (error) {
-    console.error('Error with CAI physical facilities:', error);
     res.status(500).json({ 
       message: 'Error with CAI physical facilities data',
       error: error instanceof Error ? error.message : 'Unknown error' 

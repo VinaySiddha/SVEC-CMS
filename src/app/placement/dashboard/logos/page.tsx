@@ -75,7 +75,6 @@ export default function PlacementLogosPage() {
             const data = await response.json();
             setLogos(data);
         } catch (error) {
-            console.error('Error fetching company logos:', error);
             toast.error('Failed to load company logos');
         } finally {
             setIsLoading(false);
@@ -169,7 +168,6 @@ export default function PlacementLogosPage() {
             // Refresh list
             fetchLogos();
         } catch (error: any) {
-            console.error('Error uploading company logo:', error);
             toast.error(error.message || 'Failed to add company logo');
         } finally {
             setIsUploading(false);
@@ -238,7 +236,6 @@ export default function PlacementLogosPage() {
             setEditData(null);
             fetchLogos();
         } catch (error: any) {
-            console.error('Error updating company logo:', error);
             toast.error(error.message || 'Failed to update company logo');
         }
     };
@@ -261,7 +258,6 @@ export default function PlacementLogosPage() {
             toast.success('Company logo deleted successfully!');
             fetchLogos();
         } catch (error: any) {
-            console.error('Error deleting company logo:', error);
             toast.error(error.message || 'Failed to delete company logo');
         }
     };

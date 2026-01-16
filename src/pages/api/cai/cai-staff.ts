@@ -6,7 +6,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     if (req.method === 'GET') {
-      console.log('Fetching CAI non-teaching staff...');
       const startTime = Date.now();
 
       const rows: any = await executeQuery(`
@@ -16,8 +15,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         LIMIT 50
       `);
       
-      console.log('CAI staff query time:', Date.now() - startTime, 'ms');
-      console.log('CAI staff records found:', (rows as any[]).length);
 
       res.status(200).json(rows);
       
@@ -27,7 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     
   } catch (error) {
-    console.error('Error fetching CAI staff:', error);
     res.status(500).json({ 
       message: 'Error fetching CAI staff data',
       error: error instanceof Error ? error.message : 'Unknown error' 

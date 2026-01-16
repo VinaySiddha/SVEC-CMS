@@ -33,7 +33,6 @@ export async function GET(
       data: staff[0]
     });
   } catch (error) {
-    console.error('Error fetching non-teaching staff member:', error);
     return NextResponse.json(
       { 
         success: false, 
@@ -97,7 +96,6 @@ export async function PUT(
       message: 'Non-teaching staff member updated successfully'
     });
   } catch (error) {
-    console.error('Error updating non-teaching staff member:', error);
     return NextResponse.json(
       { 
         success: false, 
@@ -144,7 +142,6 @@ export async function DELETE(
       message: 'Non-teaching staff member deleted successfully'
     });
   } catch (error) {
-    console.error('Error deleting non-teaching staff member:', error);
     return NextResponse.json(
       { 
         success: false, 

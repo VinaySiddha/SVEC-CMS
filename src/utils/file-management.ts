@@ -69,15 +69,12 @@ export function extractFilePathFromUrl(url: string): string | null {
  */
 export async function deleteFile(filePath: string): Promise<boolean> {
   try {
-    await fs.access(filePath); // Check if file exists
+    await fs.access(filePath);
     await fs.unlink(filePath);
-    console.log(`✅ Deleted file: ${filePath}`);
     return true;
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-      console.log(`ℹ️ File not found (may be already deleted): ${filePath}`);
     } else {
-      console.error(`❌ Error deleting file ${filePath}:`, error);
     }
     return false;
   }
@@ -88,28 +85,18 @@ export async function deleteFile(filePath: string): Promise<boolean> {
  */
 export async function deleteRecordFiles(record: Record<string, any>): Promise<void> {
   const filesToDelete: string[] = [];
-  
-  // Find all file URL fields in the record
   Object.entries(record).forEach(([fieldName, fieldValue]) => {
-    console.log(`[deleteRecordFiles] Checking field: ${fieldName}, isFileUrlField: ${isFileUrlField(fieldName)}, value: ${fieldValue}`);
-    
     if (isFileUrlField(fieldName) && fieldValue) {
       const filePath = extractFilePathFromUrl(fieldValue);
       if (filePath) {
-        console.log(`[deleteRecordFiles] Found file to delete: ${filePath}`);
         filesToDelete.push(filePath);
       }
     }
   });
-  
-  // Delete all found files
   if (filesToDelete.length > 0) {
-    console.log(`🗑️ Deleting ${filesToDelete.length} file(s) for record:`, filesToDelete);
     
     const deletePromises = filesToDelete.map(filePath => deleteFile(filePath));
     await Promise.all(deletePromises);
-  } else {
-    console.log(`[deleteRecordFiles] No files found to delete for this record`);
   }
 }
 
@@ -133,11 +120,7 @@ export async function deleteReplacedFiles(oldRecord: Record<string, any>, newRec
       }
     }
   });
-  
-  // Delete all replaced files
   if (filesToDelete.length > 0) {
-    console.log(`🔄 Deleting ${filesToDelete.length} replaced file(s):`, filesToDelete);
-    
     const deletePromises = filesToDelete.map(filePath => deleteFile(filePath));
     await Promise.all(deletePromises);
   }
@@ -216,14 +199,10 @@ export function convertISODateToMySQLFormat(record: Record<string, any>): Record
             const [hours, minutes, seconds] = timePart.split(':');
             converted[key] = `${datePart} ${hours}:${minutes}:${seconds.split('.')[0]}`;
           } else {
-            // Use date-only format
             converted[key] = sqlDate;
           }
-          
-          console.log(`[convertISODateToMySQLFormat] Converted ${key}: "${value}" -> "${converted[key]}"`);
         }
       } catch (error) {
-        console.error(`[convertISODateToMySQLFormat] Error converting ${key}:`, error);
       }
     }
   });

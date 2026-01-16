@@ -104,7 +104,6 @@ export default function RegisterPage() {
         toast.error(data.error || 'Registration failed');
       }
     } catch (error) {
-      console.error('Registration error:', error);
       toast.error('An error occurred during registration');
     } finally {
       setIsLoading(false);

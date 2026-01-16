@@ -6,8 +6,24 @@ interface FileInfo {
   originalName: string;
 }
 
+/**
+ * Get upload directory from environment variable or use default
+ * For production VPS: /var/www/uploads
+ * For local dev: project_dir/public/uploads
+ */
+const getUploadBaseDir = (): string => {
+  const envUploadDir = process.env.UPLOAD_DIR;
+  if (envUploadDir) {
+    return envUploadDir;
+  }
+  // Default to local development path
+  return path.join(process.cwd(), 'public', 'uploads');
+};
+
 export class FileManager {
-  private static uploadDir = path.join(process.cwd(), 'public', 'uploads');
+  private static get uploadDir(): string {
+    return getUploadBaseDir();
+  }
 
   /**
    * Delete a file from the server
@@ -15,24 +31,22 @@ export class FileManager {
   static deleteFile(fileUrl: string): boolean {
     try {
       if (!fileUrl) return true;
-      
+
       // Extract filename from URL (handle both relative and absolute URLs)
       let filename = fileUrl;
       if (fileUrl.includes('/uploads/')) {
         filename = fileUrl.split('/uploads/')[1];
       }
-      
+
       const fullPath = path.join(this.uploadDir, filename);
-      
+
       if (fs.existsSync(fullPath)) {
         fs.unlinkSync(fullPath);
-        console.log(`File deleted: ${fullPath}`);
         return true;
       }
-      
+
       return true; // File doesn't exist, consider it "deleted"
     } catch (error) {
-      console.error('Error deleting file:', error);
       return false;
     }
   }
@@ -61,7 +75,6 @@ export class FileManager {
       this.deleteFile(oldFileUrl);
       return true;
     } catch (error) {
-      console.error('Error replacing file:', error);
       return false;
     }
   }

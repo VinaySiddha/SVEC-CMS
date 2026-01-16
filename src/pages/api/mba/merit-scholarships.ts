@@ -19,7 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await connection.end();
         res.status(200).json(rows);
     } catch (error) {
-        console.error('Error fetching MBA merit scholarships:', error);
         res.status(500).json({ error: 'Failed to fetch MBA merit scholarships' });
     }
 }

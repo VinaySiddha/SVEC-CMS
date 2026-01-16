@@ -15,7 +15,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
     res.status(200).json(data);
   } catch (error) {
-    console.error('Error fetching anniversary gallery:', error);
     res.status(200).json([]);
   }
 }

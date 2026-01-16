@@ -139,7 +139,6 @@ export function FacultyProfileForm({
       }
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
-      console.error('Error submitting faculty profile:', error);
     } finally {
       setIsLoading(false);
     }

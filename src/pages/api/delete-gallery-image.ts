@@ -58,16 +58,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const filePath = path.join(process.cwd(), 'public', imageUrl);
         if (fs.existsSync(filePath)) {
           fs.unlinkSync(filePath);
-          console.log('✅ Physical file deleted:', filePath);
         } else {
-          console.log('⚠️ File not found:', filePath);
         }
       } catch (fileError) {
-        console.error('⚠️ Error deleting physical file:', fileError);
         // Don't fail the request if file deletion fails
       }
 
-      console.log('✅ Image deleted successfully from gallery');
       res.status(200).json({ 
         message: 'Image deleted successfully',
         updatedGallery 
@@ -79,7 +75,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
   } catch (error) {
-    console.error('❌ Delete error:', error);
     res.status(500).json({ 
       error: 'Delete failed',
       message: error instanceof Error ? error.message : 'Unknown error'

@@ -157,7 +157,6 @@ export default function PlacementGalleryForm({ deptId, onSuccess }: PlacementGal
       clearImage();
       onSuccess();
     } catch (error) {
-      console.error('Error submitting gallery image:', error);
       toast.dismiss(); // Remove loading toast
       toast.error(error instanceof Error ? error.message : "Failed to add gallery image");
     } finally {

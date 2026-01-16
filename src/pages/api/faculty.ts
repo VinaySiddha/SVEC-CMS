@@ -64,10 +64,8 @@ export default async function handler(req: any, res: any) {
              ORDER BY designation, id`;
     }
     
-    console.log(`[Faculty API] Executing query for table: ${tableName}`);
     const [rows] = await connection.execute(sql);
 
-    console.log(`[Faculty API] Retrieved ${(rows as any[]).length} faculty members from ${tableName}`);
 
     // Normalize field names
     const faculty = (rows as any[]).map((row: any) => ({
@@ -80,11 +78,8 @@ export default async function handler(req: any, res: any) {
       profileUrl: row.profileUrl,
     }));
 
-    console.log(`[Faculty API] Returning ${faculty.length} faculty records`);
     res.status(200).json(faculty);
   } catch (error: any) {
-    console.error('[Faculty API] Error:', error.message);
-    console.error('[Faculty API] Full error:', error);
     res.status(500).json({ error: 'Failed to fetch faculty data', details: error.message });
   } finally {
     await connection.end();

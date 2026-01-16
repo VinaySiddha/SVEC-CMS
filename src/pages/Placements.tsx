@@ -232,7 +232,6 @@ const Placements: React.FC = () => {
           setTimetables([]);
         }
       } catch (err) {
-        console.error('Error fetching placement data:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
         setLoading(false);

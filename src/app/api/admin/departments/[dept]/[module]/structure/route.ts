@@ -380,17 +380,13 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
 // Verify user authentication
 async function verifyAuth(request: NextRequest) {
   const authHeader = request.headers.get('Authorization');
-  console.log('Auth Header:', authHeader);
+
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return { error: 'Unauthorized', status: 401 };
   }
 
   const token = authHeader.substring(7);
-  console.log('Token:', token);
-
-  // verifyToken is synchronous, not async
   const user = verifyToken(token);
-  console.log('Verified User:', user);
 
   if (!user) {
     return { error: 'Invalid token', status: 401 };
@@ -406,30 +402,15 @@ export async function GET(
 ) {
   try {
     const { dept, module } = await params;
-    console.log(`[Structure GET] Started - Department: ${dept}, Module: ${module}`);
-
-    // Get search params for multi-table modules
     const { searchParams } = new URL(request.url);
     const selectedTable = searchParams.get('table');
-    console.log(`[Structure GET] Selected table parameter: ${selectedTable}`);
-
-    // Verify access
     const authResult = await verifyAuth(request);
     if (authResult.error) {
-      console.error(`[Structure GET] Auth failed:`, authResult.error);
       return NextResponse.json({ error: authResult.error }, { status: authResult.status });
     }
-    console.log(`[Structure GET] Auth verified successfully`);
-
-    // Check if this is a multi-table module first
     const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
     const isMultiTable = (moduleConfig as any)?.isMultiTable;
-
-    console.log(`[Structure GET] Module config found: ${!!moduleConfig}, isMultiTable: ${isMultiTable}`);
-
-    // For multi-table modules, we need a table parameter
     if (isMultiTable && !selectedTable) {
-      console.log(`[Structure GET] Multi-table module requires table parameter`);
       // Return the list of available tables
       const tables = (moduleConfig as any).tables || {};
       const response = NextResponse.json({
@@ -465,22 +446,13 @@ export async function GET(
         }
       }
     }
-
     if (!tableName) {
-      console.error(`[Structure GET] Invalid module or table - ${dept}/${module}/${selectedTable}`);
       return NextResponse.json({ error: 'Invalid department, module, or table' }, { status: 404 });
     }
-    console.log(`[Structure GET] Table name resolved: ${tableName}`);
-
-    // Try to get field configuration from our config
-    console.log(`[Structure] Looking for config for ${dept}/${module} (table: ${selectedTable})`);
     const fieldConfig = getModuleFieldConfig(dept, module, selectedTable || undefined);
-    console.log(`[Structure] Field config found:`, !!fieldConfig);
 
     if (fieldConfig) {
       // Return configured field structure
-      console.log(`[Structure] Returning configured fields for ${dept}/${module}`, fieldConfig);
-      console.log(`[Structure] Type field config:`, fieldConfig.fields?.find(f => f.name === 'type'));
       const response = NextResponse.json({
         success: true,
         source: 'config',
@@ -500,9 +472,6 @@ export async function GET(
       response.headers.set('Expires', '0');
       return response;
     }
-
-    // Fallback: Get table structure from database
-    console.log(`[Structure] Fetching database schema for ${tableName}`);
     const columns = await query<RowDataPacket[]>(
       `SHOW COLUMNS FROM \`${tableName}\``
     );
@@ -517,11 +486,7 @@ export async function GET(
     response.headers.set('Pragma', 'no-cache');
     response.headers.set('Expires', '0');
     return response;
-
   } catch (error) {
-    console.error('Structure fetch error:', error);
-
-    // If table doesn't exist, return default structure
     if (error instanceof Error && error.message.includes("doesn't exist")) {
       return NextResponse.json({
         success: true,

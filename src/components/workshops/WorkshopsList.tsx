@@ -41,7 +41,6 @@ export default function WorkshopsList({
       const data = await response.json();
       setWorkshops(data);
     } catch (error) {
-      console.error('Error fetching workshops:', error);
     } finally {
       setLoading(false);
     }

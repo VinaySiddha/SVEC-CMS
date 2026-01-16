@@ -42,7 +42,6 @@ class PerformanceMonitor {
     // Largest Contentful Paint (LCP)
     const lcpObserver = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
-        console.log('LCP:', entry.startTime);
       }
     });
     lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
@@ -52,7 +51,6 @@ class PerformanceMonitor {
     const fidObserver = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         const fidEntry = entry as any;
-        console.log('FID:', fidEntry.processingStart - fidEntry.startTime);
       }
     });
     fidObserver.observe({ entryTypes: ['first-input'] });
@@ -63,7 +61,6 @@ class PerformanceMonitor {
       for (const entry of list.getEntries()) {
         const clsEntry = entry as any;
         if (!clsEntry.hadRecentInput) {
-          console.log('CLS:', clsEntry.value);
         }
       }
     });
@@ -72,30 +69,6 @@ class PerformanceMonitor {
   }
 
   generateReport() {
-    console.group('🚀 Performance Report');
-    
-    console.log('📊 Measurement Results:');
-    Object.entries(this.measurements).forEach(([name, durations]) => {
-      const avg = this.getAverageDuration(name);
-      const min = Math.min(...durations);
-      const max = Math.max(...durations);
-      console.log(`  ${name}:`);
-      console.log(`    Average: ${avg.toFixed(2)}ms`);
-      console.log(`    Min: ${min.toFixed(2)}ms`);
-      console.log(`    Max: ${max.toFixed(2)}ms`);
-      console.log(`    Samples: ${durations.length}`);
-    });
-
-    // Memory usage
-    if ('memory' in performance) {
-      const memory = (performance as any).memory;
-      console.log('💾 Memory Usage:');
-      console.log(`  Used: ${(memory.usedJSHeapSize / 1024 / 1024).toFixed(2)} MB`);
-      console.log(`  Total: ${(memory.totalJSHeapSize / 1024 / 1024).toFixed(2)} MB`);
-      console.log(`  Limit: ${(memory.jsHeapSizeLimit / 1024 / 1024).toFixed(2)} MB`);
-    }
-
-    console.groupEnd();
   }
 
   cleanup() {
@@ -110,8 +83,6 @@ class DepartmentPerformanceTest {
   private testResults: { [test: string]: any } = {};
 
   async testTabSwitching(iterations = 10) {
-    console.log('🔄 Testing tab switching performance...');
-    
     const tabs = ['Department', 'Vision', 'Mission', 'PEOs', 'POs', 'PSOs', 'COs', 'SalientFeatures'];
     
     for (let i = 0; i < iterations; i++) {
@@ -149,15 +120,9 @@ class DepartmentPerformanceTest {
       iterations: iterations * tabs.length,
       classification: avgTabSwitch < 16 ? 'Excellent' : avgTabSwitch < 50 ? 'Good' : 'Needs Improvement'
     };
-
-    console.log(`📈 Tab Switching Results:`);
-    console.log(`  Average: ${avgTabSwitch.toFixed(2)}ms`);
-    console.log(`  Classification: ${this.testResults.tabSwitching.classification}`);
   }
 
   async testComponentRenderTime() {
-    console.log('🎨 Testing component render time...');
-    
     this.monitor.startMeasurement('component-render');
     
     // Force re-render by changing props
@@ -176,15 +141,9 @@ class DepartmentPerformanceTest {
       averageTime: renderTime,
       classification: renderTime < 100 ? 'Excellent' : renderTime < 200 ? 'Good' : 'Needs Improvement'
     };
-
-    console.log(`🎨 Component Render Results:`);
-    console.log(`  Average: ${renderTime.toFixed(2)}ms`);
-    console.log(`  Classification: ${this.testResults.componentRender.classification}`);
   }
 
   measureBundleSize() {
-    console.log('📦 Analyzing bundle impact...');
-    
     // Count the number of script tags (rough bundle size indicator)
     const scriptTags = document.querySelectorAll('script[src]');
     const totalScripts = scriptTags.length;
@@ -200,16 +159,9 @@ class DepartmentPerformanceTest {
       lazyChunks: chunkScripts.length,
       lazyLoadingEnabled: chunkScripts.length > 0
     };
-
-    console.log(`📦 Bundle Analysis:`);
-    console.log(`  Total Scripts: ${totalScripts}`);
-    console.log(`  Lazy Chunks: ${chunkScripts.length}`);
-    console.log(`  Lazy Loading: ${chunkScripts.length > 0 ? 'Enabled ✅' : 'Disabled ❌'}`);
   }
 
   async runFullTest() {
-    console.log('🚀 Starting comprehensive performance test...');
-    
     this.monitor.observeWebVitals();
     
     await this.testTabSwitching(5);
@@ -230,17 +182,6 @@ class DepartmentPerformanceTest {
     ];
     
     const overallScore = scores.reduce((sum, score) => sum + score, 0) / scores.length;
-    
-    console.log('🏆 Overall Performance Score:', `${overallScore.toFixed(0)}/100`);
-    
-    if (overallScore >= 90) {
-      console.log('🎉 Excellent performance! Your optimizations are working great.');
-    } else if (overallScore >= 70) {
-      console.log('👍 Good performance! Some areas could still be improved.');
-    } else {
-      console.log('⚠️ Performance needs improvement. Consider implementing more optimizations.');
-    }
-    
     this.monitor.cleanup();
     return this.testResults;
   }
@@ -249,50 +190,11 @@ class DepartmentPerformanceTest {
 // Performance comparison between old and new implementations
 class PerformanceComparison {
   static compareMethods() {
-    console.group('⚖️ Performance Comparison: Old vs New');
-    
-    console.log('📊 Before Optimizations:');
-    console.log('  • Tab switching: 120-150ms (artificial delay)');
-    console.log('  • Multiple useEffect hooks: 15+ API calls per component');
-    console.log('  • No memoization: Components re-render on every state change');
-    console.log('  • Large bundle: All departments loaded initially');
-    console.log('  • Memory usage: High due to unnecessary re-renders');
-    
-    console.log('🚀 After Optimizations:');
-    console.log('  • Tab switching: <50ms (instant with smooth animations)');
-    console.log('  • Memoized data: API calls cached for 5-15 minutes');
-    console.log('  • React.memo: Prevents unnecessary re-renders');
-    console.log('  • Code splitting: Departments loaded on-demand');
-    console.log('  • Memory usage: Optimized with memoization');
-    
-    console.log('✅ Expected Improvements:');
-    console.log('  • 60-80% faster tab switching');
-    console.log('  • 50-70% reduction in API calls');
-    console.log('  • 40-60% smaller initial bundle size');
-    console.log('  • 30-50% improvement in memory usage');
-    
-    console.groupEnd();
   }
 }
 
 // Make testing tools available globally
 (window as any).DepartmentPerformanceTest = DepartmentPerformanceTest;
 (window as any).PerformanceComparison = PerformanceComparison;
-
-// Usage instructions
-console.log(`
-🔧 Performance Testing Tools Available:
-
-// Run comprehensive performance test
-const test = new DepartmentPerformanceTest();
-test.runFullTest();
-
-// Compare old vs new implementations
-PerformanceComparison.compareMethods();
-
-// Quick tab switching test
-const test = new DepartmentPerformanceTest();
-test.testTabSwitching(10);
-`);
 
 export { DepartmentPerformanceTest, PerformanceComparison };

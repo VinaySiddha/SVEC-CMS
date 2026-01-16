@@ -88,7 +88,6 @@ const galleryImages = {
       
       return filteredImages;
     } catch (error) {
-      console.error('Error fetching gallery images:', error);
       throw error;
     }
   },
@@ -97,7 +96,6 @@ const galleryImages = {
     try {
       return mockGalleryImages.find(img => img.id === id);
     } catch (error) {
-      console.error(`Error fetching gallery image with ID ${id}:`, error);
       throw error;
     }
   },
@@ -122,7 +120,6 @@ const galleryImages = {
       mockGalleryImages.push(newImage);
       return newImage;
     } catch (error) {
-      console.error('Error creating gallery image:', error);
       throw error;
     }
   },
@@ -161,7 +158,6 @@ const galleryImages = {
       mockGalleryImages[imageIndex] = updatedImage;
       return updatedImage;
     } catch (error) {
-      console.error(`Error updating gallery image with ID ${id}:`, error);
       throw error;
     }
   },
@@ -186,7 +182,6 @@ const galleryImages = {
       
       return { success: true };
     } catch (error) {
-      console.error(`Error deleting gallery image with ID ${id}:`, error);
       throw error;
     }
   },
@@ -203,7 +198,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const images = await galleryImages.getAll(dept);
         res.status(200).json(images);
       } catch (error) {
-        console.error('Error handling GET request:', error);
         res.status(500).json({ message: 'Failed to fetch gallery images' });
       }
       break;
@@ -233,7 +227,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         res.status(201).json(image);
       } catch (error: any) {
-        console.error('Error handling POST request:', error);
         res.status(400).json({ message: error.message || 'Failed to create image' });
       }
       break;

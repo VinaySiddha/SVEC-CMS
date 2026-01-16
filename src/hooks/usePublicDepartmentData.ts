@@ -265,7 +265,6 @@ export function usePublicDepartmentData(dept: string) {
       } catch (err) {
         if (isMounted) {
           setError(err instanceof Error ? err.message : 'An unknown error occurred');
-          console.error('Error fetching public department data:', err);
         }
       } finally {
         if (isMounted) {

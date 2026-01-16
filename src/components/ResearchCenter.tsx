@@ -44,13 +44,11 @@ export const ResearchCenter: React.FC<ResearchCenterProps> = ({ department = 'ee
                     setCareerAdvancements(result.data.careerAdvancements || []);
                     setInteractionOutsideWorld(result.data.interactionOutsideWorld || []);
 
-                    console.log('✅ Research data loaded successfully');
                 } else {
                     throw new Error('Invalid response format');
                 }
             } catch (err) {
                 setError('Failed to load research data');
-                console.error('Research data fetch error:', err);
             } finally {
                 setLoading(false);
             }

@@ -113,7 +113,6 @@ export function IssueForm({ deptId, issue, onSuccess }: IssueFormProps) {
         toast.error(result.message || "Failed to save issue");
       }
     } catch (error) {
-      console.error("Error submitting issue:", error);
       toast.error("Failed to save issue");
     } finally {
       setIsSubmitting(false);

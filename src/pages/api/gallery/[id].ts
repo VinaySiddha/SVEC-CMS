@@ -81,7 +81,6 @@ const galleryImages = {
     try {
       return mockGalleryImages.find(img => img.id === id);
     } catch (error) {
-      console.error(`Error fetching gallery image with ID ${id}:`, error);
       throw error;
     }
   },
@@ -120,7 +119,6 @@ const galleryImages = {
       mockGalleryImages[imageIndex] = updatedImage;
       return updatedImage;
     } catch (error) {
-      console.error(`Error updating gallery image with ID ${id}:`, error);
       throw error;
     }
   },
@@ -145,7 +143,6 @@ const galleryImages = {
       
       return { success: true };
     } catch (error) {
-      console.error(`Error deleting gallery image with ID ${id}:`, error);
       throw error;
     }
   },
@@ -171,7 +168,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         res.status(200).json(image);
       } catch (error) {
-        console.error(`Error fetching gallery image with ID ${id}:`, error);
         res.status(500).json({ message: 'Failed to fetch image' });
       }
       break;
@@ -204,7 +200,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         res.status(200).json(image);
       } catch (error: any) {
-        console.error(`Error updating gallery image with ID ${id}:`, error);
         
         if (error.message === 'Image not found') {
           return res.status(404).json({ message: 'Image not found' });
@@ -219,7 +214,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await galleryImages.delete(id);
         res.status(200).json({ success: true });
       } catch (error: any) {
-        console.error(`Error deleting gallery image with ID ${id}:`, error);
         
         if (error.message === 'Image not found') {
           return res.status(404).json({ message: 'Image not found' });

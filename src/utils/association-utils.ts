@@ -34,15 +34,11 @@ export async function createAssociationsTable() {
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )
       `);
-      
-      console.log('Associations table created successfully');
       return { success: true, message: 'Associations table created successfully' };
     } else {
-      console.log('Associations table already exists');
       return { success: true, message: 'Associations table already exists' };
     }
   } catch (error) {
-    console.error('Error creating associations table:', error);
     return { success: false, error: 'Failed to create associations table' };
   }
 }
@@ -60,7 +56,6 @@ export async function getAssociations(deptId: string): Promise<Association[]> {
     );
     return associations;
   } catch (error) {
-    console.error('Error fetching associations:', error);
     throw error;
   }
 }
@@ -79,7 +74,6 @@ export async function getAssociation(associationId: number): Promise<Association
     
     return associations.length > 0 ? associations[0] : null;
   } catch (error) {
-    console.error('Error fetching association:', error);
     throw error;
   }
 }
@@ -133,7 +127,6 @@ export async function createAssociation(
       return { success: false, error: 'Failed to create association record' };
     }
   } catch (error) {
-    console.error('Error creating association:', error);
     return { success: false, error: 'An error occurred while creating association' };
   }
 }
@@ -193,7 +186,6 @@ export async function updateAssociation(
     
     return { success: true };
   } catch (error) {
-    console.error('Error updating association:', error);
     return { success: false, error: 'An error occurred while updating association' };
   }
 }
@@ -221,7 +213,6 @@ export async function deleteAssociation(associationId: number): Promise<{ succes
     
     return { success: true };
   } catch (error) {
-    console.error('Error deleting association:', error);
     return { success: false, error: 'An error occurred while deleting association' };
   }
 }

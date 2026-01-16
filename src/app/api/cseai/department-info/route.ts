@@ -28,7 +28,6 @@ export async function GET(request: NextRequest) {
             data: sections
         });
     } catch (error) {
-        console.error('Error fetching department info sections:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch department info sections' },
             { status: 500 }

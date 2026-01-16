@@ -32,7 +32,6 @@ export async function GET(request: NextRequest) {
             data: groupedPrograms
         });
     } catch (error) {
-        console.error('Error fetching faculty development programs:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch faculty development programs' },
             { status: 500 }

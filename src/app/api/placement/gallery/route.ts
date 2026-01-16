@@ -24,7 +24,6 @@ export async function GET(request: NextRequest) {
       data: galleryItems
     });
   } catch (error) {
-    console.error('Error fetching placement gallery:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to fetch placement gallery' },
       { status: 500 }
@@ -65,9 +64,6 @@ export async function POST(request: NextRequest) {
     const hasTransparency = imageFile.type === 'image/png';
     const outputFormat = getOptimalFormat(imageFile.type, hasTransparency);
 
-    console.log(`Processing image: ${imageFile.name}`);
-    console.log(`Original size: ${formatFileSize(originalBuffer.length)}`);
-    console.log(`Output format: ${outputFormat}`);
 
     // Process image (resize to 1920x700 and compress to ~300KB)
     const processedImage = await processImage(originalBuffer, imageFile.name, {
@@ -78,8 +74,6 @@ export async function POST(request: NextRequest) {
       format: outputFormat
     });
 
-    console.log(`Compressed size: ${formatFileSize(processedImage.compressedSize)}`);
-    console.log(`Compression ratio: ${processedImage.compressionRatio.toFixed(1)}%`);
 
     // Create upload directory and save processed image
     const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'placement-gallery');
@@ -116,7 +110,6 @@ export async function POST(request: NextRequest) {
       }
     });
   } catch (error) {
-    console.error('Error adding placement gallery image:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to add gallery image' },
       { status: 500 }

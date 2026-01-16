@@ -72,7 +72,6 @@ export function FDPView({
       
       setDepartments(deptMap);
     } catch (error) {
-      console.error('Error fetching department names:', error);
     }
   };
 

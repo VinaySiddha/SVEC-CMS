@@ -76,7 +76,6 @@ export default function PlacementPDFsPage() {
             const data = await response.json();
             setPdfs(data);
         } catch (error) {
-            console.error('Error fetching placement PDFs:', error);
             toast.error('Failed to load placement PDFs');
         } finally {
             setIsLoading(false);
@@ -192,7 +191,6 @@ export default function PlacementPDFsPage() {
             // Refresh list
             fetchPDFs();
         } catch (error: any) {
-            console.error('Error uploading placement PDF:', error);
             toast.error(error.message || 'Failed to add placement PDF');
         } finally {
             setIsUploading(false);
@@ -268,7 +266,6 @@ export default function PlacementPDFsPage() {
             setEditData(null);
             fetchPDFs();
         } catch (error: any) {
-            console.error('Error updating placement PDF:', error);
             toast.error(error.message || 'Failed to update placement PDF');
         }
     };
@@ -291,7 +288,6 @@ export default function PlacementPDFsPage() {
             toast.success('Placement PDF deleted successfully!');
             fetchPDFs();
         } catch (error: any) {
-            console.error('Error deleting placement PDF:', error);
             toast.error(error.message || 'Failed to delete placement PDF');
         }
     };

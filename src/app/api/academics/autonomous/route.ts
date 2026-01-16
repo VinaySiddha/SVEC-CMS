@@ -37,8 +37,6 @@ export async function GET(request: NextRequest) {
 
     // If no data from database, use mock data for testing
     if (!rows || rows.length === 0) {
-      console.log('No autonomous data found in database, returning mock data');
-      console.log('Database query result:', dbResult);
       
       const mockData = {
         UG: {
@@ -216,8 +214,6 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    console.log('Database returned rows:', rows?.length || 0);
-    console.log('Sample row:', rows?.[0]);
 
     // Organize by degree and type
     const byDegree: { [key: string]: { [key: string]: AutonomousExamSection[] } } = {
@@ -242,7 +238,6 @@ export async function GET(request: NextRequest) {
       total: (Array.isArray(rows) ? rows.length : 0),
     });
   } catch (error) {
-    console.error('Error fetching autonomous exam sections:', error);
     
     // Return mock data if database completely fails
     const mockData = {
@@ -341,7 +336,6 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('Error creating autonomous exam section:', error);
     return NextResponse.json(
       {
         success: false,

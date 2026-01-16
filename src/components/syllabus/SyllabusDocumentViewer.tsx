@@ -68,7 +68,6 @@ export function SyllabusDocumentViewer({
       const docs = response.data.documents || [];
       setDocuments(docs);
     } catch (error: any) {
-      console.error('Error loading documents:', error);
       setError('Failed to load syllabus documents');
     } finally {
       setLoading(false);

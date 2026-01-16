@@ -148,7 +148,6 @@ export async function GET() {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Error in modules route:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch modules data' },
       { status: 500 }

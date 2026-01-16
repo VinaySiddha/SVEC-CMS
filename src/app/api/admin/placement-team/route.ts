@@ -60,7 +60,6 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error) {
-    console.error('Error fetching placement team:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to fetch placement team' },
       { status: 500 }
@@ -124,7 +123,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error creating team member:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to add team member' },
       { status: 500 }
@@ -194,7 +192,6 @@ export async function PUT(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error updating team member:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to update team member' },
       { status: 500 }
@@ -228,7 +225,6 @@ export async function DELETE(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error deleting team member:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to delete team member' },
       { status: 500 }

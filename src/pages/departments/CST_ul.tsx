@@ -153,13 +153,9 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
       fetch('/api/cai-extra-curricular-gallery').then(res => res.json()).catch(() => [])
     ])
     .then(([cstData, hackathonsGalleryData, technicalAssociationGalleryData, extraCurricularGalleryData]) => {
-      console.log('CST API response:', cstData);
       const data = cstData.data || cstData;
       
       // Debug faculty data specifically
-      console.log('Faculty data:', data.faculty);
-      console.log('Technical faculty data:', data.technicalStaff);
-      console.log('Non-teaching faculty data:', data.nonTeachingStaff);
       
       setFaculty(data.faculty || []);
       setTechnicalFaculty(data.technicalStaff || []);
@@ -188,13 +184,10 @@ const[bosMinutes,setBosMinutes]=useState<BOSMinute[]>([]);
       setPlacements(data.placements || []);
       
       // Set gallery data
-      console.log('CST Hackathons Gallery data:', hackathonsGalleryData);
       setHackathonsGallery(Array.isArray(hackathonsGalleryData) ? hackathonsGalleryData : []);
       
-      console.log('CST Technical Association Gallery data:', technicalAssociationGalleryData);
       setTechnicalAssociationGallery(Array.isArray(technicalAssociationGalleryData) ? technicalAssociationGalleryData : []);
       
-      console.log('CST Extra-Curricular Gallery data:', extraCurricularGalleryData);
       setExtraCurricularGallery(Array.isArray(extraCurricularGalleryData) ? extraCurricularGalleryData : []);
 
       // Store all data in cache

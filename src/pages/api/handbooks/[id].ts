@@ -86,7 +86,6 @@ const handbooks = {
       
       return mockHandbooks;
     } catch (error) {
-      console.error('Error fetching handbooks:', error);
       throw error;
     }
   },
@@ -97,7 +96,6 @@ const handbooks = {
       const mockHandbooks = await this.getAll();
       return mockHandbooks.find(h => h.id === id);
     } catch (error) {
-      console.error(`Error fetching handbook with ID ${id}:`, error);
       throw error;
     }
   },
@@ -132,7 +130,6 @@ const handbooks = {
         updated_at: new Date().toISOString(),
       };
     } catch (error) {
-      console.error(`Error updating handbook with ID ${id}:`, error);
       throw error;
     }
   },
@@ -153,7 +150,6 @@ const handbooks = {
       
       return { success: true };
     } catch (error) {
-      console.error(`Error deleting handbook with ID ${id}:`, error);
       throw error;
     }
   },
@@ -179,7 +175,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         res.status(200).json(handbook);
       } catch (error) {
-        console.error(`Error fetching handbook with ID ${id}:`, error);
         res.status(500).json({ message: 'Failed to fetch handbook' });
       }
       break;
@@ -202,7 +197,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         res.status(200).json(handbook);
       } catch (error: any) {
-        console.error(`Error updating handbook with ID ${id}:`, error);
         
         if (error.message === 'Handbook not found') {
           return res.status(404).json({ message: 'Handbook not found' });
@@ -217,7 +211,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await handbooks.delete(id);
         res.status(200).json({ success: true });
       } catch (error: any) {
-        console.error(`Error deleting handbook with ID ${id}:`, error);
         
         if (error.message === 'Handbook not found') {
           return res.status(404).json({ message: 'Handbook not found' });

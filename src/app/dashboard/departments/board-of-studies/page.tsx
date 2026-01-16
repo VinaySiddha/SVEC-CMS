@@ -97,7 +97,6 @@ export default function BoardOfStudiesPage() {
         setMeetingMinutes(result.data.minutes || []);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
       toast.error('Failed to load data');
     } finally {
       setLoading(false);
@@ -135,7 +134,6 @@ export default function BoardOfStudiesPage() {
       resetMemberForm();
       fetchData();
     } catch (error) {
-      console.error('Error saving member:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to save member');
     }
   };
@@ -171,7 +169,6 @@ export default function BoardOfStudiesPage() {
         toast.success('Member deleted successfully');
         fetchData();
       } catch (error) {
-        console.error('Error deleting member:', error);
         toast.error(error instanceof Error ? error.message : 'Failed to delete member');
       }
     }
@@ -221,7 +218,6 @@ export default function BoardOfStudiesPage() {
       resetMinuteForm();
       fetchData();
     } catch (error) {
-      console.error('Error saving meeting minute:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to save meeting minute');
     }
   };
@@ -257,7 +253,6 @@ export default function BoardOfStudiesPage() {
         toast.success('Meeting minute deleted successfully');
         fetchData();
       } catch (error) {
-        console.error('Error deleting meeting minute:', error);
         toast.error(error instanceof Error ? error.message : 'Failed to delete meeting minute');
       }
     }

@@ -186,7 +186,6 @@ export function AssociationForm({ deptId, association, initialData, isEdit, onSu
         }
       }
     } catch (error) {
-      console.error("Error submitting association form:", error);
       toast.error("An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);

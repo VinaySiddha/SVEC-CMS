@@ -118,7 +118,6 @@ export function LibraryResourceForm({
       toast.success(resource ? 'Resource updated successfully' : 'Resource added successfully');
       onSuccess();
     } catch (error) {
-      console.error('Error saving library resource:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to save resource');
     } finally {
       setIsLoading(false);

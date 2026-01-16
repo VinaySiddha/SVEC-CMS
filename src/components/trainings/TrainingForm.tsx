@@ -148,7 +148,6 @@ export function TrainingForm({ deptId, training, initialData, isEdit, onSuccess 
         }
       }
     } catch (error) {
-      console.error("Error submitting training form:", error);
       toast.error("An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);

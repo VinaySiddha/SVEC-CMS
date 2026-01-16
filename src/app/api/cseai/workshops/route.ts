@@ -33,7 +33,6 @@ export async function GET(request: NextRequest) {
             data: groupedWorkshops
         });
     } catch (error) {
-        console.error('Error fetching workshops:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch workshops' },
             { status: 500 }

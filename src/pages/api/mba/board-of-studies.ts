@@ -21,8 +21,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         res.status(200).json(rows);
     } catch (error) {
-        console.log(error);
-        console.error('Error fetching Board of Studies:', error);
         res.status(500).json({ error: 'Failed to fetch Board of Studies data' });
     }
 }

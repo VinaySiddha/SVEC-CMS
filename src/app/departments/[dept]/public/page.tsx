@@ -90,10 +90,8 @@ export default function PublicDepartmentPage() {
           workshops: []
         });
       } else {
-        console.error('Failed to fetch department data');
       }
     } catch (error) {
-      console.error('Error fetching department data:', error);
     } finally {
       setLoading(false);
     }

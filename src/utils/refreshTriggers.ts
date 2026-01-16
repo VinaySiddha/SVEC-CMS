@@ -5,9 +5,7 @@
 
 export const triggerDepartmentRefresh = (department?: string, module?: string) => {
   try {
-    // Check if localStorage is available (client-side only)
     if (typeof window === 'undefined' || !window.localStorage) {
-      console.log(`[Server-side] Refresh requested for ${department || 'all departments'} - ${module || 'all modules'}`);
       return;
     }
 
@@ -27,10 +25,7 @@ export const triggerDepartmentRefresh = (department?: string, module?: string) =
     setTimeout(() => {
       localStorage.removeItem('admin_data_updated');
     }, 100);
-
-    console.log(`Triggered refresh for ${department || 'all departments'} - ${module || 'all modules'}`);
   } catch (error) {
-    console.warn('Failed to trigger department refresh:', error);
   }
 };
 

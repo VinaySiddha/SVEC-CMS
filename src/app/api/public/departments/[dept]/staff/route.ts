@@ -41,7 +41,6 @@ export async function GET(
     return response;
 
   } catch (error) {
-    console.error('Database error:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch staff data' },
       { status: 500 }

@@ -15,7 +15,6 @@ export async function GET() {
 
     return NextResponse.json(rows || []);
   } catch (error) {
-    console.error('Error fetching JNTUK exam sections:', error);
     return NextResponse.json(
       { error: 'Failed to fetch JNTUK exam sections' },
       { status: 500 }
@@ -56,7 +55,6 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('Error creating JNTUK exam section entry:', error);
     return NextResponse.json(
       { error: 'Failed to create JNTUK exam section entry' },
       { status: 500 }
@@ -84,7 +82,6 @@ export async function DELETE(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error deleting JNTUK exam section entry:', error);
     return NextResponse.json(
       { error: 'Failed to delete JNTUK exam section entry' },
       { status: 500 }

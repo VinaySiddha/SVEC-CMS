@@ -9,7 +9,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         'SELECT id, mou_with as organization_name, from_date, to_date, status FROM cai_mous ORDER BY created_at DESC'
       );
 
-      console.log('MOUs Query Result:', result);
 
       res.status(200).json({
         success: true,
@@ -21,7 +20,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(405).json({ error: 'Method not allowed' });
     }
   } catch (error) {
-    console.error('Database error:', error);
     res.status(500).json({
       error: 'Database connection failed',
       details: error instanceof Error ? error.message : 'Unknown error'

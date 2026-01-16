@@ -130,7 +130,6 @@ export function PlacementForm({
       onSuccess();
     } catch (error: any) {
       toast.error(error.message || 'Something went wrong');
-      console.error('Error submitting placement:', error);
     } finally {
       setIsLoading(false);
     }

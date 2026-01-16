@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader('Content-Type', 'application/json');
   
-  console.log('Test API called - this should appear in console');
   
   return res.status(200).json({
     success: true,

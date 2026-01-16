@@ -115,14 +115,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const oldFilePath = path.join(process.cwd(), 'public', oldImageUrl);
         if (fs.existsSync(oldFilePath)) {
           fs.unlinkSync(oldFilePath);
-          console.log('✅ Old physical file deleted:', oldFilePath);
         }
       } catch (fileError) {
-        console.error('⚠️ Error deleting old physical file:', fileError);
         // Don't fail the request if old file deletion fails
       }
 
-      console.log('✅ Image replaced successfully:', newImageUrl);
       res.status(200).json({ 
         message: 'Image replaced successfully',
         imageUrl: newImageUrl,
@@ -136,7 +133,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
   } catch (error) {
-    console.error('❌ Replace error:', error);
     
     // Clean up any uploaded file on error
     try {
@@ -147,7 +143,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         fs.unlinkSync(imageFile.filepath);
       }
     } catch (cleanupError) {
-      console.error('Cleanup error:', cleanupError);
     }
 
     res.status(500).json({ 

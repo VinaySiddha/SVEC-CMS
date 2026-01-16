@@ -117,7 +117,6 @@ export function GalleryImageForm({
       toast.success(galleryImage ? 'Image updated successfully' : 'Image added successfully');
       onSuccess();
     } catch (error) {
-      console.error('Error saving gallery image:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to save image');
     } finally {
       setIsLoading(false);

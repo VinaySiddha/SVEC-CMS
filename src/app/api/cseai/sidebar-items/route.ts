@@ -18,7 +18,6 @@ export async function GET(request: NextRequest) {
             data: sidebarItems
         });
     } catch (error) {
-        console.error('Error fetching sidebar items:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch sidebar items' },
             { status: 500 }

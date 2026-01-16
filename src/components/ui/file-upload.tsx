@@ -77,7 +77,6 @@ export function FileUpload({
       }
       
     } catch (error) {
-      console.error('Upload error:', error);
       toast.error('Failed to upload file');
     } finally {
       setUploading(false);

@@ -83,7 +83,6 @@ export default function PlacementCategoryPage() {
             const data = await response.json();
             setCategoryStats(data);
         } catch (error) {
-            console.error('Error fetching category stats:', error);
             toast.error('Failed to load category stats');
         } finally {
             setIsLoading(false);
@@ -161,7 +160,6 @@ export default function PlacementCategoryPage() {
             resetForm();
             fetchCategoryStats();
         } catch (error: any) {
-            console.error('Error saving category stats:', error);
             toast.error(error.message || 'Failed to save category stats');
         } finally {
             setIsSubmitting(false);
@@ -209,7 +207,6 @@ export default function PlacementCategoryPage() {
             setEditData(null);
             fetchCategoryStats();
         } catch (error: any) {
-            console.error('Error updating category stats:', error);
             toast.error(error.message || 'Failed to update category stats');
         }
     };
@@ -232,7 +229,6 @@ export default function PlacementCategoryPage() {
             toast.success('Category stats deleted successfully!');
             fetchCategoryStats();
         } catch (error: any) {
-            console.error('Error deleting category stats:', error);
             toast.error(error.message || 'Failed to delete category stats');
         }
     };

@@ -71,7 +71,6 @@ export default function AdminPanelLayout({ children }: AdminPanelLayoutProps) {
         setStats(data);
       }
     } catch (error) {
-      console.error('Error fetching dashboard stats:', error);
     }
   };
 
@@ -88,7 +87,6 @@ export default function AdminPanelLayout({ children }: AdminPanelLayoutProps) {
         setNotifications(data.notifications || []);
       }
     } catch (error) {
-      console.error('Error fetching notifications:', error);
     }
   };
 

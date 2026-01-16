@@ -12,7 +12,6 @@ export async function GET() {
 
         return NextResponse.json(results, { status: 200 });
     } catch (error) {
-        console.error('Error fetching company logos:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to fetch company logos' },
             { status: 500 }
@@ -49,7 +48,6 @@ export async function POST(request: NextRequest) {
             { status: 201 }
         );
     } catch (error) {
-        console.error('Error creating company logo:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to create company logo' },
             { status: 500 }
@@ -102,7 +100,6 @@ export async function PUT(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error updating company logo:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to update company logo' },
             { status: 500 }
@@ -130,7 +127,6 @@ export async function DELETE(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error deleting company logo:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to delete company logo' },
             { status: 500 }

@@ -31,7 +31,6 @@ export const useCache = <T>(
           return;
         }
       } catch (err) {
-        console.warn(`Failed to parse cache for ${config.key}:`, err);
       }
     }
 

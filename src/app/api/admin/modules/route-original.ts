@@ -167,7 +167,6 @@ async function getModuleCount(tableName: string): Promise<number> {
     await connection.end();
     return (rows as any)[0]?.count || 0;
   } catch (error) {
-    console.error(`Error counting ${tableName}:`, error);
     return 0;
   }
 }
@@ -184,7 +183,6 @@ export async function GET() {
       Object.entries(departmentConfig).map(async ([deptCode, config]) => {
         // Validate config exists and has modules
         if (!config || !config.modules || !Array.isArray(config.modules)) {
-          console.error(`Invalid config for department ${deptCode}:`, config);
           return {
             code: deptCode,
             name: config?.name || deptCode.toUpperCase(),
@@ -237,7 +235,6 @@ export async function GET() {
     });
 
   } catch (error) {
-    console.error('Error fetching admin modules:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch admin data' },
       { status: 500 }

@@ -98,7 +98,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         );
         successCount++;
       } catch (error) {
-        console.error('Error inserting:', item.title, error);
       }
     }
 
@@ -112,7 +111,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       timestamp: new Date().toISOString()
     });
   } catch (error: any) {
-    console.error('Seed error:', error);
     res.status(500).json({
       error: error.message,
       hint: 'Check database connection'

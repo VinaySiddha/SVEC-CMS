@@ -50,7 +50,6 @@ const FAQPage: React.FC = () => {
         setFilteredFaqs(result.data);
       }
     } catch (error) {
-      console.error('Failed to fetch FAQs:', error);
     } finally {
       setLoading(false);
     }

@@ -20,7 +20,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(405).json({ error: 'Method not allowed' });
         }
     } catch (error) {
-        console.error('ECT Hackathons API Error:', error);
         res.status(500).json({ error: 'Failed to fetch ECT hackathons data', details: error });
     }
 }

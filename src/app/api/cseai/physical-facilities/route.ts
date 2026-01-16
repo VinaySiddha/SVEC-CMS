@@ -38,7 +38,6 @@ export async function GET(request: NextRequest) {
             data: groupedFacilities
         });
     } catch (error) {
-        console.error('Error fetching physical facilities:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch physical facilities' },
             { status: 500 }

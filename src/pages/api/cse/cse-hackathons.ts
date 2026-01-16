@@ -23,7 +23,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await connection.end();
         res.status(200).json(hackathons);
     } catch (error) {
-        console.error('CSE Hackathons API Error:', error);
         res.status(500).json({ error: 'Failed to fetch CSE hackathons data', details: error });
     }
 }

@@ -55,7 +55,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(transformedItems);
 
   } catch (error) {
-    console.error('Error fetching items:', error);
     return NextResponse.json(
       { error: 'Failed to fetch items' },
       { status: 500 }
@@ -106,7 +105,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error creating item:', error);
     return NextResponse.json(
       { error: 'Failed to create item' },
       { status: 500 }
@@ -173,7 +171,6 @@ export async function PUT(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error updating item:', error);
     return NextResponse.json(
       { error: 'Failed to update item' },
       { status: 500 }
@@ -224,7 +221,6 @@ export async function DELETE(request: NextRequest) {
       try {
         await unlink(filePath);
       } catch (error) {
-        console.error('Error deleting file:', error);
         // Continue even if file deletion fails
       }
     }
@@ -235,7 +231,6 @@ export async function DELETE(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error deleting item:', error);
     return NextResponse.json(
       { error: 'Failed to delete item' },
       { status: 500 }

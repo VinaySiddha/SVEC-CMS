@@ -46,7 +46,6 @@ export async function GET(request: NextRequest) {
     // Return items as array if specific degree requested
     return NextResponse.json(items);
   } catch (error) {
-    console.error('Error fetching RSAC items:', error);
     return NextResponse.json(
       {
         success: false,

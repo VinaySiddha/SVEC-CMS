@@ -91,11 +91,9 @@ export default function UserManagement({ userRole }: UserManagementProps) {
         const data = await response.json();
         setUsers(data.users || []);
       } else {
-        console.error('Failed to fetch users');
         toast.error('Failed to fetch users');
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
       toast.error('Error loading users');
     } finally {
       setLoading(false);
@@ -125,7 +123,6 @@ export default function UserManagement({ userRole }: UserManagementProps) {
         toast.error(errorData.error || 'Failed to create user');
       }
     } catch (error) {
-      console.error('Error creating user:', error);
       toast.error('Error creating user');
     }
   };
@@ -156,7 +153,6 @@ export default function UserManagement({ userRole }: UserManagementProps) {
         toast.error(errorData.error || 'Failed to update user');
       }
     } catch (error) {
-      console.error('Error updating user:', error);
       toast.error('Error updating user');
     }
   };
@@ -182,7 +178,6 @@ export default function UserManagement({ userRole }: UserManagementProps) {
         toast.error(errorData.error || 'Failed to delete user');
       }
     } catch (error) {
-      console.error('Error deleting user:', error);
       toast.error('Error deleting user');
     }
   };
@@ -206,7 +201,6 @@ export default function UserManagement({ userRole }: UserManagementProps) {
         toast.error(errorData.error || 'Failed to update user status');
       }
     } catch (error) {
-      console.error('Error updating user status:', error);
       toast.error('Error updating user status');
     }
   };

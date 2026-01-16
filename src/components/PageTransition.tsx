@@ -19,15 +19,11 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     const currentPath = pathname?.split("?")[0].split("#")[0] ?? "";
     const previousPath = localStorage.getItem('previousPath') || '';
 
-    console.log('Current Path:', currentPath);
-    console.log('Previous Path:', previousPath);
-    console.log('Is First Run:', isFirstRunRef.current);
 
     // Navigation detection
     if (currentPath === previousPath) {
       // Same path, handle first load
       if (isFirstRunRef.current) {
-        console.log('First load, showing loader...');
         setLoadingText('Loading...');
         setLoading(true);
         const startedAt = Date.now();
@@ -39,7 +35,6 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
             if (cancelled) return;
             setLoading(false);
             setIsVisible(true);
-            console.log('Finished first load');
           }, remaining);
         };
 
@@ -65,7 +60,6 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     // Route change detected
     isFirstRunRef.current = false;
     localStorage.setItem('previousPath', currentPath);
-    console.log('Route changed, start transition');
 
     setLoadingText('Loading page...');
     setLoading(true);

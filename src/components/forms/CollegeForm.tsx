@@ -162,7 +162,6 @@ export default function CollegeForm({ college, onSuccess, onCancel }: CollegeFor
       toast.success(college?.id ? 'College updated successfully' : 'College created successfully');
       onSuccess();
     } catch (error) {
-      console.error('Error submitting college:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to save college');
     } finally {
       setIsSubmitting(false);

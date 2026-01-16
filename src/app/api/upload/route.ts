@@ -4,6 +4,20 @@ import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 
+/**
+ * Get upload directory from environment variable or use default
+ * For production VPS: /var/www/uploads
+ * For local dev: project_dir/public/uploads
+ */
+const getUploadBaseDir = (): string => {
+  const envUploadDir = process.env.UPLOAD_DIR;
+  if (envUploadDir) {
+    return envUploadDir;
+  }
+  // Default to local development path
+  return join(process.cwd(), 'public', 'uploads');
+};
+
 export async function POST(request: NextRequest) {
   try {
     // Verify authentication
@@ -14,7 +28,7 @@ export async function POST(request: NextRequest) {
 
     const token = authHeader.replace('Bearer ', '');
     const decoded = verifyToken(token);
-    
+
     if (!decoded) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
@@ -41,7 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create upload directory
-    const uploadDir = join(process.cwd(), 'public', 'uploads', type);
+    const uploadDir = join(getUploadBaseDir(), type);
     if (!existsSync(uploadDir)) {
       await mkdir(uploadDir, { recursive: true });
     }
@@ -69,7 +83,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Upload error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -94,14 +107,15 @@ export async function DELETE(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
     const fileUrl = searchParams.get('url');
-    
+
     if (!fileUrl) {
       return NextResponse.json({ error: 'No file URL provided' }, { status: 400 });
     }
 
-    // Extract file path from URL
-    const filePath = join(process.cwd(), 'public', fileUrl);
-    
+    // Extract the path after /uploads/
+    const relativePath = fileUrl.replace('/uploads/', '');
+    const filePath = join(getUploadBaseDir(), relativePath);
+
     // Delete file if it exists
     if (existsSync(filePath)) {
       const { unlink } = await import('fs/promises');
@@ -114,7 +128,6 @@ export async function DELETE(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Delete error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

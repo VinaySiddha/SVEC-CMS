@@ -62,7 +62,6 @@ export async function POST(
     });
 
   } catch (error) {
-    console.error('Error adding faculty:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -105,7 +104,6 @@ export async function GET(
     return NextResponse.json({ faculty });
 
   } catch (error) {
-    console.error('Error fetching faculty:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

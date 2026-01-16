@@ -102,10 +102,8 @@ export default function ModuleManagePage() {
         setColumns(data.data.columns);
         setTotalRecords(data.data.total);
       } else {
-        console.error('Failed to fetch table data:', data.error);
       }
     } catch (error) {
-      console.error('Error fetching table data:', error);
     } finally {
       setLoading(false);
     }
@@ -128,7 +126,6 @@ export default function ModuleManagePage() {
         alert('Failed to delete record');
       }
     } catch (error) {
-      console.error('Error deleting record:', error);
       alert('Error deleting record');
     }
   };

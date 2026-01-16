@@ -38,7 +38,6 @@ export default function EditOrganizedEventPage() {
         const eventData = await eventResponse.json();
         setEvent(eventData);
       } catch (error) {
-        console.error('Error fetching data:', error);
         // Use fallbacks
         setDepartmentName(deptId);
         setDepartments([{ id: deptId, name: deptId }]);

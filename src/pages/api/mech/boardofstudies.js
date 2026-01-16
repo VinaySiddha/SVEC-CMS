@@ -12,7 +12,6 @@ export default async function handler(req, res) {
     const [rows] = await connection.execute('SELECT id, name, designation, organization, position_in_job FROM mech_bos_members ORDER BY id');
     res.status(200).json(rows);
   } catch (error) {
-    console.error("Error fetching mech board of studies members data:", error);
     res.status(500).json({ error: error.message });
   } finally {
     if (connection) {

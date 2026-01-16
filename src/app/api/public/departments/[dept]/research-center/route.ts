@@ -10,7 +10,6 @@ const safeQuery = async (sql: string, params: any[]) => {
     try {
         return await query(sql, params);
     } catch (error) {
-        console.warn(`⚠️ Query failed: ${sql.substring(0, 50)}...`, error instanceof Error ? error.message : error);
         return [];
     }
 };
@@ -30,7 +29,6 @@ export async function GET(
             );
         }
 
-        console.log(`🔬 Fetching research center data for department: ${dept}`);
 
         // Fetch all 8 research tables for EEE department
         const results = await Promise.allSettled([
@@ -85,15 +83,6 @@ export async function GET(
             interactionOutsideWorld: getData(7),
         };
 
-        console.log(`✅ Research data fetched successfully`);
-        console.log(`📊 Verticles: ${researchData.researchVerticles.length}`);
-        console.log(`📊 Supervisors: ${researchData.researchSupervisors.length}`);
-        console.log(`📊 Journals: ${researchData.journalPublications.length}`);
-        console.log(`📊 Conferences: ${researchData.conferencePublications.length}`);
-        console.log(`📊 Patents: ${researchData.patents.length}`);
-        console.log(`📊 Books: ${researchData.bookPublications.length}`);
-        console.log(`📊 Career: ${researchData.careerAdvancements.length}`);
-        console.log(`📊 Interaction: ${researchData.interactionOutsideWorld.length}`);
 
         const response = NextResponse.json({
             success: true,
@@ -109,7 +98,6 @@ export async function GET(
         return response;
 
     } catch (error) {
-        console.error('💥 Error in research center data fetch:', error);
 
         return NextResponse.json(
             {

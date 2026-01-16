@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
             data: libraryInfo
         });
     } catch (error) {
-        console.error('Error fetching department library:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch department library' },
             { status: 500 }

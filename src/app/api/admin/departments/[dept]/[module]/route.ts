@@ -418,39 +418,30 @@ const DEPARTMENT_MODULES: Record<string, Record<string, string>> = {
 // Verify user authentication and department access
 async function verifyDepartmentAccess(request: NextRequest, department: string) {
   const authHeader = request.headers.get('Authorization');
-  console.log('[verifyDepartmentAccess] Auth Header present:', !!authHeader);
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    console.log('[verifyDepartmentAccess] ❌ Auth header missing or invalid format');
     return { error: 'Unauthorized', status: 401 };
   }
 
   const token = authHeader.substring(7);
-  console.log('[verifyDepartmentAccess] Token extracted, length:', token.length);
-  console.log('[verifyDepartmentAccess] Token preview:', token.substring(0, 50) + '...');
 
   const user = verifyToken(token);
 
   if (!user) {
-    console.log('[verifyDepartmentAccess] ❌ Token verification FAILED');
     return { error: 'Invalid token', status: 401 };
   }
 
-  console.log('[verifyDepartmentAccess] ✅ Token valid. User:', { id: user.id, username: user.username, role: user.role, department: user.department });
 
   // Super admin can access all departments
   if (user.role === 'super_admin') {
-    console.log('[verifyDepartmentAccess] ✅ Access granted: super_admin role');
     return { user };
   }
 
   // Allow any authenticated user access (remove department restriction)
   if (user.role === 'admin' || user.role === 'dept') {
-    console.log('[verifyDepartmentAccess] ✅ Access granted: admin/dept role');
     return { user };
   }
 
-  console.log('[verifyDepartmentAccess] ❌ Access denied: insufficient permissions for role', user.role);
   return { error: 'Insufficient permissions', status: 403 };
 }
 
@@ -461,7 +452,6 @@ export async function GET(
 ) {
   try {
     const { dept, module } = await params;
-    console.log(`[GET] Fetching module data - Department: ${dept}, Module: ${module}`);
 
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
@@ -469,7 +459,6 @@ export async function GET(
     const search = searchParams.get('search') || '';
     const selectedTable = searchParams.get('table'); // For multi-table modules
 
-    console.log(`[GET] Query params - Page: ${page}, Limit: ${limit}, Search: ${search}, Table: ${selectedTable}`);
 
     // Verify access
     const authResult = await verifyDepartmentAccess(request, dept);
@@ -483,27 +472,22 @@ export async function GET(
     // Override table name if this is a multi-table module and a table is specified
     if (module === 'research-center' && selectedTable) {
       tableName = selectedTable;
-      console.log(`[GET] Multi-table module (research-center): Using selected table ${selectedTable}`);
     } else if (module === 'student-achievements' && selectedTable) {
       // For student-achievements, get the actual table name from the config
       const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
       if ((moduleConfig as any)?.tables?.[selectedTable]) {
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
-        console.log(`[GET] Multi-table module (student-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
     } else if (module === 'faculty-achievements' && selectedTable) {
       // For faculty-achievements, get the actual table name from the config
       const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
       if ((moduleConfig as any)?.tables?.[selectedTable]) {
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
-        console.log(`[GET] Multi-table module (faculty-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
     }
 
-    console.log(`[GET] Resolved table name: ${tableName}`);
 
     if (!tableName) {
-      console.log(`[GET] Invalid department or module - ${dept}/${module}`);
       return NextResponse.json({ error: 'Invalid department or module' }, { status: 404 });
     }
 
@@ -536,7 +520,6 @@ export async function GET(
       }
     }
 
-    console.log(`[GET] Executing optimized queries on table: ${tableName}`);
 
     // Determine sort order based on module type (without querying table)
     let sortClause = 'ORDER BY id ASC'; // default
@@ -585,7 +568,6 @@ export async function GET(
     ]);
 
     const total = (countResult[0] as any).total;
-    console.log(`[GET] Retrieved ${records.length} records out of ${total} total`);
 
     // Map database fields back to form fields for frontend
     const mappedRecords = records.map(record => mapFieldsFromDatabase(tableName, record));
@@ -609,10 +591,8 @@ export async function GET(
     return response;
 
   } catch (error) {
-    console.error('GET error:', error);
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : '';
-    console.error('Error details:', { errorMessage, errorStack });
     return NextResponse.json({
       error: 'Internal server error',
       details: errorMessage,
@@ -630,12 +610,10 @@ export async function POST(
     const { dept, module } = await params;
     const body = await request.json();
 
-    console.log(`[POST] Creating record - Department: ${dept}, Module: ${module}`);
 
     // Get table parameter for multi-table modules
     const { searchParams } = new URL(request.url);
     const selectedTable = searchParams.get('table');
-    console.log(`[POST] Selected table parameter: ${selectedTable}`);
 
     // Verify access
     const authResult = await verifyDepartmentAccess(request, dept);
@@ -649,20 +627,17 @@ export async function POST(
     // Override table name if this is a multi-table module and a table is specified
     if (module === 'research-center' && selectedTable) {
       tableName = selectedTable;
-      console.log(`[POST] Multi-table module (research-center): Using selected table ${selectedTable}`);
     } else if (module === 'student-achievements' && selectedTable) {
       // For student-achievements, get the actual table name from the config
       const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
       if ((moduleConfig as any)?.tables?.[selectedTable]) {
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
-        console.log(`[POST] Multi-table module (student-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
     } else if (module === 'faculty-achievements' && selectedTable) {
       // For faculty-achievements, get the actual table name from the config
       const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
       if ((moduleConfig as any)?.tables?.[selectedTable]) {
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
-        console.log(`[POST] Multi-table module (faculty-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
     }
 
@@ -689,7 +664,6 @@ export async function POST(
 
     // Map form fields to database fields
     const mappedBody = mapFieldsToDatabase(tableName, filteredBody);
-    console.log(`[POST] Field mapping for ${tableName}:`, { original: filteredBody, mapped: mappedBody });
 
     // Auto-add dept field if table requires it (but not for syllabus module)
     // Check if table structure includes dept field by testing with a sample query
@@ -702,17 +676,14 @@ export async function POST(
           const deptColumn = columns.find((col: any) => col.Field === 'dept');
           if (deptColumn && !mappedBody.dept) {
             mappedBody.dept = dept;
-            console.log(`[POST] Auto-added dept field: ${dept}`);
           }
         } else {
           // Non-empty table - check if first row has dept field
           if (sampleRow[0].hasOwnProperty('dept') && !mappedBody.dept) {
             mappedBody.dept = dept;
-            console.log(`[POST] Auto-added dept field: ${dept}`);
           }
         }
       } catch (err) {
-        console.warn(`[POST] Could not check dept field for ${tableName}:`, err);
         // Fallback: try adding dept field for known department tables
         if (!mappedBody.dept && (tableName.includes('_') && (
           tableName.startsWith('cai_') ||
@@ -728,7 +699,6 @@ export async function POST(
           tableName.startsWith('ds_')
         ))) {
           mappedBody.dept = dept;
-          console.log(`[POST] Fallback: Auto-added dept field: ${dept}`);
         }
       }
     }
@@ -740,8 +710,6 @@ export async function POST(
       const validColumns = new Set(tableColumns.map((c: any) => (c as any).Field));
       const validColumnsList = Array.from(validColumns);
 
-      console.log(`[POST] Valid columns for ${tableName}:`, validColumnsList);
-      console.log(`[POST] Data before column validation:`, mappedBody);
 
       for (const col of tableColumns) {
         const columnName = (col as any).Field;
@@ -753,7 +721,6 @@ export async function POST(
           if (typeof value === 'string' && value.trim() !== '' && !value.startsWith('[') && !value.startsWith('{')) {
             // Convert string URL to JSON array format
             mappedBody[columnName] = JSON.stringify([value]);
-            console.log(`[POST] Converted ${columnName} to JSON array:`, mappedBody[columnName]);
           }
         }
       }
@@ -761,13 +728,10 @@ export async function POST(
       const keysBeforeFilter = Object.keys(mappedBody);
       for (const key of keysBeforeFilter) {
         if (!validColumns.has(key)) {
-          console.warn(`[POST] Dropping unknown column '${key}' for table ${tableName}`);
           delete mappedBody[key];
         }
       }
-      console.log(`[POST] Data after column validation:`, mappedBody);
     } catch (err) {
-      console.warn(`[POST] Could not validate columns for ${tableName}:`, err);
     }
 
     if (Object.keys(mappedBody).length === 0) {
@@ -784,53 +748,43 @@ export async function POST(
       // For Research Verticles
       if (mappedBody.faculty_name && mappedBody.category) {
         mappedBody.title = `${mappedBody.category} - ${mappedBody.faculty_name}`;
-        console.log(`[POST] Auto-generated title for research verticles: ${mappedBody.title}`);
       }
       // For Research Supervisor
       else if (mappedBody.name && mappedBody.scholar_name) {
         mappedBody.title = `${mappedBody.name} - ${mappedBody.scholar_name}`;
-        console.log(`[POST] Auto-generated title for research supervisor: ${mappedBody.title}`);
       }
       // For Journal Publications
       else if (mappedBody.year && selectedTable === 'eee_journal_publications') {
         mappedBody.title = `Journal Publications Details ${mappedBody.year}`;
-        console.log(`[POST] Auto-generated title for journal publications: ${mappedBody.title}`);
       }
       // For Conference Publications
       else if (mappedBody.faculty_name && mappedBody.paper_title) {
         const paperPreview = mappedBody.paper_title.substring(0, 50);
         mappedBody.title = `${mappedBody.faculty_name} - ${paperPreview}${mappedBody.paper_title.length > 50 ? '...' : ''}`;
-        console.log(`[POST] Auto-generated title for conference publications: ${mappedBody.title}`);
       }
       // For Patents
       else if (mappedBody.patent_title && mappedBody.inventors) {
         const titlePreview = mappedBody.patent_title.substring(0, 50);
         mappedBody.title = `${mappedBody.inventors.split(/[,&]/)[0].trim()} - ${titlePreview}${mappedBody.patent_title.length > 50 ? '...' : ''}`;
-        console.log(`[POST] Auto-generated title for patents: ${mappedBody.title}`);
       }
       // For Book Publications
       else if (mappedBody.faculty_name && mappedBody.book_title) {
         const bookPreview = mappedBody.book_title.substring(0, 50);
         mappedBody.title = `${mappedBody.faculty_name} - ${bookPreview}${mappedBody.book_title.length > 50 ? '...' : ''}`;
-        console.log(`[POST] Auto-generated title for book publications: ${mappedBody.title}`);
       }
       // For Career Advancements
       else if (mappedBody.faculty_name && mappedBody.pursuing_degree) {
         mappedBody.title = `${mappedBody.faculty_name} - ${mappedBody.pursuing_degree}`;
-        console.log(`[POST] Auto-generated title for career advancements: ${mappedBody.title}`);
       }
       // For Interaction with outside world
       else if (mappedBody.faculty_name && mappedBody.journal_details) {
         const journalPreview = mappedBody.journal_details.substring(0, 50);
         mappedBody.title = `${mappedBody.faculty_name} - ${journalPreview}${mappedBody.journal_details.length > 50 ? '...' : ''}`;
-        console.log(`[POST] Auto-generated title for interaction outside world: ${mappedBody.title}`);
       }
       else if (mappedBody.faculty_name) {
         mappedBody.title = mappedBody.faculty_name;
-        console.log(`[POST] Auto-generated title from faculty_name: ${mappedBody.title}`);
       } else if (mappedBody.name) {
         mappedBody.title = mappedBody.name;
-        console.log(`[POST] Auto-generated title from name: ${mappedBody.title}`);
       }
     }
 
@@ -861,10 +815,8 @@ export async function POST(
     });
 
   } catch (error) {
-    console.error('POST error:', error);
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : '';
-    console.error('Error details:', { errorMessage, errorStack });
     return NextResponse.json({
       error: 'Internal server error',
       details: errorMessage,
@@ -885,7 +837,6 @@ export async function PUT(
     const idParam = searchParams.get('id');
     const selectedTable = searchParams.get('table'); // For multi-table modules
 
-    console.log(`[PUT] Updating record - Department: ${dept}, Module: ${module}, Table: ${selectedTable}`);
 
     if (!idParam) {
       return NextResponse.json({ error: 'Record ID is required' }, { status: 400 });
@@ -909,20 +860,17 @@ export async function PUT(
     // Override table name if this is a multi-table module and a table is specified
     if (module === 'research-center' && selectedTable) {
       tableName = selectedTable;
-      console.log(`[PUT] Multi-table module (research-center): Using selected table ${selectedTable}`);
     } else if (module === 'student-achievements' && selectedTable) {
       // For student-achievements, get the actual table name from the config
       const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
       if ((moduleConfig as any)?.tables?.[selectedTable]) {
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
-        console.log(`[PUT] Multi-table module (student-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
     } else if (module === 'faculty-achievements' && selectedTable) {
       // For faculty-achievements, get the actual table name from the config
       const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
       if ((moduleConfig as any)?.tables?.[selectedTable]) {
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
-        console.log(`[PUT] Multi-table module (faculty-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
     }
 
@@ -961,7 +909,6 @@ export async function PUT(
 
     // Map form fields to database fields
     const mappedBody = mapFieldsToDatabase(tableName, filteredBody);
-    console.log(`[PUT] Field mapping for ${tableName}:`, { original: filteredBody, mapped: mappedBody });
 
     // Check for JSON columns and convert string values to proper JSON format
     // Also filter out any fields that are not real columns in this table.
@@ -979,19 +926,16 @@ export async function PUT(
           if (typeof value === 'string' && value.trim() !== '' && !value.startsWith('[') && !value.startsWith('{')) {
             // Convert string URL to JSON array format
             mappedBody[columnName] = JSON.stringify([value]);
-            console.log(`[PUT] Converted ${columnName} to JSON array:`, mappedBody[columnName]);
           }
         }
       }
 
       for (const key of Object.keys(mappedBody)) {
         if (!validColumns.has(key)) {
-          console.warn(`[PUT] Dropping unknown column '${key}' for table ${tableName}`);
           delete mappedBody[key];
         }
       }
     } catch (err) {
-      console.warn(`[PUT] Could not validate columns for ${tableName}:`, err);
     }
 
     if (Object.keys(mappedBody).length === 0) {
@@ -1006,9 +950,7 @@ export async function PUT(
     // Delete replaced files before updating
     try {
       await deleteReplacedFiles(oldRecordData, mappedBody);
-      console.log(`🔄 Successfully cleaned up replaced files for ${dept}/${module} record ID: ${id}`);
     } catch (fileError) {
-      console.error(`⚠️ Error cleaning up replaced files for ${dept}/${module} record ID: ${id}`, fileError);
       // Continue with database update even if file cleanup fails
     }    // Build update query
     const columns = Object.keys(mappedBody);
@@ -1041,10 +983,8 @@ export async function PUT(
     });
 
   } catch (error) {
-    console.error('PUT error:', error);
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : '';
-    console.error('Error details:', { errorMessage, errorStack });
     return NextResponse.json({
       error: 'Internal server error',
       details: errorMessage,
@@ -1064,7 +1004,6 @@ export async function DELETE(
     const idParam = searchParams.get('id');
     const selectedTable = searchParams.get('table'); // For multi-table modules
 
-    console.log(`[DELETE] Deleting record - Department: ${dept}, Module: ${module}, Table: ${selectedTable}`);
 
     if (!idParam) {
       return NextResponse.json({ error: 'Record ID is required' }, { status: 400 });
@@ -1088,20 +1027,17 @@ export async function DELETE(
     // Override table name if this is a multi-table module and a table is specified
     if (module === 'research-center' && selectedTable) {
       tableName = selectedTable;
-      console.log(`[DELETE] Multi-table module (research-center): Using selected table ${selectedTable}`);
     } else if (module === 'student-achievements' && selectedTable) {
       // For student-achievements, get the actual table name from the config
       const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
       if ((moduleConfig as any)?.tables?.[selectedTable]) {
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
-        console.log(`[DELETE] Multi-table module (student-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
     } else if (module === 'faculty-achievements' && selectedTable) {
       // For faculty-achievements, get the actual table name from the config
       const moduleConfig = MODULES_FIELD_CONFIG[dept]?.[module];
       if ((moduleConfig as any)?.tables?.[selectedTable]) {
         tableName = (moduleConfig as any).tables[selectedTable].tableName;
-        console.log(`[DELETE] Multi-table module (faculty-achievements): Using table ${tableName} for key ${selectedTable}`);
       }
     }
 
@@ -1137,9 +1073,7 @@ export async function DELETE(
     setImmediate(async () => {
       try {
         await deleteRecordFiles(recordData);
-        console.log(`🗑️ Successfully cleaned up files for ${dept}/${module} record ID: ${id}`);
       } catch (fileError) {
-        console.error(`⚠️ Error cleaning up files for ${dept}/${module} record ID: ${id}`, fileError);
         // File cleanup failure doesn't affect the user - record is already deleted
       }
     });
@@ -1147,10 +1081,8 @@ export async function DELETE(
     return response;
 
   } catch (error) {
-    console.error('DELETE error:', error);
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : '';
-    console.error('Error details:', { errorMessage, errorStack });
     return NextResponse.json({
       error: 'Internal server error',
       details: errorMessage,

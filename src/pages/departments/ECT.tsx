@@ -214,9 +214,8 @@ const ECTDepartment: React.FC = () => {
     // Make all API calls in parallel using Promise.all()
     Promise.all([
       fetch(`/api/faculty?branchName=ECT${cacheBuster}`).then(res => {
-        console.log('Faculty API Response Status:', res.status, res.ok);
         return res.json();
-      }).catch(err => { console.error('Faculty fetch error:', err); return []; }),
+      }).catch(err => {  return []; }),
       fetch(`/api/ect/ect-student-achievements${cacheBuster}`).then(res => res.json()).catch(() => []),
       fetch(`/api/ect/ect-syllabus${cacheBuster}`).then(res => res.json()).catch(() => []),
       fetch(`/api/ect/ect-eresources${cacheBuster}`).then(res => res.json()).catch(() => []),
@@ -224,9 +223,8 @@ const ECTDepartment: React.FC = () => {
       fetch(`/api/ect/ect-mous${cacheBuster}`).then(res => res.json()).catch(() => []),
       fetch(`/api/ect/ect-industry-programs${cacheBuster}`).then(res => res.json()).catch(() => []),
       fetch(`/api/ect/ect-department-overview${cacheBuster}`).then(res => {
-        console.log('Overview API Response Status:', res.status, res.ok);
         return res.json();
-      }).catch(err => { console.error('Overview fetch error:', err); return null; }),
+      }).catch(err => {  return null; }),
       fetch(`/api/ect/ect-training-activities${cacheBuster}`).then(res => res.json()).catch(() => []),
       fetch(`/api/ect/ect-bos-members${cacheBuster}`).then(res => res.json()).catch(() => []),
       fetch(`/api/ect/ect-bos-minutes${cacheBuster}`).then(res => res.json()).catch(() => []),
@@ -304,12 +302,6 @@ const ECTDepartment: React.FC = () => {
         labsGalleryData,
         classroomsGalleryData
       ]) => {
-        console.log('=== ECT DATA FETCHING COMPLETE ===');
-        console.log('Faculty RAW:', JSON.stringify(facultyData));
-        console.log('Faculty Type:', typeof facultyData, 'IsArray:', Array.isArray(facultyData));
-        console.log('Overview RAW:', JSON.stringify(overviewData));
-        console.log('E-Resources RAW:', JSON.stringify(eresourcesData));
-        console.log('Extra-Curricular RAW:', JSON.stringify(extraCurricularData));
 
         // Separate teaching, technical, and non-teaching faculty from the unified response
         // The API now includes faculty_type field: 'teaching', 'technical', or 'non_teaching'
@@ -317,9 +309,6 @@ const ECTDepartment: React.FC = () => {
         const technicalFacultySeparated: Faculty[] = [];
         const nonTeachingFaculty: NonTeachingMember[] = [];
 
-        console.log('ECT Faculty Data Received:', facultyData);
-        console.log('Faculty Keys:', Object.keys(facultyData || {}));
-        console.log('Faculty has error?', facultyData?.error);
 
         if (Array.isArray(facultyData)) {
           facultyData.forEach((f: any) => {
@@ -341,25 +330,17 @@ const ECTDepartment: React.FC = () => {
           });
         }
 
-        console.log('ECT Teaching Faculty:', teachingFaculty);
-        console.log('ECT Technical Faculty:', technicalFacultySeparated);
-        console.log('ECT Non-Teaching Faculty:', nonTeachingFaculty);
 
         // Set data with sorting
-        console.log('Setting Faculty State:', teachingFaculty);
         setFaculty(sortFacultyByDesignationAndDOJ(teachingFaculty));
         setTechnicalFaculty(sortFacultyByDesignationAndDOJ(technicalFacultySeparated));
         setNonTeachingFaculty(nonTeachingFaculty);
-        console.log('Faculty state set. Length:', teachingFaculty.length);
         setStudentAchievements(Array.isArray(studentAchievementsData) ? studentAchievementsData : []);
         setSyllabus(Array.isArray(syllabusData) ? syllabusData : []);
-        console.log('ECT E-Resources Data:', eresourcesData);
         setEResources(Array.isArray(eresourcesData) ? eresourcesData : []);
         setDepartmentLibrary(departmentLibraryData && departmentLibraryData.length > 0 ? departmentLibraryData[0] : null);
         setMous(Array.isArray(mousData) ? mousData : []);
-        console.log('ECT Industry Programs Data:', industryProgramsData);
         setIndustryPrograms(Array.isArray(industryProgramsData) ? industryProgramsData : []);
-        console.log('ECT Department Overview Data:', overviewData);
         // Handle overview data - could be array or object
         if (Array.isArray(overviewData) && overviewData.length > 0) {
           setOverview(overviewData[0]);
@@ -382,15 +363,12 @@ const ECTDepartment: React.FC = () => {
             gallery: typeof item.gallery === 'string' ? JSON.parse(item.gallery || '[]') : item.gallery || []
           }))
           : [];
-        console.log('Physical Facilities Data (parsed):', parsedPhysicalFacilities);
         setPhysicalFacilities(parsedPhysicalFacilities);
 
         setLaboratories([]);
         setFacultyDevelopment(Array.isArray(facultyDevelopmentData) ? facultyDevelopmentData : []);
         setFacultyAchievements(Array.isArray(facultyAchievementsData) ? facultyAchievementsData : []);
-        console.log('Merit Scholarships Data Received:', meritScholarshipsData);
         setMeritScholarships(Array.isArray(meritScholarshipsData) ? meritScholarshipsData : []);
-        console.log('ECT Extra-Curricular Data:', extraCurricularData);
         setExtraCurricular(Array.isArray(extraCurricularData) ? extraCurricularData : []);
         setSahayaEvents(Array.isArray(sahayaEventsData) ? sahayaEventsData : []);
         // Filter EC Activities from sahaya events
@@ -412,15 +390,6 @@ const ECTDepartment: React.FC = () => {
         setWorkshopsGallery(Array.isArray(workshopsGalleryDataFetch) ? workshopsGalleryDataFetch : []);
         setLecturersGalleryData(Array.isArray(lecturersGalleryDataFetch) ? lecturersGalleryDataFetch : []);
         setMeritScholarshipsGalleryData(Array.isArray(meritScholarshipsGalleryData) ? meritScholarshipsGalleryData : []);
-        console.log('Merit Scholarships Gallery Data (from Promise):', meritScholarshipsGalleryData);
-        console.log('All Gallery Data:', {
-          hackathonsGallery: hackathonsGalleryData,
-          technicalAssociation: technicalAssociationGalleryData,
-          trainingActivities: trainingActivitiesGalleryData,
-          extraCurricular: extraCurricularGalleryData,
-          meritScholarships: meritScholarshipsGalleryData,
-          placements: placementsGalleryData
-        });
         setFacultyDevelopmentGalleryData(Array.isArray(facultyDevelopmentGalleryData) ? facultyDevelopmentGalleryData : []);
         setGateData(Array.isArray(gateDataFetch) ? gateDataFetch : []);
         setGateGalleryData(Array.isArray(gateGalleryDataFetch) ? gateGalleryDataFetch : []);
@@ -428,7 +397,6 @@ const ECTDepartment: React.FC = () => {
         setRollOfHonourGalleryData(Array.isArray(rollOfHonourGalleryDataFetch) ? rollOfHonourGalleryDataFetch : []);
         setLabsGalleryData(Array.isArray(labsGalleryData) ? labsGalleryData : []);
         setClassroomsGalleryData(Array.isArray(classroomsGalleryData) ? classroomsGalleryData : []);
-        console.log('Roll of Honour Gallery Data:', rollOfHonourGalleryDataFetch);
 
         // Store all data in cache for compatibility
         const facultyArray = Array.isArray(facultyData) ? facultyData : [];
@@ -470,7 +438,6 @@ const ECTDepartment: React.FC = () => {
         };
       })
       .catch((error) => {
-        console.error('Error fetching ECT data:', error);
       });
   }, []);
 
@@ -1258,7 +1225,6 @@ const ECTDepartment: React.FC = () => {
       }
 
       case 'Faculty Profiles':
-        console.log('Rendering Faculty Profiles. Faculty count:', faculty.length, faculty);
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <h2 className="text-3xl font-bold text-[#B22222] mb-6 text-center">Faculty Profiles</h2>
@@ -1392,9 +1358,7 @@ const ECTDepartment: React.FC = () => {
 
       case 'e-Resources': {
         // Group by regulation
-        console.log('Rendering e-Resources, count:', eresources.length, eresources);
         const regulations = Array.from(new Set(eresources.map(e => e.regulation)));
-        console.log('Regulations found:', regulations);
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
             <div className="space-y-6">
@@ -1646,8 +1610,6 @@ const ECTDepartment: React.FC = () => {
 
 
       case 'Physical Facilities': {
-        console.log('Physical Facilities State:', physicalFacilities);
-        console.log('Physical Facilities Data from API:', physicalFacilities);
 
         // Group by category
         const categories = Array.from(new Set(physicalFacilities.map(f => f.category)));
@@ -1656,7 +1618,6 @@ const ECTDepartment: React.FC = () => {
           items: physicalFacilities.filter(f => f.category === cat)
         }));
 
-        console.log('Grouped Physical Facilities:', grouped);
 
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -2025,8 +1986,6 @@ const ECTDepartment: React.FC = () => {
         );
       }
       case 'Merit Scholarship/Academic Toppers': {
-        console.log('Merit Scholarships Data:', meritScholarships);
-        console.log('Merit Scholarships Count:', meritScholarships.length);
 
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">
@@ -2273,12 +2232,6 @@ const ECTDepartment: React.FC = () => {
         );
       }
       case 'Extra-Curricular Activities': {
-        // Debug logging
-        console.log('Extra Curricular Debug:', {
-          extraCurricular,
-          extraCurricularGallery
-        });
-
         // Group by category
         const extracurricularActivities = extraCurricular.filter((a: any) => a.category === 'Extracurricular Activities');
         const sportsMeet = extraCurricular.filter((a: any) => a.category === 'Departmental Sports Meet');
@@ -2809,7 +2762,6 @@ const ECTDepartment: React.FC = () => {
         );
       }
       case 'Placements': {
-        console.log('Placements Data:', placements);
 
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg animate-fade-in">

@@ -48,7 +48,6 @@ export function useTabLoader(
 
     } catch (error) {
       // Handle any errors gracefully
-      console.error('Tab switching error:', error);
       setIsTabLoading(false);
       setPendingTab(null);
     }

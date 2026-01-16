@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || 'default_jwt_secret';
 
 export async function GET(request: NextRequest) {
   try {
@@ -30,7 +30,6 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Me route error:', error);
     return NextResponse.json(
       { success: false, error: 'Invalid token' },
       { status: 401 }

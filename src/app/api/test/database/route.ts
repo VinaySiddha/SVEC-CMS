@@ -3,7 +3,6 @@ import { runFullDatabaseTest } from '@/lib/database-test';
 
 export async function GET(request: NextRequest) {
   try {
-    console.log('Starting database connection test API...');
     
     // Run comprehensive database tests
     const testResults = await runFullDatabaseTest();
@@ -14,7 +13,6 @@ export async function GET(request: NextRequest) {
     });
     
   } catch (error) {
-    console.error('Database test API error:', error);
     
     return NextResponse.json({
       success: false,

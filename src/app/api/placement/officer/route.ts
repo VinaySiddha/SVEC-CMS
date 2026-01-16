@@ -12,7 +12,6 @@ export async function GET() {
 
         return NextResponse.json(results.length > 0 ? results[0] : null, { status: 200 });
     } catch (error) {
-        console.error('Error fetching placement officer:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to fetch placement officer' },
             { status: 500 }
@@ -86,7 +85,6 @@ export async function POST(request: NextRequest) {
             { status: 201 }
         );
     } catch (error) {
-        console.error('Error creating placement officer:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to create placement officer' },
             { status: 500 }
@@ -175,7 +173,6 @@ export async function PUT(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error updating placement officer:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to update placement officer' },
             { status: 500 }
@@ -218,7 +215,6 @@ export async function DELETE(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error deleting placement officer:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to delete placement officer' },
             { status: 500 }

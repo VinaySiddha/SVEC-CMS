@@ -86,7 +86,6 @@ export function HackathonsList({ deptId, allowAddNew = true, isAdmin = false, on
       const data = await response.json();
       setHackathons(data.hackathons || []);
     } catch (error) {
-      console.error("Error fetching hackathons:", error);
       toast.error("Failed to load hackathons");
     } finally {
       setLoading(false);
@@ -108,7 +107,6 @@ export function HackathonsList({ deptId, allowAddNew = true, isAdmin = false, on
       setHackathons((prev) => prev.filter((hackathon) => hackathon.id !== id));
       toast.success("Hackathon deleted successfully");
     } catch (error) {
-      console.error("Error deleting hackathon:", error);
       toast.error("Failed to delete hackathon");
     } finally {
       setDeleteDialogOpen(false);

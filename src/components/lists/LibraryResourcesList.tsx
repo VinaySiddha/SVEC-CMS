@@ -72,7 +72,6 @@ export function LibraryResourcesList({
       const data = await response.json();
       setResources(data);
     } catch (error) {
-      console.error('Error fetching library resources:', error);
       toast.error('Failed to load library resources');
     } finally {
       setIsLoading(false);
@@ -98,7 +97,6 @@ export function LibraryResourcesList({
       toast.success('Resource deleted successfully');
       fetchResources();
     } catch (error) {
-      console.error('Error deleting resource:', error);
       toast.error('Failed to delete resource');
     }
   };

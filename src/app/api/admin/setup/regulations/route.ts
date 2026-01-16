@@ -29,7 +29,6 @@ export async function POST() {
       );
     }
   } catch (error) {
-    console.error('Setup error:', error);
     return NextResponse.json(
       { error: 'Setup failed' },
       { status: 500 }

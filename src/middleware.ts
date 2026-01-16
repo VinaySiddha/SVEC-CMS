@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import jwt from 'jsonwebtoken';
+import { jwtVerify } from 'jose';
 
 interface AuthToken {
   id: number;
@@ -10,16 +10,18 @@ interface AuthToken {
   permissions?: string[];
 }
 
-function verifyToken(token: string): AuthToken | null {
+async function verifyToken(token: string): Promise<AuthToken | null> {
   try {
-    const JWT_SECRET = process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30';
-    return jwt.verify(token, JWT_SECRET) as AuthToken;
+    const JWT_SECRET = process.env.JWT_SECRET || 'default_jwt_secret';
+    const secret = new TextEncoder().encode(JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret);
+    return payload as AuthToken;
   } catch (error) {
     return null;
   }
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Skip middleware for static files and API routes that don't need auth
@@ -28,6 +30,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/api/health') ||
     pathname.startsWith('/api/test') ||
     pathname.startsWith('/api/auth/') ||
+    pathname.startsWith('/api/debug/') ||
     pathname.startsWith('/static/') ||
     pathname.endsWith('.ico') ||
     pathname.endsWith('.png') ||
@@ -37,9 +40,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Check for authentication token
+  // Check for authentication token in header or cookies
   const token = request.headers.get('authorization')?.replace('Bearer ', '') || 
-                request.cookies.get('token')?.value;
+                request.cookies.get('token')?.value ||
+                request.cookies.get('admin_token')?.value;
 
   // Routes that require authentication
   const protectedRoutes = [
@@ -59,8 +63,8 @@ export function middleware(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Verify token
-    const user = verifyToken(token);
+    // Verify token (now async)
+    const user = await verifyToken(token);
     if (!user) {
       if (!pathname.startsWith('/api/')) {
         return NextResponse.redirect(new URL('/auth/login', request.url));
@@ -93,7 +97,7 @@ export function middleware(request: NextRequest) {
     if (pathname.startsWith('/api/admin/departments/')) {
       const pathParts = pathname.split('/');
       const requestedDept = pathParts[4]; // /api/admin/departments/{dept}/...
-
+      
       // Super admin can access all departments
       if (user.role === 'super_admin') {
         return NextResponse.next();

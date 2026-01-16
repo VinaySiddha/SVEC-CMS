@@ -85,7 +85,6 @@ export async function getFacultyAchievements(options: GetFacultyAchievementsOpti
     const data = await response.json();
     return data;
   } catch (error: any) {
-    console.error('Error fetching faculty achievements:', error);
     throw new Error(error.message || 'Failed to fetch faculty achievements');
   }
 }
@@ -96,7 +95,6 @@ export async function getFacultyAchievementById(id: string): Promise<FacultyAchi
     const achievements = await getFacultyAchievements({ id });
     return achievements[0];
   } catch (error: any) {
-    console.error(`Error fetching faculty achievement with ID ${id}:`, error);
     throw new Error(error.message || `Failed to fetch faculty achievement with ID ${id}`);
   }
 }
@@ -127,7 +125,6 @@ export async function getAchievementsByType(departmentId: string): Promise<Recor
     
     return grouped;
   } catch (error) {
-    console.error('Error grouping achievements by type:', error);
     throw error;
   }
 }

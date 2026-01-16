@@ -89,7 +89,6 @@ export async function GET(request: NextRequest) {
             data: result
         });
     } catch (error) {
-        console.error('Error fetching technical association data:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch technical association data', error: String(error) },
             { status: 500 }
@@ -174,7 +173,6 @@ export async function POST(request: NextRequest) {
             id: (result as any).insertId
         });
     } catch (error) {
-        console.error('Error creating technical association record:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to create record', error: String(error) },
             { status: 500 }

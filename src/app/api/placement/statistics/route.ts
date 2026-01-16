@@ -9,7 +9,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(stats || []);
   } catch (error) {
-    console.error('Error fetching statistics:', error);
     return NextResponse.json(
       { error: 'Failed to fetch statistics' },
       { status: 500 }
@@ -63,7 +62,6 @@ export async function POST(request: NextRequest) {
       message: 'Placement statistics saved successfully'
     });
   } catch (error) {
-    console.error('Error saving statistics:', error);
     return NextResponse.json(
       { error: 'Failed to save statistics' },
       { status: 500 }

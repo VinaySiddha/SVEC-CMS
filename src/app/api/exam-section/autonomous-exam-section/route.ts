@@ -29,7 +29,6 @@ export async function GET(request: NextRequest) {
     const rows = await db.query(baseQuery, params);
     return NextResponse.json(Array.isArray(rows) ? rows : []);
   } catch (error) {
-    console.error('Error fetching autonomous exam sections:', error);
     return NextResponse.json({ error: 'Failed to fetch autonomous exam sections', details: String(error) }, { status: 500 });
   }
 }
@@ -79,7 +78,6 @@ export async function POST(request: NextRequest) {
     const insertResult = await db.execute(insertQuery, insertParams);
     return NextResponse.json({ success: true, id: insertResult.insertId });
   } catch (error) {
-    console.error('Error creating autonomous exam section record:', error);
     return NextResponse.json({ error: 'Failed to create record', details: String(error) }, { status: 500 });
   }
 }
@@ -114,7 +112,6 @@ export async function PUT(request: NextRequest) {
     await db.execute(updateQuery, [nextDate, nextType, nextDegree, nextContent, nextLink, id]);
     return NextResponse.json({ success: true, message: 'Record updated' });
   } catch (error) {
-    console.error('Error updating autonomous exam section record:', error);
     return NextResponse.json({ error: 'Failed to update record' }, { status: 500 });
   }
 }
@@ -142,14 +139,12 @@ export async function DELETE(request: NextRequest) {
       try {
         await unlink(filePath);
       } catch (error) {
-        console.error('Error deleting file:', error);
         // Continue even if file deletion fails
       }
     }
     
     return NextResponse.json({ success: true, message: 'Record deleted' });
   } catch (error) {
-    console.error('Error deleting autonomous exam section record:', error);
     return NextResponse.json({ error: 'Failed to delete record' }, { status: 500 });
   }
 }

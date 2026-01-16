@@ -34,7 +34,6 @@ export async function GET(
       );
     }
 
-    console.log(`[Faculty API] Fetching faculty from ${tableName}`);
 
     // Query faculty data sorted by designation and date of joining
     let sql = `SELECT * FROM ${tableName} ORDER BY name ASC`;
@@ -43,7 +42,6 @@ export async function GET(
     try {
       const rows = await query<RowDataPacket[]>(sql);
       
-      console.log(`[Faculty API] Retrieved ${rows.length} faculty members from ${tableName}`);
 
       // Normalize field names to be consistent
       const normalizedFaculty = rows.map((row: any) => ({
@@ -60,7 +58,6 @@ export async function GET(
 
       return NextResponse.json(normalizedFaculty);
     } catch (error) {
-      console.warn(`[Faculty API] Error with query, attempting with flexible column selection:`, error);
       
       // Fallback: Get all columns and normalize them
       const sql2 = `SELECT * FROM ${tableName} LIMIT 1000`;
@@ -81,7 +78,6 @@ export async function GET(
       return NextResponse.json(normalizedFaculty);
     }
   } catch (error) {
-    console.error('[Faculty API] Error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch faculty data' },
       { status: 500 }

@@ -26,7 +26,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       Array.isArray(rows) ? rows : []
     );
   } catch (error) {
-    console.error("Error fetching hackathons gallery:", error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     res.status(500).json({ 
       error: errorMessage,

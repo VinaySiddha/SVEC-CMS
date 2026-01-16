@@ -13,7 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const [rows] = await connection.execute('SELECT * FROM ece_physical_facilities ORDER BY id');
     res.status(200).json(rows);
   } catch (error: any) {
-    console.error("Error fetching physical facilities data:", error);
     res.status(500).json({ error: error.message });
   } finally {
     if (connection) {

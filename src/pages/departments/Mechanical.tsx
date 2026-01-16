@@ -206,18 +206,14 @@ const MechanicalDepartment: React.FC = () => {
     fetch(`/api/mech/faculty${cacheBuster}`)
       .then(res => res.json())
       .then(data => {
-        console.log('Faculty API Response:', data);
         if (Array.isArray(data)) {
           const teaching = data.filter((member: Faculty) => member.faculty_type === 'teaching');
           const nonTeaching = data.filter((member: Faculty) => member.faculty_type === 'non_teaching' || member.faculty_type === 'non-teaching');
-          console.log('Teaching Faculty:', teaching);
-          console.log('Non-Teaching Faculty:', nonTeaching);
           setNonTeachingFaculty(nonTeaching);
           setFaculty(sortFacultyByDesignationAndDOJ(teaching));
         }
       })
       .catch((error) => {
-        console.error('Error fetching faculty:', error);
         setFaculty([]);
         setNonTeachingFaculty([]);
       })
@@ -225,11 +221,9 @@ const MechanicalDepartment: React.FC = () => {
     fetch(`/api/mech/technical-faculty${cacheBuster}`)
       .then(res => res.json())
       .then(data => {
-        console.log('Technical Faculty API Response:', data);
         setTechnicalFaculty(Array.isArray(data) ? sortFacultyByDesignationAndDOJ(data) : []);
       })
       .catch((error) => {
-        console.error('Error fetching technical faculty:', error);
         setTechnicalFaculty([]);
       })
     //2
@@ -253,7 +247,6 @@ const MechanicalDepartment: React.FC = () => {
     fetch(`/api/mech/mous${cacheBuster}`)
       .then(res => res.json())
       .then(data => {
-        console.log('Mous data from API:', data);
         // Ensure data is always an array
         if (Array.isArray(data)) {
           setMous(data);
@@ -264,14 +257,12 @@ const MechanicalDepartment: React.FC = () => {
         }
       })
       .catch(error => {
-        console.error('Error fetching mous:', error);
         setMous([]);
       })
     //5a
     fetch(`/api/mech/industry-programs${cacheBuster}`)
       .then(res => res.json())
       .then(data => {
-        console.log('Industry programs data from API:', data);
         if (Array.isArray(data)) {
           setIndustryPrograms(data);
         } else if (data && typeof data === 'object') {
@@ -281,7 +272,6 @@ const MechanicalDepartment: React.FC = () => {
         }
       })
       .catch(error => {
-        console.error('Error fetching industry programs:', error);
         setIndustryPrograms([]);
       })
     //6
@@ -1163,14 +1153,8 @@ const MechanicalDepartment: React.FC = () => {
         const mousArray = Array.isArray(mous) ? mous : [];
         const industryProgramsArray = Array.isArray(industryPrograms) ? industryPrograms : [];
 
-        console.log('=== MOUs DEBUG LOG ===');
-        console.log('Total MOUs Data:', mousArray);
-        console.log('Mous length:', mousArray.length);
-        console.log('Industry Programs length:', industryProgramsArray.length);
 
         if (mousArray.length > 0) {
-          console.log('First MoU item:', mousArray[0]);
-          console.log('MoU item keys:', Object.keys(mousArray[0]));
         }
 
         // All items from mech_mous table are industry MOUs
@@ -1179,8 +1163,6 @@ const MechanicalDepartment: React.FC = () => {
         // Activities from industry programs
         const activityMous = industryProgramsArray;
 
-        console.log('Industry MOUs count:', industryMous.length);
-        console.log('Activity programs count:', activityMous.length);
 
         return (
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
@@ -1199,13 +1181,6 @@ const MechanicalDepartment: React.FC = () => {
                 </thead>
                 <tbody>
                   {industryMous.map((item: Mous, idx: number) => {
-                    console.log(`Rendering industry MoU row ${idx}:`, {
-                      organization: item.organization,
-                      industry_type: item.industry_type,
-                      date_of_mou: item.date_of_mou,
-                      validity: item.validity,
-                      fullItem: item
-                    });
                     return (
                       <tr key={idx} className="hover:bg-gray-50">
                         <td className="py-3 px-4 border-b">{idx + 1}</td>

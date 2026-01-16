@@ -135,7 +135,6 @@ export async function getLabs(departmentId?: string): Promise<Lab[]> {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error fetching labs:', error);
     throw error;
   }
 }
@@ -154,7 +153,6 @@ export async function getLab(id: string): Promise<Lab> {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(`Error fetching lab ${id}:`, error);
     throw error;
   }
 }

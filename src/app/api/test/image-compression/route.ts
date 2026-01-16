@@ -19,10 +19,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log(`\n=== Image Processing Test ===`);
-    console.log(`File: ${imageFile.name}`);
-    console.log(`Type: ${imageFile.type}`);
-    console.log(`Original size: ${formatFileSize(imageFile.size)}`);
 
     // Validate image file
     const validation = validateImageFile(imageFile);
@@ -41,7 +37,6 @@ export async function POST(request: NextRequest) {
     const hasTransparency = imageFile.type === 'image/png';
     const outputFormat = getOptimalFormat(imageFile.type, hasTransparency);
 
-    console.log(`Processing with format: ${outputFormat}`);
 
     // Process image (resize to 1920x700 and compress to ~300KB)
     const processedImage = await processImage(originalBuffer, imageFile.name, {
@@ -52,11 +47,6 @@ export async function POST(request: NextRequest) {
       format: outputFormat
     });
 
-    console.log(`Compressed size: ${formatFileSize(processedImage.compressedSize)}`);
-    console.log(`Compression ratio: ${processedImage.compressionRatio.toFixed(1)}%`);
-    console.log(`Dimensions: ${processedImage.dimensions.width}x${processedImage.dimensions.height}`);
-    console.log(`Filename: ${processedImage.filename}`);
-    console.log(`=== Processing Complete ===\n`);
 
     // Return processed image as base64 for testing
     const base64Image = processedImage.buffer.toString('base64');
@@ -82,7 +72,6 @@ export async function POST(request: NextRequest) {
       dataUrl // For preview purposes only
     });
   } catch (error) {
-    console.error('Image processing test error:', error);
     return NextResponse.json(
       { success: false, message: 'Image processing failed', error: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }

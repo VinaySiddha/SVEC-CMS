@@ -63,7 +63,6 @@ export default function PlacementEventsPage() {
         setEvents(result.data);
       }
     } catch (error) {
-      console.error('Error fetching events:', error);
       toast.error('Failed to fetch events');
     } finally {
       setDataLoading(false);
@@ -192,7 +191,6 @@ export default function PlacementEventsPage() {
         }
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
       toast.error('An error occurred while saving the event');
     }
   };
@@ -227,7 +225,6 @@ export default function PlacementEventsPage() {
         toast.error(result.error || 'Failed to delete event');
       }
     } catch (error) {
-      console.error('Error deleting event:', error);
       toast.error('An error occurred while deleting the event');
     }
   };

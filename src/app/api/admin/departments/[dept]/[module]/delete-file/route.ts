@@ -384,7 +384,6 @@ async function handleFileDelete(
       fileUrl = body.fileUrl; // Direct file URL deletion
     }
 
-    console.log(`[DELETE FILE] Department: ${dept}, Module: ${module}, ID: ${id}, Field: ${field}, FileURL: ${fileUrl}`);
 
     if (!id && !fileUrl) {
       return NextResponse.json({ error: 'Record ID or file URL is required' }, { status: 400 });
@@ -429,7 +428,6 @@ async function handleFileDelete(
       }
     }
 
-    console.log(`[DELETE FILE] Attempting to delete file: ${targetFileUrl}`);
 
     // Delete the physical file
     try {
@@ -438,29 +436,21 @@ async function handleFileDelete(
         // Extract file path from URL using the utility function
         const filePath = extractFilePathFromUrl(targetFileUrl);
 
-        console.log(`[DELETE FILE] Extracted file path: ${filePath}`);
 
         if (filePath) {
           // Check if file exists before attempting deletion
           try {
-            console.log(`[DELETE FILE] Checking if file exists at: ${filePath}`);
             await fs.access(filePath);
-            console.log(`[DELETE FILE] File exists, proceeding with deletion`);
 
             await fs.unlink(filePath);
-            console.log(`[DELETE FILE] ✅ Successfully deleted physical file: ${filePath}`);
           } catch (fileError) {
-            console.warn(`[DELETE FILE] ❌ Could not delete physical file: ${filePath}`, fileError);
             // Continue with database update even if physical file deletion fails
           }
         } else {
-          console.warn(`[DELETE FILE] ❌ Could not extract file path from URL: ${targetFileUrl}`);
         }
       } else {
-        console.warn('[DELETE FILE] No targetFileUrl provided, skipping physical file deletion');
       }
     } catch (error) {
-      console.warn(`[DELETE FILE] Error processing file deletion:`, error);
     }
 
     // Update the database to remove the file URL (only if we have ID and field)
@@ -469,12 +459,10 @@ async function handleFileDelete(
       // For hackathons-gallery, delete the entire record since it's a single-image module
       if (module === 'hackathons-gallery') {
         await query(`DELETE FROM ${tableName} WHERE id = ?`, [id]);
-        console.log(`[DELETE FILE] ✅ Deleted entire hackathons-gallery record: ${id}`);
       } else {
         // For other modules, just set the field to NULL
         const updateQuery = `UPDATE ${tableName} SET ${field} = NULL WHERE id = ?`;
         await query(updateQuery, [id]);
-        console.log(`[DELETE FILE] ✅ Set field ${field} to NULL for record ${id}`);
 
         // Fetch the updated record
         const updatedRecords = await query<RowDataPacket[]>(
@@ -486,15 +474,11 @@ async function handleFileDelete(
     } else if (id && !field) {
       // If we have ID but no field and it's hackathons-gallery, delete the entire record
       if (module === 'hackathons-gallery') {
-        console.log(`[DELETE FILE] Deleting hackathons-gallery record without explicit field: ${id}`);
         await query(`DELETE FROM ${tableName} WHERE id = ?`, [id]);
-        console.log(`[DELETE FILE] ✅ Deleted entire hackathons-gallery record: ${id}`);
       }
     } else {
-      console.log(`[DELETE FILE] No database record deletion performed (id: ${id}, field: ${field})`);
     }
 
-    console.log(`[DELETE FILE] Successfully processed file deletion`);
 
     return NextResponse.json({
       success: true,
@@ -503,7 +487,6 @@ async function handleFileDelete(
     });
 
   } catch (error) {
-    console.error('[DELETE FILE] Error:', error);
     const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json({
       error: 'Internal server error',

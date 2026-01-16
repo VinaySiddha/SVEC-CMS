@@ -9,7 +9,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(staff || []);
   } catch (error) {
-    console.error('Error fetching staff:', error);
     return NextResponse.json(
       { error: 'Failed to fetch staff' },
       { status: 500 }
@@ -58,7 +57,6 @@ export async function POST(request: NextRequest) {
       message: 'Staff member added successfully'
     });
   } catch (error) {
-    console.error('Error adding staff:', error);
     return NextResponse.json(
       { error: 'Failed to add staff' },
       { status: 500 }

@@ -5,7 +5,6 @@ export default async function handler(req, res) {
     const rows = await executeQuery('SELECT type,year,title,url FROM ece_worshops_gl ORDER BY id');
     res.status(200).json(rows);
   } catch (error) {
-    console.error("Error fetching workshops data:", error);
     res.status(500).json({ error: error.message });
   }
 }

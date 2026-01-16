@@ -82,7 +82,6 @@ export default function TrainingsList({
       const data = await response.json();
       setTrainings(data.trainings || []);
     } catch (error) {
-      console.error("Error fetching trainings:", error);
       toast.error("Failed to load trainings");
     } finally {
       setLoading(false);
@@ -131,7 +130,6 @@ export default function TrainingsList({
       toast.success("Training deleted successfully");
       setDeleteDialogOpen(false);
     } catch (error) {
-      console.error("Error deleting training:", error);
       toast.error("Failed to delete training");
     } finally {
       setDeleting(false);

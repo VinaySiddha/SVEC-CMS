@@ -14,8 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                    ORDER BY academic_year DESC, id DESC`;
     
     const rows = await executeQuery(query);
-    
-    console.log('🔍 Civil Placements Gallery Debug:', {
+
+    console.log('Civil placements gallery query result:', {
       query: query,
       rowsCount: rows ? rows.length : 0,
       firstRow: rows && rows.length > 0 ? rows[0] : null
@@ -23,7 +23,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     
     res.status(200).json(rows);
   } catch (error) {
-    console.error('Error fetching civil placements gallery:', error);
     res.status(500).json({ error: 'Failed to fetch civil placements gallery' });
   }
 }

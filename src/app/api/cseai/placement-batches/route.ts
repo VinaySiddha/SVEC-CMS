@@ -18,7 +18,6 @@ export async function GET(request: NextRequest) {
             data: placementBatches
         });
     } catch (error) {
-        console.error('Error fetching placement batches:', error);
         return NextResponse.json(
             { success: false, message: 'Failed to fetch placement batches' },
             { status: 500 }

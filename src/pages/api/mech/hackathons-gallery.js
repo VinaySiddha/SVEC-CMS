@@ -21,7 +21,6 @@ export default async function handler(req, res) {
     
     res.status(200).json(placementsData.length > 0 ? placementsData : rows);
   } catch (error) {
-    console.error("Error fetching mech hackathons gallery data:", error);
     res.status(500).json({ error: error.message });
   } finally {
     if (connection) {

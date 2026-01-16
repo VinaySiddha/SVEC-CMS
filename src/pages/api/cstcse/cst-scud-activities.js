@@ -30,7 +30,6 @@ export default async function handler(req, res) {
     res.status(200).json({ scudActivities: rows });
   } catch (error) {
     if (connection) await connection.end();
-    console.error(error); // Debug log
     res.status(500).json({ error: error.message });
   }
 }

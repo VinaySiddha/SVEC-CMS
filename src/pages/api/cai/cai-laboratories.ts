@@ -7,7 +7,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    console.log('Fetching CAI laboratories...');
     const startTime = Date.now();
     
     const connection = await mysql.createConnection({
@@ -27,8 +26,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     await connection.end();
     
-    console.log('CAI laboratories query time:', Date.now() - startTime, 'ms');
-    console.log('CAI laboratories records found:', (rows as any[]).length);
 
     // Transform data to match frontend expectations
     const transformedData = (rows as any[]).map(lab => ({
@@ -43,7 +40,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.status(200).json(transformedData);
   } catch (error) {
-    console.error('Error fetching CAI laboratories:', error);
     res.status(500).json({ 
       message: 'Error fetching CAI laboratories data',
       error: error instanceof Error ? error.message : 'Unknown error' 

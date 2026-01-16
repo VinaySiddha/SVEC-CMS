@@ -94,7 +94,6 @@ export function AssociationsList({
       const data = await response.json();
       setAssociations(data.associations || []);
     } catch (error) {
-      console.error("Error fetching associations:", error);
       toast.error("Failed to load associations");
     } finally {
       setLoading(false);
@@ -152,7 +151,6 @@ export function AssociationsList({
       toast.success("Association deleted successfully");
       setDeleteDialogOpen(false);
     } catch (error) {
-      console.error("Error deleting association:", error);
       toast.error("Failed to delete association");
     } finally {
       setDeleting(false);

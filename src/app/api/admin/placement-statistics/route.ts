@@ -47,7 +47,6 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error) {
-    console.error('Error fetching placement statistics:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to fetch placement statistics' },
       { status: 500 }
@@ -136,7 +135,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error saving placement statistics:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to save placement statistics' },
       { status: 500 }
@@ -165,7 +163,6 @@ export async function DELETE(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error deleting placement statistics:', error);
     return NextResponse.json(
       { success: false, message: 'Failed to delete placement statistics' },
       { status: 500 }

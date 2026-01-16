@@ -7,7 +7,6 @@ export default async function handler(request: NextRequest) {
 
 async function GET(request: NextRequest) {
   try {
-    console.log('🔍 Testing all CSEAI data sources...');
 
     // Test individual endpoints
     const [
@@ -20,17 +19,11 @@ async function GET(request: NextRequest) {
       query('SELECT COUNT(*) as count FROM cai_mous', [])
     ]);
 
-    console.log('✅ Individual data counts:');
-    console.log(`📊 Faculty: ${facultyTest[0]?.count || 0}`);
-    console.log(`📊 Faculty Development: ${facultyDevelopmentTest[0]?.count || 0}`);
-    console.log(`📊 MOUs: ${mousTest[0]?.count || 0}`);
 
     // Test public API endpoint
     const publicAPIResponse = await fetch(`${request.nextUrl.origin}/api/public/departments/cse-ai`);
     const publicAPIData = await publicAPIResponse.json();
 
-    console.log('✅ Public API Response Status:', publicAPIResponse.status);
-    console.log('✅ Public API Data Keys:', Object.keys(publicAPIData?.data || {}));
 
     return NextResponse.json({
       success: true,
@@ -56,7 +49,6 @@ async function GET(request: NextRequest) {
       ]
     });
   } catch (error) {
-    console.error('❌ Error testing CSEAI data sources:', error);
     return NextResponse.json(
       {
         success: false,

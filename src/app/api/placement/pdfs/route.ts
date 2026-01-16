@@ -12,7 +12,6 @@ export async function GET() {
 
         return NextResponse.json(results, { status: 200 });
     } catch (error) {
-        console.error('Error fetching placement PDFs:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to fetch placement PDFs' },
             { status: 500 }
@@ -64,7 +63,6 @@ export async function POST(request: NextRequest) {
             { status: 201 }
         );
     } catch (error) {
-        console.error('Error creating placement PDF:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to create placement PDF' },
             { status: 500 }
@@ -135,7 +133,6 @@ export async function PUT(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error updating placement PDF:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to update placement PDF' },
             { status: 500 }
@@ -163,7 +160,6 @@ export async function DELETE(request: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error('Error deleting placement PDF:', error);
         return NextResponse.json(
             { success: false, error: 'Failed to delete placement PDF' },
             { status: 500 }
