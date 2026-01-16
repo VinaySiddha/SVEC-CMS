@@ -161,20 +161,38 @@ jobs:
             echo "📥 Pulling latest Docker image..."
             docker pull ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
 
-            # Check if container exists and stop it
-            echo "🛑 Stopping old container..."
+            # Stop all containers using port 4000
+            echo "🛑 Checking for containers using port 4000..."
+            CONTAINERS_ON_PORT=$(docker ps --filter "publish=4000" --format "{{.Names}}" || true)
+            if [ ! -z "$CONTAINERS_ON_PORT" ]; then
+              echo "   Found containers on port 4000: $CONTAINERS_ON_PORT"
+              for container in $CONTAINERS_ON_PORT; do
+                echo "   Stopping container: $container"
+                docker stop $container || true
+                docker rm $container || true
+              done
+            fi
+
+            # Check if svec-cms container exists (in case it's using a different port)
+            echo "🛑 Checking for svec-cms container..."
             if docker ps -a --format '{{.Names}}' | grep -q '^svec-cms$'; then
-              echo "   Found existing container, stopping..."
+              echo "   Found svec-cms container, removing..."
               docker stop svec-cms || true
               docker rm svec-cms || true
-            else
-              echo "   No existing container found"
             fi
 
             # Verify container is gone
             if docker ps -a --format '{{.Names}}' | grep -q '^svec-cms$'; then
               echo "❌ Failed to remove old container"
               exit 1
+            fi
+
+            # Kill any process still using port 4000 (fallback)
+            echo "🔍 Checking if port 4000 is free..."
+            if lsof -ti:4000 >/dev/null 2>&1; then
+              echo "⚠️  Port 4000 still in use, killing process..."
+              kill -9 $(lsof -ti:4000) || true
+              sleep 2
             fi
 
             # Run new container
