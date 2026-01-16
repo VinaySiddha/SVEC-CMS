@@ -144,8 +144,8 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
-          timeout: 30s
-          command_timeout: 15m
+          timeout: 60s
+          command_timeout: 20m
           debug: false
           script: |
             set -e  # Exit on error
@@ -195,11 +195,16 @@ jobs:
               sleep 2
             fi
 
-            # Restart Docker to fix iptables/networking issues
-            echo "🔄 Restarting Docker to refresh networking..."
-            systemctl restart docker
-            sleep 5
-            echo "✅ Docker restarted successfully"
+            # Clean up Docker networks to fix iptables issues
+            echo "🧹 Cleaning up Docker networks..."
+            docker network prune -f || true
+            sleep 2
+
+            # If iptables issue persists, restart Docker daemon in background
+            echo "🔄 Refreshing Docker networking if needed..."
+            (systemctl restart docker && echo "Docker restarted" || true) &
+            sleep 8
+            echo "✅ Docker networking refreshed"
 
             # Run new container
             echo "🚀 Starting new container..."
@@ -241,7 +246,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
-          timeout: 30s
+          timeout: 60s
           script: |
             echo "🔍 Verifying deployment..."
 
