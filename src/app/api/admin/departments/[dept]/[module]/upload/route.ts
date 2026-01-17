@@ -134,9 +134,11 @@ export async function POST(
     });
 
   } catch (error) {
+    console.error('[UPLOAD ERROR]', error);
     return NextResponse.json({
       success: false,
-      error: 'Internal server error during file upload'
+      error: 'Internal server error during file upload',
+      details: 'An unexpected error occurred while processing the upload'
     }, { status: 500 });
   }
 }
