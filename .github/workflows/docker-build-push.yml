@@ -1,12 +1,13 @@
-name: Build and Push Docker Image
+name: Build, Scan, and Deploy Docker Image
 
 on:
   push:
-    branches: [ dev ]
+    branches:
+      - dev
   pull_request:
-    branches: [ main, master ]
-
-  # Allow manual triggering
+    branches:
+      - main
+      - master
   workflow_dispatch:
 
 env:
@@ -15,27 +16,28 @@ env:
 
 jobs:
   build-and-push:
+    name: Build and Push Docker Image
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read
       packages: write
-    
+
     steps:
-      - name: Checkout repository
+      - name: Checkout source code
         uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to Docker Hub
+      - name: Authenticate with Docker Hub
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Extract metadata
+      - name: Generate Docker image metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -51,9 +53,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          # Currently building AMD64 only due to ARM64 network timeout issues
-          # To re-enable ARM64: change to "linux/amd64,linux/arm64"
-          # ARM64 builds may timeout during npm install due to emulation overhead
           platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
@@ -66,78 +65,79 @@ jobs:
           provenance: false
           sbom: false
 
-      - name: Image digest
+      - name: Output image digest
         if: github.event_name != 'pull_request'
-        run: echo ${{ steps.build-and-push.outputs.digest }}
+        run: echo "${{ steps.build-and-push.outputs.digest }}"
 
-  # Security scanning
   security-scan:
+    name: Security Scan (Trivy)
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
     needs: build-and-push
-    
+    if: github.event_name != 'pull_request'
+
     permissions:
       contents: read
       security-events: write
       actions: read
 
     steps:
-      - name: Checkout repository
+      - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Run Trivy vulnerability scanner (Table format)
+      - name: Run Trivy vulnerability scan (table output)
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.IMAGE_NAME }}:latest
-          format: 'table'
-          severity: 'CRITICAL,HIGH'
+          format: table
+          severity: CRITICAL,HIGH
           ignore-unfixed: true
-          exit-code: '0'
+          exit-code: 0
           trivyignores: .trivyignore
 
-      - name: Run Trivy vulnerability scanner (SARIF format)
+      - name: Run Trivy vulnerability scan (SARIF output)
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.IMAGE_NAME }}:latest
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH'
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL,HIGH
           ignore-unfixed: true
-          exit-code: '0'
+          exit-code: 0
           trivyignores: .trivyignore
 
-      - name: Filter SARIF for valid URIs
+      - name: Sanitize SARIF file paths
         run: |
-          # Create a simple filter to remove problematic URIs with brackets
           if [ -f trivy-results.sarif ]; then
-            # Make a backup
             cp trivy-results.sarif trivy-results.sarif.backup
-            # Filter out entries with brackets in URIs that cause validation issues
             sed -i 's|/app/.next/server/app/api/\[.*\]/|\[FILTERED_PATH\]/|g' trivy-results.sarif
           fi
 
-      - name: Upload Trivy scan results to GitHub Security tab
+      - name: Upload SARIF results to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         continue-on-error: true
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: trivy-results.sarif
 
-      - name: Upload SARIF file as artifact (fallback)
+      - name: Upload SARIF file as artifact
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: trivy-sarif-results
           path: trivy-results.sarif
 
-  # Deploy to VPS
   deploy:
-    needs: build-and-push
+    name: Deploy to VPS
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/Final_Blast' || github.ref == 'refs/heads/dev'
+    needs: build-and-push
+    if: |
+      github.ref == 'refs/heads/main' ||
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/Final_Blast' ||
+      github.ref == 'refs/heads/dev'
 
     steps:
-      - name: Deploy to VPS via SSH
+      - name: Deploy application via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -146,68 +146,37 @@ jobs:
           port: ${{ secrets.VPS_PORT || 22 }}
           timeout: 60s
           command_timeout: 20m
-          debug: false
           script: |
-            set -e  # Exit on error
+            set -e
 
-            echo "🚀 Starting deployment..."
-            echo "📦 Branch: ${{ github.ref_name }}"
-            echo "🏷️  Image: ${{ env.IMAGE_NAME }}:${{ github.ref_name }}"
+            echo "Starting deployment"
+            echo "Branch: ${{ github.ref_name }}"
+            echo "Image: ${{ env.IMAGE_NAME }}:${{ github.ref_name }}"
 
-            # Navigate to project directory
             cd /var/www/srivasaviengg.ac.in
 
-            # Pull latest Docker image
-            echo "📥 Pulling latest Docker image..."
             docker pull ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
 
-            # Stop all containers using port 4000
-            echo "🛑 Checking for containers using port 4000..."
             CONTAINERS_ON_PORT=$(docker ps --filter "publish=4000" --format "{{.Names}}" || true)
-            if [ ! -z "$CONTAINERS_ON_PORT" ]; then
-              echo "   Found containers on port 4000: $CONTAINERS_ON_PORT"
-              for container in $CONTAINERS_ON_PORT; do
-                echo "   Stopping container: $container"
-                docker stop $container || true
-                docker rm $container || true
-              done
-            fi
+            for container in $CONTAINERS_ON_PORT; do
+              docker stop "$container" || true
+              docker rm "$container" || true
+            done
 
-            # Check if svec-cms container exists (in case it's using a different port)
-            echo "🛑 Checking for svec-cms container..."
             if docker ps -a --format '{{.Names}}' | grep -q '^svec-cms$'; then
-              echo "   Found svec-cms container, removing..."
               docker stop svec-cms || true
               docker rm svec-cms || true
             fi
 
-            # Verify container is gone
-            if docker ps -a --format '{{.Names}}' | grep -q '^svec-cms$'; then
-              echo "❌ Failed to remove old container"
-              exit 1
-            fi
-
-            # Kill any process still using port 4000 (fallback)
-            echo "🔍 Checking if port 4000 is free..."
             if lsof -ti:4000 >/dev/null 2>&1; then
-              echo "⚠️  Port 4000 still in use, killing process..."
               kill -9 $(lsof -ti:4000) || true
               sleep 2
             fi
 
-            # Clean up Docker networks to fix iptables issues
-            echo "🧹 Cleaning up Docker networks..."
             docker network prune -f || true
-            sleep 2
-
-            # If iptables issue persists, restart Docker daemon in background
-            echo "🔄 Refreshing Docker networking if needed..."
-            (systemctl restart docker && echo "Docker restarted" || true) &
+            (systemctl restart docker || true) &
             sleep 8
-            echo "✅ Docker networking refreshed"
 
-            # Run new container
-            echo "🚀 Starting new container..."
             docker run -d \
               --name svec-cms \
               --restart unless-stopped \
@@ -216,28 +185,12 @@ jobs:
               --env-file .env.production \
               ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
 
-            # Verify container started
-            echo "⏳ Waiting for container to start..."
             sleep 3
 
-            if docker ps --format '{{.Names}}' | grep -q '^svec-cms$'; then
-              echo "✅ Container started successfully"
-            else
-              echo "❌ Container failed to start"
-              docker logs svec-cms --tail 50 || true
-              exit 1
-            fi
-
-            # Clean up old images
-            echo "🧹 Cleaning up old images..."
             docker image prune -f
 
-            # Show container status
-            echo "📊 Container status:"
-            docker ps --filter "name=svec-cms" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-
-            echo "✅ Deployment completed successfully!"
-            echo "🌐 Application is running on port 4000"
+            docker ps --filter "name=svec-cms" \
+              --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
       - name: Verify deployment
         uses: appleboy/ssh-action@v1.0.3
@@ -248,59 +201,23 @@ jobs:
           port: ${{ secrets.VPS_PORT || 22 }}
           timeout: 60s
           script: |
-            echo "🔍 Verifying deployment..."
-
-            # Wait for application to be ready
-            echo "⏳ Waiting 10 seconds for application to start..."
             sleep 10
 
-            # Check if container is running
-            if docker ps --format '{{.Names}}' | grep -q '^svec-cms$'; then
-              echo "✅ Container is running"
-
-              # Show container details
-              echo "📊 Container details:"
-              docker ps --filter "name=svec-cms" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-            else
-              echo "❌ Container is not running"
-
-              # Check if container exists but is stopped
-              if docker ps -a --format '{{.Names}}' | grep -q '^svec-cms$'; then
-                echo "⚠️  Container exists but is stopped"
-                echo "📋 Last 50 lines of logs:"
-                docker logs svec-cms --tail 50 || true
-              else
-                echo "❌ Container does not exist"
-              fi
-
+            if ! docker ps --format '{{.Names}}' | grep -q '^svec-cms$'; then
+              docker logs svec-cms --tail 50 || true
               exit 1
             fi
 
-            # Check if app is responding
-            echo "🔍 Testing application health..."
-            if curl -s -f http://localhost:4000 > /dev/null 2>&1; then
-              echo "✅ Application is responding on port 4000"
-            else
-              echo "⚠️  Application is not responding yet (may need more time)"
-              echo "📋 Recent container logs:"
-              docker logs svec-cms --tail 30 || true
-            fi
+            curl -s http://localhost:4000 >/dev/null || true
+            docker logs svec-cms --tail 20 || true
 
-            # Show recent logs
-            echo ""
-            echo "📋 Last 20 lines of application logs:"
-            docker logs svec-cms --tail 20 2>&1 || echo "Could not fetch logs"
-
-            echo ""
-            echo "✅ Verification completed"
-
-      - name: Deployment notification
+      - name: Deployment summary
         if: always()
         run: |
-          if [ "${{ job.status }}" == "success" ]; then
-            echo "✅ Deployment to VPS completed successfully!"
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "Deployment completed successfully"
             echo "Branch: ${{ github.ref_name }}"
             echo "Commit: ${{ github.sha }}"
           else
-            echo "❌ Deployment to VPS failed!"
+            echo "Deployment failed"
           fi

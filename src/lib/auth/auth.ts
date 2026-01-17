@@ -95,24 +95,33 @@ export async function authenticateUser(
   password: string
 ): Promise<User | null> {
   try {
+    console.log(`[AUTH] Attempting login for identifier: ${identifier}`);
+
     // Query user by username or email
     const users = await query<RowDataPacket[]>(
-      `SELECT u.id, u.username, u.email, u.password_hash, u.department, u.department_name, 
+      `SELECT u.id, u.username, u.email, u.password_hash, u.department, u.department_name,
               u.role, u.is_active, u.last_login, u.login_count, u.must_change_password
        FROM users u
        WHERE (u.username = ? OR u.email = ?) AND u.is_active = 1 AND u.deleted_at IS NULL`,
       [identifier, identifier]
     );
 
+    console.log(`[AUTH] Query returned ${users.length} users`);
+
     if (users.length === 0) {
+      console.log('[AUTH] No user found with provided identifier');
       return null;
     }
 
     const user = users[0] as any;
-    
+    console.log(`[AUTH] User found: ${user.username}, verifying password...`);
+
     // Verify password
     const isValidPassword = await verifyPassword(password, user.password_hash);
+    console.log(`[AUTH] Password verification result: ${isValidPassword}`);
+
     if (!isValidPassword) {
+      console.log('[AUTH] Invalid password');
       return null;
     }
 
@@ -139,6 +148,8 @@ export async function authenticateUser(
       metadata: { login_method: 'password' }
     });
 
+    console.log('[AUTH] Login successful');
+
     // Return user without password hash
     return {
       id: user.id,
@@ -154,6 +165,7 @@ export async function authenticateUser(
       permissions: permissions,
     };
   } catch (error) {
+    console.error('[AUTH] Authentication error:', error);
     return null;
   }
 }

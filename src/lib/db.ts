@@ -62,22 +62,27 @@ export function getPool(): Pool {
 export async function query<T>(sql: string, params?: any[]): Promise<T[]> {
   let lastError: any;
   const maxRetries = 5;  // Increase retries
-  
+
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      
+      console.log(`[DB] Query attempt ${attempt}/${maxRetries}`);
+
       // Get the pool and execute the query with prepared statement
       const [rows] = await getPool().execute<RowDataPacket[]>(sql, params || []);
-      
+
+      console.log(`[DB] Query successful, returned ${rows.length} rows`);
+
       // Type assertion - we're confident this will match the expected type T
       return rows as T[];
     } catch (error: any) {
       lastError = error;
-      
+      console.error(`[DB] Query attempt ${attempt} failed:`, error.code, error.message);
+
       // If this is a connection timeout, network error, or too many connections, try to recreate the pool
       if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET' || error.code === 'ENOTFOUND' || error.code === 'ER_CON_COUNT_ERROR') {
+        console.log(`[DB] Resetting pool due to ${error.code}, will retry in ${Math.pow(2, attempt)}s`);
         resetPool();
-        
+
         // Wait before retry (exponential backoff)
         if (attempt < maxRetries) {
           const delay = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s, 16s, 32s
@@ -85,11 +90,13 @@ export async function query<T>(sql: string, params?: any[]): Promise<T[]> {
         }
       } else {
         // For other errors, don't retry
+        console.error(`[DB] Non-retryable error, stopping retries:`, error);
         break;
       }
     }
   }
-  
+
+  console.error(`[DB] All retry attempts failed. Last error:`, lastError);
   throw lastError;
 }
 
