@@ -138,7 +138,7 @@ export async function POST(
     return NextResponse.json({
       success: false,
       error: 'Internal server error during file upload',
-      details: error instanceof Error ? error.message : String(error)
+      details: 'An unexpected error occurred while processing the upload'
     }, { status: 500 });
   }
 }
