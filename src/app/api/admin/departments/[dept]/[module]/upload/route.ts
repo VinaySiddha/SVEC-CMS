@@ -70,7 +70,10 @@ export async function POST(
     const uploadDir = join(getUploadBaseDir(), dept, module);
     try {
       await mkdir(uploadDir, { recursive: true });
+      console.log('[UPLOAD] Created directory:', uploadDir);
     } catch (error) {
+      console.error('[UPLOAD] Failed to create directory:', uploadDir, error);
+      throw new Error(`Failed to create upload directory: ${error instanceof Error ? error.message : String(error)}`);
     }
 
     // Use original filename without timestamps
