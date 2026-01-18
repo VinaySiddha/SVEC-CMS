@@ -986,38 +986,7 @@ const Home: React.FC = () => {
                 ) : (
                   // Fallback to static content if no data
                   <>
-                    <div className="flex items-start gap-4">
-                      <div className="bg-primary/80 text-primary-foreground p-3 rounded-md text-center w-16">
-                        <div className="text-sm">JAN</div>
-                        <div className="text-xl font-bold">05</div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">Annual Cultural Fest Announced for February</h3>
-                        <p className="text-muted-foreground text-sm">Events</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-4">
-                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                        <div className="text-sm">JAN</div>
-                        <div className="text-xl font-bold">03</div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">Professor Dr. Sharma Receives Excellence Award</h3>
-                        <p className="text-muted-foreground text-sm">Faculty</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-4">
-                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                        <div className="text-sm">DEC</div>
-                        <div className="text-xl font-bold">28</div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">New Library Wing Construction Completed</h3>
-                        <p className="text-muted-foreground text-sm">Infrastructure</p>
-                      </div>
-                    </div>
+                    
                   </>
                 )}
               </div>
@@ -1026,7 +995,7 @@ const Home: React.FC = () => {
 
 <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-3xl font-bold">Recruitment Events</h2>
+              <h2 className="text-3xl font-bold">Latest Events</h2>
             </div>
             <div
               className="overflow-hidden h-80 bg-white p-6 rounded-lg border border-primary/20"
@@ -1095,38 +1064,11 @@ const Home: React.FC = () => {
                 ) : (
                   // Fallback to static content if no data
                   <>
-                    <div className="flex items-start gap-4">
-                      <div className="bg-primary/80 text-primary-foreground p-3 rounded-md text-center w-16">
-                        <div className="text-sm">JOB</div>
-                        <div className="text-xl font-bold">1</div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">TCS Recruitment Drive</h3>
-                        <p className="text-muted-foreground text-sm">Campus drive for engineering graduates</p>
-                      </div>
-                    </div>
+                    
 
-                    <div className="flex items-start gap-4">
-                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                        <div className="text-sm">JOB</div>
-                        <div className="text-xl font-bold">2</div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">Infosys Campus Hiring</h3>
-                        <p className="text-muted-foreground text-sm">Recruitment for various technical roles</p>
-                      </div>
-                    </div>
+                    
 
-                    <div className="flex items-start gap-4">
-                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                        <div className="text-sm">JOB</div>
-                        <div className="text-xl font-bold">3</div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">Accenture Campus Drive</h3>
-                        <p className="text-muted-foreground text-sm">Full-time opportunities for fresh graduates</p>
-                      </div>
-                    </div>
+                    
                   </>
                 )}
               </div>
@@ -1186,56 +1128,7 @@ const Home: React.FC = () => {
                 ) : (
                   // Fallback to static content if no data
                   <>
-                    <div className="flex items-start gap-4">
-                      <div className="bg-primary/80 text-primary-foreground p-3 rounded-md text-center w-16">
-                        <div className="text-sm">JAN</div>
-                        <div className="text-xl font-bold">25</div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">Tech Fest 2025</h3>
-                        <p className="text-muted-foreground text-sm">Annual technical symposium with competitions and workshops</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                        <div className="text-sm">FEB</div>
-                        <div className="text-xl font-bold">15</div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">Industry Seminar</h3>
-                        <p className="text-muted-foreground text-sm">Insights from tech leaders on future trends</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                        <div className="text-sm">MAR</div>
-                        <div className="text-xl font-bold">10</div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">Career Fair 2025</h3>
-                        <p className="text-muted-foreground text-sm">Meet top companies and explore job opportunities</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                        <div className="text-sm">APR</div>
-                        <div className="text-xl font-bold">05</div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">Research Symposium</h3>
-                        <p className="text-muted-foreground text-sm">Showcase of innovative student and faculty research</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <div className="bg-white text-primary p-3 rounded-md text-center w-16 border border-primary">
-                        <div className="text-sm">MAY</div>
-                        <div className="text-xl font-bold">20</div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1">Alumni Meet</h3>
-                        <p className="text-muted-foreground text-sm">Annual gathering of SVEC graduates</p>
-                      </div>
-                    </div>
+                    
                   </>
                 )}
               </div>
