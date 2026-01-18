@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { FileText, ExternalLink, ChevronRight, Menu, X, Award, BookOpen, Users, TrendingUp, Building2, CheckCircle2 } from 'lucide-react';
+import { FileText, ExternalLink, ChevronRight, Award, BookOpen, Users, TrendingUp, Building2, CheckCircle2 } from 'lucide-react';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const NBA: React.FC = () => {
   const [activeTab, setActiveTab] = useState('nba');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Sidebar navigation items
+  // Sidebar navigation items with proper format for DepartmentSidebar
   const sidebarItems = [
-    { id: 'nba', label: 'NBA Overview', icon: Award },
-    { id: 'about-nba', label: 'About NBA', icon: BookOpen },
-    { id: 'accreditation-status', label: 'Accreditation Status', icon: CheckCircle2 },
-    { id: 'programmes', label: 'Accredited Programmes', icon: Building2 },
-    { id: 'documentation', label: 'Documentation', icon: FileText },
+    { id: 'nba', label: 'NBA Overview', icon: <Award className="w-4 h-4" /> },
+    { id: 'about-nba', label: 'About NBA', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'accreditation-status', label: 'Accreditation Status', icon: <CheckCircle2 className="w-4 h-4" /> },
+    { id: 'programmes', label: 'Accredited Programmes', icon: <Building2 className="w-4 h-4" /> },
+    { id: 'documentation', label: 'Documentation', icon: <FileText className="w-4 h-4" /> },
   ];
 
   // NBA Information data
@@ -38,7 +38,7 @@ const NBA: React.FC = () => {
       case 'nba':
         return (
           <div className="space-y-8">
-            <div className="bg-white rounded-lg shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-lg p-14">
               <h2 className="text-3xl font-bold text-primary mb-6 text-center">Welcome to NBA</h2>
               
               <div className="space-y-6">
@@ -362,120 +362,27 @@ const NBA: React.FC = () => {
   };
 
   return (
-    <div className="bg-background text-foreground min-h-screen flex flex-col">
-      <Header />
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
       
-      <main className="flex-1">
-        <div className="pt-24 min-h-screen">
-          {/* Hero Section */}
-          <section className="bg-primary text-white py-16 md:py-20 w-full rounded-none mb-12">
-            <div className="container mx-auto px-4 text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">NBA</h1>
-              <p className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
-                National Board of Accreditation
-              </p>
-            </div>
-          </section>
+      {/* HEADER – always on top */}
+      <div className="sticky top-0 z-50">
+        <Header />
+      </div>
 
+      {/* MAIN CONTENT – must stay BELOW header */}
+      <main className="relative z-0 flex-1 overflow-visible">
+        <DepartmentSidebar
+          items={sidebarItems}
+          activeItem={activeTab}
+          onItemClick={setActiveTab}
+          title="NBA Accreditation"
+        >
           <div className="container mx-auto px-4 pb-12">
-        <div className="flex gap-8">
-          {/* Sidebar */}
-          <aside className="hidden md:block w-72">
-            <div className="bg-white rounded-lg shadow-lg sticky top-24 border-l-4 border-primary overflow-hidden">
-              {/* Header */}
-              <div className="bg-primary/10 border-b-2 border-primary px-6 py-4 flex items-center gap-3">
-                <div className="bg-primary text-white p-2 rounded-lg">
-                  <Award className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-primary font-bold text-lg">NBA</h3>
-                  <p className="text-xs text-primary/70">Accreditation</p>
-                </div>
-              </div>
-
-              {/* Navigation Items */}
-              <nav className="py-4">
-                {sidebarItems.map((item) => {
-                  const IconComponent = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveTab(item.id)}
-                      className={`w-full px-6 py-3 text-left border-l-4 transition-all duration-200 flex items-center gap-4 ${
-                        activeTab === item.id
-                          ? 'border-primary bg-primary/5 text-primary font-semibold shadow-sm'
-                          : 'border-transparent text-foreground/80 hover:bg-gray-50 hover:border-primary/30'
-                      }`}
-                    >
-                      <IconComponent className="w-5 h-5 flex-shrink-0" />
-                      <span className="flex-1">{item.label}</span>
-                      {activeTab === item.id && <ChevronRight className="w-4 h-4 flex-shrink-0" />}
-                    </button>
-                  );
-                })}
-              </nav>
-            </div>
-          </aside>
-
-          {/* Main Content */}
-          <main className="flex-1">
             {renderContent()}
-          </main>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="md:hidden fixed bottom-4 right-4 z-40 bg-primary text-white p-3 rounded-full shadow-lg"
-          >
-            {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-
-          {/* Mobile Sidebar */}
-          {sidebarOpen && (
-            <div className="md:hidden fixed inset-0 bg-black/50 z-30 top-24">
-              <div className="absolute left-0 top-24 w-72 bg-white shadow-lg border-l-4 border-primary max-h-screen overflow-y-auto">
-                {/* Header */}
-                <div className="bg-primary/10 border-b-2 border-primary px-6 py-4 flex items-center gap-3 sticky top-0">
-                  <div className="bg-primary text-white p-2 rounded-lg">
-                    <Award className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-primary font-bold text-lg">NBA</h3>
-                    <p className="text-xs text-primary/70">Accreditation</p>
-                  </div>
-                </div>
-
-                {/* Navigation Items */}
-                <nav className="py-4">
-                  {sidebarItems.map((item) => {
-                    const IconComponent = item.icon;
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => {
-                          setActiveTab(item.id);
-                          setSidebarOpen(false);
-                        }}
-                        className={`w-full px-6 py-3 text-left border-l-4 transition-all duration-200 flex items-center gap-4 ${
-                          activeTab === item.id
-                            ? 'border-primary bg-primary/5 text-primary font-semibold shadow-sm'
-                            : 'border-transparent text-foreground/80 hover:bg-gray-50 hover:border-primary/30'
-                        }`}
-                      >
-                        <IconComponent className="w-5 h-5 flex-shrink-0" />
-                        <span className="flex-1">{item.label}</span>
-                      </button>
-                    );
-                  })}
-                </nav>
-              </div>
-            </div>
-          )}
-        </div>
           </div>
-        </div>
+        </DepartmentSidebar>
       </main>
-      
+
       <Footer />
     </div>
   );
