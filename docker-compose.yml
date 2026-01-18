@@ -5,7 +5,7 @@ services:
     image: vinaysiddha/svec-cms:latest
     container_name: svec-cms-app
     ports:
-      - "3000:3000"
+      - "4000:3000"
     environment:
       # Database Configuration (Remote MySQL) - matching your .env names
       - MYSQL_HOST=${MYSQL_HOST}
