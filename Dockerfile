@@ -50,9 +50,22 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Create www-data user with matching UID/GID from host (typically 33:33 on Ubuntu/Debian)
-RUN addgroup -g 33 -S www-data && \
-    adduser -u 33 -S -G www-data www-data
+# Create www-data user if it doesn't exist, or modify existing one to have UID 33
+# This matches the www-data user on Ubuntu/Debian systems
+RUN set -x && \
+    if getent group www-data > /dev/null 2>&1; then \
+      echo "www-data group exists"; \
+    else \
+      addgroup -g 33 -S www-data; \
+    fi && \
+    if id www-data > /dev/null 2>&1; then \
+      echo "www-data user exists"; \
+      # Modify existing user to have UID 33 if different
+      deluser www-data; \
+      adduser -u 33 -D -S -G www-data www-data; \
+    else \
+      adduser -u 33 -D -S -G www-data www-data; \
+    fi
 
 # Copy necessary files from builder
 COPY --from=builder /app/public ./public
