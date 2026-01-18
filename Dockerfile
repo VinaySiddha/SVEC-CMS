@@ -50,22 +50,21 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Create a non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
 # Copy necessary files from builder
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
 # Create uploads directory with proper permissions
-RUN mkdir -p /app/public/uploads && chown -R nextjs:nodejs /app/public/uploads
+RUN mkdir -p /app/public/uploads
 
-# Set ownership to nextjs user
-RUN chown -R nextjs:nodejs /app
+# Set permissions so any user can write to uploads
+RUN chmod -R 777 /app/public/uploads
 
-USER nextjs
+# Make app directory readable by all users
+RUN chmod -R 755 /app
+
+# Don't set USER here - it will be set at runtime via docker run --user
 
 # Expose port
 EXPOSE 3000
