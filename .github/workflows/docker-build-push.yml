@@ -158,10 +158,10 @@ jobs:
             # Create uploads directory and set permissions
             echo "Setting up uploads directory..."
             mkdir -p /var/www/srivasaviengg.ac.in/uploads
-            # Set ownership: Docker user (1001) and Nginx group (www-data)
-            chown -R 1001:www-data /var/www/srivasaviengg.ac.in/uploads
-            # Set permissions: owner can write, group can read, others can read
-            chmod -R 775 /var/www/srivasaviengg.ac.in/uploads
+            # Set ownership: www-data for both Nginx and Docker to access
+            chown -R www-data:www-data /var/www/srivasaviengg.ac.in/uploads
+            # Set permissions: directories 755, files will be 644 when created
+            chmod -R 755 /var/www/srivasaviengg.ac.in/uploads
             echo "Uploads directory ready"
 
             docker pull ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
@@ -189,6 +189,7 @@ jobs:
             docker run -d \
               --name svec-cms \
               --restart unless-stopped \
+              --user www-data:www-data \
               -p 4000:3000 \
               -v /var/www/srivasaviengg.ac.in/uploads:/app/public/uploads \
               -e UPLOAD_DIR=/app/public/uploads \
