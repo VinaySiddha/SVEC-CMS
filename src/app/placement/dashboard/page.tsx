@@ -20,7 +20,8 @@ import {
   Building2,
   FileDown,
   Bell,
-  Calendar
+  Calendar,
+  ArrowUpAZ
 } from 'lucide-react';
 
 // Placement modules configuration
@@ -75,6 +76,13 @@ const PLACEMENT_MODULES = [
     table: 'placement_company_logos'
   },
   {
+    key: 'mous',
+    name: 'MOUs',
+    icon: FileText,
+    description: 'Manage memorandum of understanding with companies',
+    table: 'placement_mous'
+  },
+  {
     key: 'pdfs',
     name: 'Placement PDFs',
     icon: FileDown,
@@ -87,6 +95,13 @@ const PLACEMENT_MODULES = [
     icon: Bell,
     description: 'Manage placement notices and announcements',
     table: 'placement_noticeboard'
+  },
+  {
+    key: 'testimonies',
+    name: 'Testimonies',
+    icon: Calendar,
+    description: 'Enter Testimonies of Placed Students',
+    table: 'placement_testimonies'
   },
   {
     key: 'events',
@@ -159,6 +174,7 @@ export default function PlacementDashboard() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortAZ, setSortAZ] = useState(false);
 
   useEffect(() => {
     if (!isLoading && (!isAuthenticated || user?.role !== 'placement')) {
@@ -186,6 +202,11 @@ export default function PlacementDashboard() {
       module.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Sort modules A-Z if enabled
+  const sortedModules = sortAZ
+    ? [...filteredModules].sort((a, b) => a.name.localeCompare(b.name))
+    : filteredModules;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-red-50 pt-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
@@ -195,22 +216,35 @@ export default function PlacementDashboard() {
         {/* Search Bar */}
         <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg rounded-2xl overflow-hidden">
           <CardContent className="p-6">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <Input
-                type="search"
-                placeholder="Search modules..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-12 text-base border-gray-200 focus:border-orange-500 focus:ring-orange-500"
-              />
+            <div className="flex gap-4 items-end">
+              <div className="relative flex-1">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Input
+                  type="search"
+                  placeholder="Search modules..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-12 h-12 text-base border-gray-200 focus:border-orange-500 focus:ring-orange-500"
+                />
+              </div>
+              <button
+                onClick={() => setSortAZ(!sortAZ)}
+                className={`px-4 h-12 rounded-lg font-medium flex items-center gap-2 transition-all duration-200 border-2 ${
+                  sortAZ
+                    ? 'bg-orange-100 border-orange-500 text-orange-700 shadow-md'
+                    : 'bg-gray-100 border-gray-300 text-gray-700 hover:border-orange-500 hover:bg-orange-50'
+                }`}
+              >
+                <ArrowUpAZ className="w-4 h-4" />
+                Sort A-Z
+              </button>
             </div>
           </CardContent>
         </Card>
 
         {/* Modules Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredModules.map((module) => {
+          {sortedModules.map((module) => {
             const Icon = module.icon;
             return (
               <Link
