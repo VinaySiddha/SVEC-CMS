@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { FileText, ExternalLink, ChevronRight, Menu, X, Award, BookOpen, Users, TrendingUp } from 'lucide-react';
+import { DepartmentSidebar } from '@/components/DepartmentSidebar';
 
 const NAAC: React.FC = () => {
   const [activeTab, setActiveTab] = useState('naac');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Sidebar navigation items
   const sidebarItems = [
@@ -158,7 +158,7 @@ const NAAC: React.FC = () => {
           <div className="space-y-6">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-primary mb-6">NAAC</h1>
-              <p className="text-lg text-foreground/80 max-w-4xl mx-auto leading-relaxed">
+              <p className="text-lg text-foreground/80 max-w-4xl mx-auto leading-relaxed text-justify">
                 The National Assessment and Accreditation Council (NAAC) is an autonomous body established by the University Grants Commission (UGC)
                 of India to assess and accredit institutions of higher education in the country. NAAC conducts assessment and accreditation of
                 Higher Educational Institutions (HEI) such as colleges, universities or other recognized institutions to derive an understanding
@@ -3489,129 +3489,27 @@ const NAAC: React.FC = () => {
     }
   };
 
+  // Transform sidebarItems to use React components instead of icons
+  const transformedSidebarItems = sidebarItems.map(item => {
+    const IconComponent = item.icon;
+    return {
+      ...item,
+      icon: <IconComponent className="w-4 h-4" />
+    };
+  });
+
   return (
-    <div className="bg-background text-foreground min-h-screen flex flex-col">
-      <main className="flex-1">
-        <div className="pt-24 min-h-screen">
-          {/* Hero Section */}
-          <section className="bg-primary text-white py-16 md:py-20 w-full rounded-none mb-12">
-            <div className="container mx-auto px-4 text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">NAAC</h1>
-              <p className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
-                National Assessment and Accreditation Council
-              </p>
-            </div>
-          </section>
-
-          <div className="container mx-auto px-4 pb-12">
-            <div className="flex gap-8">
-              {/* Desktop Sidebar */}
-              <aside className="hidden md:block w-72">
-                <div className="bg-white rounded-lg shadow-lg sticky top-24 border-l-4 border-primary overflow-hidden">
-                  {/* Header */}
-                  <div className="bg-primary/10 border-b-2 border-primary px-6 py-4 flex items-center gap-3">
-                    <div className="bg-primary text-white p-2 rounded-lg">
-                      <Award className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h3 className="text-primary font-bold text-lg">NAAC</h3>
-                      <p className="text-xs text-primary/70">Accreditation</p>
-                    </div>
-                  </div>
-
-                  {/* Navigation Items */}
-                  <nav className="py-4">
-                    {sidebarItems.map((item) => {
-                      const IconComponent = item.icon;
-                      return (
-                        <button
-                          key={item.id}
-                          onClick={() => setActiveTab(item.id)}
-                          className={`w-full px-6 py-3 text-left border-l-4 transition-all duration-200 flex items-center gap-4 ${
-                            activeTab === item.id
-                              ? 'border-primary bg-primary/5 text-primary font-semibold shadow-sm'
-                              : 'border-transparent text-foreground/80 hover:bg-gray-50 hover:border-primary/30'
-                          }`}
-                        >
-                          <IconComponent className="w-5 h-5 flex-shrink-0" />
-                          <span className="flex-1">{item.label}</span>
-                          {activeTab === item.id && <ChevronRight className="w-4 h-4 flex-shrink-0" />}
-                        </button>
-                      );
-                    })}
-                  </nav>
-                </div>
-              </aside>
-
-              {/* Main Content */}
-              <main className="flex-1">
-                <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                  {renderContent()}
-                </div>
-              </main>
-
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="md:hidden fixed bottom-4 right-4 z-40 bg-primary text-white p-3 rounded-full shadow-lg hover:bg-primary/90 transition-colors"
-              >
-                {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-
-              {/* Mobile Sidebar */}
-              {sidebarOpen && (
-                <div className="md:hidden fixed inset-0 bg-black/50 z-30 top-24">
-                  <div className="absolute left-0 top-24 w-72 bg-white shadow-lg border-l-4 border-primary max-h-screen overflow-y-auto">
-                    {/* Header */}
-                    <div className="bg-primary/10 border-b-2 border-primary px-6 py-4 flex items-center justify-between sticky top-0">
-                      <div className="flex items-center gap-3">
-                        <div className="bg-primary text-white p-2 rounded-lg">
-                          <Award className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h3 className="text-primary font-bold text-lg">NAAC</h3>
-                          <p className="text-xs text-primary/70">Accreditation</p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => setSidebarOpen(false)}
-                        className="text-foreground/60 hover:text-foreground"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
-                    </div>
-
-                    {/* Navigation Items */}
-                    <nav className="py-4">
-                      {sidebarItems.map((item) => {
-                        const IconComponent = item.icon;
-                        return (
-                          <button
-                            key={item.id}
-                            onClick={() => {
-                              setActiveTab(item.id);
-                              setSidebarOpen(false);
-                            }}
-                            className={`w-full px-6 py-3 text-left border-l-4 transition-all duration-200 flex items-center gap-4 ${
-                              activeTab === item.id
-                                ? 'border-primary bg-primary/5 text-primary font-semibold shadow-sm'
-                                : 'border-transparent text-foreground/80 hover:bg-gray-50 hover:border-primary/30'
-                            }`}
-                          >
-                            <IconComponent className="w-5 h-5 flex-shrink-0" />
-                            <span className="flex-1">{item.label}</span>
-                            {activeTab === item.id && <ChevronRight className="w-4 h-4 flex-shrink-0" />}
-                          </button>
-                        );
-                      })}
-                    </nav>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+    <div className="flex flex-col min-h-screen">
+      <DepartmentSidebar
+        items={transformedSidebarItems}
+        activeItem={activeTab}
+        onItemClick={setActiveTab}
+        title="NAAC"
+      >
+        <div className="bg-white rounded-lg shadow-sm p-6 min-h-[500px] mt-6">
+          {renderContent()}
         </div>
-      </main>
+      </DepartmentSidebar>
     </div>
   );
 };
