@@ -189,7 +189,6 @@ jobs:
             docker run -d \
               --name svec-cms \
               --restart unless-stopped \
-              --user www-data:www-data \
               -p 4000:3000 \
               -v /var/www/srivasaviengg.ac.in/uploads:/app/public/uploads \
               -e UPLOAD_DIR=/app/public/uploads \

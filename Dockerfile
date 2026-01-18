@@ -50,6 +50,10 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# Create www-data user with matching UID/GID from host (typically 33:33 on Ubuntu/Debian)
+RUN addgroup -g 33 -S www-data && \
+    adduser -u 33 -S -G www-data www-data
+
 # Copy necessary files from builder
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
@@ -58,13 +62,10 @@ COPY --from=builder /app/.next/static ./.next/static
 # Create uploads directory with proper permissions
 RUN mkdir -p /app/public/uploads
 
-# Set permissions so any user can write to uploads
-RUN chmod -R 777 /app/public/uploads
+# Set ownership to www-data
+RUN chown -R www-data:www-data /app
 
-# Make app directory readable by all users
-RUN chmod -R 755 /app
-
-# Don't set USER here - it will be set at runtime via docker run --user
+USER www-data
 
 # Expose port
 EXPOSE 3000
