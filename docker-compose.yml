@@ -29,10 +29,13 @@ services:
       
       # Application Configuration
       - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
-      
+
+      # Upload Directory Configuration
+      - UPLOAD_DIR=${UPLOAD_DIR:-/app/public/uploads}
+
     volumes:
       # Mount uploads directory for persistent file storage
-      - ./public/uploads:/app/public/uploads
+      - /var/www/uploads:/app/public/uploads
       
     restart: unless-stopped
     
