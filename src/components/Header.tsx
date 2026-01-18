@@ -650,11 +650,15 @@ const departments = [
 
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4" suppressHydrationWarning>
             <a
-              href="https://sves.org.in/ecap/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/nba"
+              className="hidden sm:block bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:bg-primary/90 transition-colors"
+            >
+              NBA
+            </a>
+            <a
+              href="https://sves.org.in/ecap"
               className="hidden sm:block bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
               ECAP
