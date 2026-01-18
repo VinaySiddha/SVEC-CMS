@@ -157,6 +157,8 @@ jobs:
 
             # Create uploads directory and set permissions
             echo "Setting up uploads directory..."
+            # Ensure parent directory is accessible by Nginx (www-data)
+            chmod 755 /var/www/srivasaviengg.ac.in
             mkdir -p /var/www/srivasaviengg.ac.in/uploads
             # Set ownership: www-data for both Nginx and Docker to access
             chown -R www-data:www-data /var/www/srivasaviengg.ac.in/uploads
