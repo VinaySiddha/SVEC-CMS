@@ -158,8 +158,10 @@ jobs:
             # Create uploads directory and set permissions
             echo "Setting up uploads directory..."
             mkdir -p /var/www/srivasaviengg.ac.in/uploads
-            chmod -R 755 /var/www/srivasaviengg.ac.in/uploads
-            chown -R 1001:1001 /var/www/srivasaviengg.ac.in/uploads
+            # Set ownership: Docker user (1001) and Nginx group (www-data)
+            chown -R 1001:www-data /var/www/srivasaviengg.ac.in/uploads
+            # Set permissions: owner can write, group can read, others can read
+            chmod -R 775 /var/www/srivasaviengg.ac.in/uploads
             echo "Uploads directory ready"
 
             docker pull ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
