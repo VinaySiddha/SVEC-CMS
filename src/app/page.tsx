@@ -1,6 +1,6 @@
 
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import {
   Users,
@@ -60,6 +60,11 @@ const Home: React.FC = () => {
   const [noticeboardItems, setNoticeboardItems] = useState<NoticeboardItem[]>([]);
   const [placementNotices, setPlacementNotices] = useState<PlacementNotice[]>([]);
   const [placementEvents, setPlacementEvents] = useState<any[]>([]);
+  const [placementCarouselData, setPlacementCarouselData] = useState<any[]>([]);
+  const [mouLogos, setMouLogos] = useState<any[]>([]);
+  const [testimonies, setTestimonies] = useState<any[]>([]);
+  const [activeCarouselIndex, setActiveCarouselIndex] = useState(0);
+  const testimoniesCarouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function loadContent() {
@@ -70,6 +75,7 @@ const Home: React.FC = () => {
           setHomeContent(dbContent);
         }
       } catch (error) {
+        console.error("Could not fetch from database, using local content.", error);
       }
     }
     loadContent();
@@ -78,7 +84,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     async function fetchNoticeboardItems() {
       try {
-        const response = await fetch('/api/exam-section/noticeboard');
+        const response = await fetch('/api/exam-section/noticeboard?t=' + Date.now());
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
           // Sort by posted_date in descending order
@@ -87,8 +93,10 @@ const Home: React.FC = () => {
           );
           setNoticeboardItems(sorted);
         } else {
+          console.warn('No noticeboard data returned from API');
         }
       } catch (error) {
+        console.error('Error fetching noticeboard items:', error);
       }
     }
     fetchNoticeboardItems();
@@ -97,7 +105,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     async function fetchPlacementNotices() {
       try {
-        const response = await fetch('/api/placement/noticeboard');
+        const response = await fetch('/api/placement/noticeboard?t=' + Date.now());
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
           // Sort by posted_date in descending order
@@ -112,8 +120,10 @@ const Home: React.FC = () => {
           );
           setPlacementNotices(sorted);
         } else {
+          console.warn('No placement noticeboard data returned from API');
         }
       } catch (error) {
+        console.error('Error fetching placement notices:', error);
       }
     }
     fetchPlacementNotices();
@@ -122,17 +132,98 @@ const Home: React.FC = () => {
   useEffect(() => {
     async function fetchPlacementEvents() {
       try {
-        const response = await fetch('/api/placement/events');
+        const response = await fetch('/api/placement/events?t=' + Date.now());
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
           setPlacementEvents(result.data);
         } else {
+          console.warn('No placement events data returned from API');
         }
       } catch (error) {
+        console.error('Error fetching placement events:', error);
       }
     }
     fetchPlacementEvents();
   }, []);
+
+  useEffect(() => {
+    async function fetchPlacementCarousel() {
+      try {
+        const response = await fetch('/api/placement/carousel?t=' + Date.now());
+        const result = await response.json();
+        if (Array.isArray(result)) {
+          setPlacementCarouselData(result);
+        } else {
+          console.warn('No placement carousel data returned from API');
+        }
+      } catch (error) {
+        console.error('Error fetching placement carousel:', error);
+      }
+    }
+    fetchPlacementCarousel();
+  }, []);
+
+  // Fetch MOUs/Company Logos
+  useEffect(() => {
+    async function fetchMOUs() {
+      try {
+        const response = await fetch('/api/admin/placement-mous?t=' + Date.now());
+        const result = await response.json();
+        if (Array.isArray(result)) {
+          setMouLogos(result);
+        } else {
+          console.warn('No MOUs data returned from API');
+        }
+      } catch (error) {
+        console.error('Error fetching MOUs:', error);
+      }
+    }
+    fetchMOUs();
+  }, []);
+
+  // Fetch Testimonies
+  useEffect(() => {
+    async function fetchTestimonies() {
+      try {
+        const response = await fetch('/api/admin/placement-testimonies?t=' + Date.now());
+        const result = await response.json();
+        if (Array.isArray(result)) {
+          setTestimonies(result);
+        } else {
+          console.warn('No testimonies data returned from API');
+        }
+      } catch (error) {
+        console.error('Error fetching testimonies:', error);
+      }
+    }
+    fetchTestimonies();
+  }, []);
+
+  // Mouse wheel scrolling for testimonies carousel
+  useEffect(() => {
+    const container = testimoniesCarouselRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const scrollAmount = e.deltaY > 0 ? 100 : -100;
+      container.scrollLeft += scrollAmount;
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    return () => container.removeEventListener('wheel', handleWheel);
+  }, []);
+
+  // Auto-scroll carousel images
+  useEffect(() => {
+    if (placementCarouselData.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setActiveCarouselIndex((prev) => (prev + 1) % placementCarouselData.length);
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [placementCarouselData]);
 
   const quickLinksIcons: { [key: string]: React.ElementType } = {
     BookOpen: BookOpen,
@@ -557,7 +648,283 @@ const Home: React.FC = () => {
         </div>
       </AnimatedSection>
 
-      {/* News & Events */}
+      {/* Placements Scrolling Carousel */}
+      <AnimatedSection animation="fadeInUp" className="py-8 md:py-16 bg-transparent">
+        <div className="container mx-auto px-2 md:px-4">
+          <div className="mb-8 md:mb-12 text-center">
+            <h2 className="text-2xl md:text-4xl font-bold mb-2 text-primary">Our Placements</h2>
+            <p className="text-sm md:text-lg text-muted-foreground">
+              Celebrating our students' success stories and placement achievements
+            </p>
+          </div>
+          
+          {/* Carousel Container */}
+          <div className="w-full md:max-w-5xl md:mx-auto relative group px-2 md:px-4">
+            {/* Carousel Content - Fixed Frame */}
+            <div 
+              id="placementCarousel"
+              className="relative w-full rounded-none md:rounded-none overflow-hidden shadow-none bg-transparent border-0 flex items-center justify-center"
+              style={{ aspectRatio: '16/9', minHeight: '220px', maxHeight: '600px' }}
+            >
+              {placementCarouselData.length > 0 ? (
+                <div className="relative w-full h-full flex items-center justify-center bg-transparent overflow-hidden">
+                  <img
+                    src={placementCarouselData[activeCarouselIndex]?.image_url}
+                    alt={placementCarouselData[activeCarouselIndex]?.alt_text || 'Placement'}
+                    className="w-full h-full object-contain block transition-opacity duration-700 ease-in-out"
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center justify-center w-full h-full bg-gray-100">
+                  <p className="text-gray-500 text-lg">No carousel images available</p>
+                </div>
+              )}
+                {placementCarouselData.map((item: any) => (
+                  <img
+                    key={item.id}
+                    src={item.image_url}
+                    alt={item.alt_text}
+                    className="hidden"
+                  />
+                ))}
+            </div>
+
+            {/* Indicators */}
+            {placementCarouselData.length > 0 && (
+              <div className="flex justify-center mt-3 md:mt-6 space-x-2 md:space-x-3 bg-transparent py-3 md:py-0">
+                {placementCarouselData.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                      index === activeCarouselIndex ? 'bg-[#B22222] scale-125' : 'bg-gray-300 hover:bg-[#B22222]/50'
+                    }`}
+                    onClick={() => setActiveCarouselIndex(index)}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Scroll Animation */}
+          <style>{`
+            @keyframes scrollCarousel {
+              0% {
+                transform: translateX(0);
+              }
+              100% {
+                transform: translateX(calc(-100% - 2rem));
+              }
+            }
+            
+            #placementCarousel:hover > div {
+              animation-play-state: paused;
+            }
+          `}</style>
+        </div>
+      </AnimatedSection>
+
+      {/* MOUs / Company Logos Section */}
+      <AnimatedSection animation="fadeInUp" className="py-8 md:py-16 bg-transparent relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -right-24 -top-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+          <div className="absolute -left-24 -bottom-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-2 md:px-4 relative z-10">
+          <div className="mb-8 md:mb-12 text-center">
+            <h2 className="text-2xl md:text-4xl font-bold mb-2 text-primary">Our MOUs</h2>
+            <p className="text-sm md:text-lg text-muted-foreground">
+              Strategic partnerships with leading organizations
+            </p>
+          </div>
+
+          {mouLogos.length > 0 ? (
+            <div className="relative w-full mx-auto group">
+              {/* Scrolling Container */}
+              <div 
+                className="relative overflow-hidden rounded-xl backdrop-blur-sm border border-primary/10 bg-white/50"
+              >
+                <div className="flex animate-scroll hover:pause" style={{
+                  animation: 'scrollLogos 30s linear infinite',
+                }}>
+                  {/* Display each logo once, duplicated for infinite scroll */}
+                  {[...mouLogos, ...mouLogos].map((logo: any, index: number) => (
+                    <div
+                      key={`${index}`}
+                      className="flex-shrink-0 w-48 md:w-56 h-48 md:h-56 flex items-center justify-center mx-3 md:mx-6 p-6 rounded-lg bg-gradient-to-br from-white/80 to-white/40 backdrop-blur-sm border border-white/50 group-hover:from-white/90 group-hover:to-white/60 transition-all duration-300 shadow-sm hover:shadow-lg hover:scale-105 cursor-pointer"
+                    >
+                      {logo.image_url && (
+                        <img
+                          src={logo.image_url}
+                          alt={logo.company_name || 'Company Logo'}
+                          className="max-w-32 md:max-w-40 max-h-32 md:max-h-40 object-contain group-hover:scale-110 transition-transform duration-300 filter drop-shadow-sm"
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Left Gradient Fade */}
+                <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/100 to-white/0 z-10 pointer-events-none"></div>
+                
+                {/* Right Gradient Fade */}
+                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/100 to-white/0 z-10 pointer-events-none"></div>
+              </div>
+
+              {/* Scroll Animation */}
+              <style>{`
+                @keyframes scrollLogos {
+                  0% {
+                    transform: translateX(0);
+                  }
+                  100% {
+                    transform: translateX(calc(-50% - 1rem));
+                  }
+                }
+                
+                .animate-scroll:hover {
+                  animation-play-state: paused;
+                }
+              `}</style>
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-white/50 backdrop-blur-sm rounded-xl border border-primary/10">
+              <p className="text-gray-500 text-lg">No MOUs available at the moment</p>
+            </div>
+          )}
+
+         
+        </div>
+      </AnimatedSection>
+
+      {/* Testimonies / Student Feedback Section */}
+      <AnimatedSection animation="fadeInUp" className="py-8 md:py-20 bg-gradient-to-b from-transparent via-primary/3 to-transparent relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -left-32 -top-32 w-[500px] h-[500px] bg-gradient-to-br from-primary/10 to-primary/0 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute -right-32 -bottom-32 w-[500px] h-[500px] bg-gradient-to-tl from-primary/10 to-primary/0 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        </div>
+
+        <div className="container mx-auto px-2 md:px-4 relative z-10">
+          <div className="mb-8 md:mb-16 text-center space-y-4">
+            <div className="inline-block">
+              <span className="px-4 py-2 bg-primary/10 text-primary text-xs md:text-sm font-semibold rounded-full">
+                ✨ Student Voices
+              </span>
+            </div>
+            <h2 className="text-2xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+              Student Testimonies
+            </h2>
+            <p className="text-sm md:text-lg text-muted-foreground max-w-2xl mx-auto">
+              Hear directly from our graduates and current students about their experiences at SVEC
+            </p>
+          </div>
+
+          {testimonies.length > 0 ? (
+            <div className="relative w-full mx-auto group">
+              {/* Scrolling Container */}
+              <div 
+                className="relative overflow-hidden"
+              >
+                <div className="flex animate-scroll hover:pause gap-6" style={{
+                  animation: 'scrollTestimonies 25s linear infinite',
+                }}>
+                  {/* Display each testimony once, duplicated for infinite scroll */}
+                  {[...testimonies, ...testimonies].map((testimony: any, index: number) => (
+                    <div
+                      key={`${index}`}
+                      className="flex-shrink-0 w-64 md:w-80 flex flex-col items-center justify-center p-6 md:p-8 rounded-2xl bg-gradient-to-br from-white/95 via-white/90 to-primary/5 backdrop-blur-xl border border-white/40 shadow-xl hover:shadow-2xl hover:border-white/60 transition-all duration-300 group-hover:from-white/98 group-hover:to-primary/8 hover:scale-105 cursor-pointer overflow-hidden relative"
+                      style={{ transform: "perspective(1000px)" }}
+                      onMouseMove={(e) => {
+                        const card = e.currentTarget;
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        const rotateX = (y - centerY) / 25;
+                        const rotateY = (centerX - x) / 25;
+                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = `perspective(1000px)`;
+                      }}
+                    >
+                      {/* Decorative top border accent */}
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+                      
+                      {/* Profile Image */}
+                      <div className="mb-6 relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full blur-lg"></div>
+                        {testimony.image_url ? (
+                          <img
+                            src={testimony.image_url}
+                            alt={testimony.author_name}
+                            className="w-24 h-24 rounded-full object-cover border-4 border-primary/40 shadow-xl group-hover:scale-110 transition-transform duration-300 filter drop-shadow-lg relative z-10"
+                          />
+                        ) : (
+                          <div className="w-24 h-24 rounded-full border-4 border-primary/40 bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center shadow-lg relative z-10">
+                            <svg className="w-12 h-12 text-primary/30" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Quote Icon */}
+                      <svg className="w-10 h-10 text-primary/20 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 21c3 0 7-1 7-8V5c0-1.25-4.5-1.5-4.5-1.5H7c0-1 .5-4 4-4 3.5 0 4 2.5 4 4v7c0 1-1 2-2 2s-1.5-.5-1.5-2V7c0-.5.5-1 1-1s1 .5 1 1v4c0 1-1 2-2 2s-1.5-.5-1.5-2V5c0-1.25-4.5-1.5-4.5-1.5H7c0-1 .5-4 4-4 3.5 0 4 2.5 4 4v7c0 1-1 2-2 2s-1.5-.5-1.5-2V7c0-.5.5-1 1-1s1 .5 1 1v4c0 1-1 2-2 2s-1.5-.5-1.5-2V5" />
+                      </svg>
+
+                      {/* Testimonial Text */}
+                      <p className="text-gray-700 mb-6 italic leading-relaxed text-justify text-sm md:text-base break-words whitespace-normal font-light">
+                        "{testimony.testimonial_text}"
+                      </p>
+
+                      {/* Author Info */}
+                      <div className="text-center mt-auto w-full pt-4 border-t border-primary/10">
+                        <p className="font-bold text-gray-900 text-lg">{testimony.author_name}</p>
+                        {testimony.author_title && (
+                          <p className="text-xs md:text-sm text-primary font-semibold mt-2 bg-primary/5 px-3 py-1 rounded-full inline-block">{testimony.author_title}</p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Left Gradient Fade */}
+                <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white/100 to-white/0 z-10 pointer-events-none"></div>
+                
+                {/* Right Gradient Fade */}
+                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white/100 to-white/0 z-10 pointer-events-none"></div>
+              </div>
+
+              {/* Scroll Animation */}
+              <style>{`
+                @keyframes scrollTestimonies {
+                  0% {
+                    transform: translateX(0);
+                  }
+                  100% {
+                    transform: translateX(calc(-50% - 4rem));
+                  }
+                }
+                
+                .animate-scroll:hover {
+                  animation-play-state: paused;
+                }
+              `}</style>
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-white/50 backdrop-blur-sm rounded-xl border border-primary/10">
+              <p className="text-gray-500 text-lg">No testimonies available at the moment</p>
+            </div>
+          )}
+        </div>
+      </AnimatedSection>
+
+      
       <AnimatedSection animation="fadeInUp" className="py-16 bg-background">
         <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* News */}
