@@ -232,6 +232,7 @@ const Placements: React.FC = () => {
           setTimetables([]);
         }
       } catch (err) {
+        console.error('Error fetching placement data:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
         setLoading(false);
@@ -400,19 +401,19 @@ const Placements: React.FC = () => {
           </section>
 
           {/* Placement Images Carousel */}
-          <section className="py-16 bg-white">
-            <div className="container mx-auto px-4">
-              <div className="max-w-5xl mx-auto relative px-12 group">
+          <section className="py-4 md:py-6 bg-transparent">
+            <div className="container mx-auto px-2 md:px-4">
+              <div className="max-w-5xl mx-auto relative px-2 md:px-12 group">
                 
                 {/* Main Image Container */}
-                <div className="relative rounded-xl overflow-hidden shadow-2xl bg-gray-50 border border-gray-100">
+                <div className="relative rounded-none md:rounded-xl overflow-hidden shadow-none md:shadow-2xl bg-transparent border-0">
                   {carouselImages.length > 0 ? (
-                    <div className="relative w-full bg-gradient-to-b from-gray-100 to-gray-50">
+                    <div className="relative w-full bg-transparent">
                       <img
                         src={carouselImages[activeSlide].image_url}
                         alt={carouselImages[activeSlide].alt_text}
                         className="w-full h-auto object-contain block transition-opacity duration-500 ease-in-out"
-                        style={{ maxHeight: '80vh' }}
+                        style={{ maxHeight: '80vh', minHeight: '220px' }}
                         loading="lazy"
                         decoding="async"
                       />
@@ -424,29 +425,9 @@ const Placements: React.FC = () => {
                   )}
                 </div>
 
-                {/* Navigation Arrows */}
-                {carouselImages.length > 1 && (
-                  <>
-                    <button
-                      onClick={prevSlide}
-                      className="absolute top-1/2 left-2 -translate-y-1/2 text-[#B22222] hover:text-[#850209] transition-colors duration-300 z-10 transform hover:scale-110"
-                      aria-label="Previous slide"
-                    >
-                      <ChevronLeft className="w-8 h-8" />
-                    </button>
-                    <button
-                      onClick={nextSlide}
-                      className="absolute top-1/2 right-2 -translate-y-1/2 text-[#B22222] hover:text-[#850209] transition-colors duration-300 z-10 transform hover:scale-110"
-                      aria-label="Next slide"
-                    >
-                      <ChevronRight className="w-8 h-8" />
-                    </button>
-                  </>
-                )}
-
                 {/* Indicators */}
                 {carouselImages.length > 0 && (
-                  <div className="flex justify-center mt-6 space-x-3">
+                  <div className="flex justify-center mt-3 md:mt-6 space-x-2 md:space-x-3">
                     {carouselImages.map((_, index) => (
                       <button
                         key={index}
