@@ -24,8 +24,8 @@
     "docker:clean": "docker-compose down -v && docker system prune -f"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.887.0",
-    "@aws-sdk/s3-request-presigner": "^3.887.0",
+    "@aws-sdk/client-s3": "^3.995.0",
+    "@aws-sdk/s3-request-presigner": "^3.995.0",
     "@genkit-ai/googleai": "^1.14.1",
     "@genkit-ai/next": "^1.14.1",
     "@hookform/resolvers": "^4.1.3",
